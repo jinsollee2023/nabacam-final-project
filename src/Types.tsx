@@ -1,14 +1,48 @@
-// export interface Chats {
-//     chat_id: string;
-//     text: string;
-//     created_at: string;
-//     user_id: string;
-//     username?: string;
-//     roomName: string;
-//     roomPW: string;
-//   }
+export interface User {
+  userId: string;
+  role: string;
+  name: string;
+  photoURL: string;
+  projectId: string;
+  workField?: string;
+  workExp?: string;
+  contact: { email: string; phone: string };
+}
 
-import React from "react";
+export interface Project {
+  projectId: string;
+  title: string;
+  desc: string;
+  clientId: string;
+  freelancerId: string;
+  deadline: string;
+  pay: { min: number; max: number };
+}
+
+export interface Task {
+  taskId: string;
+  projectId: string;
+  title: string;
+  status: string;
+  deadline: string;
+}
+
+export interface Portfolio {
+  portfolioId: string;
+  freelancerId: string;
+  thumbnailURL: string;
+  title: string;
+  desc: string;
+  pdfFileURL: string;
+}
+
+export interface Review {
+  reviewId: string;
+  comment: string;
+  rating: number;
+  freelancerId: string;
+  clientId: string;
+}
 
 const Types = () => {
   return <div>Types</div>;
