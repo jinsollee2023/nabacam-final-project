@@ -4,10 +4,13 @@ import ResumeTab from "../components/myPage/tabs/ResumeTab";
 import PortfolioTab from "../components/myPage/tabs/PortfolioTab";
 import ContractInfoTab from "../components/myPage/tabs/ContractInfoTab";
 import FeedbackTab from "../components/myPage/tabs/FeedbackTab";
+import supabase from "../config/supabaseClient";
+import Account from "../components/myPage/myProfile/Account";
 
 const MyPage = () => {
   // useStates
   const [activeTab, setActiveTab] = useState("이력서");
+  const [profileImgURL, setProfileImgURL] = useState(null);
 
   // Event Handler
   const handleTabClick = (
@@ -16,8 +19,11 @@ const MyPage = () => {
     setActiveTab(tab);
   };
 
+  // supabase API
+
   return (
     <div style={{ margin: "10px 10px 10px 0px" }}>
+      {/* -----------------------나중에 navbar처리될 예정인 곳------------------------------ */}
       <section
         style={{
           backgroundColor: "gray",
@@ -31,44 +37,7 @@ const MyPage = () => {
         <div>내 프로필</div>
       </section>
       {/* -----------------------section1------------------------------ */}
-      <section
-        style={{
-          display: "flex",
-          marginTop: "10px",
-          padding: "10px",
-          backgroundColor: "#f8f5ed",
-        }}
-      >
-        <img
-          src="path_to_your_image.jpg"
-          alt="img"
-          width="40px"
-          height="40px"
-          style={{ marginLeft: "10px" }}
-        />
-        <div
-          style={{
-            marginLeft: "30px",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <h1>이름</h1>
-          <S.Info>직무</S.Info>
-          <S.Info>현재 진행중인 프로젝트</S.Info>
-        </div>
-        <div
-          style={{
-            marginLeft: "30px",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <h1>연락망</h1>
-          <S.Info>전화번호</S.Info>
-          <S.Info>이메일</S.Info>
-        </div>
-      </section>
+      <Account />
       {/* -----------------------section2------------------------------ */}
       <section
         style={{
@@ -142,11 +111,3 @@ const MyPage = () => {
 };
 
 export default MyPage;
-
-const S = {
-  Info: styled.p`
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.583);
-    margin-top: 5px;
-  `,
-};
