@@ -8,6 +8,7 @@ import MyPage from "../pages/MyPage";
 import Register from "../pages/Register";
 import Review from "../pages/Review";
 import ProjectManagement from "../pages/ProjectManagement";
+import Join from "../pages/Join";
 
 const Router = () => {
   return (
@@ -18,6 +19,7 @@ const Router = () => {
           <Route path="/" element={<Home />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/join" element={<Join />} />
           <Route path="/my-page" element={<MyPage />} />
           <Route path="/project-management" element={<ProjectManagement />} />
           <Route path="/register" element={<Register />} />

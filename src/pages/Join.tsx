@@ -2,22 +2,23 @@ import React, { useState } from "react";
 import supabase from "../config/supabaseClient";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Join = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const loginHandler = async (e: any) => {
+  const signupHandler = async (e: any) => {
     e.preventDefault();
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
       });
       if (error) console.error(error);
+      console.log(data);
+      navigate("/login");
     } catch (error) {
       console.error(error);
     }
-    navigate("/");
   };
 
   const emailOnChange = (e: any) => {
@@ -29,13 +30,13 @@ const Login = () => {
 
   return (
     <>
-      <form onSubmit={loginHandler}>
+      <form onSubmit={signupHandler}>
         <input type="text" onChange={emailOnChange} />
         <input type="password" onChange={passwordOnChange} />
-        <button>로그인</button>
+        <button>회원가입</button>
       </form>
     </>
   );
 };
 
-export default Login;
+export default Join;
