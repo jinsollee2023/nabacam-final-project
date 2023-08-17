@@ -1,72 +1,34 @@
 import React, { useEffect, useState } from "react";
 import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
+import { useQuery } from "@tanstack/react-query";
 
 const Account = () => {
-  // useStates
-  const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState(null);
-  const [useremail, setUseremail] = useState(null);
-  const [userphone, setUserphone] = useState(null);
-  const [userworkField, setUserworkField] = useState(null);
-  const [userprojectId, setUserprojectId] = useState(null);
-  const [profileImgURL, setProfileImgURL] = useState(null);
-
-  useEffect(() => {
-    getProfile();
-  }, []);
-  //
-  const getProfile = async () => {
-    try {
-      setLoading(true);
-      // const data = await supabase.auth.getUser();
-      // console.log(data);
-
-      let { data: users, error } = await supabase
-        .from("users")
-        .select("name, photoURL, contact, workField, projectId")
-        .eq("role", "freelancer")
-        .eq("userId", "df509ff5-cdd4-4b3a-9d5f-a69395a882a6");
-      // .single();
-
-      console.log(users);
-
-      if (users) {
-        setUsername(users[0].name);
-        setProfileImgURL(users[0].photoURL);
-        setUseremail(users[0].contact.email);
-        setUserphone(users[0].contact.phone);
-        setUserworkField(users[0].workField);
-        setUserprojectId(users[0].projectId);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+  /**
+   * 나중에 API파일로 빼기
+   */
+  const fetchProfile = async () => {
+    let { data: users, error } = await supabase
+      .from("users")
+      .select("name, photoURL, contact, workField, projectId")
+      .eq("role", "freelancer")
+      .eq("userId", "df509ff5-cdd4-4b3a-9d5f-a69395a882a6");
+    // .single();
+    console.log(users);
+    return users;
   };
 
-  //
-  // const updateProfile = async (event: any) => {
-  //   try {
-  //     if (!event?.target.files || event.target.files.length === 0) {
-  //       alert("이미지를 업로드해주세요!");
-  //       return false;
-  //     }
+  const testUserId = "df509ff5-cdd4-4b3a-9d5f-a69395a882a6";
+  const { status, data: users } = useQuery(
+    ["users", testUserId],
+    fetchProfile,
+    { enabled: !!testUserId }
+  );
+  const user = users && users[0]; // users가 없을 경우, get the first user
 
-  //     const file = event?.target.files[0];
-  //     const fileExt = file.name.split(".").pop();
-  //     const fileName = `${Math.random()}.${fileExt}`;
-  //     const filePath = `${fileName}`;
-
-  //     const response = await supabase.storage
-  //       .from("portfolios")
-  //       .upload(filePath, file);
-  //   } catch (err) {}
-  // };
   return (
     <>
-      {loading ? (
+      {status === "loading" ? (
         "Saving..."
       ) : (
         <section
@@ -79,7 +41,7 @@ const Account = () => {
           }}
         >
           <img
-            src={profileImgURL || ""}
+            src={user?.photoURL || ""}
             alt="img"
             width="40px"
             height="40px"
@@ -92,9 +54,9 @@ const Account = () => {
               flexDirection: "column",
             }}
           >
-            <h1>이름: {username}</h1>
-            <S.Info>직무: {userworkField}</S.Info>
-            <S.Info>현재 진행중인 프로젝트: {userprojectId}</S.Info>
+            <h1>이름: {user?.name}</h1>
+            <S.Info>직무: {user?.workField}</S.Info>
+            <S.Info>현재 진행중인 프로젝트: {user?.projectId}</S.Info>
           </div>
           <div
             style={{
@@ -104,8 +66,8 @@ const Account = () => {
             }}
           >
             <h1>연락망</h1>
-            <S.Info>전화번호: {userphone}</S.Info>
-            <S.Info>이메일: {useremail}</S.Info>
+            <S.Info>전화번호: {user?.contact.phone}</S.Info>
+            <S.Info>이메일: {user?.contact.email}</S.Info>
           </div>
         </section>
       )}
