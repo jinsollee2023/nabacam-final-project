@@ -17,6 +17,7 @@ export interface Project {
   freelancerId: string;
   deadLine: string;
   pay: { min: number; max: number };
+  isDone: boolean;
 }
 
 export interface Task {
@@ -31,7 +32,7 @@ export interface Task {
 export interface Portfolio {
   portfolioId: string;
   freelancerId: string;
-  thumbnailURL: string;
+  thumbNailURL: string;
   title: string;
   desc: string;
   pdfFileURL: string;
