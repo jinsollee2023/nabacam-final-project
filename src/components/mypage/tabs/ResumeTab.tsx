@@ -21,6 +21,7 @@ const ResumeTab = () => {
           <S.WorkExperienceList>데이터분석가</S.WorkExperienceList>
           <S.WorkExperienceList>엔지니어</S.WorkExperienceList>
         </S.WorkExperienceListWrapper>
+        <S.WorkExperienceAddBtn>+ 경력 추가하기</S.WorkExperienceAddBtn>
       </S.WorkExperienceContainer>
     </>
   );
@@ -52,5 +53,9 @@ const S = {
     background-color: #8080803d;
     padding: 20px;
     list-style: none;
+  `,
+  WorkExperienceAddBtn: styled.button`
+    padding: 10px;
+    margin-top: 30px;
   `,
 };

@@ -31,6 +31,11 @@ const Navbar = () => {
             <S.NavLink>내 프로필</S.NavLink>
           </Link>
         </S.NavLinkItem>
+        <S.NavLinkItem>
+          <Link to="/chat">
+            <S.NavLink>커뮤니케이션</S.NavLink>
+          </Link>
+        </S.NavLinkItem>
       </S.LowerNavLinks>
     </S.SidebarWrapper>
   );
