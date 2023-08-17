@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -7,14 +8,18 @@ const Navbar = () => {
       <S.ProfileWrapper>
         <S.ProfileImage src="path_to_your_image.jpg" alt="img" />
         <S.Name>이름</S.Name>
-        <S.Role>프리랜서</S.Role>
+        <S.Role>프리랜서/클라이언트</S.Role>
       </S.ProfileWrapper>
       <S.UpperNavLinks>
         <S.NavLinkItem>
-          <S.NavLink href="#">프로젝트 탐색</S.NavLink>
+          <Link to="/">
+            <S.NavLink>프로젝트 탐색</S.NavLink>
+          </Link>
         </S.NavLinkItem>
         <S.NavLinkItem>
-          <S.NavLink href="#">프로젝트 관리 도구</S.NavLink>
+          <Link to="/">
+            <S.NavLink>프로젝트 관리 도구</S.NavLink>
+          </Link>
         </S.NavLinkItem>
       </S.UpperNavLinks>
 
@@ -22,7 +27,14 @@ const Navbar = () => {
 
       <S.LowerNavLinks>
         <S.NavLinkItem>
-          <S.NavLink href="#">내 프로필</S.NavLink>
+          <Link to="/my-page">
+            <S.NavLink>내 프로필</S.NavLink>
+          </Link>
+        </S.NavLinkItem>
+        <S.NavLinkItem>
+          <Link to="/chat">
+            <S.NavLink>커뮤니케이션</S.NavLink>
+          </Link>
         </S.NavLinkItem>
       </S.LowerNavLinks>
     </S.SidebarWrapper>
@@ -53,15 +65,15 @@ const S = {
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-right: 5px;
   `,
   Name: styled.div`
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
   `,
   Role: styled.div`
-    margin-left: 15px;
-    font-size: 13px;
+    margin-left: 7px;
+    font-size: 5px;
   `,
   UpperNavLinks: styled.ul`
     list-style: none;
