@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
-import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <S.SidebarWrapper>
       <S.ProfileWrapper>
@@ -12,14 +12,12 @@ const Navbar = () => {
       </S.ProfileWrapper>
       <S.UpperNavLinks>
         <S.NavLinkItem>
-          <Link to="/">
-            <S.NavLink>프로젝트 탐색</S.NavLink>
-          </Link>
+          <span onClick={() => navigate("/")}>프로젝트 탐색</span>
         </S.NavLinkItem>
         <S.NavLinkItem>
-          <Link to="/">
-            <S.NavLink>프로젝트 관리 도구</S.NavLink>
-          </Link>
+          <span onClick={() => navigate("/project-management")}>
+            프로젝트 관리 도구
+          </span>
         </S.NavLinkItem>
       </S.UpperNavLinks>
 
@@ -27,14 +25,10 @@ const Navbar = () => {
 
       <S.LowerNavLinks>
         <S.NavLinkItem>
-          <Link to="/my-page">
-            <S.NavLink>내 프로필</S.NavLink>
-          </Link>
+          <span onClick={() => navigate("/my-page")}>내 프로필</span>
         </S.NavLinkItem>
         <S.NavLinkItem>
-          <Link to="/chat">
-            <S.NavLink>커뮤니케이션</S.NavLink>
-          </Link>
+          <span onClick={() => navigate("/chat")}>커뮤니케이션</span>
         </S.NavLinkItem>
       </S.LowerNavLinks>
     </S.SidebarWrapper>
@@ -91,9 +85,5 @@ const S = {
   `,
   NavLinkItem: styled.li`
     margin-bottom: 20px;
-  `,
-  NavLink: styled.a`
-    text-decoration: none;
-    color: white;
   `,
 };
