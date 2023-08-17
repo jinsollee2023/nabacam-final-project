@@ -31,7 +31,7 @@ export interface Task {
 export interface Portfolio {
   portfolioId: string;
   freelancerId: string;
-  thumbnailURL: string;
+  thumbNailURL: string;
   title: string;
   desc: string;
   pdfFileURL: string;
