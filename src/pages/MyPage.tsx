@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import ResumeTab from "../components/mypage/tabs/ResumeTab";
-import PortfolioTab from "../components/mypage/tabs/PortfolioTab";
-import ContractInfoTab from "../components/mypage/tabs/ContractInfoTab";
-import FeedbackTab from "../components/mypage/tabs/FeedbackTab";
+import ResumeTab from "../components/myPage/tabs/ResumeTab";
+import PortfolioTab from "../components/myPage/tabs/PortfolioTab";
+import ContractInfoTab from "../components/myPage/tabs/ContractInfoTab";
+import FeedbackTab from "../components/myPage/tabs/FeedbackTab";
 
 const MyPage = () => {
   // useStates
