@@ -1,5 +1,4 @@
-import React from "react";
-import supabase from "../../config/supabaseClient";
+import supabase from "../../../config/supabaseClient";
 
 const Logout = async () => {
   try {

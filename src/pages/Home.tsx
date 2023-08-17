@@ -1,6 +1,6 @@
 import React from "react";
-import supabase from "../config/supabaseClient";
-import Logout from "../components/logout/Logout";
+import Logout from "../components/auth/logout/Logout";
+
 // 마켓플레이스 페이지
 
 const Home = () => {
