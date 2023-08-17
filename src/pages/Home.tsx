@@ -1,10 +1,13 @@
 import React from "react";
-import supabase from "../config/supabaseClient";
+import FreelancerList from "../components/home/freelancerList/FreelancerList";
 // 마켓플레이스 페이지
 
 const Home = () => {
-  console.log(supabase);
-  return <div>Home</div>;
+  return (
+    <>
+      <FreelancerList />
+    </>
+  );
 };
 
 export default Home;

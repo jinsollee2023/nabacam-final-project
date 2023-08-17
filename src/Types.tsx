@@ -17,6 +17,7 @@ export interface Project {
   freelancerId: string;
   deadline: string;
   pay: { min: number; max: number };
+  isDone: boolean;
 }
 
 export interface Task {
