@@ -50,12 +50,17 @@ const TaskBox = () => {
             };
           })
         }
+        style={{ width: "200px" }}
       />
-      {tasks &&
-        tasks.map((task) => {
-          return <TaskCard task={task} key={task.taskId} />;
-        })}
-      <button onClick={addTaskButtonHandler}>추가</button>
+      <div>
+        {tasks &&
+          tasks.map((task) => {
+            return <TaskCard task={task} key={task.taskId} />;
+          })}
+      </div>
+      <div>
+        <button onClick={addTaskButtonHandler}>추가</button>
+      </div>
     </S.TaskBoxContainer>
   );
 };
