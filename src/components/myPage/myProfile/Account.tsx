@@ -3,6 +3,7 @@ import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Modal } from "antd";
+import { useUserStore } from "src/zustand/useUserStore";
 
 const Account = () => {
   // useStates
@@ -12,6 +13,9 @@ const Account = () => {
   const [updatedEmail, setUpdatedEmail] = useState("");
   const [updatedPhone, setUpdatedPhone] = useState("");
   const [updatedProjectId, setUpdatedProjectId] = useState("");
+
+  // zustand
+  const { email, setUserEmail } = useUserStore();
 
   /**
    * GET
@@ -109,7 +113,7 @@ const Account = () => {
               flexDirection: "column",
             }}
           >
-            <h1>이름: {user?.name}</h1>
+            <h1>{email}님 안녕하세요!</h1>
             <S.Info>직무: {user?.workField}</S.Info>
             <S.Info>현재 진행중인 프로젝트: {user?.projectId}</S.Info>
           </div>

@@ -16,3 +16,17 @@ const { data, error } = await supabase
 
   user?.name, user?.contact, user?.workField, user?.projectId, user?.photoURL
   name: any, contact: any, workField: any, projectId: any, photoURL: any
+
+//
+    const getLoginUser = async () => {
+    const response = await supabase.auth.getUser();
+    const user = response.data.user;
+    console.log(user);
+    return user;
+  };
+  useEffect(() => {
+    getLoginUser();
+  }, []);
+
+
+  
