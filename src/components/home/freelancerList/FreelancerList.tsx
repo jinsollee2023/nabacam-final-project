@@ -1,51 +1,110 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
 import { getFreelancers } from '../../../api/User';
 import { getPortfolios } from '../../../api/Portfolio';
+import { S } from './freelancerList.styles';
+import { PortfolioIndexMap } from '../../../Types';
 
 const FreelancerList = () => {
+  const [selectedPortfolioIndex, setSelectedPortfolioIndex] = useState<PortfolioIndexMap>({});
   const {data: freelancersData, error:freelancersError, isLoading:freelancersIsLoading} = useQuery(['freelancersData'], getFreelancers);
+  const {data: portfoliosData, error: portfoliosError, isLoading: portfoliosIsLoading} = useQuery(['portfoliosData'], getPortfolios, {enabled: !!freelancersData});
+  
+  // 첫 번째 포트폴리오 항목을 보이도록 설정
+  useEffect(() => {
+    if (freelancersData) {
+      const initialSelectedIndex: PortfolioIndexMap = {};
+      freelancersData.forEach((freelancer) => {
+        initialSelectedIndex[freelancer.userId] = 0;
+      });
+      setSelectedPortfolioIndex(initialSelectedIndex);
+    }
+  }, [freelancersData]);
+
   if(freelancersIsLoading){
-    <span>freelancers Loading..</span>
+    return <span>freelancers Loading..</span>
   }
   if(freelancersError){
-    <span>freelancers Error..</span>
+    return <span>freelancers Error..</span>
   }
-  const {data: portfoliosData, error: portfoliosError, isLoading: portfoliosIsLoading} = useQuery(['portfoliosData'], getPortfolios, {enabled: !!freelancersData});
+
   if(portfoliosIsLoading){
-    <span>portfolios Loading..</span>
+    return <span>portfolios Loading..</span>
   }
   if(portfoliosError){
-    <span>portfolios Error..</span>
+    return <span>portfolios Error..</span>
   }
   
   return (
-    <div id='freelancerListContainer'>
-      <div>
-      {freelancersData?.map((freelanceritem) => (
-        <div key={freelanceritem.userId}>
-          <div>
-            <ul>
-              {portfoliosData && portfoliosData?.filter((portfolioItem)=> portfolioItem.freelancerId === freelanceritem.userId )
-                .map((filteredPortfolio)=> { 
-                  return (
-                  <div key={filteredPortfolio.portfolioId}>
-                    <li><img src={filteredPortfolio.thumbNailURL} alt='thumbnailImage'/></li>
-                    <li>{filteredPortfolio.title}</li>  
-                  </div>
-                )})}
-            </ul>
+    <S.FreelancerListContainer>
+        {freelancersData?.map((freelanceritem) => (
+          <div key={freelanceritem.userId}>
+                <S.FreelancerList>
+                  {portfoliosData && ( 
+                    <S.PortfolioList>
+                      {portfoliosData.filter((portfolioItem)=> portfolioItem.freelancerId === freelanceritem.userId )
+                      .map((filteredPortfolio, portfolioIndex)=> (
+                        <div key={filteredPortfolio.portfolioId} style={{position: 'relative', display: selectedPortfolioIndex[freelanceritem.userId] === portfolioIndex ? 'block' : 'none'}}>
+                            <S.PortfoliothumbNailImageBox>
+                              <img src={filteredPortfolio.thumbNailURL} alt='thumbnailImage'/>
+                              <S.indicatorWrapper>
+                              {portfoliosData
+                                .filter((portfolioItem) => portfolioItem.freelancerId === freelanceritem.userId)
+                                .map((_, index) => (
+                                  <span
+                                    key={index}
+                                    onClick={() =>
+                                      setSelectedPortfolioIndex((prevSelected) => ({
+                                        ...prevSelected,
+                                        [freelanceritem.userId]: index,
+                                      }))
+                                    } // 선택한 포트폴리오 인덱스 업데이트
+                                    style={{
+                                      width: '10px',
+                                      height: '10px',
+                                      display: 'inline-block',
+                                      backgroundColor:
+                                        selectedPortfolioIndex[freelanceritem.userId] === index ? 'black' : 'gray', // 선택된 인덱스에 따라 스타일링
+                                      borderRadius: '50%',
+                                      margin: '0 5px',
+                                      cursor: 'pointer',
+                                    }}
+                                  />
+                                ))}
+                            </S.indicatorWrapper>
+                            </S.PortfoliothumbNailImageBox>
+                            <S.PortfolioTitleBox>
+                              <S.PortfolioTitle>{filteredPortfolio.title}</S.PortfolioTitle>
+                            </S.PortfolioTitleBox>
+                        </div>
+                          // </li>
+                      ))}
+                      {/* 해당 조건을 만족하지 않는 경우에만 jsx 부분 표시 */}
+                      {!portfoliosData.some((portfolioItem) => portfolioItem.freelancerId === freelanceritem.userId) && (
+                        <li>
+                          <S.PortfoliothumbNailImageBox>
+                            <img src="https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-portfolio-thumbnail/default-portfolio-thumbnail.png" alt='default-thumbnailImage'/>
+                          </S.PortfoliothumbNailImageBox>
+                          <S.PortfolioTitleBox>
+                            <S.PortfolioTitle>등록된 포트폴리오가 없습니다.</S.PortfolioTitle>
+                          </S.PortfolioTitleBox>
+                        </li>
+                      )}
+                    </S.PortfolioList>
+                    )}
+
+                  <S.MiniProfileBox>
+                    <div>
+                      <span>{freelanceritem.name}</span>
+                      <span>{freelanceritem.workField}</span>
+                      <span>{freelanceritem.workExp}</span>
+                    </div>
+                    <button>제안하기</button>
+                  </S.MiniProfileBox>
+                </S.FreelancerList>
           </div>
-          <div>
-            <span>{freelanceritem.name}</span>
-            <span>{freelanceritem.workField}</span>
-            <span>{freelanceritem.workExp}</span>
-            <button>제안하기</button>
-          </div>
-        </div>
-      ))}
-      </div>
-    </div>
+        ))}
+    </S.FreelancerListContainer>
   );
 }
 
