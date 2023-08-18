@@ -15,8 +15,9 @@ export interface Project {
   desc: string;
   clientId: string;
   freelancerId: string;
-  deadline: string;
+  deadLine: string;
   pay: { min: number; max: number };
+  isDone: boolean;
 }
 
 export interface Task {
@@ -24,13 +25,14 @@ export interface Task {
   projectId: string;
   title: string;
   status: string;
-  deadline: string;
+  deadLine: string;
+  importance: number;
 }
 
 export interface Portfolio {
   portfolioId: string;
   freelancerId: string;
-  thumbnailURL: string;
+  thumbNailURL: string;
   title: string;
   desc: string;
   pdfFileURL: string;
