@@ -1,16 +1,23 @@
 import supabase from "../config/supabaseClient";
-import { User } from "../Types";
 
-const getApplicantFreelancers = async (): Promise<User[]> => {
-  // supabase 'users'테이블에서 'role'이 'freelancer'인 데이터만 가져오기
-  const { data, error } = await supabase.from("users").select().eq("role", "freelancer");
+const getApplicantFreelancers = async (): Promise<any> => {
+  let usersArr = [];
+  const user = await supabase.auth.getSession();
 
-  if (error) {
-    console.error("데이터 가져오기 오류:", error);
-    throw error;
+  const findByProjects = await supabase
+    .from("projects")
+    .select()
+    .eq("clientId", user.data.session?.user.id);
+
+  if (findByProjects.data == null) throw new Error("TEST");
+  for (const info of findByProjects.data) {
+    const findByUsers = await supabase.from("users").select().in("userId", info.Volunteer);
+    usersArr.push(findByUsers);
   }
 
-  return data;
+  console.log(usersArr);
+
+  return usersArr;
 };
 
 export { getApplicantFreelancers };
