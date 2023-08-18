@@ -20,7 +20,7 @@ const Account = () => {
   const fetchProfile = async () => {
     let { data: users, error } = await supabase
       .from("users")
-      .select("name, photoURL, contact, workField, projectId")
+      .select("name, contact, workField, projectId")
       .eq("role", "freelancer") // 굳이 없어도 될듯
       .eq("userId", testUserId);
     // .single();
@@ -75,8 +75,9 @@ const Account = () => {
     setOpen(false);
   };
 
+  //--------------------------------------------------------------------------//
   // 이미지 업데이트
-  const updateProfileImg = async (e: any) => {
+  const updateProfileImg = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
 
@@ -95,14 +96,11 @@ const Account = () => {
           }}
         >
           <img
-            src={user?.photoURL || ""}
+            src="mypath"
             alt="img"
             width="40px"
             height="40px"
             style={{ marginLeft: "10px" }}
-            onClick={() => {
-              updateProfileImg;
-            }}
           />
           <div
             style={{
