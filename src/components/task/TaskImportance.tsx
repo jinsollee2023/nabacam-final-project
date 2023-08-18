@@ -1,30 +1,20 @@
-import React, { useState } from "react";
 import { Task } from "../../Types";
-import { useMutation } from "@tanstack/react-query";
-import { updateTaskImportance } from "../../api/Task";
-import { queryClient } from "../../App";
 import { AiFillStar } from "react-icons/ai";
 import S from "./TaskStyles";
+import useTasksQueries from "../../hooks/useTasksQueries";
 
 interface TaskImportanceProps {
   task: Task;
 }
 
 const TaskImportance = ({ task }: TaskImportanceProps) => {
-  const [importance, setImportance] = useState(task.importance);
+  const { updateTaskImportanceMutation } = useTasksQueries(task.projectId);
 
-  const updateTaskImportanceMutation = useMutation(
-    () => updateTaskImportance(task.taskId, importance),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([`task ${task.projectId}`]);
-      },
-    }
-  );
-
-  const importanceIconOnClickHandler = (importanceNumber: number) => {
-    setImportance(importanceNumber);
-    updateTaskImportanceMutation.mutate();
+  const importanceIconOnClickHandler = (importance: number) => {
+    updateTaskImportanceMutation.mutate({
+      taskId: task.taskId,
+      importance,
+    });
   };
 
   const yellowStars = task.importance;
