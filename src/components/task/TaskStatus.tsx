@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { updateTaskStatus } from "../../api/Task";
-import { useMutation } from "@tanstack/react-query";
-import { queryClient } from "../../App";
 import S from "./TaskStyles";
 import { Task } from "../../Types";
+import useTasksQueries from "../../hooks/useTasksQueries";
 
 interface TaskStatusProps {
   task: Task;
@@ -11,20 +9,12 @@ interface TaskStatusProps {
 
 const TaskStatus = ({ task }: TaskStatusProps) => {
   const [statusOptionOn, setStatusOptionOn] = useState(false);
-  const [status, setStatus] = useState(task.status);
 
   const statusDivOnClickHandler = () => {
     setStatusOptionOn(!statusOptionOn);
   };
 
-  const updateTaskStatusMutation = useMutation(
-    () => updateTaskStatus(task.taskId, status),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([`task ${task.projectId}`]);
-      },
-    }
-  );
+  const { updateTaskStatusMutation } = useTasksQueries(task.projectId);
 
   const statusOptionArray = [
     "Before working",
@@ -34,9 +24,11 @@ const TaskStatus = ({ task }: TaskStatusProps) => {
     "Stuck",
   ];
 
-  const statusOptionOnClickHandler = (statusOption: string) => {
-    setStatus(statusOption);
-    updateTaskStatusMutation.mutate();
+  const statusOptionOnClickHandler = (status: string) => {
+    updateTaskStatusMutation.mutate({
+      taskId: task.taskId,
+      status,
+    });
     setStatusOptionOn(false);
   };
   return (
