@@ -2,13 +2,14 @@ import { styled } from "styled-components";
 
 export const S = {
   FreelancerListContainer: styled.div`
-    width: 98%;
+    width: 100%;
     height: 80vh;
-    overflow-y: auto;
+    overflow-y: scroll;
     margin-top: 20px;
+    padding: 0 20px;
 
     display: grid;
-    grid-template-columns: 455px 455px;
+    grid-template-columns: 475px 475px;
 	  grid-template-rows: 350px 350px;
     gap: 20px;
 
@@ -63,7 +64,7 @@ export const S = {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 5px 10px;
     border-radius: 15px;
     width: 455px;
   `,
@@ -80,5 +81,39 @@ export const S = {
   left: 50%;
   transform: translateX(-50%);
   display: flex;
+  `,
+
+  SuggestButton: styled.button`
+    border: none;
+    background-color:transparent;
+    cursor: pointer;
+    transition: transform .2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+    &:hover:not(:hover) {
+    transform: scale(1);
+  }
+  `,
+
+  FreelancerContentBox: styled.div`
+    display: flex;
+    align-items: end;
+
+    span{
+      margin: 0 3px;
+    }
+  `,
+
+  FreelancerName: styled.span`
+    font-weight: bold;
+    color: #045FB4;
+    font-size: 18px;
+    margin-right: 5px;
+  `,
+
+  FreelancerContent: styled.span`
+    font-size: 14px;
   `
 }

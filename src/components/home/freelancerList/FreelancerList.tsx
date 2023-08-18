@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
-import { getFreelancers } from '../../../api/User';
+// import { getFreelancers } from '../../../api/User';
 import { getPortfolios } from '../../../api/Portfolio';
 import { S } from './freelancerList.styles';
-import { PortfolioIndexMap } from '../../../Types';
+import { FreelancerListProps, PortfolioIndexMap} from '../../../Types';
+import {FaHandshakeSimple} from "react-icons/fa6"
 
-const FreelancerList = () => {
+
+
+const FreelancerList = ({freelancersData}:FreelancerListProps) => {
   const [selectedPortfolioIndex, setSelectedPortfolioIndex] = useState<PortfolioIndexMap>({});
-  const {data: freelancersData, error:freelancersError, isLoading:freelancersIsLoading} = useQuery(['freelancersData'], getFreelancers);
+  // const {data: freelancersData, error:freelancersError, isLoading:freelancersIsLoading} = useQuery(['freelancersData'], getFreelancers);
   const {data: portfoliosData, error: portfoliosError, isLoading: portfoliosIsLoading} = useQuery(['portfoliosData'], getPortfolios, {enabled: !!freelancersData});
   
   // 첫 번째 포트폴리오 항목을 보이도록 설정
@@ -21,12 +24,12 @@ const FreelancerList = () => {
     }
   }, [freelancersData]);
 
-  if(freelancersIsLoading){
-    return <span>freelancers Loading..</span>
-  }
-  if(freelancersError){
-    return <span>freelancers Error..</span>
-  }
+  // if(freelancersIsLoading){
+  //   return <span>freelancers Loading..</span>
+  // }
+  // if(freelancersError){
+  //   return <span>freelancers Error..</span>
+  // }
 
   if(portfoliosIsLoading){
     return <span>portfolios Loading..</span>
@@ -94,12 +97,12 @@ const FreelancerList = () => {
                     )}
 
                   <S.MiniProfileBox>
-                    <div>
-                      <span>{freelanceritem.name}</span>
-                      <span>{freelanceritem.workField}</span>
-                      <span>{freelanceritem.workExp}</span>
-                    </div>
-                    <button>제안하기</button>
+                    <S.FreelancerContentBox>
+                      <S.FreelancerName>{freelanceritem.name}</S.FreelancerName>
+                      <S.FreelancerContent>{freelanceritem.workField}</S.FreelancerContent>
+                      <S.FreelancerContent>{String(freelanceritem.workExp)}년차</S.FreelancerContent>
+                    </S.FreelancerContentBox>
+                    <S.SuggestButton><FaHandshakeSimple size="25"/></S.SuggestButton>
                   </S.MiniProfileBox>
                 </S.FreelancerList>
           </div>
