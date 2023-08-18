@@ -32,23 +32,26 @@ const TaskStatus = ({ task }: TaskStatusProps) => {
     setStatusOptionOn(false);
   };
   return (
-    <div>
-      <S.TaskDetailBox width={150} onClick={statusDivOnClickHandler}>
-        {task.status}
-      </S.TaskDetailBox>
-      {statusOptionOn
-        ? statusOptionArray.map((status) => {
-            return (
-              <S.TaskDetailBox
-                width={150}
-                onClick={() => statusOptionOnClickHandler(status)}
-              >
-                {status}
-              </S.TaskDetailBox>
-            );
-          })
-        : null}
-    </div>
+    <>
+      <div>
+        <S.TaskDetailBox width={150} onClick={statusDivOnClickHandler}>
+          {task.status}
+        </S.TaskDetailBox>
+
+        {statusOptionOn
+          ? statusOptionArray.map((status) => {
+              return (
+                <S.TaskDetailBox
+                  width={150}
+                  onClick={() => statusOptionOnClickHandler(status)}
+                >
+                  {status}
+                </S.TaskDetailBox>
+              );
+            })
+          : null}
+      </div>
+    </>
   );
 };
 
