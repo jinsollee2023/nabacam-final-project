@@ -17,37 +17,16 @@ export const addTasks = async (projectId: string): Promise<void> => {
     .select();
 };
 
-export const updateTaskTitle = async (
+export const updateTask = async (
   taskId: string,
-  title: string
+  column: {
+    title?: string;
+    status?: string;
+    deadLine?: Date;
+    importance?: number;
+  }
 ): Promise<void> => {
-  await supabase
-    .from("tasks")
-    .update({ title: title })
-    .eq("taskId", taskId)
-    .select();
-};
-
-export const updateTaskStatus = async (
-  taskId: string,
-  status: string
-): Promise<void> => {
-  await supabase
-    .from("tasks")
-    .update({ status: status })
-    .eq("taskId", taskId)
-    .select();
-};
-
-export const updateTaskImportance = async (
-  taskId: string,
-  importance: number
-): Promise<void> => {
-  await supabase
-    .from("tasks")
-    .update({ importance: importance })
-    .eq("taskId", taskId)
-    .select();
+  await supabase.from("tasks").update(column).eq("taskId", taskId).select();
 };
 
 export const deleteTask = async (taskId: string): Promise<void> => {
