@@ -40,12 +40,11 @@ export default Navbar;
 const S = {
   SidebarWrapper: styled.div`
     position: sticky;
-    left: 30px;
     display: flex;
     flex-direction: column;
     background-color: #333333f7;
     color: white;
-    width: 200px;
+    width: 330px;
     padding: 20px;
     z-index: 999;
     height: 100vh;

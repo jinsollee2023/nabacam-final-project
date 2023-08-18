@@ -50,6 +50,15 @@ export interface PortfolioIndexMap {
   [freelancerId: string]: number;
 }
 
+export interface SearchFreelancerProps {
+  onSearch: (keyword: string) => void;
+}
+
+export interface FreelancerListProps {
+  freelancersData: User[];
+}
+
+
 const Types = () => {
   return <div>Types</div>;
 };
