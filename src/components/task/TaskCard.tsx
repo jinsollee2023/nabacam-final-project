@@ -5,6 +5,7 @@ import TaskStatus from "./TaskStatus";
 import TaskImportance from "./TaskImportance";
 import useTasksQueries from "../../hooks/useTasksQueries";
 import TaskDeadLine from "./TaskDeadLine";
+import { BsTrash3Fill } from "react-icons/bs";
 
 interface TaskCardProps {
   task: Task;
@@ -23,7 +24,9 @@ const TaskCard = ({ task }: TaskCardProps) => {
       <TaskStatus task={task as Task} />
       <TaskDeadLine task={task as Task} />
       <TaskImportance task={task as Task} />
-      <button onClick={deleteTaskButtonHandler}>삭제</button>
+      <S.TaskDeleteButton onClick={deleteTaskButtonHandler}>
+        <BsTrash3Fill />
+      </S.TaskDeleteButton>
     </S.TaskCardContainer>
   );
 };

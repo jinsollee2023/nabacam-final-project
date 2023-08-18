@@ -18,6 +18,7 @@ export interface Project {
   deadLine: string;
   pay: { min: number; max: number };
   isDone: boolean;
+  Volunteer: string[];
 }
 
 export interface Task {
