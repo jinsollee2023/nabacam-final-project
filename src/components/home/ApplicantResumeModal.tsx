@@ -7,15 +7,21 @@ interface ApplicantResumeModalProps {
   onClose: () => void;
 }
 
-const ApplicantResumeModal: React.FC<ApplicantResumeModalProps> = ({ user, onClose }) => {
+const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
+  // 바깥 영역 클릭 시 모달 닫기
+  const handleModalClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
   return (
-    <StModalBox onClick={onClose}>
-      <StModalContents>
+    <S.ModalBox onClick={handleModalClick}>
+      <S.ModalContents>
         <button style={{ float: "right" }} onClick={onClose}>
           X
         </button>
         <div>
-          <p>
+          <p style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "10px" }}>
             {user.name}님이
             <br /> 이번 'OOO 프로젝트'에 지원하셨습니다.
           </p>
@@ -50,7 +56,71 @@ const ApplicantResumeModal: React.FC<ApplicantResumeModalProps> = ({ user, onClo
               }}
             ></div>
             <p style={{ margin: "10px 0" }}>경력 사항</p>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <div
+                style={{
+                  border: "1px solid gray",
+                  borderRadius: "15px",
+                  width: "210px",
+                  height: "100px",
+                }}
+              ></div>
+              <div
+                style={{
+                  border: "1px solid gray",
+                  borderRadius: "15px",
+                  width: "210px",
+                  height: "100px",
+                }}
+              ></div>
+            </div>
             <p style={{ margin: "10px 0" }}>포트폴리오</p>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <div>
+                <div
+                  style={{
+                    border: "1px solid gray",
+                    borderRadius: "15px",
+                    width: "100px",
+                    height: "100px",
+                  }}
+                ></div>
+                <p style={{ marginTop: "5px", fontSize: "14px" }}>UXUI 리디자인</p>
+              </div>
+              <div>
+                <div
+                  style={{
+                    border: "1px solid gray",
+                    borderRadius: "15px",
+                    width: "100px",
+                    height: "100px",
+                  }}
+                ></div>
+                <p style={{ marginTop: "5px", fontSize: "14px" }}>개발 프로젝트</p>
+              </div>
+              <div>
+                <div
+                  style={{
+                    border: "1px solid gray",
+                    borderRadius: "15px",
+                    width: "100px",
+                    height: "100px",
+                  }}
+                ></div>
+                <p style={{ marginTop: "5px", fontSize: "14px" }}>앱 런칭 디자인</p>
+              </div>
+              <div>
+                <div
+                  style={{
+                    border: "1px solid gray",
+                    borderRadius: "15px",
+                    width: "100px",
+                    height: "100px",
+                  }}
+                ></div>
+                <p style={{ marginTop: "5px", fontSize: "14px" }}>실제 서비스 배포</p>
+              </div>
+            </div>
           </div>
           <div>
             <button style={{ marginRight: "10px" }}>협상하기</button>
@@ -58,30 +128,37 @@ const ApplicantResumeModal: React.FC<ApplicantResumeModalProps> = ({ user, onClo
             <button>보류</button>
           </div>
         </div>
-      </StModalContents>
-    </StModalBox>
+      </S.ModalContents>
+    </S.ModalBox>
   );
 };
 
 export default ApplicantResumeModal;
 
-const StModalBox = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StModalContents = styled.div`
-  background-color: #fff;
-  padding: 20px;
-  width: 30%;
-  height: 30%;
-  overflow: auto;
-  border-radius: 12px;
-`;
+const S = {
+  ModalBox: styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
+  ModalContents: styled.div`
+    background-color: #fff;
+    padding: 20px;
+    width: 25%;
+    height: 50%;
+    border-radius: 12px;
+    overflow: auto;
+    // 스크롤바 숨기기
+    -ms-overflow-style: none; /* IE, Edge */
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+  `,
+};
