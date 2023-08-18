@@ -5,9 +5,11 @@ import { UserStore, useUserStore } from "src/zustand/useUserStore";
 
 const LoginComponent = () => {
   const { email, setUserEmail } = useUserStore();
+  const { userId, setUserId } = useUserStore();
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  console.log(userId);
   const loginHandler = async (e: any) => {
     e.preventDefault();
     try {
@@ -21,9 +23,10 @@ const LoginComponent = () => {
       } else if (data) {
         // dB
         const { id, email } = data.user;
+        console.log(id);
         // zustand
         if (email) setUserEmail(email);
-        console.log(email);
+        if (id) setUserId(id);
       }
     } catch (error) {
       console.error(error);

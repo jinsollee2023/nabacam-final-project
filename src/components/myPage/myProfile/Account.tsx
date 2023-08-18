@@ -15,7 +15,8 @@ const Account = () => {
   const [updatedProjectId, setUpdatedProjectId] = useState("");
 
   // zustand
-  const { email, setUserEmail } = useUserStore();
+  const { userId, email, setUserEmail } = useUserStore();
+  console.log(userId);
 
   /**
    * GET
@@ -25,7 +26,6 @@ const Account = () => {
     let { data: users, error } = await supabase
       .from("users")
       .select("name, contact, workField, projectId")
-      .eq("role", "freelancer") // 굳이 없어도 될듯
       .eq("userId", testUserId);
     // .single();
     console.log(users);
