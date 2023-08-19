@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Modal } from "antd";
 import { useUserStore } from "src/zustand/useUserStore";
+import Form from "react-bootstrap/Form";
+import { v4 as uuidv4 } from "uuid";
 
 const Account = () => {
   // useStates
@@ -13,10 +15,16 @@ const Account = () => {
   const [updatedEmail, setUpdatedEmail] = useState("");
   const [updatedPhone, setUpdatedPhone] = useState("");
   const [updatedProjectId, setUpdatedProjectId] = useState("");
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [images, setImages] = useState<
+    import("@supabase/storage-js/dist/module/lib/types").FileObject[]
+  >([]);
+  // console.log("images>", images);
+  console.log(images[0]);
 
   // zustand
   const { userId, email, setUserEmail } = useUserStore();
-  console.log(userId);
+  // console.log(userId);
 
   /**
    * GET
@@ -79,10 +87,60 @@ const Account = () => {
     setOpen(false);
   };
 
+  const toggleFormVisibility = () => {
+    setIsFormVisible(!isFormVisible);
+  };
+
   //--------------------------------------------------------------------------//
-  // 이미지 업데이트
-  const updateProfileImg = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  // 이미지 업로드
+  // https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/users/5d08341f-b6ed-4e7f-b905-79fabd0bd766/fc59060c-b343-423b-ad4c-0f73a0313d08
+  const CDNURL =
+    "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/users";
+  /**
+   * To get an image: CDNURL + userId + "/" + image.name
+   * images: [image1, image2, image3]
+   */
+
+  const getImages = async () => {
+    const { data, error } = await supabase.storage
+      .from("users")
+      .list(userId + "/", {
+        limit: 100,
+        offset: 0,
+        sortBy: { column: "name", order: "asc" },
+      });
+
+    console.log("data>", data);
+
+    if (data !== null && data.length > 0) {
+      setImages(data);
+    } else {
+      alert("Error loading images");
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getImages();
+  }, [userId]);
+
+  console.log("상태관리", images[0]);
+
+  const uploadImage = async (e: any) => {
+    let file;
+    if (e.target.files) {
+      file = e.target.files[0];
+    }
+    const { data, error } = await supabase.storage
+      .from("users")
+      .upload(userId + "/" + uuidv4(), file as File);
+
+    if (data) {
+      // console.log("path-data>", data);
+      getImages();
+    } else {
+      console.log(error);
+    }
   };
 
   return (
@@ -100,15 +158,20 @@ const Account = () => {
           }}
         >
           <img
-            src="mypath"
+            src={
+              images.length > 0
+                ? CDNURL + "/" + userId + "/" + images[images.length - 1].name
+                : ""
+            }
             alt="img"
-            width="40px"
-            height="40px"
+            width="60px"
+            height="60px"
             style={{ marginLeft: "10px" }}
+            onClick={toggleFormVisibility}
           />
           <div
             style={{
-              marginLeft: "30px",
+              marginLeft: "20px",
               display: "flex",
               flexDirection: "column",
             }}
@@ -180,6 +243,14 @@ const Account = () => {
                 </label>
               </form>
             </Modal>
+            {/* ------------------Loginuser UploadImage form-------------------------- */}
+            {isFormVisible && (
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => uploadImage(e)}
+              />
+            )}
           </>
         </section>
       )}
