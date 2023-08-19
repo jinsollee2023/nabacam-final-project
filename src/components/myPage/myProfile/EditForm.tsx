@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { queryClient } from "src/App";
 import { updateLoggedInFreelancer } from "src/api/User";
 import supabase from "src/config/supabaseClient";
+import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 
 interface EditFormProps {
@@ -12,11 +13,11 @@ interface EditFormProps {
 }
 const EditForm: React.FC<EditFormProps> = ({ open, setOpen }) => {
   // 상태관리
-  const [updatedName, setUpdatedName] = useState("");
-  const [updatedWorkField, setUpdatedWorkField] = useState("");
-  const [updatedEmail, setUpdatedEmail] = useState("");
-  const [updatedPhone, setUpdatedPhone] = useState("");
-  const [updatedProjectId, setUpdatedProjectId] = useState("");
+  const updatedNameInput = useInput("");
+  const updatedWorkFieldInput = useInput("");
+  const updatedEmailInput = useInput("");
+  const updatedPhoneInput = useInput("");
+  const updatedProjectIdInput = useInput("");
 
   const { userId } = useUserStore();
 
@@ -34,24 +35,24 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen }) => {
 
     // 업데이트 대상
     const updatedData = {
-      name: updatedName,
-      workField: updatedWorkField,
+      name: updatedNameInput.value,
+      workField: updatedWorkFieldInput.value,
       contact: {
-        email: updatedEmail,
-        phone: updatedPhone,
+        email: updatedEmailInput.value,
+        phone: updatedPhoneInput.value,
       },
-      projectId: updatedProjectId,
+      projectId: updatedProjectIdInput.value,
     };
 
     // 업데이트
     updateMutation.mutate({ updatedData, userId });
 
     // 입력창 비우고 모달 닫기
-    setUpdatedName("");
-    setUpdatedWorkField("");
-    setUpdatedEmail("");
-    setUpdatedPhone("");
-    setUpdatedProjectId("");
+    updatedNameInput.reset();
+    updatedWorkFieldInput.reset();
+    updatedEmailInput.reset();
+    updatedPhoneInput.reset();
+    updatedProjectIdInput.reset();
 
     setOpen(false);
   };
@@ -72,40 +73,40 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen }) => {
           이름:
           <input
             type="text"
-            value={updatedName}
-            onChange={(e) => setUpdatedName(e.target.value)}
+            value={updatedNameInput.value}
+            onChange={updatedNameInput.onChange}
           />
         </label>
         <label>
           업무분야:
           <input
             type="text"
-            value={updatedWorkField}
-            onChange={(e) => setUpdatedWorkField(e.target.value)}
+            value={updatedWorkFieldInput.value}
+            onChange={updatedWorkFieldInput.onChange}
           />
         </label>
         <label>
           이메일:
           <input
             type="text"
-            value={updatedEmail}
-            onChange={(e) => setUpdatedEmail(e.target.value)}
+            value={updatedEmailInput.value}
+            onChange={updatedEmailInput.onChange}
           />
         </label>
         <label>
           전화번호:
           <input
             type="text"
-            value={updatedPhone}
-            onChange={(e) => setUpdatedPhone(e.target.value)}
+            value={updatedPhoneInput.value}
+            onChange={updatedPhoneInput.onChange}
           />
         </label>
         <label>
           현재 진행중인 프로젝트:
           <input
             type="text"
-            value={updatedProjectId}
-            onChange={(e) => setUpdatedProjectId(e.target.value)}
+            value={updatedProjectIdInput.value}
+            onChange={updatedProjectIdInput.onChange}
           />
         </label>
       </form>
