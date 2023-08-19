@@ -47,14 +47,14 @@ const Image = () => {
     setIsFormVisible(!isFormVisible);
   };
 
+  console.log(images);
+
   return (
     <>
       <img
         className="profileImg"
         src={
-          images.length > 0
-            ? CDNURL + "/" + userId + "/" + images[images.length - 1].name
-            : ""
+          images.length > 0 ? CDNURL + "/" + userId + "/" + images[0].name : ""
         }
         alt="img"
         width="60px"

@@ -89,7 +89,7 @@ export const getLoggedInFreelancerImage = async (userId: string) => {
     const timeA = new Date(a.created_at).getTime();
     const timeB = new Date(b.created_at).getTime();
 
-    return timeA - timeB;
+    return timeB - timeA;
   });
 
   return data || [];
