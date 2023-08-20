@@ -1,16 +1,25 @@
-import { styled } from "styled-components";
+import { styled, keyframes } from "styled-components";
+import { IndicatorProps, PortfolioItemProps } from "../../../Types";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 export const S = {
   FreelancerListContainer: styled.div`
     width: 100%;
-    height: 80vh;
+    height: 70vh;
     overflow-y: scroll;
     margin-top: 20px;
-    padding: 0 20px;
 
     display: grid;
-    grid-template-columns: 475px 475px;
-	  grid-template-rows: 350px 350px;
+    grid-template-columns: 475px 475px 475px;
+	  grid-template-rows: 350px 350px 350px;
     gap: 20px;
 
      &::-webkit-scrollbar {
@@ -30,7 +39,11 @@ export const S = {
 
   FreelancerList: styled.ul`
     width: 455px;
-    margin: 10px;
+  `,
+
+  PortfolioItem: styled.div<PortfolioItemProps>`
+  position: relative;
+  display: ${props => (props.isSelected ? "block" : "none")};
   `,
 
   PortfoliothumbNailImageBox: styled.div`
@@ -39,6 +52,7 @@ export const S = {
     border-radius: 15px;
     background-color: #403E3E;
     overflow: hidden;
+    animation: ${fadeIn} 0.2s ease-in-out;
 
     img{
       width: 100%;
@@ -81,6 +95,17 @@ export const S = {
   left: 50%;
   transform: translateX(-50%);
   display: flex;
+  `,
+
+  Indicator: styled.span<IndicatorProps>`
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: 0.5s;
+  background-color: ${props => props.selected ? "black" : "gray"};
   `,
 
   SuggestButton: styled.button`

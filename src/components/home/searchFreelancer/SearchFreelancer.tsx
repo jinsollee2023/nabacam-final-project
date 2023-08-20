@@ -3,7 +3,6 @@ import { S } from './searchFreelancer.styles'
 import {MdPersonSearch} from 'react-icons/md'
 import { SearchFreelancerProps } from '../../../Types';
 
-
 const SearchFreelancer = ({onSearch} : SearchFreelancerProps) => {
   const [searchKeyword, setSearchKeyword] = useState('');
   const searchInput = useRef<HTMLInputElement | null>(null);

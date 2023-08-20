@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
-// import { getFreelancers } from '../../../api/User';
 import { getPortfolios } from '../../../api/Portfolio';
 import { S } from './freelancerList.styles';
 import { FreelancerListProps, PortfolioIndexMap} from '../../../Types';
 import {FaHandshakeSimple} from "react-icons/fa6"
 
-
-
 const FreelancerList = ({freelancersData}:FreelancerListProps) => {
   const [selectedPortfolioIndex, setSelectedPortfolioIndex] = useState<PortfolioIndexMap>({});
-  // const {data: freelancersData, error:freelancersError, isLoading:freelancersIsLoading} = useQuery(['freelancersData'], getFreelancers);
   const {data: portfoliosData, error: portfoliosError, isLoading: portfoliosIsLoading} = useQuery(['portfoliosData'], getPortfolios, {enabled: !!freelancersData});
   
   // 첫 번째 포트폴리오 항목을 보이도록 설정
@@ -24,12 +20,6 @@ const FreelancerList = ({freelancersData}:FreelancerListProps) => {
     }
   }, [freelancersData]);
 
-  // if(freelancersIsLoading){
-  //   return <span>freelancers Loading..</span>
-  // }
-  // if(freelancersError){
-  //   return <span>freelancers Error..</span>
-  // }
 
   if(portfoliosIsLoading){
     return <span>portfolios Loading..</span>
@@ -47,31 +37,24 @@ const FreelancerList = ({freelancersData}:FreelancerListProps) => {
                     <S.PortfolioList>
                       {portfoliosData.filter((portfolioItem)=> portfolioItem.freelancerId === freelanceritem.userId )
                       .map((filteredPortfolio, portfolioIndex)=> (
-                        <div key={filteredPortfolio.portfolioId} style={{position: 'relative', display: selectedPortfolioIndex[freelanceritem.userId] === portfolioIndex ? 'block' : 'none'}}>
+                        <S.PortfolioItem
+                          key={filteredPortfolio.portfolioId}
+                          isSelected={selectedPortfolioIndex[freelanceritem.userId] === portfolioIndex}>
                             <S.PortfoliothumbNailImageBox>
                               <img src={filteredPortfolio.thumbNailURL} alt='thumbnailImage'/>
                               <S.indicatorWrapper>
                               {portfoliosData
                                 .filter((portfolioItem) => portfolioItem.freelancerId === freelanceritem.userId)
                                 .map((_, index) => (
-                                  <span
+                                  <S.Indicator
                                     key={index}
+                                    selected={selectedPortfolioIndex[freelanceritem.userId] === index}
                                     onClick={() =>
                                       setSelectedPortfolioIndex((prevSelected) => ({
                                         ...prevSelected,
                                         [freelanceritem.userId]: index,
                                       }))
-                                    } // 선택한 포트폴리오 인덱스 업데이트
-                                    style={{
-                                      width: '10px',
-                                      height: '10px',
-                                      display: 'inline-block',
-                                      backgroundColor:
-                                        selectedPortfolioIndex[freelanceritem.userId] === index ? 'black' : 'gray', // 선택된 인덱스에 따라 스타일링
-                                      borderRadius: '50%',
-                                      margin: '0 5px',
-                                      cursor: 'pointer',
-                                    }}
+                                    }
                                   />
                                 ))}
                             </S.indicatorWrapper>
@@ -79,10 +62,11 @@ const FreelancerList = ({freelancersData}:FreelancerListProps) => {
                             <S.PortfolioTitleBox>
                               <S.PortfolioTitle>{filteredPortfolio.title}</S.PortfolioTitle>
                             </S.PortfolioTitleBox>
-                        </div>
-                          // </li>
+                        </S.PortfolioItem>
                       ))}
                       {/* 해당 조건을 만족하지 않는 경우에만 jsx 부분 표시 */}
+                      {/* some → 주어진 판별 함수를 적오도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는 
+                      포트폴리오들의 프리랜서 아이디 중에서 내가 지금 돌고있는 프리랜서의 아이디와 일치하는 것이 없다면 아래 jsx를 보여줌*/}
                       {!portfoliosData.some((portfolioItem) => portfolioItem.freelancerId === freelanceritem.userId) && (
                         <li>
                           <S.PortfoliothumbNailImageBox>

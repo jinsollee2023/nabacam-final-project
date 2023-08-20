@@ -2,8 +2,12 @@ import { styled } from "styled-components";
 
 export const S = {
   searchContainer: styled.div`
-    margin: 20px 20px 0 30px;
+    min-width: 40%;
     width: 80%;
+    height: 5.5vh;
+    display: flex;
+    align-items: start;
+
   `,
 
   searchForm: styled.form`

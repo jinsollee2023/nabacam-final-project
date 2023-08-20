@@ -6,8 +6,9 @@ import { getFreelancers } from '../../../api/User';
 import { User } from '../../../Types';
 
 const FreelancerMarket = () => {
-  const [searchedKeyword, setSearchedKeyword] = useState<string | number>('');
+  const [searchedKeyword, setSearchedKeyword] = useState('');
   
+  // 프리랜서 데이터를 불러온다
   const {data: freelancersData, error: freelancersError, isLoading: freelancersIsLoading} = useQuery(['freelancersData'], getFreelancers);
   if(freelancersIsLoading){
     return <span>freelancers Loading..</span>
@@ -16,24 +17,24 @@ const FreelancerMarket = () => {
     return <span>freelancers Error..</span>
   }
   
+  // 검색 키워드를 지정하는 함수를 생성하여 searchFreelancer 컴포넌트로 보내서
+  // 검색할 키워드를 가져와서 searchedKeyword로 지정해준다..
   const handleSearch = (keyword:string) => {
     setSearchedKeyword(keyword);
   }
 
-  let filteredFreelancers = freelancersData;
-
+  let filteredFreelancers;
   if (freelancersData) {
     filteredFreelancers = freelancersData?.filter(freelancer => {
-      const lowerCaseSearch = String(searchedKeyword).toLowerCase(); // 검색어를 소문자로 변경
-      const workExp = String(freelancer.workExp); // workExp도 문자열로 변경
-  
-      return (
-        (typeof searchedKeyword === 'string' &&
-          (freelancer.name.toLowerCase().includes(lowerCaseSearch) ||
-            freelancer.workField?.toLowerCase().includes(lowerCaseSearch))) ||
-        (typeof searchedKeyword === 'number' && workExp === lowerCaseSearch) || // workExp를 문자열로 변경하여 검색어와 비교
-        (typeof searchedKeyword === 'string' && workExp === lowerCaseSearch) // 숫자 검색어도 workExp와 비교
-      );
+      // 입력한 키워드가 대문자이든 소문자이든 무조건 소문자로 변경
+      const lowerCaseSearch = String(searchedKeyword).toLowerCase();
+      // workExp는 숫자이기 때문에 미리 문자열로 변경
+      const workExp = String(freelancer.workExp);
+          return (
+            freelancer.name.toLowerCase().includes(lowerCaseSearch) ||
+            freelancer.workField?.toLowerCase().includes(lowerCaseSearch) ||
+            workExp === searchedKeyword
+          )
     });
   }
 
