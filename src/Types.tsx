@@ -9,6 +9,10 @@ export interface User {
   contact: { email: string; phone: string };
 }
 
+export interface IUser extends User {
+  title: string;
+}
+
 export interface Project {
   projectId: string;
   title: string;

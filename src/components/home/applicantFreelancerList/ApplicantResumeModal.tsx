@@ -1,6 +1,6 @@
 import React from "react";
-import { styled } from "styled-components";
-import { User } from "../../Types";
+import { User } from "../../../Types";
+import { S } from "./applicantResumeModalStyle";
 
 interface ApplicantResumeModalProps {
   user: User;
@@ -16,15 +16,13 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
   };
   return (
     <S.ModalBox onClick={handleModalClick}>
-      <S.ModalContents>
-        <button style={{ float: "right" }} onClick={onClose}>
-          X
-        </button>
+      <S.ModalContainer>
+        <S.CloseBtn onClick={onClose}>X</S.CloseBtn>
         <div>
-          <p style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "10px" }}>
+          <S.Title>
             {user.name}님이
             <br /> 이번 'OOO 프로젝트'에 지원하셨습니다.
-          </p>
+          </S.Title>
           <div style={{ display: "flex", gap: "10px", textAlign: "center", alignItems: "center" }}>
             <div
               style={{
@@ -128,37 +126,9 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
             <button>보류</button>
           </div>
         </div>
-      </S.ModalContents>
+      </S.ModalContainer>
     </S.ModalBox>
   );
 };
 
 export default ApplicantResumeModal;
-
-const S = {
-  ModalBox: styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `,
-  ModalContents: styled.div`
-    background-color: #fff;
-    padding: 20px;
-    width: 25%;
-    height: 50%;
-    border-radius: 12px;
-    overflow: auto;
-    // 스크롤바 숨기기
-    -ms-overflow-style: none; /* IE, Edge */
-    scrollbar-width: none; /* Firefox */
-    &::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
-    }
-  `,
-};
