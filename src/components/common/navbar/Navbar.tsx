@@ -11,11 +11,11 @@ const Navbar = () => {
         <S.Role>프리랜서/클라이언트</S.Role>
       </S.ProfileWrapper>
       <S.UpperNavLinks>
-        <S.NavLinkItem  onClick={() => navigate("/")}>
-            프로젝트 탐색
+        <S.NavLinkItem onClick={() => navigate("/")}>
+          프로젝트 탐색
         </S.NavLinkItem>
         <S.NavLinkItem onClick={() => navigate("/project-management")}>
-            프로젝트 관리 도구
+          프로젝트 관리 도구
         </S.NavLinkItem>
       </S.UpperNavLinks>
 
@@ -83,9 +83,9 @@ const S = {
   `,
   NavLinkItem: styled.li`
     cursor: pointer;
-    padding:10px 5px;
+    padding: 10px 5px;
     transition: 0.2s ease-in-out;
-    
+
     &:hover {
       background-color: gray;
     }

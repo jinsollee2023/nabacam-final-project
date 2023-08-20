@@ -26,5 +26,5 @@ const S = {
 
   LayoutChildren: styled.div`
     width: 73vw;
-  `
-}
+  `,
+};

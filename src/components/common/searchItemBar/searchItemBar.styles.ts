@@ -7,7 +7,6 @@ export const S = {
     height: 5.5vh;
     display: flex;
     align-items: start;
-
   `,
 
   searchForm: styled.form`
@@ -19,10 +18,10 @@ export const S = {
     width: 100%;
     padding: 15px;
     border: none;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 50px;
 
-    &:focus { 
+    &:focus {
       outline: none;
     }
   `,
@@ -36,5 +35,5 @@ export const S = {
     background-color: transparent;
     cursor: pointer;
     opacity: 0.5;
-  `
-}
+  `,
+};

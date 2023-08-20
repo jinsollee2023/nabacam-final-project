@@ -1,5 +1,4 @@
 import { styled, keyframes } from "styled-components";
-import { IndicatorProps, PortfolioItemProps } from "../../../Types";
 
 const fadeIn = keyframes`
   from {
@@ -10,20 +9,29 @@ const fadeIn = keyframes`
   }
 `;
 
+interface IndicatorProps {
+  selected: boolean;
+  onClick: () => void;
+}
+
+interface PortfolioItemProps {
+  isSelected: boolean;
+}
+
 export const S = {
   FreelancerListContainer: styled.div`
     width: 100%;
-    height: 70vh;
+    height: 73vh;
     overflow-y: scroll;
     margin-top: 20px;
 
     display: grid;
     grid-template-columns: 475px 475px 475px;
-	  grid-template-rows: 350px 350px 350px;
+    grid-template-rows: 350px 350px 350px;
     gap: 20px;
 
-     &::-webkit-scrollbar {
-    width: 12px;
+    &::-webkit-scrollbar {
+      width: 12px;
     }
     &::-webkit-scrollbar-thumb {
       background-color: #848484;
@@ -42,19 +50,19 @@ export const S = {
   `,
 
   PortfolioItem: styled.div<PortfolioItemProps>`
-  position: relative;
-  display: ${props => (props.isSelected ? "block" : "none")};
+    position: relative;
+    display: ${(props) => (props.isSelected ? "block" : "none")};
   `,
 
   PortfoliothumbNailImageBox: styled.div`
     width: 455px;
     height: 250px;
     border-radius: 15px;
-    background-color: #403E3E;
+    background-color: #403e3e;
     overflow: hidden;
     animation: ${fadeIn} 0.2s ease-in-out;
 
-    img{
+    img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -73,7 +81,7 @@ export const S = {
   `,
 
   MiniProfileBox: styled.li`
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -84,61 +92,61 @@ export const S = {
   `,
 
   PortfolioList: styled.ul`
-  display: flex;
-  width: 455px;
-  overflow: hidden;
+    display: flex;
+    width: 455px;
+    overflow: hidden;
   `,
 
   indicatorWrapper: styled.div`
-  position: absolute;
-  bottom: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
   `,
 
   Indicator: styled.span<IndicatorProps>`
-  width: 10px;
-  height: 10px;
-  display: inline-block;
-  border-radius: 50%;
-  margin: 0 5px;
-  cursor: pointer;
-  transition: 0.5s;
-  background-color: ${props => props.selected ? "black" : "gray"};
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: 0.5s;
+    background-color: ${(props) => (props.selected ? "black" : "gray")};
   `,
 
   SuggestButton: styled.button`
     border: none;
-    background-color:transparent;
+    background-color: transparent;
     cursor: pointer;
-    transition: transform .2s ease-in-out;
+    transition: transform 0.2s ease-in-out;
 
     &:hover {
       transform: scale(1.2);
     }
     &:hover:not(:hover) {
-    transform: scale(1);
-  }
+      transform: scale(1);
+    }
   `,
 
   FreelancerContentBox: styled.div`
     display: flex;
     align-items: end;
 
-    span{
+    span {
       margin: 0 3px;
     }
   `,
 
   FreelancerName: styled.span`
     font-weight: bold;
-    color: #045FB4;
+    color: #045fb4;
     font-size: 18px;
     margin-right: 5px;
   `,
 
   FreelancerContent: styled.span`
     font-size: 14px;
-  `
-}
+  `,
+};

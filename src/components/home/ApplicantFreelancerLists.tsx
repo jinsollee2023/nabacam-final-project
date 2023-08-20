@@ -10,7 +10,11 @@ const ApplicantFreelancerLists = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   // const { data: users, isLoading, isError } = useQuery<User[]>(["users"], getApplicantFreelancers);
-  const { data: users, isLoading, isError } = useQuery(["users"], getApplicantFreelancers);
+  const {
+    data: users,
+    isLoading,
+    isError,
+  } = useQuery(["users"], getApplicantFreelancers);
 
   const handleShowData = () => {
     setShowData(true);
@@ -42,7 +46,9 @@ const ApplicantFreelancerLists = () => {
                   <div>{user.name}</div>
                 </S.ListContents>
                 <S.BtnBox>
-                  <S.CheckingBtn onClick={() => handleSelectUser(user)}>확인하기</S.CheckingBtn>
+                  <S.CheckingBtn onClick={() => handleSelectUser(user)}>
+                    확인하기
+                  </S.CheckingBtn>
                 </S.BtnBox>
               </S.List>
             ))
@@ -51,7 +57,12 @@ const ApplicantFreelancerLists = () => {
           ) : isError ? (
             <div>데이터를 불러오지 못했습니다.</div>
           ) : null}
-          {selectedUser && <ApplicantResumeModal user={selectedUser} onClose={handleCloseModal} />}
+          {selectedUser && (
+            <ApplicantResumeModal
+              user={selectedUser}
+              onClose={handleCloseModal}
+            />
+          )}
         </div>
       )}
     </>

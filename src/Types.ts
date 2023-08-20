@@ -47,30 +47,4 @@ export interface Review {
   clientId: string;
 }
 
-export interface PortfolioIndexMap {
-  [freelancerId: string]: number;
-}
 
-export interface SearchFreelancerProps {
-  onSearch: (keyword: string) => void;
-}
-
-export interface FreelancerListProps {
-  freelancersData: User[];
-}
-
-export interface IndicatorProps {
-  selected: boolean;
-  onClick: () => void;
-}
-
-export interface PortfolioItemProps {
-  isSelected: boolean;
-}
-
-
-const Types = () => {
-  return <div>Types</div>;
-};
-
-export default Types;
