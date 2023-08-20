@@ -33,7 +33,7 @@ const Home = () => {
       </S.MenuTabBar>
       <S.CompContainer>
         {activeTab === "freelancerMarket" ? <FreelancerMarket /> : null}
-        {activeTab === "applicantFreelancerLists" ? <ApplicantFreelancerList /> : null}
+        {activeTab === "applicantFreelancerList" ? <ApplicantFreelancerList /> : null}
         {activeTab === "pendingFreelancerLists" ? <PendingFreelancerLists /> : null}
       </S.CompContainer>
     </>

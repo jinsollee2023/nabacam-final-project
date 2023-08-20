@@ -15,7 +15,7 @@ export const S = {
     font-weight: bold;
   `,
   List: styled.div`
-    width: 70%;
+    width: 100%;
     background-color: #0000001a;
     display: flex;
     gap: 10px;
