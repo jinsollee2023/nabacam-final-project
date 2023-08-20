@@ -9,7 +9,9 @@ interface ApplicantResumeModalProps {
 
 const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
   // 바깥 영역 클릭 시 모달 닫기
-  const handleModalClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleModalClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
@@ -21,11 +23,24 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
           X
         </button>
         <div>
-          <p style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "10px" }}>
+          <p
+            style={{
+              fontSize: "20px",
+              fontWeight: "bold",
+              marginBottom: "10px",
+            }}
+          >
             {user.name}님이
             <br /> 이번 'OOO 프로젝트'에 지원하셨습니다.
           </p>
-          <div style={{ display: "flex", gap: "10px", textAlign: "center", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+              textAlign: "center",
+              alignItems: "center",
+            }}
+          >
             <div
               style={{
                 width: "80px",
@@ -40,9 +55,13 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
                 style={{ width: "100%", height: "100%" }}
               ></img>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
               <p>{user.name}</p>
-              <p style={{ fontSize: "14px", color: "gray" }}>{user.workField}</p>
+              <p style={{ fontSize: "14px", color: "gray" }}>
+                {user.workField}
+              </p>
             </div>
           </div>
           <div>
@@ -85,7 +104,9 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
                     height: "100px",
                   }}
                 ></div>
-                <p style={{ marginTop: "5px", fontSize: "14px" }}>UXUI 리디자인</p>
+                <p style={{ marginTop: "5px", fontSize: "14px" }}>
+                  UXUI 리디자인
+                </p>
               </div>
               <div>
                 <div
@@ -96,7 +117,9 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
                     height: "100px",
                   }}
                 ></div>
-                <p style={{ marginTop: "5px", fontSize: "14px" }}>개발 프로젝트</p>
+                <p style={{ marginTop: "5px", fontSize: "14px" }}>
+                  개발 프로젝트
+                </p>
               </div>
               <div>
                 <div
@@ -107,7 +130,9 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
                     height: "100px",
                   }}
                 ></div>
-                <p style={{ marginTop: "5px", fontSize: "14px" }}>앱 런칭 디자인</p>
+                <p style={{ marginTop: "5px", fontSize: "14px" }}>
+                  앱 런칭 디자인
+                </p>
               </div>
               <div>
                 <div
@@ -118,7 +143,9 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
                     height: "100px",
                   }}
                 ></div>
-                <p style={{ marginTop: "5px", fontSize: "14px" }}>실제 서비스 배포</p>
+                <p style={{ marginTop: "5px", fontSize: "14px" }}>
+                  실제 서비스 배포
+                </p>
               </div>
             </div>
           </div>

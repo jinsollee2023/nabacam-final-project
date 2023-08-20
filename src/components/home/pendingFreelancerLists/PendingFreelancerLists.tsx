@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const PendingFreelancerLists = () => {
-  return (
-    <div>PendingFreelancerLists</div>
-  )
-}
+  return <div>PendingFreelancerLists</div>;
+};
 
-export default PendingFreelancerLists
+export default PendingFreelancerLists;
