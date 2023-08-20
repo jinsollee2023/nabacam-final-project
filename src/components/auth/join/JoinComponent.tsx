@@ -145,7 +145,7 @@ const JoinComponent = () => {
               {errors.password && errors.password.type === "required" && (
                 <p>비밀번호를 입력하세요</p>
               )}
-              {/* {errors.password && errors.password.type === "minLength" && (
+              {errors.password && errors.password.type === "minLength" && (
                 <p>비밀번호는 최소 6자리 이상</p>
               )}
 
