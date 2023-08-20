@@ -9,7 +9,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <S.LayoutContainer>
       <Navbar />
-      <div>{children}</div>
+      <S.LayoutChildren>{children}</S.LayoutChildren>
     </S.LayoutContainer>
   );
 };
@@ -22,5 +22,9 @@ const S = {
     height: 100vh;
     margin: 0 auto;
     display: flex;
+  `,
+
+  LayoutChildren: styled.div`
+    width: 73vw;
   `
 }
