@@ -3,14 +3,9 @@ import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
 import { v4 as uuidv4 } from "uuid";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  getLoggedInFreelancerImage,
-  uploadLoggedInFreelancerImage,
-} from "src/api/User";
+import { getFreelancerImage, uploadFreelancerImage } from "src/api/User";
 
 const Image = () => {
-  // hooks
-  const queryClient = useQueryClient();
   // 상태관리
   const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -21,15 +16,16 @@ const Image = () => {
   // GET
   const { data: images = [] } = useQuery(
     ["images", userId],
-    () => getLoggedInFreelancerImage(userId),
+    () => getFreelancerImage(userId),
     {
       enabled: !!userId,
     }
   );
 
   // POST & UPDATE
+  const queryClient = useQueryClient();
   const uploadMutation = useMutation(
-    (file: File) => uploadLoggedInFreelancerImage(userId, file),
+    (file: File) => uploadFreelancerImage(userId, file),
     {
       onSuccess: () => queryClient.invalidateQueries(["images", userId]),
     }
@@ -47,7 +43,7 @@ const Image = () => {
     setIsFormVisible(!isFormVisible);
   };
 
-  console.log(images);
+  // console.log(images);
 
   return (
     <>

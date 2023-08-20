@@ -3,12 +3,9 @@ import EditForm from "./EditForm";
 import { styled } from "styled-components";
 import { useUserStore } from "src/zustand/useUserStore";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getLoggedInFreelancer } from "src/api/User";
+import { getFreelancer } from "src/api/User";
 
 const Info = () => {
-  //hooks
-  const queryClient = useQueryClient();
-
   // 상태관리
   const [open, setOpen] = useState<boolean>(false);
   const { userId } = useUserStore();
@@ -16,12 +13,12 @@ const Info = () => {
   // GET
   const { status, data: users } = useQuery(
     ["users", userId],
-    () => getLoggedInFreelancer(userId),
+    () => getFreelancer(userId),
     {
       enabled: !!userId,
     }
   );
-  console.log(users);
+  // console.log(users);
 
   return (
     <>

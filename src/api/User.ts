@@ -41,7 +41,7 @@ export const getClients = async () => {
   }
 };
 
-export const getLoggedInFreelancer = async (userId: string) => {
+export const getFreelancer = async (userId: string) => {
   let { data: users, error } = await supabase
     .from("users")
     .select("name, contact, workField, projectId")
@@ -51,11 +51,11 @@ export const getLoggedInFreelancer = async (userId: string) => {
 };
 
 // Add: 회원가입 시 추가
-// export const addLoggedInFreelancer = async () => {
+// export const addFreelancer = async () => {
 //   await supabase.from("users").insert().select()
 // }
 
-export const updateLoggedInFreelancer = async ({
+export const updateFreelancer = async ({
   updatedData,
   userId,
 }: {
@@ -71,7 +71,7 @@ export const updateLoggedInFreelancer = async ({
 };
 
 // 프로필 이미지
-export const getLoggedInFreelancerImage = async (userId: string) => {
+export const getFreelancerImage = async (userId: string) => {
   const { data, error } = await supabase.storage
     .from("users")
     .list(userId + "/", {
@@ -95,10 +95,7 @@ export const getLoggedInFreelancerImage = async (userId: string) => {
   return data || [];
 };
 
-export const uploadLoggedInFreelancerImage = async (
-  userId: string,
-  file: File
-) => {
+export const uploadFreelancerImage = async (userId: string, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
     .upload(userId + "/" + uuidv4(), file);
@@ -107,5 +104,14 @@ export const uploadLoggedInFreelancerImage = async (
     throw new Error("Error uploading image");
   }
 
+  return data;
+};
+
+// 이력서
+// export const getFreelancerResume = async () => {
+//   await supabase.from("users").
+// }
+export const addFreelancerResume = async (newData: object) => {
+  const { data, error } = await supabase.from("users").insert(newData).select();
   return data;
 };

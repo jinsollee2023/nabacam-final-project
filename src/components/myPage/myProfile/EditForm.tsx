@@ -1,8 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "antd";
 import React, { useState } from "react";
-import { queryClient } from "src/App";
-import { updateLoggedInFreelancer } from "src/api/User";
+import { updateFreelancer } from "src/api/User";
 import supabase from "src/config/supabaseClient";
 import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
@@ -22,13 +21,14 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen }) => {
   const { userId } = useUserStore();
 
   // UPDATE
-  const updateMutation = useMutation(updateLoggedInFreelancer, {
+  const queryClient = useQueryClient();
+  const updateMutation = useMutation(updateFreelancer, {
     onSuccess: () => {
       queryClient.invalidateQueries(["users", userId]);
     },
   });
 
-  const updateLoggedInFreelancerHandler = async (
+  const updateFreelancerHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
@@ -53,20 +53,17 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen }) => {
     updatedEmailInput.reset();
     updatedPhoneInput.reset();
     updatedProjectIdInput.reset();
-
     setOpen(false);
   };
 
-  // Event Handler
-  const handleCancel = () => {
-    setOpen(false);
-  };
   return (
     <Modal
       title="개인정보 수정"
       open={open}
-      onOk={updateLoggedInFreelancerHandler}
-      onCancel={handleCancel}
+      onOk={updateFreelancerHandler}
+      onCancel={() => {
+        setOpen(false);
+      }}
     >
       <form>
         <label>
