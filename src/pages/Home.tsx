@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FreelancerMarket from "../components/home/freelancerMarket/FreelancerMarket";
-import ApplicantFreelancerLists from "../components/home/ApplicantFreelancerLists";
+import ApplicantFreelancerList from "../components/home/applicantFreelancerList/ApplicantFreelancerList";
 import PendingFreelancerLists from "../components/home/pendingFreelancerLists/PendingFreelancerLists";
 import { styled } from "styled-components";
 
@@ -19,8 +19,8 @@ const Home = () => {
           프리랜서 마켓
         </S.MenuTab>
         <S.MenuTab
-          onClick={() => setActiveTab("applicantFreelancerLists")}
-          active={activeTab === "applicantFreelancerLists"}
+          onClick={() => setActiveTab("applicantFreelancerList")}
+          active={activeTab === "applicantFreelancerList"}
         >
           지원한 프리랜서 확인
         </S.MenuTab>
@@ -33,7 +33,7 @@ const Home = () => {
       </S.MenuTabBar>
       <S.CompContainer>
         {activeTab === "freelancerMarket" ? <FreelancerMarket /> : null}
-        {activeTab === "applicantFreelancerLists" ? <ApplicantFreelancerLists /> : null}
+        {activeTab === "applicantFreelancerLists" ? <ApplicantFreelancerList /> : null}
         {activeTab === "pendingFreelancerLists" ? <PendingFreelancerLists /> : null}
       </S.CompContainer>
     </>
@@ -60,7 +60,7 @@ const S = {
   MenuTab: styled.span<MenuTabProps>`
     margin: 0 20px;
     font-size: 15px;
-    font-weight: ${(props) => props.active ? 600:400};
+    font-weight: ${(props) => (props.active ? 600 : 400)};
     cursor: pointer;
   `,
   CompContainer: styled.div`
