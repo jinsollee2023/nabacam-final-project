@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  if (window.location.pathname === `/register`) {
+    return null;
+  }
+  if (window.location.pathname === `/login`) {
+    return null;
+  }
   return (
     <S.SidebarWrapper>
       <S.ProfileWrapper>
