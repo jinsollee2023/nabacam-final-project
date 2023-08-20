@@ -51,12 +51,4 @@ export interface Review {
   clientId: string;
 }
 
-export interface PortfolioIndexMap {
-  [freelancerId: string]: number;
-}
 
-const Types = () => {
-  return <div>Types</div>;
-};
-
-export default Types;
