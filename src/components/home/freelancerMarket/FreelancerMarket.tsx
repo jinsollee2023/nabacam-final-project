@@ -31,7 +31,9 @@ const FreelancerMarket = () => {
         const workExp = String(freelancer.workExp);
         return (
           freelancer.name.toLowerCase().includes(lowerCaseSearch) ||
-          freelancer.workField?.toLowerCase().includes(lowerCaseSearch) ||
+          freelancer.workField?.workField
+            .toLowerCase()
+            .includes(lowerCaseSearch) ||
           workExp === searchedKeyword
         );
       });
