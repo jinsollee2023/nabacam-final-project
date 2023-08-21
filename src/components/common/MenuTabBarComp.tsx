@@ -14,8 +14,9 @@ const MenuTabBarComp = ({ menu }: MenuTabBarCompProps) => {
   return (
     <>
       <S.MenuTabBar>
-        {menu.map((item) => (
+        {menu.map((item, index) => (
           <S.MenuTab
+            key={index}
             onClick={() => setCurrentTab(item)}
             fontWeight={currentTab === item ? 600 : 400}
           >

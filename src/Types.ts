@@ -7,6 +7,8 @@ export interface User {
   workField?: { workField: string; workSmallField: string };
   workExp?: string;
   contact: { email: string; phone: string };
+  singUpDate: string;
+  portfolioCount: number;
 }
 
 export interface IUser extends User {

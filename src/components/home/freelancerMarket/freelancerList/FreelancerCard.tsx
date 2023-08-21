@@ -1,15 +1,18 @@
 import React from "react";
 import { S } from "./freelancerList.styles";
 import { useQuery } from "@tanstack/react-query";
-import { getPortfolios } from "../../../api/Portfolio";
+import { getPortfolios } from "../../../../api/Portfolio";
 import { FaHandshakeSimple } from "react-icons/fa6";
-import { User } from "../../../Types";
+import { User } from "../../../../Types";
 import { PortfolioIndexMap } from "./FreelancerList";
+import { Spin } from "antd";
 
 interface FreelancerCardProps {
   freelancerItem: User;
   selectedPortfolioIndex: PortfolioIndexMap;
-  setSelectedPortfolioIndex: React.Dispatch<React.SetStateAction<PortfolioIndexMap>>;
+  setSelectedPortfolioIndex: React.Dispatch<
+    React.SetStateAction<PortfolioIndexMap>
+  >;
 }
 
 const FreelancerCard = ({
@@ -26,7 +29,12 @@ const FreelancerCard = ({
   });
 
   if (portfoliosIsLoading) {
-    return <span>portfolios Loading..</span>;
+    return (
+      <Spin
+        size="large"
+        style={{ position: "absolute", top: "50%", left: "50%" }}
+      />
+    );
   }
   if (portfoliosError) {
     return <span>portfolios Error..</span>;
@@ -37,23 +45,36 @@ const FreelancerCard = ({
       {portfoliosData && (
         <S.PortfolioList>
           {portfoliosData
-            .filter((portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId)
+            .filter(
+              (portfolioItem) =>
+                portfolioItem.freelancerId === freelancerItem.userId
+            )
             .map((filteredPortfolio, portfolioIndex) => (
               <S.PortfolioItem
                 key={filteredPortfolio.portfolioId}
-                isSelected={selectedPortfolioIndex[freelancerItem.userId] === portfolioIndex}
+                isSelected={
+                  selectedPortfolioIndex[freelancerItem.userId] ===
+                  portfolioIndex
+                }
               >
                 <S.PortfoliothumbNailImageBox>
-                  <img src={filteredPortfolio.thumbNailURL} alt="thumbnailImage" />
+                  <img
+                    src={filteredPortfolio.thumbNailURL}
+                    alt="thumbnailImage"
+                  />
                   <S.indicatorWrapper>
                     {portfoliosData
                       .filter(
-                        (portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId
+                        (portfolioItem) =>
+                          portfolioItem.freelancerId === freelancerItem.userId
                       )
                       .map((_, index) => (
                         <S.Indicator
                           key={index}
-                          selected={selectedPortfolioIndex[freelancerItem.userId] === index}
+                          selected={
+                            selectedPortfolioIndex[freelancerItem.userId] ===
+                            index
+                          }
                           onClick={() =>
                             setSelectedPortfolioIndex((prevSelected) => ({
                               ...prevSelected,
@@ -73,7 +94,8 @@ const FreelancerCard = ({
           {/* some → 주어진 판별 함수를 적오도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는 
                       포트폴리오들의 프리랜서 아이디 중에서 내가 지금 돌고있는 프리랜서의 아이디와 일치하는 것이 없다면 아래 jsx를 보여줌*/}
           {!portfoliosData.some(
-            (portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId
+            (portfolioItem) =>
+              portfolioItem.freelancerId === freelancerItem.userId
           ) && (
             <li>
               <S.PortfoliothumbNailImageBox>
@@ -83,7 +105,9 @@ const FreelancerCard = ({
                 />
               </S.PortfoliothumbNailImageBox>
               <S.PortfolioTitleBox>
-                <S.PortfolioTitle>등록된 포트폴리오가 없습니다.</S.PortfolioTitle>
+                <S.PortfolioTitle>
+                  등록된 포트폴리오가 없습니다.
+                </S.PortfolioTitle>
               </S.PortfolioTitleBox>
             </li>
           )}
@@ -93,8 +117,12 @@ const FreelancerCard = ({
       <S.MiniProfileBox>
         <S.FreelancerContentBox>
           <S.FreelancerName>{freelancerItem.name}</S.FreelancerName>
-          <S.FreelancerContent>{freelancerItem.workField?.workField}</S.FreelancerContent>
-          <S.FreelancerContent>{String(freelancerItem.workExp)}년차</S.FreelancerContent>
+          <S.FreelancerContent>
+            {freelancerItem.workField?.workSmallField}
+          </S.FreelancerContent>
+          <S.FreelancerContent>
+            {String(freelancerItem.workExp)}년차
+          </S.FreelancerContent>
         </S.FreelancerContentBox>
         <S.SuggestButton>
           <FaHandshakeSimple size="25" />
