@@ -76,7 +76,6 @@ const JoinComponent = () => {
     } catch (error) {
       console.log(error);
     }
-    navigate("/login");
   };
 
   const nameOnChange = (e: any) => {
