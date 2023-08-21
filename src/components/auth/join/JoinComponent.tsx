@@ -118,21 +118,29 @@ const JoinComponent = () => {
 
   const FreeLancerData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newUserData = {
-      userId: userData.id,
-      name,
-      role: "freelancer",
-      photoURL,
-      workField,
-      workExp,
-      contact: { email: userData.email, phone: phone },
-    };
-    try {
-      const { data, error } = await supabase.from("users").insert(newUserData);
-    } catch (error) {
-      console.log(error);
+
+    if (userData && userData.id) {
+      // userData가 null이 아니고 id 속성이 존재하는 경우
+      const newUserData = {
+        userId: userData.id,
+        name,
+        role: "freelancer",
+        photoURL,
+        workField,
+        workExp,
+        contact: { email: userData.email, phone: phone },
+      };
+      try {
+        const { data, error } = await supabase
+          .from("users")
+          .insert(newUserData);
+      } catch (error) {
+        console.log(error);
+      }
+      navigate("/login");
+    } else {
+      console.error("userData나 userData.id가 없습니다.");
     }
-    navigate("/login");
   };
 
   const nameOnChange = (e: any) => {

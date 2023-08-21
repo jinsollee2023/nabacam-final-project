@@ -14,6 +14,7 @@ const ResumeTab = () => {
   const pastWorkDateInput = useInput("");
 
   const { userId } = useUserStore();
+  console.log(userId);
 
   // select
   const options: SelectProps["options"] = []; // [{value: , label: }, {}, {}]
@@ -46,7 +47,7 @@ const ResumeTab = () => {
       pastWorkDate: pastWorkDateInput.value,
     };
     // 추가
-    addMutation.mutate({ newData });
+    addMutation.mutate({ newData, userId });
 
     // 입력창 비우고 모달 닫기
     pastWorkPlaceInput.reset();
@@ -76,7 +77,7 @@ const ResumeTab = () => {
       </S.WorkExperienceContainer>
       {open && (
         <Modal
-          title="개인정보 수정"
+          title="이력서 수정"
           open={open}
           onOk={addFreelancerResumeHandler}
           onCancel={() => {
@@ -85,13 +86,19 @@ const ResumeTab = () => {
         >
           <form>
             {/* ----------------select---------------- */}
-            <Select
-              mode="tags"
-              style={{ width: "100%" }}
-              placeholder="Tags Mode"
-              onChange={handleChange}
-              options={options}
-            />
+            <label>
+              근무분야(복수선택 가능)
+              <Select
+                mode="tags"
+                style={{ width: "100%" }}
+                placeholder="Tags Mode"
+                onChange={handleChange}
+                options={options}
+              />
+            </label>
+
+            <br />
+            <br />
             {/* --------------------------------------- */}
             <label>
               근무지:
@@ -101,6 +108,7 @@ const ResumeTab = () => {
                 onChange={pastWorkPlaceInput.onChange}
               />
             </label>
+            <br />
             <label>
               직책:
               <input
@@ -109,6 +117,7 @@ const ResumeTab = () => {
                 onChange={pastWorkPositionInput.onChange}
               />
             </label>
+            <br />
             <label>
               근무기간:
               <input

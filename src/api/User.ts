@@ -50,7 +50,6 @@ export const getFreelancer = async (userId: string) => {
   return users;
 };
 
-// Add: 회원가입 시 추가
 // export const addFreelancer = async () => {
 //   await supabase.from("users").insert().select()
 // }

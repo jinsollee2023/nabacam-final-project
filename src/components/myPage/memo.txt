@@ -18,15 +18,23 @@ const { data, error } = await supabase
   name: any, contact: any, workField: any, projectId: any, photoURL: any
 
 //
-    const getLoginUser = async () => {
-    const response = await supabase.auth.getUser();
-    const user = response.data.user;
-    console.log(user);
-    return user;
-  };
-  useEffect(() => {
-    getLoginUser();
-  }, []);
+export const addFreelancerResume = async ({
+  newData,
+  userId,
+}: {
+  newData: object;
+  userId: string;
+}) => {
+  const { data, error } = await supabase
+    .from("users")
+    .upsert({
+      userId: userId,
+      userResume: [newData],
+    })
+    .select();
+  return data;
+};
+
 
 
   
