@@ -3,6 +3,7 @@ import supabase from "../../../config/supabaseClient";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { Select } from "antd";
 
 interface FormValue {
   email: string;
@@ -25,7 +26,7 @@ const JoinComponent = () => {
   const [openClientProfill, setOpenClientProfill] = useState(false);
   const [openFreelancer, setOpenFreelancer] = useState(false);
   const [openFreelancerProfill, setOpenFreelancerProfill] = useState(false);
-
+  const [workSelect, setWorkSelect] = useState("");
   const [name, setName] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [workField, setWorkField] = useState("");
@@ -33,10 +34,17 @@ const JoinComponent = () => {
   const [phone, setPhone] = useState("");
   const role = workField ? "freelancer" : "client";
 
+  const onChange = (value: string) => {
+    console.log(`selected ${value}`);
+    setWorkSelect(value);
+  };
+
+  const onSearch = (value: string) => {
+    console.log("search:", value);
+  };
+
   const clientSignupHandler = async (formdata: any) => {
     const { email, password } = formdata;
-    setEmail("");
-    setPassword("");
 
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -58,6 +66,8 @@ const JoinComponent = () => {
     setOpenClientProfill(true);
     setOpenFreelancerProfill(true);
     setOpenClientJoin(false);
+    setEmail("");
+    setPassword("");
   };
 
   const userJoinData = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -67,7 +77,7 @@ const JoinComponent = () => {
       name,
       role: role,
       photoURL,
-      workField,
+      workField: { workField: workSelect, workSmallField: workField },
       workExp,
       contact: { email: userData.email, phone: phone },
     };
@@ -98,10 +108,17 @@ const JoinComponent = () => {
 
   const clientJoinHandler = () => {
     setOpenClientJoin(true);
+    setOpenFreelancer(false);
+    setOpenClientProfill(false);
+    setEmail("");
+    setPassword("");
   };
   const freelancerJoinHandler = () => {
     setOpenClientJoin(true);
     setOpenFreelancer(true);
+    setOpenClientProfill(false);
+    setEmail("");
+    setPassword("");
   };
   const cancel = () => {
     setOpenClientJoin(false);
@@ -120,8 +137,10 @@ const JoinComponent = () => {
             <div>
               <input
                 type="text"
+                defaultValue={""}
                 placeholder="e-mail"
                 {...register("email", {
+                  value: email,
                   required: true,
                   pattern: /^\S+@\S+$/i,
                 })}
@@ -138,8 +157,9 @@ const JoinComponent = () => {
                 type="password"
                 placeholder="비밀번호"
                 {...register("password", {
+                  value: password,
                   required: true,
-                  // minLength: 6,
+                  minLength: 6,
                 })}
               />
               {errors.password && errors.password.type === "required" && (
@@ -171,6 +191,34 @@ const JoinComponent = () => {
               onChange={photoURLOnChange}
               placeholder="photourl"
             />
+            {openFreelancer && openFreelancerProfill && (
+              <Select
+                showSearch
+                placeholder="Select a person"
+                optionFilterProp="children"
+                onChange={onChange}
+                onSearch={onSearch}
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={[
+                  {
+                    value: "design",
+                    label: "design",
+                  },
+                  {
+                    value: "lucy",
+                    label: "Lucy",
+                  },
+                  {
+                    value: "tom",
+                    label: "Tom",
+                  },
+                ]}
+              />
+            )}
             {openFreelancer && openFreelancerProfill && (
               <input
                 type="text"
