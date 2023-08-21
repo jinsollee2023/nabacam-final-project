@@ -7,7 +7,6 @@ import { User } from "../../../Types";
 import { PortfolioIndexMap } from "./FreelancerList";
 
 interface FreelancerCardProps {
-  freelancersData: User[];
   freelancerItem: User;
   selectedPortfolioIndex: PortfolioIndexMap;
   setSelectedPortfolioIndex: React.Dispatch<
@@ -16,7 +15,6 @@ interface FreelancerCardProps {
 }
 
 const FreelancerCard = ({
-  freelancersData,
   freelancerItem,
   selectedPortfolioIndex,
   setSelectedPortfolioIndex,
@@ -26,7 +24,7 @@ const FreelancerCard = ({
     error: portfoliosError,
     isLoading: portfoliosIsLoading,
   } = useQuery(["portfoliosData"], getPortfolios, {
-    enabled: !!freelancersData,
+    enabled: !!freelancerItem,
   });
 
   if (portfoliosIsLoading) {

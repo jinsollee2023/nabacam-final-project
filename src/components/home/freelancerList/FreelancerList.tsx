@@ -32,7 +32,6 @@ const FreelancerList = ({ freelancersData }: FreelancerListProps) => {
       {freelancersData?.map((freelancerItem) => (
         <div key={freelancerItem.userId}>
           <FreelancerCard
-            freelancersData={freelancersData}
             freelancerItem={freelancerItem}
             selectedPortfolioIndex={selectedPortfolioIndex}
             setSelectedPortfolioIndex={setSelectedPortfolioIndex}
