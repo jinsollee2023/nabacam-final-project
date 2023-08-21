@@ -50,7 +50,9 @@ export const S = {
     height: 100%;
     object-fit: cover;
   `,
-  ProjectTitle: styled.span``,
+  ProjectTitle: styled.span`
+    text-align: center;
+  `,
   BtnBox: styled.div`
     width: 100%;
   `,
