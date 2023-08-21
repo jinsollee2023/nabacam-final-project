@@ -7,19 +7,22 @@ export const S = {
     border: none;
   `,
   FilterBtn: styled.button`
+    width: 80px;
+    height: 25px;
     float: right;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
   `,
   Title: styled.span`
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
   `,
   List: styled.div`
     width: 100%;
-    background-color: #0000001a;
+    background-color: rgba(0, 0, 0, 0.1);
     display: flex;
-    gap: 10px;
-    margin: 10px;
+    margin-bottom: 25px;
     border-radius: 10px;
     align-items: center;
     overflow: auto;
@@ -38,12 +41,12 @@ export const S = {
     text-align: center;
   `,
   ImgBox: styled.div`
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 20%;
     overflow: hidden;
     margin: 8px;
-    background-color: #0000001a;
+    background-color: rgba(0, 0, 0, 0.1);
   `,
   Img: styled.img`
     width: 100%;
@@ -51,13 +54,18 @@ export const S = {
     object-fit: cover;
   `,
   ProjectTitle: styled.span`
-    text-align: center;
-  `,
-  BtnBox: styled.div`
-    width: 100%;
+    color: gray;
+    float: right;
+    /* text-align: right; */
   `,
   CheckingBtn: styled.button`
     float: right;
     margin-right: 10px;
+  `,
+  Btn: styled.button`
+    width: 50%;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
   `,
 };
