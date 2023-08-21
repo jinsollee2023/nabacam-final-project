@@ -68,4 +68,10 @@ export const S = {
     border: none;
     border-radius: 10px;
   `,
+  ModalTitle: styled.div`
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 30px;
+  `,
 };
