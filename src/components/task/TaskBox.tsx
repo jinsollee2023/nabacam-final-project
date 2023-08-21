@@ -1,10 +1,12 @@
 import TaskCard from "./TaskCard";
-import { styled } from "styled-components";
+import S from "./TaskStyles";
 import useTasksQueries from "../../hooks/useTasksQueries";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "../../api/Project";
 import { Select } from "antd";
+import { MdAddCircle } from "react-icons/md";
+import { Task } from "../../Types";
 
 const TaskBox = () => {
   const { data: projects } = useQuery(["projects"], async () => {
@@ -30,43 +32,72 @@ const TaskBox = () => {
     addTaskMutation.mutate();
   };
 
+  const monthlyTaskData: Map<string, Task[]> = new Map();
+
+  tasks?.forEach((task) => {
+    const month = `${new Date(task.taskDate).getMonth() + 1}`;
+    if (!monthlyTaskData.has(month)) {
+      monthlyTaskData.set(month, []);
+    }
+    monthlyTaskData.get(month)?.push(task);
+  });
+
   return (
-    <S.TaskBoxContainer>
-      <Select
-        showSearch
-        placeholder="Select a project"
-        optionFilterProp="children"
-        onChange={onChange}
-        value={projectId}
-        filterOption={(input, option) =>
-          (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-        }
-        options={
-          projects &&
-          projects.map((project) => {
-            return {
-              value: project.projectId,
-              label: project.title,
-            };
-          })
-        }
-        style={{ width: "200px" }}
-      />
+    <>
+      <S.SelectAddButtonContainer>
+        <Select
+          showSearch
+          placeholder="Select a project"
+          optionFilterProp="children"
+          onChange={onChange}
+          value={projectId}
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
+          options={
+            projects &&
+            projects.map((project) => {
+              return {
+                value: project.projectId,
+                label: project.title,
+              };
+            })
+          }
+          style={{ width: "200px" }}
+        />
+        <S.TaskAddButton onClick={addTaskButtonHandler}>
+          <MdAddCircle size="20" />
+        </S.TaskAddButton>
+      </S.SelectAddButtonContainer>
       <div>
-        {tasks &&
-          tasks.map((task) => {
-            return <TaskCard task={task} key={task.taskId} />;
-          })}
+        {Array.from(monthlyTaskData.entries()).map(
+          ([month, tasks]: [string, Task[]]) => {
+            const sortByMonthTasks = tasks.sort((a, b) => {
+              const dateA = new Date(a.deadLine).getTime();
+              const dateB = new Date(b.deadLine).getTime();
+              return dateA - dateB; // 오름차순 정렬
+            });
+
+            return (
+              <>
+                <S.ColumnLabelWrapper key={month}>
+                  <S.ColumnLabel width={200}>{`${month}월`}</S.ColumnLabel>
+                  <S.ColumnLabel width={150}>진행 상황</S.ColumnLabel>
+                  <S.ColumnLabel width={240}>마감 기한</S.ColumnLabel>
+                  <S.ColumnLabel width={200}>중요도</S.ColumnLabel>
+                </S.ColumnLabelWrapper>
+                <div>
+                  {sortByMonthTasks.map((task: Task) => (
+                    <TaskCard task={task} key={task.taskId} />
+                  ))}
+                </div>
+              </>
+            );
+          }
+        )}
       </div>
-      <div>
-        <button onClick={addTaskButtonHandler}>추가</button>
-      </div>
-    </S.TaskBoxContainer>
+    </>
   );
 };
 
 export default TaskBox;
-
-const S = {
-  TaskBoxContainer: styled.div``,
-};
