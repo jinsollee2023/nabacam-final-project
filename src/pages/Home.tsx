@@ -33,8 +33,12 @@ const Home = () => {
       </S.MenuTabBar>
       <S.CompContainer>
         {activeTab === "freelancerMarket" ? <FreelancerMarket /> : null}
-        {activeTab === "applicantFreelancerLists" ? <ApplicantFreelancerLists /> : null}
-        {activeTab === "pendingFreelancerLists" ? <PendingFreelancerLists /> : null}
+        {activeTab === "applicantFreelancerLists" ? (
+          <ApplicantFreelancerLists />
+        ) : null}
+        {activeTab === "pendingFreelancerLists" ? (
+          <PendingFreelancerLists />
+        ) : null}
       </S.CompContainer>
     </>
   );
@@ -60,7 +64,7 @@ const S = {
   MenuTab: styled.span<MenuTabProps>`
     margin: 0 20px;
     font-size: 15px;
-    font-weight: ${(props) => props.active ? 600:400};
+    font-weight: ${(props) => (props.active ? 600 : 400)};
     cursor: pointer;
   `,
   CompContainer: styled.div`
