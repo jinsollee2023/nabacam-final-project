@@ -139,7 +139,7 @@ const JoinComponent = () => {
                 placeholder="비밀번호"
                 {...register("password", {
                   required: true,
-                  minLength: 6,
+                  // minLength: 6,
                 })}
               />
               {errors.password && errors.password.type === "required" && (
