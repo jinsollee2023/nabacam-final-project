@@ -2,7 +2,7 @@ import { useState } from "react";
 import { styled } from "styled-components";
 import TaskBox from "../task/TaskBox";
 import FreelancerMarket from "../home/freelancerMarket/FreelancerMarket";
-import ApplicantFreelancerLists from "../home/ApplicantFreelancerLists";
+import ApplicantFreelancerList from "../home/applicantFreelancerList/ApplicantFreelancerList";
 import PendingFreelancerLists from "../home/pendingFreelancerLists/PendingFreelancerLists";
 
 interface MenuTabBarCompProps {
@@ -26,7 +26,7 @@ const MenuTabBarComp = ({ menu }: MenuTabBarCompProps) => {
       <S.CompContainer>
         {currentTab === "프로젝트 진행 상태" && <TaskBox />}
         {currentTab === "프리랜서 마켓" && <FreelancerMarket />}
-        {currentTab === "지원한 프리랜서 확인" && <ApplicantFreelancerLists />}
+        {currentTab === "지원한 프리랜서 확인" && <ApplicantFreelancerList />}
         {currentTab === "보류한 프리랜서" && <PendingFreelancerLists />}
       </S.CompContainer>
     </>

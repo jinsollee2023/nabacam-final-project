@@ -60,7 +60,7 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
             >
               <p>{user.name}</p>
               <p style={{ fontSize: "14px", color: "gray" }}>
-                {user.workField}
+                {user.workField?.workField}
               </p>
             </div>
           </div>

@@ -4,9 +4,13 @@ export interface User {
   name: string;
   photoURL: string;
   projectId: string;
-  workField?: string;
+  workField?: { workField: string; workSmallField: string };
   workExp?: string;
   contact: { email: string; phone: string };
+}
+
+export interface IUser extends User {
+  title: string;
 }
 
 export interface Project {
