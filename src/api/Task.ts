@@ -6,7 +6,7 @@ export const getTasks = async (projectId: string): Promise<Task[]> => {
     .from("tasks")
     .select("*")
     .eq("projectId", projectId)
-    .order("created_at", { ascending: true });
+    .order("taskDate", { ascending: true });
   return tasks as Task[];
 };
 
@@ -24,6 +24,7 @@ export const updateTask = async (
     status?: string;
     deadLine?: Date;
     importance?: number;
+    taskDate?: Date;
   }
 ): Promise<void> => {
   await supabase.from("tasks").update(column).eq("taskId", taskId).select();
