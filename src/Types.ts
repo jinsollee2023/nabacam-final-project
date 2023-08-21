@@ -34,6 +34,8 @@ export interface Task {
   status: string;
   deadLine: string;
   importance: number;
+  taskDate: Date;
+  created_at: Date;
 }
 
 export interface Portfolio {

@@ -1,92 +1,40 @@
-const Account = () => {
-  // useStates
-  const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState(null);
-  const [useremail, setUseremail] = useState(null);
-  const [userphone, setUserphone] = useState(null);
-  const [userworkField, setUserworkField] = useState(null);
-  const [userprojectId, setUserprojectId] = useState(null);
-  const [profileImgURL, setProfileImgURL] = useState(null);
+25:54
 
-  useEffect(() => {
-    getProfile();
-  }, []);
-  //
-  const getProfile = async () => {
-    try {
-      setLoading(true);
-      // const data = await supabase.auth.getUser();
-      // console.log(data);
+UPDATE MATCHING ROWS
+const { data, error } = await supabase
+  .from('users')
+  .update({ other_column: 'otherValue' })  // 이후
+  .eq('some_column', 'someValue') // 이전
+  .select()
 
-      let { data: users, error } = await supabase
-        .from("users")
-        .select("name, photoURL, contact, workField, projectId")
-        .eq("role", "freelancer")
-        .eq("userId", "df509ff5-cdd4-4b3a-9d5f-a69395a882a6");
-      // .single();
+UPSERT MATCHING ROWS
+const { data, error } = await supabase
+  .from('users')
+  .upsert({ some_column: 'someValue' })
+  .select()
 
-      console.log(users);
 
-      if (users) {
-        setUsername(users[0].name);
-        setProfileImgURL(users[0].photoURL);
-        setUseremail(users[0].contact.email);
-        setUserphone(users[0].contact.phone);
-        setUserworkField(users[0].workField);
-        setUserprojectId(users[0].projectId);
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  user?.name, user?.contact, user?.workField, user?.projectId, user?.photoURL
+  name: any, contact: any, workField: any, projectId: any, photoURL: any
 
-  return (
-    <>
-      {loading ? (
-        "Saving..."
-      ) : (
-        <section
-          style={{
-            display: "flex",
-            marginTop: "10px",
-            padding: "10px",
-            backgroundColor: "#f8f5ed",
-            border: "solid blue",
-          }}
-        >
-          <img
-            src={profileImgURL || ""}
-            alt="img"
-            width="40px"
-            height="40px"
-            style={{ marginLeft: "10px" }}
-          />
-          <div
-            style={{
-              marginLeft: "30px",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <h1>이름: {username}</h1>
-            <S.Info>직무: {userworkField}</S.Info>
-            <S.Info>현재 진행중인 프로젝트: {userprojectId}</S.Info>
-          </div>
-          <div
-            style={{
-              marginLeft: "30px",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <h1>연락망</h1>
-            <S.Info>전화번호: {userphone}</S.Info>
-            <S.Info>이메일: {useremail}</S.Info>
-          </div>
-        </section>
-      )}
-    </>
-  );
+//
+export const addFreelancerResume = async ({
+  newData,
+  userId,
+}: {
+  newData: object;
+  userId: string;
+}) => {
+  const { data, error } = await supabase
+    .from("users")
+    .upsert({
+      userId: userId,
+      userResume: [newData],
+    })
+    .select();
+  return data;
 };
+
+
+
+  

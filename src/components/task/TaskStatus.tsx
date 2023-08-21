@@ -22,7 +22,7 @@ const TaskStatus = ({ task }: TaskStatusProps) => {
     "Check",
     "Done",
     "Stuck",
-  ];
+  ].filter((status) => status !== task.status);
 
   const statusOptionOnClickHandler = (status: string) => {
     updateTaskStatusMutation.mutate({
