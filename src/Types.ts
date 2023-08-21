@@ -4,7 +4,7 @@ export interface User {
   name: string;
   photoURL: string;
   projectId: string;
-  workField?: string;
+  workField?: { workField: string; workSmallField: string };
   workExp?: string;
   contact: { email: string; phone: string };
 }
@@ -46,5 +46,3 @@ export interface Review {
   freelancerId: string;
   clientId: string;
 }
-
-

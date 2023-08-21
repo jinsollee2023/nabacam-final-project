@@ -18,7 +18,7 @@ const Info = () => {
       enabled: !!userId,
     }
   );
-  // console.log(users);
+  console.log(users);
 
   return (
     <>
@@ -30,7 +30,10 @@ const Info = () => {
         }}
       >
         <h1>{users && users[0]?.name}님 안녕하세요!</h1>
-        <S.Info>직무: {users && users[0]?.workField}</S.Info>
+        <S.Info>직무분야: {users && users[0]?.workField?.workField}</S.Info>
+        <S.Info>
+          세부분야: {users && users[0]?.workField?.workSmallField}
+        </S.Info>
         <S.Info>현재 진행중인 프로젝트: {users && users[0]?.projectId}</S.Info>
       </div>
       <div
