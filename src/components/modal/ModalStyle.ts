@@ -33,7 +33,7 @@ export const S = {
     padding-top: 20px;
   `,
   ModalContents: styled.div`
-    height: 540px;
+    height: 90%;
     overflow: auto;
   `,
   ModalBtnBox: styled.div`
