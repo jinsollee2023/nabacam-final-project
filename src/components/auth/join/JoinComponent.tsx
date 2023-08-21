@@ -18,21 +18,20 @@ const JoinComponent = () => {
     formState: { errors },
   } = useForm<FormValue>();
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState<any>("");
-  const [showClientEmail, setShowClientEmail] = useState(false);
-  const [showFreeLancerEmail, setFreeLancerEmail] = useState(false);
-
-  const [showClientJoin, setShowClientJoin] = useState(false);
-  const [showFreeLancerJoin, setShowFreeLancerJoin] = useState(false);
+  const [openClientJoin, setOpenClientJoin] = useState(false);
+  const [openClientProfill, setOpenClientProfill] = useState(false);
+  const [openFreelancer, setOpenFreelancer] = useState(false);
+  const [openFreelancerProfill, setOpenFreelancerProfill] = useState(false);
 
   const [name, setName] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [workField, setWorkField] = useState("");
   const [workExp, setWorkExp] = useState("");
   const [phone, setPhone] = useState("");
+  const role = workField ? "freelancer" : "client";
 
   const clientSignupHandler = async (formdata: any) => {
     const { email, password } = formdata;
@@ -56,53 +55,17 @@ const JoinComponent = () => {
     } catch (error) {
       console.error(error);
     }
-    setShowClientEmail(false);
-    setShowClientJoin(true);
+    setOpenClientProfill(true);
+    setOpenFreelancerProfill(true);
+    setOpenClientJoin(false);
   };
 
-  const freeLancerSignupHandler = async (formdata: any) => {
-    const { email, password } = formdata;
-    setEmail("");
-    setPassword("");
-
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email: formdata.email,
-        password: formdata.password,
-      });
-
-      const userId = async () => {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        setUserData(user);
-      };
-
-      userId();
-    } catch (error) {
-      console.error(error);
-    }
-    setFreeLancerEmail(false);
-    setShowFreeLancerJoin(true);
-  };
-
-  const handleClientJoin = () => {
-    setShowFreeLancerJoin(false);
-    setShowClientEmail(!showClientEmail);
-    setFreeLancerEmail(false);
-  };
-  const handleFreeLancerJoin = () => {
-    setShowClientJoin(false);
-    setFreeLancerEmail(!showFreeLancerEmail);
-    setShowClientEmail(false);
-  };
-
-  const ClientData = async (e: React.FormEvent<HTMLFormElement>) => {
+  const userJoinData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newUserData = {
       userId: userData.id,
       name,
-      role: "client",
+      role: role,
       photoURL,
       workField,
       workExp,
@@ -112,34 +75,6 @@ const JoinComponent = () => {
       const { data, error } = await supabase.from("users").insert(newUserData);
     } catch (error) {
       console.log(error);
-    }
-    navigate("/login");
-  };
-
-  const FreeLancerData = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (userData && userData.id) {
-      // userData가 null이 아니고 id 속성이 존재하는 경우
-      const newUserData = {
-        userId: userData.id,
-        name,
-        role: "freelancer",
-        photoURL,
-        workField,
-        workExp,
-        contact: { email: userData.email, phone: phone },
-      };
-      try {
-        const { data, error } = await supabase
-          .from("users")
-          .insert(newUserData);
-      } catch (error) {
-        console.log(error);
-      }
-      navigate("/login");
-    } else {
-      console.error("userData나 userData.id가 없습니다.");
     }
   };
 
@@ -160,16 +95,27 @@ const JoinComponent = () => {
     setPhone(e.target.value);
   };
 
+  const clientJoinHandler = () => {
+    setOpenClientJoin(true);
+  };
+  const freelancerJoinHandler = () => {
+    setOpenClientJoin(true);
+    setOpenFreelancer(true);
+  };
+  const cancel = () => {
+    setOpenClientJoin(false);
+  };
   return (
     <>
       <div>
+        {/* 안누름 */}
         <Stdiv>
-          <Stbutton onClick={handleClientJoin}>클라이언트</Stbutton>
-          <Stbutton onClick={handleFreeLancerJoin}>프리랜서</Stbutton>
+          <Stbutton onClick={clientJoinHandler}>클라이언트</Stbutton>
+          <Stbutton onClick={freelancerJoinHandler}>프리랜서</Stbutton>
         </Stdiv>
-        {showClientEmail && (
+        {openClientJoin && (
           <form onSubmit={handleSubmit(clientSignupHandler)}>
-            <h1>클라이언트</h1>
+            <h1>회원가입</h1>
             <div>
               <input
                 type="text"
@@ -192,7 +138,7 @@ const JoinComponent = () => {
                 placeholder="비밀번호"
                 {...register("password", {
                   required: true,
-                  minLength: 6,
+                  // minLength: 6,
                 })}
               />
               {errors.password && errors.password.type === "required" && (
@@ -201,54 +147,16 @@ const JoinComponent = () => {
               {errors.password && errors.password.type === "minLength" && (
                 <p>비밀번호는 최소 6자리 이상</p>
               )}
-              <button>다음</button>
-            </div>
-          </form>
-        )}
 
-        {showFreeLancerEmail && (
-          <form onSubmit={handleSubmit(freeLancerSignupHandler)}>
-            <h1>프리랜서</h1>
-
-            <div>
-              <input
-                type="text"
-                placeholder="e-mail"
-                {...register("email", {
-                  required: true,
-                  pattern: /^\S+@\S+$/i,
-                })}
-              />
-              {errors.email && errors.email.type === "required" && (
-                <p>메일을 입력하세요</p>
-              )}
-              {errors.email && errors.email.type === "pattern" && (
-                <p>올바른 메일 형식이 아닙니다</p>
-              )}
-            </div>
-            <div>
-              <input
-                type="password"
-                placeholder="비밀번호"
-                {...register("password", {
-                  required: true,
-                  minLength: 6,
-                })}
-              />
-              {errors.password && errors.password.type === "required" && (
-                <p>비밀번호를 입력하세요</p>
-              )}
-              {errors.password && errors.password.type === "minLength" && (
-                <p>비밀번호는 최소 6자리 이상</p>
-              )}
               <button>다음</button>
+              <button onClick={cancel}>취소</button>
             </div>
           </form>
         )}
 
         <br />
-        {showClientJoin && (
-          <form onSubmit={ClientData}>
+        {openClientProfill && (
+          <form onSubmit={userJoinData}>
             <input
               type="text"
               value={name}
@@ -262,48 +170,14 @@ const JoinComponent = () => {
               onChange={photoURLOnChange}
               placeholder="photourl"
             />
-            <input
-              type="text"
-              value={workField}
-              onChange={workFieldOnChange}
-              placeholder="작업영역"
-            />
-            <input
-              type="text"
-              value={workExp}
-              onChange={workExpOnChange}
-              placeholder="경험"
-            />
-            <input
-              type="text"
-              value={phone}
-              onChange={phoneOnChange}
-              placeholder="핸드폰"
-            />
-            <button>회원가입</button>
-          </form>
-        )}
-        {showFreeLancerJoin && (
-          <form onSubmit={FreeLancerData}>
-            <input
-              type="text"
-              value={name}
-              onChange={nameOnChange}
-              placeholder="이름"
-            />
-
-            <input
-              type="text"
-              value={photoURL}
-              onChange={photoURLOnChange}
-              placeholder="photourl"
-            />
-            <input
-              type="text"
-              value={workField}
-              onChange={workFieldOnChange}
-              placeholder="작업영역"
-            />
+            {openFreelancer && openFreelancerProfill && (
+              <input
+                type="text"
+                value={workField}
+                onChange={workFieldOnChange}
+                placeholder="작업영역"
+              />
+            )}
             <input
               type="text"
               value={workExp}

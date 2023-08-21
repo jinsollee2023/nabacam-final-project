@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  if (window.location.pathname === `/register`) {
+    return null;
+  }
+  if (window.location.pathname === `/login`) {
+    return null;
+  }
   return (
     <S.SidebarWrapper>
       <S.ProfileWrapper>
@@ -11,24 +17,22 @@ const Navbar = () => {
         <S.Role>프리랜서/클라이언트</S.Role>
       </S.ProfileWrapper>
       <S.UpperNavLinks>
-        <S.NavLinkItem>
-          <span onClick={() => navigate("/")}>프로젝트 탐색</span>
+        <S.NavLinkItem onClick={() => navigate("/")}>
+          프로젝트 탐색
         </S.NavLinkItem>
-        <S.NavLinkItem>
-          <span onClick={() => navigate("/project-management")}>
-            프로젝트 관리 도구
-          </span>
+        <S.NavLinkItem onClick={() => navigate("/project-management")}>
+          프로젝트 관리 도구
         </S.NavLinkItem>
       </S.UpperNavLinks>
 
       <S.Divider />
 
       <S.LowerNavLinks>
-        <S.NavLinkItem>
-          <span onClick={() => navigate("/my-page")}>내 프로필</span>
+        <S.NavLinkItem onClick={() => navigate("/my-page")}>
+          내 프로필
         </S.NavLinkItem>
-        <S.NavLinkItem>
-          <span onClick={() => navigate("/chat")}>커뮤니케이션</span>
+        <S.NavLinkItem onClick={() => navigate("/chat")}>
+          커뮤니케이션
         </S.NavLinkItem>
       </S.LowerNavLinks>
     </S.SidebarWrapper>
@@ -40,12 +44,12 @@ export default Navbar;
 const S = {
   SidebarWrapper: styled.div`
     position: sticky;
-    left: 30px;
     display: flex;
     flex-direction: column;
     background-color: #333333f7;
     color: white;
-    width: 200px;
+    width: 17vw;
+    min-width: 210px;
     padding: 20px;
     z-index: 999;
     height: 100vh;
@@ -74,7 +78,7 @@ const S = {
     padding: 0;
   `,
   Divider: styled.hr`
-    margin: 0px 0 20px;
+    margin: 20px 0;
     border: none;
     height: 1px;
     background-color: white;
@@ -84,6 +88,12 @@ const S = {
     padding: 0;
   `,
   NavLinkItem: styled.li`
-    margin-bottom: 20px;
+    cursor: pointer;
+    padding: 10px 5px;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+      background-color: gray;
+    }
   `,
 };

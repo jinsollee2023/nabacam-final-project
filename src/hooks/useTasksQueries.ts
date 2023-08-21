@@ -3,10 +3,14 @@ import { addTasks, deleteTask, getTasks, updateTask } from "../api/Task";
 import { queryClient } from "../App";
 
 const useTasksQueries = (projectId: string) => {
-  const { data: tasks } = useQuery(["tasks", projectId], async () => {
-    const tasksData = await getTasks(projectId);
-    return tasksData;
-  });
+  const { data: tasks } = useQuery(
+    ["tasks", projectId],
+    async () => {
+      const tasksData = await getTasks(projectId);
+      return tasksData;
+    },
+    { enabled: !!projectId }
+  );
 
   const addTaskMutation = useMutation(() => addTasks(projectId), {
     onSuccess: () => {

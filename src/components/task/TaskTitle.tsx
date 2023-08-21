@@ -31,7 +31,7 @@ const TaskTitle = ({ task }: TaskTitleProps) => {
   return (
     <S.TaskDetailBox width={200} onDoubleClick={handleTitleDoubleClick}>
       {isTitleEditable ? (
-        <input
+        <S.TaskTitleInput
           type="text"
           value={title}
           onChange={handleChange}
