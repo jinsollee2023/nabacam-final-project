@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import ResumeTab from "../components/myPage/tabs/ResumeTab";
+import ResumeTab from "../components/myPage/tabs/resumeTab/ResumeTab";
 import PortfolioTab from "../components/myPage/tabs/portfolioTab/PortfolioTab";
 import ContractInfoTab from "../components/myPage/tabs/ContractInfoTab";
 import FeedbackTab from "../components/myPage/tabs/FeedbackTab";

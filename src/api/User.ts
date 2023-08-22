@@ -143,10 +143,44 @@ export const getFreelancerImage = async (userId: string) => {
 
   return data || [];
 };
+export const getFreelancerPortfolioThumbnail = async (userId: string) => {
+  const { data, error } = await supabase.storage
+    .from("portfolioThumbnail")
+    .list(userId + "/", {
+      limit: 100,
+      offset: 0,
+      sortBy: { column: "name", order: "asc" },
+    });
+  if (error) {
+    throw new Error("Error loading images");
+  }
+  data.sort((a, b) => {
+    const timeA = new Date(a.created_at).getTime();
+    const timeB = new Date(b.created_at).getTime();
+
+    return timeB - timeA;
+  });
+
+  return data || [];
+};
 
 export const uploadFreelancerImage = async (userId: string, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
+    .upload(userId + "/" + uuidv4(), file);
+
+  if (error) {
+    throw new Error("Error uploading image");
+  }
+
+  return data;
+};
+export const uploadFreelancerPortfolioThumbnail = async (
+  userId: string,
+  file: File
+) => {
+  const { data, error } = await supabase.storage
+    .from("portfolioThumbnail")
     .upload(userId + "/" + uuidv4(), file);
 
   if (error) {
@@ -185,10 +219,44 @@ export const addFreelancerResumeProfileIntro = async ({
       userId: userId,
       role: freelancerRole,
       resumeProfileIntro: profileIntroText,
-      name: name /**info탭의 zustand name으로 upsert를 하는데, name이 ""으로 업데이트되는 issue*/,
+      name: name,
       photoURL: photoURL,
     })
     .select();
+  return data;
+};
+
+export const patchFreelancerResumeProfileIntro = async ({
+  editedProfileIntroText,
+  userId,
+  freelancerRole,
+  name,
+  photoURL,
+}: {
+  editedProfileIntroText: string;
+  userId: string;
+  freelancerRole: string;
+  name: string;
+  photoURL: string;
+}) => {
+  const { data, error } = await supabase
+    .from("users")
+    .upsert([
+      {
+        userId: userId,
+        resumeProfileIntro: editedProfileIntroText,
+        role: freelancerRole,
+        name: name,
+        photoURL: photoURL,
+      },
+    ])
+    .select();
+
+  if (error) {
+    // 오류 처리 (예: 오류 메시지 반환 또는 로깅)
+    throw new Error("Failed to update profile intro");
+  }
+
   return data;
 };
 

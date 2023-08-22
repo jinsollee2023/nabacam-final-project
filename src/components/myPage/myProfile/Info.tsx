@@ -43,7 +43,7 @@ const Info = () => {
         <S.Info>
           세부분야: {users && users[0]?.workField?.workSmallField}
         </S.Info>
-        <S.Info>현재 진행중인 프로젝트: {users && users[0]?.projectId}</S.Info>
+        {/* <S.Info>현재 진행중인 프로젝트: {users && users[0]?.projectId}</S.Info> */}
       </div>
       <div
         style={{
