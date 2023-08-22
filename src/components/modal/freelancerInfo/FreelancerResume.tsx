@@ -1,11 +1,16 @@
 import React from "react";
 import { S } from "./freelancerInfoStyle";
+import { IUser } from "src/Types";
 
-const FreelancerResume = () => {
+interface FreelancerResumeProps {
+  user: IUser;
+}
+
+const FreelancerResume = ({ user }: FreelancerResumeProps) => {
   return (
     <>
       <S.ResumeContent>프로필</S.ResumeContent>
-      <S.ProfileBox></S.ProfileBox>
+      <S.ProfileBox>{user.resumeProfileIntro}</S.ProfileBox>
       <S.ResumeContent>경력 사항</S.ResumeContent>
       <div style={{ display: "flex", gap: "10px" }}>
         <div

@@ -1,14 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { IUser } from "../../../Types";
+import { useQuery } from "@tanstack/react-query";
 import { getApplicantFreelancers } from "../../../api/ApplicantFreelancerList";
 import { S } from "./applicantFreelancerListStyle";
 import { TbArrowsUpDown } from "react-icons/tb";
-import ApplicantResumeModal from "./ApplicantResumeModal";
 import Modal from "../../modal/Modal";
+import FreelancerPortfolio from "../../modal/freelancerInfo/FreelancerPortfolio";
+import FreelancerResume from "../../modal/freelancerInfo/FreelancerResume";
+import FreelancerProfile from "../../modal/freelancerInfo/FreelancerProfile";
 
 const ApplicantFreelancerList = () => {
-  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
@@ -16,11 +16,6 @@ const ApplicantFreelancerList = () => {
     isLoading: applicantFreelancersIsLoading,
     isError: applicantFreelancersIsError,
   } = useQuery(["users"], getApplicantFreelancers);
-
-  // 모달을 닫으면, 선택한 프리랜서 정보 초기화
-  const handleCloseModal = () => {
-    setSelectedUser(null);
-  };
 
   return (
     <>
@@ -37,23 +32,16 @@ const ApplicantFreelancerList = () => {
             <S.List key={applicantFreelancer.userId}>
               <S.ListContents>
                 <S.ImgBox>
-                  <S.Img
-                    alt="profileImg"
-                    src={applicantFreelancer.photoURL}
-                  ></S.Img>
+                  <S.Img alt="profileImg" src={applicantFreelancer.photoURL}></S.Img>
                 </S.ImgBox>
-                <span style={{ width: "80px", textAlign: "left" }}>
-                  {applicantFreelancer.name}
-                </span>
+                <span style={{ width: "80px", textAlign: "left" }}>{applicantFreelancer.name}</span>
                 <div
                   style={{
                     width: "80%",
                   }}
                   key={applicantFreelancer.projectId}
                 >
-                  <S.ProjectTitle>
-                    "{applicantFreelancer.title}" 프로젝트에 지원
-                  </S.ProjectTitle>
+                  <S.ProjectTitle>"{applicantFreelancer.title}" 프로젝트에 지원</S.ProjectTitle>
                 </div>
               </S.ListContents>
               <div>
@@ -82,10 +70,47 @@ const ApplicantFreelancerList = () => {
                       </>
                     }
                   >
-                    <ApplicantResumeModal
-                      user={applicantFreelancer}
-                      onClose={handleCloseModal}
-                    />
+                    <S.ModalTitle>{applicantFreelancer.title} 프로젝트에 지원</S.ModalTitle>
+                    <FreelancerProfile user={applicantFreelancer} />
+                    <div style={{ color: "gray", fontSize: "14px" }}>
+                      <div style={{ display: "flex", width: "100%" }}>
+                        <div style={{ width: "100%" }}>
+                          <p>목표 기간</p>
+                          <div
+                            style={{
+                              backgroundColor: "rgba(0, 0, 0, 0.1)",
+                              width: "90%",
+                              height: "28px",
+                              borderRadius: "10px",
+                            }}
+                          ></div>
+                        </div>
+                        <div style={{ width: "100%" }}>
+                          <p>급여</p>
+                          <div
+                            style={{
+                              backgroundColor: "rgba(0, 0, 0, 0.1)",
+                              width: "90%",
+                              height: "28px",
+                              borderRadius: "10px",
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                      <p style={{ marginTop: "10px" }}>수정 이유</p>
+                      <div
+                        style={{
+                          backgroundColor: "rgba(0, 0, 0, 0.1)",
+                          width: "100%",
+                          height: "40px",
+                          borderRadius: "10px",
+                        }}
+                      ></div>
+                    </div>
+                    <div>
+                      <FreelancerResume user={applicantFreelancer} />
+                      <FreelancerPortfolio user={applicantFreelancer} />
+                    </div>
                   </Modal>
                 )}
               </div>
