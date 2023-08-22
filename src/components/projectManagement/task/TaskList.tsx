@@ -18,7 +18,7 @@ const TaskList = () => {
 
   useEffect(() => {
     if (projects && projects.length > 0) {
-      setProjectId(projects[0].projectId);
+      setProjectId(projects[0].projectId!);
     }
   }, [projects]);
 

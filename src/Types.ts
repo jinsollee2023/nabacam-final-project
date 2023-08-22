@@ -16,15 +16,15 @@ export interface IUser extends User {
 }
 
 export interface Project {
-  projectId: string;
+  projectId?: string;
   title: string;
   desc: string;
   clientId: string;
-  freelancerId: string;
-  deadLine: string;
+  freelancerId?: string;
+  deadLine: Date;
   pay: { min: number; max: number };
   status: string;
-  Volunteer: string[];
+  volunteer: string[];
 }
 
 export interface Task {

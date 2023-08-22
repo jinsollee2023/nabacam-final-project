@@ -1,11 +1,12 @@
 import { styled } from "styled-components";
 
-interface ProjectCardBoxProps {
-  justifyContent: string;
-}
-
 const S = {
-  ProjectCardBox: styled.div<ProjectCardBoxProps>`
+  ProjectContainer: styled.div`
+    overflow: auto;
+    width: 100%;
+    height: 73vh;
+  `,
+  ProjectCardBox: styled.div`
     background-color: aliceblue;
     width: 100%;
     height: 100px;
@@ -14,7 +15,7 @@ const S = {
     margin-bottom: 20px;
 
     display: flex;
-    justify-content: ${(props) => props.justifyContent};
+    justify-content: space-between;
     align-items: center;
   `,
   ProjcetTitleBox: styled.div`

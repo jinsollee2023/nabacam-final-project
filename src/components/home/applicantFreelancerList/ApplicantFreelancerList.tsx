@@ -9,6 +9,7 @@ import Modal from "../../modal/Modal";
 
 const ApplicantFreelancerList = () => {
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     data: applicantFreelancers,
@@ -36,22 +37,29 @@ const ApplicantFreelancerList = () => {
             <S.List key={applicantFreelancer.userId}>
               <S.ListContents>
                 <S.ImgBox>
-                  <S.Img alt="profileImg" src={applicantFreelancer.photoURL}></S.Img>
+                  <S.Img
+                    alt="profileImg"
+                    src={applicantFreelancer.photoURL}
+                  ></S.Img>
                 </S.ImgBox>
-                <span style={{ width: "80px", textAlign: "left" }}>{applicantFreelancer.name}</span>
+                <span style={{ width: "80px", textAlign: "left" }}>
+                  {applicantFreelancer.name}
+                </span>
                 <div
                   style={{
                     width: "80%",
                   }}
                   key={applicantFreelancer.projectId}
                 >
-                  <S.ProjectTitle>"{applicantFreelancer.title}" 프로젝트에 지원</S.ProjectTitle>
+                  <S.ProjectTitle>
+                    "{applicantFreelancer.title}" 프로젝트에 지원
+                  </S.ProjectTitle>
                 </div>
               </S.ListContents>
               <div>
-                <Modal
-                  triggerButtonLabel="확인하기"
-                  triggerButtonStyle={{
+                <button
+                  onClick={() => setIsModalOpen(!isModalOpen)}
+                  style={{
                     backgroundColor: "#1FC17D",
                     color: "white",
                     border: "none",
@@ -61,15 +69,26 @@ const ApplicantFreelancerList = () => {
                     float: "right",
                     marginRight: "10px",
                   }}
-                  buttons={
-                    <>
-                      <S.Btn>제안하기</S.Btn>
-                      <S.Btn>보류하기</S.Btn>
-                    </>
-                  }
                 >
-                  <ApplicantResumeModal user={applicantFreelancer} onClose={handleCloseModal} />
-                </Modal>
+                  확인하기
+                </button>
+                {isModalOpen && (
+                  <Modal
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    buttons={
+                      <>
+                        <S.Btn>제안하기</S.Btn>
+                        <S.Btn>보류하기</S.Btn>
+                      </>
+                    }
+                  >
+                    <ApplicantResumeModal
+                      user={applicantFreelancer}
+                      onClose={handleCloseModal}
+                    />
+                  </Modal>
+                )}
               </div>
             </S.List>
           ))
