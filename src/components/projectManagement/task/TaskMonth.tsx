@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Task } from "../../Types";
+import { Task } from "../../../Types";
 import S from "./TaskStyles";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import useTasksQueries from "../../hooks/useTasksQueries";
+import useTasksQueries from "../../../hooks/useTasksQueries";
 import { format } from "date-fns";
 
 interface TaskMonthProps {

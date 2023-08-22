@@ -1,14 +1,14 @@
 import TaskCard from "./TaskCard";
 import S from "./TaskStyles";
-import useTasksQueries from "../../hooks/useTasksQueries";
+import useTasksQueries from "../../../hooks/useTasksQueries";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getProjects } from "../../api/Project";
+import { getProjects } from "../../../api/Project";
 import { Select } from "antd";
 import { MdAddCircle } from "react-icons/md";
-import { Task } from "../../Types";
+import { Task } from "../../../Types";
 
-const TaskBox = () => {
+const TaskList = () => {
   const { data: projects } = useQuery(["projects"], async () => {
     const tasksData = await getProjects();
     return tasksData;
@@ -100,4 +100,4 @@ const TaskBox = () => {
   );
 };
 
-export default TaskBox;
+export default TaskList;

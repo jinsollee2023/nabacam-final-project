@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { S } from "./freelancerList.styles";
 
-import { User } from "../../../Types";
+import { User } from "../../../../Types";
 import FreelancerCard from "./FreelancerCard";
 
 export interface PortfolioIndexMap {
@@ -10,9 +10,13 @@ export interface PortfolioIndexMap {
 
 interface FreelancerListProps {
   freelancersData: User[];
+  selectedWorkField: string;
 }
 
-const FreelancerList = ({ freelancersData }: FreelancerListProps) => {
+const FreelancerList = ({
+  freelancersData,
+  selectedWorkField,
+}: FreelancerListProps) => {
   const [selectedPortfolioIndex, setSelectedPortfolioIndex] =
     useState<PortfolioIndexMap>({});
 
@@ -29,15 +33,22 @@ const FreelancerList = ({ freelancersData }: FreelancerListProps) => {
 
   return (
     <S.FreelancerListContainer>
-      {freelancersData?.map((freelancerItem) => (
-        <div key={freelancerItem.userId}>
-          <FreelancerCard
-            freelancerItem={freelancerItem}
-            selectedPortfolioIndex={selectedPortfolioIndex}
-            setSelectedPortfolioIndex={setSelectedPortfolioIndex}
-          />
-        </div>
-      ))}
+      {freelancersData
+        ?.filter(
+          (freelancer) =>
+            selectedWorkField === "전체보기" ||
+            freelancer.workField?.workField === selectedWorkField
+        )
+        .map((freelancerItem) => (
+          <div key={freelancerItem.userId}>
+            <FreelancerCard
+              key={freelancerItem.userId}
+              freelancerItem={freelancerItem}
+              selectedPortfolioIndex={selectedPortfolioIndex}
+              setSelectedPortfolioIndex={setSelectedPortfolioIndex}
+            />
+          </div>
+        ))}
     </S.FreelancerListContainer>
   );
 };

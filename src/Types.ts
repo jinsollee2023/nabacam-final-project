@@ -7,6 +7,8 @@ export interface User {
   workField?: { workField: string; workSmallField: string };
   workExp?: string;
   contact: { email: string; phone: string };
+  singUpDate: string;
+  portfolioCount: number;
 }
 
 export interface IUser extends User {
@@ -21,8 +23,9 @@ export interface Project {
   freelancerId: string;
   deadLine: string;
   pay: { min: number; max: number };
+  status: string;
+  Volunteer: string[];
   isDone: boolean;
-  volunteer: string[];
   pendingFreelancer: string[];
 }
 
