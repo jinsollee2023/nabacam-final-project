@@ -41,18 +41,15 @@ export const getClients = async () => {
   }
 };
 
+//------------------------------------------------------------------//
+// 마이페이지
 export const getFreelancer = async (userId: string) => {
   let { data: users, error } = await supabase
     .from("users")
-    .select("name, contact, workField, projectId")
+    .select("name, contact, workField, projectId, resumeProfileIntro")
     .eq("userId", userId);
-  // .single();
   return users;
 };
-
-// export const addFreelancer = async () => {
-//   await supabase.from("users").insert().select()
-// }
 
 export const updateFreelancer = async ({
   updatedData,
@@ -106,11 +103,114 @@ export const uploadFreelancerImage = async (userId: string, file: File) => {
   return data;
 };
 
-// 이력서
-// export const getFreelancerResume = async () => {
-//   await supabase.from("users").
-// }
-export const addFreelancerResume = async (newData: object) => {
-  const { data, error } = await supabase.from("users").insert(newData).select();
+//------------------------------------------------------------------//
+// 이력서 tab
+export const getFreelancerResumeProfileIntro = async (userId: string) => {
+  let { data, error } = await supabase
+    .from("users")
+    .select("resumeProfileIntro")
+    .eq("userId", userId);
   return data;
 };
+
+export const addFreelancerResumeProfileIntro = async ({
+  profileIntroText,
+  userId /** zustand */,
+  freelancerRole /** zustand */,
+  name /** zustand */,
+  photoURL,
+}: {
+  profileIntroText: string;
+  userId: string;
+  freelancerRole: string;
+  name: string;
+  photoURL: string;
+}) => {
+  const { data, error } = await supabase
+    .from("users")
+    .upsert({
+      userId: userId,
+      role: freelancerRole,
+      resumeProfileIntro: profileIntroText,
+      name: name /**info탭의 zustand name으로 upsert를 하는데, name이 ""으로 업데이트되는 issue*/,
+      photoURL: photoURL,
+    })
+    .select();
+  return data;
+};
+
+export const getFreelancerResumeExperience = async (userId: string) => {
+  let { data, error } = await supabase
+    .from("users")
+    .select("resumeExperience")
+    .eq("userId", userId);
+  return data;
+};
+
+export const addFreelancerResumeExperience = async ({
+  newData,
+  userId,
+  freelancerRole,
+  name,
+  photoURL,
+}: {
+  newData: object;
+  userId: string;
+  freelancerRole: string;
+  name: string;
+  photoURL: string;
+}) => {
+  // 기존 데이터 가져오기
+  const { data: existingData, error: existingError } = await supabase // existingData: [{resumeExperience: {…}}]
+    .from("users")
+    .select("resumeExperience")
+    .eq("userId", userId);
+
+  console.log(existingData);
+
+  // 병합된 데이터
+  if (existingData) {
+    const combinedData = {
+      resumeExperience: [
+        ...(existingData?.[0]?.resumeExperience || []),
+        newData,
+      ],
+    };
+    const { data, error } = await supabase
+      .from("users")
+      .upsert({
+        resumeExperience: combinedData.resumeExperience,
+        userId: userId,
+        role: freelancerRole,
+        name: name,
+        photoURL: photoURL,
+      })
+      .select();
+  }
+};
+
+// export const addFreelancerResumeExperience = async ({
+//   newData,
+//   userId,
+//   freelancerRole,
+//   name,
+//   photoURL,
+// }: {
+//   newData: object;
+//   userId: string;
+//   freelancerRole: string;
+//   name: string;
+//   photoURL: string;
+// }) => {
+//   const { data, error } = await supabase
+//     .from("users")
+//     .upsert({
+//       resumeExperience: newData,
+//       userId: userId,
+//       role: freelancerRole,
+//       name: name,
+//       photoURL: photoURL,
+//     })
+//     .select();
+//   return data;
+// };
