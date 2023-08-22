@@ -1,40 +1,88 @@
-25:54
+import ResumeProfileIntro from "src/components/myPage/tabs/resumeTab/ResumeProfileIntro";
+import { create } from "zustand";
 
-UPDATE MATCHING ROWS
-const { data, error } = await supabase
-  .from('users')
-  .update({ other_column: 'otherValue' })  // 이후
-  .eq('some_column', 'someValue') // 이전
-  .select()
-
-UPSERT MATCHING ROWS
-const { data, error } = await supabase
-  .from('users')
-  .upsert({ some_column: 'someValue' })
-  .select()
-
-
-  user?.name, user?.contact, user?.workField, user?.projectId, user?.photoURL
-  name: any, contact: any, workField: any, projectId: any, photoURL: any
-
-//
-export const addFreelancerResume = async ({
-  newData,
-  userId,
-}: {
-  newData: object;
+export type UserStore = {
   userId: string;
-}) => {
-  const { data, error } = await supabase
-    .from("users")
-    .upsert({
-      userId: userId,
-      userResume: [newData],
-    })
-    .select();
-  return data;
+  email: string;
+  freelancerRole: string;
+  name: string;
+  photoURL: string;
+  // name: string;
+  // projectId: string;
+  // resumeProfileIntro: string;
+
+  // contact: {
+  //   email: string;
+  //   phone: string;
+  // };
+  // workField: {
+  //   workField: string;
+  //   workSmallField: string;
+  // };
+  setUserId: (id: string) => void;
+  setFreelancerRole: (role: string) => void;
+  setUserName: (name: string) => void;
+  setUserPhotoURL: (photoURL: string) => void;
+  // setUserName: (name: string) => void;
+  // setProjectId: (projectId: string) => void;
+  // setResumeProfileIntro: (resumeProfileIntro: string) => void;
+
+  setUserEmail: (email: string) => void;
+  // setUserPhone: (phone: string) => void;
+  // setUserWorkField: (workField: string) => void;
+  // setUserWorkSmallField: (workSmallField: string) => void;
 };
 
+export const useUserStore = create<UserStore>((set) => ({
+  userId: "",
+  email: "",
+  freelancerRole: "freelancer",
+  name: "",
+  photoURL: "",
+  // name: "",
+  // projectId: "",
+  // resumeProfileIntro: "",
 
+  // contact: {
+  //   email: "",
+  //   phone: "",
+  // },
+  // workField: {
+  //   workField: "",
+  //   workSmallField: "",
+  // },
 
-  
+  setUserId: (userId) => set({ userId }),
+  // setUserName: (name) => set({ name }),
+  // setProjectId: (projectId) => set({ projectId }),
+  // setResumeProfileIntro: (resumeProfileIntro) => set({ resumeProfileIntro }),
+
+  setUserEmail: (email) => set({ email }),
+  setFreelancerRole: (freelancerRole) => set({ freelancerRole }),
+  setUserName: (name) => set({ name }),
+  setUserPhotoURL: (photoURL) => set({ photoURL }),
+  // setUserPhone: (phone) =>
+  //   set((state) => ({
+  //     ...state,
+  //     contact: {
+  //       ...state.contact,
+  //       phone,
+  //     },
+  //   })),
+  // setUserWorkField: (workField) =>
+  //   set((state) => ({
+  //     ...state,
+  //     workField: {
+  //       ...state.workField,
+  //       workField,
+  //     },
+  //   })),
+  // setUserWorkSmallField: (workSmallField) =>
+  //   set((state) => ({
+  //     ...state,
+  //     workField: {
+  //       ...state.workField,
+  //       workSmallField,
+  //     },
+  //   })),
+}));

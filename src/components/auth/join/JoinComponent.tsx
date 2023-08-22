@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import supabase from "../../../config/supabaseClient";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+import { Select } from "antd";
+import { useUserStore } from "src/zustand/useUserStore";
+// import ImagePreview from "./ProfileImg";
 interface FormValue {
   email: string;
   password: string;
 }
-
 const JoinComponent = () => {
   // useinput
-
   const {
     register,
     handleSubmit,
@@ -25,32 +25,45 @@ const JoinComponent = () => {
   const [openClientProfill, setOpenClientProfill] = useState(false);
   const [openFreelancer, setOpenFreelancer] = useState(false);
   const [openFreelancerProfill, setOpenFreelancerProfill] = useState(false);
-
+  const [workSelect, setWorkSelect] = useState("");
   const [name, setName] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [workField, setWorkField] = useState("");
   const [workExp, setWorkExp] = useState("");
   const [phone, setPhone] = useState("");
-  const role = workField ? "freelancer" : "client";
+  // const {
+  //   userId,
+  //   setUserId,
+  //   setFreelancerRole,
+  //   freelancerRole,
+  //   setUserName,
+  //   setUserPhotoURL,
+  // } = useUserStore(); // 추가
 
+  const handlePhotoURLOnChange = (url: any) => {
+    setPhotoURL(url);
+  };
+  const role = workField ? "freelancer" : "client";
+  const onChange = (value: string) => {
+    console.log(`selected ${value}`);
+    setWorkSelect(value);
+  };
+  const onSearch = (value: string) => {
+    console.log("search:", value);
+  };
   const clientSignupHandler = async (formdata: any) => {
     const { email, password } = formdata;
-    setEmail("");
-    setPassword("");
-
     try {
       const { data, error } = await supabase.auth.signUp({
         email: formdata.email,
         password: formdata.password,
       });
-
       const userId = async () => {
         const {
           data: { user },
         } = await supabase.auth.getUser();
         setUserData(user);
       };
-
       userId();
     } catch (error) {
       console.error(error);
@@ -58,8 +71,9 @@ const JoinComponent = () => {
     setOpenClientProfill(true);
     setOpenFreelancerProfill(true);
     setOpenClientJoin(false);
+    setEmail("");
+    setPassword("");
   };
-
   const userJoinData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newUserData = {
@@ -67,21 +81,37 @@ const JoinComponent = () => {
       name,
       role: role,
       photoURL,
-      workField,
+      workField: { workField: workSelect, workSmallField: workField },
       workExp,
       contact: { email: userData.email, phone: phone },
     };
     try {
-      const { data, error } = await supabase.from("users").insert(newUserData);
+      const { data, error } = await supabase
+        .from("users")
+        .insert(newUserData)
+        .select();
+      // console.log(data);
+
+      // if (data) {
+      //   // 추가
+      //   const { userId, role, name, photoURL } = data[0];
+      //   // console.log({ name, photoURL });
+      //   // zustand
+      //   if (userId) setUserId(userId);
+      //   if (role) setFreelancerRole(role);
+      //   if (name) setUserName(name);
+      //   if (photoURL) setUserPhotoURL(photoURL);
+
+      //   console.log({ userId, freelancerRole, name });
+      // }
     } catch (error) {
       console.log(error);
     }
+    setOpenClientProfill(false);
   };
-
   const nameOnChange = (e: any) => {
     setName(e.target.value);
   };
-
   const photoURLOnChange = (e: any) => {
     setPhotoURL(e.target.value);
   };
@@ -94,13 +124,19 @@ const JoinComponent = () => {
   const phoneOnChange = (e: any) => {
     setPhone(e.target.value);
   };
-
   const clientJoinHandler = () => {
     setOpenClientJoin(true);
+    setOpenFreelancer(false);
+    setOpenClientProfill(false);
+    setEmail("");
+    setPassword("");
   };
   const freelancerJoinHandler = () => {
     setOpenClientJoin(true);
     setOpenFreelancer(true);
+    setOpenClientProfill(false);
+    setEmail("");
+    setPassword("");
   };
   const cancel = () => {
     setOpenClientJoin(false);
@@ -119,8 +155,10 @@ const JoinComponent = () => {
             <div>
               <input
                 type="text"
+                defaultValue={""}
                 placeholder="e-mail"
                 {...register("email", {
+                  value: email,
                   required: true,
                   pattern: /^\S+@\S+$/i,
                 })}
@@ -137,8 +175,9 @@ const JoinComponent = () => {
                 type="password"
                 placeholder="비밀번호"
                 {...register("password", {
+                  value: password,
                   required: true,
-                  // minLength: 6,
+                  minLength: 6,
                 })}
               />
               {errors.password && errors.password.type === "required" && (
@@ -147,13 +186,11 @@ const JoinComponent = () => {
               {errors.password && errors.password.type === "minLength" && (
                 <p>비밀번호는 최소 6자리 이상</p>
               )}
-
               <button>다음</button>
               <button onClick={cancel}>취소</button>
             </div>
           </form>
         )}
-
         <br />
         {openClientProfill && (
           <form onSubmit={userJoinData}>
@@ -163,13 +200,50 @@ const JoinComponent = () => {
               onChange={nameOnChange}
               placeholder="이름"
             />
-
-            <input
-              type="text"
-              value={photoURL}
-              onChange={photoURLOnChange}
-              placeholder="photourl"
-            />
+            {/* <ImagePreview
+              photoURL={photoURL}
+              photoURLOnChange={handlePhotoURLOnChange}
+            /> */}
+            {openFreelancer && openFreelancerProfill && (
+              <Select
+                showSearch
+                placeholder="Select a person"
+                optionFilterProp="children"
+                onChange={onChange}
+                onSearch={onSearch}
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={[
+                  {
+                    value: "개발",
+                    label: "개발",
+                  },
+                  {
+                    value: "디자인",
+                    label: "디자인",
+                  },
+                  {
+                    value: "마케팅",
+                    label: "마케팅",
+                  },
+                  {
+                    value: "운영",
+                    label: "운영",
+                  },
+                  {
+                    value: "기획",
+                    label: "기획",
+                  },
+                  {
+                    value: "기타",
+                    label: "기타",
+                  },
+                ]}
+              />
+            )}
             {openFreelancer && openFreelancerProfill && (
               <input
                 type="text"
@@ -197,9 +271,7 @@ const JoinComponent = () => {
     </>
   );
 };
-
 export default JoinComponent;
-
 const Stdiv = styled.div`
   border: 1px solid black;
   width: 250px;
@@ -207,7 +279,6 @@ const Stdiv = styled.div`
   display: flex;
   margin-left: 25%;
 `;
-
 const Stbutton = styled.button`
   border: 1px solid black;
   justify-content: center;

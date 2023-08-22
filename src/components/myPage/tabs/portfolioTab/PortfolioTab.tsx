@@ -8,7 +8,7 @@ const PortfolioTab = () => {
         <S.PortfolioList>p1</S.PortfolioList>
         <S.PortfolioList>p2</S.PortfolioList>
         <S.PortfolioList>p3</S.PortfolioList>
-        <S.PortfolioList>+ 파일첨부하기</S.PortfolioList>
+        <S.PortfolioList onClick={() => {}}>+ 파일첨부하기</S.PortfolioList>
       </S.PortfolioListWrapper>
     </S.PortfolioListContainer>
   );
