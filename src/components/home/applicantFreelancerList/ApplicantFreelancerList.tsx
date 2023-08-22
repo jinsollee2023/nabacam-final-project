@@ -74,7 +74,6 @@ const ApplicantFreelancerList = () => {
                 </button>
                 {isModalOpen && (
                   <Modal
-                    isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
                     buttons={
                       <>
