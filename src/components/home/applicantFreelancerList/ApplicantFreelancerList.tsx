@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getApplicantFreelancers } from "../../../api/ApplicantFreelancerList";
 import { S } from "./applicantFreelancerListStyle";
@@ -9,6 +9,8 @@ import FreelancerResume from "../../modal/freelancerInfo/FreelancerResume";
 import FreelancerProfile from "../../modal/freelancerInfo/FreelancerProfile";
 
 const ApplicantFreelancerList = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const {
     data: applicantFreelancers,
     isLoading: applicantFreelancersIsLoading,
@@ -24,6 +26,7 @@ const ApplicantFreelancerList = () => {
             최신순 <TbArrowsUpDown />
           </S.FilterBtn>
         </div>
+
         {applicantFreelancers ? (
           applicantFreelancers.map((applicantFreelancer) => (
             <S.List key={applicantFreelancer.userId}>
@@ -32,12 +35,9 @@ const ApplicantFreelancerList = () => {
                   <S.Img alt="profileImg" src={applicantFreelancer.photoURL}></S.Img>
                 </S.ImgBox>
                 <span style={{ width: "80px", textAlign: "left" }}>{applicantFreelancer.name}</span>
-                <span style={{ width: "150px", textAlign: "left", color: "gray" }}>
-                  #스타트업 개발자
-                </span>
                 <div
                   style={{
-                    width: "70%",
+                    width: "80%",
                   }}
                   key={applicantFreelancer.projectId}
                 >
@@ -45,9 +45,9 @@ const ApplicantFreelancerList = () => {
                 </div>
               </S.ListContents>
               <div>
-                <Modal
-                  triggerButtonLabel="확인하기"
-                  triggerButtonStyle={{
+                <button
+                  onClick={() => setIsModalOpen(!isModalOpen)}
+                  style={{
                     backgroundColor: "#1FC17D",
                     color: "white",
                     border: "none",
@@ -57,55 +57,63 @@ const ApplicantFreelancerList = () => {
                     float: "right",
                     marginRight: "10px",
                   }}
-                  buttons={
-                    <>
-                      <S.Btn>제안하기</S.Btn>
-                      <S.Btn onClick={() => alert("test")}>보류하기</S.Btn>
-                    </>
-                  }
                 >
-                  <S.ModalTitle>{applicantFreelancer.title} 프로젝트에 지원</S.ModalTitle>
-                  <FreelancerProfile user={applicantFreelancer} />
-                  <div style={{ color: "gray", fontSize: "14px" }}>
-                    <div style={{ display: "flex", width: "100%" }}>
-                      <div style={{ width: "100%" }}>
-                        <p>목표 기간</p>
-                        <div
-                          style={{
-                            backgroundColor: "rgba(0, 0, 0, 0.1)",
-                            width: "90%",
-                            height: "28px",
-                            borderRadius: "10px",
-                          }}
-                        ></div>
+                  확인하기
+                </button>
+                {isModalOpen && (
+                  <Modal
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    buttons={
+                      <>
+                        <S.Btn>제안하기</S.Btn>
+                        <S.Btn>보류하기</S.Btn>
+                      </>
+                    }
+                  >
+                    <S.ModalTitle>{applicantFreelancer.title} 프로젝트에 지원</S.ModalTitle>
+                    <FreelancerProfile user={applicantFreelancer} />
+                    <div style={{ color: "gray", fontSize: "14px" }}>
+                      <div style={{ display: "flex", width: "100%" }}>
+                        <div style={{ width: "100%" }}>
+                          <p>목표 기간</p>
+                          <div
+                            style={{
+                              backgroundColor: "rgba(0, 0, 0, 0.1)",
+                              width: "90%",
+                              height: "28px",
+                              borderRadius: "10px",
+                            }}
+                          ></div>
+                        </div>
+                        <div style={{ width: "100%" }}>
+                          <p>급여</p>
+                          <div
+                            style={{
+                              backgroundColor: "rgba(0, 0, 0, 0.1)",
+                              width: "90%",
+                              height: "28px",
+                              borderRadius: "10px",
+                            }}
+                          ></div>
+                        </div>
                       </div>
-                      <div style={{ width: "100%" }}>
-                        <p>급여</p>
-                        <div
-                          style={{
-                            backgroundColor: "rgba(0, 0, 0, 0.1)",
-                            width: "90%",
-                            height: "28px",
-                            borderRadius: "10px",
-                          }}
-                        ></div>
-                      </div>
+                      <p style={{ marginTop: "10px" }}>수정 이유</p>
+                      <div
+                        style={{
+                          backgroundColor: "rgba(0, 0, 0, 0.1)",
+                          width: "100%",
+                          height: "40px",
+                          borderRadius: "10px",
+                        }}
+                      ></div>
                     </div>
-                    <p style={{ marginTop: "10px" }}>수정 이유</p>
-                    <div
-                      style={{
-                        backgroundColor: "rgba(0, 0, 0, 0.1)",
-                        width: "100%",
-                        height: "40px",
-                        borderRadius: "10px",
-                      }}
-                    ></div>
-                  </div>
-                  <div>
-                    <FreelancerResume user={applicantFreelancer} />
-                    <FreelancerPortfolio user={applicantFreelancer} />
-                  </div>
-                </Modal>
+                    <div>
+                      <FreelancerResume user={applicantFreelancer} />
+                      <FreelancerPortfolio user={applicantFreelancer} />
+                    </div>
+                  </Modal>
+                )}
               </div>
             </S.List>
           ))
