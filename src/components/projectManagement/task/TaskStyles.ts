@@ -11,7 +11,7 @@ interface ColumnLabelProps {
 }
 
 const S = {
-  TaskCardContainer: styled.div`
+  TaskCardBox: styled.div`
     display: flex;
   `,
   TaskDetailBox: styled.div<TaskDetailBoxProps>`
