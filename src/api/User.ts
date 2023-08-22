@@ -81,6 +81,7 @@ export const getFreelancerImage = async (userId: string) => {
   if (error) {
     throw new Error("Error loading images");
   }
+
   /**
    * storage에서 시간순으로 정렬해주는 api를 못찾아서 직접 정렬해줌
    */
@@ -95,6 +96,18 @@ export const getFreelancerImage = async (userId: string) => {
 };
 
 export const uploadFreelancerImage = async (userId: string, file: File) => {
+  const { data, error } = await supabase.storage
+    .from("users")
+    .upload(userId + "/" + uuidv4(), file);
+
+  if (error) {
+    throw new Error("Error uploading image");
+  }
+
+  return data;
+};
+
+export const uploadUserImage = async (userId: any, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
     .upload(userId + "/" + uuidv4(), file);

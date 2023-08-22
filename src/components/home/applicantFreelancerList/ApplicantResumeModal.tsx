@@ -21,7 +21,9 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
   // console.log(portfolio);
 
   // 바깥 영역 클릭 시 모달 닫기
-  const handleModalClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleModalClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
@@ -38,8 +40,15 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
             </S.ProfileImgBox>
             <S.UserBox>
               <p style={{ display: "flex" }}>{user.name}</p>
-              <div style={{ display: "flex", gap: "5px", color: "gray", fontSize: "13px" }}>
-                <S.UserWorkField>{user.workField}</S.UserWorkField>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "5px",
+                  color: "gray",
+                  fontSize: "13px",
+                }}
+              >
+                {/* <S.UserWorkField>{user.workField}</S.UserWorkField> */}
                 <p>{user.workExp}년차</p>
               </div>
               <div
@@ -133,7 +142,9 @@ const ApplicantResumeModal = ({ user, onClose }: ApplicantResumeModalProps) => {
                     {/* <a href={data.pdfFileURL} download="portfolio.pdf">
                         test
                       </a> */}
-                    <p style={{ marginTop: "5px", fontSize: "14px" }}>{data.title}</p>
+                    <p style={{ marginTop: "5px", fontSize: "14px" }}>
+                      {data.title}
+                    </p>
                   </div>
                 ))
               ) : portfolioIsLoading ? (

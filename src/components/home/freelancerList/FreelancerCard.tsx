@@ -111,7 +111,7 @@ const FreelancerCard = ({
       <S.MiniProfileBox>
         <S.FreelancerContentBox>
           <S.FreelancerName>{freelancerItem.name}</S.FreelancerName>
-          <S.FreelancerContent>{freelancerItem.workField}</S.FreelancerContent>
+          {/* <S.FreelancerContent>{freelancerItem.workField}</S.FreelancerContent> */}
           <S.FreelancerContent>
             {String(freelancerItem.workExp)}년차
           </S.FreelancerContent>
