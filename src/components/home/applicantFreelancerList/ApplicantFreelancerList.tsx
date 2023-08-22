@@ -5,6 +5,7 @@ import { getApplicantFreelancers } from "../../../api/ApplicantFreelancerList";
 import { S } from "./applicantFreelancerListStyle";
 import { TbArrowsUpDown } from "react-icons/tb";
 import ApplicantResumeModal from "./ApplicantResumeModal";
+import Modal from "../../modal/Modal";
 
 const ApplicantFreelancerList = () => {
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
@@ -14,11 +15,6 @@ const ApplicantFreelancerList = () => {
     isLoading: applicantFreelancersIsLoading,
     isError: applicantFreelancersIsError,
   } = useQuery(["users"], getApplicantFreelancers);
-
-  // 프리랜서를 선택하면 해당 프리랜서 정보를 상태로 저장
-  const handleSelectUser = (user: IUser) => {
-    setSelectedUser(user);
-  };
 
   // 모달을 닫으면, 선택한 프리랜서 정보 초기화
   const handleCloseModal = () => {
@@ -34,31 +30,54 @@ const ApplicantFreelancerList = () => {
             최신순 <TbArrowsUpDown />
           </S.FilterBtn>
         </div>
+
         {applicantFreelancers ? (
           applicantFreelancers.map((applicantFreelancer) => (
             <S.List key={applicantFreelancer.userId}>
               <S.ListContents>
                 <S.ImgBox>
-                  <S.Img alt="이미지 준비중" src={applicantFreelancer.photoURL}></S.Img>
+                  <S.Img alt="profileImg" src={applicantFreelancer.photoURL}></S.Img>
                 </S.ImgBox>
-                <span>{applicantFreelancer.name}</span>
-                <div key={applicantFreelancer.projectId}>
+                <span style={{ width: "80px", textAlign: "left" }}>{applicantFreelancer.name}</span>
+                <div
+                  style={{
+                    width: "80%",
+                  }}
+                  key={applicantFreelancer.projectId}
+                >
                   <S.ProjectTitle>"{applicantFreelancer.title}" 프로젝트에 지원</S.ProjectTitle>
                 </div>
               </S.ListContents>
-              <S.BtnBox>
-                <S.CheckingBtn onClick={() => handleSelectUser(applicantFreelancer)}>
-                  확인하기
-                </S.CheckingBtn>
-              </S.BtnBox>
+              <div>
+                <Modal
+                  triggerButtonLabel="확인하기"
+                  triggerButtonStyle={{
+                    backgroundColor: "#1FC17D",
+                    color: "white",
+                    border: "none",
+                    width: "100px",
+                    height: "30px",
+                    borderRadius: "8px",
+                    float: "right",
+                    marginRight: "10px",
+                  }}
+                  buttons={
+                    <>
+                      <S.Btn>제안하기</S.Btn>
+                      <S.Btn>보류하기</S.Btn>
+                    </>
+                  }
+                >
+                  <ApplicantResumeModal user={applicantFreelancer} onClose={handleCloseModal} />
+                </Modal>
+              </div>
             </S.List>
           ))
         ) : applicantFreelancersIsLoading ? (
           <div>Loading applicant freelancerList...</div>
         ) : applicantFreelancersIsError ? (
-          <div>지원한 프리렌서 데이터를 불러오지 못했습니다.</div>
+          <div>지원한 프리랜서 데이터를 불러오지 못했습니다.</div>
         ) : null}
-        {selectedUser && <ApplicantResumeModal user={selectedUser} onClose={handleCloseModal} />}
       </div>
     </>
   );

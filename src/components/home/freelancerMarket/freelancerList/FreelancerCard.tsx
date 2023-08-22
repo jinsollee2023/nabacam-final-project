@@ -1,10 +1,11 @@
 import React from "react";
 import { S } from "./freelancerList.styles";
 import { useQuery } from "@tanstack/react-query";
-import { getPortfolios } from "../../../api/Portfolio";
+import { getPortfolios } from "../../../../api/Portfolio";
 import { FaHandshakeSimple } from "react-icons/fa6";
-import { User } from "../../../Types";
+import { User } from "../../../../Types";
 import { PortfolioIndexMap } from "./FreelancerList";
+import { Spin } from "antd";
 
 interface FreelancerCardProps {
   freelancerItem: User;
@@ -28,7 +29,12 @@ const FreelancerCard = ({
   });
 
   if (portfoliosIsLoading) {
-    return <span>portfolios Loading..</span>;
+    return (
+      <Spin
+        size="large"
+        style={{ position: "absolute", top: "50%", left: "50%" }}
+      />
+    );
   }
   if (portfoliosError) {
     return <span>portfolios Error..</span>;
@@ -112,7 +118,7 @@ const FreelancerCard = ({
         <S.FreelancerContentBox>
           <S.FreelancerName>{freelancerItem.name}</S.FreelancerName>
           <S.FreelancerContent>
-            {freelancerItem.workField?.workField}
+            {freelancerItem.workField?.workSmallField}
           </S.FreelancerContent>
           <S.FreelancerContent>
             {String(freelancerItem.workExp)}년차
