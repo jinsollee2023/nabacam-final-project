@@ -166,7 +166,7 @@ export const addFreelancerResumeExperience = async ({
     .select("resumeExperience")
     .eq("userId", userId);
 
-  console.log(existingData);
+  // console.log(existingData);
 
   /**
    * existingData = [

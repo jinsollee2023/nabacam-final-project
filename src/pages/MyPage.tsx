@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import ResumeTab from "../components/myPage/tabs/ResumeTab";
-import PortfolioTab from "../components/myPage/tabs/PortfolioTab";
+import PortfolioTab from "../components/myPage/tabs/portfolioTab/PortfolioTab";
 import ContractInfoTab from "../components/myPage/tabs/ContractInfoTab";
 import FeedbackTab from "../components/myPage/tabs/FeedbackTab";
 import supabase from "../config/supabaseClient";
