@@ -81,8 +81,8 @@ const ResumeExperience = () => {
       <S.WorkExperienceContainer>
         <p>경력사항</p>
         <S.WorkExperienceListWrapper>
-          {/* {experienceInfo &&
-            experienceInfo[0]?.resumeExperience.map(
+          {experienceInfo &&
+            experienceInfo[0]?.resumeExperience?.map(
               (item: Experience, index: number) => (
                 <S.WorkExperienceList key={index}>
                   <div>{item.pastWorkPlace}</div>
@@ -93,7 +93,7 @@ const ResumeExperience = () => {
                   </div>
                 </S.WorkExperienceList>
               )
-            )} */}
+            )}
         </S.WorkExperienceListWrapper>
         <S.WorkExperienceAddBtn
           onClick={() => {
