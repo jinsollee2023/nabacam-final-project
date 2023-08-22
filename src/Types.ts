@@ -25,7 +25,7 @@ export interface Project {
   deadLine: Date;
   pay: { min: number; max: number };
   status: string;
-  volunteer: string[];
+  volunteer?: string[];
   pendingFreelancer?: string[];
 }
 

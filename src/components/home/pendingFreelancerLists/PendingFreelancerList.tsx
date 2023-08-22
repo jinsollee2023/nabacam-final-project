@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getPendingFreelancers } from "../../../api/ApplicantFreelancerList";
 import { S } from "../applicantFreelancerList/applicantFreelancerListStyle";
-import { TbArrowsUpDown } from "react-icons/tb";
 import Modal from "../../modal/Modal";
 import FreelancerPortfolio from "../../modal/freelancerInfo/FreelancerPortfolio";
 import FreelancerResume from "../../modal/freelancerInfo/FreelancerResume";
 import FreelancerProfile from "../../modal/freelancerInfo/FreelancerProfile";
 
-const PendingFreelancerLists = () => {
+const PendingFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
@@ -21,12 +20,6 @@ const PendingFreelancerLists = () => {
     <>
       <div>
         <S.Title>보류한 프리랜서들을 확인해보세요.</S.Title>
-        <div style={{ width: "100%" }}>
-          <S.FilterBtn>
-            최신순 <TbArrowsUpDown />
-          </S.FilterBtn>
-        </div>
-
         {pendingFreelancers ? (
           pendingFreelancers.map((pendingFreelancer) => (
             <S.List key={pendingFreelancer.userId}>
@@ -127,4 +120,4 @@ const PendingFreelancerLists = () => {
   );
 };
 
-export default PendingFreelancerLists;
+export default PendingFreelancerList;

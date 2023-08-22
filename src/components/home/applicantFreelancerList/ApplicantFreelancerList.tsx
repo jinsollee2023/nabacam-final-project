@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getApplicantFreelancers } from "../../../api/ApplicantFreelancerList";
 import { S } from "./applicantFreelancerListStyle";
-import { TbArrowsUpDown } from "react-icons/tb";
 import Modal from "../../modal/Modal";
 import FreelancerPortfolio from "../../modal/freelancerInfo/FreelancerPortfolio";
 import FreelancerResume from "../../modal/freelancerInfo/FreelancerResume";
@@ -21,11 +20,6 @@ const ApplicantFreelancerList = () => {
     <>
       <div>
         <S.Title>지원한 프리랜서들을 확인해보세요.</S.Title>
-        <div style={{ width: "100%" }}>
-          <S.FilterBtn>
-            최신순 <TbArrowsUpDown />
-          </S.FilterBtn>
-        </div>
 
         {applicantFreelancers ? (
           applicantFreelancers.map((applicantFreelancer) => (

@@ -19,7 +19,7 @@ export const S = {
     font-weight: bold;
   `,
   List: styled.div`
-    margin-top: 20px;
+    margin-top: 30px;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.1);
     display: flex;
