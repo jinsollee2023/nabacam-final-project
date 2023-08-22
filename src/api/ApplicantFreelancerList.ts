@@ -20,12 +20,15 @@ export const getApplicantFreelancers = async (): Promise<IUser[]> => {
 
     for (const info of findByProjects.data) {
       // 해당 프로젝트에 지원한 프리랜서 찾기
-      const findByUsers = await supabase.from("users").select().in("userId", info.volunteer);
+      const findByApplicantUsers = await supabase
+        .from("users")
+        .select()
+        .in("userId", info.volunteer);
 
-      // 프리랜서 데이터가 있는 경우, 'usersArr'에 추가
-      if (findByUsers.data) {
+      // 지원한 프리랜서 데이터가 있는 경우, 'ApplicantFreelancersArr'에 추가
+      if (findByApplicantUsers.data) {
         ApplicantFreelancersArr.push(
-          ...findByUsers.data.map((x) => {
+          ...findByApplicantUsers.data.map((x) => {
             return { title: info.title, ...x };
           })
         );
@@ -57,21 +60,21 @@ export const getPendingFreelancers = async (): Promise<IUser[]> => {
 
     for (const info of findByProjects.data) {
       // 보류된 프리랜서 찾기
-      const findByUsers = await supabase
+      const findByPendingUsers = await supabase
         .from("users")
         .select()
         .in("userId", info.pendingFreelancer);
 
-      // 프리랜서 데이터가 있는 경우, 'usersArr'에 추가
-      if (findByUsers.data) {
+      // 보류된 프리랜서 데이터가 있는 경우, 'PendingFreelancersArr'에 추가
+      if (findByPendingUsers.data) {
         PendingFreelancersArr.push(
-          ...findByUsers.data.map((x) => {
+          ...findByPendingUsers.data.map((x) => {
             return { title: info.title, ...x };
           })
         );
       }
     }
-
+    console.log(PendingFreelancersArr);
     return PendingFreelancersArr;
   } catch (error) {
     throw new Error("보류한 프리랜서 목록을 가져오지 못했습니다.");
