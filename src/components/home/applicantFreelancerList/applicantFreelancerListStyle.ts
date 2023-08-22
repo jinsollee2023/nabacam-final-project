@@ -19,6 +19,7 @@ export const S = {
     font-weight: bold;
   `,
   List: styled.div`
+    margin-top: 20px;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.1);
     display: flex;
@@ -67,5 +68,11 @@ export const S = {
     height: 30px;
     border: none;
     border-radius: 10px;
+  `,
+  ModalTitle: styled.div`
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 30px;
   `,
 };

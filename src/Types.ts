@@ -9,6 +9,7 @@ export interface User {
   contact: { email: string; phone: string };
   singUpDate: string;
   portfolioCount: number;
+  resumeProfileIntro: string;
 }
 
 export interface IUser extends User {
@@ -25,6 +26,7 @@ export interface Project {
   pay: { min: number; max: number };
   status: string;
   volunteer: string[];
+  pendingFreelancer?: string[];
 }
 
 export interface Task {
