@@ -17,31 +17,25 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
   return (
     <>
       <S.ResumeContent>포트폴리오</S.ResumeContent>
-      <div style={{ display: "flex", gap: "10px" }}>
-        {portfolio ? (
+      <S.PortfolioBox>
+        {portfolio && portfolio.length > 0 ? (
           portfolio.map((data) => (
             <div>
-              <img
-                alt="portfolioImage"
-                style={{
-                  borderRadius: "15px",
-                  width: "100px",
-                  height: "100px",
-                }}
-                src={data.thumbNailURL}
-              ></img>
+              <S.PortfolioImg alt="portfolioImage" src={data.thumbNailURL}></S.PortfolioImg>
               {/* <a href={data.pdfFileURL} download="portfolio.pdf">
                         test
                       </a> */}
-              <p style={{ marginTop: "5px", fontSize: "14px" }}>{data.title}</p>
+              <S.PortfolioCmt>{data.title}</S.PortfolioCmt>
             </div>
           ))
         ) : portfolioIsLoading ? (
-          <div>Loading Portfolio...</div>
+          <S.DataNullBox>Loading Portfolio...</S.DataNullBox>
         ) : portfolioIsError ? (
-          <div>포트폴리오 데이터를 불러오지 못했습니다.</div>
-        ) : null}
-      </div>
+          <S.DataNullBox>포트폴리오 데이터를 불러오지 못했습니다.</S.DataNullBox>
+        ) : (
+          <S.DataNullBox>등록된 포트폴리오가 없습니다.</S.DataNullBox>
+        )}
+      </S.PortfolioBox>
     </>
   );
 };

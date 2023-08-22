@@ -1,12 +1,6 @@
 import { styled } from "styled-components";
 
 export const S = {
-  Title: styled.div`
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-    margin: 30px;
-  `,
   UserInfoBox: styled.div`
     display: flex;
     gap: 10px;
@@ -37,13 +31,41 @@ export const S = {
   `,
   ResumeContent: styled.p`
     margin: 10px 0;
+    font-size: 20px;
     font-weight: bold;
   `,
-  ProfileBox: styled.div`
+  ProfileIntro: styled.div`
     border-radius: 10px;
     width: 100%;
-    height: 50px;
+    padding: 15px;
+    min-height: 70px;
+    max-height: 100px;
+    font-size: 18px;
+    word-break: break-all;
     background-color: rgba(0, 0, 0, 0.1);
+  `,
+  PortfolioBox: styled.div`
+    display: flex;
+    gap: 10px;
+  `,
+  PortfolioImg: styled.img`
+    border-radius: 15px;
+    width: 100px;
+    height: 100px;
+  `,
+  PortfolioCmt: styled.p`
+    margin-top: 5px;
+    font-size: 14px;
+  `,
+  DataNullBox: styled.div`
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 50px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
   `,
   BtnBox: styled.div`
     display: flex;

@@ -8,19 +8,13 @@ interface ModalProps {
   buttons?: React.ReactNode;
 }
 
-const Modal = ({
-  isModalOpen,
-  setIsModalOpen,
-  children,
-  buttons,
-}: ModalProps) => {
+const Modal = ({ isModalOpen, setIsModalOpen, children, buttons }: ModalProps) => {
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
 
   return (
     <>
-      (
       <S.ModalBox>
         <S.ModalContainer>
           <S.ModalTop>
@@ -30,7 +24,6 @@ const Modal = ({
           {buttons && <S.ModalBtnBox>{buttons}</S.ModalBtnBox>}
         </S.ModalContainer>
       </S.ModalBox>
-      )
     </>
   );
 };

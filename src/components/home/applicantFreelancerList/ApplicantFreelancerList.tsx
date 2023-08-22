@@ -6,9 +6,11 @@ import Modal from "../../modal/Modal";
 import FreelancerPortfolio from "../../modal/freelancerInfo/FreelancerPortfolio";
 import FreelancerResume from "../../modal/freelancerInfo/FreelancerResume";
 import FreelancerProfile from "../../modal/freelancerInfo/FreelancerProfile";
+import { IUser } from "src/Types";
 
 const ApplicantFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
 
   const {
     data: applicantFreelancers,
@@ -28,19 +30,17 @@ const ApplicantFreelancerList = () => {
                 <S.ImgBox>
                   <S.Img alt="profileImg" src={applicantFreelancer.photoURL}></S.Img>
                 </S.ImgBox>
-                <span style={{ width: "80px", textAlign: "left" }}>{applicantFreelancer.name}</span>
-                <div
-                  style={{
-                    width: "80%",
-                  }}
-                  key={applicantFreelancer.projectId}
-                >
+                <S.FreelancerName>{applicantFreelancer.name}</S.FreelancerName>
+                <S.ListProjectTitle key={applicantFreelancer.projectId}>
                   <S.ProjectTitle>"{applicantFreelancer.title}" 프로젝트에 지원</S.ProjectTitle>
-                </div>
+                </S.ListProjectTitle>
               </S.ListContents>
               <div>
                 <button
-                  onClick={() => setIsModalOpen(!isModalOpen)}
+                  onClick={() => {
+                    setSelectedFreelancer(applicantFreelancer);
+                    setIsModalOpen(!isModalOpen);
+                  }}
                   style={{
                     backgroundColor: "#1FC17D",
                     color: "white",
@@ -54,60 +54,76 @@ const ApplicantFreelancerList = () => {
                 >
                   확인하기
                 </button>
-                {isModalOpen && (
-                  <Modal
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                    buttons={
-                      <>
-                        <S.Btn>제안하기</S.Btn>
-                        <S.Btn>보류하기</S.Btn>
-                      </>
-                    }
-                  >
-                    <S.ModalTitle>{applicantFreelancer.title} 프로젝트에 지원</S.ModalTitle>
-                    <FreelancerProfile user={applicantFreelancer} />
-                    <div style={{ color: "gray", fontSize: "14px" }}>
-                      <div style={{ display: "flex", width: "100%" }}>
-                        <div style={{ width: "100%" }}>
-                          <p>목표 기간</p>
-                          <div
-                            style={{
-                              backgroundColor: "rgba(0, 0, 0, 0.1)",
-                              width: "90%",
-                              height: "28px",
-                              borderRadius: "10px",
-                            }}
-                          ></div>
-                        </div>
-                        <div style={{ width: "100%" }}>
-                          <p>급여</p>
-                          <div
-                            style={{
-                              backgroundColor: "rgba(0, 0, 0, 0.1)",
-                              width: "90%",
-                              height: "28px",
-                              borderRadius: "10px",
-                            }}
-                          ></div>
+                {isModalOpen &&
+                  selectedFreelancer &&
+                  selectedFreelancer.userId === applicantFreelancer.userId && (
+                    <Modal
+                      isModalOpen={isModalOpen}
+                      setIsModalOpen={setIsModalOpen}
+                      buttons={
+                        <>
+                          <S.Btn>제안하기</S.Btn>
+                          <S.Btn>보류하기</S.Btn>
+                        </>
+                      }
+                    >
+                      <S.ModalTitle>{applicantFreelancer.title} 프로젝트에 지원</S.ModalTitle>
+                      <FreelancerProfile user={applicantFreelancer} />
+                      <div style={{ color: "gray", fontSize: "14px" }}>
+                        <div style={{ display: "flex", width: "100%", marginTop: "10px" }}>
+                          <div style={{ width: "100%" }}>
+                            <p>목표 기간</p>
+                            <div
+                              style={{
+                                backgroundColor: "rgba(0, 0, 0, 0.1)",
+                                width: "90%",
+                                height: "50px",
+                                borderRadius: "10px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <span style={{ fontSize: "16px" }}>
+                                {applicantFreelancer.deadLine.toLocaleString()}
+                              </span>
+                            </div>
+                          </div>
+                          <div style={{ width: "100%" }}>
+                            <p>급여</p>
+                            <div
+                              style={{
+                                backgroundColor: "rgba(0, 0, 0, 0.1)",
+                                width: "90%",
+                                height: "50px",
+                                borderRadius: "10px",
+                                position: "relative",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "5px",
+                                  position: "absolute",
+                                  left: "50%",
+                                  top: "50%",
+                                  transform: "translate(-50%, -50%)",
+                                }}
+                              >
+                                <span>최소 : {applicantFreelancer.pay.min}만원</span>
+                                <span>최대 : {applicantFreelancer.pay.max}만원</span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                      <p style={{ marginTop: "10px" }}>수정 이유</p>
-                      <div
-                        style={{
-                          backgroundColor: "rgba(0, 0, 0, 0.1)",
-                          width: "100%",
-                          height: "40px",
-                          borderRadius: "10px",
-                        }}
-                      ></div>
-                    </div>
-                    <div>
-                      <FreelancerResume user={applicantFreelancer} />
-                      <FreelancerPortfolio user={applicantFreelancer} />
-                    </div>
-                  </Modal>
-                )}
+                      <div>
+                        <FreelancerResume user={applicantFreelancer} />
+                        <FreelancerPortfolio user={applicantFreelancer} />
+                      </div>
+                    </Modal>
+                  )}
               </div>
             </S.List>
           ))
