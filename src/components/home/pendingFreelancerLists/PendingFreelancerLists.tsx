@@ -100,7 +100,7 @@ const PendingFreelancerLists = () => {
                     ></div>
                   </div>
                   <div>
-                    <FreelancerResume />
+                    <FreelancerResume user={pendingFreelancer} />
                     <FreelancerPortfolio user={pendingFreelancer} />
                   </div>
                 </Modal>

@@ -24,7 +24,6 @@ const ApplicantFreelancerList = () => {
             최신순 <TbArrowsUpDown />
           </S.FilterBtn>
         </div>
-
         {applicantFreelancers ? (
           applicantFreelancers.map((applicantFreelancer) => (
             <S.List key={applicantFreelancer.userId}>
@@ -33,9 +32,12 @@ const ApplicantFreelancerList = () => {
                   <S.Img alt="profileImg" src={applicantFreelancer.photoURL}></S.Img>
                 </S.ImgBox>
                 <span style={{ width: "80px", textAlign: "left" }}>{applicantFreelancer.name}</span>
+                <span style={{ width: "150px", textAlign: "left", color: "gray" }}>
+                  #스타트업 개발자
+                </span>
                 <div
                   style={{
-                    width: "80%",
+                    width: "70%",
                   }}
                   key={applicantFreelancer.projectId}
                 >
@@ -58,7 +60,7 @@ const ApplicantFreelancerList = () => {
                   buttons={
                     <>
                       <S.Btn>제안하기</S.Btn>
-                      <S.Btn>보류하기</S.Btn>
+                      <S.Btn onClick={() => alert("test")}>보류하기</S.Btn>
                     </>
                   }
                 >
@@ -100,7 +102,7 @@ const ApplicantFreelancerList = () => {
                     ></div>
                   </div>
                   <div>
-                    <FreelancerResume />
+                    <FreelancerResume user={applicantFreelancer} />
                     <FreelancerPortfolio user={applicantFreelancer} />
                   </div>
                 </Modal>

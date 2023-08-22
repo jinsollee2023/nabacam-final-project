@@ -34,7 +34,7 @@ export const getApplicantFreelancers = async (): Promise<IUser[]> => {
         );
       }
     }
-
+    console.log(ApplicantFreelancersArr);
     return ApplicantFreelancersArr;
   } catch (error) {
     throw new Error("지원한 프리랜서 목록을 가져오지 못했습니다.");
