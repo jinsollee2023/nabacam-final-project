@@ -23,7 +23,7 @@ export interface Project {
   freelancerId: string;
   deadLine: string;
   pay: { min: number; max: number };
-  isDone: boolean;
+  status: string;
   Volunteer: string[];
 }
 

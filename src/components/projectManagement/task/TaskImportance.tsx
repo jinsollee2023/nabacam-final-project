@@ -1,7 +1,7 @@
-import { Task } from "../../Types";
+import { Task } from "../../../Types";
 import { AiFillStar } from "react-icons/ai";
 import S from "./TaskStyles";
-import useTasksQueries from "../../hooks/useTasksQueries";
+import useTasksQueries from "../../../hooks/useTasksQueries";
 
 interface TaskImportanceProps {
   task: Task;
