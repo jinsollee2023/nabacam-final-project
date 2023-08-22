@@ -32,16 +32,23 @@ const PendingFreelancerLists = () => {
             <S.List key={pendingFreelancer.userId}>
               <S.ListContents>
                 <S.ImgBox>
-                  <S.Img alt="profileImg" src={pendingFreelancer.photoURL}></S.Img>
+                  <S.Img
+                    alt="profileImg"
+                    src={pendingFreelancer.photoURL}
+                  ></S.Img>
                 </S.ImgBox>
-                <span style={{ width: "80px", textAlign: "left" }}>{pendingFreelancer.name}</span>
+                <span style={{ width: "80px", textAlign: "left" }}>
+                  {pendingFreelancer.name}
+                </span>
                 <div
                   style={{
                     width: "80%",
                   }}
                   key={pendingFreelancer.projectId}
                 >
-                  <S.ProjectTitle>"{pendingFreelancer.title}" 프로젝트에 지원</S.ProjectTitle>
+                  <S.ProjectTitle>
+                    "{pendingFreelancer.title}" 프로젝트에 지원
+                  </S.ProjectTitle>
                 </div>
               </S.ListContents>
               <div>
@@ -62,7 +69,6 @@ const PendingFreelancerLists = () => {
                 </button>
                 {isModalOpen && (
                   <Modal
-                    isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
                     buttons={
                       <>
@@ -71,7 +77,9 @@ const PendingFreelancerLists = () => {
                       </>
                     }
                   >
-                    <S.ModalTitle>{pendingFreelancer.title} 프로젝트에 지원</S.ModalTitle>
+                    <S.ModalTitle>
+                      {pendingFreelancer.title} 프로젝트에 지원
+                    </S.ModalTitle>
                     <FreelancerProfile user={pendingFreelancer} />
                     <div style={{ color: "gray", fontSize: "14px" }}>
                       <div style={{ display: "flex", width: "100%" }}>
