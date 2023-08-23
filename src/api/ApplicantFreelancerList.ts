@@ -29,12 +29,12 @@ export const getApplicantFreelancers = async (): Promise<IUser[]> => {
       if (findByApplicantUsers.data) {
         ApplicantFreelancersArr.push(
           ...findByApplicantUsers.data.map((x) => {
-            return { title: info.title, ...x };
+            return { title: info.title, deadLine: info.deadLine, pay: info.pay, ...x };
           })
         );
       }
     }
-    console.log(ApplicantFreelancersArr);
+    // console.log(ApplicantFreelancersArr);
     return ApplicantFreelancersArr;
   } catch (error) {
     throw new Error("지원한 프리랜서 목록을 가져오지 못했습니다.");
@@ -52,7 +52,7 @@ export const getPendingFreelancers = async (): Promise<IUser[]> => {
       .from("projects")
       .select()
       .eq("clientId", user.data.session?.user.id);
-    console.log(findByProjects);
+    // console.log(findByProjects);
 
     if (findByProjects.data === null) {
       throw new Error("등록된 프로젝트가 없습니다.");
@@ -69,7 +69,7 @@ export const getPendingFreelancers = async (): Promise<IUser[]> => {
       if (findByPendingUsers.data) {
         PendingFreelancersArr.push(
           ...findByPendingUsers.data.map((x) => {
-            return { title: info.title, ...x };
+            return { title: info.title, deadLine: info.deadLine, pay: info.pay, ...x };
           })
         );
       }

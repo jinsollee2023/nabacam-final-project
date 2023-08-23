@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import TaskList from "../projectManagement/task/TaskList";
 import FreelancerMarket from "../home/freelancerMarket/FreelancerMarket";
 import ApplicantFreelancerList from "../home/applicantFreelancerList/ApplicantFreelancerList";
-import PendingFreelancerLists from "../home/pendingFreelancerLists/PendingFreelancerLists";
+import PendingFreelancerList from "../home/pendingFreelancerLists/PendingFreelancerList";
 import ProjectList from "../projectManagement/projectList/ProjectList";
 
 interface MenuTabBarCompProps {
@@ -30,7 +30,7 @@ const MenuTabBarComp = ({ menu }: MenuTabBarCompProps) => {
         {currentTab === "프로젝트 목록" && <ProjectList />}
         {currentTab === "프리랜서 마켓" && <FreelancerMarket />}
         {currentTab === "지원한 프리랜서 확인" && <ApplicantFreelancerList />}
-        {currentTab === "보류한 프리랜서" && <PendingFreelancerLists />}
+        {currentTab === "보류한 프리랜서" && <PendingFreelancerList />}
       </S.CompContainer>
     </>
   );
