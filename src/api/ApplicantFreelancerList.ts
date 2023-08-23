@@ -74,7 +74,7 @@ export const getPendingFreelancers = async (): Promise<IUser[]> => {
         );
       }
     }
-    console.log(PendingFreelancersArr);
+    // console.log(PendingFreelancersArr);
     return PendingFreelancersArr;
   } catch (error) {
     throw new Error("보류한 프리랜서 목록을 가져오지 못했습니다.");
