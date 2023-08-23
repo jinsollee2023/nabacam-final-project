@@ -54,8 +54,16 @@ export const S = {
     /* text-align: right; */
   `,
   CheckingBtn: styled.button`
-    position: absolute;
-    right: 0;
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: #1fc17d;
+    color: white;
+
+    /* position: absolute;
+    right: 0; */
+    float: right;
     margin-right: 10px;
     cursor: pointer;
   `,

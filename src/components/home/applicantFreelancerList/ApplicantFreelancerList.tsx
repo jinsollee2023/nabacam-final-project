@@ -6,12 +6,10 @@ import {
 } from "../../../api/ApplicantFreelancerList";
 import { S } from "./applicantFreelancerListStyle";
 import Modal from "../../modal/Modal";
-import FreelancerPortfolio from "../../modal/freelancerInfo/FreelancerPortfolio";
-import FreelancerResume from "../../modal/freelancerInfo/FreelancerResume";
-import FreelancerProfile from "../../modal/freelancerInfo/FreelancerProfile";
 import { IUser } from "src/Types";
 import supabase from "src/config/supabaseClient";
 import { queryClient } from "src/App";
+import ApplicantFreelancerInfoModal from "./ApplicantFreelancerInfoModal";
 
 const ApplicantFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -92,25 +90,14 @@ const ApplicantFreelancerList = () => {
                 </S.ListProjectTitle>
               </S.ListContents>
               <div>
-                <button
+                <S.CheckingBtn
                   onClick={() => {
                     setSelectedFreelancer(applicantFreelancer);
                     setIsModalOpen(!isModalOpen);
                   }}
-                  style={{
-                    backgroundColor: "#1FC17D",
-                    color: "white",
-                    border: "none",
-                    width: "100px",
-                    height: "30px",
-                    borderRadius: "8px",
-                    float: "right",
-                    marginRight: "10px",
-                    cursor: "pointer",
-                  }}
                 >
                   확인하기
-                </button>
+                </S.CheckingBtn>
                 {isModalOpen &&
                   selectedFreelancer &&
                   selectedFreelancer.userId === applicantFreelancer.userId && (
@@ -125,67 +112,7 @@ const ApplicantFreelancerList = () => {
                         </>
                       }
                     >
-                      <S.ModalTitle>{applicantFreelancer.title} 프로젝트에 지원</S.ModalTitle>
-                      <FreelancerProfile user={applicantFreelancer} />
-                      <div style={{ color: "gray", fontSize: "14px" }}>
-                        <div
-                          style={{
-                            display: "flex",
-                            width: "100%",
-                            marginTop: "10px",
-                          }}
-                        >
-                          <div style={{ width: "100%" }}>
-                            <p>목표 기간</p>
-                            <div
-                              style={{
-                                backgroundColor: "rgba(0, 0, 0, 0.1)",
-                                width: "90%",
-                                height: "50px",
-                                borderRadius: "10px",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                            >
-                              <span style={{ fontSize: "16px" }}>
-                                {applicantFreelancer.deadLine?.toLocaleString()}
-                              </span>
-                            </div>
-                          </div>
-                          <div style={{ width: "100%" }}>
-                            <p>급여</p>
-                            <div
-                              style={{
-                                backgroundColor: "rgba(0, 0, 0, 0.1)",
-                                width: "90%",
-                                height: "50px",
-                                borderRadius: "10px",
-                                position: "relative",
-                              }}
-                            >
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  gap: "5px",
-                                  position: "absolute",
-                                  left: "50%",
-                                  top: "50%",
-                                  transform: "translate(-50%, -50%)",
-                                }}
-                              >
-                                <span>최소 : {applicantFreelancer.pay?.min}만원</span>
-                                <span>최대 : {applicantFreelancer.pay?.max}만원</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <FreelancerResume user={applicantFreelancer} />
-                        <FreelancerPortfolio user={applicantFreelancer} />
-                      </div>
+                      <ApplicantFreelancerInfoModal user={applicantFreelancer} />
                     </Modal>
                   )}
               </div>

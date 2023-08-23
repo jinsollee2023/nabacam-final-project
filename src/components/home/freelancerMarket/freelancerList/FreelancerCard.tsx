@@ -25,7 +25,7 @@ const FreelancerCard = ({
   setSelectedPortfolioIndex,
 }: FreelancerCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const { userId } = useUserStore();
   const { selectedProjectId, setSelectedProjectId } = useSelectProjectStore();
   const { selectedProjectTitle, setSelectedProjectTitle } = useSelectProjectStore();
@@ -115,6 +115,11 @@ const FreelancerCard = ({
     setIsDetailModalOpen(false);
   };
 
+  const handleInfoModalProposalBtnClick = () => {
+    setIsInfoModalOpen(false);
+    setIsDetailModalOpen(true);
+  };
+
   return (
     <>
       {isDetailModalOpen && (
@@ -194,18 +199,19 @@ const FreelancerCard = ({
         )}
 
         <S.MiniProfileBox>
-          <S.FreelancerContentBox onClick={() => setIsModalOpen(!isModalOpen)}>
+          <S.FreelancerContentBox onClick={() => setIsInfoModalOpen(!isInfoModalOpen)}>
             <S.FreelancerName>{freelancerItem.name}</S.FreelancerName>
             <S.FreelancerContent>{freelancerItem.workField?.workSmallField}</S.FreelancerContent>
             <S.FreelancerContent>{String(freelancerItem.workExp)}년차</S.FreelancerContent>
           </S.FreelancerContentBox>
-          {isModalOpen && (
+          {isInfoModalOpen && (
             <Modal
-              setIsModalOpen={setIsModalOpen}
+              setIsModalOpen={setIsInfoModalOpen}
               buttons={
                 <>
-                  <S.FreelancerInfoModalBtn>제안하기</S.FreelancerInfoModalBtn>
-                  <S.FreelancerInfoModalBtn>보류하기</S.FreelancerInfoModalBtn>
+                  <S.FreelancerInfoModalBtn onClick={handleInfoModalProposalBtnClick}>
+                    제안하기
+                  </S.FreelancerInfoModalBtn>
                 </>
               }
             >
