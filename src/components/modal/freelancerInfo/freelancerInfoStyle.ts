@@ -83,5 +83,6 @@ export const S = {
     height: 30px;
     border: none;
     border-radius: 10px;
+    cursor: pointer;
   `,
 };

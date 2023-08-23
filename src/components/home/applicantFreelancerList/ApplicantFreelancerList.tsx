@@ -106,6 +106,7 @@ const ApplicantFreelancerList = () => {
                     borderRadius: "8px",
                     float: "right",
                     marginRight: "10px",
+                    cursor: "pointer",
                   }}
                 >
                   확인하기

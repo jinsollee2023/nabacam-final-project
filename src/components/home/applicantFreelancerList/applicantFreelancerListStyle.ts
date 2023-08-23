@@ -1,19 +1,6 @@
 import { styled } from "styled-components";
 
 export const S = {
-  TapBtn: styled.button`
-    cursor: pointer;
-    background: transparent;
-    border: none;
-  `,
-  FilterBtn: styled.button`
-    width: 80px;
-    height: 25px;
-    float: right;
-    margin-bottom: 20px;
-    border: none;
-    border-radius: 10px;
-  `,
   Title: styled.span`
     font-size: 30px;
     font-weight: bold;
@@ -70,6 +57,7 @@ export const S = {
     position: absolute;
     right: 0;
     margin-right: 10px;
+    cursor: pointer;
   `,
   Btn: styled.button`
     width: 50%;
@@ -78,6 +66,7 @@ export const S = {
     border: none;
     border-radius: 10px;
     margin-top: 8px;
+    cursor: pointer;
   `,
   ModalTitle: styled.div`
     font-size: 30px;
