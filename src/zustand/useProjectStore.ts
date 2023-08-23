@@ -11,14 +11,12 @@ export const useProjectStore = create<ProjectStore>()((set) => ({
     title: "",
     desc: "",
     clientId: "",
-    freelancerId: "",
     deadLine: new Date(),
     pay: {
       min: 0,
       max: 0,
     },
     status: "",
-    volunteer: [],
   },
   changeNewProject: (newProject) => set(() => ({ newProject: newProject })),
 }));

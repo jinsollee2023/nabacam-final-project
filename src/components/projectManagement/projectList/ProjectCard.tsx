@@ -2,11 +2,13 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Project, User } from "src/Types";
 import { getClients } from "src/api/User";
 import S from "./ProjectListStyles";
-import { deleteProject } from "src/api/Project";
+import { deleteProject, updateProject } from "src/api/Project";
 import { queryClient } from "src/App";
 import { useState } from "react";
 import Modal from "src/components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
+import AddProjectModal from "./AddProjectModal";
+import { useProjectStore } from "src/zustand/useProjectStore";
 
 interface projectCardProps {
   project: Project;
@@ -35,10 +37,30 @@ const ProjectCard = ({ project }: projectCardProps) => {
     }
   );
 
+  const updateProjectMutation = useMutation(
+    ({ projectId, newProject }: { projectId: string; newProject: Project }) =>
+      updateProject(projectId, newProject),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["projects"]);
+      },
+    }
+  );
+
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isUpadateModalOpen, setIsUpadateModalOpen] = useState(false);
+  const { newProject } = useProjectStore();
 
   const deleteProjectButtonHandler = () => {
     deleteProjectMutation.mutate(project.projectId!);
+  };
+
+  const updateProjectButtonHandler = () => {
+    updateProjectMutation.mutate({
+      projectId: project.projectId as string,
+      newProject,
+    });
+    setIsUpadateModalOpen(false);
   };
 
   return (
@@ -48,15 +70,27 @@ const ProjectCard = ({ project }: projectCardProps) => {
           <ProjectDetailModal project={project} client={client!.name} />
         </Modal>
       )}
-      <S.ProjectCardBox
-        onClick={() => setIsDetailModalOpen(true)}
-        justifyContent="space-between"
-        marginBottom={20}
-      >
-        <S.ProjcetTitleBox>{project.title}</S.ProjcetTitleBox>
+      {isUpadateModalOpen && (
+        <Modal
+          setIsModalOpen={setIsUpadateModalOpen}
+          buttons={
+            <>
+              <button onClick={updateProjectButtonHandler}>
+                프로젝트 수정하기
+              </button>
+            </>
+          }
+        >
+          <AddProjectModal project={project} />
+        </Modal>
+      )}
+      <S.ProjectCardBox justifyContent="space-between" marginBottom={20}>
+        <S.ProjcetTitleBox onClick={() => setIsDetailModalOpen(true)}>
+          {project.title}
+        </S.ProjcetTitleBox>
         <div>
           <S.ProjectCardButtonBox>
-            <span>수정</span>
+            <span onClick={() => setIsUpadateModalOpen(true)}>수정</span>
             <span onClick={deleteProjectButtonHandler}>삭제</span>
           </S.ProjectCardButtonBox>
           <div>
