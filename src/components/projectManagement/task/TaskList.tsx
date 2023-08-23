@@ -7,12 +7,23 @@ import { getProjects } from "../../../api/Project";
 import { Select } from "antd";
 import { MdAddCircle } from "react-icons/md";
 import { Task } from "../../../Types";
+import { useUserStore } from "src/zustand/useUserStore";
 
 const TaskList = () => {
-  const { data: projects } = useQuery(["projects"], async () => {
-    const tasksData = await getProjects();
-    return tasksData;
-  });
+  const { userId } = useUserStore();
+
+  const { data: projects } = useQuery(
+    ["projects"],
+    async () => {
+      const projectsData = await getProjects();
+      return projectsData;
+    },
+    {
+      enabled: !!userId,
+      select: (projectsData) =>
+        projectsData.filter((project) => project.clientId === userId),
+    }
+  );
 
   const [projectId, setProjectId] = useState("");
 
