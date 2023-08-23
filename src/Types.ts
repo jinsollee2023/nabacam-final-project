@@ -9,11 +9,19 @@ export interface User {
   contact: { email: string; phone: string };
   singUpDate: string;
   portfolioCount: number;
-  resumeProfileIntro: string;
+  resumeProfileIntro?: string;
+  resumeExperience?: [
+    {
+      pastWorkPlace: string;
+      pastWorkDuration: { pastWorkEndDate: string; pastWorkStartDate: string };
+      pastWorkPosition: string;
+    }
+  ];
 }
-
 export interface IUser extends User {
-  title: string;
+  title?: string;
+  deadLine?: Date;
+  pay?: { min: number; max: number };
 }
 
 export interface Project {
@@ -26,6 +34,7 @@ export interface Project {
   pay: { min: number | string; max: number | string };
   status: string;
   volunteer?: string[];
+  SuggestedFreelancers?: string[];
   pendingFreelancer?: string[];
 }
 

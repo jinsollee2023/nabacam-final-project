@@ -9,6 +9,14 @@ export const getProjects = async (): Promise<Project[]> => {
   return projects as Project[];
 };
 
+export const getPublishedProjects = async (id: string): Promise<Project[]> => {
+  const { data: projects } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("clientId", id);
+  return projects as Project[];
+};
+
 export const addProject = async (newProject: Project): Promise<void> => {
   await supabase
     .from("projects")
