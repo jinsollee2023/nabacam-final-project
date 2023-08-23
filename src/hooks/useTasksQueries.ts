@@ -67,6 +67,16 @@ const useTasksQueries = (projectId: string) => {
     }
   );
 
+  const updateTaskMonthMutation = useMutation(
+    ({ taskId, taskDate }: { taskId: string; taskDate: Date }) =>
+      updateTask(taskId, { taskDate }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tasks", projectId]);
+      },
+    }
+  );
+
   return {
     tasks,
     addTaskMutation,
@@ -75,6 +85,7 @@ const useTasksQueries = (projectId: string) => {
     updateTaskStatusMutation,
     updateTaskDeadLineMutation,
     updateTaskImportanceMutation,
+    updateTaskMonthMutation,
   };
 };
 

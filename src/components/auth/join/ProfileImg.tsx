@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from "react";
 
 interface ImagePreviewProps {
   photoURL: string;
-  photoURLOnChange: (url: string) => void;
+  photoURLOnChange: (url: any) => void;
 }
 
 const ImagePreview: React.FC<ImagePreviewProps> = ({
@@ -17,10 +17,12 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
     if (imageFile) {
       const imageUrl = URL.createObjectURL(imageFile);
       setSelectedImage(imageUrl);
-      photoURLOnChange(imageUrl);
+      photoURLOnChange(e.target.files?.[0]);
     }
   };
 
+  // 회원가입할때 한번더 올린다 .
+  // 유저아이디를 유저
   return (
     <div>
       <input type="file" accept="image/*" onChange={handleImageChange} />

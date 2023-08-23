@@ -7,6 +7,9 @@ export interface User {
   workField?: { workField: string; workSmallField: string };
   workExp?: string;
   contact: { email: string; phone: string };
+  singUpDate: string;
+  portfolioCount: number;
+  resumeProfileIntro: string;
 }
 
 export interface IUser extends User {
@@ -14,15 +17,16 @@ export interface IUser extends User {
 }
 
 export interface Project {
-  projectId: string;
+  projectId?: string;
   title: string;
   desc: string;
   clientId: string;
-  freelancerId: string;
-  deadLine: string;
-  pay: { min: number; max: number };
-  isDone: boolean;
-  Volunteer: string[];
+  freelancerId?: string;
+  deadLine: Date;
+  pay: { min: number | null; max: number | null };
+  status: string;
+  volunteer: string[];
+  pendingFreelancer?: string[];
 }
 
 export interface Task {
@@ -32,6 +36,8 @@ export interface Task {
   status: string;
   deadLine: string;
   importance: number;
+  taskDate: Date;
+  created_at: Date;
 }
 
 export interface Portfolio {

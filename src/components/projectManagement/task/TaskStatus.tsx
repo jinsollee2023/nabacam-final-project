@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import S from "./TaskStyles";
-import { Task } from "../../Types";
-import useTasksQueries from "../../hooks/useTasksQueries";
+import { Task } from "../../../Types";
+import useTasksQueries from "../../../hooks/useTasksQueries";
 
 interface TaskStatusProps {
   task: Task;
@@ -22,7 +22,7 @@ const TaskStatus = ({ task }: TaskStatusProps) => {
     "Check",
     "Done",
     "Stuck",
-  ];
+  ].filter((status) => status !== task.status);
 
   const statusOptionOnClickHandler = (status: string) => {
     updateTaskStatusMutation.mutate({

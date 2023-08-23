@@ -8,6 +8,7 @@ import ImagePreview from "./ProfileImg";
 import Image from "src/components/myPage/myProfile/Image";
 import { useUserStore } from "src/zustand/useUserStore";
 import UserImage from "./userImage";
+import { uploadUserImage } from "src/api/User";
 interface FormValue {
   email: string;
   password: string;
@@ -21,6 +22,7 @@ const JoinComponent = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValue>();
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -31,7 +33,7 @@ const JoinComponent = () => {
   const [openFreelancerProfill, setOpenFreelancerProfill] = useState(false);
   const [workSelect, setWorkSelect] = useState("");
   const [name, setName] = useState("");
-  const [photoURL, setPhotoURL] = useState("");
+  const [photoURL, setPhotoURL] = useState<any>(null);
   const [workField, setWorkField] = useState("");
   const [workExp, setWorkExp] = useState("");
   const [phone, setPhone] = useState("");
@@ -63,6 +65,9 @@ const JoinComponent = () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
+      // 사진을 스토리지에 업로드
+      const userImage = await uploadUserImage(user?.id, photoURL);
 
       const newUserData = {
         userId: user?.id,
@@ -182,11 +187,11 @@ const JoinComponent = () => {
                 onChange={nameOnChange}
                 placeholder="이름"
               />
-              <Image />
-              {/* <ImagePreview
+              {/* <Image /> */}
+              <ImagePreview
                 photoURL={photoURL}
                 photoURLOnChange={handlePhotoURLOnChange}
-              /> */}
+              />
 
               <Select
                 showSearch

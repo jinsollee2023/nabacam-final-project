@@ -14,6 +14,7 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen }) => {
   // 상태관리
   const updatedNameInput = useInput("");
   const updatedWorkFieldInput = useInput("");
+  const updatedWorkSmallFieldInput = useInput("");
   const updatedEmailInput = useInput("");
   const updatedPhoneInput = useInput("");
   const updatedProjectIdInput = useInput("");
@@ -36,7 +37,10 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen }) => {
     // 업데이트 대상
     const updatedData = {
       name: updatedNameInput.value,
-      workField: updatedWorkFieldInput.value,
+      workField: {
+        workField: updatedWorkFieldInput.value,
+        workSmallField: updatedWorkSmallFieldInput.value,
+      },
       contact: {
         email: updatedEmailInput.value,
         phone: updatedPhoneInput.value,
@@ -75,11 +79,19 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen }) => {
           />
         </label>
         <label>
-          업무분야:
+          직무분야:
           <input
             type="text"
             value={updatedWorkFieldInput.value}
             onChange={updatedWorkFieldInput.onChange}
+          />
+        </label>
+        <label>
+          세부분야:
+          <input
+            type="text"
+            value={updatedWorkSmallFieldInput.value}
+            onChange={updatedWorkSmallFieldInput.onChange}
           />
         </label>
         <label>

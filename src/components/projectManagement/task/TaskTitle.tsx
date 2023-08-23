@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import S from "./TaskStyles";
-import { Task } from "../../Types";
-import useTasksQueries from "../../hooks/useTasksQueries";
+import { Task } from "../../../Types";
+import useTasksQueries from "../../../hooks/useTasksQueries";
 
 interface TaskTitleProps {
   task: Task;
