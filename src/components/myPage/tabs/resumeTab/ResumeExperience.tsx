@@ -41,7 +41,7 @@ const ResumeExperience = () => {
       enabled: !!userId,
     }
   );
-  console.log(experienceInfo); // {resumeExperience: [{1}, {2}, {3} ...] }
+  // console.log(experienceInfo); // {resumeExperience: [{1}, {2}, {3} ...] }
 
   // ADD
   const queryClient = useQueryClient();

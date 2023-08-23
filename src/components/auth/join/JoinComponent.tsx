@@ -31,14 +31,7 @@ const JoinComponent = () => {
   const [workField, setWorkField] = useState("");
   const [workExp, setWorkExp] = useState("");
   const [phone, setPhone] = useState("");
-  // const {
-  //   userId,
-  //   setUserId,
-  //   setFreelancerRole,
-  //   freelancerRole,
-  //   setUserName,
-  //   setUserPhotoURL,
-  // } = useUserStore(); // 추가
+  const { setFreelancerRole, freelancerRole } = useUserStore(); // 추가
 
   const handlePhotoURLOnChange = (url: any) => {
     setPhotoURL(url);
@@ -90,20 +83,14 @@ const JoinComponent = () => {
         .from("users")
         .insert(newUserData)
         .select();
-      // console.log(data);
 
-      // if (data) {
-      //   // 추가
-      //   const { userId, role, name, photoURL } = data[0];
-      //   // console.log({ name, photoURL });
-      //   // zustand
-      //   if (userId) setUserId(userId);
-      //   if (role) setFreelancerRole(role);
-      //   if (name) setUserName(name);
-      //   if (photoURL) setUserPhotoURL(photoURL);
-
-      //   console.log({ userId, freelancerRole, name });
-      // }
+      if (data) {
+        // 추가
+        const { role } = data[0];
+        // console.log({ role });
+        if (role) setFreelancerRole(role);
+        console.log({ freelancerRole });
+      }
     } catch (error) {
       console.log(error);
     }
