@@ -19,6 +19,7 @@ export const S = {
     font-weight: bold;
   `,
   List: styled.div`
+    margin-top: 30px;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.1);
     display: flex;
@@ -53,19 +54,34 @@ export const S = {
     height: 100%;
     object-fit: cover;
   `,
+  FreelancerName: styled.span`
+    width: 80px;
+    text-align: left;
+  `,
+  ListProjectTitle: styled.div`
+    width: 80%;
+  `,
   ProjectTitle: styled.span`
     color: gray;
     float: right;
     /* text-align: right; */
   `,
   CheckingBtn: styled.button`
-    float: right;
+    position: absolute;
+    right: 0;
     margin-right: 10px;
   `,
   Btn: styled.button`
     width: 50%;
     height: 30px;
+    font-size: 16px;
     border: none;
     border-radius: 10px;
+  `,
+  ModalTitle: styled.div`
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin: 30px;
   `,
 };

@@ -16,3 +16,24 @@ export const getPublishedProjects = async (id: string): Promise<Project[]> => {
     .eq("clientId", id);
   return projects as Project[];
 };
+
+export const addProject = async (newProject: Project): Promise<void> => {
+  await supabase
+    .from("projects")
+    .insert([
+      {
+        title: newProject.title,
+        desc: newProject.desc,
+        clientId: newProject.clientId,
+        deadLine: newProject.deadLine,
+        pay: newProject.pay,
+        status: newProject.status,
+        volunteer: newProject.volunteer,
+      },
+    ])
+    .select();
+};
+
+export const deleteProject = async (projectId: string): Promise<void> => {
+  await supabase.from("projects").delete().eq("projectId", projectId);
+};

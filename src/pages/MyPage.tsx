@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import ResumeTab from "../components/myPage/tabs/ResumeTab";
-import PortfolioTab from "../components/myPage/tabs/PortfolioTab";
+import ResumeTab from "../components/myPage/tabs/resumeTab/ResumeTab";
+import PortfolioTab from "../components/myPage/tabs/portfolioTab/PortfolioTab";
 import ContractInfoTab from "../components/myPage/tabs/ContractInfoTab";
 import FeedbackTab from "../components/myPage/tabs/FeedbackTab";
 import supabase from "../config/supabaseClient";
 import Account from "../components/myPage/myProfile/Account";
+import { useQuery } from "@tanstack/react-query";
+import { getFreelancer } from "src/api/User";
+import { useUserStore } from "src/zustand/useUserStore";
 
 const MyPage = () => {
-  // useStates
+  // 상태관리
   const [activeTab, setActiveTab] = useState("이력서");
-  const [profileImgURL, setProfileImgURL] = useState(null);
+  const { userId } = useUserStore();
 
   // Event Handler
   const handleTabClick = (
@@ -18,8 +21,6 @@ const MyPage = () => {
   ) => {
     setActiveTab(tab);
   };
-
-  // supabase API
 
   return (
     <div style={{ margin: "10px 10px 10px 0px" }}>

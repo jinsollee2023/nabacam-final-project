@@ -31,11 +31,6 @@ export const S = {
     background-color: transparent;
     border: none;
   `,
-  ModalTitle: styled.p`
-    font-size: 20px;
-    font-weight: bold;
-    padding-top: 20px;
-  `,
   ModalContents: styled.div`
     height: 90%;
     overflow: auto;

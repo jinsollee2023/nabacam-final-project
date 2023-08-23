@@ -23,7 +23,7 @@ const OneTouchModal = ({ user, projectLists }: ApplicantResumeModalProps) => {
       setSelectedProjectItem(null);
     } else {
       setSelectedProjectTitle(project.title);
-      setSelectedProjectId(project.projectId);
+      setSelectedProjectId(project.projectId!);
       setSelectedProjectItem(project);
     }
   };
@@ -48,7 +48,7 @@ const OneTouchModal = ({ user, projectLists }: ApplicantResumeModalProps) => {
               >
                 <S.ProjectItemTitle>{projectItem.title}</S.ProjectItemTitle>
                 <S.ProjectItemDeadLine>
-                  목표 기간 : {projectItem.deadLine}
+                  목표 기간 : {String(projectItem.deadLine)}
                 </S.ProjectItemDeadLine>
               </S.ProjectItem>
             );

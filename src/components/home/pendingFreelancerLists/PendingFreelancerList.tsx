@@ -1,51 +1,50 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getApplicantFreelancers } from "../../../api/ApplicantFreelancerList";
-import { S } from "./applicantFreelancerListStyle";
+import { getPendingFreelancers } from "../../../api/ApplicantFreelancerList";
+import { S } from "../applicantFreelancerList/applicantFreelancerListStyle";
 import Modal from "../../modal/Modal";
 import FreelancerPortfolio from "../../modal/freelancerInfo/FreelancerPortfolio";
 import FreelancerResume from "../../modal/freelancerInfo/FreelancerResume";
 import FreelancerProfile from "../../modal/freelancerInfo/FreelancerProfile";
 import { IUser } from "src/Types";
 
-const ApplicantFreelancerList = () => {
+const PendingFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
     null
   );
 
   const {
-    data: applicantFreelancers,
-    isLoading: applicantFreelancersIsLoading,
-    isError: applicantFreelancersIsError,
-  } = useQuery(["users"], getApplicantFreelancers);
+    data: pendingFreelancers,
+    isLoading: pendingFreelancersIsLoading,
+    isError: pendingFreelancersIsError,
+  } = useQuery(["users"], getPendingFreelancers);
 
   return (
     <>
       <div>
-        <S.Title>지원한 프리랜서들을 확인해보세요.</S.Title>
-
-        {applicantFreelancers ? (
-          applicantFreelancers.map((applicantFreelancer) => (
-            <S.List key={applicantFreelancer.userId}>
+        <S.Title>보류한 프리랜서들을 확인해보세요.</S.Title>
+        {pendingFreelancers ? (
+          pendingFreelancers.map((pendingFreelancer) => (
+            <S.List key={pendingFreelancer.userId}>
               <S.ListContents>
                 <S.ImgBox>
                   <S.Img
                     alt="profileImg"
-                    src={applicantFreelancer.photoURL}
+                    src={pendingFreelancer.photoURL}
                   ></S.Img>
                 </S.ImgBox>
-                <S.FreelancerName>{applicantFreelancer.name}</S.FreelancerName>
-                <S.ListProjectTitle key={applicantFreelancer.projectId}>
+                <S.FreelancerName>{pendingFreelancer.name}</S.FreelancerName>
+                <S.ListProjectTitle key={pendingFreelancer.projectId}>
                   <S.ProjectTitle>
-                    "{applicantFreelancer.title}" 프로젝트에 지원
+                    "{pendingFreelancer.title}" 프로젝트에 지원
                   </S.ProjectTitle>
                 </S.ListProjectTitle>
               </S.ListContents>
               <div>
                 <button
                   onClick={() => {
-                    setSelectedFreelancer(applicantFreelancer);
+                    setSelectedFreelancer(pendingFreelancer);
                     setIsModalOpen(!isModalOpen);
                   }}
                   style={{
@@ -63,20 +62,20 @@ const ApplicantFreelancerList = () => {
                 </button>
                 {isModalOpen &&
                   selectedFreelancer &&
-                  selectedFreelancer.userId === applicantFreelancer.userId && (
+                  selectedFreelancer.userId === pendingFreelancer.userId && (
                     <Modal
                       setIsModalOpen={setIsModalOpen}
                       buttons={
                         <>
-                          <S.Btn>제안하기</S.Btn>
-                          <S.Btn>보류하기</S.Btn>
+                          <S.Btn>승인하기</S.Btn>
+                          <S.Btn>거절하기</S.Btn>
                         </>
                       }
                     >
                       <S.ModalTitle>
-                        {applicantFreelancer.title} 프로젝트에 지원
+                        {pendingFreelancer.title} 프로젝트에 지원
                       </S.ModalTitle>
-                      <FreelancerProfile user={applicantFreelancer} />
+                      <FreelancerProfile user={pendingFreelancer} />
                       <div style={{ color: "gray", fontSize: "14px" }}>
                         <div
                           style={{
@@ -99,7 +98,7 @@ const ApplicantFreelancerList = () => {
                               }}
                             >
                               <span style={{ fontSize: "16px" }}>
-                                {applicantFreelancer.deadLine?.toLocaleString()}
+                                {pendingFreelancer.deadLine?.toLocaleString()}
                               </span>
                             </div>
                           </div>
@@ -126,10 +125,10 @@ const ApplicantFreelancerList = () => {
                                 }}
                               >
                                 <span>
-                                  최소 : {applicantFreelancer.pay?.min}만원
+                                  최소 : {pendingFreelancer.pay?.min}만원
                                 </span>
                                 <span>
-                                  최대 : {applicantFreelancer.pay?.max}만원
+                                  최대 : {pendingFreelancer.pay?.max}만원
                                 </span>
                               </div>
                             </div>
@@ -137,22 +136,22 @@ const ApplicantFreelancerList = () => {
                         </div>
                       </div>
                       <div>
-                        <FreelancerResume user={applicantFreelancer} />
-                        <FreelancerPortfolio user={applicantFreelancer} />
+                        <FreelancerResume user={pendingFreelancer} />
+                        <FreelancerPortfolio user={pendingFreelancer} />
                       </div>
                     </Modal>
                   )}
               </div>
             </S.List>
           ))
-        ) : applicantFreelancersIsLoading ? (
-          <div>Loading applicant freelancerList...</div>
-        ) : applicantFreelancersIsError ? (
-          <div>지원한 프리랜서 데이터를 불러오지 못했습니다.</div>
+        ) : pendingFreelancersIsLoading ? (
+          <div>Loading pending freelancerList...</div>
+        ) : pendingFreelancersIsError ? (
+          <div>보류한 프리랜서 데이터를 불러오지 못했습니다.</div>
         ) : null}
       </div>
     </>
   );
 };
 
-export default ApplicantFreelancerList;
+export default PendingFreelancerList;
