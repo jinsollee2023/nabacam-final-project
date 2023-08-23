@@ -14,7 +14,6 @@ const Modal = ({ setIsModalOpen, children, buttons }: ModalProps) => {
 
   return (
     <>
-      (
       <S.ModalBox>
         <S.ModalContainer>
           <S.ModalTop>
@@ -24,7 +23,6 @@ const Modal = ({ setIsModalOpen, children, buttons }: ModalProps) => {
           {buttons && <S.ModalBtnBox>{buttons}</S.ModalBtnBox>}
         </S.ModalContainer>
       </S.ModalBox>
-      )
     </>
   );
 };

@@ -27,11 +27,6 @@ export const S = {
     position: absolute;
     right: 0;
   `,
-  ModalTitle: styled.p`
-    font-size: 20px;
-    font-weight: bold;
-    padding-top: 20px;
-  `,
   ModalContents: styled.div`
     height: 90%;
     overflow: auto;
@@ -40,6 +35,5 @@ export const S = {
     display: flex;
     gap: 5px;
     justify-content: center;
-    margin-top: 10px;
   `,
 };
