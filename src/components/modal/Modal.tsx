@@ -2,15 +2,14 @@ import React from "react";
 import { S } from "./ModalStyle";
 
 interface ModalProps {
-  isModalOpen: boolean;
   setIsModalOpen: (isModalOpen: boolean) => void;
   children: React.ReactNode;
   buttons?: React.ReactNode;
 }
 
-const Modal = ({ isModalOpen, setIsModalOpen, children, buttons }: ModalProps) => {
+const Modal = ({ setIsModalOpen, children, buttons }: ModalProps) => {
   const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
+    setIsModalOpen(false);
   };
 
   return (

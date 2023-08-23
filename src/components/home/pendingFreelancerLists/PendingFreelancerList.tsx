@@ -57,7 +57,6 @@ const PendingFreelancerList = () => {
                   selectedFreelancer &&
                   selectedFreelancer.userId === pendingFreelancer.userId && (
                     <Modal
-                      isModalOpen={isModalOpen}
                       setIsModalOpen={setIsModalOpen}
                       buttons={
                         <>

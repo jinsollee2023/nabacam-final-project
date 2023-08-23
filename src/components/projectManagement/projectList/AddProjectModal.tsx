@@ -3,8 +3,7 @@ import { Checkbox, DatePicker, Slider } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect, useState } from "react";
 import { useProjectStore } from "src/zustand/useProjectStore";
-
-import { styled } from "styled-components";
+import S from "./ProjectListStyles";
 
 const AddProjectModal = () => {
   const [title, setTitle] = useState("");
@@ -18,7 +17,6 @@ const AddProjectModal = () => {
     setDeadLine(date?.toDate());
   };
 
-  console.log(deadLine);
   const CheckBoxOnChange = (e: CheckboxChangeEvent) => {
     setPaySlideOff(e.target.checked);
   };
@@ -38,8 +36,8 @@ const AddProjectModal = () => {
     clientId: "bb962329-4740-4519-ae52-d5ad68fc720c",
     deadLine: deadLine!,
     pay: {
-      min: minPay,
-      max: maxPay,
+      min: paySlideOff ? null : minPay,
+      max: paySlideOff ? null : maxPay,
     },
     status: "before progress",
     volunteer: [],
@@ -99,14 +97,3 @@ const AddProjectModal = () => {
 };
 
 export default AddProjectModal;
-
-const S = {
-  ProjectMainInfoBox: styled.div`
-    display: flex;
-    flex-direction: column;
-  `,
-  ProjectSubInfoBox: styled.div`
-    display: flex;
-    flex-direction: column;
-  `,
-};

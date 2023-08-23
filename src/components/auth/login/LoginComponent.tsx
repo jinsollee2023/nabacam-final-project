@@ -10,7 +10,7 @@ const LoginComponent = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  console.log(userId);
+  // console.log(userId);
   const loginHandler = async (e: any) => {
     e.preventDefault();
     try {

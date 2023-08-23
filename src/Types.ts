@@ -31,7 +31,7 @@ export interface Project {
   clientId: string;
   freelancerId?: string;
   deadLine: Date;
-  pay: { min: number; max: number };
+  pay: { min: number | null; max: number | null };
   status: string;
   volunteer?: string[];
   pendingFreelancer?: string[];

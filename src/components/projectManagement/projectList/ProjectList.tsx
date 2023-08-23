@@ -8,15 +8,25 @@ import { queryClient } from "src/App";
 import { useProjectStore } from "src/zustand/useProjectStore";
 import S from "./ProjectListStyles";
 import { useState } from "react";
+import { useUserStore } from "src/zustand/useUserStore";
 
 const ProjectList = () => {
-  const { data: projects } = useQuery(["projects"], async () => {
-    const tasksData = await getProjects();
-    return tasksData;
-  });
+  const { userId } = useUserStore();
+
+  const { data: projects } = useQuery(
+    ["projects"],
+    async () => {
+      const projectsData = await getProjects();
+      return projectsData;
+    },
+    {
+      enabled: !!userId,
+      select: (projectsData) =>
+        projectsData.filter((project) => project.clientId === userId),
+    }
+  );
 
   const { newProject } = useProjectStore();
-  console.log(newProject);
 
   const addProjectMutation = useMutation(() => addProject(newProject), {
     onSuccess: () => {
@@ -24,11 +34,11 @@ const ProjectList = () => {
     },
   });
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const addProjectButtonHandler = () => {
     addProjectMutation.mutate();
-    setIsModalOpen(false);
+    setIsAddModalOpen(false);
   };
 
   return (
@@ -39,31 +49,17 @@ const ProjectList = () => {
             return <ProjectCard project={project} />;
           })}
       </S.ProjectContainer>
-      <div
-        onClick={() => setIsModalOpen(!isModalOpen)}
-        style={{
-          backgroundColor: "aliceblue",
-          color: "black",
-          border: "none",
-          width: "100%",
-          height: "100px",
-
-          padding: "15px",
-
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-
-          cursor: "pointer",
-        }}
+      <S.ProjectCardBox
+        onClick={() => setIsAddModalOpen(!isAddModalOpen)}
+        justifyContent="center"
+        marginBottom={0}
       >
         <RiAddBoxLine size="23" />
         <span>프로젝트 게시하기</span>
-      </div>
-      {isModalOpen && (
+      </S.ProjectCardBox>
+      {isAddModalOpen && (
         <Modal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
+          setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
               <button onClick={addProjectButtonHandler}>

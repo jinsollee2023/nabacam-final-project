@@ -1,23 +1,34 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "antd";
-import React, { useState } from "react";
+import React from "react";
 import { updateFreelancer } from "src/api/User";
-import supabase from "src/config/supabaseClient";
 import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 
 interface EditFormProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  users:
+    | {
+        name: any;
+        contact: any;
+        workField: any;
+        projectId: any;
+      }[]
+    | null
+    | undefined;
 }
-const EditForm: React.FC<EditFormProps> = ({ open, setOpen }) => {
+const EditForm: React.FC<EditFormProps> = ({ open, setOpen, users }) => {
   // 상태관리
-  const updatedNameInput = useInput("");
-  const updatedWorkFieldInput = useInput("");
-  const updatedWorkSmallFieldInput = useInput("");
-  const updatedEmailInput = useInput("");
-  const updatedPhoneInput = useInput("");
-  const updatedProjectIdInput = useInput("");
+  const previousData = users && users[0];
+  const updatedNameInput = useInput(previousData?.name);
+  const updatedWorkFieldInput = useInput(previousData?.workField?.workField);
+  const updatedWorkSmallFieldInput = useInput(
+    previousData?.workField?.workSmallField
+  );
+  const updatedEmailInput = useInput(previousData?.contact?.email);
+  const updatedPhoneInput = useInput(previousData?.contact?.phone);
+  const updatedProjectIdInput = useInput(previousData?.contact?.projectId);
 
   const { userId } = useUserStore();
 
@@ -25,7 +36,7 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen }) => {
   const queryClient = useQueryClient();
   const updateMutation = useMutation(updateFreelancer, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["users", userId]);
+      queryClient.invalidateQueries(["profileIntro", userId]);
     },
   });
 

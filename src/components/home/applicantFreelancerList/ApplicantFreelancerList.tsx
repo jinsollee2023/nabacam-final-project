@@ -58,7 +58,6 @@ const ApplicantFreelancerList = () => {
                   selectedFreelancer &&
                   selectedFreelancer.userId === applicantFreelancer.userId && (
                     <Modal
-                      isModalOpen={isModalOpen}
                       setIsModalOpen={setIsModalOpen}
                       buttons={
                         <>
