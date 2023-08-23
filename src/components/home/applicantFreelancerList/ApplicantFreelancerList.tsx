@@ -74,9 +74,8 @@ const ApplicantFreelancerList = () => {
 
   return (
     <>
-      <div>
-        <S.Title>지원한 프리랜서들을 확인해보세요.</S.Title>
-
+      <S.Title>지원한 프리랜서들을 확인해보세요.</S.Title>
+      <S.ListContainer>
         {applicantFreelancers ? (
           applicantFreelancers.map((applicantFreelancer) => (
             <S.List key={applicantFreelancer.userId}>
@@ -123,7 +122,7 @@ const ApplicantFreelancerList = () => {
         ) : applicantFreelancersIsError ? (
           <div>지원한 프리랜서 데이터를 불러오지 못했습니다.</div>
         ) : null}
-      </div>
+      </S.ListContainer>
     </>
   );
 };
