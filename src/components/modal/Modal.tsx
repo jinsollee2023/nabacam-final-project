@@ -1,17 +1,14 @@
 import React from "react";
 import { S } from "./ModalStyle";
-
 interface ModalProps {
   setIsModalOpen: (isModalOpen: boolean) => void;
   children: React.ReactNode;
   buttons?: React.ReactNode;
 }
-
 const Modal = ({ setIsModalOpen, children, buttons }: ModalProps) => {
   const toggleModal = () => {
     setIsModalOpen(false);
   };
-
   return (
     <>
       <S.ModalBox>
@@ -26,5 +23,4 @@ const Modal = ({ setIsModalOpen, children, buttons }: ModalProps) => {
     </>
   );
 };
-
 export default Modal;

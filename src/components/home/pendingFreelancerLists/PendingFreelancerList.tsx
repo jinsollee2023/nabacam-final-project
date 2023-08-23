@@ -10,7 +10,9 @@ import { IUser } from "src/Types";
 
 const PendingFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
 
   const {
     data: pendingFreelancers,
@@ -27,11 +29,16 @@ const PendingFreelancerList = () => {
             <S.List key={pendingFreelancer.userId}>
               <S.ListContents>
                 <S.ImgBox>
-                  <S.Img alt="profileImg" src={pendingFreelancer.photoURL}></S.Img>
+                  <S.Img
+                    alt="profileImg"
+                    src={pendingFreelancer.photoURL}
+                  ></S.Img>
                 </S.ImgBox>
                 <S.FreelancerName>{pendingFreelancer.name}</S.FreelancerName>
                 <S.ListProjectTitle key={pendingFreelancer.projectId}>
-                  <S.ProjectTitle>"{pendingFreelancer.title}" 프로젝트에 지원</S.ProjectTitle>
+                  <S.ProjectTitle>
+                    "{pendingFreelancer.title}" 프로젝트에 지원
+                  </S.ProjectTitle>
                 </S.ListProjectTitle>
               </S.ListContents>
               <div>
@@ -65,10 +72,18 @@ const PendingFreelancerList = () => {
                         </>
                       }
                     >
-                      <S.ModalTitle>{pendingFreelancer.title} 프로젝트에 지원</S.ModalTitle>
+                      <S.ModalTitle>
+                        {pendingFreelancer.title} 프로젝트에 지원
+                      </S.ModalTitle>
                       <FreelancerProfile user={pendingFreelancer} />
                       <div style={{ color: "gray", fontSize: "14px" }}>
-                        <div style={{ display: "flex", width: "100%", marginTop: "10px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            marginTop: "10px",
+                          }}
+                        >
                           <div style={{ width: "100%" }}>
                             <p>목표 기간</p>
                             <div
@@ -83,7 +98,7 @@ const PendingFreelancerList = () => {
                               }}
                             >
                               <span style={{ fontSize: "16px" }}>
-                                {pendingFreelancer.deadLine.toLocaleString()}
+                                {pendingFreelancer.deadLine?.toLocaleString()}
                               </span>
                             </div>
                           </div>
@@ -109,8 +124,12 @@ const PendingFreelancerList = () => {
                                   transform: "translate(-50%, -50%)",
                                 }}
                               >
-                                <span>최소 : {pendingFreelancer.pay.min}만원</span>
-                                <span>최대 : {pendingFreelancer.pay.max}만원</span>
+                                <span>
+                                  최소 : {pendingFreelancer.pay?.min}만원
+                                </span>
+                                <span>
+                                  최대 : {pendingFreelancer.pay?.max}만원
+                                </span>
                               </div>
                             </div>
                           </div>

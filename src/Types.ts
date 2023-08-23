@@ -19,9 +19,9 @@ export interface User {
   ];
 }
 export interface IUser extends User {
-  title: string;
-  deadLine: Date;
-  pay: { min: number; max: number };
+  title?: string;
+  deadLine?: Date;
+  pay?: { min: number; max: number };
 }
 
 export interface Project {
@@ -32,8 +32,9 @@ export interface Project {
   freelancerId?: string;
   deadLine: Date;
   pay: { min: number | null; max: number | null };
-  status: string;
   volunteer?: string[];
+  status: string;
+  SuggestedFreelancers?: string[];
   pendingFreelancer?: string[];
 }
 
