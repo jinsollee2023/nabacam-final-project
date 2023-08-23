@@ -6,13 +6,13 @@ import { Select } from "antd";
 import ImagePreview from "./ProfileImg";
 
 import { uploadUserImage } from "src/api/User";
+import { useNavigate } from "react-router-dom";
 interface FormValue {
   email: string;
   password: string;
-  name: string;
 }
 
-const JoinComponent = () => {
+const JoinComponent = (props: any) => {
   // useinput
 
   const {
@@ -21,11 +21,11 @@ const JoinComponent = () => {
     reset,
     formState: { errors },
   } = useForm<FormValue>();
-
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [openClientJoin, setOpenClientJoin] = useState(false);
-  const [openFreelancer, setOpenFreelancer] = useState(false);
+  const [openClientJoin, setOpenClientJoin] = useState(true);
+  const [openFreelancer, setOpenFreelancer] = useState(props.freelancerOpen);
   const [workSelect, setWorkSelect] = useState("");
   const [name, setName] = useState("");
   const [photoURL, setPhotoURL] = useState<any>(null);
@@ -75,12 +75,20 @@ const JoinComponent = () => {
       };
 
       await userJoinData(newUserData);
+      const response = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      setOpenClientJoin(false);
+      reset();
+      setName("");
+      setWorkExp("");
+      setPhone("");
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
-
-    setOpenClientJoin(false);
-    reset();
   };
 
   const userJoinData = async (newUserData: any) => {
@@ -120,10 +128,10 @@ const JoinComponent = () => {
   return (
     <>
       <div>
-        <Stdiv>
+        {/* <Stdiv>
           <Stbutton onClick={clientJoinHandler}>클라이언트</Stbutton>
           <Stbutton onClick={freelancerJoinHandler}>프리랜서</Stbutton>
-        </Stdiv>
+        </Stdiv> */}
         {openClientJoin && (
           <form onSubmit={handleSubmit(clientSignupHandler)}>
             <h1>회원가입</h1>
@@ -163,14 +171,6 @@ const JoinComponent = () => {
                 <p>비밀번호는 최소 6자리 이상</p>
               )}
 
-              {/* <input
-                type="text"
-                placeholder="이름"
-                {...register("name", {
-                  required: true,
-                  pattern: /^\S+@\S+$/i,
-                })}
-              /> */}
               <input
                 type="text"
                 placeholder="이름"
@@ -225,14 +225,14 @@ const JoinComponent = () => {
                   placeholder="작업영역"
                 />
               )}
-              {openFreelancer && (
-                <input
-                  type="text"
-                  value={workExp}
-                  onChange={workExpOnChange}
-                  placeholder="경험"
-                />
-              )}
+
+              <input
+                type="text"
+                value={workExp}
+                onChange={workExpOnChange}
+                placeholder="경험"
+              />
+
               <input
                 type="text"
                 value={phone}
