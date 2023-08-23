@@ -22,9 +22,6 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
           portfolio.map((data) => (
             <div>
               <S.PortfolioImg alt="portfolioImage" src={data.thumbNailURL}></S.PortfolioImg>
-              {/* <a href={data.pdfFileURL} download="portfolio.pdf">
-                        test
-                      </a> */}
               <S.PortfolioCmt>{data.title}</S.PortfolioCmt>
             </div>
           ))

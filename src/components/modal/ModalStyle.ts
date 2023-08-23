@@ -35,6 +35,5 @@ export const S = {
     display: flex;
     gap: 5px;
     justify-content: center;
-    margin-top: 10px;
   `,
 };

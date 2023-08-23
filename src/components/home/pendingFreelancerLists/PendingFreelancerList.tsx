@@ -61,7 +61,7 @@ const PendingFreelancerList = () => {
                       setIsModalOpen={setIsModalOpen}
                       buttons={
                         <>
-                          <S.Btn>제안하기</S.Btn>
+                          <S.Btn>승인하기</S.Btn>
                           <S.Btn>거절하기</S.Btn>
                         </>
                       }
