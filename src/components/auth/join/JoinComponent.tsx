@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import supabase from "../../../config/supabaseClient";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Select } from "antd";
 import ImagePreview from "./ProfileImg";
-import Image from "src/components/myPage/myProfile/Image";
-import { useUserStore } from "src/zustand/useUserStore";
-import UserImage from "./userImage";
+
 import { uploadUserImage } from "src/api/User";
 interface FormValue {
   email: string;
@@ -104,9 +102,6 @@ const JoinComponent = () => {
     setName(e.target.value);
   };
 
-  const photoURLOnChange = (e: any) => {
-    setPhotoURL(e.target.value);
-  };
   const workFieldOnChange = (e: any) => {
     setWorkField(e.target.value);
   };
@@ -187,7 +182,6 @@ const JoinComponent = () => {
                 onChange={nameOnChange}
                 placeholder="이름"
               />
-              {/* <Image /> */}
               <ImagePreview
                 photoURL={photoURL}
                 photoURLOnChange={handlePhotoURLOnChange}
