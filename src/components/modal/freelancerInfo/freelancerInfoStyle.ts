@@ -1,6 +1,11 @@
 import { styled } from "styled-components";
 
 export const S = {
+  ModalTitle: styled.div`
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  `,
   UserInfoBox: styled.div`
     display: flex;
     gap: 10px;
@@ -47,6 +52,7 @@ export const S = {
   PortfolioBox: styled.div`
     display: flex;
     gap: 10px;
+    margin-bottom: 10px;
   `,
   PortfolioImg: styled.img`
     border-radius: 15px;

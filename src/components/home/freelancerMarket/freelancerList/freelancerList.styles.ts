@@ -133,6 +133,7 @@ export const S = {
   FreelancerContentBox: styled.div`
     display: flex;
     align-items: end;
+    cursor: pointer;
 
     span {
       margin: 0 3px;
@@ -156,5 +157,13 @@ export const S = {
     width: 100%;
     height: 40px;
     cursor: pointer;
+  `,
+  FreelancerInfoModalBtn: styled.button`
+    width: 50%;
+    height: 35px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    margin-top: 8px;
   `,
 };
