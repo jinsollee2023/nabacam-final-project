@@ -11,6 +11,7 @@ export const S = {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 100;
   `,
   ModalContainer: styled.div`
     background-color: #fff;
@@ -26,6 +27,9 @@ export const S = {
   CloseBtn: styled.button`
     position: absolute;
     right: 0;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
   `,
   ModalTitle: styled.p`
     font-size: 20px;
@@ -40,6 +44,5 @@ export const S = {
     display: flex;
     gap: 5px;
     justify-content: center;
-    margin-top: 10px;
   `,
 };

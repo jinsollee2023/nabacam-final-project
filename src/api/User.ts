@@ -80,6 +80,7 @@ export const getFreelancersBySort = async (sortLabel: string) => {
     const { data, error } = await supabase
       .from("users")
       .select("*")
+      .eq("role", "freelancer")
       .order(orderByField, { ascending });
     if (error) {
       alert(

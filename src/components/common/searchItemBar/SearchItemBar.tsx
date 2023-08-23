@@ -1,26 +1,22 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef } from "react";
 import { S } from "./searchItemBar.styles";
 import { MdPersonSearch } from "react-icons/md";
+import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
 
-interface SearchItemBarProps {
-  onSearch: (keyword: string) => void;
-}
-
-const SearchItemBar = ({ onSearch }: SearchItemBarProps) => {
-  const [searchKeyword, setSearchKeyword] = useState("");
+const SearchItemBar = () => {
   const searchInput = useRef<HTMLInputElement | null>(null);
+  const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
 
   useEffect(() => {
     searchInput.current?.focus();
   }, []);
 
   const HandleSearchKeywordOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(e.target.value);
+    changeSearchKeyword(e.target.value);
   };
 
   const handleSearchButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    onSearch(searchKeyword);
   };
 
   return (

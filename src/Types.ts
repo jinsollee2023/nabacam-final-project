@@ -12,7 +12,7 @@ export interface User {
 }
 
 export interface IUser extends User {
-  title: string;
+  title?: string;
 }
 
 export interface Project {
@@ -25,6 +25,8 @@ export interface Project {
   pay: { min: number; max: number };
   isDone: boolean;
   Volunteer: string[];
+  status: string;
+  SuggestedFreelancers: string[];
 }
 
 export interface Task {

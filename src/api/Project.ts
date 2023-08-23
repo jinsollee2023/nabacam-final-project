@@ -8,3 +8,11 @@ export const getProjects = async (): Promise<Project[]> => {
     .order("created_at", { ascending: true });
   return projects as Project[];
 };
+
+export const getPublishedProjects = async (id: string): Promise<Project[]> => {
+  const { data: projects } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("clientId", id);
+  return projects as Project[];
+};
