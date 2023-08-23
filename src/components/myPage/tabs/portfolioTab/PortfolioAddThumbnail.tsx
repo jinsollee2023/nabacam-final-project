@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useUserStore } from "src/zustand/useUserStore";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { styled } from "styled-components";
 import { usePortfolioFiles } from "src/hooks/usePortfolioFiles";
 
@@ -23,7 +22,7 @@ const PortfolioAddThumbnail = () => {
       {isFormVisible && (
         <input
           type="file"
-          accept="image/*"
+          accept="image/*, application/pdf, .doc, .docx, .ppt, .pptx"
           onChange={(e) => uploadFileHandler(e)}
         />
       )}
@@ -46,3 +45,7 @@ export const S = {
     }
   `,
 };
+
+/**
+ * 의도 : 얘를 하고 나면 dB 업로드 + get + 전역상태 저장까지
+ */

@@ -114,16 +114,7 @@ export default PortfolioAddThumbnail;
   */
 
   //////////////////////////////////////////////////
-  import { useEffect, useState } from "react";
-import { useUserStore } from "src/zustand/useUserStore";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  getFreelancerPortfolioPDF,
-  getFreelancerPortfolioThumbnail,
-  uploadFreelancerPortfolioThumbnail,
-} from "src/api/Portfolio";
-import { usePortfolioStore } from "src/zustand/usePortfolioStore";
-import { styled } from "styled-components";
+
 
 const PortfolioAddThumbnail = () => {
   // 상태관리
