@@ -73,10 +73,11 @@ export const S = {
   `,
   Btn: styled.button`
     width: 50%;
-    height: 30px;
+    height: 35px;
     font-size: 16px;
     border: none;
     border-radius: 10px;
+    margin-top: 8px;
   `,
   ModalTitle: styled.div`
     font-size: 30px;
