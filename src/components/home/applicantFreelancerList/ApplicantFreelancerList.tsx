@@ -10,7 +10,9 @@ import { IUser } from "src/Types";
 
 const ApplicantFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
 
   const {
     data: applicantFreelancers,
@@ -28,11 +30,16 @@ const ApplicantFreelancerList = () => {
             <S.List key={applicantFreelancer.userId}>
               <S.ListContents>
                 <S.ImgBox>
-                  <S.Img alt="profileImg" src={applicantFreelancer.photoURL}></S.Img>
+                  <S.Img
+                    alt="profileImg"
+                    src={applicantFreelancer.photoURL}
+                  ></S.Img>
                 </S.ImgBox>
                 <S.FreelancerName>{applicantFreelancer.name}</S.FreelancerName>
                 <S.ListProjectTitle key={applicantFreelancer.projectId}>
-                  <S.ProjectTitle>"{applicantFreelancer.title}" 프로젝트에 지원</S.ProjectTitle>
+                  <S.ProjectTitle>
+                    "{applicantFreelancer.title}" 프로젝트에 지원
+                  </S.ProjectTitle>
                 </S.ListProjectTitle>
               </S.ListContents>
               <div>
@@ -66,10 +73,18 @@ const ApplicantFreelancerList = () => {
                         </>
                       }
                     >
-                      <S.ModalTitle>{applicantFreelancer.title} 프로젝트에 지원</S.ModalTitle>
+                      <S.ModalTitle>
+                        {applicantFreelancer.title} 프로젝트에 지원
+                      </S.ModalTitle>
                       <FreelancerProfile user={applicantFreelancer} />
                       <div style={{ color: "gray", fontSize: "14px" }}>
-                        <div style={{ display: "flex", width: "100%", marginTop: "10px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            marginTop: "10px",
+                          }}
+                        >
                           <div style={{ width: "100%" }}>
                             <p>목표 기간</p>
                             <div
@@ -84,7 +99,7 @@ const ApplicantFreelancerList = () => {
                               }}
                             >
                               <span style={{ fontSize: "16px" }}>
-                                {applicantFreelancer.deadLine.toLocaleString()}
+                                {applicantFreelancer.deadLine?.toLocaleString()}
                               </span>
                             </div>
                           </div>
@@ -110,8 +125,12 @@ const ApplicantFreelancerList = () => {
                                   transform: "translate(-50%, -50%)",
                                 }}
                               >
-                                <span>최소 : {applicantFreelancer.pay.min}만원</span>
-                                <span>최대 : {applicantFreelancer.pay.max}만원</span>
+                                <span>
+                                  최소 : {applicantFreelancer.pay?.min}만원
+                                </span>
+                                <span>
+                                  최대 : {applicantFreelancer.pay?.max}만원
+                                </span>
                               </div>
                             </div>
                           </div>

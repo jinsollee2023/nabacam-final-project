@@ -11,6 +11,7 @@ export const S = {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 100;
   `,
   ModalContainer: styled.div`
     background-color: #fff;
@@ -26,6 +27,9 @@ export const S = {
   CloseBtn: styled.button`
     position: absolute;
     right: 0;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
   `,
   ModalContents: styled.div`
     height: 90%;
