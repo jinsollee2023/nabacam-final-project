@@ -1,5 +1,7 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
+import { v4 as uuidv4 } from "uuid";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getFreelancerImage, uploadFreelancerImage } from "src/api/User";
 

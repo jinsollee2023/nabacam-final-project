@@ -226,6 +226,18 @@ export const addFreelancerResumeProfileIntro = async ({
   return data;
 };
 
+export const uploadUserImage = async (userId: any, file: File) => {
+  const { data, error } = await supabase.storage
+    .from("users")
+    .upload(userId + "/" + uuidv4(), file);
+
+  if (error) {
+    throw new Error("Error uploading image");
+  }
+
+  return data;
+};
+
 export const patchFreelancerResumeProfileIntro = async ({
   editedProfileIntroText,
   userId,
@@ -287,45 +299,6 @@ export const addFreelancerResumeExperience = async ({
     .select("resumeExperience")
     .eq("userId", userId);
 
-  // console.log(existingData);
-
-  /**
-   * existingData = [
-  {
-    resumeExperience: [
-      // 여기에 기존 경력 데이터가 배열로 들어갑니다.
-      {
-        pastWorkDuration: {
-          pastWorkEndDate: "2023-01-31",
-          pastWorkStartDate: "2022-01-01",
-        },
-        pastWorkPlace: "Company A",
-        pastWorkPosition: "Developer",
-      },
-      {
-        pastWorkDuration: {
-          pastWorkEndDate: "2022-12-31",
-          pastWorkStartDate: "2022-06-01",
-        },
-        pastWorkPlace: "Company B",
-        pastWorkPosition: "Designer",
-      },
-    ],
-  },
-];
-   */
-
-  /**
-   * newData = {
-    pastWorkDuration: {
-      pastWorkEndDate: "2023-12-31",
-      pastWorkStartDate: "2023-06-01",
-    },
-    pastWorkPlace: "Company C",
-    pastWorkPosition: "Project Manager",
-  };
-  */
-
   // 병합된 데이터
   if (existingData && Array.isArray(existingData[0]?.resumeExperience)) {
     // existingData가 존재하고 + 그 안의 resumeExperience가 배열인 경우 (=즉, 기존 데이터가 있을 때)
@@ -362,29 +335,3 @@ export const addFreelancerResumeExperience = async ({
       .select();
   }
 };
-
-// export const addFreelancerResumeExperience = async ({
-//   newData,
-//   userId,
-//   freelancerRole,
-//   name,
-//   photoURL,
-// }: {
-//   newData: object;
-//   userId: string;
-//   freelancerRole: string;
-//   name: string;
-//   photoURL: string;
-// }) => {
-//   const { data, error } = await supabase
-//     .from("users")
-//     .upsert({
-//       resumeExperience: newData,
-//       userId: userId,
-//       role: freelancerRole,
-//       name: name,
-//       photoURL: photoURL,
-//     })
-//     .select();
-//   return data;
-// };
