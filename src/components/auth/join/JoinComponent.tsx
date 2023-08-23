@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import supabase from "../../../config/supabaseClient";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
-import { useNavigate } from "react-router-dom";
 import { Select } from "antd";
 import ImagePreview from "./ProfileImg";
 
@@ -10,6 +9,7 @@ import { uploadUserImage } from "src/api/User";
 interface FormValue {
   email: string;
   password: string;
+  name: string;
 }
 
 const JoinComponent = () => {
@@ -18,17 +18,14 @@ const JoinComponent = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormValue>();
-
-  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [openClientJoin, setOpenClientJoin] = useState(false);
-  const [openClientProfill, setOpenClientProfill] = useState(false);
   const [openFreelancer, setOpenFreelancer] = useState(false);
-  const [openFreelancerProfill, setOpenFreelancerProfill] = useState(false);
   const [workSelect, setWorkSelect] = useState("");
   const [name, setName] = useState("");
   const [photoURL, setPhotoURL] = useState<any>(null);
@@ -82,9 +79,8 @@ const JoinComponent = () => {
       console.error(error);
     }
 
-    setOpenClientProfill(true);
-    setOpenFreelancerProfill(true);
     setOpenClientJoin(false);
+    reset();
   };
 
   const userJoinData = async (newUserData: any) => {
@@ -93,9 +89,6 @@ const JoinComponent = () => {
     } catch (error) {
       console.log(error);
     }
-    setOpenClientProfill(false);
-    setEmail("");
-    setPassword("");
   };
 
   const nameOnChange = (e: any) => {
@@ -115,16 +108,10 @@ const JoinComponent = () => {
   const clientJoinHandler = () => {
     setOpenClientJoin(true);
     setOpenFreelancer(false);
-    setOpenClientProfill(false);
-    setEmail("");
-    setPassword("");
   };
   const freelancerJoinHandler = () => {
     setOpenClientJoin(true);
     setOpenFreelancer(true);
-    setOpenClientProfill(false);
-    setEmail("");
-    setPassword("");
   };
   const cancel = () => {
     setOpenClientJoin(false);
@@ -176,11 +163,19 @@ const JoinComponent = () => {
                 <p>비밀번호는 최소 6자리 이상</p>
               )}
 
+              {/* <input
+                type="text"
+                placeholder="이름"
+                {...register("name", {
+                  required: true,
+                  pattern: /^\S+@\S+$/i,
+                })}
+              /> */}
               <input
                 type="text"
+                placeholder="이름"
                 value={name}
                 onChange={nameOnChange}
-                placeholder="이름"
               />
               <ImagePreview
                 photoURL={photoURL}
@@ -222,18 +217,22 @@ const JoinComponent = () => {
                 ]}
               />
 
-              <input
-                type="text"
-                value={workField}
-                onChange={workFieldOnChange}
-                placeholder="작업영역"
-              />
-              <input
-                type="text"
-                value={workExp}
-                onChange={workExpOnChange}
-                placeholder="경험"
-              />
+              {openFreelancer && (
+                <input
+                  type="text"
+                  value={workField}
+                  onChange={workFieldOnChange}
+                  placeholder="작업영역"
+                />
+              )}
+              {openFreelancer && (
+                <input
+                  type="text"
+                  value={workExp}
+                  onChange={workExpOnChange}
+                  placeholder="경험"
+                />
+              )}
               <input
                 type="text"
                 value={phone}
