@@ -71,6 +71,7 @@ const FreelancerList = ({
       setSelectedPortfolioIndex(initialSelectedIndex);
     }
   }, [freelancersData]);
+
   if (freelancersIsLoading) {
     return (
       <Spin
