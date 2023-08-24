@@ -69,9 +69,9 @@ const useProjectsQueries = ({
     refetch: refetchprojectDataForSuggestions,
   } = useQuery(
     ["currentClientprojectLists"],
-    () => getProjectByClientWithBeforeProgress(userId as string),
+    () => getProjectByClientWithBeforeProgress(currentUserId as string),
     {
-      enabled: !!userId,
+      enabled: !!currentUserId,
       select: (projectLists) =>
         projectLists?.filter(
           (projectList) =>
