@@ -23,6 +23,7 @@ const FreelancerList = ({
     useState<PortfolioIndexMap>({});
   const { searchKeyword } = useSearchKeywordStore();
 
+  // 선택된 레이블로 정렬된 프리랜서 리스트 전체 가져오기
   const { freelancersDataBySort, freelancersError, freelancersIsLoading } =
     useFreelancersQueries(selectedSortLabel);
 
@@ -32,6 +33,7 @@ const FreelancerList = ({
 
   useEffect(() => {
     if (freelancersDataBySort) {
+      // 키워드가 바뀌면 검색 로직 실행
       const filteredfreelancerLists = freelancersDataBySort?.filter(
         (freelancer) => {
           // 입력한 키워드가 대문자이든 소문자이든 무조건 소문자로 변경
@@ -83,6 +85,7 @@ const FreelancerList = ({
 
   return (
     <S.FreelancerListContainer>
+      {/* 검색으로 걸른 프리랜서 리스트를 또 카테고리로 걸러준다 */}
       {filteredFreelancers
         ?.filter(
           (freelancer) =>
