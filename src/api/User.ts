@@ -106,14 +106,13 @@ export const getFreelancersBySort = async (sortLabel: string) => {
       .order(orderByField, { ascending });
     if (error) {
       alert(
-        `사용자 정보를 가져오는 중 오류가 발생했습니다zz.\n ${error.message}`
+        `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
       );
     }
-    console.log("data==>", data);
     return data;
   } catch (error) {
     throw new Error(
-      `사용자 정보를 가져오는 중 오류가 발생했습니다gg.\n ${error}`
+      `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
     );
   }
 };

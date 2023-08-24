@@ -4,15 +4,24 @@ import {
   addProject,
   deleteProject,
   getProjectByClient,
+  getProjectByClientWithBeforeProgress,
   updateProject,
 } from "src/api/Project";
 import { Project } from "src/Types";
 
-const useProjectsQueries = (userId: string) => {
+interface useProjectsQueriesProps {
+  userId?: string;
+  freelancerId?: string;
+}
+
+const useProjectsQueries = ({
+  userId,
+  freelancerId,
+}: useProjectsQueriesProps) => {
   const { data: projects } = useQuery(
     ["projects"],
     async () => {
-      const projectsData = await getProjectByClient(userId);
+      const projectsData = await getProjectByClient(userId as string);
       return projectsData;
     },
     {
@@ -48,11 +57,33 @@ const useProjectsQueries = (userId: string) => {
     }
   );
 
+  const {
+    data: projectDataForSuggestions,
+    isLoading: projectDataForSuggestionsIsLoading,
+    isError: projectDataForSuggestionsIsError,
+    refetch: refetchprojectDataForSuggestions,
+  } = useQuery(
+    ["currentClientprojectLists", freelancerId],
+    () => getProjectByClientWithBeforeProgress(userId as string),
+    {
+      enabled: !!userId,
+      select: (projectLists) =>
+        projectLists?.filter(
+          (projectList) =>
+            !projectList.SuggestedFreelancers?.includes(freelancerId as string)
+        ),
+    }
+  );
+
   return {
     projects,
     addProjectMutation,
     deleteProjectMutation,
     updateProjectMutation,
+    projectDataForSuggestions,
+    projectDataForSuggestionsIsLoading,
+    projectDataForSuggestionsIsError,
+    refetchprojectDataForSuggestions,
   };
 };
 

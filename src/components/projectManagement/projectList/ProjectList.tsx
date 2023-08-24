@@ -10,7 +10,7 @@ import useProjectsQueries from "src/hooks/useProjectsQueries";
 
 const ProjectList = () => {
   const { userId } = useUserStore();
-  const { projects, addProjectMutation } = useProjectsQueries(userId);
+  const { projects, addProjectMutation } = useProjectsQueries({ userId });
   const { newProject } = useProjectStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
