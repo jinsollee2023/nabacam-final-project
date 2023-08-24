@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
 import { Project } from "src/Types";
-import { getClientByProject } from "src/api/User";
 import S from "./ProjectListStyles";
 import { useState } from "react";
 import Modal from "src/components/modal/Modal";
@@ -16,9 +14,9 @@ interface projectCardProps {
 
 const ProjectCard = ({ project }: projectCardProps) => {
   const { client } = useClientsQueries(project);
-  const { deleteProjectMutation, updateProjectMutation } = useProjectsQueries(
-    project.clientId
-  );
+  const { deleteProjectMutation, updateProjectMutation } = useProjectsQueries({
+    currentUserId: project.clientId,
+  });
 
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isUpadateModalOpen, setIsUpadateModalOpen] = useState(false);

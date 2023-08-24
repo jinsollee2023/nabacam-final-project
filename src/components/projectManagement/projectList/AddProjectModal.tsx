@@ -72,7 +72,7 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
       min: paySlideOff ? "상의 후 결정" : minPay,
       max: paySlideOff ? "상의 후 결정" : maxPay,
     },
-    status: "before progress",
+    status: "진행 전",
   };
 
   useEffect(() => {

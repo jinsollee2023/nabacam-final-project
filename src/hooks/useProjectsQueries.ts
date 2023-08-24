@@ -3,20 +3,31 @@ import { queryClient } from "../App";
 import {
   addProject,
   deleteProject,
-  getProjectByClient,
+  getProjectOfClientBySort,
   updateProject,
 } from "src/api/Project";
 import { Project } from "src/Types";
 
-const useProjectsQueries = (userId: string) => {
+interface useProjectQueriesProps {
+  currentUserId: string;
+  sortLabel?: string;
+}
+
+const useProjectsQueries = ({
+  currentUserId,
+  sortLabel,
+}: useProjectQueriesProps) => {
   const { data: projects } = useQuery(
-    ["projects"],
+    ["projects", sortLabel],
     async () => {
-      const projectsData = await getProjectByClient(userId);
+      const projectsData = await getProjectOfClientBySort(
+        currentUserId,
+        sortLabel as string
+      );
       return projectsData;
     },
     {
-      enabled: !!userId,
+      enabled: !!currentUserId,
     }
   );
 
