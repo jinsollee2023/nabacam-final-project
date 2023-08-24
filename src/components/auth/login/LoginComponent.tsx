@@ -4,13 +4,11 @@ import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
 
 const LoginComponent = () => {
-  // const [email, setEmail] = useState("");  // 원본
-  const { email, setUserEmail } = useUserStore();
-  const { userId, setUserId } = useUserStore();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { userId, setUserId } = useUserStore();
   const navigate = useNavigate();
 
-  // console.log(userId);
   const loginHandler = async (e: any) => {
     e.preventDefault();
     try {
@@ -22,10 +20,8 @@ const LoginComponent = () => {
       if (error) {
         console.error(error);
       } else if (data) {
-        // 추가
-        const { id, email } = data.user;
+        const { id } = data.user;
         console.log(id);
-        if (email) setUserEmail(email);
         if (id) setUserId(id);
       }
     } catch (error) {
@@ -35,8 +31,7 @@ const LoginComponent = () => {
   };
 
   const emailOnChange = (e: any) => {
-    // setEmail(e.target.value);    // 원본
-    setUserEmail(e.target.value);
+    setEmail(e.target.value);
   };
   const passwordOnChange = (e: any) => {
     setPassword(e.target.value);
