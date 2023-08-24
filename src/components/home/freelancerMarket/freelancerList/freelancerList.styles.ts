@@ -159,7 +159,7 @@ export const S = {
     cursor: pointer;
   `,
   FreelancerInfoModalBtn: styled.button`
-    width: 50%;
+    width: 100%;
     height: 35px;
     cursor: pointer;
     border: none;
