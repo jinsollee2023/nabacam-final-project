@@ -3,29 +3,34 @@ import { queryClient } from "../App";
 import {
   addProject,
   deleteProject,
-  getProjectByClient,
+  getProjectOfClientBySort,
   getProjectByClientWithBeforeProgress,
   updateProject,
 } from "src/api/Project";
 import { Project } from "src/Types";
 
 interface useProjectsQueriesProps {
-  userId?: string;
+  currentUserId: string;
+  sortLabel?: string;
   freelancerId?: string;
 }
 
 const useProjectsQueries = ({
-  userId,
+  currentUserId,
+  sortLabel,
   freelancerId,
 }: useProjectsQueriesProps) => {
   const { data: projects } = useQuery(
-    ["projects"],
+    ["projects", sortLabel],
     async () => {
-      const projectsData = await getProjectByClient(userId as string);
+      const projectsData = await getProjectOfClientBySort(
+        currentUserId,
+        sortLabel as string
+      );
       return projectsData;
     },
     {
-      enabled: !!userId,
+      enabled: !!currentUserId,
     }
   );
 
@@ -64,9 +69,9 @@ const useProjectsQueries = ({
     refetch: refetchprojectDataForSuggestions,
   } = useQuery(
     ["currentClientprojectLists"],
-    () => getProjectByClientWithBeforeProgress(userId as string),
+    () => getProjectByClientWithBeforeProgress(currentUserId as string),
     {
-      enabled: !!userId,
+      enabled: !!currentUserId,
       select: (projectLists) =>
         projectLists?.filter(
           (projectList) =>

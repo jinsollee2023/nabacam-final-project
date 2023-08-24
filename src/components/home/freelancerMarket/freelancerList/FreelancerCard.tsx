@@ -45,7 +45,10 @@ const FreelancerCard = ({
     projectDataForSuggestionsIsLoading,
     projectDataForSuggestionsIsError,
     refetchprojectDataForSuggestions,
-  } = useProjectsQueries({ userId, freelancerId: freelancerItem.userId });
+  } = useProjectsQueries({
+    currentUserId: userId,
+    freelancerId: freelancerItem.userId,
+  });
   if (projectDataForSuggestionsIsLoading) {
     return (
       <>
