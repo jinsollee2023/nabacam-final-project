@@ -6,7 +6,6 @@ import Modal from "../../modal/Modal";
 import { IUser } from "src/Types";
 import PendingFreelancerInfoModal from "./PendingFreelancerInfoModal";
 import supabase from "src/config/supabaseClient";
-import { queryClient } from "src/App";
 
 const PendingFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
