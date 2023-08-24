@@ -37,7 +37,7 @@ export const getApplicantFreelancers = async (): Promise<IUser[]> => {
     // console.log(ApplicantFreelancersArr);
     return ApplicantFreelancersArr;
   } catch (error) {
-    throw new Error("지원한 프리랜서 목록을 가져오지 못했습니다.");
+    return ApplicantFreelancersArr;
   }
 };
 
@@ -66,6 +66,7 @@ export const getPendingFreelancers = async (): Promise<IUser[]> => {
         .in("userId", info.pendingFreelancer);
 
       // 보류된 프리랜서 데이터가 있는 경우, 'PendingFreelancersArr'에 추가
+      // if (findByPendingUsers.data && findByPendingUsers.data.length > 0) {
       if (findByPendingUsers.data) {
         PendingFreelancersArr.push(
           ...findByPendingUsers.data.map((x) => {
@@ -74,9 +75,9 @@ export const getPendingFreelancers = async (): Promise<IUser[]> => {
         );
       }
     }
-    // console.log(PendingFreelancersArr);
+
     return PendingFreelancersArr;
   } catch (error) {
-    throw new Error("보류한 프리랜서 목록을 가져오지 못했습니다.");
+    return PendingFreelancersArr;
   }
 };

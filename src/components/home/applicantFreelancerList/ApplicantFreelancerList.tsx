@@ -21,6 +21,14 @@ const ApplicantFreelancerList = () => {
     isError: applicantFreelancersIsError,
   } = useQuery(["users"], getApplicantFreelancers);
 
+  if (applicantFreelancersIsLoading) {
+    return <S.DataStatus>Loading applicant freelancer list...</S.DataStatus>;
+  }
+
+  if (applicantFreelancersIsError) {
+    return <S.DataStatus>Failed to load applicant freelancer list.</S.DataStatus>;
+  }
+
   const updatePendingFreelancer = async (freelancer: IUser) => {
     try {
       const { data: updatePendingFreelancerData, error: updatePendingFreelancersError } =
@@ -76,7 +84,9 @@ const ApplicantFreelancerList = () => {
     <>
       <S.Title>지원한 프리랜서들을 확인해보세요.</S.Title>
       <S.ListContainer>
-        {applicantFreelancers ? (
+        {applicantFreelancers === undefined || applicantFreelancers.length === 0 ? (
+          <S.DataStatus>지원한 프리랜서가 없습니다.</S.DataStatus>
+        ) : (
           applicantFreelancers.map((applicantFreelancer) => (
             <S.List key={applicantFreelancer.userId}>
               <S.ListContents>
@@ -117,11 +127,7 @@ const ApplicantFreelancerList = () => {
               </div>
             </S.List>
           ))
-        ) : applicantFreelancersIsLoading ? (
-          <div>Loading applicant freelancerList...</div>
-        ) : applicantFreelancersIsError ? (
-          <div>지원한 프리랜서 데이터를 불러오지 못했습니다.</div>
-        ) : null}
+        )}
       </S.ListContainer>
     </>
   );

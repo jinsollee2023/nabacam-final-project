@@ -79,4 +79,7 @@ export const S = {
     text-align: center;
     margin: 30px;
   `,
+  DataStatus: styled.div`
+    margin: 10px;
+  `,
 };

@@ -5,6 +5,8 @@ import { S } from "../applicantFreelancerList/applicantFreelancerListStyle";
 import Modal from "../../modal/Modal";
 import { IUser } from "src/Types";
 import PendingFreelancerInfoModal from "./PendingFreelancerInfoModal";
+import supabase from "src/config/supabaseClient";
+import { queryClient } from "src/App";
 
 const PendingFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,11 +18,70 @@ const PendingFreelancerList = () => {
     isError: pendingFreelancersIsError,
   } = useQuery(["users"], getPendingFreelancers);
 
+  if (pendingFreelancersIsLoading) {
+    return <S.DataStatus>Loading pending freelancer list...</S.DataStatus>;
+  }
+
+  if (pendingFreelancersIsError) {
+    return <S.DataStatus>Failed to load pending freelancer list.</S.DataStatus>;
+  }
+
+  const freelancerApproval = async (freelancer: IUser) => {
+    try {
+      const { data: projectData, error: projectError } = await supabase
+        .from("projects")
+        .select("pendingFreelancer, freelancerId, status, volunteer")
+        .match({ projectId: freelancer.projectId })
+        .limit(1)
+        .single();
+
+      // console.log(projectData);
+
+      if (projectError) {
+        console.error("프로젝트 정보 가져오기 오류", projectError);
+        alert("프리랜서 승인에 실패하였습니다.");
+        setIsModalOpen(false);
+        return;
+      }
+
+      // const updatedPendingFreelancerList = projectData.pendingFreelancer.filter(
+      //   (id: string) => id !== freelancer.userId
+      // );
+
+      // 프로젝트 데이터 업데이트
+      const { error: updateError } = await supabase
+        .from("projects")
+        .update({
+          // pendingFreelancer: updatedPendingFreelancerList.length
+          //   ? updatedPendingFreelancerList
+          //   : null,
+          pendingFreelancer: null,
+          volunteer: null,
+          freelancerId: freelancer.userId,
+          status: "진행중",
+        })
+        .match({ projectId: freelancer.projectId });
+
+      if (updateError) {
+        console.error("프로젝트 업데이트 오류:", updateError);
+        return;
+      }
+
+      // 성공 시 알림 메시지 표시 및 모달 닫기
+      alert("프리랜서 승인이 완료되었습니다.");
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("프리랜서 승인 처리 중 오류 발생:", error);
+    }
+  };
+
   return (
     <>
-      <div>
-        <S.Title>보류한 프리랜서들을 확인해보세요.</S.Title>
-        {pendingFreelancers ? (
+      <S.Title>보류한 프리랜서들을 확인해보세요.</S.Title>
+      <S.ListContainer>
+        {pendingFreelancers === null || pendingFreelancers.length === 0 ? (
+          <S.DataStatus>보류한 프리랜서가 없습니다.</S.DataStatus>
+        ) : (
           pendingFreelancers.map((pendingFreelancer) => (
             <S.List key={pendingFreelancer.userId}>
               <S.ListContents>
@@ -48,7 +109,9 @@ const PendingFreelancerList = () => {
                       setIsModalOpen={setIsModalOpen}
                       buttons={
                         <>
-                          <S.Btn>승인하기</S.Btn>
+                          <S.Btn onClick={() => freelancerApproval(pendingFreelancer)}>
+                            승인하기
+                          </S.Btn>
                           <S.Btn>거절하기</S.Btn>
                         </>
                       }
@@ -59,12 +122,8 @@ const PendingFreelancerList = () => {
               </div>
             </S.List>
           ))
-        ) : pendingFreelancersIsLoading ? (
-          <div>Loading pending freelancerList...</div>
-        ) : pendingFreelancersIsError ? (
-          <div>보류한 프리랜서 데이터를 불러오지 못했습니다.</div>
-        ) : null}
-      </div>
+        )}
+      </S.ListContainer>
     </>
   );
 };
