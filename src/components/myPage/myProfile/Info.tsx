@@ -9,7 +9,7 @@ const Info = () => {
   // 상태관리
   const [open, setOpen] = useState<boolean>(false);
   const { userId } = useUserStore();
-  const { setUserName } = useUserStore(); // 추가
+  const { setUserName, setProjectId } = useUserStore(); // 추가
 
   // GET
   const { status, data: users } = useQuery(
@@ -19,12 +19,13 @@ const Info = () => {
       enabled: !!userId,
     }
   );
-  // console.log(users);
+  console.log(users);
 
   useEffect(() => {
     if (status === "success" && users) {
-      const { name } = users[0];
+      const { name, projectId } = users[0];
       if (name) setUserName(name);
+      if (projectId) setProjectId(projectId);
     }
   }, [status, users, setUserName]);
   console.log();

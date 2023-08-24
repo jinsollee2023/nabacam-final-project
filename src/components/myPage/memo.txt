@@ -76,3 +76,138 @@ export default PortfolioAddThumbnail;
 
 
 
+/**
+   * existingData = [
+  {
+    resumeExperience: [
+      // 여기에 기존 경력 데이터가 배열로 들어갑니다.
+      {
+        pastWorkDuration: {
+          pastWorkEndDate: "2023-01-31",
+          pastWorkStartDate: "2022-01-01",
+        },
+        pastWorkPlace: "Company A",
+        pastWorkPosition: "Developer",
+      },
+      {
+        pastWorkDuration: {
+          pastWorkEndDate: "2022-12-31",
+          pastWorkStartDate: "2022-06-01",
+        },
+        pastWorkPlace: "Company B",
+        pastWorkPosition: "Designer",
+      },
+    ],
+  },
+];
+   */
+
+  /**
+   * newData = {
+    pastWorkDuration: {
+      pastWorkEndDate: "2023-12-31",
+      pastWorkStartDate: "2023-06-01",
+    },
+    pastWorkPlace: "Company C",
+    pastWorkPosition: "Project Manager",
+  };
+  */
+
+  //////////////////////////////////////////////////
+
+
+const PortfolioAddThumbnail = () => {
+  // 상태관리
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const { userId } = useUserStore();
+
+  // 경로
+  const CDNURL =
+    "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolioThumbnail";
+  const thumbnailFolder = "thumbnail";
+  // const PDFFolder = "PDF";
+  // const linkFolder = "link";
+  // const { setUserportfolioThumbnailSrc } = usePortfolioStore();
+
+  const { data: images = [] } = useQuery(
+    ["portfolioThumbnail", userId],
+    () => getFreelancerPortfolioThumbnail(userId, thumbnailFolder),
+    {
+      enabled: !!userId,
+    }
+  );
+  
+  const queryClient = useQueryClient();
+  const uploadMutation = useMutation(
+    (file: File) =>
+      uploadFreelancerPortfolioThumbnail(userId, file, thumbnailFolder),
+    {
+      onSuccess: () =>
+        queryClient.invalidateQueries(["portfolioThumbnail", userId]),
+    }
+  );
+  //
+  const uploadImageHandler = async (e: any) => {
+    const file = e.target.files && e.target.files[0];
+    if (file) {
+      uploadMutation.mutate(file);
+    }
+  };
+
+
+  const portfolioThumbnailSrc =
+    images.length > 0
+      ? CDNURL + "/" + userId + "/" + thumbnailFolder + "/" + images[0].name
+      : "";
+  // console.log(portfolioThumbnailSrc);
+
+  // const portfolioPDFSrc =
+  //   images.length > 0
+  //     ? CDNURL + "/" + userId + "/" + PDFFolder + "/" + images[0].name
+  //     : "";
+
+  // const portfolioLinkSrc =
+  //   images.length > 0
+  //     ? CDNURL + "/" + userId + "/" + linkFolder + "/" + images[0].name
+  //     : "";
+
+  // useEffect(() => {
+  //   setUserportfolioThumbnailSrc(portfolioThumbnailSrc);
+  // }, [portfolioThumbnailSrc, setUserportfolioThumbnailSrc]);
+
+  // Event Handler
+  const toggleFormVisibility = () => {
+    setIsFormVisible(!isFormVisible);
+  };
+
+  return (
+    <>
+      <S.ThumbnailButton onClick={toggleFormVisibility}>
+        +썸네일 첨부하기
+      </S.ThumbnailButton>
+      {isFormVisible && (
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => uploadImageHandler(e)}
+        />
+      )}
+    </>
+  );
+};
+
+export default PortfolioAddThumbnail;
+
+export const S = {
+  ThumbnailButton: styled.button`
+    cursor: pointer;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    &:hover {
+      background-color: #0056b3;
+    }
+  `,
+};

@@ -6,7 +6,7 @@ import {
   addFreelancerResumeProfileIntro,
   getFreelancerResumeProfileIntro,
   patchFreelancerResumeProfileIntro,
-} from "src/api/User";
+} from "src/api/Resume";
 import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 

@@ -22,11 +22,9 @@ const LoginComponent = () => {
       if (error) {
         console.error(error);
       } else if (data) {
-        // 원본에서 추가
-        // dB
+        // 추가
         const { id, email } = data.user;
         console.log(id);
-        // zustand
         if (email) setUserEmail(email);
         if (id) setUserId(id);
       }
