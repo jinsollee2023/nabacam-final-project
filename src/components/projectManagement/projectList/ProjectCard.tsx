@@ -16,9 +16,9 @@ interface projectCardProps {
 
 const ProjectCard = ({ project }: projectCardProps) => {
   const { client } = useClientsQueries(project);
-  const { deleteProjectMutation, updateProjectMutation } = useProjectsQueries(
-    project.clientId
-  );
+  const { deleteProjectMutation, updateProjectMutation } = useProjectsQueries({
+    userId: project.clientId,
+  });
 
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isUpadateModalOpen, setIsUpadateModalOpen] = useState(false);

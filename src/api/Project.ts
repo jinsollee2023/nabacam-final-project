@@ -18,6 +18,17 @@ export const getProjectByClient = async (id: string): Promise<Project[]> => {
     .eq("clientId", id);
   return projects as Project[];
 };
+export const getProjectByClientWithBeforeProgress = async (
+  clientId: string
+): Promise<Project[]> => {
+  const { data: projects } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("clientId", clientId)
+    .eq("status", "진행 전");
+
+  return projects as Project[];
+};
 
 export const addProject = async (newProject: Project): Promise<void> => {
   await supabase

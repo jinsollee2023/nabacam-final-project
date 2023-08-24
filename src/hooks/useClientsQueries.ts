@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Project } from "src/Types";
 import { getClientByProject } from "src/api/User";
 
