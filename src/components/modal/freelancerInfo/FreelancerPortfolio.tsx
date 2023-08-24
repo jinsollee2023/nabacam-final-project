@@ -20,7 +20,7 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
       <S.PortfolioBox>
         {portfolio && portfolio.length > 0 ? (
           portfolio.map((data) => (
-            <div>
+            <div key={data.portfolioId}>
               <S.PortfolioImg alt="portfolioImage" src={data.thumbNailURL}></S.PortfolioImg>
               <S.PortfolioCmt>{data.title}</S.PortfolioCmt>
             </div>

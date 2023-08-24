@@ -12,7 +12,7 @@ import { useSelectProjectStore } from "src/zustand/useSelectProjectStore";
 import supabase from "src/config/supabaseClient";
 import { getProjects } from "src/api/Project";
 import { useUserStore } from "src/zustand/useUserStore";
-
+import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
 interface FreelancerCardProps {
   freelancerItem: User;
   selectedPortfolioIndex: PortfolioIndexMap;
@@ -27,6 +27,7 @@ const FreelancerCard = ({
   setSelectedPortfolioIndex,
 }: FreelancerCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { userId } = useUserStore();
   const { selectedProjectId, setSelectedProjectId } = useSelectProjectStore();
   const { selectedProjectTitle, setSelectedProjectTitle } =
@@ -66,10 +67,14 @@ const FreelancerCard = ({
         ),
     }
   );
+  console.log("projectListsIsLoading", projectListsIsLoading);
+  console.log("projectListsIsError", projectListsIsError);
+  console.log("projectLists", projectLists);
 
   if (projectListsIsLoading) {
     return (
       <>
+        <div>hi</div>
         <Spin
           size="large"
           style={{
@@ -229,7 +234,7 @@ const FreelancerCard = ({
         )}
 
         <S.MiniProfileBox>
-          <S.FreelancerContentBox>
+          <S.FreelancerContentBox onClick={() => setIsModalOpen(!isModalOpen)}>
             <S.FreelancerName>{freelancerItem.name}</S.FreelancerName>
             <S.FreelancerContent>
               {freelancerItem.workField?.workSmallField}
@@ -238,6 +243,20 @@ const FreelancerCard = ({
               {String(freelancerItem.workExp)}년차
             </S.FreelancerContent>
           </S.FreelancerContentBox>
+          {isModalOpen && (
+            <Modal
+              setIsModalOpen={setIsModalOpen}
+              buttons={
+                <>
+                  <S.FreelancerInfoModalBtn>제안하기</S.FreelancerInfoModalBtn>
+                  <S.FreelancerInfoModalBtn>보류하기</S.FreelancerInfoModalBtn>
+                </>
+              }
+            >
+              <FreelancerInfoModal user={freelancerItem} />
+            </Modal>
+          )}
+
           <S.SuggestButton onClick={() => setIsDetailModalOpen(true)}>
             <FaHandshakeSimple size="25" />
           </S.SuggestButton>
