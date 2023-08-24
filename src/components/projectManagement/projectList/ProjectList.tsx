@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addProject, getProjects } from "src/api/Project";
+import { addProject, getProjectByClient } from "src/api/Project";
 import ProjectCard from "./ProjectCard";
 import { RiAddBoxLine } from "react-icons/ri";
 import Modal from "src/components/modal/Modal";
@@ -16,13 +16,11 @@ const ProjectList = () => {
   const { data: projects } = useQuery(
     ["projects"],
     async () => {
-      const projectsData = await getProjects();
+      const projectsData = await getProjectByClient(userId);
       return projectsData;
     },
     {
       enabled: !!userId,
-      select: (projectsData) =>
-        projectsData.filter((project) => project.clientId === userId),
     }
   );
 
