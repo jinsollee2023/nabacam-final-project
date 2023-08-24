@@ -7,6 +7,7 @@ import ImagePreview from "./ProfileImg";
 
 import { uploadUserImage } from "src/api/User";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "src/zustand/useUserStore";
 interface FormValue {
   email: string;
   password: string;
@@ -32,7 +33,7 @@ const JoinComponent = (props: any) => {
   const [workField, setWorkField] = useState("");
   const [workExp, setWorkExp] = useState("");
   const [phone, setPhone] = useState("");
-
+  const { userId, setUserId } = useUserStore();
   const handlePhotoURLOnChange = (url: any) => {
     setPhotoURL(url);
   };
@@ -75,11 +76,8 @@ const JoinComponent = (props: any) => {
       };
 
       await userJoinData(newUserData);
-      const response = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
 
+      if (user?.id) setUserId(user?.id);
       setOpenClientJoin(false);
       reset();
       setName("");
@@ -113,14 +111,6 @@ const JoinComponent = (props: any) => {
     setPhone(e.target.value);
   };
 
-  const clientJoinHandler = () => {
-    setOpenClientJoin(true);
-    setOpenFreelancer(false);
-  };
-  const freelancerJoinHandler = () => {
-    setOpenClientJoin(true);
-    setOpenFreelancer(true);
-  };
   const cancel = () => {
     setOpenClientJoin(false);
   };
