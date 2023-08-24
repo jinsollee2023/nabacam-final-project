@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import {
   addFreelancerResumeExperience,
   getFreelancerResumeExperience,
-} from "src/api/User";
+} from "src/api/Resume";
 import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
