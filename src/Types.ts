@@ -9,22 +9,33 @@ export interface User {
   contact: { email: string; phone: string };
   singUpDate: string;
   portfolioCount: number;
+  resumeProfileIntro?: string;
+  resumeExperience?: [
+    {
+      pastWorkPlace: string;
+      pastWorkDuration: { pastWorkEndDate: string; pastWorkStartDate: string };
+      pastWorkPosition: string;
+    }
+  ];
 }
-
 export interface IUser extends User {
-  title: string;
+  title?: string;
+  deadLine?: Date;
+  pay?: { min: number; max: number };
 }
 
 export interface Project {
-  projectId: string;
+  projectId?: string;
   title: string;
   desc: string;
   clientId: string;
-  freelancerId: string;
-  deadLine: string;
-  pay: { min: number; max: number };
+  freelancerId?: string;
+  deadLine: Date;
+  pay: { min: number | string; max: number | string };
   status: string;
-  Volunteer: string[];
+  volunteer?: string[];
+  SuggestedFreelancers?: string[];
+  pendingFreelancer?: string[];
 }
 
 export interface Task {

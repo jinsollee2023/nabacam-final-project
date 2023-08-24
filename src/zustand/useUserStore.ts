@@ -8,10 +8,10 @@ export type UserStore = {
   photoURL: string;
   projectId: string;
 
-  setUserId: (id: string) => void; //로그인
+  setUserId: (id: string) => void; //로그인 -> 회원가입
   setFreelancerRole: (role: string) => void; //회원가입
-  setUserName: (name: string) => void; //마이페이지
-  setUserPhotoURL: (photoURL: string) => void; //안씀
+  setUserName: (name: string) => void; //마이페이지 -> 회원가입 ?
+  setUserPhotoURL: (photoURL: string) => void; //형식상 넣어주고 안씀
   setUserEmail: (email: string) => void; //삭
   setProjectId: (projectId: string) => void; //마이페이지
 };

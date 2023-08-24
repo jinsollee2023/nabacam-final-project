@@ -19,7 +19,7 @@ const Image = () => {
       enabled: !!userId,
     }
   );
-
+  console.log("====>", images);
   // POST & UPDATE
   const queryClient = useQueryClient();
   const uploadMutation = useMutation(

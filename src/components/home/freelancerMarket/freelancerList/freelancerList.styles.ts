@@ -21,7 +21,7 @@ interface PortfolioItemProps {
 export const S = {
   FreelancerListContainer: styled.div`
     width: 100%;
-    height: 73vh;
+    height: 72.5vh;
     overflow-y: scroll;
     margin-top: 20px;
 
@@ -133,6 +133,7 @@ export const S = {
   FreelancerContentBox: styled.div`
     display: flex;
     align-items: end;
+    cursor: pointer;
 
     span {
       margin: 0 3px;
@@ -148,5 +149,21 @@ export const S = {
 
   FreelancerContent: styled.span`
     font-size: 14px;
+  `,
+
+  ModalInnerButton: styled.button`
+    border-radius: 10px;
+    border: none;
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+  `,
+  FreelancerInfoModalBtn: styled.button`
+    width: 50%;
+    height: 35px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    margin-top: 8px;
   `,
 };

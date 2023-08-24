@@ -3,22 +3,31 @@ import S from "./TaskStyles";
 import useTasksQueries from "../../../hooks/useTasksQueries";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getProjects } from "../../../api/Project";
+import { getProjectByClient } from "../../../api/Project";
 import { Select } from "antd";
 import { MdAddCircle } from "react-icons/md";
 import { Task } from "../../../Types";
+import { useUserStore } from "src/zustand/useUserStore";
 
 const TaskList = () => {
-  const { data: projects } = useQuery(["projects"], async () => {
-    const tasksData = await getProjects();
-    return tasksData;
-  });
+  const { userId } = useUserStore();
+
+  const { data: projects } = useQuery(
+    ["projects"],
+    async () => {
+      const projectsData = await getProjectByClient(userId);
+      return projectsData;
+    },
+    {
+      enabled: !!userId,
+    }
+  );
 
   const [projectId, setProjectId] = useState("");
 
   useEffect(() => {
     if (projects && projects.length > 0) {
-      setProjectId(projects[0].projectId);
+      setProjectId(projects[0].projectId!);
     }
   }, [projects]);
 
