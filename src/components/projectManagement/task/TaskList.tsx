@@ -3,7 +3,7 @@ import S from "./TaskStyles";
 import useTasksQueries from "../../../hooks/useTasksQueries";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getProjects } from "../../../api/Project";
+import { getProjectByClient } from "../../../api/Project";
 import { Select } from "antd";
 import { MdAddCircle } from "react-icons/md";
 import { Task } from "../../../Types";
@@ -15,13 +15,11 @@ const TaskList = () => {
   const { data: projects } = useQuery(
     ["projects"],
     async () => {
-      const projectsData = await getProjects();
+      const projectsData = await getProjectByClient(userId);
       return projectsData;
     },
     {
       enabled: !!userId,
-      select: (projectsData) =>
-        projectsData.filter((project) => project.clientId === userId),
     }
   );
 

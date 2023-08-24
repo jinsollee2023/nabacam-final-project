@@ -9,7 +9,7 @@ export const getProjects = async (): Promise<Project[]> => {
   return projects as Project[];
 };
 
-export const getPublishedProjects = async (id: string): Promise<Project[]> => {
+export const getProjectByClient = async (id: string): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
