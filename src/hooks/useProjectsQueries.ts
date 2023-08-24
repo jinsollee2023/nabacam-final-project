@@ -63,7 +63,7 @@ const useProjectsQueries = ({
     isError: projectDataForSuggestionsIsError,
     refetch: refetchprojectDataForSuggestions,
   } = useQuery(
-    ["currentClientprojectLists", freelancerId],
+    ["currentClientprojectLists"],
     () => getProjectByClientWithBeforeProgress(userId as string),
     {
       enabled: !!userId,
