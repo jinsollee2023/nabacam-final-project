@@ -1,14 +1,14 @@
 import React from "react";
 import { useState } from "react";
+import { usePortfolioUploadFiles } from "src/hooks/usePortfolioUploadFiles";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
-import { usePortfolioFiles } from "src/hooks/usePortfolioFiles";
 
 const PortfolioAddPDF = () => {
   // 상태관리
   const [isFormVisible, setIsFormVisible] = useState(false);
   const { userId } = useUserStore();
-  const { uploadFileHandler } = usePortfolioFiles("PDF");
+  const { uploadFileHandler } = usePortfolioUploadFiles("PDF");
 
   // Event Handler
   const toggleFormVisibility = () => {

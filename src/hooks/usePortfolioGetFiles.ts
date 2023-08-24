@@ -4,12 +4,12 @@ import { getPortfolioFiles } from "src/api/Portfolio";
 import { useUserStore } from "src/zustand/useUserStore";
 
 const usePortfolioGetFiles = (fileType: string) => {
-  const { userId } = useUserStore();
+  const { userId, projectId } = useUserStore();
 
   // get data
   const { data: files = [] } = useQuery(
     [`portfolio${fileType}`, userId],
-    () => getPortfolioFiles({ userId, fileType }),
+    () => getPortfolioFiles({ userId, projectId, fileType }),
     {
       enabled: !!userId,
     }

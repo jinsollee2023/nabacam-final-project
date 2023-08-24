@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
-import { usePortfolioFiles } from "src/hooks/usePortfolioFiles";
+import { usePortfolioUploadFiles } from "src/hooks/usePortfolioUploadFiles";
 
 const PortfolioAddThumbnail = () => {
   // 상태관리
   const [isFormVisible, setIsFormVisible] = useState(false);
   const { userId } = useUserStore();
-  const { uploadFileHandler } = usePortfolioFiles("thumbnail");
+  const { uploadFileHandler } = usePortfolioUploadFiles("thumbnail");
 
   // Event Handler
   const toggleFormVisibility = () => {

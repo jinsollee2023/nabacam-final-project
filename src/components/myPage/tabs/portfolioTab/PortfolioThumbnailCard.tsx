@@ -1,26 +1,25 @@
 import React from "react";
-import { usePortfolioFiles } from "src/hooks/usePortfolioFiles";
+import { usePortfolioUploadFiles } from "src/hooks/usePortfolioUploadFiles";
 import usePortfolioGetFiles from "src/hooks/usePortfolioGetFiles";
 import { usePortfolioStore } from "src/zustand/usePortfolioStore";
 import { useUserStore } from "src/zustand/useUserStore";
 
-const PortfolioThumbnailCard = () => {
-  const { userId } = useUserStore();
-  const { files } = usePortfolioGetFiles("thumbnail");
-  console.log(files[0]);
+const PortfolioThumbnailCard = ({ file }: any) => {
+  const { userId, projectId } = useUserStore();
+  // console.log("thumbnailfile", file);
 
   const CDNURL =
-    "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolioThumbnail";
-  const fileSrc =
-    files.length > 0
-      ? CDNURL + `/${userId}/thumbnailFolder/${files[0].name}`
+    "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios";
+  const thumbnailFileSrc =
+    file && file.name
+      ? CDNURL + `/${userId}/${projectId}/thumbnail/${file.name}`
       : "";
-  console.log(fileSrc);
+  // console.log("thumbnailfilesrc", thumbnailFileSrc);
 
   return (
     <img
       className="portfolioThumbnail"
-      src={fileSrc}
+      src={thumbnailFileSrc}
       alt="img"
       width="120px"
       height="120px"

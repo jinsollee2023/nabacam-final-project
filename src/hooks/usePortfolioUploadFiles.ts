@@ -7,12 +7,12 @@ import { uploadPortfolioFile } from "src/api/Portfolio";
  * 썸네일, pdf, 링크 관련 upload커스텀훅입니다.
  */
 
-export const usePortfolioFiles = (fileType: string) => {
-  const { userId } = useUserStore();
+export const usePortfolioUploadFiles = (fileType: string) => {
+  const { userId, projectId } = useUserStore();
 
   const queryClient = useQueryClient();
   const uploadMutation = useMutation(
-    (file: File) => uploadPortfolioFile({ userId, fileType, file }),
+    (file: File) => uploadPortfolioFile({ userId, projectId, fileType, file }),
     {
       onSuccess: () =>
         queryClient.invalidateQueries([`portfolio${fileType}`, userId]),

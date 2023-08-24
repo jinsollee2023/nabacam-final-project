@@ -36,13 +36,13 @@ export const getFolderName = (fileType: string) => {
   let folder = "";
   switch (fileType) {
     case "thumbnail":
-      folder = "thumbnailFolder";
+      folder = "thumbnail";
       break;
     case "PDF":
-      folder = "PDFFolder";
+      folder = "pdf";
       break;
     case "link":
-      folder = "linkFolder";
+      folder = "link";
       break;
     default:
       // 기본값
@@ -54,10 +54,12 @@ export const getFolderName = (fileType: string) => {
 
 export const uploadPortfolioFile = async ({
   userId,
+  projectId,
   fileType,
   file,
 }: {
   userId: string;
+  projectId: string;
   fileType: string;
   file: File;
 }) => {
@@ -65,8 +67,8 @@ export const uploadPortfolioFile = async ({
   const folder = getFolderName(fileType);
 
   const { data, error } = await supabase.storage
-    .from("portfolioThumbnail")
-    .upload(`${userId}/${folder}/${uuidv4()}`, file);
+    .from("portfolios")
+    .upload(`${userId}/${projectId}/${folder}/${uuidv4()}`, file);
 
   if (error) {
     throw new Error("Error uploading image");
@@ -77,16 +79,18 @@ export const uploadPortfolioFile = async ({
 
 export const getPortfolioFiles = async ({
   userId,
+  projectId,
   fileType,
 }: {
   userId: string;
+  projectId: string;
   fileType: string;
 }) => {
   // 폴더명 변경
   const folder = getFolderName(fileType);
   const { data, error } = await supabase.storage
-    .from("portfolioThumbnail")
-    .list(`${userId}/${folder}/`, {
+    .from("portfolios")
+    .list(`${userId}/${projectId}/${folder}/`, {
       limit: 100,
       offset: 0,
       sortBy: { column: "name", order: "asc" },
@@ -111,7 +115,7 @@ export const getFreelancerPortfolioThumbnail = async (
   thumbnailFolder: string
 ) => {
   const { data, error } = await supabase.storage
-    .from("portfolioThumbnail")
+    .from("portfolios")
     .list(userId + "/" + thumbnailFolder + "/", {
       limit: 100,
       offset: 0,

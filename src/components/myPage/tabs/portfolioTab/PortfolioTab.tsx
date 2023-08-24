@@ -5,20 +5,26 @@ import PortfolioAddModal from "./PortfolioAddModal";
 import PortfolioThumbnailCard from "./PortfolioThumbnailCard";
 import PortfolioPDFCard from "./PortfolioPDFCard";
 import usePortfolioGetFiles from "src/hooks/usePortfolioGetFiles";
+import { useQuery } from "@tanstack/react-query";
+import { useUserStore } from "src/zustand/useUserStore";
+import { getPortfolioFiles } from "src/api/Portfolio";
 
 const PortfolioTab = () => {
   const [open, setOpen] = useState(false);
-  const { files } = usePortfolioGetFiles("PDF");
+  const { files: PDFFiles } = usePortfolioGetFiles("PDF");
+  const { files: thumbnailFiles } = usePortfolioGetFiles("thumbnail");
+  console.log(PDFFiles);
+  console.log(thumbnailFiles);
+  // 두 배열 합치기
+  const combinedFiles = [...PDFFiles, ...thumbnailFiles];
+  // console.log("combinedfile", combinedFiles);
 
   return (
     <S.PortfolioListContainer>
       <S.PortfolioListWrapper>
-        <S.PortfolioList>
-          <p>대표</p>
-          <PortfolioThumbnailCard />
-        </S.PortfolioList>
-        {files.map((file, index) => (
+        {combinedFiles.map((file, index) => (
           <S.PortfolioList key={index}>
+            <PortfolioThumbnailCard file={file} />
             <PortfolioPDFCard file={file} />
           </S.PortfolioList>
         ))}
