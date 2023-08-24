@@ -33,6 +33,8 @@ const JoinComponent = (props: any) => {
   const [workField, setWorkField] = useState("");
   const [workExp, setWorkExp] = useState("");
   const [phone, setPhone] = useState("");
+  const { setFreelancerRole, freelancerRole } = useUserStore(); // 추가
+
   const { userId, setUserId } = useUserStore();
   const handlePhotoURLOnChange = (url: any) => {
     setPhotoURL(url);
@@ -91,7 +93,17 @@ const JoinComponent = (props: any) => {
 
   const userJoinData = async (newUserData: any) => {
     try {
-      const { data, error } = await supabase.from("users").insert(newUserData);
+      const { data, error } = await supabase
+        .from("users")
+        .insert(newUserData)
+        .select();
+
+      if (data) {
+        // 추가
+        const { role } = data[0];
+        if (role) setFreelancerRole(role);
+        console.log({ freelancerRole });
+      }
     } catch (error) {
       console.log(error);
     }

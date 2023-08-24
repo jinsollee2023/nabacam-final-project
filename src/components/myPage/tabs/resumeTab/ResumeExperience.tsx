@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import {
   addFreelancerResumeExperience,
   getFreelancerResumeExperience,
-} from "src/api/User";
+} from "src/api/Resume";
 import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
@@ -41,7 +41,7 @@ const ResumeExperience = () => {
       enabled: !!userId,
     }
   );
-  console.log(experienceInfo); // {resumeExperience: [{1}, {2}, {3} ...] }
+  // console.log(experienceInfo); // {resumeExperience: [{1}, {2}, {3} ...] }
 
   // ADD
   const queryClient = useQueryClient();

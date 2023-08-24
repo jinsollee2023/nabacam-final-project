@@ -15,6 +15,8 @@ import { Project } from "src/Types";
 
 const ProjectList = () => {
   const { userId } = useUserStore();
+  const { projects, addProjectMutation } = useProjectsQueries({ userId });
+  const { newProject } = useProjectStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedselectOption, setSelectedselectOption] = useState("전체보기");
   const [selectedSortLabel, setSelectedSortLabel] = useState("전체보기");

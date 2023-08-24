@@ -4,19 +4,22 @@ import {
   addProject,
   deleteProject,
   getProjectOfClientBySort,
+  getProjectByClientWithBeforeProgress,
   updateProject,
 } from "src/api/Project";
 import { Project } from "src/Types";
 
-interface useProjectQueriesProps {
+interface useProjectsQueriesProps {
   currentUserId: string;
   sortLabel?: string;
+  freelancerId?: string;
 }
 
 const useProjectsQueries = ({
   currentUserId,
   sortLabel,
-}: useProjectQueriesProps) => {
+  freelancerId,
+}: useProjectsQueriesProps) => {
   const { data: projects } = useQuery(
     ["projects", sortLabel],
     async () => {
@@ -59,11 +62,33 @@ const useProjectsQueries = ({
     }
   );
 
+  const {
+    data: projectDataForSuggestions,
+    isLoading: projectDataForSuggestionsIsLoading,
+    isError: projectDataForSuggestionsIsError,
+    refetch: refetchprojectDataForSuggestions,
+  } = useQuery(
+    ["currentClientprojectLists"],
+    () => getProjectByClientWithBeforeProgress(userId as string),
+    {
+      enabled: !!userId,
+      select: (projectLists) =>
+        projectLists?.filter(
+          (projectList) =>
+            !projectList.SuggestedFreelancers?.includes(freelancerId as string)
+        ),
+    }
+  );
+
   return {
     projects,
     addProjectMutation,
     deleteProjectMutation,
     updateProjectMutation,
+    projectDataForSuggestions,
+    projectDataForSuggestionsIsLoading,
+    projectDataForSuggestionsIsError,
+    refetchprojectDataForSuggestions,
   };
 };
 

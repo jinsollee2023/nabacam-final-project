@@ -1,9 +1,8 @@
 import { Modal, Radio, Space } from "antd";
 import React, { useState } from "react";
-import PortfolioAddFile from "./PortfolioAddFile";
+import PortfolioAddPDF from "./PortfolioAddPDF";
 import PortfolioAddThumbnail from "./PortfolioAddThumbnail";
 import useInput from "src/hooks/useInput";
-import Image from "../../myProfile/Image";
 
 interface EditFormProps {
   open: boolean;
@@ -79,7 +78,7 @@ const PortfolioAddModal: React.FC<EditFormProps> = ({ open, setOpen }) => {
                 </label>
               </form> */}
               <br />
-              <PortfolioAddFile />
+              <PortfolioAddPDF />
             </>
           )}
           {/* ---------------링크------------------ */}

@@ -20,3 +20,13 @@ export const useProjectStore = create<ProjectStore>()((set) => ({
   },
   changeNewProject: (newProject) => set(() => ({ newProject: newProject })),
 }));
+
+type SelectProjectStore = {
+  selectedProject: Project | null;
+  setSelectedProject: (project: Project | null) => void;
+};
+
+export const useSelectProjectStore = create<SelectProjectStore>()((set) => ({
+  selectedProject: null,
+  setSelectedProject: (project) => set(() => ({ selectedProject: project })),
+}));
