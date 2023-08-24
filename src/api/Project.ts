@@ -6,16 +6,29 @@ export const getProjects = async (): Promise<Project[]> => {
     .from("projects")
     .select("*")
     .order("created_at", { ascending: true });
-  console.log("projects", projects);
-
   return projects as Project[];
 };
 
-export const getProjectByClient = async (id: string): Promise<Project[]> => {
+export const getProjectOfClientBySort = async (
+  id: string,
+  sortLabel: string
+): Promise<Project[]> => {
+  let ascending = false;
+
+  switch (sortLabel) {
+    case "최신순":
+      ascending = false;
+      break;
+    case "오래된순":
+      ascending = true;
+      break;
+  }
+
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
-    .eq("clientId", id);
+    .eq("clientId", id)
+    .order("created_at", { ascending });
   return projects as Project[];
 };
 export const getProjectByClientWithBeforeProgress = async (
