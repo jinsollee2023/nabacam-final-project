@@ -41,20 +41,21 @@ export const getClients = async (): Promise<User[]> => {
   }
 };
 
-export const getClientByProject = async (id: string): Promise<User[]> => {
+export const getClientByProject = async (id: string): Promise<User> => {
   try {
     const { data, error } = await supabase
       .from("users")
       .select("*")
       .eq("role", "client")
-      .eq("userId", id);
+      .match({ userId: id })
+      .maybeSingle();
 
     if (error) {
       alert(
         `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
       );
     }
-    return data as User[];
+    return data as User;
   } catch (error) {
     throw new Error(
       `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`

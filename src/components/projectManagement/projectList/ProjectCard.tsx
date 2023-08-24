@@ -1,48 +1,23 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Project, User } from "src/Types";
+import { useQuery } from "@tanstack/react-query";
+import { Project } from "src/Types";
 import { getClientByProject } from "src/api/User";
 import S from "./ProjectListStyles";
-import { deleteProject, updateProject } from "src/api/Project";
-import { queryClient } from "src/App";
 import { useState } from "react";
 import Modal from "src/components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
 import { useProjectStore } from "src/zustand/useProjectStore";
+import useProjectsQueries from "src/hooks/useProjectsQueries";
+import useClientsQueries from "src/hooks/useClientsQueries";
 
 interface projectCardProps {
   project: Project;
 }
 
 const ProjectCard = ({ project }: projectCardProps) => {
-  const { data: client } = useQuery(
-    ["clients"],
-    async () => {
-      const clientData = await getClientByProject(project.clientId);
-      return clientData;
-    },
-    {
-      enabled: !!project,
-    }
-  );
-
-  const deleteProjectMutation = useMutation(
-    (projectId: string) => deleteProject(projectId),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["projects"]);
-      },
-    }
-  );
-
-  const updateProjectMutation = useMutation(
-    ({ projectId, newProject }: { projectId: string; newProject: Project }) =>
-      updateProject(projectId, newProject),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["projects"]);
-      },
-    }
+  const { client } = useClientsQueries(project);
+  const { deleteProjectMutation, updateProjectMutation } = useProjectsQueries(
+    project.clientId
   );
 
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -65,7 +40,7 @@ const ProjectCard = ({ project }: projectCardProps) => {
     <>
       {isDetailModalOpen && (
         <Modal setIsModalOpen={setIsDetailModalOpen}>
-          <ProjectDetailModal project={project} client={client![0].name} />
+          <ProjectDetailModal project={project} client={client!.name} />
         </Modal>
       )}
       {isUpadateModalOpen && (
@@ -92,7 +67,7 @@ const ProjectCard = ({ project }: projectCardProps) => {
             <span onClick={deleteProjectButtonHandler}>삭제</span>
           </S.ProjectCardButtonBox>
           <div>
-            <p>{client && client![0].name}</p>
+            <p>{client && client!.name}</p>
             <p>{String(project.deadLine)} 종료</p>
           </div>
         </div>
