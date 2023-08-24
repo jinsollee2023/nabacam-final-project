@@ -16,7 +16,9 @@ import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
 interface FreelancerCardProps {
   freelancerItem: User;
   selectedPortfolioIndex: PortfolioIndexMap;
-  setSelectedPortfolioIndex: React.Dispatch<React.SetStateAction<PortfolioIndexMap>>;
+  setSelectedPortfolioIndex: React.Dispatch<
+    React.SetStateAction<PortfolioIndexMap>
+  >;
 }
 
 const FreelancerCard = ({
@@ -28,7 +30,8 @@ const FreelancerCard = ({
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const { userId } = useUserStore();
   const { selectedProjectId, setSelectedProjectId } = useSelectProjectStore();
-  const { selectedProjectTitle, setSelectedProjectTitle } = useSelectProjectStore();
+  const { selectedProjectTitle, setSelectedProjectTitle } =
+    useSelectProjectStore();
 
   useEffect(() => {
     if (!isDetailModalOpen) {
@@ -50,20 +53,28 @@ const FreelancerCard = ({
     isLoading: projectListsIsLoading,
     isError: projectListsIsError,
     refetch: refetchProjectLists,
-  } = useQuery(["currentClientprojectLists", freelancerItem.userId], () => getProjects(), {
-    enabled: !!userId,
-    select: (projectLists) =>
-      projectLists?.filter(
-        (projectList) =>
-          projectList.clientId === userId &&
-          projectList.status === "진행 전" &&
-          !projectList.SuggestedFreelancers?.includes(freelancerItem.userId)
-      ),
-  });
+  } = useQuery(
+    ["currentClientprojectLists", freelancerItem.userId],
+    () => getProjects(),
+    {
+      enabled: !!userId,
+      select: (projectLists) =>
+        projectLists?.filter(
+          (projectList) =>
+            projectList.clientId === userId &&
+            projectList.status === "진행 전" &&
+            !projectList.SuggestedFreelancers?.includes(freelancerItem.userId)
+        ),
+    }
+  );
+  console.log("projectListsIsLoading", projectListsIsLoading);
+  console.log("projectListsIsError", projectListsIsError);
+  console.log("projectLists", projectLists);
 
   if (projectListsIsLoading) {
     return (
       <>
+        <div>hi</div>
         <Spin
           size="large"
           style={{
@@ -81,7 +92,12 @@ const FreelancerCard = ({
   }
 
   if (portfoliosIsLoading) {
-    return <Spin size="large" style={{ position: "absolute", top: "50%", left: "50%" }} />;
+    return (
+      <Spin
+        size="large"
+        style={{ position: "absolute", top: "50%", left: "50%" }}
+      />
+    );
   }
   if (portfoliosError) {
     return <span>portfolios Error..</span>;
@@ -100,7 +116,10 @@ const FreelancerCard = ({
     }
 
     const suggestedFreelancers = projectData.SuggestedFreelancers || [];
-    const updatedSuggestedFreelancers = [...suggestedFreelancers, freelancerItem.userId];
+    const updatedSuggestedFreelancers = [
+      ...suggestedFreelancers,
+      freelancerItem.userId,
+    ];
 
     const { error: updateError } = await supabase
       .from("projects")
@@ -131,7 +150,10 @@ const FreelancerCard = ({
                 type="primary"
                 block
                 onClick={HandleProjectSuggestionButtonClick}
-                disabled={!selectedProjectTitle || !(projectLists && projectLists.length > 0)}
+                disabled={
+                  !selectedProjectTitle ||
+                  !(projectLists && projectLists.length > 0)
+                }
               >
                 {selectedProjectTitle} 제안하기
               </Button>
@@ -145,23 +167,36 @@ const FreelancerCard = ({
         {portfoliosData && (
           <S.PortfolioList>
             {portfoliosData
-              .filter((portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId)
+              .filter(
+                (portfolioItem) =>
+                  portfolioItem.freelancerId === freelancerItem.userId
+              )
               .map((filteredPortfolio, portfolioIndex) => (
                 <S.PortfolioItem
                   key={filteredPortfolio.portfolioId}
-                  isSelected={selectedPortfolioIndex[freelancerItem.userId] === portfolioIndex}
+                  isSelected={
+                    selectedPortfolioIndex[freelancerItem.userId] ===
+                    portfolioIndex
+                  }
                 >
                   <S.PortfoliothumbNailImageBox>
-                    <img src={filteredPortfolio.thumbNailURL} alt="thumbnailImage" />
+                    <img
+                      src={filteredPortfolio.thumbNailURL}
+                      alt="thumbnailImage"
+                    />
                     <S.indicatorWrapper>
                       {portfoliosData
                         .filter(
-                          (portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId
+                          (portfolioItem) =>
+                            portfolioItem.freelancerId === freelancerItem.userId
                         )
                         .map((_, index) => (
                           <S.Indicator
                             key={index}
-                            selected={selectedPortfolioIndex[freelancerItem.userId] === index}
+                            selected={
+                              selectedPortfolioIndex[freelancerItem.userId] ===
+                              index
+                            }
                             onClick={() =>
                               setSelectedPortfolioIndex((prevSelected) => ({
                                 ...prevSelected,
@@ -173,7 +208,9 @@ const FreelancerCard = ({
                     </S.indicatorWrapper>
                   </S.PortfoliothumbNailImageBox>
                   <S.PortfolioTitleBox>
-                    <S.PortfolioTitle>{filteredPortfolio.title}</S.PortfolioTitle>
+                    <S.PortfolioTitle>
+                      {filteredPortfolio.title}
+                    </S.PortfolioTitle>
                   </S.PortfolioTitleBox>
                 </S.PortfolioItem>
               ))}
@@ -181,7 +218,8 @@ const FreelancerCard = ({
             {/* some → 주어진 판별 함수를 적오도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는 
                       포트폴리오들의 프리랜서 아이디 중에서 내가 지금 돌고있는 프리랜서의 아이디와 일치하는 것이 없다면 아래 jsx를 보여줌*/}
             {!portfoliosData.some(
-              (portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId
+              (portfolioItem) =>
+                portfolioItem.freelancerId === freelancerItem.userId
             ) && (
               <li>
                 <S.PortfoliothumbNailImageBox>
@@ -191,7 +229,9 @@ const FreelancerCard = ({
                   />
                 </S.PortfoliothumbNailImageBox>
                 <S.PortfolioTitleBox>
-                  <S.PortfolioTitle>등록된 포트폴리오가 없습니다.</S.PortfolioTitle>
+                  <S.PortfolioTitle>
+                    등록된 포트폴리오가 없습니다.
+                  </S.PortfolioTitle>
                 </S.PortfolioTitleBox>
               </li>
             )}
@@ -201,8 +241,12 @@ const FreelancerCard = ({
         <S.MiniProfileBox>
           <S.FreelancerContentBox onClick={() => setIsInfoModalOpen(!isInfoModalOpen)}>
             <S.FreelancerName>{freelancerItem.name}</S.FreelancerName>
-            <S.FreelancerContent>{freelancerItem.workField?.workSmallField}</S.FreelancerContent>
-            <S.FreelancerContent>{String(freelancerItem.workExp)}년차</S.FreelancerContent>
+            <S.FreelancerContent>
+              {freelancerItem.workField?.workSmallField}
+            </S.FreelancerContent>
+            <S.FreelancerContent>
+              {String(freelancerItem.workExp)}년차
+            </S.FreelancerContent>
           </S.FreelancerContentBox>
           {isInfoModalOpen && (
             <Modal

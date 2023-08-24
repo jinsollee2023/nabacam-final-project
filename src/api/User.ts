@@ -41,6 +41,28 @@ export const getClients = async (): Promise<User[]> => {
   }
 };
 
+export const getClientByProject = async (id: string): Promise<User> => {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("role", "client")
+      .match({ userId: id })
+      .maybeSingle();
+
+    if (error) {
+      alert(
+        `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
+      );
+    }
+    return data as User;
+  } catch (error) {
+    throw new Error(
+      `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
+  }
+};
+
 export const getFreelancersBySort = async (sortLabel: string) => {
   try {
     let orderByField = "";
@@ -87,6 +109,7 @@ export const getFreelancersBySort = async (sortLabel: string) => {
         `사용자 정보를 가져오는 중 오류가 발생했습니다zz.\n ${error.message}`
       );
     }
+    console.log("data==>", data);
     return data;
   } catch (error) {
     throw new Error(

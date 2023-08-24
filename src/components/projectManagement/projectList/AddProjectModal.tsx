@@ -6,12 +6,31 @@ import { useProjectStore } from "src/zustand/useProjectStore";
 import S from "./ProjectListStyles";
 import { Project } from "src/Types";
 import dayjs from "dayjs";
+import { useForm } from "react-hook-form";
 
 interface AddProjectModal {
   project?: Project;
 }
 
 const AddProjectModal = ({ project }: AddProjectModal) => {
+  // 이후 유효성 검사 추가할 때 사용 예정
+  // const {
+  //   register,
+  //   formState,
+  //   handleSubmit,
+  //   setError,
+  //   getValues,
+  //   getFieldState,
+  //   trigger,
+  // } = useForm({
+  //   mode: "onBlur",
+  //   defaultValues: {},
+  //   resolver: undefined,
+  //   context: undefined,
+  //   criteriaMode: "firstError",
+  //   shouldFocusError: true,
+  //   shouldUseNativeValidation: false,
+  // });
   const [title, setTitle] = useState(project ? project.title : "");
   const [desc, setDesc] = useState(project ? project.desc : "");
   const [paySlideOff, setPaySlideOff] = useState(false);
@@ -95,6 +114,7 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
           filterOption={(input, option) =>
             (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
           }
+          // 이후 기업 마이페이지 구현 후 수정 예정
           options={[
             {
               value: "jack",

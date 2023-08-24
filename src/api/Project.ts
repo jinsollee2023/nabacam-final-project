@@ -6,10 +6,12 @@ export const getProjects = async (): Promise<Project[]> => {
     .from("projects")
     .select("*")
     .order("created_at", { ascending: true });
+  console.log("projects", projects);
+
   return projects as Project[];
 };
 
-export const getPublishedProjects = async (id: string): Promise<Project[]> => {
+export const getProjectByClient = async (id: string): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")

@@ -1,43 +1,21 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { addProject, getProjects } from "src/api/Project";
 import ProjectCard from "./ProjectCard";
 import { RiAddBoxLine } from "react-icons/ri";
 import Modal from "src/components/modal/Modal";
 import AddProjectModal from "./AddProjectModal";
-import { queryClient } from "src/App";
 import { useProjectStore } from "src/zustand/useProjectStore";
 import S from "./ProjectListStyles";
 import { useState } from "react";
 import { useUserStore } from "src/zustand/useUserStore";
+import useProjectsQueries from "src/hooks/useProjectsQueries";
 
 const ProjectList = () => {
   const { userId } = useUserStore();
-
-  const { data: projects } = useQuery(
-    ["projects"],
-    async () => {
-      const projectsData = await getProjects();
-      return projectsData;
-    },
-    {
-      enabled: !!userId,
-      select: (projectsData) =>
-        projectsData.filter((project) => project.clientId === userId),
-    }
-  );
-
+  const { projects, addProjectMutation } = useProjectsQueries(userId);
   const { newProject } = useProjectStore();
-
-  const addProjectMutation = useMutation(() => addProject(newProject), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
-    },
-  });
-
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const addProjectButtonHandler = () => {
-    addProjectMutation.mutate();
+    addProjectMutation.mutate(newProject);
     setIsAddModalOpen(false);
   };
 
