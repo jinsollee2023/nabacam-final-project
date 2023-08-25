@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import PortfolioAddModal from "./PortfolioAddModal";
+import PortfolioFilesCard from "./PortfolioFilesCard";
+import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
+import { useUserStore } from "src/zustand/useUserStore";
 
 const PortfolioTab = () => {
+  const { userId } = useUserStore();
   const [open, setOpen] = useState(false);
+  const { allFilesData } = usePortfolioInfoQueries(userId);
+  console.log("allFilesData", allFilesData);
 
   return (
     <S.PortfolioListContainer>
       <S.PortfolioListWrapper>
+        <S.PortfolioList>
+          <PortfolioFilesCard />
+        </S.PortfolioList>
         <S.PortfolioList onClick={() => setOpen(true)}>
           + 포트폴리오 첨부하기
         </S.PortfolioList>

@@ -37,8 +37,11 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
 
     // add fileInput into dB
     if (selectedPDFFile && selectedThumbnailFile) {
-      uploadFileMutation.mutate(selectedThumbnailFile);
-      uploadFileMutation.mutate(selectedPDFFile);
+      uploadFileMutation.mutate({
+        file: selectedThumbnailFile,
+        fileType: "thumbnail",
+      });
+      uploadFileMutation.mutate({ file: selectedPDFFile, fileType: "pdf" });
     }
 
     fileTitleInput.reset();

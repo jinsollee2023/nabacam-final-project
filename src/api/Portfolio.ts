@@ -67,17 +67,45 @@ export const addPortfolioInfo = async ({
 export const uploadPortfolioFile = async ({
   userId,
   file,
+  fileType,
 }: {
   userId: string;
   file: File;
+  fileType: "thumbnail" | "pdf";
 }) => {
   const { data, error } = await supabase.storage
     .from("portfolios")
-    .upload(`${userId}/${uuidv4()}`, file);
+    .upload(`${userId}/${fileType}/${uuidv4()}`, file);
 
   if (error) {
     throw new Error("Error uploading image");
   }
 
   return data;
+};
+export const getPortfolioFile = async ({
+  userId,
+  fileType,
+}: {
+  userId: string;
+  fileType: "thumbnail" | "PDF";
+}) => {
+  const { data: filesData, error } = await supabase.storage
+    .from("portfolios")
+    .list(`${userId}/${fileType}/`, {
+      limit: 100,
+      offset: 0,
+      sortBy: { column: "name", order: "asc" },
+    });
+  if (error) {
+    throw new Error("Error loading images");
+  }
+  filesData.sort((a, b) => {
+    const timeA = new Date(a.created_at).getTime();
+    const timeB = new Date(b.created_at).getTime();
+
+    return timeB - timeA;
+  });
+
+  return filesData || [];
 };
