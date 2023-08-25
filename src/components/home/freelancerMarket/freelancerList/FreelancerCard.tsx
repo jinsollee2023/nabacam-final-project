@@ -28,7 +28,7 @@ const FreelancerCard = ({
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { userId } = useUserStore();
-  const { selectedProject, setSelectedProject } = useSelectProjectStore();
+  const { selectedProject, setSelectedProject } = useProjectStore();
   const {
     updateSuggestedFreelancersDataMutation,
     suggestedFreelancersData,
