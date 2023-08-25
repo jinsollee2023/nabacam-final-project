@@ -4,21 +4,26 @@ import PortfolioAddModal from "./PortfolioAddModal";
 import PortfolioFilesCard from "./PortfolioFilesCard";
 import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
 import { useUserStore } from "src/zustand/useUserStore";
+import { usePortfolioStore } from "src/zustand/usePortfolioStore";
 
 const PortfolioTab = () => {
   const { userId } = useUserStore();
+  const { pfId } = usePortfolioStore();
   const [open, setOpen] = useState(false);
-  const { allFilesData } = usePortfolioInfoQueries(userId);
+  const { allFilesData } = usePortfolioInfoQueries({ userId, pfId });
+  // console.log("tabpfId", pfId);
   console.log("allFilesData", allFilesData);
 
   return (
     <S.PortfolioListContainer>
       <S.PortfolioListWrapper>
-        {allFilesData.map((file, index) => (
+        {/* {allFilesData.map((file, index) => (
           <S.PortfolioList key={index}>
-            <PortfolioFilesCard file={file} />
+            <PortfolioFilesCard file={file} pfId={pfId} />
           </S.PortfolioList>
-        ))}
+        ))} */}
+        <PortfolioFilesCard files={allFilesData} pfId={pfId} />
+
         <S.PortfolioList onClick={() => setOpen(true)}>
           + 포트폴리오 첨부하기
         </S.PortfolioList>

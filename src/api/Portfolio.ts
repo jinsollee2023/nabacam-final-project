@@ -31,14 +31,14 @@ export const getPortfolio = async (id: string) => {
   }
 };
 
-//
+//-------------------------------------------------------------------------------------------
 export const getPortfolioInfo = async (userId: string) => {
   const { data: portfolios } = await supabase
     .from("portfolios")
     .select("*")
     .eq("freelancerId", userId)
+    //.eq("portfolioId", pfId)
     .order("created_at", { ascending: true });
-  console.log(portfolios);
 
   return portfolios;
 };
@@ -50,9 +50,11 @@ interface NewPortfolioInfo {
 export const addPortfolioInfo = async ({
   newPortfolioInfo,
   userId,
+  pfId,
 }: {
   newPortfolioInfo: NewPortfolioInfo;
   userId: string;
+  pfId: string;
 }) => {
   await supabase
     .from("portfolios")
@@ -60,6 +62,7 @@ export const addPortfolioInfo = async ({
       title: newPortfolioInfo.title,
       desc: newPortfolioInfo.desc,
       freelancerId: userId,
+      portfolioId: pfId,
     })
     .select();
 };
@@ -68,14 +71,16 @@ export const uploadPortfolioFile = async ({
   userId,
   file,
   fileType,
+  pfId,
 }: {
   userId: string;
   file: File;
   fileType: "thumbnail" | "pdf";
+  pfId: string;
 }) => {
   const { data, error } = await supabase.storage
     .from("portfolios")
-    .upload(`${userId}/${fileType}/${uuidv4()}`, file);
+    .upload(`${userId}/${pfId}/${fileType}/${uuidv4()}`, file);
 
   if (error) {
     throw new Error("Error uploading image");
@@ -86,13 +91,16 @@ export const uploadPortfolioFile = async ({
 export const getPortfolioFile = async ({
   userId,
   fileType,
+  pfId,
 }: {
   userId: string;
   fileType: "thumbnail" | "PDF";
+  pfId: string;
 }) => {
+  // console.log("get pfId", pfId);
   const { data: filesData, error } = await supabase.storage
     .from("portfolios")
-    .list(`${userId}/${fileType}/`, {
+    .list(`${userId}/${pfId}/${fileType}`, {
       limit: 100,
       offset: 0,
       sortBy: { column: "name", order: "asc" },
@@ -100,12 +108,19 @@ export const getPortfolioFile = async ({
   if (error) {
     throw new Error("Error loading images");
   }
-  filesData.sort((a, b) => {
+
+  const filteredFilesData = filesData.filter(
+    (file) => file.name !== ".emptyFolderPlaceholder"
+  );
+
+  filteredFilesData.sort((a, b) => {
     const timeA = new Date(a.created_at).getTime();
     const timeB = new Date(b.created_at).getTime();
 
     return timeB - timeA;
   });
 
-  return filesData || [];
+  console.log("filteredFilesData>", filteredFilesData);
+
+  return filteredFilesData || [];
 };

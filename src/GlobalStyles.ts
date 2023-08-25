@@ -12,13 +12,24 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  @font-face {
+    font-family: 'LINESeedKR-Bd';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
+    font-weight: 200;
+    font-style: normal;
+}
+
   body {
+
     /* background-color: #040714;
     color: #f9f9f9;
 
     font-family: Avenir-Roman, sans-serif;
     margin: 0;
     padding: 0; */
+
+    font-family: 'LINESeedKR-Bd', sans-serif;
+
   }
 /* 
   a,

@@ -1,16 +1,22 @@
 import React from "react";
 import { useUserStore } from "src/zustand/useUserStore";
 
-const PortfolioFilesCard = ({ file }: any) => {
+const PortfolioFilesCard = ({ files, pfId }: { files: any; pfId: string }) => {
   const { userId } = useUserStore();
 
   const CDNURL =
     "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios";
 
   const thumbnailSrc =
-    file && file.name ? CDNURL + `/${userId}/thumbnail/${file.name}` : "";
+    files[0] && files[0].name
+      ? CDNURL + `/${userId}/${pfId}/thumbnail/${files[0].name}`
+      : "";
   const PDFSrc =
-    file && file.name ? CDNURL + `/${userId}/pdf/${file.name}` : "";
+    files[0] && files[0].name
+      ? CDNURL + `/${userId}/${pfId}/pdf/${files[0].name}`
+      : "";
+  console.log(thumbnailSrc);
+  console.log(PDFSrc);
 
   const viewPdfLink = (
     <>

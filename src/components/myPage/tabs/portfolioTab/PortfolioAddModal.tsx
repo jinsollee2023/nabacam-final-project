@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "src/zustand/useUserStore";
 import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
 import { usePortfolioStore } from "src/zustand/usePortfolioStore";
+import { v4 as uuidv4 } from "uuid";
 
 interface ModalProps {
   open: boolean;
@@ -18,30 +19,42 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
   const fileDescInput = useInput("");
   const linkTitleInput = useInput("");
   const { userId } = useUserStore();
+  const { pfId } = usePortfolioStore();
   const { addPortfolioMutation, portfolios, uploadFileMutation } =
-    usePortfolioInfoQueries(userId);
-  const { selectedThumbnailFile, selectedPDFFile } = usePortfolioStore();
-  const {} = usePortfolioInfoQueries(userId);
+    usePortfolioInfoQueries({ userId, pfId });
+  const { selectedThumbnailFile, selectedPDFFile, setPfId } =
+    usePortfolioStore();
 
   const addPortfolioInfoHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
 
+    // uuidv4()로 직접 pfId 생성
+    const pfId = uuidv4();
+
     const newPortfolioInfo = {
       title: fileTitleInput.value,
       desc: fileDescInput.value,
+      portfolioId: pfId,
     };
     // add textInput into dB
-    addPortfolioMutation.mutate({ newPortfolioInfo, userId });
+    addPortfolioMutation.mutate({ newPortfolioInfo, userId, pfId });
+    setPfId(pfId);
+    // console.log("pfId저장완료>", pfId);
 
     // add fileInput into dB
     if (selectedPDFFile && selectedThumbnailFile) {
       uploadFileMutation.mutate({
         file: selectedThumbnailFile,
         fileType: "thumbnail",
+        pfId,
       });
-      uploadFileMutation.mutate({ file: selectedPDFFile, fileType: "pdf" });
+      uploadFileMutation.mutate({
+        file: selectedPDFFile,
+        fileType: "pdf",
+        pfId,
+      });
     }
 
     fileTitleInput.reset();

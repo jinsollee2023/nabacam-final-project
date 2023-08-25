@@ -9,7 +9,13 @@ import { Portfolio } from "src/Types";
 import { useUserStore } from "src/zustand/useUserStore";
 import { queryClient } from "../App";
 
-const usePortfolioInfoQueries = (userId: string) => {
+const usePortfolioInfoQueries = ({
+  userId,
+  pfId,
+}: {
+  userId: string;
+  pfId: string;
+}) => {
   // 파일 외
   const { data: portfolios } = useQuery(
     ["portfolioInfo", userId],
@@ -32,13 +38,18 @@ const usePortfolioInfoQueries = (userId: string) => {
   const { data: allFilesData = [] } = useQuery(
     ["portfolioAllFiles", userId],
     async () => {
-      //
+      // 썸네일
       const thumbnailResponse = await getPortfolioFile({
         userId,
         fileType: "thumbnail",
+        pfId,
       });
-      //
-      const pdfResponse = await getPortfolioFile({ userId, fileType: "PDF" });
+      // pdf
+      const pdfResponse = await getPortfolioFile({
+        userId,
+        fileType: "PDF",
+        pfId,
+      });
       const response = [...thumbnailResponse, ...pdfResponse];
       return response;
     },
@@ -48,8 +59,15 @@ const usePortfolioInfoQueries = (userId: string) => {
   );
 
   const uploadFileMutation = useMutation(
-    ({ file, fileType }: { file: File; fileType: "thumbnail" | "pdf" }) =>
-      uploadPortfolioFile({ userId, file, fileType }),
+    ({
+      file,
+      fileType,
+      pfId,
+    }: {
+      file: File;
+      fileType: "thumbnail" | "pdf";
+      pfId: string;
+    }) => uploadPortfolioFile({ userId, file, fileType, pfId }),
     {
       onSuccess: () =>
         queryClient.invalidateQueries(["portfolioFiles", userId]),
