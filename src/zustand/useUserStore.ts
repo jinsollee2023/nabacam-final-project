@@ -1,4 +1,7 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+const StorageKey = "storage-key";
 
 export type UserStore = {
   userId: string;
@@ -16,18 +19,25 @@ export type UserStore = {
   setProjectId: (projectId: string) => void; //마이페이지
 };
 
-export const useUserStore = create<UserStore>((set) => ({
-  userId: "",
-  email: "", //삭
-  freelancerRole: "freelancer",
-  name: "",
-  photoURL: "",
-  projectId: "",
+export const useUserStore = create(
+  persist<UserStore>(
+    (set) => ({
+      userId: "",
+      email: "", //삭
+      freelancerRole: "freelancer",
+      name: "",
+      photoURL: "",
+      projectId: "",
 
-  setUserId: (userId) => set({ userId }),
-  setUserEmail: (email) => set({ email }), //삭
-  setFreelancerRole: (freelancerRole) => set({ freelancerRole }),
-  setUserName: (name) => set({ name }),
-  setUserPhotoURL: (photoURL) => set({ photoURL }),
-  setProjectId: (projectId) => set({ projectId }),
-}));
+      setUserId: (userId) => set({ userId }),
+      setUserEmail: (email) => set({ email }), //삭
+      setFreelancerRole: (freelancerRole) => set({ freelancerRole }),
+      setUserName: (name) => set({ name }),
+      setUserPhotoURL: (photoURL) => set({ photoURL }),
+      setProjectId: (projectId) => set({ projectId }),
+    }),
+    {
+      name: StorageKey,
+    }
+  )
+);
