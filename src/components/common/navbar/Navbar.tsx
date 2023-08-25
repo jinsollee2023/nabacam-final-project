@@ -18,8 +18,12 @@ const Navbar = () => {
       </S.ProfileWrapper>
       <S.UpperNavLinks>
         <S.NavLinkItem onClick={() => navigate("/")}>
+          프리랜서 구인
+        </S.NavLinkItem>
+        <S.NavLinkItem onClick={() => navigate("/project-navigation")}>
           프로젝트 탐색
         </S.NavLinkItem>
+
         <S.NavLinkItem onClick={() => navigate("/project-management")}>
           프로젝트 관리 도구
         </S.NavLinkItem>

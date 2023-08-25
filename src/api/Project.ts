@@ -106,3 +106,57 @@ export const getSuggestedFreelancers = async (
     );
   }
 };
+
+export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
+  try {
+    let orderByField = "";
+    let ascending = true;
+
+    switch (sortLabel) {
+      case "최근 등록 순":
+        orderByField = "created_at";
+        ascending = false;
+        break;
+      case "오래된 등록 순":
+        orderByField = "created_at";
+        ascending = true;
+        break;
+      case "마감기한 빠른 순":
+        orderByField = "deadLine";
+        ascending = true;
+        break;
+      case "마감기한 느린 순":
+        orderByField = "deadLine";
+        ascending = false;
+        break;
+      case "지원자 많은 순":
+        orderByField = "volunteer";
+        ascending = false;
+        break;
+      case "지원자 적은 순":
+        orderByField = "volunteer";
+        ascending = true;
+        break;
+      default:
+        orderByField = "created_at";
+        ascending = false;
+        break;
+    }
+
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .order(orderByField, { ascending })
+      .eq("status", "진행 전");
+    if (error) {
+      alert(
+        `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`
+      );
+    }
+    return data;
+  } catch (error) {
+    throw new Error(
+      `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
+  }
+};

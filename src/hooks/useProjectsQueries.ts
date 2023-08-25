@@ -7,6 +7,7 @@ import {
   getProjectByClientWithBeforeProgress,
   updateProject,
   getSuggestedFreelancers,
+  getProjectOfFreelancerBySort,
 } from "src/api/Project";
 import { Project } from "src/Types";
 
@@ -109,6 +110,15 @@ const useProjectsQueries = ({
     }
   );
 
+  const {
+    data: projectsListBySort,
+    error: projectListIsError,
+    isLoading: projectListIsLoading,
+  } = useQuery(["projectList", sortLabel], async () => {
+    const projectList = await getProjectOfFreelancerBySort(sortLabel as string);
+    return projectList;
+  });
+
   return {
     projects,
     addProjectMutation,
@@ -122,6 +132,9 @@ const useProjectsQueries = ({
     suggestedFreelancersDataIsLoading,
     suggestedFreelancersDataIsError,
     updateSuggestedFreelancersDataMutation,
+    projectsListBySort,
+    projectListIsError,
+    projectListIsLoading,
   };
 };
 

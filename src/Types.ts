@@ -26,6 +26,7 @@ export interface IUser extends User {
 
 export interface Project {
   projectId?: string;
+  created_at?: Date;
   title: string;
   desc: string;
   clientId: string;

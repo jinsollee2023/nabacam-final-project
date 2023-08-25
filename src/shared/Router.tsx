@@ -10,6 +10,7 @@ import Review from "../pages/Review";
 import ProjectManagement from "../pages/ProjectManagement";
 import { PrivateRoute } from "../components/auth/login/PrivateRoute";
 import LoginComponent from "../components/auth/login/LoginComponent";
+import ProjectNavigation from "src/components/home/projectNavigation/ProjectNavigation";
 
 const Router = () => {
   return (
@@ -19,6 +20,7 @@ const Router = () => {
         <Routes>
           <Route element={<PrivateRoute />}>
             <Route path="/" element={<Home />} />
+            <Route path="/project-navigation" element={<ProjectNavigation />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/my-page" element={<MyPage />} />
             <Route path="/project-management" element={<ProjectManagement />} />
