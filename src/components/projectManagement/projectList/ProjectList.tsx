@@ -48,6 +48,7 @@ const ProjectList = () => {
   };
 
   const addProjectButtonHandler = () => {
+    console.log(newProject);
     addProjectMutation.mutate(newProject);
     setIsAddModalOpen(false);
   };

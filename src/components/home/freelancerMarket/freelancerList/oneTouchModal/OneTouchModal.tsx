@@ -1,7 +1,7 @@
 import { Project, User } from "src/Types";
 import FreelancerProfile from "src/components/modal/freelancerInfo/FreelancerProfile";
 import { S } from "./oneTouchModal.styles";
-import { useSelectProjectStore } from "src/zustand/useProjectStore";
+import { useProjectStore } from "src/zustand/useProjectStore";
 
 interface ApplicantResumeModalProps {
   user: User;
@@ -9,7 +9,7 @@ interface ApplicantResumeModalProps {
 }
 
 const OneTouchModal = ({ user, projectLists }: ApplicantResumeModalProps) => {
-  const { selectedProject, setSelectedProject } = useSelectProjectStore();
+  const { selectedProject, setSelectedProject } = useProjectStore();
 
   const handleProjectItemClick = (project: Project) => {
     if (selectedProject === project) {

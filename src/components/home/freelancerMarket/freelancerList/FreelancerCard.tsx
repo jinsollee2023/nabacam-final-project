@@ -9,7 +9,7 @@ import OneTouchModal from "./oneTouchModal/OneTouchModal";
 import supabase from "src/config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
 import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
-import { useSelectProjectStore } from "src/zustand/useProjectStore";
+import { useProjectStore } from "src/zustand/useProjectStore";
 import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 
@@ -29,7 +29,7 @@ const FreelancerCard = ({
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { userId } = useUserStore();
-  const { selectedProject, setSelectedProject } = useSelectProjectStore();
+  const { selectedProject, setSelectedProject } = useProjectStore();
 
   useEffect(() => {
     if (!isDetailModalOpen) {

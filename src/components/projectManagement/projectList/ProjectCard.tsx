@@ -13,7 +13,7 @@ interface projectCardProps {
 }
 
 const ProjectCard = ({ project }: projectCardProps) => {
-  const { client } = useClientsQueries(project);
+  const { client } = useClientsQueries(project.clientId);
   const { deleteProjectMutation, updateProjectMutation } = useProjectsQueries({
     currentUserId: project.clientId,
   });
