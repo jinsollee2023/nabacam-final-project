@@ -14,9 +14,11 @@ const PortfolioTab = () => {
   return (
     <S.PortfolioListContainer>
       <S.PortfolioListWrapper>
-        <S.PortfolioList>
-          <PortfolioFilesCard />
-        </S.PortfolioList>
+        {allFilesData.map((file, index) => (
+          <S.PortfolioList key={index}>
+            <PortfolioFilesCard file={file} />
+          </S.PortfolioList>
+        ))}
         <S.PortfolioList onClick={() => setOpen(true)}>
           + 포트폴리오 첨부하기
         </S.PortfolioList>
