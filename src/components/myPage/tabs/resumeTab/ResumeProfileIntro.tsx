@@ -11,14 +11,12 @@ import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 
 const ResumeProfileIntro = () => {
-  // 상태관리
   const [profileIntroAdderOpen, setProfileIntroAdderOpen] =
     useState<boolean>(false);
   const [profileIntroEditorOpen, setProfileIntroEditorOpen] =
     useState<boolean>(false);
   const profileIntroInput = useInput("");
   const { userId, freelancerRole, name, photoURL } = useUserStore(); // 각각 로그인, 회원가입, info, image에서 가져옴
-  // textArea
   const { TextArea } = Input;
 
   // GET
@@ -32,7 +30,7 @@ const ResumeProfileIntro = () => {
   const previousData = profileIntro && profileIntro[0];
   const editedProfileIntroInput = useInput(previousData?.resumeProfileIntro);
 
-  // ADD - 프로필 추가
+  // ADD
   const queryClient = useQueryClient();
   const addMutation = useMutation(addFreelancerResumeProfileIntro, {
     onSuccess: () => {
@@ -44,10 +42,8 @@ const ResumeProfileIntro = () => {
   ) => {
     e.preventDefault();
 
-    // 추가 대상
     const profileIntroText = profileIntroInput.value;
 
-    // 추가
     addMutation.mutate({
       profileIntroText,
       userId,
@@ -56,12 +52,11 @@ const ResumeProfileIntro = () => {
       photoURL,
     });
 
-    // 입력창 비우고 모달 닫기
     profileIntroInput.reset();
     setProfileIntroAdderOpen(false);
   };
 
-  // PATCH - 프로필 수정
+  // PATCH
   const patchMutation = useMutation(patchFreelancerResumeProfileIntro, {
     onSuccess: () => {
       queryClient.invalidateQueries(["profileIntro", userId]);
@@ -69,10 +64,8 @@ const ResumeProfileIntro = () => {
   });
 
   const patchFreelancerResumeProfileIntroHandler = async () => {
-    // 수정 대상
     const editedProfileIntroText = editedProfileIntroInput.value;
 
-    // PATCH 요청
     patchMutation.mutate({
       editedProfileIntroText,
       userId,
@@ -81,7 +74,6 @@ const ResumeProfileIntro = () => {
       photoURL,
     });
 
-    // 입력창 비우고 모달 닫기
     editedProfileIntroInput.reset();
     setProfileIntroEditorOpen(false);
   };

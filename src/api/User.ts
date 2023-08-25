@@ -109,7 +109,7 @@ export const getFreelancersBySort = async (sortLabel: string) => {
         `사용자 정보를 가져오는 중 오류가 발생했습니다zz.\n ${error.message}`
       );
     }
-    console.log("data==>", data);
+    // console.log("data==>", data);
     return data;
   } catch (error) {
     throw new Error(
