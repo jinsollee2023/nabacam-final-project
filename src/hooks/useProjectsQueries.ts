@@ -6,6 +6,7 @@ import {
   getProjectOfClientBySort,
   getProjectByClientWithBeforeProgress,
   updateProject,
+  getSuggestedFreelancers,
 } from "src/api/Project";
 import { Project } from "src/Types";
 
@@ -13,18 +14,20 @@ interface useProjectsQueriesProps {
   currentUserId: string;
   sortLabel?: string;
   freelancerId?: string;
+  selectedProject?: Project | null;
 }
 
 const useProjectsQueries = ({
   currentUserId,
   sortLabel,
   freelancerId,
+  selectedProject,
 }: useProjectsQueriesProps) => {
   const { data: projects } = useQuery(
     ["projects", sortLabel],
     async () => {
       const projectsData = await getProjectOfClientBySort(
-        currentUserId,
+        currentUserId as string,
         sortLabel as string
       );
       return projectsData;
@@ -80,6 +83,32 @@ const useProjectsQueries = ({
     }
   );
 
+  const {
+    data: suggestedFreelancersData,
+    isLoading: suggestedFreelancersDataIsLoading,
+    isError: suggestedFreelancersDataIsError,
+  } = useQuery(["suggestedFreelancersData"], () =>
+    getSuggestedFreelancers(selectedProject as Project)
+  );
+
+  const updateSuggestedFreelancersDataMutation = useMutation(
+    ({
+      projectId,
+      updatedSuggestedFreelancers,
+    }: {
+      projectId: string;
+      updatedSuggestedFreelancers: string[];
+    }) =>
+      updateProject(projectId, {
+        SuggestedFreelancers: updatedSuggestedFreelancers,
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["projects"]);
+      },
+    }
+  );
+
   return {
     projects,
     addProjectMutation,
@@ -89,6 +118,10 @@ const useProjectsQueries = ({
     projectDataForSuggestionsIsLoading,
     projectDataForSuggestionsIsError,
     refetchprojectDataForSuggestions,
+    suggestedFreelancersData,
+    suggestedFreelancersDataIsLoading,
+    suggestedFreelancersDataIsError,
+    updateSuggestedFreelancersDataMutation,
   };
 };
 

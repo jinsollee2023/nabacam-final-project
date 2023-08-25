@@ -78,6 +78,7 @@ export const updateProject = async (
       max: number | string;
     };
     status?: string;
+    SuggestedFreelancers?: string[];
   }
 ): Promise<void> => {
   await supabase
@@ -85,4 +86,25 @@ export const updateProject = async (
     .update(column)
     .eq("projectId", projectId)
     .select();
+};
+
+export const getSuggestedFreelancers = async (
+  selectedProject: Project
+): Promise<{ SuggestedFreelancers: string[] }> => {
+  try {
+    const { data, error } = await supabase
+      .from("projects")
+      .select("SuggestedFreelancers")
+      .match({ projectId: selectedProject?.projectId })
+      .single();
+
+    if (error) {
+      console.error("프로젝트 정보 가져오기 오류:", error.message);
+    }
+    return data as { SuggestedFreelancers: string[] };
+  } catch (error) {
+    throw new Error(
+      `제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
+  }
 };

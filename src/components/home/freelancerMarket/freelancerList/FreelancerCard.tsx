@@ -6,7 +6,6 @@ import { PortfolioIndexMap } from "./FreelancerList";
 import { Button, Spin } from "antd";
 import Modal from "src/components/modal/Modal";
 import OneTouchModal from "./oneTouchModal/OneTouchModal";
-import supabase from "src/config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
 import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
 import { useProjectStore } from "src/zustand/useProjectStore";
@@ -29,7 +28,16 @@ const FreelancerCard = ({
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { userId } = useUserStore();
-  const { selectedProject, setSelectedProject } = useProjectStore();
+  const { selectedProject, setSelectedProject } = useSelectProjectStore();
+  const {
+    updateSuggestedFreelancersDataMutation,
+    suggestedFreelancersData,
+    suggestedFreelancersDataIsLoading,
+    suggestedFreelancersDataIsError,
+  } = useProjectsQueries({
+    currentUserId: userId,
+    selectedProject,
+  });
 
   useEffect(() => {
     if (!isDetailModalOpen) {
@@ -81,32 +89,33 @@ const FreelancerCard = ({
   }
 
   const HandleProjectSuggestionButtonClick = async () => {
-    const { data: projectData, error: projectError } = await supabase
-      .from("projects")
-      .select("SuggestedFreelancers")
-      .match({ projectId: selectedProject?.projectId })
-      .single();
+    if (suggestedFreelancersDataIsLoading) {
+      <Spin
+        size="large"
+        style={{ position: "absolute", top: "50%", left: "50%" }}
+      />;
+    }
 
-    if (projectError) {
-      console.error("프로젝트 정보 가져오기 오류:", projectError);
+    if (suggestedFreelancersDataIsError) {
+      console.error(
+        "프로젝트 정보 가져오기 오류:",
+        suggestedFreelancersDataIsError
+      );
       return;
     }
 
-    const suggestedFreelancers = projectData.SuggestedFreelancers || [];
+    const suggestedFreelancers =
+      suggestedFreelancersData?.SuggestedFreelancers || [];
     const updatedSuggestedFreelancers = [
-      ...suggestedFreelancers,
+      ...(suggestedFreelancers as string[]),
       freelancerItem.userId,
     ];
 
-    const { error: updateError } = await supabase
-      .from("projects")
-      .update({ SuggestedFreelancers: updatedSuggestedFreelancers })
-      .match({ projectId: selectedProject?.projectId });
+    updateSuggestedFreelancersDataMutation.mutate({
+      projectId: selectedProject?.projectId as string,
+      updatedSuggestedFreelancers,
+    });
 
-    if (updateError) {
-      console.error("프로젝트 업데이트 오류:", updateError);
-      return;
-    }
     refetchprojectDataForSuggestions();
     setIsDetailModalOpen(false);
   };
