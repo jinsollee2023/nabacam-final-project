@@ -82,22 +82,22 @@ const ResumeProfileIntro = () => {
     <>
       <S.ProfileContainer>
         <p>프로필</p>
-        <button
+        <S.Btn
           onClick={() => {
             setProfileIntroEditorOpen(true);
           }}
         >
           + 프로필 추가하기
-        </button>
+        </S.Btn>
         <S.ProfileInputBox>
           <div>{profileIntro && profileIntro[0].resumeProfileIntro}</div>
-          <button
+          <S.Btn
             onClick={() => {
               setProfileIntroEditorOpen(true);
             }}
           >
             수정
-          </button>
+          </S.Btn>
         </S.ProfileInputBox>
       </S.ProfileContainer>
       {/* ---------------------------추가모달--------------------------------- */}
@@ -165,25 +165,20 @@ const S = {
     background-color: #8080803d;
     padding: 10px;
     margin-top: 5px;
+    border-radius: 10px;
   `,
-  WorkExperienceContainer: styled.section`
-    width: 100%;
-    padding: 10px;
-    border: solid blue;
-  `,
-  WorkExperienceListWrapper: styled.ul`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+  Btn: styled.button`
+    background-color: #1fc17d;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
     margin-top: 10px;
-  `,
-  WorkExperienceList: styled.li`
-    background-color: #8080803d;
-    padding: 20px;
-    list-style: none;
-  `,
-  WorkExperienceAddBtn: styled.button`
-    padding: 10px;
-    margin-top: 30px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #168c68;
+    }
   `,
 };

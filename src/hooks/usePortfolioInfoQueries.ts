@@ -34,24 +34,40 @@ const usePortfolioInfoQueries = ({
     },
   });
 
+  /////////////////////////////////////////////////////////////////
   // 파일
-  const { data: allFilesData = [] } = useQuery(
-    ["portfolioAllFiles", userId],
+
+  // 각각 가져오기
+  const {
+    data: thumbnailData = [],
+    error: thumbnailError,
+    status: thumbnailStatus,
+  } = useQuery(
+    ["thumbnailFiles", userId],
     async () => {
-      // 썸네일
-      const thumbnailResponse = await getPortfolioFile({
+      return await getPortfolioFile({
         userId,
         fileType: "thumbnail",
         pfId,
       });
-      // pdf
-      const pdfResponse = await getPortfolioFile({
+    },
+    {
+      enabled: !!userId,
+    }
+  );
+
+  const {
+    data: pdfData = [],
+    error: pdfError,
+    status: pdfStatus,
+  } = useQuery(
+    ["pdfFiles", userId],
+    async () => {
+      return await getPortfolioFile({
         userId,
         fileType: "PDF",
         pfId,
       });
-      const response = [...thumbnailResponse, ...pdfResponse];
-      return response;
     },
     {
       enabled: !!userId,
@@ -77,7 +93,8 @@ const usePortfolioInfoQueries = ({
   return {
     portfolios,
     addPortfolioMutation,
-    allFilesData,
+    thumbnailData,
+    pdfData,
     uploadFileMutation,
   };
 };

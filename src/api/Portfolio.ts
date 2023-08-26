@@ -88,39 +88,30 @@ export const uploadPortfolioFile = async ({
 
   return data;
 };
+
+// 두개로 나눠서 가져오기
 export const getPortfolioFile = async ({
   userId,
-  fileType,
   pfId,
+  fileType,
 }: {
   userId: string;
-  fileType: "thumbnail" | "PDF";
   pfId: string;
+  fileType: "thumbnail" | "PDF";
 }) => {
-  // console.log("get pfId", pfId);
-  const { data: filesData, error } = await supabase.storage
+  const { data: allData, error } = await supabase.storage
     .from("portfolios")
-    .list(`${userId}/${pfId}/${fileType}`, {
+    .list(`${userId}/${pfId}/thumbnail`, {
       limit: 100,
       offset: 0,
       sortBy: { column: "name", order: "asc" },
     });
+
+  console.log(allData);
+
   if (error) {
     throw new Error("Error loading images");
   }
 
-  const filteredFilesData = filesData.filter(
-    (file) => file.name !== ".emptyFolderPlaceholder"
-  );
-
-  filteredFilesData.sort((a, b) => {
-    const timeA = new Date(a.created_at).getTime();
-    const timeB = new Date(b.created_at).getTime();
-
-    return timeB - timeA;
-  });
-
-  console.log("filteredFilesData>", filteredFilesData);
-
-  return filteredFilesData || [];
+  return allData;
 };

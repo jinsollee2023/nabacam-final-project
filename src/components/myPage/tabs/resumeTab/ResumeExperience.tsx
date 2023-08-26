@@ -95,13 +95,13 @@ const ResumeExperience = () => {
               )
             )}
         </S.WorkExperienceListWrapper>
-        <S.WorkExperienceAddBtn
+        <S.Btn
           onClick={() => {
             setOpen(true);
           }}
         >
           + 경력 추가하기
-        </S.WorkExperienceAddBtn>
+        </S.Btn>
       </S.WorkExperienceContainer>
       {/* ------------------------------------------------------------ */}
       {open && (
@@ -195,20 +195,9 @@ const ResumeExperience = () => {
 export default ResumeExperience;
 
 const S = {
-  ProfileContainer: styled.section`
-    width: 100%;
-    padding: 10px;
-    /* border: solid blue; */
-  `,
-  ProfileInputBox: styled.div`
-    background-color: #8080803d;
-    padding: 10px;
-    margin-top: 5px;
-  `,
   WorkExperienceContainer: styled.section`
     width: 100%;
     padding: 10px;
-    border: solid blue;
   `,
   WorkExperienceListWrapper: styled.ul`
     display: grid;
@@ -220,9 +209,22 @@ const S = {
     background-color: #8080803d;
     padding: 20px;
     list-style: none;
+    border-radius: 10px;
   `,
-  WorkExperienceAddBtn: styled.button`
+
+  Btn: styled.button`
+    background-color: #1fc17d;
+    color: white;
+    border: none;
     padding: 10px;
+    border-radius: 5px;
     margin-top: 30px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #168c68;
+    }
+    width: 100%;
   `,
 };

@@ -211,3 +211,67 @@ export const S = {
     }
   `,
 };
+
+// 8/25
+// 파일
+  // 합쳐서 가져오기
+  const { data: bothFilesData = [] } = useQuery(
+    ["bothFiles", userId],
+    async () => {
+      // 썸네일
+      const thumbnailResponse = await getPortfolioFiles({
+        userId,
+        fileType: "thumbnail",
+        pfId,
+      });
+      // pdf
+      const pdfResponse = await getPortfolioFiles({
+        userId,
+        fileType: "PDF",
+        pfId,
+      });
+      // const response = [...thumbnailResponse, ...pdfResponse];
+      return { thumbnailResponse, pdfResponse };
+    },
+    {
+      enabled: !!userId,
+    }
+  );
+
+  // 8/25
+  const thumbnailSrcs = files?.map((file: any) => {
+    if (file && file.metadata.mimetype === "image/jpeg") {
+      return CDNURL + `/${userId}/${pfId}/thumbnail/${file.name}`;
+    }
+    return null;
+  });
+  console.log(thumbnailSrcs);
+
+  // const PDFSrc =
+  //   file && file.metadata.mimetype === "application/pdf"
+  //     ? CDNURL + `/${userId}/${pfId}/pdf/${file.name}`
+  //     : null;
+  // console.log(PDFSrc);
+
+  const viewThumbnails = (
+    <>
+      {thumbnailSrcs.map((thumbnailSrc: string, index: any) => (
+        <img
+          key={index}
+          className="portfolioThumbnail"
+          src={thumbnailSrcs}
+          alt="img"
+          width="120px"
+          height="120px"
+          style={{ marginLeft: "10px" }}
+        />
+      ))}
+      {/* {PDFSrc && (
+        <a href={PDFSrc} target="_blank" rel="noopener noreferrer">
+          PDF 열기
+        </a>
+      )} */}
+    </>
+  );
+
+  return <div>{viewThumbnails}</div>;

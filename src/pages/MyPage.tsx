@@ -9,11 +9,13 @@ import Account from "../components/myPage/myProfile/Account";
 import { useQuery } from "@tanstack/react-query";
 import { getFreelancer } from "src/api/User";
 import { useUserStore } from "src/zustand/useUserStore";
+import MyPageMenuTabBarComp from "src/components/myPage/common/MyPageMenuTabBarComp";
 
 const MyPage = () => {
-  // 상태관리
   const [activeTab, setActiveTab] = useState("이력서");
   const { userId } = useUserStore();
+
+  const myPageMenu = ["마이페이지"];
 
   // Event Handler
   const handleTabClick = (
@@ -23,90 +25,87 @@ const MyPage = () => {
   };
 
   return (
-    <div style={{ margin: "10px 10px 10px 0px" }}>
-      {/* -----------------------나중에 navbar처리될 예정인 곳------------------------------ */}
-      <section
-        style={{
-          backgroundColor: "gray",
-          display: "flex",
-          alignItems: "center",
-          paddingLeft: "10px",
-          width: "100%",
-          height: "50px",
-        }}
-      >
-        <div>내 프로필</div>
-      </section>
-      <Account />
-      <section
-        style={{
-          display: "flex",
-          marginTop: "20px",
-          padding: "10px",
-          backgroundColor: "#f8f5ed",
-        }}
-      >
-        <div className="inner" style={{ width: "100%" }}>
-          <button
-            onClick={() => handleTabClick("이력서")}
-            style={{
-              backgroundColor: activeTab === "이력서" ? "gray" : "transparent",
-              border: "none",
-              padding: "6px 12px",
-              marginRight: "10px",
-              cursor: "pointer",
-            }}
-          >
-            이력서
-          </button>
-          <button
-            onClick={() => handleTabClick("포트폴리오")}
-            style={{
-              backgroundColor:
-                activeTab === "포트폴리오" ? "gray" : "transparent",
-              border: "none",
-              padding: "8px 16px",
-              marginRight: "10px",
-              cursor: "pointer",
-            }}
-          >
-            포트폴리오
-          </button>
-          <button
-            onClick={() => handleTabClick("계약정보")}
-            style={{
-              backgroundColor:
-                activeTab === "계약정보" ? "gray" : "transparent",
-              border: "none",
-              padding: "8px 16px",
-              marginRight: "10px",
-              cursor: "pointer",
-            }}
-          >
-            계약정보
-          </button>
-          <button
-            onClick={() => handleTabClick("피드백 관리")}
-            style={{
-              backgroundColor:
-                activeTab === "피드백 관리" ? "gray" : "transparent",
-              border: "none",
-              padding: "8px 16px",
-              marginRight: "10px",
-              cursor: "pointer",
-            }}
-          >
-            피드백 관리
-          </button>
-          {/* ----- */}
-          {activeTab === "이력서" && <ResumeTab />}
-          {activeTab === "포트폴리오" && <PortfolioTab />}
-          {activeTab === "계약정보" && <ContractInfoTab />}
-          {activeTab === "피드백 관리" && <FeedbackTab />}
-        </div>
-      </section>
-    </div>
+    <>
+      <MyPageMenuTabBarComp menu={myPageMenu} />
+      <S.Container>
+        <Account />
+        <section
+          style={{
+            display: "flex",
+            marginTop: "20px",
+            padding: "10px",
+            backgroundColor: "#f8f5ed",
+          }}
+        >
+          <div className="inner" style={{ width: "100%" }}>
+            <button
+              onClick={() => handleTabClick("이력서")}
+              style={{
+                backgroundColor:
+                  activeTab === "이력서" ? "gray" : "transparent",
+                border: "none",
+                padding: "6px 12px",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}
+            >
+              이력서
+            </button>
+            <button
+              onClick={() => handleTabClick("포트폴리오")}
+              style={{
+                backgroundColor:
+                  activeTab === "포트폴리오" ? "gray" : "transparent",
+                border: "none",
+                padding: "8px 16px",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}
+            >
+              포트폴리오
+            </button>
+            <button
+              onClick={() => handleTabClick("계약정보")}
+              style={{
+                backgroundColor:
+                  activeTab === "계약정보" ? "gray" : "transparent",
+                border: "none",
+                padding: "8px 16px",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}
+            >
+              계약정보
+            </button>
+            <button
+              onClick={() => handleTabClick("피드백 관리")}
+              style={{
+                backgroundColor:
+                  activeTab === "피드백 관리" ? "gray" : "transparent",
+                border: "none",
+                padding: "8px 16px",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}
+            >
+              피드백 관리
+            </button>
+            {/* ----- */}
+            {activeTab === "이력서" && <ResumeTab />}
+            {activeTab === "포트폴리오" && <PortfolioTab />}
+            {activeTab === "계약정보" && <ContractInfoTab />}
+            {activeTab === "피드백 관리" && <FeedbackTab />}
+          </div>
+        </section>
+      </S.Container>
+    </>
   );
 };
 
 export default MyPage;
+
+const S = {
+  Container: styled.div`
+    padding-left: 30px;
+  `,
+};

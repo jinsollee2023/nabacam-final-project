@@ -41,7 +41,7 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
     // add textInput into dB
     addPortfolioMutation.mutate({ newPortfolioInfo, userId, pfId });
     setPfId(pfId);
-    // console.log("pfId저장완료>", pfId);
+    console.log("pfId저장완료>", pfId);
 
     // add fileInput into dB
     if (selectedPDFFile && selectedThumbnailFile) {
