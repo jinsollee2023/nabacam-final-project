@@ -25,7 +25,7 @@ export const S = {
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   `,
 
-  ProjectItem: styled.div<{ isSelected?: boolean }>`
+  ProjectItem: styled.div<{ isselected?: boolean }>`
     background-color: rgba(0, 0, 0, 0.1);
     width: 100%;
     height: 75px;
@@ -43,9 +43,9 @@ export const S = {
       background-color: #a9e2f3;
     }
 
-    border: ${({ isSelected }) => (isSelected ? "2px solid #58ACFA" : "none")};
-    background-color: ${({ isSelected }) =>
-      isSelected ? "#a9e2f3" : "rgba(0, 0, 0, 0.1)"};
+    border: ${({ isselected }) => (isselected ? "2px solid #58ACFA" : "none")};
+    background-color: ${({ isselected }) =>
+      isselected ? "#a9e2f3" : "rgba(0, 0, 0, 0.1)"};
   `,
 
   ProjectItemTitle: styled.h4`

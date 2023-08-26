@@ -1,5 +1,4 @@
 import { Tabs, TabsProps } from "antd";
-import React from "react";
 import { S } from "./WorkFiledCategory.style";
 
 interface WorkFieldCategoryProps {

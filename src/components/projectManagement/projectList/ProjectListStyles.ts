@@ -6,10 +6,14 @@ interface ProjectCardBoxProps {
 }
 
 const S = {
+  SearchSortWrapper: styled.div`
+    display: flex;
+  `,
   ProjectContainer: styled.div`
     overflow: auto;
     width: 100%;
-    height: 73vh;
+    height: 65vh;
+    margin-top: 20px;
   `,
   ProjectCardBox: styled.div<ProjectCardBoxProps>`
     background-color: aliceblue;

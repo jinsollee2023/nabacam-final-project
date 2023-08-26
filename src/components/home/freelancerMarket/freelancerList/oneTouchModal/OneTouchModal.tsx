@@ -1,9 +1,7 @@
 import { Project, User } from "src/Types";
 import FreelancerProfile from "src/components/modal/freelancerInfo/FreelancerProfile";
-
 import { S } from "./oneTouchModal.styles";
-import { useState } from "react";
-import { useSelectProjectStore } from "src/zustand/useSelectProjectStore";
+import { useProjectStore } from "src/zustand/useProjectStore";
 
 interface ApplicantResumeModalProps {
   user: User;
@@ -11,20 +9,13 @@ interface ApplicantResumeModalProps {
 }
 
 const OneTouchModal = ({ user, projectLists }: ApplicantResumeModalProps) => {
-  const [selectedProjectItem, setSelectedProjectItem] =
-    useState<Project | null>();
-  const { setSelectedProjectId } = useSelectProjectStore();
-  const { setSelectedProjectTitle } = useSelectProjectStore();
+  const { selectedProject, setSelectedProject } = useProjectStore();
 
   const handleProjectItemClick = (project: Project) => {
-    if (selectedProjectItem === project) {
-      setSelectedProjectTitle(null);
-      setSelectedProjectId(null);
-      setSelectedProjectItem(null);
+    if (selectedProject === project) {
+      setSelectedProject(null);
     } else {
-      setSelectedProjectTitle(project.title);
-      setSelectedProjectId(project.projectId!);
-      setSelectedProjectItem(project);
+      setSelectedProject(project);
     }
   };
 
@@ -44,7 +35,7 @@ const OneTouchModal = ({ user, projectLists }: ApplicantResumeModalProps) => {
               <S.ProjectItem
                 key={projectItem.projectId}
                 onClick={() => handleProjectItemClick(projectItem)}
-                isSelected={selectedProjectItem === projectItem}
+                isselected={selectedProject === projectItem}
               >
                 <S.ProjectItemTitle>{projectItem.title}</S.ProjectItemTitle>
                 <S.ProjectItemDeadLine>

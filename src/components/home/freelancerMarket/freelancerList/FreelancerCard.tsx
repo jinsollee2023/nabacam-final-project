@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { S } from "./freelancerList.styles";
-import { useQuery } from "@tanstack/react-query";
-import { getPortfolios } from "../../../../api/Portfolio";
 import { FaHandshakeSimple } from "react-icons/fa6";
 import { User } from "../../../../Types";
 import { PortfolioIndexMap } from "./FreelancerList";
 import { Button, Spin } from "antd";
 import Modal from "src/components/modal/Modal";
 import OneTouchModal from "./oneTouchModal/OneTouchModal";
-import { useSelectProjectStore } from "src/zustand/useSelectProjectStore";
-import supabase from "src/config/supabaseClient";
-import { getProjects } from "src/api/Project";
 import { useUserStore } from "src/zustand/useUserStore";
 import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
+import { useProjectStore } from "src/zustand/useProjectStore";
+import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
+import useProjectsQueries from "src/hooks/useProjectsQueries";
+
 interface FreelancerCardProps {
   freelancerItem: User;
   selectedPortfolioIndex: PortfolioIndexMap;
@@ -29,26 +28,28 @@ const FreelancerCard = ({
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { userId } = useUserStore();
-  const { selectedProjectId, setSelectedProjectId } = useSelectProjectStore();
-  const { selectedProjectTitle, setSelectedProjectTitle } =
-    useSelectProjectStore();
+  const { selectedProject, setSelectedProject } = useProjectStore();
+  const {
+    updateSuggestedFreelancersDataMutation,
+    suggestedFreelancersData,
+    suggestedFreelancersDataIsLoading,
+    suggestedFreelancersDataIsError,
+  } = useProjectsQueries({
+    currentUserId: userId,
+    selectedProject,
+  });
 
   useEffect(() => {
     if (!isDetailModalOpen) {
-      setSelectedProjectTitle(null);
-      setSelectedProjectId(null);
+      setSelectedProject(null);
     }
-  }, [isDetailModalOpen, setSelectedProjectId, setSelectedProjectTitle]);
+  }, [isDetailModalOpen, setSelectedProject]);
+
+  const { portfoliosData, portfoliosError, portfoliosIsLoading } =
+    usePortfoliosQueries(freelancerItem);
 
   const {
-    data: portfoliosData,
-    error: portfoliosError,
-    isLoading: portfoliosIsLoading,
-  } = useQuery(["portfoliosData"], getPortfolios, {
-    enabled: !!freelancerItem,
-  });
 
-  const {
     data: projectLists,
     isLoading: projectListsIsLoading,
     isError: projectListsIsError,
@@ -69,9 +70,19 @@ const FreelancerCard = ({
   );
 
   if (projectListsIsLoading) {
+
+    projectDataForSuggestions,
+    projectDataForSuggestionsIsLoading,
+    projectDataForSuggestionsIsError,
+    refetchprojectDataForSuggestions,
+  } = useProjectsQueries({
+    currentUserId: userId,
+    freelancerId: freelancerItem.userId,
+  });
+  if (projectDataForSuggestionsIsLoading) {
+
     return (
       <>
-        <div>hi</div>
         <Spin
           size="large"
           style={{
@@ -84,7 +95,7 @@ const FreelancerCard = ({
       </>
     );
   }
-  if (projectListsIsError) {
+  if (projectDataForSuggestionsIsError) {
     return <span>freelancers Error..</span>;
   }
 
@@ -101,33 +112,34 @@ const FreelancerCard = ({
   }
 
   const HandleProjectSuggestionButtonClick = async () => {
-    const { data: projectData, error: projectError } = await supabase
-      .from("projects")
-      .select("SuggestedFreelancers")
-      .match({ projectId: selectedProjectId })
-      .single();
+    if (suggestedFreelancersDataIsLoading) {
+      <Spin
+        size="large"
+        style={{ position: "absolute", top: "50%", left: "50%" }}
+      />;
+    }
 
-    if (projectError) {
-      console.error("프로젝트 정보 가져오기 오류:", projectError);
+    if (suggestedFreelancersDataIsError) {
+      console.error(
+        "프로젝트 정보 가져오기 오류:",
+        suggestedFreelancersDataIsError
+      );
       return;
     }
 
-    const suggestedFreelancers = projectData.SuggestedFreelancers || [];
+    const suggestedFreelancers =
+      suggestedFreelancersData?.SuggestedFreelancers || [];
     const updatedSuggestedFreelancers = [
-      ...suggestedFreelancers,
+      ...(suggestedFreelancers as string[]),
       freelancerItem.userId,
     ];
 
-    const { error: updateError } = await supabase
-      .from("projects")
-      .update({ SuggestedFreelancers: updatedSuggestedFreelancers })
-      .match({ projectId: selectedProjectId });
+    updateSuggestedFreelancersDataMutation.mutate({
+      projectId: selectedProject?.projectId as string,
+      updatedSuggestedFreelancers,
+    });
 
-    if (updateError) {
-      console.error("프로젝트 업데이트 오류:", updateError);
-      return;
-    }
-    refetchProjectLists();
+    refetchprojectDataForSuggestions();
     setIsDetailModalOpen(false);
   };
 
@@ -143,16 +155,22 @@ const FreelancerCard = ({
                 block
                 onClick={HandleProjectSuggestionButtonClick}
                 disabled={
-                  !selectedProjectTitle ||
-                  !(projectLists && projectLists.length > 0)
+                  !selectedProject?.title ||
+                  !(
+                    projectDataForSuggestions &&
+                    projectDataForSuggestions.length > 0
+                  )
                 }
               >
-                {selectedProjectTitle} 제안하기
+                {selectedProject?.title} 제안하기
               </Button>
             </>
           }
         >
-          <OneTouchModal user={freelancerItem} projectLists={projectLists} />
+          <OneTouchModal
+            user={freelancerItem}
+            projectLists={projectDataForSuggestions!}
+          />
         </Modal>
       )}
       <S.FreelancerList>
@@ -166,7 +184,7 @@ const FreelancerCard = ({
               .map((filteredPortfolio, portfolioIndex) => (
                 <S.PortfolioItem
                   key={filteredPortfolio.portfolioId}
-                  isSelected={
+                  isselected={
                     selectedPortfolioIndex[freelancerItem.userId] ===
                     portfolioIndex
                   }

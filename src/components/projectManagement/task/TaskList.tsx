@@ -2,27 +2,15 @@ import TaskCard from "./TaskCard";
 import S from "./TaskStyles";
 import useTasksQueries from "../../../hooks/useTasksQueries";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getProjectByClient } from "../../../api/Project";
 import { Select } from "antd";
 import { MdAddCircle } from "react-icons/md";
 import { Task } from "../../../Types";
 import { useUserStore } from "src/zustand/useUserStore";
+import useProjectsQueries from "src/hooks/useProjectsQueries";
 
 const TaskList = () => {
   const { userId } = useUserStore();
-
-  const { data: projects } = useQuery(
-    ["projects"],
-    async () => {
-      const projectsData = await getProjectByClient(userId);
-      return projectsData;
-    },
-    {
-      enabled: !!userId,
-    }
-  );
-
+  const { projects } = useProjectsQueries({ currentUserId: userId });
   const [projectId, setProjectId] = useState("");
 
   useEffect(() => {
