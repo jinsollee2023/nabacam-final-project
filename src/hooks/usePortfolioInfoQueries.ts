@@ -1,9 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  addPortfolioInfo,
-  getPortfolioFile,
-  getPortfolioInfo,
-  uploadPortfolioFile,
+  addPortfolio,
+  getThumbnailURL,
+  uploadThumbnail,
 } from "src/api/Portfolio";
 import { Portfolio } from "src/Types";
 import { useUserStore } from "src/zustand/useUserStore";
@@ -11,91 +10,68 @@ import { queryClient } from "../App";
 
 const usePortfolioInfoQueries = ({
   userId,
-  pfId,
+  pfId, // 옵션
+  thumbnailFileName, // 옵션
 }: {
   userId: string;
-  pfId: string;
+  pfId?: string;
+  thumbnailFileName?: string;
 }) => {
-  // 파일 외
-  const { data: portfolios } = useQuery(
-    ["portfolioInfo", userId],
-    async () => {
-      const response = await getPortfolioInfo(userId);
-      return response;
-    },
+  //
+  const uploadThumbnailMutation = useMutation(
+    ({
+      file,
+      pfId,
+      thumbnailFileName,
+    }: {
+      file: File;
+      pfId: string;
+      thumbnailFileName: string;
+    }) => uploadThumbnail({ userId, file, pfId, thumbnailFileName }),
     {
-      enabled: !!userId,
+      onSuccess: () =>
+        queryClient.invalidateQueries(["PortfolioThumbnail", userId]),
     }
   );
 
-  const addPortfolioMutation = useMutation(addPortfolioInfo, {
+  // const { data: thumbnailURLData } = useQuery(
+  //   ["thumbnail", userId],
+  //   async () => {
+  //     const thumbnailResponse = await getThumbnailURL({
+  //       userId,
+  //     });
+  //   },
+  //   {
+  //     enabled: !!userId,
+  //   }
+  // );
+
+  const useThumbnailURLQuery = (userId: string) => {
+    return useQuery(
+      ["thumbnail", userId],
+      async () => {
+        const thumbnailResponse = await getThumbnailURL({
+          userId,
+        });
+        return thumbnailResponse; // 데이터 반환
+      },
+      {
+        enabled: !!userId,
+      }
+    );
+  };
+
+  //-------------------------------------------------------------------------
+  const addPortfolioMutation = useMutation(addPortfolio, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["portfolioInfo", userId]);
+      queryClient.invalidateQueries(["portfolio", userId]);
     },
   });
 
-  /////////////////////////////////////////////////////////////////
-  // 파일
-
-  // 각각 가져오기
-  const {
-    data: thumbnailData = [],
-    error: thumbnailError,
-    status: thumbnailStatus,
-  } = useQuery(
-    ["thumbnailFiles", userId],
-    async () => {
-      return await getPortfolioFile({
-        userId,
-        fileType: "thumbnail",
-        pfId,
-      });
-    },
-    {
-      enabled: !!userId,
-    }
-  );
-
-  const {
-    data: pdfData = [],
-    error: pdfError,
-    status: pdfStatus,
-  } = useQuery(
-    ["pdfFiles", userId],
-    async () => {
-      return await getPortfolioFile({
-        userId,
-        fileType: "PDF",
-        pfId,
-      });
-    },
-    {
-      enabled: !!userId,
-    }
-  );
-
-  const uploadFileMutation = useMutation(
-    ({
-      file,
-      fileType,
-      pfId,
-    }: {
-      file: File;
-      fileType: "thumbnail" | "pdf";
-      pfId: string;
-    }) => uploadPortfolioFile({ userId, file, fileType, pfId }),
-    {
-      onSuccess: () =>
-        queryClient.invalidateQueries(["portfolioFiles", userId]),
-    }
-  );
-
   return {
-    portfolios,
     addPortfolioMutation,
-    thumbnailData,
-    pdfData,
-    uploadFileMutation,
+    uploadThumbnailMutation,
+    useThumbnailURLQuery,
   };
 };
 

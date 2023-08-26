@@ -2,12 +2,12 @@ import { Modal, Radio, Space } from "antd";
 import React, { useState } from "react";
 
 import useInput from "src/hooks/useInput";
-import PortfolioAddFiles from "./PortfolioAddFiles";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "src/zustand/useUserStore";
 import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
 import { usePortfolioStore } from "src/zustand/usePortfolioStore";
 import { v4 as uuidv4 } from "uuid";
+import PortfolioAddForm from "./PortfolioAddForm";
 
 interface ModalProps {
   open: boolean;
@@ -19,43 +19,43 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
   const fileDescInput = useInput("");
   const linkTitleInput = useInput("");
   const { userId } = useUserStore();
-  const { pfId } = usePortfolioStore();
-  const { addPortfolioMutation, portfolios, uploadFileMutation } =
-    usePortfolioInfoQueries({ userId, pfId });
-  const { selectedThumbnailFile, selectedPDFFile, setPfId } =
-    usePortfolioStore();
+  const {
+    selectedTitle,
+    selectedDesc,
+    selectedThumbnailFile,
+    pfId,
+    thumbnailFileName,
+  } = usePortfolioStore();
 
-  const addPortfolioInfoHandler = async (
+  const { addPortfolioMutation, uploadThumbnailMutation } =
+    usePortfolioInfoQueries({ userId, pfId });
+
+  const addPortfolioHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
 
-    // uuidv4()로 직접 pfId 생성
-    const pfId = uuidv4();
+    const CDNURL =
+      "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios";
 
-    const newPortfolioInfo = {
-      title: fileTitleInput.value,
-      desc: fileDescInput.value,
+    const newPortfolioData = {
       portfolioId: pfId,
+      title: selectedTitle,
+      desc: selectedDesc,
+      thumbNailURL: `${CDNURL}/${userId}/thumbnail/${thumbnailFileName}`,
+      // pdfURL: selectedPDFFile의 url
     };
-    // add textInput into dB
-    addPortfolioMutation.mutate({ newPortfolioInfo, userId, pfId });
-    setPfId(pfId);
-    console.log("pfId저장완료>", pfId);
+    // dB
+    addPortfolioMutation.mutate({ newPortfolioData, userId, pfId });
 
-    // add fileInput into dB
-    if (selectedPDFFile && selectedThumbnailFile) {
-      uploadFileMutation.mutate({
-        file: selectedThumbnailFile,
-        fileType: "thumbnail",
-        pfId,
-      });
-      uploadFileMutation.mutate({
-        file: selectedPDFFile,
-        fileType: "pdf",
-        pfId,
-      });
-    }
+    // 스토리지
+    // selectedThumbnailFile
+    //   ? uploadThumbnailMutation.mutate({
+    //       file: selectedThumbnailFile,
+    //       pfId,
+    //       thumbnailFileName,
+    //     })
+    //   : alert("썸네일 이미지를 업로드해주세요!");
 
     fileTitleInput.reset();
     fileDescInput.reset();
@@ -67,7 +67,7 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
         <Modal
           title="첨부 유형 선택"
           open={open}
-          onOk={addPortfolioInfoHandler}
+          onOk={addPortfolioHandler}
           onCancel={() => {
             setOpen(false);
           }}
@@ -80,34 +80,7 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
             <Radio value="link">링크로 첨부하기</Radio>
           </Radio.Group>
           {/* ---------------파일------------------ */}
-          {attachmentType === "file" && (
-            <>
-              <form>
-                <label>
-                  Title...
-                  <br />
-                  <input
-                    type="text"
-                    value={fileTitleInput.value}
-                    onChange={fileTitleInput.onChange}
-                  />
-                </label>
-              </form>
-              <form>
-                <label>
-                  Desc...
-                  <br />
-                  <input
-                    type="text"
-                    value={fileDescInput.value}
-                    onChange={fileDescInput.onChange}
-                  />
-                </label>
-              </form>
-              <br />
-              <PortfolioAddFiles />
-            </>
-          )}
+          {attachmentType === "file" && <PortfolioAddForm />}
           {/* ---------------링크------------------ */}
           {attachmentType === "link" && (
             <>

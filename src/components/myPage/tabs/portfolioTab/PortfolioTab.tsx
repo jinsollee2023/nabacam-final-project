@@ -15,21 +15,21 @@ const PortfolioTab = () => {
   const [open, setOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   // 썸네일데이터, pdf데이터 각각
-  const { thumbnailData, pdfData } = usePortfolioInfoQueries({ userId, pfId });
+  // const { thumbnailData, pdfData } = usePortfolioInfoQueries({ userId, pfId });
 
   return (
     <>
       {/* 썸네일만 */}
       <S.PortfolioListContainer style={{ border: "solid black" }}>
         <S.PortfolioListWrapper>
-          {thumbnailData.map((files, index) => (
+          {/* {thumbnailData.map((files, index) => (
             <S.PortfolioList
               onClick={() => setIsDetailModalOpen(true)}
               key={index}
             >
               <PortfolioFilesCard files={files} pfId={pfId} />
             </S.PortfolioList>
-          ))}
+          ))} */}
 
           <S.PortfolioList onClick={() => setOpen(true)}>
             + 포트폴리오 첨부하기

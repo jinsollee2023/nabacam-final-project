@@ -275,3 +275,72 @@ export const S = {
   );
 
   return <div>{viewThumbnails}</div>;
+
+
+  // 8/25
+  interface NewPortfolioInfo {
+  title: string;
+  desc: string;
+}
+export const uploadPortfolioWithInfo = async ({
+  newPortfolioInfo,
+  userId,
+  files,
+  fileType,
+}: {
+  newPortfolioInfo: NewPortfolioInfo;
+  userId: string;
+  files: File[];
+  fileType: "thumbnail" | "pdf";
+}) => {
+  // 포트폴리오 정보 업로드
+  const { data: portfolioData, error: portfolioError } = await supabase
+    .from("portfolios")
+    .insert({
+      title: newPortfolioInfo.title,
+      desc: newPortfolioInfo.desc,
+      freelancerId: userId,
+    })
+    .select();
+
+  if (portfolioError) {
+    throw new Error("Error adding portfolio info");
+  }
+
+  // 파일 업로드
+  const fileUploadPromises = files.map(async (file) => {
+    const { data: fileData, error: fileError } = await supabase.storage
+      .from("portfolios")
+      .upload(`${userId}/${portfolioData[0].portfolioId}/${fileType}/${uuidv4()}`, file);
+
+    if (fileError) {
+      throw new Error("Error uploading file");
+    }
+
+    return fileData;
+  });
+
+  const uploadedFiles = await Promise.all(fileUploadPromises);
+
+  return {
+    portfolioData: portfolioData[0], // 업로드된 포트폴리오 정보
+    uploadedFiles, // 업로드된 파일 정보 배열
+  };
+};
+
+// 8/25
+ const uploadHandler = async () => {
+    // 업로드
+    if (selectedThumbnailFile) {
+      uploadThumbnailMutation.mutate({ file: selectedThumbnailFile });
+      
+    }
+  };
+
+  const uploadThumbnailMutation = useMutation(
+    ({ file }: { file: File }) => uploadThumbnail({ userId, file,  }),
+    {
+      onSuccess: () =>
+        queryClient.invalidateQueries(["PortfolioThumbnail", userId]),
+    }
+  );

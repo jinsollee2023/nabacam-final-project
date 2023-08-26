@@ -32,55 +32,21 @@ export const getPortfolio = async (id: string) => {
 };
 
 //-------------------------------------------------------------------------------------------
-export const getPortfolioInfo = async (userId: string) => {
-  const { data: portfolios } = await supabase
-    .from("portfolios")
-    .select("*")
-    .eq("freelancerId", userId)
-    //.eq("portfolioId", pfId)
-    .order("created_at", { ascending: true });
 
-  return portfolios;
-};
-
-interface NewPortfolioInfo {
-  title: string;
-  desc: string;
-}
-export const addPortfolioInfo = async ({
-  newPortfolioInfo,
-  userId,
-  pfId,
-}: {
-  newPortfolioInfo: NewPortfolioInfo;
-  userId: string;
-  pfId: string;
-}) => {
-  await supabase
-    .from("portfolios")
-    .insert({
-      title: newPortfolioInfo.title,
-      desc: newPortfolioInfo.desc,
-      freelancerId: userId,
-      portfolioId: pfId,
-    })
-    .select();
-};
-// 파일
-export const uploadPortfolioFile = async ({
+export const uploadThumbnail = async ({
   userId,
   file,
-  fileType,
   pfId,
+  thumbnailFileName,
 }: {
   userId: string;
   file: File;
-  fileType: "thumbnail" | "pdf";
   pfId: string;
+  thumbnailFileName: string;
 }) => {
   const { data, error } = await supabase.storage
     .from("portfolios")
-    .upload(`${userId}/${pfId}/${fileType}/${uuidv4()}`, file);
+    .upload(`${userId}/thumbnail/${thumbnailFileName}`, file);
 
   if (error) {
     throw new Error("Error uploading image");
@@ -89,29 +55,47 @@ export const uploadPortfolioFile = async ({
   return data;
 };
 
-// 두개로 나눠서 가져오기
-export const getPortfolioFile = async ({
-  userId,
-  pfId,
-  fileType,
-}: {
-  userId: string;
-  pfId: string;
-  fileType: "thumbnail" | "PDF";
-}) => {
-  const { data: allData, error } = await supabase.storage
+export const getThumbnailURL = async ({ userId }: { userId: string }) => {
+  const { data: thumbnailURLData, error } = await supabase.storage
     .from("portfolios")
-    .list(`${userId}/${pfId}/thumbnail`, {
+    .list(`${userId}/thumbnail`, {
       limit: 100,
       offset: 0,
       sortBy: { column: "name", order: "asc" },
     });
-
-  console.log(allData);
-
   if (error) {
     throw new Error("Error loading images");
   }
 
-  return allData;
+  return thumbnailURLData || [];
+};
+
+//------------------------------------------------------
+interface NewPortfolioData {
+  portfolioId: string;
+  title: string;
+  desc: string;
+  thumbNailURL: string | null;
+  // pdfURL: string;
+}
+export const addPortfolio = async ({
+  newPortfolioData,
+  userId,
+  pfId,
+}: {
+  newPortfolioData: NewPortfolioData;
+  userId: string;
+  pfId: string;
+}) => {
+  const { data: portfolioData, error: portfolioError } = await supabase
+    .from("portfolios")
+    .insert({
+      portfolioId: pfId,
+      title: newPortfolioData.title,
+      desc: newPortfolioData.desc,
+      freelancerId: userId,
+      thumbNailURL: newPortfolioData.thumbNailURL,
+      // pdfURL: newPortfolioData.pdfURL,
+    })
+    .select();
 };
