@@ -15,7 +15,7 @@ interface IndicatorProps {
 }
 
 interface PortfolioItemProps {
-  isSelected: boolean;
+  isselected: boolean;
 }
 
 export const S = {
@@ -51,7 +51,7 @@ export const S = {
 
   PortfolioItem: styled.div<PortfolioItemProps>`
     position: relative;
-    display: ${(props) => (props.isSelected ? "block" : "none")};
+    display: ${(props) => (props.isselected ? "block" : "none")};
   `,
 
   PortfoliothumbNailImageBox: styled.div`

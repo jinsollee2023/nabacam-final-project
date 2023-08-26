@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
+import { getUser } from "src/api/User";
 
-const LoginComponent = () => {
-  // const [email, setEmail] = useState("");  // 원본
+const LoginComp = () => {
   const { email, setUserEmail } = useUserStore();
-  const { userId, setUserId } = useUserStore();
+  const { setUserId, setUserRole } = useUserStore();
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // console.log(userId);
   const loginHandler = async (e: any) => {
     e.preventDefault();
     try {
@@ -18,24 +17,21 @@ const LoginComponent = () => {
         email,
         password,
       });
-      console.log(data);
       if (error) {
         console.error(error);
       } else if (data) {
-        // 추가
-        const { id, email } = data.user;
-        console.log(id);
-        if (email) setUserEmail(email);
-        if (id) setUserId(id);
+        const user = await getUser(data.user.id as string);
+        setUserId(user.userId as string);
+        setUserRole(user.role as string);
       }
     } catch (error) {
       console.error(error);
     }
+
     navigate("/");
   };
 
   const emailOnChange = (e: any) => {
-    // setEmail(e.target.value);    // 원본
     setUserEmail(e.target.value);
   };
   const passwordOnChange = (e: any) => {
@@ -53,4 +49,4 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+export default LoginComp;

@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { S } from "./freelancerList.styles";
-
 import { User } from "../../../../Types";
 import FreelancerCard from "./FreelancerCard";
 import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
-import { useQuery } from "@tanstack/react-query";
-import { getFreelancersBySort } from "src/api/User";
 import { Spin } from "antd";
+import useFreelancersQueries from "src/hooks/useFreelancersQueries";
 
 export interface PortfolioIndexMap {
   [freelancerId: string]: number;
@@ -23,54 +21,51 @@ const FreelancerList = ({
 }: FreelancerListProps) => {
   const [selectedPortfolioIndex, setSelectedPortfolioIndex] =
     useState<PortfolioIndexMap>({});
-  const queryKey = ["freelancersData", selectedSortLabel];
   const { searchKeyword } = useSearchKeywordStore();
 
-  // 프리랜서 데이터를 불러온다
-  const {
-    data: freelancersData,
-    error: freelancersError,
-    isLoading: freelancersIsLoading,
-  } = useQuery(queryKey, () => getFreelancersBySort(selectedSortLabel), {
-    staleTime: Infinity,
-    cacheTime: Infinity,
-  });
+  // 선택된 레이블로 정렬된 프리랜서 리스트 전체 가져오기
+  const { freelancersDataBySort, freelancersError, freelancersIsLoading } =
+    useFreelancersQueries(selectedSortLabel);
+
   const [filteredFreelancers, setFilteredFreelancers] = useState<User[]>(
-    freelancersData!
+    freelancersDataBySort!
   );
 
   useEffect(() => {
-    if (freelancersData) {
-      const filteredfreelancerLists = freelancersData?.filter((freelancer) => {
-        // 입력한 키워드가 대문자이든 소문자이든 무조건 소문자로 변경
-        const lowerCaseSearch = String(searchKeyword).toLowerCase();
-        // workExp는 숫자이기 때문에 미리 문자열로 변경
-        const workExp = String(freelancer.workExp);
-        return (
-          freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
-          freelancer?.workField?.workField
-            ?.toLowerCase()
-            .includes(lowerCaseSearch) ||
-          freelancer?.workField?.workSmallField
-            ?.toLowerCase()
-            .includes(lowerCaseSearch) ||
-          workExp === searchKeyword
-        );
-      });
+    if (freelancersDataBySort) {
+      // 키워드가 바뀌면 검색 로직 실행
+      const filteredfreelancerLists = freelancersDataBySort?.filter(
+        (freelancer) => {
+          // 입력한 키워드가 대문자이든 소문자이든 무조건 소문자로 변경
+          const lowerCaseSearch = String(searchKeyword).toLowerCase();
+          // workExp는 숫자이기 때문에 미리 문자열로 변경
+          const workExp = String(freelancer.workExp);
+          return (
+            freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
+            freelancer?.workField?.workField
+              ?.toLowerCase()
+              .includes(lowerCaseSearch) ||
+            freelancer?.workField?.workSmallField
+              ?.toLowerCase()
+              .includes(lowerCaseSearch) ||
+            workExp === searchKeyword
+          );
+        }
+      );
       setFilteredFreelancers(filteredfreelancerLists);
     }
-  }, [freelancersData, searchKeyword]);
+  }, [freelancersDataBySort, searchKeyword]);
 
   // 첫 번째 포트폴리오 항목을 보이도록 설정
   useEffect(() => {
-    if (freelancersData) {
+    if (freelancersDataBySort) {
       const initialSelectedIndex: PortfolioIndexMap = {};
-      freelancersData.forEach((freelancer) => {
+      freelancersDataBySort.forEach((freelancer) => {
         initialSelectedIndex[freelancer.userId] = 0;
       });
       setSelectedPortfolioIndex(initialSelectedIndex);
     }
-  }, [freelancersData]);
+  }, [freelancersDataBySort]);
 
   if (freelancersIsLoading) {
     return (
@@ -90,6 +85,7 @@ const FreelancerList = ({
 
   return (
     <S.FreelancerListContainer>
+      {/* 검색으로 걸른 프리랜서 리스트를 또 카테고리로 걸러준다 */}
       {filteredFreelancers
         ?.filter(
           (freelancer) =>

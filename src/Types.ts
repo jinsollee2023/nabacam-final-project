@@ -17,6 +17,13 @@ export interface User {
       pastWorkPosition: string;
     }
   ];
+  members?: [
+    {
+      name: string;
+      team: string;
+      contact: { email: string; phone: string };
+    }
+  ];
 }
 export interface IUser extends User {
   title?: string;
@@ -26,16 +33,23 @@ export interface IUser extends User {
 
 export interface Project {
   projectId?: string;
+  category?: string;
   title: string;
   desc: string;
   clientId: string;
   freelancerId?: string;
-  deadLine: Date;
+  date: { startDate: string; endDate: string };
   pay: { min: number | string; max: number | string };
   status: string;
   volunteer?: string[];
   SuggestedFreelancers?: string[];
   pendingFreelancer?: string[];
+  manager: {
+    name: string;
+    team: string;
+    contact: { email: string; phone: string };
+  };
+  qualification: number;
 }
 
 export interface Task {
