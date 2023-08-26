@@ -67,9 +67,6 @@ const FreelancerCard = ({
         ),
     }
   );
-  console.log("projectListsIsLoading", projectListsIsLoading);
-  console.log("projectListsIsError", projectListsIsError);
-  console.log("projectLists", projectLists);
 
   if (projectListsIsLoading) {
     return (
