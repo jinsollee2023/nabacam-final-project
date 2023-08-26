@@ -1,11 +1,9 @@
-import React from "react";
-import JoinComponent from "../components/auth/join/JoinComponent";
-import JoinTab from "src/components/auth/jointab/JoinTab";
+import JoinComp from "src/components/auth/join/JoinComp";
 
 const Register = () => {
   return (
     <div>
-      <JoinTab />
+      <JoinComp />
     </div>
   );
 };

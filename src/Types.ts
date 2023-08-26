@@ -49,6 +49,7 @@ export interface Project {
     team: string;
     contact: { email: string; phone: string };
   };
+  qualification: number;
 }
 
 export interface Task {

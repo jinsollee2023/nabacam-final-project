@@ -58,6 +58,7 @@ export const addProject = async (newProject: Project): Promise<void> => {
         status: newProject.status,
         category: newProject.category,
         volunteer: newProject.volunteer,
+        qualification: newProject.qualification,
       },
     ])
     .select();
@@ -80,8 +81,10 @@ export const updateProject = async (
     };
     status?: string;
     SuggestedFreelancers?: string[];
+    qualification?: number;
   }
 ): Promise<void> => {
+  console.log(column);
   await supabase
     .from("projects")
     .update(column)

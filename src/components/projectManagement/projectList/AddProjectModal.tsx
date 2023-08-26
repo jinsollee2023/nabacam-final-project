@@ -28,13 +28,16 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
   const [minPay, setMinPay] = useState(project ? project.pay.min : 0);
   const [maxPay, setMaxPay] = useState(project ? project.pay.max : 0);
   const [deadLine, setDeadLine] = useState(project ? project.date.endDate : "");
+  const [qualification, setQualification] = useState(
+    project ? project.qualification : 0
+  );
 
   const categoryOnChange = (value: string) => {
     setCategory(value);
   };
 
-  const dateOnChange: DatePickerProps["onChange"] = (date) => {
-    setDeadLine(String(date));
+  const dateOnChange: DatePickerProps["onChange"] = (dateString) => {
+    setDeadLine(dateString?.toISOString().split("T")[0] as string);
   };
 
   const CheckBoxOnChange = (e: CheckboxChangeEvent) => {
@@ -69,11 +72,12 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
     },
     status: "진행 전",
     category,
+    qualification,
   };
 
   useEffect(() => {
     changeNewProject(newProject);
-  }, [title, desc, deadLine, minPay, maxPay, category, manager]);
+  }, [title, desc, deadLine, minPay, maxPay, category, manager, qualification]);
 
   return (
     <div>
@@ -100,6 +104,14 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
             { value: "기획", label: "기획" },
             { value: "기타", label: "기타" },
           ]}
+        />
+        <S.ModalContentsLabel htmlFor="projectQualification">
+          지원조건
+        </S.ModalContentsLabel>
+        <S.ModalTitleInput
+          id="projectQualification"
+          value={qualification}
+          onChange={(e) => setQualification(Number(e.target.value))}
         />
         <S.ModalContentsLabel htmlFor="projectDesc">
           프로젝트 설명

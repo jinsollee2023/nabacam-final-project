@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import type { RadioChangeEvent } from "antd";
-import { Radio, Space, Tabs } from "antd";
-import JoinComponent from "../join/JoinComponent";
+import { Tabs } from "antd";
+import JoinComponent from "./JoinForm";
 import { styled } from "styled-components";
+import { useUserStore } from "src/zustand/useUserStore";
 type TabPosition = "left" | "right" | "top" | "bottom";
 
-const JoinTab: React.FC = () => {
+const JoinComp = () => {
   const [tabPosition, setTabPosition] = useState<TabPosition>("left");
-  const [role, setRole] = useState("");
+  const { userRole, setUserRole } = useUserStore();
 
   return (
     <>
@@ -18,18 +18,18 @@ const JoinTab: React.FC = () => {
           return {
             label:
               id == "1" ? (
-                <S.tabsContainer onClick={() => setRole("client")}>
+                <S.tabsContainer onClick={() => setUserRole("client")}>
                   클라이언트
                 </S.tabsContainer>
               ) : (
-                <div onClick={() => setRole("freelancer")}>프리랜서</div>
+                <div onClick={() => setUserRole("freelancer")}>프리랜서</div>
               ),
             key: id,
             children:
               id == "1" ? (
-                <JoinComponent freelancerOpen={false} role={role} />
+                <JoinComponent freelancerOpen={false} role={userRole} />
               ) : (
-                <JoinComponent freelancerOpen={true} role={role} />
+                <JoinComponent freelancerOpen={true} role={userRole} />
               ),
           };
         })}
@@ -38,7 +38,7 @@ const JoinTab: React.FC = () => {
   );
 };
 
-export default JoinTab;
+export default JoinComp;
 
 const S = {
   tabsContainer: styled.div`
