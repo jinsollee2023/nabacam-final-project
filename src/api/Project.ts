@@ -53,7 +53,7 @@ export const addProject = async (newProject: Project): Promise<void> => {
         desc: newProject.desc,
         clientId: newProject.clientId,
         manager: newProject.manager,
-        deadLine: newProject.deadLine,
+        date: { startDate: "", endDate: newProject.date.endDate },
         pay: newProject.pay,
         status: newProject.status,
         category: newProject.category,

@@ -6,7 +6,6 @@ import { useProjectStore } from "src/zustand/useProjectStore";
 import S from "./ProjectListStyles";
 import { Project } from "src/Types";
 import dayjs from "dayjs";
-import { useForm } from "react-hook-form";
 import { useUserStore } from "src/zustand/useUserStore";
 import useClientsQueries from "src/hooks/useClientsQueries";
 
@@ -15,24 +14,6 @@ interface AddProjectModal {
 }
 
 const AddProjectModal = ({ project }: AddProjectModal) => {
-  // 이후 유효성 검사 추가할 때 사용 예정
-  // const {
-  //   register,
-  //   formState,
-  //   handleSubmit,
-  //   setError,
-  //   getValues,
-  //   getFieldState,
-  //   trigger,
-  // } = useForm({
-  //   mode: "onBlur",
-  //   defaultValues: {},
-  //   resolver: undefined,
-  //   context: undefined,
-  //   criteriaMode: "firstError",
-  //   shouldFocusError: true,
-  //   shouldUseNativeValidation: false,
-  // });
   const { userId } = useUserStore();
   const { client } = useClientsQueries(userId);
   const [title, setTitle] = useState(project ? project.title : "");
@@ -46,14 +27,14 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
   const [paySlideOff, setPaySlideOff] = useState(false);
   const [minPay, setMinPay] = useState(project ? project.pay.min : 0);
   const [maxPay, setMaxPay] = useState(project ? project.pay.max : 0);
-  const [deadLine, setDeadLine] = useState(project ? project.deadLine : null);
+  const [deadLine, setDeadLine] = useState(project ? project.date.endDate : "");
 
   const categoryOnChange = (value: string) => {
     setCategory(value);
   };
 
   const dateOnChange: DatePickerProps["onChange"] = (date) => {
-    setDeadLine(date!.toDate());
+    setDeadLine(String(date));
   };
 
   const CheckBoxOnChange = (e: CheckboxChangeEvent) => {
@@ -81,7 +62,7 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
     desc,
     clientId: userId,
     manager,
-    deadLine: deadLine!,
+    date: { startDate: "", endDate: deadLine },
     pay: {
       min: paySlideOff ? "상의 후 결정" : minPay,
       max: paySlideOff ? "상의 후 결정" : maxPay,

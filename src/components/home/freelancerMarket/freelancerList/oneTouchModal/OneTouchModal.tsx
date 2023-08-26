@@ -39,7 +39,7 @@ const OneTouchModal = ({ user, projectLists }: ApplicantResumeModalProps) => {
               >
                 <S.ProjectItemTitle>{projectItem.title}</S.ProjectItemTitle>
                 <S.ProjectItemDeadLine>
-                  목표 기간 : {String(projectItem.deadLine)}
+                  목표 기간 : {String(projectItem.date.endDate)}
                 </S.ProjectItemDeadLine>
               </S.ProjectItem>
             );

@@ -19,7 +19,7 @@ const ProjectDetailModal = ({ project, client }: ProjectDetailModalProps) => {
       <S.ModalSubInfoBox>
         <label htmlFor="projectManager">담당자</label>
         <div id="projectManager">{client}</div>
-        <label htmlFor="projectDeadLine">{String(project.deadLine)}</label>
+        <label htmlFor="projectDeadLine">{String(project.date.endDate)}</label>
         <div></div>
       </S.ModalSubInfoBox>
     </div>

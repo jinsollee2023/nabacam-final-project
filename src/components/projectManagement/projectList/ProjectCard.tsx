@@ -66,7 +66,7 @@ const ProjectCard = ({ project }: projectCardProps) => {
           </S.ProjectCardButtonBox>
           <div>
             <p>{client && client!.name}</p>
-            <p>{String(project.deadLine)} 종료</p>
+            <p>{project.date.endDate} 종료</p>
           </div>
         </div>
       </S.ProjectCardBox>
