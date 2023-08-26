@@ -19,7 +19,7 @@ interface JoinComponentProps {
 }
 
 // 회원가입
-const JoinComponent = ({ freelancerOpen, role }: JoinComponentProps) => {
+const JoinForm = ({ freelancerOpen, role }: JoinComponentProps) => {
   // useinput
 
   const { handleSubmit } = useForm<FormValue>();
@@ -196,4 +196,4 @@ const JoinComponent = ({ freelancerOpen, role }: JoinComponentProps) => {
   );
 };
 
-export default JoinComponent;
+export default JoinForm;

@@ -3,10 +3,9 @@ import S from "./ProjectListStyles";
 
 interface ProjectDetailModalProps {
   project: Project;
-  client: string;
 }
 
-const ProjectDetailModal = ({ project, client }: ProjectDetailModalProps) => {
+const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
   return (
     <div>
       <p>{project.title}</p>
@@ -18,7 +17,7 @@ const ProjectDetailModal = ({ project, client }: ProjectDetailModalProps) => {
       </S.ModalMainInfoBox>
       <S.ModalSubInfoBox>
         <label htmlFor="projectManager">담당자</label>
-        <div id="projectManager">{client}</div>
+        <div id="projectManager">{project.manager.name}</div>
         <label htmlFor="projectDeadLine">{String(project.date.endDate)}</label>
         <div></div>
       </S.ModalSubInfoBox>

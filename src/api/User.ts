@@ -2,6 +2,26 @@ import { User } from "../Types";
 import supabase from "../config/supabaseClient";
 import { v4 as uuidv4 } from "uuid";
 
+export const getUser = async (userId: string): Promise<User> => {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("userId", userId)
+      .maybeSingle();
+    if (error) {
+      alert(
+        `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
+      );
+    }
+    return data as User;
+  } catch (error) {
+    throw new Error(
+      `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
+  }
+};
+
 export const getFreelancers = async (): Promise<User[]> => {
   try {
     const { data, error } = await supabase

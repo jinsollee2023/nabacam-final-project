@@ -28,6 +28,7 @@ export const useProjectStore = create<ProjectStore>((set) => ({
         phone: "",
       },
     },
+    qualification: 0,
   },
   changeNewProject: (newProject) => set(() => ({ newProject: newProject })),
   selectedProject: null,
