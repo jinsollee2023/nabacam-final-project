@@ -13,7 +13,7 @@ export const useProjectStore = create<ProjectStore>((set) => ({
     title: "",
     desc: "",
     clientId: "",
-    deadLine: new Date(),
+    date: { startDate: "", endDate: "" },
     pay: {
       min: 0,
       max: 0,

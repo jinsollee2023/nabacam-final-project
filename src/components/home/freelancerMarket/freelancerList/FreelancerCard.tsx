@@ -11,6 +11,8 @@ import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
 import { useProjectStore } from "src/zustand/useProjectStore";
 import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
+import { useQuery } from "@tanstack/react-query";
+import { getProjects } from "src/api/Project";
 
 interface FreelancerCardProps {
   freelancerItem: User;
@@ -34,9 +36,14 @@ const FreelancerCard = ({
     suggestedFreelancersData,
     suggestedFreelancersDataIsLoading,
     suggestedFreelancersDataIsError,
+    projectDataForSuggestions,
+    projectDataForSuggestionsIsLoading,
+    projectDataForSuggestionsIsError,
+    refetchprojectDataForSuggestions,
   } = useProjectsQueries({
     currentUserId: userId,
     selectedProject,
+    freelancerId: freelancerItem.userId,
   });
 
   useEffect(() => {
@@ -48,39 +55,28 @@ const FreelancerCard = ({
   const { portfoliosData, portfoliosError, portfoliosIsLoading } =
     usePortfoliosQueries(freelancerItem);
 
-  const {
+  // const {
+  //   data: projectLists,
+  //   isLoading: projectListsIsLoading,
+  //   isError: projectListsIsError,
+  //   refetch: refetchProjectLists,
+  // } = useQuery(
+  //   ["currentClientprojectLists", freelancerItem.userId],
+  //   () => getProjects(),
+  //   {
+  //     enabled: !!userId,
+  //     select: (projectLists) =>
+  //       projectLists?.filter(
+  //         (projectList) =>
+  //           projectList.clientId === userId &&
+  //           projectList.status === "진행 전" &&
+  //           !projectList.SuggestedFreelancers?.includes(freelancerItem.userId)
+  //       ),
+  //   }
+  // );
 
-    data: projectLists,
-    isLoading: projectListsIsLoading,
-    isError: projectListsIsError,
-    refetch: refetchProjectLists,
-  } = useQuery(
-    ["currentClientprojectLists", freelancerItem.userId],
-    () => getProjects(),
-    {
-      enabled: !!userId,
-      select: (projectLists) =>
-        projectLists?.filter(
-          (projectList) =>
-            projectList.clientId === userId &&
-            projectList.status === "진행 전" &&
-            !projectList.SuggestedFreelancers?.includes(freelancerItem.userId)
-        ),
-    }
-  );
-
-  if (projectListsIsLoading) {
-
-    projectDataForSuggestions,
-    projectDataForSuggestionsIsLoading,
-    projectDataForSuggestionsIsError,
-    refetchprojectDataForSuggestions,
-  } = useProjectsQueries({
-    currentUserId: userId,
-    freelancerId: freelancerItem.userId,
-  });
+  // if (projectListsIsLoading) {
   if (projectDataForSuggestionsIsLoading) {
-
     return (
       <>
         <Spin
@@ -280,5 +276,4 @@ const FreelancerCard = ({
     </>
   );
 };
-
 export default FreelancerCard;
