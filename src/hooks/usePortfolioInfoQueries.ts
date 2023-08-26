@@ -1,9 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  addPortfolio,
-  getThumbnailURL,
-  uploadThumbnail,
-} from "src/api/Portfolio";
+import { addPortfolio, getPortfolio, uploadThumbnail } from "src/api/Portfolio";
 import { Portfolio } from "src/Types";
 import { useUserStore } from "src/zustand/useUserStore";
 import { queryClient } from "../App";
@@ -34,33 +30,6 @@ const usePortfolioInfoQueries = ({
     }
   );
 
-  // const { data: thumbnailURLData } = useQuery(
-  //   ["thumbnail", userId],
-  //   async () => {
-  //     const thumbnailResponse = await getThumbnailURL({
-  //       userId,
-  //     });
-  //   },
-  //   {
-  //     enabled: !!userId,
-  //   }
-  // );
-
-  const useThumbnailURLQuery = (userId: string) => {
-    return useQuery(
-      ["thumbnail", userId],
-      async () => {
-        const thumbnailResponse = await getThumbnailURL({
-          userId,
-        });
-        return thumbnailResponse; // 데이터 반환
-      },
-      {
-        enabled: !!userId,
-      }
-    );
-  };
-
   //-------------------------------------------------------------------------
   const addPortfolioMutation = useMutation(addPortfolio, {
     onSuccess: () => {
@@ -68,10 +37,21 @@ const usePortfolioInfoQueries = ({
     },
   });
 
+  const { data: portfolios } = useQuery(
+    ["portfolios", userId],
+    async () => {
+      const response = await getPortfolio(userId);
+      return response;
+    },
+    {
+      enabled: !!userId,
+    }
+  );
+
   return {
     addPortfolioMutation,
     uploadThumbnailMutation,
-    useThumbnailURLQuery,
+    portfolios,
   };
 };
 

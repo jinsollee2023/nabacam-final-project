@@ -22,7 +22,7 @@ export const getPortfolio = async (id: string) => {
   try {
     const { data } = await supabase
       .from("portfolios")
-      .select()
+      .select("freelancerId, portfolioId, title, desc, thumbNailURL")
       .eq("freelancerId", id);
 
     return data;
@@ -53,21 +53,6 @@ export const uploadThumbnail = async ({
   }
 
   return data;
-};
-
-export const getThumbnailURL = async ({ userId }: { userId: string }) => {
-  const { data: thumbnailURLData, error } = await supabase.storage
-    .from("portfolios")
-    .list(`${userId}/thumbnail`, {
-      limit: 100,
-      offset: 0,
-      sortBy: { column: "name", order: "asc" },
-    });
-  if (error) {
-    throw new Error("Error loading images");
-  }
-
-  return thumbnailURLData || [];
 };
 
 //------------------------------------------------------

@@ -48,15 +48,6 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
     // dB
     addPortfolioMutation.mutate({ newPortfolioData, userId, pfId });
 
-    // 스토리지
-    // selectedThumbnailFile
-    //   ? uploadThumbnailMutation.mutate({
-    //       file: selectedThumbnailFile,
-    //       pfId,
-    //       thumbnailFileName,
-    //     })
-    //   : alert("썸네일 이미지를 업로드해주세요!");
-
     fileTitleInput.reset();
     fileDescInput.reset();
     setOpen(false);

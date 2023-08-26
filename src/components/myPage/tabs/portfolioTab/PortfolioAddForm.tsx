@@ -5,9 +5,6 @@ import { usePortfolioStore } from "src/zustand/usePortfolioStore";
 import useInput from "src/hooks/useInput";
 import { v4 as uuidv4 } from "uuid";
 import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getThumbnailURL, uploadThumbnail } from "src/api/Portfolio";
-import { queryClient } from "src/App";
 
 const PortfolioAddForm = () => {
   const fileTitleInput = useInput("");
