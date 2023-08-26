@@ -23,17 +23,26 @@ const PortfolioDetailModal = ({
     >
       <>
         <S.PFTitle>{portfolioData.title}</S.PFTitle>
-        <S.PFFileContainer>
+        <S.PFThumbnailContainer>
           <img
             className="portfolioThumbnail"
             src={portfolioData.thumbNailURL}
-            alt="img"
+            alt="등록된 이미지가 없습니다."
             style={{ marginLeft: "10px", width: "50%" }}
           />
-        </S.PFFileContainer>
+        </S.PFThumbnailContainer>
         <S.PFDetailWrapper>
           <S.PFDetail>{portfolioData.desc}</S.PFDetail>
         </S.PFDetailWrapper>
+        <S.PFPDFContainer>
+          <a
+            href={portfolioData.pdfFileURL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {portfolioData.pdfFileURL ? "PDF링크 다운" : "첨부된 링크 없음"}
+          </a>
+        </S.PFPDFContainer>
       </>
     </Modal>
   );
@@ -55,9 +64,14 @@ const S = {
   PFDetail: styled.div`
     line-height: 1.4;
   `,
-  PFFileContainer: styled.section`
+  PFThumbnailContainer: styled.section`
     border: solid;
     margin-top: 20px;
+    padding: 5px;
+  `,
+  PFPDFContainer: styled.section`
+    border: solid;
+    margin-top: 30px;
     padding: 5px;
   `,
 };

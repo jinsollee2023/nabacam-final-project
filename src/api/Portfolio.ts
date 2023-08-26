@@ -18,11 +18,14 @@ export const getPortfolios = async () => {
   }
 };
 
+// 8/26 수정
 export const getPortfolio = async (id: string) => {
   try {
     const { data } = await supabase
       .from("portfolios")
-      .select("freelancerId, portfolioId, title, desc, thumbNailURL")
+      .select(
+        "freelancerId, portfolioId, title, desc, thumbNailURL, pdfFileURL"
+      )
       .eq("freelancerId", id);
 
     return data;
@@ -32,7 +35,7 @@ export const getPortfolio = async (id: string) => {
 };
 
 //-------------------------------------------------------------------------------------------
-
+// 썸네일
 export const uploadThumbnail = async ({
   userId,
   file,
@@ -55,13 +58,36 @@ export const uploadThumbnail = async ({
   return data;
 };
 
+// pdf
+export const uploadPDF = async ({
+  userId,
+  file,
+  pfId,
+  PDFFileName,
+}: {
+  userId: string;
+  file: File;
+  pfId: string;
+  PDFFileName: string;
+}) => {
+  const { data, error } = await supabase.storage
+    .from("portfolios")
+    .upload(`${userId}/pdf/${PDFFileName}`, file);
+
+  if (error) {
+    throw new Error("Error uploading image");
+  }
+
+  return data;
+};
+
 //------------------------------------------------------
 interface NewPortfolioData {
   portfolioId: string;
   title: string;
   desc: string;
-  thumbNailURL: string | null;
-  // pdfURL: string;
+  thumbNailURL?: string | null;
+  pdfFileURL?: string | null;
 }
 export const addPortfolio = async ({
   newPortfolioData,
@@ -80,7 +106,7 @@ export const addPortfolio = async ({
       desc: newPortfolioData.desc,
       freelancerId: userId,
       thumbNailURL: newPortfolioData.thumbNailURL,
-      // pdfURL: newPortfolioData.pdfURL,
+      pdfFileURL: newPortfolioData.pdfFileURL,
     })
     .select();
 };

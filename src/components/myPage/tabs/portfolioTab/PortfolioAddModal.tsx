@@ -25,6 +25,7 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
     selectedThumbnailFile,
     pfId,
     thumbnailFileName,
+    PDFFileName,
   } = usePortfolioStore();
 
   const { addPortfolioMutation, uploadThumbnailMutation } =
@@ -43,7 +44,7 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
       title: selectedTitle,
       desc: selectedDesc,
       thumbNailURL: `${CDNURL}/${userId}/thumbnail/${thumbnailFileName}`,
-      // pdfURL: selectedPDFFile의 url
+      pdfFileURL: `${CDNURL}/${userId}/pdf/${PDFFileName}`,
     };
     // dB
     addPortfolioMutation.mutate({ newPortfolioData, userId, pfId });

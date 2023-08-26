@@ -13,7 +13,7 @@ const PortfolioTab = () => {
   const [selectedPortfolio, setSelectedPortfolio] = useState<any>(null);
 
   const { portfolios } = usePortfolioInfoQueries({ userId });
-  // console.log(portfolios);
+  console.log(portfolios);
 
   return (
     <>
@@ -32,7 +32,7 @@ const PortfolioTab = () => {
                 <img
                   className="portfolioThumbnail"
                   src={portfolio.thumbNailURL}
-                  alt="img"
+                  alt="등록된 이미지가 없습니다."
                   width="120px"
                   height="120px"
                   style={{ marginLeft: "10px" }}

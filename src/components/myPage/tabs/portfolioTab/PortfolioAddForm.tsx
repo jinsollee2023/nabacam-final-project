@@ -16,12 +16,15 @@ const PortfolioAddForm = () => {
     setSelectedTitle,
     setSelectedDesc,
     selectedThumbnailFile,
+    selectedPDFFile,
     setPfId,
     setThumbnailFileName,
+    setPDFFileName,
   } = usePortfolioStore();
   const { userId } = useUserStore();
 
-  const { uploadThumbnailMutation } = usePortfolioInfoQueries({ userId });
+  const { uploadThumbnailMutation, uploadPDFMutation } =
+    usePortfolioInfoQueries({ userId });
 
   // Event Handler
   const toggleThumbnailFormVisibility = () => {
@@ -35,11 +38,11 @@ const PortfolioAddForm = () => {
   // zustand
   const handleTitleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     fileTitleInput.onChange(e); // useInput 훅의 onChange를 호출하여 값을 변경
-    setSelectedTitle(e.target.value); // Zustand를 통해 전역 상태를 변경
+    setSelectedTitle(e.target.value);
   };
   const handleDescInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    fileDescInput.onChange(e); // useInput 훅의 onChange를 호출하여 값을 변경
-    setSelectedDesc(e.target.value); // Zustand를 통해 전역 상태를 변경
+    fileDescInput.onChange(e);
+    setSelectedDesc(e.target.value);
   };
   const handleThumbnailFileInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -49,13 +52,12 @@ const PortfolioAddForm = () => {
     // console.log(selectedThumbnailFile);
   };
   //
-  const uploadHandler = async () => {
-    // 업로드
-    // uuidv4()로 직접 pfId 생성
+  const uploadThumbnailHandler = async () => {
+    // uuidv4()로 직접 pfId, 파일명 생성
     const pfId = uuidv4();
     const thumbnailFileName = uuidv4();
 
-    if (selectedThumbnailFile) {
+    if (selectedThumbnailFile !== null) {
       // 스토리지
       uploadThumbnailMutation.mutate({
         file: selectedThumbnailFile,
@@ -65,13 +67,32 @@ const PortfolioAddForm = () => {
       // 전역
       setPfId(pfId);
       setThumbnailFileName(thumbnailFileName);
-      console.log("pfId저장완료>", pfId);
+      console.log("썸네일pfId저장완료>", pfId);
       console.log("thumbnailFileName저장완료>", thumbnailFileName);
     }
   };
   const handlePDFFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     setSelectedPDFFile(file);
+  };
+  const uploadPDFHandler = async () => {
+    const pfId = uuidv4();
+    const PDFFileName = uuidv4();
+
+    if (selectedPDFFile !== null) {
+      // uuidv4()로 직접 pfId, 파일명 생성
+      // 스토리지
+      uploadPDFMutation.mutate({
+        file: selectedPDFFile,
+        pfId,
+        PDFFileName,
+      });
+      // 전역
+      setPfId(pfId);
+      setPDFFileName(PDFFileName);
+      console.log("PDF pfId저장완료>", pfId);
+      console.log("PDFName저장완료>", PDFFileName);
+    }
   };
 
   return (
@@ -106,11 +127,11 @@ const PortfolioAddForm = () => {
       >
         +썸네일 첨부하기
       </label>
-      <button onClick={uploadHandler}>썸네일 업로드</button>
+      <button onClick={uploadThumbnailHandler}>썸네일 업로드</button>
       <label htmlFor="fileInputPDF" onClick={togglePDFFormVisibility}>
         +pdf파일 첨부하기
       </label>
-      {/* <button>pdf 업로드</button> */}
+      <button onClick={uploadPDFHandler}>pdf 업로드</button>
 
       {isFormVisible && (
         <>
