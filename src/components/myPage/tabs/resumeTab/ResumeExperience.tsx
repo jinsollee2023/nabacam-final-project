@@ -26,7 +26,7 @@ const ResumeExperience = () => {
   const pastWorkStartDate = useInput("");
   const pastWorkEndDate = useInput("");
 
-  const { userId, freelancerRole, name, photoURL } = useUserStore();
+  const { userId, userRole, name, photoURL } = useUserStore();
 
   // select
   const handleChange = (value: string) => {
@@ -66,7 +66,7 @@ const ResumeExperience = () => {
     };
 
     // 추가
-    addMutation.mutate({ newData, userId, freelancerRole, name, photoURL });
+    addMutation.mutate({ newData, userId });
 
     // 입력창 비우고 모달 닫기
     pastWorkPlaceInput.reset();

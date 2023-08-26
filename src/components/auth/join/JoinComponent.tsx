@@ -7,18 +7,26 @@ import { uploadUserImage } from "src/api/User";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "src/zustand/useUserStore";
 import { clientSignupHandler } from "src/api/auth";
+
 interface FormValue {
   email: string;
   password: string;
 }
+
+interface JoinComponentProps {
+  freelancerOpen: boolean;
+  role: string;
+}
+
 // 회원가입
-const JoinComponent = (props: any) => {
+const JoinComponent = ({ freelancerOpen, role }: JoinComponentProps) => {
   // useinput
 
   const { handleSubmit } = useForm<FormValue>();
   const initialValues: any = {
     email: "",
     name: "",
+    userRole: "",
     workExp: 0,
     phone: "",
     workField: "",
@@ -29,16 +37,11 @@ const JoinComponent = (props: any) => {
   const [photoURL, setPhotoURL] = useState("");
   const [values, setValues] = useState(initialValues);
   const [openClientJoin, setOpenClientJoin] = useState(true);
-  const [openFreelancer] = useState(props.freelancerOpen);
+  const [openFreelancer] = useState(freelancerOpen);
   const [workSelect, setWorkSelect] = useState("");
-
-  const { setFreelancerRole } = useUserStore(); // 추가
+  const { setUserRole } = useUserStore(); // 추가
 
   const { setUserId } = useUserStore();
-
-  //  클라이언트 , 프리랜서 구분
-
-  const role = values.workField ? "freelancer" : "client";
 
   //  이미지 업로드 부분
 
@@ -59,7 +62,7 @@ const JoinComponent = (props: any) => {
       uploadUserImage,
       role,
       workSelect,
-      setFreelancerRole,
+      setUserRole,
       setUserId,
       setOpenClientJoin,
       navigate

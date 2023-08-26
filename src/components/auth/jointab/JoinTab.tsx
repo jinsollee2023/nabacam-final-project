@@ -7,6 +7,7 @@ type TabPosition = "left" | "right" | "top" | "bottom";
 
 const JoinTab: React.FC = () => {
   const [tabPosition, setTabPosition] = useState<TabPosition>("left");
+  const [role, setRole] = useState("");
 
   return (
     <>
@@ -17,16 +18,18 @@ const JoinTab: React.FC = () => {
           return {
             label:
               id == "1" ? (
-                <S.tabsContainer>클라이언트</S.tabsContainer>
+                <S.tabsContainer onClick={() => setRole("client")}>
+                  클라이언트
+                </S.tabsContainer>
               ) : (
-                <div>프리랜서</div>
+                <div onClick={() => setRole("freelancer")}>프리랜서</div>
               ),
             key: id,
             children:
               id == "1" ? (
-                <JoinComponent freelancerOpen={false} />
+                <JoinComponent freelancerOpen={false} role={role} />
               ) : (
-                <JoinComponent freelancerOpen={true} />
+                <JoinComponent freelancerOpen={true} role={role} />
               ),
           };
         })}
