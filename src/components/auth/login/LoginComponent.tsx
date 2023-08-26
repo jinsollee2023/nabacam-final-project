@@ -24,7 +24,6 @@ const LoginComponent = () => {
       } else if (data) {
         // 추가
         const { id, email } = data.user;
-        console.log(id);
         if (email) setUserEmail(email);
         if (id) setUserId(id);
       }

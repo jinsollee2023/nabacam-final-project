@@ -1,46 +1,46 @@
 import React, { useState } from "react";
-import supabase from "../../../config/supabaseClient";
+
 import { useForm } from "react-hook-form";
-import { styled } from "styled-components";
 import { Select } from "antd";
 import ImagePreview from "./ProfileImg";
-
 import { uploadUserImage } from "src/api/User";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "src/zustand/useUserStore";
+import { clientSignupHandler } from "src/api/auth";
 interface FormValue {
   email: string;
   password: string;
 }
-
+// 회원가입
 const JoinComponent = (props: any) => {
   // useinput
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormValue>();
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [openClientJoin, setOpenClientJoin] = useState(true);
-  const [openFreelancer, setOpenFreelancer] = useState(props.freelancerOpen);
-  const [workSelect, setWorkSelect] = useState("");
-  const [name, setName] = useState("");
-  const [photoURL, setPhotoURL] = useState<any>(null);
-  const [workField, setWorkField] = useState("");
-  const [workExp, setWorkExp] = useState("");
-  const [phone, setPhone] = useState("");
-  const { setFreelancerRole, freelancerRole } = useUserStore(); // 추가
-
-  const { userId, setUserId } = useUserStore();
-  const handlePhotoURLOnChange = (url: any) => {
-    setPhotoURL(url);
+  const { handleSubmit } = useForm<FormValue>();
+  const initialValues: any = {
+    email: "",
+    name: "",
+    workExp: 0,
+    phone: "",
+    workField: "",
+    photoURL: {},
   };
 
-  const role = workField ? "freelancer" : "client";
+  const navigate = useNavigate();
+  const [photoURL, setPhotoURL] = useState("");
+  const [values, setValues] = useState(initialValues);
+  const [openClientJoin, setOpenClientJoin] = useState(true);
+  const [openFreelancer] = useState(props.freelancerOpen);
+  const [workSelect, setWorkSelect] = useState("");
+
+  const { setFreelancerRole } = useUserStore(); // 추가
+
+  const { setUserId } = useUserStore();
+
+  //  클라이언트 , 프리랜서 구분
+
+  const role = values.workField ? "freelancer" : "client";
+
+  //  이미지 업로드 부분
 
   const onChange = (value: string) => {
     console.log(`selected ${value}`);
@@ -51,77 +51,35 @@ const JoinComponent = (props: any) => {
     console.log("search:", value);
   };
 
-  const clientSignupHandler = async (formdata: any) => {
-    const { email, password } = formdata;
+  // 회원가입 api
 
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-      });
-
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      // 사진을 스토리지에 업로드
-      const userImage = await uploadUserImage(user?.id, photoURL);
-
-      const newUserData = {
-        userId: user?.id,
-        name,
-        role: role,
-        photoURL,
-        workField: { workField: workSelect, workSmallField: workField },
-        workExp,
-        contact: { email: user?.email, phone: phone },
-      };
-
-      await userJoinData(newUserData);
-
-      if (user?.id) setUserId(user?.id);
-      setOpenClientJoin(false);
-      reset();
-      setName("");
-      setWorkExp("");
-      setPhone("");
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-    }
+  const signUP = async () => {
+    await clientSignupHandler(
+      values,
+      uploadUserImage,
+      role,
+      workSelect,
+      setFreelancerRole,
+      setUserId,
+      setOpenClientJoin,
+      navigate
+    );
   };
 
-  const userJoinData = async (newUserData: any) => {
-    try {
-      const { data, error } = await supabase
-        .from("users")
-        .insert(newUserData)
-        .select();
+  //  순수 useState handler
 
-      if (data) {
-        // 추가
-        const { role } = data[0];
-        if (role) setFreelancerRole(role);
-        console.log({ freelancerRole });
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setValues({ ...values, [name]: value });
   };
 
-  const nameOnChange = (e: any) => {
-    setName(e.target.value);
+  // 미리보기 핸들러
+
+  const handlePhotoURLOnChange = (url: any) => {
+    setPhotoURL(url);
   };
 
-  const workFieldOnChange = (e: any) => {
-    setWorkField(e.target.value);
-  };
-  const workExpOnChange = (e: any) => {
-    setWorkExp(e.target.value);
-  };
-  const phoneOnChange = (e: any) => {
-    setPhone(e.target.value);
-  };
+  // 모달
 
   const cancel = () => {
     setOpenClientJoin(false);
@@ -130,55 +88,34 @@ const JoinComponent = (props: any) => {
   return (
     <>
       <div>
-        {/* <Stdiv>
-          <Stbutton onClick={clientJoinHandler}>클라이언트</Stbutton>
-          <Stbutton onClick={freelancerJoinHandler}>프리랜서</Stbutton>
-        </Stdiv> */}
         {openClientJoin && (
-          <form onSubmit={handleSubmit(clientSignupHandler)}>
+          <form onSubmit={handleSubmit(signUP)}>
             <h1>회원가입</h1>
             <div>
               <input
-                type="text"
-                defaultValue={email}
-                placeholder="e-mail"
-                {...register("email", {
-                  value: email,
-                  required: true,
-                  pattern: /^\S+@\S+$/i,
-                })}
+                type="email"
+                name="email"
+                placeholder="이메일"
+                value={values.email}
+                onChange={handleChange}
               />
-              {errors.email && errors.email.type === "required" && (
-                <p>메일을 입력하세요</p>
-              )}
-              {errors.email && errors.email.type === "pattern" && (
-                <p>올바른 메일 형식이 아닙니다</p>
-              )}
             </div>
             <div>
               <input
                 type="password"
-                defaultValue={password}
+                name="password"
                 placeholder="비밀번호"
-                {...register("password", {
-                  value: password,
-                  required: true,
-                  minLength: 6,
-                })}
+                value={values.password}
+                onChange={handleChange}
               />
-              {errors.password && errors.password.type === "required" && (
-                <p>비밀번호를 입력하세요</p>
-              )}
-              {errors.password && errors.password.type === "minLength" && (
-                <p>비밀번호는 최소 6자리 이상</p>
-              )}
 
               <input
                 type="text"
-                placeholder="이름"
-                value={name}
-                onChange={nameOnChange}
+                name="name"
+                value={values.name}
+                onChange={handleChange}
               />
+
               <ImagePreview
                 photoURL={photoURL}
                 photoURLOnChange={handlePhotoURLOnChange}
@@ -222,23 +159,28 @@ const JoinComponent = (props: any) => {
               {openFreelancer && (
                 <input
                   type="text"
-                  value={workField}
-                  onChange={workFieldOnChange}
+                  name="workField"
+                  value={values.workField}
+                  onChange={handleChange}
                   placeholder="작업영역"
+                />
+              )}
+
+              {openFreelancer && (
+                <input
+                  type="text"
+                  name="workExp"
+                  value={values.workExp}
+                  onChange={handleChange}
+                  placeholder="경험"
                 />
               )}
 
               <input
                 type="text"
-                value={workExp}
-                onChange={workExpOnChange}
-                placeholder="경험"
-              />
-
-              <input
-                type="text"
-                value={phone}
-                onChange={phoneOnChange}
+                name="phone"
+                value={values.phone}
+                onChange={handleChange}
                 placeholder="핸드폰"
               />
               <button>회원가입</button>
@@ -252,19 +194,3 @@ const JoinComponent = (props: any) => {
 };
 
 export default JoinComponent;
-
-const Stdiv = styled.div`
-  border: 1px solid black;
-  width: 250px;
-  height: 250px;
-  display: flex;
-  margin-left: 25%;
-`;
-
-const Stbutton = styled.button`
-  border: 1px solid black;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  width: 100%;
-`;

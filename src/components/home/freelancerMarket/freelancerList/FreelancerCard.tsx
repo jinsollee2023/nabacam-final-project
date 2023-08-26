@@ -49,6 +49,28 @@ const FreelancerCard = ({
     usePortfoliosQueries(freelancerItem);
 
   const {
+
+    data: projectLists,
+    isLoading: projectListsIsLoading,
+    isError: projectListsIsError,
+    refetch: refetchProjectLists,
+  } = useQuery(
+    ["currentClientprojectLists", freelancerItem.userId],
+    () => getProjects(),
+    {
+      enabled: !!userId,
+      select: (projectLists) =>
+        projectLists?.filter(
+          (projectList) =>
+            projectList.clientId === userId &&
+            projectList.status === "진행 전" &&
+            !projectList.SuggestedFreelancers?.includes(freelancerItem.userId)
+        ),
+    }
+  );
+
+  if (projectListsIsLoading) {
+
     projectDataForSuggestions,
     projectDataForSuggestionsIsLoading,
     projectDataForSuggestionsIsError,
@@ -58,6 +80,7 @@ const FreelancerCard = ({
     freelancerId: freelancerItem.userId,
   });
   if (projectDataForSuggestionsIsLoading) {
+
     return (
       <>
         <Spin

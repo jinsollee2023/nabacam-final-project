@@ -6,6 +6,7 @@ export const getProjects = async (): Promise<Project[]> => {
     .from("projects")
     .select("*")
     .order("created_at", { ascending: true });
+
   return projects as Project[];
 };
 

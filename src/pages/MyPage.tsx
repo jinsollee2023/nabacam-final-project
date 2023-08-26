@@ -4,11 +4,12 @@ import ResumeTab from "../components/myPage/tabs/resumeTab/ResumeTab";
 import PortfolioTab from "../components/myPage/tabs/portfolioTab/PortfolioTab";
 import ContractInfoTab from "../components/myPage/tabs/ContractInfoTab";
 import FeedbackTab from "../components/myPage/tabs/FeedbackTab";
-import supabase from "../config/supabaseClient";
+import supabase, { supabaseService } from "../config/supabaseClient";
 import Account from "../components/myPage/myProfile/Account";
 import { useQuery } from "@tanstack/react-query";
 import { getFreelancer } from "src/api/User";
 import { useUserStore } from "src/zustand/useUserStore";
+import { useNavigate } from "react-router-dom";
 
 const MyPage = () => {
   // 상태관리
