@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
-import useExperienceQueries from "src/hooks/useExperienceQueries";
+import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
 
 interface Experience {
   pastWorkPlace: string;
@@ -24,7 +24,7 @@ const ResumeExperience = () => {
 
   const { userId, freelancerRole, name, photoURL } = useUserStore();
   const { deleteExperienceMutation, addExperienceMutation, experienceData } =
-    useExperienceQueries(userId);
+    useResumeExperienceQueries(userId);
 
   const handleChange = (value: string) => {
     // console.log(`selected ${value}`);

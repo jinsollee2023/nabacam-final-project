@@ -1,9 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
 import { queryClient } from "src/App";
-import { addExperience, deleteExperience, getExperience } from "src/api/Resume";
+import {
+  addExperience,
+  deleteExperience,
+  getExperience,
+} from "src/api/ResumeExperience";
 
-const useExperienceQueries = (userId: string) => {
+const useResumeExperienceQueries = (userId: string) => {
   const addExperienceMutation = useMutation(addExperience, {
     onSuccess: () => {
       queryClient.invalidateQueries(["experienceData", userId]);
@@ -34,4 +38,4 @@ const useExperienceQueries = (userId: string) => {
   };
 };
 
-export default useExperienceQueries;
+export default useResumeExperienceQueries;
