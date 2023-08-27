@@ -7,13 +7,23 @@ import { useMutation } from "@tanstack/react-query";
 import { updateUser } from "src/api/User";
 import { queryClient } from "src/App";
 
+export interface Member {
+  name: string;
+  team: string;
+  contact: {
+    email: string;
+    phone: string;
+  };
+}
+
 const MemberList = () => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries(userId);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [updateMemberData, setUpdateMemberData] = useState({});
+  const [updateMemberData, setUpdateMemberData] = useState<Member>();
+  const [currentMemberData, setCurrentMemberData] = useState<Member>();
 
-  const updateClientMembersMutation = useMutation(
+  const clientMembersMutation = useMutation(
     ({ updatedData, userId }: { updatedData: object; userId: string }) =>
       updateUser({ updatedData, userId }),
     {
@@ -23,34 +33,57 @@ const MemberList = () => {
     }
   );
 
-  const deleteClientMembersMutation = useMutation(
-    ({ updatedData, userId }: { updatedData: object; userId: string }) =>
-      updateUser({ updatedData, userId }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["clients"]);
-      },
-    }
-  );
+  const openModalButtonHandler = () => {
+    setCurrentMemberData({
+      name: "",
+      team: "",
+      contact: { email: "", phone: "" },
+    });
+    setIsAddModalOpen(true);
+  };
 
   const addMemberButtonHandler = () => {
-    const updateMember = [...client?.members!, updateMemberData];
-    console.log(updateMember);
+    const addedMembers = [...client?.members!, updateMemberData];
     // 업데이트
-    updateClientMembersMutation.mutate({
-      updatedData: { members: updateMember },
+    clientMembersMutation.mutate({
+      updatedData: { members: addedMembers },
       userId,
     });
     setIsAddModalOpen(false);
   };
 
-  const deleteMemberButtonHandler = (memberNameToDelete: string) => {
-    const deletedMember = client?.members?.filter(
-      (member) => member.name !== memberNameToDelete
-    );
-    console.log(deletedMember);
+  const updateButtonHandler = (updateMember: Member) => {
+    setCurrentMemberData(updateMember);
+    setIsAddModalOpen(true);
+  };
+
+  const updateMemberButtonHandler = () => {
+    const updateMembers = client?.members?.map((member) => {
+      return member === currentMemberData
+        ? {
+            name: updateMemberData?.name,
+            team: updateMemberData?.team,
+            contact: {
+              email: updateMemberData?.contact.email,
+              phone: updateMemberData?.contact.phone,
+            },
+          }
+        : member;
+    });
     // 업데이트
-    updateClientMembersMutation.mutate({
+    clientMembersMutation.mutate({
+      updatedData: { members: updateMembers },
+      userId,
+    });
+    setIsAddModalOpen(false);
+  };
+
+  const deleteMemberButtonHandler = (deleteMember: Member) => {
+    const deletedMember = client?.members?.filter(
+      (member) => member !== deleteMember
+    );
+    // 업데이트
+    clientMembersMutation.mutate({
       updatedData: { members: deletedMember },
       userId,
     });
@@ -60,18 +93,27 @@ const MemberList = () => {
   return (
     <>
       <div>
-        <button onClick={() => setIsAddModalOpen(true)}>추가</button>
+        <button onClick={openModalButtonHandler}>추가</button>
       </div>
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <button onClick={addMemberButtonHandler}>멤버 추가하기</button>
+              {updateMemberData ? (
+                <button onClick={updateMemberButtonHandler}>
+                  멤버 수정하기
+                </button>
+              ) : (
+                <button onClick={addMemberButtonHandler}>멤버 추가하기</button>
+              )}
             </>
           }
         >
-          <AddMemberModal setUpdateMemberData={setUpdateMemberData} />
+          <AddMemberModal
+            currentMemberData={currentMemberData as Member}
+            setUpdateMemberData={setUpdateMemberData}
+          />
         </Modal>
       )}
       <div>
@@ -88,10 +130,12 @@ const MemberList = () => {
                   <span>{member.contact.email}</span>
                 </div>
                 <div>
-                  <button>수정</button>
+                  <button onClick={() => updateButtonHandler(member)}>
+                    수정
+                  </button>
                   <button
                     onClick={() => {
-                      deleteMemberButtonHandler(member.name);
+                      deleteMemberButtonHandler(member);
                     }}
                   >
                     삭제
