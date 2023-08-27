@@ -47,9 +47,6 @@ const ResumeExperience = () => {
     addExperienceMutation.mutate({
       newData,
       userId,
-      freelancerRole,
-      name,
-      photoURL,
     });
 
     pastWorkPlaceInput.reset();
