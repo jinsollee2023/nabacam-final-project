@@ -8,6 +8,7 @@ import { Project } from "src/Types";
 import dayjs from "dayjs";
 import { useUserStore } from "src/zustand/useUserStore";
 import useClientsQueries from "src/hooks/useClientsQueries";
+import { useNavigate } from "react-router-dom";
 
 interface AddProjectModal {
   project?: Project;
@@ -32,6 +33,9 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
     project ? project.qualification : 0
   );
 
+  console.log(userId);
+
+  const navigate = useNavigate();
   const categoryOnChange = (value: string) => {
     setCategory(value);
   };
@@ -53,10 +57,24 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
   };
 
   const managerOnChange = (value: string) => {
-    const selectedMember = client?.members?.find(
-      (member) => member.name === value
-    );
-    setManager(selectedMember!);
+    if (value === client!.name) {
+      setManager({
+        name: client!.name,
+        team: "",
+        contact: { email: client!.contact.email, phone: client!.contact.phone },
+      });
+    } else if (value === "goToAddMember") {
+      const isConfirmed = window.confirm(
+        "페이지를 이동하시면 이전에 작성된 정보는 저장되지 않습니다. \n멤버 등록 페이지로 이동하시겠습니까?"
+      );
+
+      isConfirmed && navigate("/my-page");
+    } else {
+      const selectedMember = client?.members?.find(
+        (member) => member.name === value
+      );
+      setManager(selectedMember!);
+    }
   };
 
   const { changeNewProject } = useProjectStore();
@@ -134,13 +152,32 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
           onChange={managerOnChange}
           value={manager.name}
           filterOption={(input, option) =>
-            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            (String(option?.label) ?? "")
+              .toLowerCase()
+              .includes(input.toLowerCase())
           }
-          // 이후 기업 마이페이지 구현 후 수정 예정
-          options={client?.members?.map((member) => ({
-            value: member.name,
-            label: `${member.name} | ${member.team}`,
-          }))}
+          options={
+            client?.members?.length! > 0
+              ? client?.members?.map((member) => ({
+                  value: member.name,
+                  label: `${member.name} | ${member.team}`,
+                }))
+              : [
+                  {
+                    value: "disabled",
+                    label: "등록된 멤버가 없습니다.",
+                    disabled: true,
+                  },
+                  {
+                    value: "goToAddMember",
+                    label: "멤버 등록하기",
+                  },
+                  {
+                    value: client?.name,
+                    label: "기업 계정으로 설정하기",
+                  },
+                ]
+          }
           style={{ marginBottom: "10px" }}
         />
         <S.ModalContentsLabel htmlFor="projectDeadLine">
