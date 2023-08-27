@@ -33,8 +33,6 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
     project ? project.qualification : 0
   );
 
-  console.log(userId);
-
   const navigate = useNavigate();
   const categoryOnChange = (value: string) => {
     setCategory(value);
@@ -93,9 +91,21 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
     qualification,
   };
 
+  console.log(newProject);
+
   useEffect(() => {
     changeNewProject(newProject);
-  }, [title, desc, deadLine, minPay, maxPay, category, manager, qualification]);
+  }, [
+    title,
+    desc,
+    deadLine,
+    minPay,
+    maxPay,
+    category,
+    manager,
+    qualification,
+    paySlideOff,
+  ]);
 
   return (
     <div>
