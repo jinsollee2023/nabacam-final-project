@@ -6,7 +6,7 @@ import { getUser } from "src/api/User";
 
 const LoginComp = () => {
   const { email, setUserEmail } = useUserStore();
-  const { setUserId, setUserRole } = useUserStore();
+  const { setUserId, setUserRole, setUser } = useUserStore();
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -23,6 +23,7 @@ const LoginComp = () => {
         const user = await getUser(data.user.id as string);
         setUserId(user.userId as string);
         setUserRole(user.role as string);
+        setUser(user);
       }
     } catch (error) {
       console.error(error);

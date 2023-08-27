@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Tabs } from "antd";
-import JoinComponent from "./JoinForm";
 import { styled } from "styled-components";
 import { useUserStore } from "src/zustand/useUserStore";
+import JoinForm from "./JoinForm";
 type TabPosition = "left" | "right" | "top" | "bottom";
 
 const JoinComp = () => {
@@ -27,9 +27,9 @@ const JoinComp = () => {
             key: id,
             children:
               id == "1" ? (
-                <JoinComponent freelancerOpen={false} role={userRole} />
+                <JoinForm freelancerOpen={false} role={userRole} />
               ) : (
-                <JoinComponent freelancerOpen={true} role={userRole} />
+                <JoinForm freelancerOpen={true} role={userRole} />
               ),
           };
         })}

@@ -3,11 +3,11 @@ export interface User {
   role: string;
   name: string;
   photoURL: string;
-  projectId: string;
+  projectId?: string;
   workField?: { workField: string; workSmallField: string };
   workExp?: string;
   contact: { email: string; phone: string };
-  singUpDate: string;
+  singUpDate: Date;
   portfolioCount: number;
   resumeProfileIntro?: string;
   resumeExperience?: [
