@@ -26,11 +26,10 @@ const S = {
     display: flex;
     justify-content: ${(props) => props.justifyContent};
     align-items: center;
-
-    cursor: pointer;
   `,
   ProjcetTitleBox: styled.div`
     margin: auto 0;
+    cursor: pointer;
   `,
   ProjectCardButtonBox: styled.div`
     display: flex;
