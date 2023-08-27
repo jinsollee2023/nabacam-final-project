@@ -9,6 +9,7 @@ export const getExperience = async (userId: string) => {
 };
 
 interface NewData {
+  experienceId: string;
   pastWorkDuration: {
     pastWorkEndDate: string;
     pastWorkStartDate: string;
@@ -36,6 +37,7 @@ export const addExperience = async ({
   // 기존 데이터를 가져온 후, 새로운 데이터를 추가
   const currentExperience = prevData[0].resumeExperience || []; // 데이터가 없으면 빈 배열로 시작
   currentExperience.push({
+    experienceId: newData.experienceId,
     pastWorkDuration: {
       pastWorkEndDate: newData.pastWorkDuration.pastWorkEndDate,
       pastWorkStartDate: newData.pastWorkDuration.pastWorkStartDate,
@@ -54,10 +56,50 @@ export const addExperience = async ({
   console.log("accumulatedData", accumulatedData);
 };
 
-export const deleteExperience = async (userId: string) => {
-  await supabase
+export const deleteExperience = async ({
+  userId,
+  experienceId,
+}: {
+  userId: string;
+  experienceId: string;
+}) => {
+  // await supabase
+  //   .from("users")
+  //   .update({ resumeExperience: null })
+  //   .eq("userId", userId)
+  //   .select();
+
+  // 사용자의 현재 데이터를 가져옵니다.
+  const { data: prevData, error } = await supabase
     .from("users")
-    .update({ resumeExperience: null })
+    .select("resumeExperience")
+    .eq("userId", userId);
+
+  if (error) {
+    return;
+  }
+
+  // 기존 데이터를 가져온 후, 특정 경력 데이터를 식별하여 삭제합니다.
+  const currentExperience = prevData[0].resumeExperience || [];
+
+  // experienceId와 일치하는 데이터를 찾아서 삭제
+  interface Experience {
+    experienceId: string;
+    pastWorkDuration: {
+      pastWorkEndDate: string;
+      pastWorkStartDate: string;
+    };
+    pastWorkPlace: string;
+    pastWorkPosition: string;
+  }
+  const updatedExperience = currentExperience.filter(
+    (experience: Experience) => experience.experienceId !== experienceId
+  );
+
+  // 업데이트된 데이터를 다시 Supabase에 저장합니다.
+  const { data: accumulatedData } = await supabase
+    .from("users")
+    .update({ resumeExperience: updatedExperience })
     .eq("userId", userId)
     .select();
 };

@@ -5,8 +5,10 @@ import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
 import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
+import { v4 as uuidv4 } from "uuid";
 
 interface Experience {
+  experienceId: string;
   pastWorkPlace: string;
   pastWorkPosition: string;
   pastWorkDuration: {
@@ -30,12 +32,14 @@ const ResumeExperience = () => {
     // console.log(`selected ${value}`);
   };
 
+  const experienceId = uuidv4();
   const addExperienceHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
 
     const newData = {
+      experienceId: experienceId,
       pastWorkDuration: {
         pastWorkEndDate: pastWorkEndDate.value,
         pastWorkStartDate: pastWorkStartDate.value,
@@ -55,8 +59,14 @@ const ResumeExperience = () => {
     pastWorkEndDate.reset();
     setOpen(false);
   };
-  const deleteExperienceHandler = async (userId: string) => {
-    deleteExperienceMutation.mutate(userId);
+  const deleteExperienceHandler = async ({
+    userId,
+    experienceId,
+  }: {
+    userId: string;
+    experienceId: string;
+  }) => {
+    deleteExperienceMutation.mutate({ userId, experienceId });
   };
 
   return (
@@ -74,7 +84,14 @@ const ResumeExperience = () => {
                     {item.pastWorkDuration.pastWorkStartDate}~
                     {item.pastWorkDuration.pastWorkEndDate}
                   </div>
-                  <button onClick={() => deleteExperienceHandler(userId)}>
+                  <button
+                    onClick={() =>
+                      deleteExperienceHandler({
+                        userId,
+                        experienceId: item.experienceId,
+                      })
+                    }
+                  >
                     삭제 x
                   </button>
                 </S.WorkExperienceList>

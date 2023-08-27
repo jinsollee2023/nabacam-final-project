@@ -23,7 +23,8 @@ const useResumeExperienceQueries = (userId: string) => {
   );
 
   const deleteExperienceMutation = useMutation(
-    (userId: string) => deleteExperience(userId),
+    ({ userId, experienceId }: { userId: string; experienceId: string }) =>
+      deleteExperience({ userId, experienceId }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["experienceData"]);
