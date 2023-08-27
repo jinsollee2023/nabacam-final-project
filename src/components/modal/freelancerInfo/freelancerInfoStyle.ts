@@ -23,6 +23,7 @@ export const S = {
   ProfileImg: styled.img`
     width: 100%;
     height: 100%;
+    object-fit: cover;
   `,
   UserBox: styled.div`
     display: flex;

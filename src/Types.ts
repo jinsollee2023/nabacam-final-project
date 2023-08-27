@@ -27,8 +27,8 @@ export interface User {
 }
 export interface IUser extends User {
   title?: string;
-  deadLine?: Date;
-  pay?: { min: number; max: number };
+  date?: { startDate: string; endDate: string };
+  pay?: { min: number | string; max: number | string };
 }
 
 export interface Project {
@@ -78,4 +78,11 @@ export interface Review {
   rating: number;
   freelancerId: string;
   clientId: string;
+}
+
+export interface IProjectWithFreelancer extends Project {
+  freelancerPromise: Promise<User>;
+  freelancer: User;
+  volunteerUser?: Promise<User[]>;
+  pendingFreelancerUser?: Promise<User[]>;
 }
