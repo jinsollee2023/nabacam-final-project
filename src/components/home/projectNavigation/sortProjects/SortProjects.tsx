@@ -28,6 +28,8 @@ const SortProjects = ({ onSort }: SortProjectsProps) => {
             { value: "마감기한 느린 순", label: "마감기한 느린 순" },
             { value: "지원자 많은 순", label: "지원자 많은 순" },
             { value: "지원자 적은 순", label: "지원자 적은 순" },
+            { value: "자격 연차 높은 순", label: "자격 연차 높은 순" },
+            { value: "자격 연차 낮은 순", label: "자격 연차 낮은 순" },
           ]}
         />
       </Space>

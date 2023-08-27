@@ -1,12 +1,10 @@
 import { Spin } from "antd";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Project } from "src/Types";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
 import { useUserStore } from "src/zustand/useUserStore";
 import ProjectCard from "./ProjectCard";
-import supabase from "src/config/supabaseClient";
-import { useNavigate } from "react-router-dom";
 
 interface ProjectListProps {
   selectedSortLabel: string;
@@ -19,7 +17,6 @@ const ProjectList = ({
 }: ProjectListProps) => {
   const { searchKeyword } = useSearchKeywordStore();
   const { userId } = useUserStore();
-  const navigate = useNavigate();
 
   const { projectsListBySort, projectListIsError, projectListIsLoading } =
     useProjectsQueries({
@@ -37,13 +34,13 @@ const ProjectList = ({
       const filteredProjectLists = projectsListBySort?.filter((project) => {
         const lowerCaseSearch = String(searchKeyword).toLowerCase();
         const numberOfApplicants = String(project.volunteer?.length);
-        // const yearsOfEligibility = String(project.연차컬럼);
+        const yearsOfEligibility = String(project.qualification);
         return (
           project?.title?.toLowerCase().includes(lowerCaseSearch) ||
           project?.desc?.toLowerCase().includes(lowerCaseSearch) ||
-          // project?.workField?.toLowerCase().includes(lowerCaseSearch) ||
-          numberOfApplicants === searchKeyword
-          // yearsOfEligibility === searchKeyword
+          project?.category?.toLowerCase().includes(lowerCaseSearch) ||
+          numberOfApplicants === searchKeyword ||
+          yearsOfEligibility === searchKeyword
         );
       });
       setFilteredProjects(filteredProjectLists);
@@ -68,18 +65,33 @@ const ProjectList = ({
 
   return (
     <>
-      <div id="freelancerListContainer">
-        {filteredProjects
-          // .filter((project) => selectedWorkField === "전체보기")
-          .map((projectItem) => (
-            <div key={projectItem.projectId}>
-              <ProjectCard
-                key={projectItem.projectId}
-                projectItem={projectItem}
-              />
-            </div>
-          ))}
-      </div>
+      {filteredProjects && (
+        <div id="freelancerListContainer">
+          <span>
+            모집 중인 {selectedWorkField} 분야의 프로젝트는 총{" "}
+            {selectedWorkField === "전체보기"
+              ? filteredProjects.length
+              : filteredProjects.filter(
+                  (project) => project.category === selectedWorkField
+                ).length}
+            개입니다.
+          </span>
+          {filteredProjects
+            ?.filter(
+              (project) =>
+                selectedWorkField === "전체보기" ||
+                project.category === selectedWorkField
+            )
+            .map((projectItem) => (
+              <div key={projectItem.projectId}>
+                <ProjectCard
+                  key={projectItem.projectId}
+                  projectItem={projectItem}
+                />
+              </div>
+            ))}
+        </div>
+      )}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "antd";
 import React from "react";
-import { updateFreelancer } from "src/api/User";
+import { updateUser } from "src/api/User";
 import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 
@@ -34,7 +34,7 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen, users }) => {
 
   // UPDATE
   const queryClient = useQueryClient();
-  const updateMutation = useMutation(updateFreelancer, {
+  const updateMutation = useMutation(updateUser, {
     onSuccess: () => {
       queryClient.invalidateQueries(["profileIntro", userId]);
     },

@@ -126,19 +126,40 @@ export const getFreelancer = async (userId: string) => {
   return users;
 };
 
-export const updateFreelancer = async ({
+export const updateUser = async ({
   updatedData,
   userId,
 }: {
-  updatedData: object;
+  updatedData: {
+    name?: string;
+    workField?: {
+      workField: string;
+      workSmallField: string;
+    };
+    contact?: {
+      email: string;
+      phone: string;
+    };
+    projectId?: string;
+    members?: [
+      {
+        name: string;
+        team: string;
+        contact: {
+          email: string;
+          phone: string;
+        };
+      }
+    ];
+  };
   userId: string;
 }) => {
-  const { data, error } = await supabase
+  console.log("1234", updatedData);
+  await supabase
     .from("users")
     .update(updatedData)
     .eq("userId", userId)
     .select();
-  // console.log(data);
 };
 
 // 프로필 이미지
@@ -185,4 +206,19 @@ export const uploadUserImage = async (userId: any, file: File) => {
   }
 
   return data;
+};
+
+export const updateClientMembers = async ({
+  updatedData,
+  userId,
+}: {
+  updatedData: object;
+  userId: string;
+}) => {
+  const { data, error } = await supabase
+    .from("users")
+    .update(updatedData)
+    .eq("userId", userId)
+    .select();
+  // console.log(data);
 };

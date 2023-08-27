@@ -1,14 +1,20 @@
 import { Button } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Project } from "src/Types";
 import Modal from "src/components/modal/Modal";
+import ApplyForProjectModal from "./applyForProjectModal/ApplyForProjectModal";
+import { S } from "./projectList.styles";
+import useClientsQueries from "src/hooks/useClientsQueries";
+import { useUserStore } from "src/zustand/useUserStore";
 
 interface ProjectCardProps {
   projectItem: Project;
 }
 
 const ProjectCard = ({ projectItem }: ProjectCardProps) => {
+  const { userId } = useUserStore();
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const { client } = useClientsQueries(projectItem.clientId);
 
   // 마감 날짜 요일 구하기
   const getDayOfWeek = (date: Date) => {
@@ -16,7 +22,6 @@ const ProjectCard = ({ projectItem }: ProjectCardProps) => {
     return daysOfWeek[date.getDay()];
   };
   const dayOfWeek = getDayOfWeek(new Date(projectItem.deadLine));
-  console.log(dayOfWeek);
 
   // 등록일이 오늘 기준 몇 일전인지
   const calculateDaysAgo = (targetDate: Date) => {
@@ -34,6 +39,8 @@ const ProjectCard = ({ projectItem }: ProjectCardProps) => {
   const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
   const daysAgo = calculateDaysAgo(targetDate);
 
+  const HandleProjectApplyButtonClick = () => {};
+
   return (
     <>
       {isDetailModalOpen && (
@@ -44,28 +51,31 @@ const ProjectCard = ({ projectItem }: ProjectCardProps) => {
               <Button
                 type="primary"
                 block
-                // onClick={HandleProjectSuggestionButtonClick}
-                // disabled={
-                //   !selectedProject?.title ||
-                //   !(
-                //     projectDataForSuggestions &&
-                //     projectDataForSuggestions.length > 0
-                //   )
-                // }
+                onClick={HandleProjectApplyButtonClick}
               >
                 프로젝트 지원하기
               </Button>
             </>
           }
         >
-          {/* <OneTouchModal /> */}
+          <ApplyForProjectModal
+            projectItem={projectItem}
+            clientName={client?.name!}
+          />
         </Modal>
       )}
-      <div id="proejctCardContainer">
-        <div id="clientName">{projectItem.clientId}</div>
+      <S.ProejctCardContainer>
+        <div id="clientName">{client?.name}</div>
         <div id="projectNameAndWorkExpCondition">
-          <span>{projectItem.title}</span>
-          <span>N년차 이상</span>
+          <span>
+            {projectItem.title} · {projectItem.category}
+          </span>
+          {projectItem.qualification > 0 ? (
+            <span>{projectItem.qualification}년차 이상</span>
+          ) : (
+            <span>신입 가능</span>
+          )}
+          {/* <span>{projectItem.qualification}년차 이상</span> */}
         </div>
         <div id="buttonAndDeadLineAndCreatAt">
           <button onClick={() => setIsDetailModalOpen(true)}>
@@ -80,7 +90,7 @@ const ProjectCard = ({ projectItem }: ProjectCardProps) => {
             <span>{daysAgo} 등록</span>
           </div>
         </div>
-      </div>
+      </S.ProejctCardContainer>
     </>
   );
 };

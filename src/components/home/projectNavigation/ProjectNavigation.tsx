@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SearchItemBar from "src/components/common/searchItemBar/SearchItemBar";
 import { styled } from "styled-components";
 import SortProjects from "./sortProjects/SortProjects";

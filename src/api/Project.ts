@@ -51,9 +51,11 @@ export const addProject = async (newProject: Project): Promise<void> => {
         title: newProject.title,
         desc: newProject.desc,
         clientId: newProject.clientId,
+        manager: newProject.manager,
         deadLine: newProject.deadLine,
         pay: newProject.pay,
         status: newProject.status,
+        category: newProject.category,
         volunteer: newProject.volunteer,
       },
     ])
@@ -135,6 +137,14 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
         break;
       case "지원자 적은 순":
         orderByField = "volunteer";
+        ascending = true;
+        break;
+      case "자격 연차 높은 순":
+        orderByField = "qualification";
+        ascending = false;
+        break;
+      case "자격 연차 낮은 순":
+        orderByField = "qualification";
         ascending = true;
         break;
       default:

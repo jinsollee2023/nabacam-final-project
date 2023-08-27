@@ -40,7 +40,7 @@ const ProjectList = () => {
   }, [projects, searchKeyword]);
 
   useEffect(() => {
-    queryClient.invalidateQueries(["projects", selectedSortLabel]);
+    queryClient.invalidateQueries(["projectList", selectedSortLabel]);
   }, [selectedSortLabel]);
 
   const handleSort = (label: string) => {
@@ -48,6 +48,7 @@ const ProjectList = () => {
   };
 
   const addProjectButtonHandler = () => {
+    console.log(newProject);
     addProjectMutation.mutate(newProject);
     setIsAddModalOpen(false);
   };
