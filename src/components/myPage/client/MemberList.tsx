@@ -3,35 +3,14 @@ import Modal from "src/components/modal/Modal";
 import useClientsQueries from "src/hooks/useClientsQueries";
 import { useUserStore } from "src/zustand/useUserStore";
 import AddMemberModal from "./AddMemberModal";
-import { useMutation } from "@tanstack/react-query";
-import { updateUser } from "src/api/User";
-import { queryClient } from "src/App";
-
-export interface Member {
-  name: string;
-  team: string;
-  contact: {
-    email: string;
-    phone: string;
-  };
-}
+import { Member } from "src/Types";
 
 const MemberList = () => {
   const { userId } = useUserStore();
-  const { client } = useClientsQueries(userId);
+  const { client, clientMembersMutation } = useClientsQueries(userId);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [updateMemberData, setUpdateMemberData] = useState<Member>();
   const [currentMemberData, setCurrentMemberData] = useState<Member>();
-
-  const clientMembersMutation = useMutation(
-    ({ updatedData, userId }: { updatedData: object; userId: string }) =>
-      updateUser({ updatedData, userId }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["clients"]);
-      },
-    }
-  );
 
   const openModalButtonHandler = () => {
     setCurrentMemberData({

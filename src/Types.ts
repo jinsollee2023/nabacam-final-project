@@ -17,14 +17,18 @@ export interface User {
       pastWorkPosition: string;
     }
   ];
-  members?: [
-    {
-      name: string;
-      team: string;
-      contact: { email: string; phone: string };
-    }
-  ];
+  members?: Member[];
 }
+
+export interface Member {
+  name: string;
+  team: string;
+  contact: {
+    email: string;
+    phone: string;
+  };
+}
+
 export interface IUser extends User {
   title?: string;
   deadLine?: Date;
