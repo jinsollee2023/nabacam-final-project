@@ -175,7 +175,6 @@ export const updateUser = async ({
   };
   userId: string;
 }) => {
-  console.log("1234", updatedData);
   await supabase
     .from("users")
     .update(updatedData)
