@@ -59,13 +59,17 @@ const usePortfolioInfoQueries = ({
     },
   });
   const { data: portfolios } = useQuery(
-    ["portfolios", userId],
+    ["portfolios", userId, pfId],
     async () => {
       const response = await getPortfolio(userId);
       return response;
     },
     {
-      enabled: !!userId,
+      enabled: !!userId || !!pfId,
+      onSettled: () => {
+        // 클릭 이벤트 후에 쿼리를 invalidate하여 다시 실행
+        queryClient.invalidateQueries(["portfolios", userId, pfId]);
+      },
     }
   );
 
