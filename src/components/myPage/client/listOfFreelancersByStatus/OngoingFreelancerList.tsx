@@ -20,7 +20,6 @@ const OngoingFreelancerList = () => {
 
   return (
     <>
-      <div>진행중인 프리랜서</div>
       <S.listContainer>
         {ongoingProjectsWithFreelancers.map((project) => (
           <S.ListsBox key={project.projectId}>

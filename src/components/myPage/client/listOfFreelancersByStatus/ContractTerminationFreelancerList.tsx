@@ -28,7 +28,6 @@ const ContractTerminationFreelancerList = () => {
 
   return (
     <>
-      <div>계약이 끝난 프리랜서</div>
       <S.listContainer>
         {terminationedProjectsWithFreelancers.map((project) => (
           <S.ListsBox key={project.projectId}>
