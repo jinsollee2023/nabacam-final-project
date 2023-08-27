@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { Member } from "src/Types";
 import { styled } from "styled-components";
-import { Member } from "./MemberList";
 
 interface AddMemberModalProps {
   currentMemberData?: Member;
