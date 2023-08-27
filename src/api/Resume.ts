@@ -67,7 +67,7 @@ export const patchFreelancerResumeProfileIntro = async ({
   return data;
 };
 
-export const getFreelancerResumeExperience = async (userId: string) => {
+export const getExperience = async (userId: string) => {
   let { data, error } = await supabase
     .from("users")
     .select("resumeExperience")
@@ -75,7 +75,7 @@ export const getFreelancerResumeExperience = async (userId: string) => {
   return data;
 };
 
-export const addFreelancerResumeExperience = async ({
+export const addExperience = async ({
   newData,
   userId,
   freelancerRole,
@@ -129,4 +129,12 @@ export const addFreelancerResumeExperience = async ({
       })
       .select();
   }
+};
+
+export const deleteExperience = async (userId: string) => {
+  await supabase
+    .from("users")
+    .update({ resumeExperience: null })
+    .eq("userId", userId)
+    .select();
 };

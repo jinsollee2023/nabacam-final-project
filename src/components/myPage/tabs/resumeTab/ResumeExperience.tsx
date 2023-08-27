@@ -1,13 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Modal, Select, SelectProps, Space } from "antd";
 import React, { useState } from "react";
-import {
-  addFreelancerResumeExperience,
-  getFreelancerResumeExperience,
-} from "src/api/Resume";
 import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
+import useExperienceQueries from "src/hooks/useExperienceQueries";
 
 interface Experience {
   pastWorkPlace: string;
@@ -19,7 +16,6 @@ interface Experience {
 }
 
 const ResumeExperience = () => {
-  // 상태관리
   const [open, setOpen] = useState<boolean>(false);
   const pastWorkPlaceInput = useInput("");
   const pastWorkPositionInput = useInput("");
@@ -27,35 +23,18 @@ const ResumeExperience = () => {
   const pastWorkEndDate = useInput("");
 
   const { userId, freelancerRole, name, photoURL } = useUserStore();
+  const { deleteExperienceMutation, addExperienceMutation, experienceData } =
+    useExperienceQueries(userId);
 
-  // select
   const handleChange = (value: string) => {
     // console.log(`selected ${value}`);
   };
 
-  // GET
-  const { status, data: experienceInfo } = useQuery(
-    ["experienceInfo", userId],
-    () => getFreelancerResumeExperience(userId),
-    {
-      enabled: !!userId,
-    }
-  );
-  // console.log(experienceInfo); // {resumeExperience: [{1}, {2}, {3} ...] }
-
-  // ADD
-  const queryClient = useQueryClient();
-  const addMutation = useMutation(addFreelancerResumeExperience, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["experienceInfo", userId]);
-    },
-  });
-  const addFreelancerResumeExperienceHandler = async (
+  const addExperienceHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
 
-    // 추가 대상
     const newData = {
       pastWorkDuration: {
         pastWorkEndDate: pastWorkEndDate.value,
@@ -65,15 +44,22 @@ const ResumeExperience = () => {
       pastWorkPosition: pastWorkPositionInput.value,
     };
 
-    // 추가
-    addMutation.mutate({ newData, userId, freelancerRole, name, photoURL });
+    addExperienceMutation.mutate({
+      newData,
+      userId,
+      freelancerRole,
+      name,
+      photoURL,
+    });
 
-    // 입력창 비우고 모달 닫기
     pastWorkPlaceInput.reset();
     pastWorkPositionInput.reset();
     pastWorkStartDate.reset();
     pastWorkEndDate.reset();
     setOpen(false);
+  };
+  const deleteExperienceHandler = async (userId: string) => {
+    deleteExperienceMutation.mutate(userId);
   };
 
   return (
@@ -81,8 +67,8 @@ const ResumeExperience = () => {
       <S.WorkExperienceContainer>
         <p>경력사항</p>
         <S.WorkExperienceListWrapper>
-          {experienceInfo &&
-            experienceInfo[0]?.resumeExperience?.map(
+          {experienceData &&
+            experienceData[0]?.resumeExperience?.map(
               (item: Experience, index: number) => (
                 <S.WorkExperienceList key={index}>
                   <div>{item.pastWorkPlace}</div>
@@ -91,6 +77,9 @@ const ResumeExperience = () => {
                     {item.pastWorkDuration.pastWorkStartDate}~
                     {item.pastWorkDuration.pastWorkEndDate}
                   </div>
+                  <button onClick={() => deleteExperienceHandler(userId)}>
+                    삭제 x
+                  </button>
                 </S.WorkExperienceList>
               )
             )}
@@ -108,7 +97,7 @@ const ResumeExperience = () => {
         <Modal
           title="경력 추가하기"
           open={open}
-          onOk={addFreelancerResumeExperienceHandler}
+          onOk={addExperienceHandler}
           onCancel={() => {
             setOpen(false);
           }}
