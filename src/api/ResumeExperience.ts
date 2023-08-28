@@ -10,6 +10,8 @@ export const getExperience = async (userId: string) => {
 
 interface Userexperience {
   experienceId: string;
+  pastWorkField: string;
+  pastEmploymentType: string;
   pastWorkDuration: {
     pastWorkEndDate: string;
     pastWorkStartDate: string;
@@ -38,6 +40,8 @@ export const addExperience = async ({
   const currentExperience = prevData[0].resumeExperience || [];
   currentExperience.push({
     experienceId: newData.experienceId,
+    pastWorkField: newData.pastWorkField,
+    pastEmploymentType: newData.pastEmploymentType,
     pastWorkDuration: {
       pastWorkEndDate: newData.pastWorkDuration.pastWorkEndDate,
       pastWorkStartDate: newData.pastWorkDuration.pastWorkStartDate,
@@ -96,6 +100,8 @@ export const updateExperience = async ({
   userId: string;
   experienceId: string;
   updatedData: {
+    pastWorkField: string;
+    pastEmploymentType: string;
     pastWorkDuration: {
       pastWorkEndDate: string;
       pastWorkStartDate: string;
@@ -120,7 +126,7 @@ export const updateExperience = async ({
     (experience: Userexperience) => {
       if (experience.experienceId === experienceId) {
         return {
-          experienceId, // 여기 와서 id가 들어감
+          experienceId, // id
           ...updatedData,
         };
       }

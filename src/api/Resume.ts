@@ -10,7 +10,7 @@ export const getFreelancerResumeProfileIntro = async (userId: string) => {
 
 export const addFreelancerResumeProfileIntro = async ({
   profileIntroText,
-  userId /** zustand */,
+  userId,
 }: {
   profileIntroText: string;
   userId: string;

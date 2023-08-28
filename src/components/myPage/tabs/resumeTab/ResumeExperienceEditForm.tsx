@@ -10,44 +10,46 @@ interface EditModalProps {
   editOpen: boolean;
   setEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
   experienceId: string;
-  experienceData: Experience[];
   writtenPastWorkPlace: string;
   writtenPastWorkPosition: string;
   writtenPastWorkStartDate: string;
   writtenPastWorkEndDate: string;
+  writtenPastWorkField: string;
+  writtenPastEmploymentType: string;
 }
 const ResumeExperienceEditForm: React.FC<EditModalProps> = ({
   editOpen,
   setEditOpen,
   experienceId,
-  experienceData,
   writtenPastWorkPlace,
   writtenPastWorkPosition,
   writtenPastWorkStartDate,
   writtenPastWorkEndDate,
+  writtenPastWorkField,
+  writtenPastEmploymentType,
 }) => {
-  console.log({
-    writtenPastWorkPlace,
-    writtenPastWorkPosition,
-    writtenPastWorkStartDate,
-    writtenPastWorkEndDate,
-  });
   const [editedPastWorkPlaceInput, setEditedPastWorkPlaceInput] = useState("");
   const [editedPastWorkPositionInput, setEditedPastWorkPositionInput] =
     useState("");
   const [editedPastWorkStartDate, setEditedPastWorkStartDate] = useState("");
   const [editedPastWorkEndDate, setEditedPastWorkEndDate] = useState("");
+  const [editedPastWorkField, setEditedPastWorkField] = useState("");
+  const [editedPastEmploymentType, setEditedPastEmploymentType] = useState("");
 
   useEffect(() => {
     setEditedPastWorkPlaceInput(writtenPastWorkPlace);
     setEditedPastWorkPositionInput(writtenPastWorkPosition);
     setEditedPastWorkStartDate(writtenPastWorkStartDate);
     setEditedPastWorkEndDate(writtenPastWorkEndDate);
+    setEditedPastWorkField(writtenPastWorkField);
+    setEditedPastEmploymentType(writtenPastEmploymentType);
   }, [
     writtenPastWorkPlace,
     writtenPastWorkPosition,
     writtenPastWorkStartDate,
     writtenPastWorkEndDate,
+    writtenPastWorkField,
+    writtenPastEmploymentType,
   ]);
 
   const { userId } = useUserStore();
@@ -65,6 +67,8 @@ const ResumeExperienceEditForm: React.FC<EditModalProps> = ({
   }) => {
     // 대상
     const updatedData = {
+      pastWorkField: editedPastWorkField,
+      pastEmploymentType: editedPastEmploymentType,
       pastWorkDuration: {
         pastWorkEndDate: editedPastWorkEndDate,
         pastWorkStartDate: editedPastWorkStartDate,
@@ -80,6 +84,8 @@ const ResumeExperienceEditForm: React.FC<EditModalProps> = ({
     setEditedPastWorkPositionInput("");
     setEditedPastWorkStartDate("");
     setEditedPastWorkEndDate("");
+    setEditedPastWorkField("");
+    setEditedPastEmploymentType("");
 
     setEditOpen(false);
   };
@@ -94,9 +100,9 @@ const ResumeExperienceEditForm: React.FC<EditModalProps> = ({
                 근무분야
                 <Space wrap>
                   <Select
-                    defaultValue="전체"
+                    defaultValue={editedPastWorkField}
                     style={{ width: 120 }}
-                    onChange={handleChange}
+                    onChange={(value) => setEditedPastWorkField(value)}
                     options={[
                       { value: "전체", label: "전체" },
                       { value: "개발", label: "개발" },
@@ -113,9 +119,9 @@ const ResumeExperienceEditForm: React.FC<EditModalProps> = ({
                 근무형태
                 <Space wrap>
                   <Select
-                    defaultValue="전체"
+                    defaultValue={editedPastEmploymentType}
                     style={{ width: 120 }}
-                    onChange={handleChange}
+                    onChange={(value) => setEditedPastEmploymentType(value)}
                     options={[
                       { value: "전체", label: "전체" },
                       { value: "정규직", label: "정규직" },
@@ -201,6 +207,12 @@ const S = {
     form {
       display: flex;
       flex-direction: column;
+    }
+    input {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     button {
       margin-top: 10px;

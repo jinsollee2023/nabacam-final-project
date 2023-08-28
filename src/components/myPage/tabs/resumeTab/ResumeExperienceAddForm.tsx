@@ -16,6 +16,8 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
   const pastWorkPositionInput = useInput("");
   const pastWorkStartDate = useInput("");
   const pastWorkEndDate = useInput("");
+  const [selectedWorkField, setSelectedWorkField] = useState("전체");
+  const [selectedWorkType, setSelectedWorkType] = useState("전체");
 
   const { userId } = useUserStore();
   const { addExperienceMutation } = useResumeExperienceQueries(userId);
@@ -31,6 +33,8 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
 
     const newData = {
       experienceId: experienceId,
+      pastWorkField: selectedWorkField,
+      pastEmploymentType: selectedWorkType,
       pastWorkDuration: {
         pastWorkEndDate: pastWorkEndDate.value,
         pastWorkStartDate: pastWorkStartDate.value,
@@ -66,9 +70,9 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
               근무분야
               <Space wrap>
                 <Select
-                  defaultValue="전체"
+                  defaultValue={selectedWorkField}
                   style={{ width: 120 }}
-                  onChange={handleChange}
+                  onChange={(value) => setSelectedWorkField(value)}
                   options={[
                     { value: "전체", label: "전체" },
                     { value: "개발", label: "개발" },
@@ -85,9 +89,9 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
               근무형태
               <Space wrap>
                 <Select
-                  defaultValue="전체"
+                  defaultValue={selectedWorkType}
                   style={{ width: 120 }}
-                  onChange={handleChange}
+                  onChange={(value) => setSelectedWorkType(value)}
                   options={[
                     { value: "전체", label: "전체" },
                     { value: "정규직", label: "정규직" },
@@ -101,7 +105,7 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
             <br />
             <label>
               근무지:
-              <input
+              <S.Input
                 type="text"
                 value={pastWorkPlaceInput.value}
                 onChange={pastWorkPlaceInput.onChange}
@@ -110,7 +114,7 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
             <br />
             <label>
               직책:
-              <input
+              <S.Input
                 type="text"
                 value={pastWorkPositionInput.value}
                 onChange={pastWorkPositionInput.onChange}
@@ -121,13 +125,13 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
               근무기간
               <br />
               입사일:
-              <input
+              <S.Input
                 type="text"
                 value={pastWorkStartDate.value}
                 onChange={pastWorkStartDate.onChange}
               />
               퇴사일:
-              <input
+              <S.Input
                 type="text"
                 value={pastWorkEndDate.value}
                 onChange={pastWorkEndDate.onChange}
@@ -141,3 +145,12 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
 };
 
 export default ResumeExperienceAddForm;
+
+const S = {
+  Input: styled.input`
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  `,
+};

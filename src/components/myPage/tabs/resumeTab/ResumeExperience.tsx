@@ -11,6 +11,8 @@ import ResumeExperienceEditForm from "./ResumeExperienceEditForm";
 
 export interface Experience {
   experienceId: string;
+  pastWorkField: string;
+  pastEmploymentType: string;
   pastWorkPlace: string;
   pastWorkPosition: string;
   pastWorkDuration: {
@@ -27,6 +29,9 @@ const ResumeExperience = () => {
   const [writtenPastWorkPosition, setWrittenPastWorkPosition] = useState("");
   const [writtenPastWorkStartDate, setWrittenPastWorkStartDate] = useState("");
   const [writtenPastWorkEndDate, setWrittenPastWorkEndDate] = useState("");
+  const [writtenPastWorkField, setWrittenPastWorkField] = useState("");
+  const [writtenPastEmploymentType, setWrittenPastEmploymentType] =
+    useState("");
 
   const { userId } = useUserStore();
   const { deleteExperienceMutation, experienceData } =
@@ -59,6 +64,8 @@ const ResumeExperience = () => {
   const openEditModal = ({
     userId,
     experienceId,
+    pastWorkField,
+    pastEmploymentType,
     pastWorkPlace,
     pastWorkPosition,
     pastWorkStartDate,
@@ -66,18 +73,21 @@ const ResumeExperience = () => {
   }: {
     userId: string;
     experienceId: string;
+    pastWorkField: string;
+    pastEmploymentType: string;
     pastWorkPlace: string;
     pastWorkPosition: string;
     pastWorkStartDate: string;
     pastWorkEndDate: string;
   }) => {
-    // 이전내용 띄워주는 로직 추가
     setEditOpen(true);
     setUserExperienceId(experienceId);
     setWrittenPastWorkPlace(pastWorkPlace);
     setWrittenPastWorkPosition(pastWorkPosition);
     setWrittenPastWorkStartDate(pastWorkStartDate);
     setWrittenPastWorkEndDate(pastWorkEndDate);
+    setWrittenPastWorkField(pastWorkField);
+    setWrittenPastEmploymentType(pastEmploymentType);
   };
 
   return (
@@ -89,9 +99,11 @@ const ResumeExperience = () => {
             experienceData[0]?.resumeExperience?.map(
               (item: Experience, index: number) => (
                 <S.WorkExperienceList key={index}>
-                  <div>{item.experienceId}</div>
-                  <div>{item.pastWorkPlace}</div>
-                  <div>{item.pastWorkPosition}</div>
+                  <h1>{item.pastWorkField}</h1>
+                  <div>
+                    {item.pastWorkPlace}/{item.pastEmploymentType}/
+                    {item.pastWorkPosition}
+                  </div>
                   <div>
                     {item.pastWorkDuration.pastWorkStartDate}~
                     {item.pastWorkDuration.pastWorkEndDate}
@@ -111,6 +123,8 @@ const ResumeExperience = () => {
                       openEditModal({
                         userId,
                         experienceId: item.experienceId,
+                        pastWorkField: item.pastWorkField,
+                        pastEmploymentType: item.pastEmploymentType,
                         pastWorkPlace: item.pastWorkPlace,
                         pastWorkPosition: item.pastWorkPosition,
                         pastWorkStartDate:
@@ -140,11 +154,12 @@ const ResumeExperience = () => {
         editOpen={editOpen}
         setEditOpen={setEditOpen}
         experienceId={userExperienceId}
-        experienceData={userExperienceData}
         writtenPastWorkPlace={writtenPastWorkPlace}
         writtenPastWorkPosition={writtenPastWorkPosition}
         writtenPastWorkStartDate={writtenPastWorkStartDate}
         writtenPastWorkEndDate={writtenPastWorkEndDate}
+        writtenPastWorkField={writtenPastWorkField}
+        writtenPastEmploymentType={writtenPastEmploymentType}
       />
     </>
   );
