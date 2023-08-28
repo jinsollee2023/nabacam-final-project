@@ -6,6 +6,8 @@ import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
 import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
 import { v4 as uuidv4 } from "uuid";
+import ResumeExperienceAddForm from "./ResumeExperienceAddForm";
+import ResumeExperienceEditForm from "./ResumeExperienceEditForm";
 
 interface Experience {
   experienceId: string;
@@ -19,55 +21,19 @@ interface Experience {
 
 const ResumeExperience = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const pastWorkPlaceInput = useInput("");
-  const pastWorkPositionInput = useInput("");
-  const pastWorkStartDate = useInput("");
-  const pastWorkEndDate = useInput("");
   const [editOpen, setEditOpen] = useState<boolean>(false);
-  const editedPastWorkPlaceInput = useInput("");
-  const editedPastWorkPositionInput = useInput("");
-  const editedPastWorkStartDate = useInput("");
-  const editedPastWorkEndDate = useInput("");
+  const [userExperienceId, setUserExperienceId] = useState("");
 
   const { userId } = useUserStore();
-  const {
-    deleteExperienceMutation,
-    addExperienceMutation,
-    updateExperienceMutation,
-    experienceData,
-  } = useResumeExperienceQueries(userId);
+  const { deleteExperienceMutation, experienceData } =
+    useResumeExperienceQueries(userId);
 
+  console.log(experienceData);
   const handleChange = (value: string) => {
     // console.log(`selected ${value}`);
   };
 
-  const experienceId = uuidv4();
-  const addExperienceHandler = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
-
-    const newData = {
-      experienceId: experienceId,
-      pastWorkDuration: {
-        pastWorkEndDate: pastWorkEndDate.value,
-        pastWorkStartDate: pastWorkStartDate.value,
-      },
-      pastWorkPlace: pastWorkPlaceInput.value,
-      pastWorkPosition: pastWorkPositionInput.value,
-    };
-
-    addExperienceMutation.mutate({
-      newData,
-      userId,
-    });
-
-    pastWorkPlaceInput.reset();
-    pastWorkPositionInput.reset();
-    pastWorkStartDate.reset();
-    pastWorkEndDate.reset();
-    setOpen(false);
-  };
+  // delete
   const deleteExperienceHandler = async ({
     userId,
     experienceId,
@@ -77,6 +43,8 @@ const ResumeExperience = () => {
   }) => {
     deleteExperienceMutation.mutate({ userId, experienceId });
   };
+
+  // update
   const openEditModal = ({
     userId,
     experienceId,
@@ -85,18 +53,10 @@ const ResumeExperience = () => {
     experienceId: string;
   }) => {
     // 이전내용 띄워주는 로직 추가
-    setEditOpen(false);
+    setEditOpen(true);
+    setUserExperienceId(experienceId);
   };
-  // const updateExperienceHandler = async (e: React.MouseEvent<HTMLButtonElement>, ) => {
-  //   e.preventDefault()
-  //   updateExperienceMutation.mutate({ userId, experienceId, updatedData });
-
-  //   editedPastWorkPlaceInput.reset();
-  //   editedPastWorkPositionInput.reset();
-  //   editedPastWorkStartDate.reset();
-  //   editedPastWorkEndDate.reset();
-  //   setEditOpen(false);
-  // };
+  console.log("여기", userExperienceId);
 
   return (
     <>
@@ -107,6 +67,7 @@ const ResumeExperience = () => {
             experienceData[0]?.resumeExperience?.map(
               (item: Experience, index: number) => (
                 <S.WorkExperienceList key={index}>
+                  <div>{item.experienceId}</div>
                   <div>{item.pastWorkPlace}</div>
                   <div>{item.pastWorkPosition}</div>
                   <div>
@@ -123,8 +84,9 @@ const ResumeExperience = () => {
                   >
                     삭제 x
                   </button>
-                  {/* <button
+                  <button
                     onClick={() => {
+                      console.log("here", item.experienceId);
                       openEditModal({
                         userId,
                         experienceId: item.experienceId,
@@ -132,7 +94,7 @@ const ResumeExperience = () => {
                     }}
                   >
                     수정
-                  </button> */}
+                  </button>
                 </S.WorkExperienceList>
               )
             )}
@@ -146,175 +108,13 @@ const ResumeExperience = () => {
         </S.Btn>
       </S.WorkExperienceContainer>
       {/* ------------------------------------------------------------ */}
-      {open && (
-        <Modal
-          title="경력 추가하기"
-          open={open}
-          onOk={addExperienceHandler}
-          onCancel={() => {
-            setOpen(false);
-          }}
-        >
-          <form>
-            <label>
-              근무분야
-              <Space wrap>
-                <Select
-                  defaultValue="전체"
-                  style={{ width: 120 }}
-                  onChange={handleChange}
-                  options={[
-                    { value: "전체", label: "전체" },
-                    { value: "개발", label: "개발" },
-                    { value: "디자인", label: "디자인" },
-                    { value: "마케팅", label: "마케팅" },
-                    { value: "운영", label: "운영" },
-                    { value: "기획", label: "기획" },
-                    { value: "기타", label: "기타" },
-                  ]}
-                />
-              </Space>
-            </label>
-            <label>
-              근무형태
-              <Space wrap>
-                <Select
-                  defaultValue="전체"
-                  style={{ width: 120 }}
-                  onChange={handleChange}
-                  options={[
-                    { value: "전체", label: "전체" },
-                    { value: "정규직", label: "정규직" },
-                    { value: "계약직", label: "계약직" },
-                  ]}
-                />
-              </Space>
-            </label>
-
-            <br />
-            <br />
-            <label>
-              근무지:
-              <input
-                type="text"
-                value={pastWorkPlaceInput.value}
-                onChange={pastWorkPlaceInput.onChange}
-              />
-            </label>
-            <br />
-            <label>
-              직책:
-              <input
-                type="text"
-                value={pastWorkPositionInput.value}
-                onChange={pastWorkPositionInput.onChange}
-              />
-            </label>
-            <br />
-            <label>
-              근무기간
-              <br />
-              입사일:
-              <input
-                type="text"
-                value={pastWorkStartDate.value}
-                onChange={pastWorkStartDate.onChange}
-              />
-              퇴사일:
-              <input
-                type="text"
-                value={pastWorkEndDate.value}
-                onChange={pastWorkEndDate.onChange}
-              />
-            </label>
-          </form>
-        </Modal>
-      )}
+      <ResumeExperienceAddForm open={open} setOpen={setOpen} />
       {/* ------------------------------------------------------------ */}
-      {/* {editOpen && (
-        <Modal
-          title="경력 수정하기"
-          open={open}
-          onOk={updateExperienceHandler}
-          onCancel={() => {
-            setEditOpen(false);
-          }}
-        >
-          <form>
-            <label>
-              근무분야
-              <Space wrap>
-                <Select
-                  defaultValue="전체"
-                  style={{ width: 120 }}
-                  onChange={handleChange}
-                  options={[
-                    { value: "전체", label: "전체" },
-                    { value: "개발", label: "개발" },
-                    { value: "디자인", label: "디자인" },
-                    { value: "마케팅", label: "마케팅" },
-                    { value: "운영", label: "운영" },
-                    { value: "기획", label: "기획" },
-                    { value: "기타", label: "기타" },
-                  ]}
-                />
-              </Space>
-            </label>
-            <label>
-              근무형태
-              <Space wrap>
-                <Select
-                  defaultValue="전체"
-                  style={{ width: 120 }}
-                  onChange={handleChange}
-                  options={[
-                    { value: "전체", label: "전체" },
-                    { value: "정규직", label: "정규직" },
-                    { value: "계약직", label: "계약직" },
-                  ]}
-                />
-              </Space>
-            </label>
-
-            <br />
-            <br />
-            <label>
-              근무지:
-              <input
-                type="text"
-                value={editedPastWorkPlaceInput.value}
-                onChange={editedPastWorkPlaceInput.onChange}
-              />
-            </label>
-            <br />
-            <label>
-              직책:
-              <input
-                type="text"
-                value={editedPastWorkPositionInput.value}
-                onChange={editedPastWorkPositionInput.onChange}
-              />
-            </label>
-            <br />
-            <label>
-              근무기간
-              <br />
-              입사일:
-              <input
-                type="text"
-                value={editedPastWorkStartDate.value}
-                onChange={editedPastWorkStartDate.onChange}
-              />
-              퇴사일:
-              <input
-                type="text"
-                value={editedPastWorkEndDate.value}
-                onChange={editedPastWorkEndDate.onChange}
-              />
-            </label>
-          </form>
-        </Modal>
-      )} */}
+      <ResumeExperienceEditForm
+        editOpen={editOpen}
+        setEditOpen={setEditOpen}
+        experienceId={userExperienceId}
+      />
     </>
   );
 };
