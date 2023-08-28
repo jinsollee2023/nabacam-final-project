@@ -73,7 +73,8 @@ const PortfolioAddFilesForm = () => {
   };
   const handlePDFFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
-    setSelectedPDFFile(file);
+
+    setSelectedPDFFile(file); // 유저가 버튼을 안누르면 pfId 갱신 안됨
   };
   const uploadPDFHandler = async () => {
     const pfId = uuidv4();
