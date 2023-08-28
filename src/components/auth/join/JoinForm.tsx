@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-
-import { useForm } from "react-hook-form";
 import { Select } from "antd";
 import ImagePreview from "./ProfileImg";
 import { uploadUserImage } from "src/api/User";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "src/zustand/useUserStore";
 import { clientSignupHandler } from "src/api/auth";
-import { FormEvent } from "react";
-interface FormValue {
-  email: string;
-  password: string;
-}
 
 interface JoinFormProps {
   freelancerOpen: boolean;
@@ -22,7 +15,6 @@ interface JoinFormProps {
 const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
   // useinput
 
-  const { handleSubmit } = useForm<FormValue>();
   const initialValues: any = {
     email: "",
     name: "",
@@ -30,11 +22,10 @@ const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
     workExp: 0,
     phone: "",
     workField: "",
-    photoURL: {},
   };
 
   const navigate = useNavigate();
-  const [photoURL, setPhotoURL] = useState("");
+  const [photoFile, setPhotoFile] = useState<File>();
   const [values, setValues] = useState(initialValues);
   const [openClientJoin, setOpenClientJoin] = useState(true);
   const [openFreelancer] = useState(freelancerOpen);
@@ -58,6 +49,7 @@ const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
     e.preventDefault();
     await clientSignupHandler(
       values,
+      photoFile,
       uploadUserImage,
       role,
       workSelect,
@@ -68,7 +60,6 @@ const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
       navigate
     );
   };
-
   //  순수 useState handler
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,8 +69,8 @@ const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
 
   // 미리보기 핸들러
 
-  const handlePhotoURLOnChange = (url: any) => {
-    setPhotoURL(url);
+  const handlePhotoURLOnChange = (file: File) => {
+    setPhotoFile(file);
   };
 
   // 모달
@@ -119,10 +110,7 @@ const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
                 onChange={handleChange}
               />
 
-              <ImagePreview
-                photoURL={photoURL}
-                photoURLOnChange={handlePhotoURLOnChange}
-              />
+              <ImagePreview handlePhotoURLOnChange={handlePhotoURLOnChange} />
 
               <Select
                 showSearch

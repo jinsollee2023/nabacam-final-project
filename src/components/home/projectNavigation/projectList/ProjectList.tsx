@@ -81,15 +81,17 @@ const ProjectList = ({
                 selectedWorkField === "전체보기" ||
                 project.category === selectedWorkField
             )
-            .map((projectItem) => (
-              <div key={projectItem.projectId}>
-                <ProjectCard
-                  key={projectItem.projectId}
-                  projectItem={projectItem}
-                  userId={userId}
-                />
-              </div>
-            ))}
+            .map((projectItem) => {
+              return (
+                <div key={projectItem.projectId}>
+                  <ProjectCard
+                    key={projectItem.projectId}
+                    projectItem={projectItem}
+                    userId={userId}
+                  />
+                </div>
+              );
+            })}
         </div>
       )}
     </>
