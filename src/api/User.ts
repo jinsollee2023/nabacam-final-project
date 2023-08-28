@@ -139,11 +139,12 @@ export const getFreelancersBySort = async (sortLabel: string) => {
 
 // 마이페이지
 export const getFreelancer = async (userId: string) => {
-  let { data: users, error } = await supabase
+  let { data: freelancer, error } = await supabase
     .from("users")
     .select("name, contact, workField, projectId, resumeProfileIntro")
-    .eq("userId", userId);
-  return users;
+    .eq("userId", userId)
+    .maybeSingle();
+  return freelancer;
 };
 
 export const updateUser = async ({

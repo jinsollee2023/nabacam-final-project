@@ -25,17 +25,11 @@ export const Resign = async (userId: any) => {
 
 // 유저 데이터 테이블 추가
 
-export const userJoinData = async (
-  newUserData: any,
-  setUserRole: any,
-  setUser: any
-) => {
+export const userJoinData = async (newUserData: any, setUser: any) => {
   try {
     const { data } = await supabase.from("users").insert(newUserData).select();
     if (data) {
       // 추가
-      const { role } = data[0];
-      setUserRole(role);
       setUser(data[0]);
     }
   } catch (error) {
@@ -59,8 +53,6 @@ export const clientSignupHandler = async (
   role: string,
   workSelect: string,
   setUser: any,
-  setUserRole: any,
-  setUserId: any,
   setOpenClientJoin: any,
   navigate: any
 ) => {
@@ -89,9 +81,8 @@ export const clientSignupHandler = async (
       workExp: values.workExp,
       contact: { email: user?.email, phone: values.phone },
     };
-    await userJoinData(newUserData, setUserRole, setUser);
+    await userJoinData(newUserData, setUser);
 
-    if (user?.id) setUserId(user?.id);
     setOpenClientJoin(false);
 
     navigate("/");

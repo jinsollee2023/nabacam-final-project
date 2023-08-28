@@ -25,12 +25,7 @@ const JoinComp = () => {
                 <div onClick={() => setUserRole("freelancer")}>프리랜서</div>
               ),
             key: id,
-            children:
-              id == "1" ? (
-                <JoinForm freelancerOpen={false} role={userRole} />
-              ) : (
-                <JoinForm freelancerOpen={true} role={userRole} />
-              ),
+            children: <JoinForm role={userRole} />,
           };
         })}
       />
