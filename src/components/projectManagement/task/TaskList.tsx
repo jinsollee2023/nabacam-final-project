@@ -9,7 +9,7 @@ import { useUserStore } from "src/zustand/useUserStore";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 
 const TaskList = () => {
-  const { userId } = useUserStore();
+  const { userId, userRole } = useUserStore();
   const { projects } = useProjectsQueries({ currentUserId: userId });
   const [projectId, setProjectId] = useState("");
 

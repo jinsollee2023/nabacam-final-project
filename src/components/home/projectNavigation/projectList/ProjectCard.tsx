@@ -5,41 +5,46 @@ import Modal from "src/components/modal/Modal";
 import ApplyForProjectModal from "./applyForProjectModal/ApplyForProjectModal";
 import { S } from "./projectList.styles";
 import useClientsQueries from "src/hooks/useClientsQueries";
-import { useUserStore } from "src/zustand/useUserStore";
+import useProjectsQueries from "src/hooks/useProjectsQueries";
+import {
+  calculateDaysAgo,
+  getDayOfWeek,
+} from "src/components/common/commonFunc";
 
 interface ProjectCardProps {
   projectItem: Project;
+  userId: string;
+  clientName?: string;
 }
 
-const ProjectCard = ({ projectItem }: ProjectCardProps) => {
-  const { userId } = useUserStore();
+const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const { client } = useClientsQueries(projectItem.clientId);
+  const { updateProjectMutation } = useProjectsQueries({
+    currentUserId: userId,
+  });
 
-  // 마감 날짜 요일 구하기
-  const getDayOfWeek = (date: Date) => {
-    const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-    return daysOfWeek[date.getDay()];
-  };
-  const dayOfWeek = getDayOfWeek(new Date(projectItem.deadLine));
+  const dayOfWeek = getDayOfWeek(new Date(projectItem.date.endDate));
 
-  // 등록일이 오늘 기준 몇 일전인지
-  const calculateDaysAgo = (targetDate: Date) => {
-    const today = new Date();
-    const timeDiff = today.getTime() - targetDate.getTime();
-    const daysAgo = Math.floor(timeDiff / (1000 * 3600 * 24)); // milliseconds in a day
-    if (daysAgo === 1) {
-      return "1일 전";
-    } else if (daysAgo > 1) {
-      return `${daysAgo}일 전`;
-    } else {
-      return "오늘";
-    }
-  };
   const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
   const daysAgo = calculateDaysAgo(targetDate);
 
-  const HandleProjectApplyButtonClick = () => {};
+  const handleProjectApplyButtonClick = () => {
+    const updatedProject = {
+      ...projectItem,
+      volunteer: [...(projectItem.volunteer || []), userId],
+    };
+
+    try {
+      updateProjectMutation.mutate({
+        projectId: projectItem.projectId as string,
+        newProject: updatedProject,
+      });
+      setIsDetailModalOpen(false);
+    } catch (error) {
+      console.error("프로젝트 지원 중 오류가 발생하였습니다.\n", error);
+    }
+  };
 
   return (
     <>
@@ -48,13 +53,24 @@ const ProjectCard = ({ projectItem }: ProjectCardProps) => {
           setIsModalOpen={setIsDetailModalOpen}
           buttons={
             <>
-              <Button
-                type="primary"
-                block
-                onClick={HandleProjectApplyButtonClick}
-              >
-                프로젝트 지원하기
-              </Button>
+              {projectItem.volunteer?.includes(userId) ||
+              projectItem.pendingFreelancer?.includes(userId) ? (
+                <Button type="primary" block disabled>
+                  이미 지원한 프로젝트입니다.
+                </Button>
+              ) : projectItem.SuggestedFreelancers!.includes(userId) ? (
+                <Button type="primary" block disabled>
+                  이미 제안 받은 프로젝트입니다.
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  block
+                  onClick={handleProjectApplyButtonClick}
+                >
+                  프로젝트 지원하기
+                </Button>
+              )}
             </>
           }
         >
@@ -66,7 +82,7 @@ const ProjectCard = ({ projectItem }: ProjectCardProps) => {
       )}
       <S.ProejctCardContainer>
         <div id="clientName">{client?.name}</div>
-        <div id="projectNameAndWorkExpCondition">
+        <div>
           <span>
             {projectItem.title} · {projectItem.category}
           </span>
@@ -75,7 +91,6 @@ const ProjectCard = ({ projectItem }: ProjectCardProps) => {
           ) : (
             <span>신입 가능</span>
           )}
-          {/* <span>{projectItem.qualification}년차 이상</span> */}
         </div>
         <div id="buttonAndDeadLineAndCreatAt">
           <button onClick={() => setIsDetailModalOpen(true)}>
@@ -84,8 +99,8 @@ const ProjectCard = ({ projectItem }: ProjectCardProps) => {
           <span>{projectItem.volunteer?.length}명 지원 중</span>
           <div>
             <span>
-              ~{String(projectItem.deadLine).slice(5, 7)}/
-              {String(projectItem.deadLine).slice(8, 10)} ({dayOfWeek})
+              ~{projectItem.date.endDate.slice(5, 7)}/
+              {projectItem.date.endDate.slice(8, 10)} ({dayOfWeek})
             </span>
             <span>{daysAgo} 등록</span>
           </div>

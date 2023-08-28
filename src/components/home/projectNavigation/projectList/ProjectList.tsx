@@ -30,7 +30,6 @@ const ProjectList = ({
 
   useEffect(() => {
     if (projectsListBySort) {
-      // 키워드가 바뀌면 검색 로직 실행 / 기업이름(추가해야함), 프로젝트 이름, 설명, 연차, 지원자 수
       const filteredProjectLists = projectsListBySort?.filter((project) => {
         const lowerCaseSearch = String(searchKeyword).toLowerCase();
         const numberOfApplicants = String(project.volunteer?.length);
@@ -87,6 +86,7 @@ const ProjectList = ({
                 <ProjectCard
                   key={projectItem.projectId}
                   projectItem={projectItem}
+                  userId={userId}
                 />
               </div>
             ))}

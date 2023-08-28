@@ -6,14 +6,12 @@ import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
 import { useProjectStore } from "src/zustand/useProjectStore";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
-import useClientsQueries from "src/hooks/useClientsQueries";
 
 interface projectCardProps {
   project: Project;
 }
 
 const ProjectCard = ({ project }: projectCardProps) => {
-  const { client } = useClientsQueries(project.clientId);
   const { deleteProjectMutation, updateProjectMutation } = useProjectsQueries({
     currentUserId: project.clientId,
   });
@@ -38,7 +36,7 @@ const ProjectCard = ({ project }: projectCardProps) => {
     <>
       {isDetailModalOpen && (
         <Modal setIsModalOpen={setIsDetailModalOpen}>
-          <ProjectDetailModal project={project} client={client!.name} />
+          <ProjectDetailModal project={project} />
         </Modal>
       )}
       {isUpadateModalOpen && (
@@ -65,8 +63,8 @@ const ProjectCard = ({ project }: projectCardProps) => {
             <span onClick={deleteProjectButtonHandler}>삭제</span>
           </S.ProjectCardButtonBox>
           <div>
-            <p>{client && client!.name}</p>
-            <p>{String(project.deadLine)} 종료</p>
+            <p>{project.manager.name}</p>
+            <p>{project.date.endDate} 종료</p>
           </div>
         </div>
       </S.ProjectCardBox>

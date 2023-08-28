@@ -1,11 +1,12 @@
 import { Project } from "../Types";
 import supabase from "../config/supabaseClient";
 
-export const getProjects = async (): Promise<Project[]> => {
+export const getProjects = async (id: string): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
     .order("created_at", { ascending: true });
+
   return projects as Project[];
 };
 
@@ -52,11 +53,12 @@ export const addProject = async (newProject: Project): Promise<void> => {
         desc: newProject.desc,
         clientId: newProject.clientId,
         manager: newProject.manager,
-        deadLine: newProject.deadLine,
+        date: { startDate: "", endDate: newProject.date.endDate },
         pay: newProject.pay,
         status: newProject.status,
         category: newProject.category,
         volunteer: newProject.volunteer,
+        qualification: newProject.qualification,
       },
     ])
     .select();
@@ -77,10 +79,13 @@ export const updateProject = async (
       min: number | string;
       max: number | string;
     };
+    volunteer?: string[];
     status?: string;
     SuggestedFreelancers?: string[];
+    qualification?: number;
   }
 ): Promise<void> => {
+  console.log(column);
   await supabase
     .from("projects")
     .update(column)

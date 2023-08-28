@@ -11,24 +11,15 @@ export const getFreelancerResumeProfileIntro = async (userId: string) => {
 export const addFreelancerResumeProfileIntro = async ({
   profileIntroText,
   userId /** zustand */,
-  freelancerRole /** zustand */,
-  name /** zustand */,
-  photoURL,
 }: {
   profileIntroText: string;
   userId: string;
-  freelancerRole: string;
-  name: string;
-  photoURL: string;
 }) => {
   const { data, error } = await supabase
     .from("users")
-    .upsert({
+    .update({
       userId: userId,
-      role: freelancerRole,
       resumeProfileIntro: profileIntroText,
-      name: name,
-      photoURL: photoURL,
     })
     .select();
   return data;
@@ -37,25 +28,16 @@ export const addFreelancerResumeProfileIntro = async ({
 export const patchFreelancerResumeProfileIntro = async ({
   editedProfileIntroText,
   userId,
-  freelancerRole,
-  name,
-  photoURL,
 }: {
   editedProfileIntroText: string;
   userId: string;
-  freelancerRole: string;
-  name: string;
-  photoURL: string;
 }) => {
   const { data, error } = await supabase
     .from("users")
-    .upsert([
+    .update([
       {
         userId: userId,
         resumeProfileIntro: editedProfileIntroText,
-        role: freelancerRole,
-        name: name,
-        photoURL: photoURL,
       },
     ])
     .select();
@@ -78,15 +60,9 @@ export const getFreelancerResumeExperience = async (userId: string) => {
 export const addFreelancerResumeExperience = async ({
   newData,
   userId,
-  freelancerRole,
-  name,
-  photoURL,
 }: {
   newData: object;
   userId: string;
-  freelancerRole: string;
-  name: string;
-  photoURL: string;
 }) => {
   // 기존 데이터 가져오기
   const { data: existingData, error: existingError } = await supabase
@@ -103,14 +79,11 @@ export const addFreelancerResumeExperience = async ({
         newData,
       ],
     };
-    const { data, error } = await supabase
+    await supabase
       .from("users")
-      .upsert({
+      .update({
         resumeExperience: combinedData.resumeExperience,
         userId: userId,
-        role: freelancerRole,
-        name: name,
-        photoURL: photoURL,
       })
       .select();
   } else {
@@ -118,14 +91,11 @@ export const addFreelancerResumeExperience = async ({
     const combinedData = {
       resumeExperience: [newData],
     };
-    const { data, error } = await supabase
+    await supabase
       .from("users")
       .upsert({
         resumeExperience: combinedData.resumeExperience,
         userId: userId,
-        role: freelancerRole,
-        name: name,
-        photoURL: photoURL,
       })
       .select();
   }

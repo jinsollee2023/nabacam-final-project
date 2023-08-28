@@ -9,8 +9,8 @@ import Register from "../pages/Register";
 import Review from "../pages/Review";
 import ProjectManagement from "../pages/ProjectManagement";
 import { PrivateRoute } from "../components/auth/login/PrivateRoute";
-import LoginComponent from "../components/auth/login/LoginComponent";
 import ProjectNavigation from "src/components/home/projectNavigation/ProjectNavigation";
+import LoginComp from "src/components/auth/login/LoginComp";
 
 const Router = () => {
   return (
@@ -27,7 +27,7 @@ const Router = () => {
             <Route path="/review" element={<Review />} />
           </Route>
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<LoginComponent />} />
+          <Route path="/login" element={<LoginComp />} />
         </Routes>
       </Layout>
     </BrowserRouter>

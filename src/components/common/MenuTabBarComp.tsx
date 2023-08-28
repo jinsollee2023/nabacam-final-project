@@ -6,6 +6,9 @@ import ApplicantFreelancerList from "../home/applicantFreelancerList/ApplicantFr
 import PendingFreelancerList from "../home/pendingFreelancerLists/PendingFreelancerList";
 import ProjectList from "../projectManagement/projectList/ProjectList";
 import ProjectNavigation from "../home/projectNavigation/ProjectNavigation";
+import MemberList from "../myPage/client/MemberList";
+import AppliedProjectList from "../home/appliedProjectList/AppliedProjectList";
+import SuggestedProjectList from "../home/suggestedProjectList/SuggestedProjectList";
 
 interface MenuTabBarCompProps {
   menu: string[];
@@ -31,8 +34,11 @@ const MenuTabBarComp = ({ menu }: MenuTabBarCompProps) => {
         {currentTab === "프로젝트 목록" && <ProjectList />}
         {currentTab === "프리랜서 마켓" && <FreelancerMarket />}
         {currentTab === "프로젝트 탐색" && <ProjectNavigation />}
+        {currentTab === "지원한 프로젝트" && <AppliedProjectList />}
+        {currentTab === "제안 받은 프로젝트" && <SuggestedProjectList />}
         {currentTab === "지원한 프리랜서 확인" && <ApplicantFreelancerList />}
         {currentTab === "보류한 프리랜서" && <PendingFreelancerList />}
+        {currentTab === "우리 기업 구성원" && <MemberList />}
       </S.CompContainer>
     </>
   );

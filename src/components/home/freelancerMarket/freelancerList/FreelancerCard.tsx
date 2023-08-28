@@ -34,9 +34,14 @@ const FreelancerCard = ({
     suggestedFreelancersData,
     suggestedFreelancersDataIsLoading,
     suggestedFreelancersDataIsError,
+    projectDataForSuggestions,
+    projectDataForSuggestionsIsLoading,
+    projectDataForSuggestionsIsError,
+    refetchprojectDataForSuggestions,
   } = useProjectsQueries({
     currentUserId: userId,
     selectedProject,
+    freelancerId: freelancerItem.userId,
   });
 
   useEffect(() => {
@@ -48,15 +53,6 @@ const FreelancerCard = ({
   const { portfoliosData, portfoliosError, portfoliosIsLoading } =
     usePortfoliosQueries(freelancerItem);
 
-  const {
-    projectDataForSuggestions,
-    projectDataForSuggestionsIsLoading,
-    projectDataForSuggestionsIsError,
-    refetchprojectDataForSuggestions,
-  } = useProjectsQueries({
-    currentUserId: userId,
-    freelancerId: freelancerItem.userId,
-  });
   if (projectDataForSuggestionsIsLoading) {
     return (
       <>
@@ -257,5 +253,4 @@ const FreelancerCard = ({
     </>
   );
 };
-
 export default FreelancerCard;
