@@ -33,4 +33,5 @@ export const useProjectStore = create<ProjectStore>((set) => ({
   changeNewProject: (newProject) => set(() => ({ newProject: newProject })),
   selectedProject: null,
   setSelectedProject: (project) => set(() => ({ selectedProject: project })),
+  // updateProjectVolunteers :
 }));

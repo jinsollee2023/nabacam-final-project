@@ -1,8 +1,10 @@
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "src/zustand/useUserStore";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { user } = useUserStore();
   if (window.location.pathname === `/register`) {
     return null;
   }
@@ -12,14 +14,15 @@ const Navbar = () => {
   return (
     <S.SidebarWrapper>
       <S.ProfileWrapper>
-        <S.ProfileImage src="path_to_your_image.jpg" alt="img" />
-        <S.Name>이름</S.Name>
-        <S.Role>프리랜서/클라이언트</S.Role>
+        <S.ProfileImage src={user.photoURL} alt="img" />
+        <S.Name>{user.name}</S.Name>
+        <S.Role>{user.role}</S.Role>
       </S.ProfileWrapper>
       <S.UpperNavLinks>
         <S.NavLinkItem onClick={() => navigate("/")}>
-          프로젝트 탐색
+          {user.role === "client" ? "프리랜서 구인" : "프로젝트 탐색"}
         </S.NavLinkItem>
+
         <S.NavLinkItem onClick={() => navigate("/project-management")}>
           프로젝트 관리 도구
         </S.NavLinkItem>
@@ -29,7 +32,7 @@ const Navbar = () => {
 
       <S.LowerNavLinks>
         <S.NavLinkItem onClick={() => navigate("/my-page")}>
-          내 프로필
+          {user.role === "client" ? "기업 페이지" : "마이 페이지"}
         </S.NavLinkItem>
         <S.NavLinkItem onClick={() => navigate("/chat")}>
           커뮤니케이션

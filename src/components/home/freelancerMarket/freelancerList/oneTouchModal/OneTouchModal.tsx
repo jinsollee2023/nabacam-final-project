@@ -3,12 +3,12 @@ import FreelancerProfile from "src/components/modal/freelancerInfo/FreelancerPro
 import { S } from "./oneTouchModal.styles";
 import { useProjectStore } from "src/zustand/useProjectStore";
 
-interface ApplicantResumeModalProps {
+interface OneTouchModalProps {
   user: User;
   projectLists: Project[];
 }
 
-const OneTouchModal = ({ user, projectLists }: ApplicantResumeModalProps) => {
+const OneTouchModal = ({ user, projectLists }: OneTouchModalProps) => {
   const { selectedProject, setSelectedProject } = useProjectStore();
 
   const handleProjectItemClick = (project: Project) => {

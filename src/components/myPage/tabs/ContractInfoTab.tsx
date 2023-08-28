@@ -13,11 +13,11 @@ const ContractInfoTab = () => {
   };
 
   const { userId } = useUserStore();
-  const { freelancerProjects } = useProjectsQueries({
+  const { projectsListBySort } = useProjectsQueries({
     currentUserId: userId,
     sortLabel: selectedSortLabel,
   });
-  console.log("freelancerProjects===>", freelancerProjects);
+  console.log("freelancerProjects===>", projectsListBySort);
 
   return (
     <S.ContractInfoContainer>
@@ -34,7 +34,7 @@ const ContractInfoTab = () => {
       />
 
       <>
-        {freelancerProjects
+        {projectsListBySort
           ?.filter((Proceeding) => {
             return Proceeding.status !== "진행 전";
           })
@@ -62,7 +62,7 @@ const ContractInfoTab = () => {
           })}
       </>
       <>
-        {freelancerProjects
+        {projectsListBySort
           ?.filter((Proceeding) => {
             return Proceeding.status === "진행 중";
           })
@@ -79,7 +79,7 @@ const ContractInfoTab = () => {
           })}
       </>
       <>
-        {freelancerProjects
+        {projectsListBySort
           ?.filter((Proceeding) => {
             return Proceeding.status === "진행 완료";
           })
