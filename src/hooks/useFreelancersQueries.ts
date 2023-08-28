@@ -4,7 +4,7 @@ import { getFreelancersBySort } from "src/api/User";
 const useFreelancersQueries = (selectedSortLabel: string) => {
   const {
     data: freelancersDataBySort,
-    error: freelancersError,
+    isError: freelancersError,
     isLoading: freelancersIsLoading,
   } = useQuery(["freelancersData", selectedSortLabel], () =>
     getFreelancersBySort(selectedSortLabel)

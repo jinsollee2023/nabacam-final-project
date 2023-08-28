@@ -5,7 +5,8 @@ import { useUserStore } from "src/zustand/useUserStore";
 import { getUser } from "src/api/User";
 
 const LoginComp = () => {
-  const { email, setUserEmail } = useUserStore();
+  // const { email, setUserEmail } = useUserStore();
+  const [email, setEmail] = useState("");
   const { setUserId, setUserRole, setUser } = useUserStore();
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -33,7 +34,8 @@ const LoginComp = () => {
   };
 
   const emailOnChange = (e: any) => {
-    setUserEmail(e.target.value);
+    setEmail(e.target.value);
+    // setUserEmail(e.target.value);
   };
   const passwordOnChange = (e: any) => {
     setPassword(e.target.value);

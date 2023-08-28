@@ -5,7 +5,6 @@ import { useUserStore } from "src/zustand/useUserStore";
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
-  console.log("aaaassss", user);
   if (window.location.pathname === `/register`) {
     return null;
   }
@@ -23,6 +22,7 @@ const Navbar = () => {
         <S.NavLinkItem onClick={() => navigate("/")}>
           {user.role === "client" ? "프리랜서 구인" : "프로젝트 탐색"}
         </S.NavLinkItem>
+
         <S.NavLinkItem onClick={() => navigate("/project-management")}>
           프로젝트 관리 도구
         </S.NavLinkItem>

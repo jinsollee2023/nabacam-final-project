@@ -7,7 +7,7 @@ import { uploadUserImage } from "src/api/User";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "src/zustand/useUserStore";
 import { clientSignupHandler } from "src/api/auth";
-
+import { FormEvent } from "react";
 interface FormValue {
   email: string;
   password: string;
@@ -54,7 +54,8 @@ const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
 
   // 회원가입 api
 
-  const signUP = async () => {
+  const signUP = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     await clientSignupHandler(
       values,
       uploadUserImage,
@@ -91,7 +92,7 @@ const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
     <>
       <div>
         {openClientJoin && (
-          <form onSubmit={handleSubmit(signUP)}>
+          <form onSubmit={(e) => signUP(e)}>
             <h1>회원가입</h1>
             <div>
               <input

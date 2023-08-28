@@ -7,6 +7,8 @@ import {
   getProjectByClientWithBeforeProgress,
   updateProject,
   getSuggestedFreelancers,
+  getProjectOfFreelancerBySort,
+  getProjects,
   getOngoingProjects,
   getTerminationedProjects,
   updateApprovalFreelancer,
@@ -33,14 +35,57 @@ const useProjectsQueries = ({
   const { data: projects } = useQuery(
     ["projects", sortLabel],
     async () => {
+      console.log("currentUserId ==>", currentUserId);
+      console.log("sortLabel ==>", sortLabel);
       const projectsData = await getProjectOfClientBySort(
         currentUserId as string,
         sortLabel as string
       );
+
       return projectsData;
     },
     {
       enabled: !!currentUserId,
+    }
+  );
+
+  // 지원한 프로젝트 확인에 사용
+  const {
+    data: appliedProjectList,
+    isError: appliedProjectListIsError,
+    isLoading: appliedProjectListIsLoading,
+  } = useQuery(
+    ["projectList"],
+    async () => {
+      const projectsData = await getProjects(currentUserId as string);
+      return projectsData;
+    },
+    {
+      enabled: !!currentUserId,
+      select: (allProjectList) =>
+        allProjectList?.filter(
+          (project) =>
+            project.volunteer?.includes(currentUserId) ||
+            project.pendingFreelancer?.includes(currentUserId)
+        ),
+    }
+  );
+
+  // 제안 받은 프로젝트 확인에 사용
+  const {
+    data: suggestedProjectList,
+    isError: suggestedProjectListIsError,
+    isLoading: suggestedProjectListIsLoading,
+  } = useQuery(
+    ["projectList", updateProject],
+    async () => {
+      const projectsData = await getProjects(currentUserId as string);
+      return projectsData;
+    },
+    {
+      enabled: !!currentUserId,
+      select: (allProjectList) =>
+        allProjectList?.filter((project) => project.SuggestedFreelancers?.includes(currentUserId)),
     }
   );
 
@@ -62,6 +107,8 @@ const useProjectsQueries = ({
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["projects"]);
+        queryClient.invalidateQueries(["projectsListBySort"]);
+        queryClient.invalidateQueries(["projectList"]);
       },
     }
   );
@@ -87,8 +134,12 @@ const useProjectsQueries = ({
     data: suggestedFreelancersData,
     isLoading: suggestedFreelancersDataIsLoading,
     isError: suggestedFreelancersDataIsError,
-  } = useQuery(["suggestedFreelancersData"], () =>
-    getSuggestedFreelancers(selectedProject as Project)
+  } = useQuery(
+    ["suggestedFreelancersData"],
+    () => getSuggestedFreelancers(selectedProject as Project),
+    {
+      enabled: !!selectedProject,
+    }
   );
 
   const updateSuggestedFreelancersDataMutation = useMutation(
@@ -104,10 +155,19 @@ const useProjectsQueries = ({
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["projects"]);
+        queryClient.invalidateQueries(["suggestedFreelancersData"]);
       },
     }
   );
+
+  const {
+    data: projectsListBySort,
+    error: projectListIsError,
+    isLoading: projectListIsLoading,
+  } = useQuery(["projectsListBySort", sortLabel], async () => {
+    const projectList = await getProjectOfFreelancerBySort(sortLabel as string);
+    return projectList;
+  });
 
   const { data: applicantFreelancers } = useQuery(
     ["applicantFreelancers"],
@@ -263,6 +323,12 @@ const useProjectsQueries = ({
 
   return {
     projects,
+    appliedProjectList,
+    appliedProjectListIsError,
+    appliedProjectListIsLoading,
+    suggestedProjectList,
+    suggestedProjectListIsError,
+    suggestedProjectListIsLoading,
     addProjectMutation,
     deleteProjectMutation,
     updateProjectMutation,
@@ -274,6 +340,9 @@ const useProjectsQueries = ({
     suggestedFreelancersDataIsLoading,
     suggestedFreelancersDataIsError,
     updateSuggestedFreelancersDataMutation,
+    projectsListBySort,
+    projectListIsError,
+    projectListIsLoading,
     applicantFreelancers,
     updateFreelancerApprovalMutation,
     deleteVolunteerAndPendingFreelancerMutation,

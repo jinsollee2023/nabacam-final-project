@@ -1,1 +1,15 @@
 rgb(190, 200, 200)
+
+Btn: styled.button`
+    background-color: #1fc17d;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #168c68;
+    }
+  `,

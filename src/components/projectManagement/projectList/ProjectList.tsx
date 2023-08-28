@@ -23,7 +23,7 @@ const ProjectList = () => {
     sortLabel: selectedSortLabel,
   });
   const { newProject } = useProjectStore();
-  const { searchKeyword } = useSearchKeywordStore();
+  const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
     projects!
   );
@@ -39,8 +39,12 @@ const ProjectList = () => {
   }, [projects, searchKeyword]);
 
   useEffect(() => {
-    queryClient.invalidateQueries(["projects", selectedSortLabel]);
+    queryClient.invalidateQueries(["projectList", selectedSortLabel]);
   }, [selectedSortLabel]);
+
+  useEffect(() => {
+    changeSearchKeyword("");
+  }, []);
 
   const handleSort = (label: string) => {
     setSelectedselectOption(label);
@@ -62,7 +66,6 @@ const ProjectList = () => {
   const DoneProjects = filteredProjects?.filter(
     (project) => project.status === "진행 완료"
   );
-
   const projectsToRender =
     selectedselectOption === "전체보기"
       ? filteredProjects
