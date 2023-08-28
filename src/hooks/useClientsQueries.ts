@@ -4,7 +4,7 @@ import { getClientByProject, getClients, updateUser } from "src/api/User";
 
 const useClientsQueries = (clientId: string) => {
   const { data: client } = useQuery(
-    ["client"],
+    ["clients", clientId],
     async () => {
       const clientData = await getClientByProject(clientId);
       return clientData;
@@ -19,7 +19,7 @@ const useClientsQueries = (clientId: string) => {
       updateUser({ updatedData, userId }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["clients"]);
+        queryClient.invalidateQueries(["clients", clientId]);
       },
     }
   );
