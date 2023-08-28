@@ -35,8 +35,6 @@ const useProjectsQueries = ({
   const { data: projects } = useQuery(
     ["projects", sortLabel],
     async () => {
-      console.log("currentUserId ==>", currentUserId);
-      console.log("sortLabel ==>", sortLabel);
       const projectsData = await getProjectOfClientBySort(
         currentUserId as string,
         sortLabel as string

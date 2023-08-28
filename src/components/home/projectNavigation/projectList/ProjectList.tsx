@@ -15,7 +15,7 @@ const ProjectList = ({
   selectedSortLabel,
   selectedWorkField,
 }: ProjectListProps) => {
-  const { searchKeyword } = useSearchKeywordStore();
+  const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const { userId } = useUserStore();
 
   const { projectsListBySort, projectListIsError, projectListIsLoading } =
@@ -27,6 +27,10 @@ const ProjectList = ({
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
     projectsListBySort!
   );
+
+  useEffect(() => {
+    changeSearchKeyword("");
+  }, []);
 
   useEffect(() => {
     if (projectsListBySort) {
@@ -81,15 +85,17 @@ const ProjectList = ({
                 selectedWorkField === "전체보기" ||
                 project.category === selectedWorkField
             )
-            .map((projectItem) => (
-              <div key={projectItem.projectId}>
-                <ProjectCard
-                  key={projectItem.projectId}
-                  projectItem={projectItem}
-                  userId={userId}
-                />
-              </div>
-            ))}
+            .map((projectItem) => {
+              return (
+                <div key={projectItem.projectId}>
+                  <ProjectCard
+                    key={projectItem.projectId}
+                    projectItem={projectItem}
+                    userId={userId}
+                  />
+                </div>
+              );
+            })}
         </div>
       )}
     </>

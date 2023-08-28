@@ -1,13 +1,13 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "src/App";
-import { getClientByProject, updateUser } from "src/api/User";
+import { getClientByProject, getClients, updateUser } from "src/api/User";
 
 const useClientsQueries = (clientId: string) => {
   const { data: client } = useQuery(
-    ["clients"],
+    ["clients", clientId],
     async () => {
-      const clientsData = await getClientByProject(clientId);
-      return clientsData;
+      const clientData = await getClientByProject(clientId);
+      return clientData;
     },
     {
       enabled: !!clientId,
@@ -19,7 +19,7 @@ const useClientsQueries = (clientId: string) => {
       updateUser({ updatedData, userId }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["clients"]);
+        queryClient.invalidateQueries(["clients", clientId]);
       },
     }
   );

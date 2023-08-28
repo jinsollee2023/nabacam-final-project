@@ -8,19 +8,19 @@ import { useUserStore } from "src/zustand/useUserStore";
 interface EditFormProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  users:
+  user:
     | {
         name: any;
         contact: any;
         workField: any;
         projectId: any;
-      }[]
+      }
     | null
     | undefined;
 }
-const EditForm: React.FC<EditFormProps> = ({ open, setOpen, users }) => {
+const EditForm: React.FC<EditFormProps> = ({ open, setOpen, user }) => {
   // 상태관리
-  const previousData = users && users[0];
+  const previousData = user;
   const updatedNameInput = useInput(previousData?.name);
   const updatedWorkFieldInput = useInput(previousData?.workField?.workField);
   const updatedWorkSmallFieldInput = useInput(

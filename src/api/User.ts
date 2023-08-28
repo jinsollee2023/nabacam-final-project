@@ -67,8 +67,9 @@ export const getClientByProject = async (id: string): Promise<User> => {
       .from("users")
       .select("*")
       .eq("role", "client")
+      .eq("userId", id)
       .match({ userId: id })
-      .maybeSingle();
+      .single();
 
     if (error) {
       alert(
@@ -139,11 +140,12 @@ export const getFreelancersBySort = async (sortLabel: string) => {
 
 // 마이페이지
 export const getFreelancer = async (userId: string) => {
-  let { data: users, error } = await supabase
+  let { data: freelancer, error } = await supabase
     .from("users")
     .select("name, contact, workField, projectId, resumeProfileIntro")
-    .eq("userId", userId);
-  return users;
+    .eq("userId", userId)
+    .maybeSingle();
+  return freelancer;
 };
 
 export const updateUser = async ({
@@ -206,7 +208,7 @@ export const getFreelancerImage = async (userId: string) => {
 export const uploadFreelancerImage = async (userId: string, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
-    .upload(userId + "/" + uuidv4(), file);
+    .upload(userId + "/" + uuidv4(), file, { contentType: "image/jpeg" });
 
   if (error) {
     throw new Error("Error uploading image");
@@ -215,15 +217,14 @@ export const uploadFreelancerImage = async (userId: string, file: File) => {
   return data;
 };
 
-export const uploadUserImage = async (userId: any, file: File) => {
+export const uploadUserImage = async (userId: string, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
-    .upload(userId + "/" + uuidv4(), file);
+    .upload(`${userId}/${uuidv4()}`, file);
 
   if (error) {
     throw new Error("Error uploading image");
   }
-
   return data;
 };
 
@@ -239,5 +240,4 @@ export const updateClientMembers = async ({
     .update(updatedData)
     .eq("userId", userId)
     .select();
-  // console.log(data);
 };
