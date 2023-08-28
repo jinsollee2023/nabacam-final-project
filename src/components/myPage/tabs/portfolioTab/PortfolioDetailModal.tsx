@@ -6,11 +6,13 @@ import { styled } from "styled-components";
 interface PortfolioDetailModalProps {
   setIsDetailModalOpen: (isOpen: boolean) => void;
   portfolioData: any;
+  userId: string;
 }
 
 const PortfolioDetailModal = ({
   setIsDetailModalOpen,
   portfolioData,
+  userId,
 }: PortfolioDetailModalProps) => {
   return (
     <Modal
@@ -35,14 +37,33 @@ const PortfolioDetailModal = ({
           <S.PFDetail>{portfolioData.desc}</S.PFDetail>
         </S.PFDetailWrapper>
         <S.PFPDFContainer>
-          <a
-            href={portfolioData.pdfFileURL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {portfolioData.pdfFileURL ? "PDF링크 다운" : "첨부된 링크 없음"}
-          </a>
+          {portfolioData.pdfFileURL &&
+          portfolioData.pdfFileURL !==
+            `https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/${userId}/pdf/` ? (
+            <a
+              href={portfolioData.pdfFileURL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              pdf 확인 및 다운로드
+            </a>
+          ) : (
+            "첨부된 pdf 없음"
+          )}
         </S.PFPDFContainer>
+        <S.PFLinkContainer>
+          {portfolioData.linkURL ? (
+            <a
+              href={portfolioData.linkURL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              링크 주소 바로가기
+            </a>
+          ) : (
+            "첨부된 링크 주소 없음"
+          )}
+        </S.PFLinkContainer>
       </>
     </Modal>
   );
@@ -70,6 +91,11 @@ const S = {
     padding: 5px;
   `,
   PFPDFContainer: styled.section`
+    border: solid;
+    margin-top: 30px;
+    padding: 5px;
+  `,
+  PFLinkContainer: styled.section`
     border: solid;
     margin-top: 30px;
     padding: 5px;

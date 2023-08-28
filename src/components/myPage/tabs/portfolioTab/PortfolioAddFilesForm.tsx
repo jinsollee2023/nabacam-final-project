@@ -6,7 +6,7 @@ import useInput from "src/hooks/useInput";
 import { v4 as uuidv4 } from "uuid";
 import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
 
-const PortfolioAddForm = () => {
+const PortfolioAddFilesForm = () => {
   const fileTitleInput = useInput("");
   const fileDescInput = useInput("");
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -155,7 +155,7 @@ const PortfolioAddForm = () => {
   );
 };
 
-export default PortfolioAddForm;
+export default PortfolioAddFilesForm;
 
 export const S = {
   ThumbnailButton: styled.button`
