@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useClientsQueries from "src/hooks/useClientsQueries";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { useUserStore } from "src/zustand/useUserStore";
@@ -8,24 +8,46 @@ import { MdEmail } from "react-icons/md";
 import { LuArrowUpDown } from "react-icons/lu";
 import Modal from "src/components/modal/Modal";
 import ContractTerminationInfoModal from "./ContractTerminationInfoModal";
-import { IUser } from "src/Types";
+import { IUser, Project } from "src/Types";
 import dayjs from "dayjs";
 import OneTouchModal from "src/components/home/freelancerMarket/freelancerList/oneTouchModal/OneTouchModal";
 import { useProjectStore } from "src/zustand/useProjectStore";
+import SearchItemBar from "src/components/common/searchItemBar/SearchItemBar";
+import { queryClient } from "src/App";
+import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
 
 const ContractTerminationFreelancerList = () => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries(userId);
   const { selectedProject, setSelectedProject } = useProjectStore();
-  const { terminationedProjectsWithFreelancers, projectDataForSuggestions } = useProjectsQueries({
-    currentUserId: userId,
-    selectedProject,
-  });
+  const { terminationedProjectsWithFreelancers, projectDataForSuggestions, projects } =
+    useProjectsQueries({
+      currentUserId: userId,
+      selectedProject,
+    });
 
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
   const [isLastFirst, setIsLastFirst] = useState(true);
+  const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(
+    terminationedProjectsWithFreelancers!
+  );
+
+  useEffect(() => {
+    if (terminationedProjectsWithFreelancers) {
+      const filteredprojectList = terminationedProjectsWithFreelancers?.filter((freelancer) => {
+        const lowerCaseSearch = String(searchKeyword).toLowerCase();
+        return freelancer?.title?.toLowerCase().includes(lowerCaseSearch);
+      });
+      setFilteredProjects(filteredprojectList);
+    }
+  }, [terminationedProjectsWithFreelancers, searchKeyword]);
+
+  useEffect(() => {
+    changeSearchKeyword("");
+  }, []);
 
   // console.log("현재 로그인된 클라이언트 정보", client);
   // console.log(
@@ -48,10 +70,15 @@ const ContractTerminationFreelancerList = () => {
 
   return (
     <>
-      <S.FilterBtn onClick={handleSortToggle}>
-        {isLastFirst ? "최신순" : "오래된 순"}
-        <LuArrowUpDown />
-      </S.FilterBtn>
+      <S.SearchBox>
+        <SearchItemBar />
+      </S.SearchBox>
+      <S.SelectBox>
+        <S.FilterBtn onClick={handleSortToggle}>
+          {isLastFirst ? "최신순" : "오래된 순"}
+          <LuArrowUpDown />
+        </S.FilterBtn>
+      </S.SelectBox>
       <S.listContainer>
         {terminationedProjectsWithFreelancers
           .slice()
@@ -61,7 +88,7 @@ const ContractTerminationFreelancerList = () => {
               : new Date(a.date.endDate).getTime() - new Date(b.date.endDate).getTime()
           )
           .map((project) => (
-            <S.ListsBox key={project.projectId}>
+            <S.ListsBox key={`${project.freelancer.userId}-${project.projectId}`}>
               <S.Profile>
                 <S.ProfileContent>
                   {project.freelancer instanceof Promise ? (
@@ -97,7 +124,8 @@ const ContractTerminationFreelancerList = () => {
                           <S.OngoingProject>진행했던 프로젝트</S.OngoingProject>
                           <S.ProjectTitle>{project.title}</S.ProjectTitle>
                           <S.ProjectDate>
-                            {dayjs(project.date.startDate).format("YYMMDD")} 부터{" "}
+                            {dayjs(project.date.startDate).format("YYMMDD")}{" "}
+                            <S.DateInnerText>부터</S.DateInnerText>{" "}
                             {dayjs(project.date.endDate).format("YYMMDD")}
                           </S.ProjectDate>
 

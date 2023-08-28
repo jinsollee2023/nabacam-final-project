@@ -1,6 +1,10 @@
 import { styled } from "styled-components";
 
 export const S = {
+  SearchBox: styled.div`
+    display: flex;
+  `,
+  SelectBox: styled.div``,
   FilterBtn: styled.button`
     position: absolute;
     /* 위치 변경 예정 */
@@ -77,6 +81,10 @@ export const S = {
     font-size: 18px;
   `,
   ProjectDate: styled.span``,
+  DateInnerText: styled.span`
+    color: gray;
+    font-size: 12px;
+  `,
   DetailBtn: styled.button`
     border: 1px solid gray;
     border-radius: 10px;
