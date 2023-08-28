@@ -4,11 +4,12 @@ export const S = {
   SearchBox: styled.div`
     display: flex;
   `,
-  SelectBox: styled.div``,
+  SelectBox: styled.div`
+    margin-bottom: 20px;
+  `,
   FilterBtn: styled.button`
     position: absolute;
-    /* 위치 변경 예정 */
-    right: 300px;
+    right: 100px;
     width: 90px;
     height: 30px;
     background-color: transparent;
@@ -21,8 +22,8 @@ export const S = {
   `,
   listContainer: styled.div`
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+    gap: 30px;
   `,
   ListsBox: styled.div`
     border: 2px solid #0086d0;
