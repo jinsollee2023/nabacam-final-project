@@ -13,13 +13,13 @@ interface FormValue {
   password: string;
 }
 
-interface JoinComponentProps {
+interface JoinFormProps {
   freelancerOpen: boolean;
   role: string;
 }
 
 // 회원가입
-const JoinForm = ({ freelancerOpen, role }: JoinComponentProps) => {
+const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
   // useinput
 
   const { handleSubmit } = useForm<FormValue>();
@@ -39,9 +39,7 @@ const JoinForm = ({ freelancerOpen, role }: JoinComponentProps) => {
   const [openClientJoin, setOpenClientJoin] = useState(true);
   const [openFreelancer] = useState(freelancerOpen);
   const [workSelect, setWorkSelect] = useState("");
-  const { setUserRole } = useUserStore(); // 추가
-
-  const { setUserId } = useUserStore();
+  const { setUser, setUserId, setUserRole } = useUserStore(); // 추가
 
   //  이미지 업로드 부분
 
@@ -62,6 +60,7 @@ const JoinForm = ({ freelancerOpen, role }: JoinComponentProps) => {
       uploadUserImage,
       role,
       workSelect,
+      setUser,
       setUserRole,
       setUserId,
       setOpenClientJoin,

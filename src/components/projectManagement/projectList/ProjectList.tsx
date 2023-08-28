@@ -31,7 +31,6 @@ const ProjectList = () => {
   useEffect(() => {
     if (projects) {
       const filteredprojectList = projects?.filter((project) => {
-        // 입력한 키워드가 대문자이든 소문자이든 무조건 소문자로 변경
         const lowerCaseSearch = String(searchKeyword).toLowerCase();
         return project?.title?.toLowerCase().includes(lowerCaseSearch);
       });
@@ -64,6 +63,29 @@ const ProjectList = () => {
     (project) => project.status === "진행 완료"
   );
 
+  const projectsToRender =
+    selectedselectOption === "전체보기"
+      ? filteredProjects
+      : selectedselectOption === "진행 전"
+      ? beforeProgressProjects
+      : selectedselectOption === "진행 중"
+      ? onProgressProjects
+      : DoneProjects;
+
+  const renderProjects = (projectList: Project[]) => {
+    return (
+      <>
+        {projectList?.length > 0 ? (
+          projectList.map((project) => (
+            <ProjectCard key={project.projectId} project={project} />
+          ))
+        ) : (
+          <div>프로젝트가 없습니다.</div>
+        )}
+      </>
+    );
+  };
+
   return (
     <>
       <S.SearchSortWrapper>
@@ -75,26 +97,7 @@ const ProjectList = () => {
         </div>
       </S.SearchSortWrapper>
       <S.ProjectContainer>
-        {projects &&
-          selectedselectOption === "전체보기" &&
-          filteredProjects?.map((project) => {
-            return <ProjectCard project={project} />;
-          })}
-        {projects &&
-          selectedselectOption === "진행 전" &&
-          beforeProgressProjects!.map((project) => {
-            return <ProjectCard project={project} />;
-          })}
-        {projects &&
-          selectedselectOption === "진행 중" &&
-          onProgressProjects!.map((project) => {
-            return <ProjectCard project={project} />;
-          })}
-        {projects &&
-          selectedselectOption === "진행 완료" &&
-          DoneProjects!.map((project) => {
-            return <ProjectCard project={project} />;
-          })}
+        {projects && renderProjects(projectsToRender)}
       </S.ProjectContainer>
       <S.ProjectCardBox
         onClick={() => setIsAddModalOpen(!isAddModalOpen)}

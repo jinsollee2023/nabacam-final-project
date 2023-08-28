@@ -25,14 +25,19 @@ export const Resign = async (userId: any) => {
 
 // 유저 데이터 테이블 추가
 
-export const userJoinData = async (newUserData: any, setUserRole: any) => {
+export const userJoinData = async (
+  newUserData: any,
+  setUserRole: any,
+  setUser: any
+) => {
   try {
     const { data } = await supabase.from("users").insert(newUserData).select();
-
+    console.log("aaaaa", data);
     if (data) {
       // 추가
       const { role } = data[0];
-      if (role) setUserRole(role);
+      setUserRole(role);
+      setUser(data[0]);
     }
   } catch (error) {
     console.log(error);
@@ -46,14 +51,12 @@ export const clientSignupHandler = async (
   uploadUserImage: any,
   role: any,
   workSelect: any,
+  setUser: any,
   setUserRole: any,
   setUserId: any,
   setOpenClientJoin: any,
   navigate: any
 ) => {
-  console.log(values.email);
-  console.log(values.password);
-
   try {
     await supabase.auth.signUp({
       email: values.email,
@@ -66,7 +69,6 @@ export const clientSignupHandler = async (
 
     // 사진을 스토리지에 업로드
     const userImage = await uploadUserImage(user?.id, values.photoURL);
-    console.log(user);
     const newUserData = {
       userId: user?.id,
       name: values.name,
@@ -76,8 +78,7 @@ export const clientSignupHandler = async (
       workExp: values.workExp,
       contact: { email: user?.email, phone: values.phone },
     };
-    console.log("name", values.name);
-    await userJoinData(newUserData, setUserRole);
+    await userJoinData(newUserData, setUserRole, setUser);
 
     if (user?.id) setUserId(user?.id);
     setOpenClientJoin(false);

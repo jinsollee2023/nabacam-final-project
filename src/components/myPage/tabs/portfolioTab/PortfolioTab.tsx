@@ -1,39 +1,59 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import PortfolioAddPDF from "./PortfolioAddPDF";
 import PortfolioAddModal from "./PortfolioAddModal";
-import PortfolioThumbnailCard from "./PortfolioThumbnailCard";
-import PortfolioPDFCard from "./PortfolioPDFCard";
-import usePortfolioGetFiles from "src/hooks/usePortfolioGetFiles";
-import { useQuery } from "@tanstack/react-query";
+import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
 import { useUserStore } from "src/zustand/useUserStore";
-import { getPortfolioFiles } from "src/api/Portfolio";
+import { usePortfolioStore } from "src/zustand/usePortfolioStore";
+import PortfolioDetailModal from "./PortfolioDetailModal";
 
 const PortfolioTab = () => {
+  const { userId } = useUserStore();
   const [open, setOpen] = useState(false);
-  const { files: PDFFiles } = usePortfolioGetFiles("PDF");
-  const { files: thumbnailFiles } = usePortfolioGetFiles("thumbnail");
-  console.log(PDFFiles);
-  console.log(thumbnailFiles);
-  // 두 배열 합치기
-  const combinedFiles = [...PDFFiles, ...thumbnailFiles];
-  // console.log("combinedfile", combinedFiles);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedPortfolio, setSelectedPortfolio] = useState<any>(null);
+
+  const { portfolios } = usePortfolioInfoQueries({ userId });
+  console.log(portfolios);
 
   return (
-    <S.PortfolioListContainer>
-      <S.PortfolioListWrapper>
-        {combinedFiles.map((file, index) => (
-          <S.PortfolioList key={index}>
-            <PortfolioThumbnailCard file={file} />
-            <PortfolioPDFCard file={file} />
+    <>
+      {/* 썸네일만 */}
+      <S.PortfolioListContainer style={{ border: "solid black" }}>
+        <S.PortfolioListWrapper>
+          {portfolios &&
+            portfolios.map((portfolio) => (
+              <S.PortfolioList
+                key={portfolio.portfolioId}
+                onClick={() => {
+                  setSelectedPortfolio(portfolio); // 선택한 포트폴리오 데이터를 상태에 저장
+                  setIsDetailModalOpen(true);
+                }}
+              >
+                <img
+                  className="portfolioThumbnail"
+                  src={portfolio.thumbNailURL}
+                  alt="등록된 이미지가 없습니다."
+                  width="120px"
+                  height="120px"
+                  style={{ marginLeft: "10px" }}
+                />
+              </S.PortfolioList>
+            ))}
+
+          <S.PortfolioList onClick={() => setOpen(true)}>
+            + 포트폴리오 첨부하기
           </S.PortfolioList>
-        ))}
-        <S.PortfolioList onClick={() => setOpen(true)}>
-          + 포트폴리오 첨부하기
-        </S.PortfolioList>
-        <PortfolioAddModal open={open} setOpen={setOpen} />
-      </S.PortfolioListWrapper>
-    </S.PortfolioListContainer>
+          <PortfolioAddModal open={open} setOpen={setOpen} />
+        </S.PortfolioListWrapper>
+      </S.PortfolioListContainer>
+
+      {isDetailModalOpen && (
+        <PortfolioDetailModal
+          setIsDetailModalOpen={setIsDetailModalOpen}
+          portfolioData={selectedPortfolio}
+        />
+      )}
+    </>
   );
 };
 
@@ -47,7 +67,7 @@ const S = {
   PortfolioListWrapper: styled.div`
     margin-top: 5px;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     margin-top: 10px;
   `,

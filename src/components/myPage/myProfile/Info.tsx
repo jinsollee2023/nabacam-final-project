@@ -57,7 +57,7 @@ const Info = () => {
         <S.Info>전화번호: {users && users[0]?.contact?.phone}</S.Info>
         <S.Info>이메일: {users && users[0]?.contact?.email}</S.Info>
       </div>
-      <button onClick={() => setOpen(true)}>프로필 수정하기</button>
+      <S.Btn onClick={() => setOpen(true)}>프로필 수정하기</S.Btn>
       <EditForm open={open} setOpen={setOpen} users={users} />
     </>
   );
@@ -70,5 +70,20 @@ const S = {
     font-size: 13px;
     color: rgba(0, 0, 0, 0.583);
     margin-top: 5px;
+  `,
+  Btn: styled.button`
+    background-color: #1fc17d;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 30px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #168c68;
+    }
+    margin-left: 60px;
   `,
 };
