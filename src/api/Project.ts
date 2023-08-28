@@ -32,6 +32,7 @@ export const getProjectOfClientBySort = async (
     .order("created_at", { ascending });
   return projects as Project[];
 };
+
 export const getProjectByClientWithBeforeProgress = async (
   clientId: string
 ): Promise<Project[]> => {
@@ -84,7 +85,6 @@ export const updateProject = async (
     qualification?: number;
   }
 ): Promise<void> => {
-  console.log(column);
   await supabase
     .from("projects")
     .update(column)

@@ -16,6 +16,7 @@ interface MenuTabBarCompProps {
 
 const MenuTabBarComp = ({ menu }: MenuTabBarCompProps) => {
   const [currentTab, setCurrentTab] = useState(menu[0]);
+
   return (
     <>
       <S.MenuTabBar>

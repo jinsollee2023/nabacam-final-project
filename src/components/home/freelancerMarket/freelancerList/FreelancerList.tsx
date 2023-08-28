@@ -51,6 +51,7 @@ const FreelancerList = ({
       setFilteredFreelancers(filteredfreelancerLists);
     }
   }, [freelancersDataBySort, searchKeyword]);
+  console.log("filteredFreelancers", filteredFreelancers);
 
   useEffect(() => {
     if (freelancersDataBySort) {
