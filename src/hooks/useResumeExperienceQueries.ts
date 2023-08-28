@@ -5,6 +5,7 @@ import {
   addExperience,
   deleteExperience,
   getExperience,
+  updateExperience,
 } from "src/api/ResumeExperience";
 
 const useResumeExperienceQueries = (userId: string) => {
@@ -32,9 +33,34 @@ const useResumeExperienceQueries = (userId: string) => {
     }
   );
 
+  const updateExperienceMutation = useMutation(
+    ({
+      userId,
+      experienceId,
+      updatedData,
+    }: {
+      userId: string;
+      experienceId: string;
+      updatedData: {
+        pastWorkDuration: {
+          pastWorkEndDate: string;
+          pastWorkStartDate: string;
+        };
+        pastWorkPlace: string;
+        pastWorkPosition: string;
+      };
+    }) => updateExperience({ userId, experienceId, updatedData }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["experienceData"]);
+      },
+    }
+  );
+
   return {
     addExperienceMutation,
     deleteExperienceMutation,
+    updateExperienceMutation,
     experienceData,
   };
 };

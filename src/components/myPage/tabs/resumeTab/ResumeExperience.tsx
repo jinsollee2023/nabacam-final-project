@@ -23,10 +23,19 @@ const ResumeExperience = () => {
   const pastWorkPositionInput = useInput("");
   const pastWorkStartDate = useInput("");
   const pastWorkEndDate = useInput("");
+  const [editOpen, setEditOpen] = useState<boolean>(false);
+  const editedPastWorkPlaceInput = useInput("");
+  const editedPastWorkPositionInput = useInput("");
+  const editedPastWorkStartDate = useInput("");
+  const editedPastWorkEndDate = useInput("");
 
   const { userId, freelancerRole, name, photoURL } = useUserStore();
-  const { deleteExperienceMutation, addExperienceMutation, experienceData } =
-    useResumeExperienceQueries(userId);
+  const {
+    deleteExperienceMutation,
+    addExperienceMutation,
+    updateExperienceMutation,
+    experienceData,
+  } = useResumeExperienceQueries(userId);
 
   const handleChange = (value: string) => {
     // console.log(`selected ${value}`);
@@ -68,6 +77,26 @@ const ResumeExperience = () => {
   }) => {
     deleteExperienceMutation.mutate({ userId, experienceId });
   };
+  const openEditModal = ({
+    userId,
+    experienceId,
+  }: {
+    userId: string;
+    experienceId: string;
+  }) => {
+    // 이전내용 띄워주는 로직 추가
+    setEditOpen(false);
+  };
+  // const updateExperienceHandler = async (e: React.MouseEvent<HTMLButtonElement>, ) => {
+  //   e.preventDefault()
+  //   updateExperienceMutation.mutate({ userId, experienceId, updatedData });
+
+  //   editedPastWorkPlaceInput.reset();
+  //   editedPastWorkPositionInput.reset();
+  //   editedPastWorkStartDate.reset();
+  //   editedPastWorkEndDate.reset();
+  //   setEditOpen(false);
+  // };
 
   return (
     <>
@@ -94,6 +123,16 @@ const ResumeExperience = () => {
                   >
                     삭제 x
                   </button>
+                  {/* <button
+                    onClick={() => {
+                      openEditModal({
+                        userId,
+                        experienceId: item.experienceId,
+                      });
+                    }}
+                  >
+                    수정
+                  </button> */}
                 </S.WorkExperienceList>
               )
             )}
@@ -191,6 +230,91 @@ const ResumeExperience = () => {
           </form>
         </Modal>
       )}
+      {/* ------------------------------------------------------------ */}
+      {/* {editOpen && (
+        <Modal
+          title="경력 수정하기"
+          open={open}
+          onOk={updateExperienceHandler}
+          onCancel={() => {
+            setEditOpen(false);
+          }}
+        >
+          <form>
+            <label>
+              근무분야
+              <Space wrap>
+                <Select
+                  defaultValue="전체"
+                  style={{ width: 120 }}
+                  onChange={handleChange}
+                  options={[
+                    { value: "전체", label: "전체" },
+                    { value: "개발", label: "개발" },
+                    { value: "디자인", label: "디자인" },
+                    { value: "마케팅", label: "마케팅" },
+                    { value: "운영", label: "운영" },
+                    { value: "기획", label: "기획" },
+                    { value: "기타", label: "기타" },
+                  ]}
+                />
+              </Space>
+            </label>
+            <label>
+              근무형태
+              <Space wrap>
+                <Select
+                  defaultValue="전체"
+                  style={{ width: 120 }}
+                  onChange={handleChange}
+                  options={[
+                    { value: "전체", label: "전체" },
+                    { value: "정규직", label: "정규직" },
+                    { value: "계약직", label: "계약직" },
+                  ]}
+                />
+              </Space>
+            </label>
+
+            <br />
+            <br />
+            <label>
+              근무지:
+              <input
+                type="text"
+                value={editedPastWorkPlaceInput.value}
+                onChange={editedPastWorkPlaceInput.onChange}
+              />
+            </label>
+            <br />
+            <label>
+              직책:
+              <input
+                type="text"
+                value={editedPastWorkPositionInput.value}
+                onChange={editedPastWorkPositionInput.onChange}
+              />
+            </label>
+            <br />
+            <label>
+              근무기간
+              <br />
+              입사일:
+              <input
+                type="text"
+                value={editedPastWorkStartDate.value}
+                onChange={editedPastWorkStartDate.onChange}
+              />
+              퇴사일:
+              <input
+                type="text"
+                value={editedPastWorkEndDate.value}
+                onChange={editedPastWorkEndDate.onChange}
+              />
+            </label>
+          </form>
+        </Modal>
+      )} */}
     </>
   );
 };
