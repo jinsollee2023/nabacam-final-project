@@ -3,11 +3,11 @@ export interface User {
   role: string;
   name: string;
   photoURL: string;
-  projectId: string;
+  projectId?: string;
   workField?: { workField: string; workSmallField: string };
   workExp?: string;
   contact: { email: string; phone: string };
-  singUpDate: string;
+  singUpDate: Date;
   portfolioCount: number;
   resumeProfileIntro?: string;
   resumeExperience?: [
@@ -17,7 +17,18 @@ export interface User {
       pastWorkPosition: string;
     }
   ];
+  members?: Member[];
 }
+
+export interface Member {
+  name: string;
+  team: string;
+  contact: {
+    email: string;
+    phone: string;
+  };
+}
+
 export interface IUser extends User {
   title?: string;
   deadLine?: Date;
@@ -26,16 +37,23 @@ export interface IUser extends User {
 
 export interface Project {
   projectId?: string;
+  category?: string;
   title: string;
   desc: string;
   clientId: string;
   freelancerId?: string;
-  deadLine: Date;
+  date: { startDate: string; endDate: string };
   pay: { min: number | string; max: number | string };
   status: string;
   volunteer?: string[];
   SuggestedFreelancers?: string[];
   pendingFreelancer?: string[];
+  manager: {
+    name: string;
+    team: string;
+    contact: { email: string; phone: string };
+  };
+  qualification: number;
 }
 
 export interface Task {

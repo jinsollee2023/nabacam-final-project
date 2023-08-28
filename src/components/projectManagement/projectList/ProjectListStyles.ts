@@ -6,10 +6,14 @@ interface ProjectCardBoxProps {
 }
 
 const S = {
+  SearchSortWrapper: styled.div`
+    display: flex;
+  `,
   ProjectContainer: styled.div`
     overflow: auto;
     width: 100%;
-    height: 73vh;
+    height: 65vh;
+    margin-top: 20px;
   `,
   ProjectCardBox: styled.div<ProjectCardBoxProps>`
     background-color: aliceblue;
@@ -22,11 +26,10 @@ const S = {
     display: flex;
     justify-content: ${(props) => props.justifyContent};
     align-items: center;
-
-    cursor: pointer;
   `,
   ProjcetTitleBox: styled.div`
     margin: auto 0;
+    cursor: pointer;
   `,
   ProjectCardButtonBox: styled.div`
     display: flex;

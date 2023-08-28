@@ -16,7 +16,8 @@ const ResumeProfileIntro = () => {
   const [profileIntroEditorOpen, setProfileIntroEditorOpen] =
     useState<boolean>(false);
   const profileIntroInput = useInput("");
-  const { userId, freelancerRole, name, photoURL } = useUserStore(); // 각각 로그인, 회원가입, info, image에서 가져옴
+  const { userId, userRole, name, photoURL } = useUserStore(); // 각각 로그인, 회원가입, info, image에서 가져옴
+  // textArea
   const { TextArea } = Input;
 
   // GET
@@ -47,9 +48,6 @@ const ResumeProfileIntro = () => {
     addMutation.mutate({
       profileIntroText,
       userId,
-      freelancerRole,
-      name,
-      photoURL,
     });
 
     profileIntroInput.reset();
@@ -69,9 +67,6 @@ const ResumeProfileIntro = () => {
     patchMutation.mutate({
       editedProfileIntroText,
       userId,
-      freelancerRole,
-      name,
-      photoURL,
     });
 
     editedProfileIntroInput.reset();

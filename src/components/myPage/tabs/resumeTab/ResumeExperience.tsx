@@ -29,7 +29,7 @@ const ResumeExperience = () => {
   const editedPastWorkStartDate = useInput("");
   const editedPastWorkEndDate = useInput("");
 
-  const { userId, freelancerRole, name, photoURL } = useUserStore();
+  const { userId } = useUserStore();
   const {
     deleteExperienceMutation,
     addExperienceMutation,

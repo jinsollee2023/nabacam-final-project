@@ -11,24 +11,15 @@ export const getFreelancerResumeProfileIntro = async (userId: string) => {
 export const addFreelancerResumeProfileIntro = async ({
   profileIntroText,
   userId /** zustand */,
-  freelancerRole /** zustand */,
-  name /** zustand */,
-  photoURL,
 }: {
   profileIntroText: string;
   userId: string;
-  freelancerRole: string;
-  name: string;
-  photoURL: string;
 }) => {
   const { data, error } = await supabase
     .from("users")
-    .upsert({
+    .update({
       userId: userId,
-      role: freelancerRole,
       resumeProfileIntro: profileIntroText,
-      name: name,
-      photoURL: photoURL,
     })
     .select();
   return data;
@@ -37,25 +28,16 @@ export const addFreelancerResumeProfileIntro = async ({
 export const patchFreelancerResumeProfileIntro = async ({
   editedProfileIntroText,
   userId,
-  freelancerRole,
-  name,
-  photoURL,
 }: {
   editedProfileIntroText: string;
   userId: string;
-  freelancerRole: string;
-  name: string;
-  photoURL: string;
 }) => {
   const { data, error } = await supabase
     .from("users")
-    .upsert([
+    .update([
       {
         userId: userId,
         resumeProfileIntro: editedProfileIntroText,
-        role: freelancerRole,
-        name: name,
-        photoURL: photoURL,
       },
     ])
     .select();

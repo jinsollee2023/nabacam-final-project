@@ -1,23 +1,23 @@
-import React, { ChangeEvent, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { S } from "./searchItemBar.styles";
 import { MdPersonSearch } from "react-icons/md";
 import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
+import useInput from "src/hooks/useInput";
 
 const SearchItemBar = () => {
   const searchInput = useRef<HTMLInputElement | null>(null);
-  const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
+  const { changeSearchKeyword } = useSearchKeywordStore();
 
   useEffect(() => {
     searchInput.current?.focus();
   }, []);
 
-  const HandleSearchKeywordOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    changeSearchKeyword(e.target.value);
-  };
-
   const handleSearchButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    changeSearchKeyword(searchInputProps.value);
   };
+
+  const searchInputProps = useInput("");
 
   return (
     <S.searchContainer>
@@ -25,8 +25,7 @@ const SearchItemBar = () => {
         <S.searchInput
           ref={searchInput}
           type="text"
-          value={searchKeyword}
-          onChange={HandleSearchKeywordOnChange}
+          {...searchInputProps}
           placeholder="검색어를 입력해주세요."
         ></S.searchInput>
         <S.searchInputButton onClick={handleSearchButtonClick}>

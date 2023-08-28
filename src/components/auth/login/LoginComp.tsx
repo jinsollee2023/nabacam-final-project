@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
+import { getUser } from "src/api/User";
 
-const LoginComponent = () => {
+const LoginComp = () => {
+  // const { email, setUserEmail } = useUserStore();
   const [email, setEmail] = useState("");
+  const { setUserId, setUserRole, setUser } = useUserStore();
   const [password, setPassword] = useState("");
-  const { userId, setUserId } = useUserStore();
   const navigate = useNavigate();
 
   const loginHandler = async (e: any) => {
@@ -16,22 +18,24 @@ const LoginComponent = () => {
         email,
         password,
       });
-      console.log(data);
       if (error) {
         console.error(error);
       } else if (data) {
-        const { id } = data.user;
-        console.log(id);
-        if (id) setUserId(id);
+        const user = await getUser(data.user.id as string);
+        setUserId(user.userId as string);
+        setUserRole(user.role as string);
+        setUser(user);
       }
     } catch (error) {
       console.error(error);
     }
+
     navigate("/");
   };
 
   const emailOnChange = (e: any) => {
     setEmail(e.target.value);
+    // setUserEmail(e.target.value);
   };
   const passwordOnChange = (e: any) => {
     setPassword(e.target.value);
@@ -48,4 +52,4 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+export default LoginComp;
