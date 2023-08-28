@@ -23,6 +23,7 @@ const Navbar = () => {
         <S.NavLinkItem onClick={() => navigate("/")}>
           {user.role === "client" ? "프리랜서 구인" : "프로젝트 탐색"}
         </S.NavLinkItem>
+
         <S.NavLinkItem onClick={() => navigate("/project-management")}>
           프로젝트 관리 도구
         </S.NavLinkItem>

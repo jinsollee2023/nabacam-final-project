@@ -39,7 +39,7 @@ const ProjectList = () => {
   }, [projects, searchKeyword]);
 
   useEffect(() => {
-    queryClient.invalidateQueries(["projects", selectedSortLabel]);
+    queryClient.invalidateQueries(["projectList", selectedSortLabel]);
   }, [selectedSortLabel]);
 
   const handleSort = (label: string) => {
