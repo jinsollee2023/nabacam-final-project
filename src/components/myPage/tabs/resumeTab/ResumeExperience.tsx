@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Modal, Select, SelectProps, Space } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import ResumeExperienceAddForm from "./ResumeExperienceAddForm";
 import ResumeExperienceEditForm from "./ResumeExperienceEditForm";
 
-interface Experience {
+export interface Experience {
   experienceId: string;
   pastWorkPlace: string;
   pastWorkPosition: string;
@@ -23,12 +23,23 @@ const ResumeExperience = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const [userExperienceId, setUserExperienceId] = useState("");
+  const [writtenPastWorkPlace, setWrittenPastWorkPlace] = useState("");
+  const [writtenPastWorkPosition, setWrittenPastWorkPosition] = useState("");
+  const [writtenPastWorkStartDate, setWrittenPastWorkStartDate] = useState("");
+  const [writtenPastWorkEndDate, setWrittenPastWorkEndDate] = useState("");
 
   const { userId } = useUserStore();
   const { deleteExperienceMutation, experienceData } =
     useResumeExperienceQueries(userId);
+  const [userExperienceData, setUserExperienceData] = useState<Experience[]>(
+    []
+  );
 
-  console.log(experienceData);
+  useEffect(() => {
+    if (experienceData)
+      setUserExperienceData(experienceData[0].resumeExperience);
+  }, [userExperienceData]);
+
   const handleChange = (value: string) => {
     // console.log(`selected ${value}`);
   };
@@ -48,15 +59,26 @@ const ResumeExperience = () => {
   const openEditModal = ({
     userId,
     experienceId,
+    pastWorkPlace,
+    pastWorkPosition,
+    pastWorkStartDate,
+    pastWorkEndDate,
   }: {
     userId: string;
     experienceId: string;
+    pastWorkPlace: string;
+    pastWorkPosition: string;
+    pastWorkStartDate: string;
+    pastWorkEndDate: string;
   }) => {
     // 이전내용 띄워주는 로직 추가
     setEditOpen(true);
     setUserExperienceId(experienceId);
+    setWrittenPastWorkPlace(pastWorkPlace);
+    setWrittenPastWorkPosition(pastWorkPosition);
+    setWrittenPastWorkStartDate(pastWorkStartDate);
+    setWrittenPastWorkEndDate(pastWorkEndDate);
   };
-  console.log("여기", userExperienceId);
 
   return (
     <>
@@ -85,13 +107,17 @@ const ResumeExperience = () => {
                     삭제 x
                   </button>
                   <button
-                    onClick={() => {
-                      console.log("here", item.experienceId);
+                    onClick={() =>
                       openEditModal({
                         userId,
                         experienceId: item.experienceId,
-                      });
-                    }}
+                        pastWorkPlace: item.pastWorkPlace,
+                        pastWorkPosition: item.pastWorkPosition,
+                        pastWorkStartDate:
+                          item.pastWorkDuration.pastWorkStartDate,
+                        pastWorkEndDate: item.pastWorkDuration.pastWorkEndDate,
+                      })
+                    }
                   >
                     수정
                   </button>
@@ -114,6 +140,11 @@ const ResumeExperience = () => {
         editOpen={editOpen}
         setEditOpen={setEditOpen}
         experienceId={userExperienceId}
+        experienceData={userExperienceData}
+        writtenPastWorkPlace={writtenPastWorkPlace}
+        writtenPastWorkPosition={writtenPastWorkPosition}
+        writtenPastWorkStartDate={writtenPastWorkStartDate}
+        writtenPastWorkEndDate={writtenPastWorkEndDate}
       />
     </>
   );

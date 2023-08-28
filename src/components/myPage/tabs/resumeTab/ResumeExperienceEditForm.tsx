@@ -1,35 +1,62 @@
 import { Modal, Select, SelectProps, Space } from "antd";
-import React, { MouseEvent, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
 import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
 import { v4 as uuidv4 } from "uuid";
+import { Experience } from "./ResumeExperience";
 
 interface EditModalProps {
   editOpen: boolean;
   setEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
   experienceId: string;
+  experienceData: Experience[];
+  writtenPastWorkPlace: string;
+  writtenPastWorkPosition: string;
+  writtenPastWorkStartDate: string;
+  writtenPastWorkEndDate: string;
 }
-
 const ResumeExperienceEditForm: React.FC<EditModalProps> = ({
   editOpen,
   setEditOpen,
   experienceId,
+  experienceData,
+  writtenPastWorkPlace,
+  writtenPastWorkPosition,
+  writtenPastWorkStartDate,
+  writtenPastWorkEndDate,
 }) => {
+  console.log({
+    writtenPastWorkPlace,
+    writtenPastWorkPosition,
+    writtenPastWorkStartDate,
+    writtenPastWorkEndDate,
+  });
   const [editedPastWorkPlaceInput, setEditedPastWorkPlaceInput] = useState("");
   const [editedPastWorkPositionInput, setEditedPastWorkPositionInput] =
     useState("");
   const [editedPastWorkStartDate, setEditedPastWorkStartDate] = useState("");
   const [editedPastWorkEndDate, setEditedPastWorkEndDate] = useState("");
 
+  useEffect(() => {
+    setEditedPastWorkPlaceInput(writtenPastWorkPlace);
+    setEditedPastWorkPositionInput(writtenPastWorkPosition);
+    setEditedPastWorkStartDate(writtenPastWorkStartDate);
+    setEditedPastWorkEndDate(writtenPastWorkEndDate);
+  }, [
+    writtenPastWorkPlace,
+    writtenPastWorkPosition,
+    writtenPastWorkStartDate,
+    writtenPastWorkEndDate,
+  ]);
+
   const { userId } = useUserStore();
-  const { updateExperienceMutation, experienceData } =
-    useResumeExperienceQueries(userId);
+  const { updateExperienceMutation } = useResumeExperienceQueries(userId);
   const handleChange = (value: string) => {
     // console.log(`selected ${value}`);
   };
 
-  const clickHandler = async ({
+  const updateExperienceHandler = async ({
     userId,
     experienceId,
   }: {
@@ -138,7 +165,9 @@ const ResumeExperienceEditForm: React.FC<EditModalProps> = ({
               </label>
             </form>
             <button onClick={() => setEditOpen(false)}>닫기</button>
-            <button onClick={() => clickHandler({ userId, experienceId })}>
+            <button
+              onClick={() => updateExperienceHandler({ userId, experienceId })}
+            >
               수정
             </button>
           </S.ModalContent>
