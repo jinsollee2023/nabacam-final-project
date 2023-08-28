@@ -5,16 +5,18 @@ import useTasksQueries from "../../../hooks/useTasksQueries";
 
 interface TaskImportanceProps {
   task: Task;
+  userRole: string;
 }
 
-const TaskImportance = ({ task }: TaskImportanceProps) => {
+const TaskImportance = ({ task, userRole }: TaskImportanceProps) => {
   const { updateTaskImportanceMutation } = useTasksQueries(task.projectId);
 
   const importanceIconOnClickHandler = (importance: number) => {
-    updateTaskImportanceMutation.mutate({
-      taskId: task.taskId,
-      importance,
-    });
+    if (userRole === "freelancer")
+      updateTaskImportanceMutation.mutate({
+        taskId: task.taskId,
+        importance,
+      });
   };
 
   const yellowStars = task.importance;

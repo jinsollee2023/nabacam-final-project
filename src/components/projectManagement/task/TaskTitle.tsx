@@ -5,14 +5,15 @@ import useTasksQueries from "../../../hooks/useTasksQueries";
 
 interface TaskTitleProps {
   task: Task;
+  userRole: string;
 }
 
-const TaskTitle = ({ task }: TaskTitleProps) => {
+const TaskTitle = ({ task, userRole }: TaskTitleProps) => {
   const [title, setTitle] = useState(task.title);
   const [isTitleEditable, setIsTitleEditable] = useState(false);
 
   const handleTitleDoubleClick = () => {
-    setIsTitleEditable(true);
+    if (userRole === "freelancer") setIsTitleEditable(true);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

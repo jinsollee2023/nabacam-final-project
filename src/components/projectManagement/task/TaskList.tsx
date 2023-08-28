@@ -9,7 +9,7 @@ import { useUserStore } from "src/zustand/useUserStore";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 
 const TaskList = () => {
-  const { userId } = useUserStore();
+  const { userId, userRole } = useUserStore();
   const { projects } = useProjectsQueries({ currentUserId: userId });
   const [projectId, setProjectId] = useState("");
 
@@ -38,12 +38,12 @@ const TaskList = () => {
     }
     monthlyTaskData.get(month)?.push(task);
   });
-
   return (
     <>
       <S.SelectAddButtonContainer>
         <Select
           showSearch
+          disabled={projects && projects?.length > 0 ? false : true}
           placeholder="Select a project"
           optionFilterProp="children"
           onChange={onChange}
@@ -62,9 +62,12 @@ const TaskList = () => {
           }
           style={{ width: "200px" }}
         />
-        <S.TaskAddButton onClick={addTaskButtonHandler}>
-          <MdAddCircle size="20" />
-        </S.TaskAddButton>
+
+        {userRole === "freelancer" ? (
+          <S.TaskAddButton onClick={addTaskButtonHandler}>
+            <MdAddCircle size="20" />
+          </S.TaskAddButton>
+        ) : null}
       </S.SelectAddButtonContainer>
       {tasks && tasks.length > 0 ? (
         <div>
@@ -86,7 +89,11 @@ const TaskList = () => {
                   </S.ColumnLabelWrapper>
                   <div>
                     {sortByMonthTasks.map((task: Task) => (
-                      <TaskCard task={task} key={task.taskId} />
+                      <TaskCard
+                        key={task.taskId}
+                        task={task}
+                        userRole={userRole}
+                      />
                     ))}
                   </div>
                 </>
@@ -94,8 +101,10 @@ const TaskList = () => {
             }
           )}
         </div>
-      ) : (
+      ) : projects && projects.length > 0 ? (
         <div>진행중인 업무가 없습니다.</div>
+      ) : (
+        <div>등록된 프로젝트가 없습니다.</div>
       )}
     </>
   );
