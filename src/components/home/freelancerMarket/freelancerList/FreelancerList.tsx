@@ -21,7 +21,7 @@ const FreelancerList = ({
 }: FreelancerListProps) => {
   const [selectedPortfolioIndex, setSelectedPortfolioIndex] =
     useState<PortfolioIndexMap>({});
-  const { searchKeyword } = useSearchKeywordStore();
+  const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
 
   const { freelancersDataBySort, freelancersError, freelancersIsLoading } =
     useFreelancersQueries(selectedSortLabel);
@@ -29,6 +29,10 @@ const FreelancerList = ({
   const [filteredFreelancers, setFilteredFreelancers] = useState<User[]>(
     freelancersDataBySort!
   );
+
+  useEffect(() => {
+    changeSearchKeyword("");
+  }, []);
 
   useEffect(() => {
     if (freelancersDataBySort) {

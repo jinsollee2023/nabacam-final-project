@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Project } from "src/Types";
 import Modal from "src/components/modal/Modal";
 import ApplyForProjectModal from "./applyForProjectModal/ApplyForProjectModal";
@@ -10,6 +10,7 @@ import {
   calculateDaysAgo,
   getDayOfWeek,
 } from "src/components/common/commonFunc";
+import { queryClient } from "src/App";
 
 interface ProjectCardProps {
   projectItem: Project;
@@ -24,6 +25,10 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries([client]);
+  }, [projectItem]);
 
   const dayOfWeek = getDayOfWeek(new Date(projectItem.date.endDate));
 

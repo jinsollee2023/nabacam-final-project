@@ -207,7 +207,7 @@ export const getFreelancerImage = async (userId: string) => {
 export const uploadFreelancerImage = async (userId: string, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
-    .upload(userId + "/" + uuidv4(), file);
+    .upload(userId + "/" + uuidv4(), file, { contentType: "image/jpeg" });
 
   if (error) {
     throw new Error("Error uploading image");
@@ -216,15 +216,14 @@ export const uploadFreelancerImage = async (userId: string, file: File) => {
   return data;
 };
 
-export const uploadUserImage = async (userId: any, file: File) => {
+export const uploadUserImage = async (userId: string, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
-    .upload(userId + "/" + uuidv4(), file);
+    .upload(`${userId}/${uuidv4()}`, file);
 
   if (error) {
     throw new Error("Error uploading image");
   }
-
   return data;
 };
 
@@ -240,5 +239,4 @@ export const updateClientMembers = async ({
     .update(updatedData)
     .eq("userId", userId)
     .select();
-  // console.log(data);
 };
