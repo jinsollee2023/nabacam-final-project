@@ -7,6 +7,7 @@ import {
   getProjectByClientWithBeforeProgress,
   updateProject,
   getSuggestedFreelancers,
+  getProjectOfFreelancerBySort,
 } from "src/api/Project";
 import { Project } from "src/Types";
 
@@ -26,11 +27,31 @@ const useProjectsQueries = ({
   const { data: projects } = useQuery(
     ["projects", sortLabel],
     async () => {
+      console.log("currentUserId ==>", currentUserId);
+      console.log("sortLabel ==>", sortLabel);
       const projectsData = await getProjectOfClientBySort(
         currentUserId as string,
         sortLabel as string
       );
+
       return projectsData;
+    },
+    {
+      enabled: !!currentUserId,
+    }
+  );
+
+  const { data: freelancerProjects } = useQuery(
+    ["freelancerProjects", sortLabel],
+    async () => {
+      console.log("currentUserId ==>", currentUserId);
+      console.log("sortLabel ==>", sortLabel);
+      const freelancerProjects = await getProjectOfFreelancerBySort(
+        currentUserId as string,
+        sortLabel as string
+      );
+
+      return freelancerProjects;
     },
     {
       enabled: !!currentUserId,
@@ -122,6 +143,7 @@ const useProjectsQueries = ({
     suggestedFreelancersDataIsLoading,
     suggestedFreelancersDataIsError,
     updateSuggestedFreelancersDataMutation,
+    freelancerProjects,
   };
 };
 

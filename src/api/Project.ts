@@ -32,6 +32,32 @@ export const getProjectOfClientBySort = async (
     .order("created_at", { ascending });
   return projects as Project[];
 };
+
+export const getProjectOfFreelancerBySort = async (
+  id: string,
+  sortLabel: string
+): Promise<Project[]> => {
+  let ascending = false;
+
+  switch (sortLabel) {
+    case "최신순":
+      ascending = false;
+      break;
+    case "오래된순":
+      ascending = true;
+      break;
+  }
+
+  const { data: freelancerProjects } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("freelancerId", id)
+    .order("created_at", { ascending });
+  console.log("projects 35번", freelancerProjects);
+
+  return freelancerProjects as Project[];
+};
+
 export const getProjectByClientWithBeforeProgress = async (
   clientId: string
 ): Promise<Project[]> => {
@@ -84,7 +110,6 @@ export const updateProject = async (
     qualification?: number;
   }
 ): Promise<void> => {
-  console.log(column);
   await supabase
     .from("projects")
     .update(column)

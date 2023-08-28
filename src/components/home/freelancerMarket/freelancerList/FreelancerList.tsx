@@ -55,6 +55,7 @@ const FreelancerList = ({
       setFilteredFreelancers(filteredfreelancerLists);
     }
   }, [freelancersDataBySort, searchKeyword]);
+  console.log("filteredFreelancers", filteredFreelancers);
 
   // 첫 번째 포트폴리오 항목을 보이도록 설정
   useEffect(() => {

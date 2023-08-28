@@ -21,7 +21,6 @@ interface FreelancerCardProps {
     React.SetStateAction<PortfolioIndexMap>
   >;
 }
-
 const FreelancerCard = ({
   freelancerItem,
   selectedPortfolioIndex,
@@ -45,13 +44,11 @@ const FreelancerCard = ({
     selectedProject,
     freelancerId: freelancerItem.userId,
   });
-
   useEffect(() => {
     if (!isDetailModalOpen) {
       setSelectedProject(null);
     }
   }, [isDetailModalOpen, setSelectedProject]);
-
   const { portfoliosData, portfoliosError, portfoliosIsLoading } =
     usePortfoliosQueries(freelancerItem);
 
@@ -94,7 +91,6 @@ const FreelancerCard = ({
   if (projectDataForSuggestionsIsError) {
     return <span>freelancers Error..</span>;
   }
-
   if (portfoliosIsLoading) {
     return (
       <Spin
@@ -106,7 +102,6 @@ const FreelancerCard = ({
   if (portfoliosError) {
     return <span>portfolios Error..</span>;
   }
-
   const HandleProjectSuggestionButtonClick = async () => {
     if (suggestedFreelancersDataIsLoading) {
       <Spin
@@ -114,7 +109,6 @@ const FreelancerCard = ({
         style={{ position: "absolute", top: "50%", left: "50%" }}
       />;
     }
-
     if (suggestedFreelancersDataIsError) {
       console.error(
         "프로젝트 정보 가져오기 오류:",
@@ -122,23 +116,19 @@ const FreelancerCard = ({
       );
       return;
     }
-
     const suggestedFreelancers =
       suggestedFreelancersData?.SuggestedFreelancers || [];
     const updatedSuggestedFreelancers = [
       ...(suggestedFreelancers as string[]),
       freelancerItem.userId,
     ];
-
     updateSuggestedFreelancersDataMutation.mutate({
       projectId: selectedProject?.projectId as string,
       updatedSuggestedFreelancers,
     });
-
     refetchprojectDataForSuggestions();
     setIsDetailModalOpen(false);
   };
-
   return (
     <>
       {isDetailModalOpen && (
@@ -221,7 +211,7 @@ const FreelancerCard = ({
                 </S.PortfolioItem>
               ))}
             {/* 해당 조건을 만족하지 않는 경우에만 jsx 부분 표시 */}
-            {/* some → 주어진 판별 함수를 적오도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는 
+            {/* some → 주어진 판별 함수를 적오도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는
                       포트폴리오들의 프리랜서 아이디 중에서 내가 지금 돌고있는 프리랜서의 아이디와 일치하는 것이 없다면 아래 jsx를 보여줌*/}
             {!portfoliosData.some(
               (portfolioItem) =>
@@ -243,7 +233,6 @@ const FreelancerCard = ({
             )}
           </S.PortfolioList>
         )}
-
         <S.MiniProfileBox>
           <S.FreelancerContentBox onClick={() => setIsModalOpen(!isModalOpen)}>
             <S.FreelancerName>{freelancerItem.name}</S.FreelancerName>
@@ -267,7 +256,6 @@ const FreelancerCard = ({
               <FreelancerInfoModal user={freelancerItem} />
             </Modal>
           )}
-
           <S.SuggestButton onClick={() => setIsDetailModalOpen(true)}>
             <FaHandshakeSimple size="25" />
           </S.SuggestButton>
