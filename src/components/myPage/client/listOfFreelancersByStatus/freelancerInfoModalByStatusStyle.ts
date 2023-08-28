@@ -62,4 +62,8 @@ export const S = {
   WorkExp: styled.span`
     color: gray;
   `,
+  DateInnerText: styled.span`
+    color: gray;
+    font-size: 12px;
+  `,
 };
