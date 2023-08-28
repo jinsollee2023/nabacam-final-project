@@ -7,8 +7,9 @@ import useTasksQueries from "../../../hooks/useTasksQueries";
 
 interface TaskTitleProps {
   task: Task;
+  userRole: string;
 }
-const TaskDeadLine = ({ task }: TaskTitleProps) => {
+const TaskDeadLine = ({ task, userRole }: TaskTitleProps) => {
   const [isCalenderOpen, setIsCalenderOpen] = useState(false);
   const { updateTaskDeadLineMutation } = useTasksQueries(task.projectId);
 
@@ -21,7 +22,7 @@ const TaskDeadLine = ({ task }: TaskTitleProps) => {
   };
 
   const handleOnClick = () => {
-    setIsCalenderOpen(!isCalenderOpen);
+    if (userRole === "freelancer") setIsCalenderOpen(!isCalenderOpen);
   };
 
   return (
