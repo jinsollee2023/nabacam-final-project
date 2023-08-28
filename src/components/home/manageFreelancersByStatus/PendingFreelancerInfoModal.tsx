@@ -26,8 +26,14 @@ const PendingFreelancerInfoModal = ({ user, project }: PendingFreelancerInfoModa
           <S.ProjectConditionTitle>급여</S.ProjectConditionTitle>
           <S.ProjectPayBox>
             <S.ProjectPayContent>
-              <span>최소 : {project.pay?.min}만원</span>
-              <span>최대 : {project.pay?.max}만원</span>
+              {project.pay?.min === "상의 후 결정" && project.pay?.max === "상의 후 결정" ? (
+                <span>상의 후 결정</span>
+              ) : (
+                <>
+                  <span>최소 : {project.pay?.min}만원</span>
+                  <span>최대 : {project.pay?.max}만원</span>
+                </>
+              )}
             </S.ProjectPayContent>
           </S.ProjectPayBox>
         </div>

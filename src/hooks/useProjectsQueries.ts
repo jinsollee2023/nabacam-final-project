@@ -22,11 +22,6 @@ interface useProjectsQueriesProps {
   sortLabel?: string;
   freelancerId?: string;
   selectedProject?: Project | null;
-  volunteer?: string;
-  pendingFreelancer?: string;
-  projectId?: string;
-  userId?: string;
-  endDate?: string;
 }
 
 const useProjectsQueries = ({
@@ -34,11 +29,6 @@ const useProjectsQueries = ({
   sortLabel,
   freelancerId,
   selectedProject,
-  volunteer,
-  pendingFreelancer,
-  projectId,
-  userId,
-  endDate,
 }: useProjectsQueriesProps) => {
   const { data: projects } = useQuery(
     ["projects", sortLabel],

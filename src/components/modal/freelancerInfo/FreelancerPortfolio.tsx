@@ -21,7 +21,9 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
         {portfolio && portfolio.length > 0 ? (
           portfolio.map((data) => (
             <div key={data.portfolioId}>
-              <S.PortfolioImg alt="portfolioImage" src={data.thumbNailURL}></S.PortfolioImg>
+              <S.ImgBox>
+                <S.PortfolioImg alt="portfolioImage" src={data.thumbNailURL}></S.PortfolioImg>
+              </S.ImgBox>
               <S.PortfolioCmt>{data.title}</S.PortfolioCmt>
             </div>
           ))

@@ -156,11 +156,11 @@ export const updateApprovalFreelancer = async (
     .match({ projectId });
 };
 
-/* 신청 및 보류된 프리랜서 목록 초기화 API */
+/* 신청 및 제안, 보류된 프리랜서 목록 초기화 API */
 export const deleteVolunteerAndPendingFreelancer = async (projectId: string) => {
   return await supabase
     .from("projects")
-    .update({ volunteer: [], pendingFreelancer: [] })
+    .update({ volunteer: [], pendingFreelancer: [], SuggestedFreelancers: [] })
     .match({ projectId });
 };
 

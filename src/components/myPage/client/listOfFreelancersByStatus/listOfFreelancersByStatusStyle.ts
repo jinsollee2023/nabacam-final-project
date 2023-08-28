@@ -1,16 +1,30 @@
 import { styled } from "styled-components";
 
 export const S = {
+  FilterBtn: styled.button`
+    position: absolute;
+    /* 위치 변경 예정 */
+    right: 300px;
+    width: 90px;
+    height: 30px;
+    background-color: transparent;
+    border: 2px solid #0086d0;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  `,
   listContainer: styled.div`
     display: flex;
     margin: 15px;
     gap: 20px;
   `,
   ListsBox: styled.div`
-    border: 1px solid #0086d0;
-    border-radius: 15px;
-    width: 400px;
-    height: 300px;
+    border: 2px solid #0086d0;
+    border-radius: 10px;
+    width: 280px;
+    height: 350px;
     display: table;
   `,
   Profile: styled.div`
@@ -27,21 +41,10 @@ export const S = {
   ContentContainer: styled.div`
     display: flex;
   `,
-  ImgBox: styled.div`
-    width: 100px;
-    height: 100px;
-    border-radius: 30%;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.1);
-  `,
-  Img: styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  `,
+
   ProfileContents: styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 5px;
     align-items: center;
   `,
@@ -53,17 +56,14 @@ export const S = {
     font-weight: bold;
     color: gray;
   `,
-  WorkSmallField: styled.span`
-    color: gray;
-  `,
-  WorkExp: styled.span`
+  WorkSmallFieldAndWorkExp: styled.span`
     color: gray;
   `,
   ContactBox: styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
   `,
-  Contact: styled.span``,
 
   Line: styled.hr`
     width: 90%;
