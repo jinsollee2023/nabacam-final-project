@@ -1,18 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   addPortfolio,
   getPortfolio,
   uploadPDF,
   uploadThumbnail,
 } from "src/api/Portfolio";
-import { Portfolio } from "src/Types";
-import { useUserStore } from "src/zustand/useUserStore";
+
 import { queryClient } from "../App";
 
 const usePortfolioInfoQueries = ({
   userId,
-  pfId, // 옵션
-  thumbnailFileName, // 옵션
+  pfId,
+  thumbnailFileName,
 }: {
   userId: string;
   pfId?: string;

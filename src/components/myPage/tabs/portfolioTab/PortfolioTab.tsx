@@ -13,7 +13,6 @@ const PortfolioTab = () => {
   const [selectedPortfolio, setSelectedPortfolio] = useState<any>(null);
 
   const { portfolios } = usePortfolioInfoQueries({ userId });
-  console.log(portfolios);
 
   return (
     <>
@@ -51,6 +50,7 @@ const PortfolioTab = () => {
         <PortfolioDetailModal
           setIsDetailModalOpen={setIsDetailModalOpen}
           portfolioData={selectedPortfolio}
+          userId={userId}
         />
       )}
     </>

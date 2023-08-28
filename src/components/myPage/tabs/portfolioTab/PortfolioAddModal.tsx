@@ -7,7 +7,8 @@ import { useUserStore } from "src/zustand/useUserStore";
 import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
 import { usePortfolioStore } from "src/zustand/usePortfolioStore";
 import { v4 as uuidv4 } from "uuid";
-import PortfolioAddForm from "./PortfolioAddForm";
+import PortfolioAddFilesForm from "./PortfolioAddFilesForm";
+import PortfolioAddLinkForm from "./PortfolioAddLinkForm";
 
 interface ModalProps {
   open: boolean;
@@ -17,19 +18,19 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
   const [attachmentType, setAttachmentType] = useState<string>("file");
   const fileTitleInput = useInput("");
   const fileDescInput = useInput("");
-  const linkTitleInput = useInput("");
+  const linkInput = useInput("");
   const { userId } = useUserStore();
   const {
     selectedTitle,
     selectedDesc,
+    selectedLink,
     selectedThumbnailFile,
     pfId,
     thumbnailFileName,
     PDFFileName,
   } = usePortfolioStore();
 
-  const { addPortfolioMutation, uploadThumbnailMutation } =
-    usePortfolioInfoQueries({ userId, pfId });
+  const { addPortfolioMutation } = usePortfolioInfoQueries({ userId, pfId });
 
   const addPortfolioHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
@@ -43,6 +44,7 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
       portfolioId: pfId,
       title: selectedTitle,
       desc: selectedDesc,
+      linkURL: selectedLink,
       thumbNailURL: `${CDNURL}/${userId}/thumbnail/${thumbnailFileName}`,
       pdfFileURL: `${CDNURL}/${userId}/pdf/${PDFFileName}`,
     };
@@ -51,6 +53,7 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
 
     fileTitleInput.reset();
     fileDescInput.reset();
+    linkInput.reset();
     setOpen(false);
   };
   return (
@@ -72,26 +75,9 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
             <Radio value="link">링크로 첨부하기</Radio>
           </Radio.Group>
           {/* ---------------파일------------------ */}
-          {attachmentType === "file" && <PortfolioAddForm />}
+          {attachmentType === "file" && <PortfolioAddFilesForm />}
           {/* ---------------링크------------------ */}
-          {attachmentType === "link" && (
-            <>
-              <form>
-                <label>
-                  타이틀
-                  <br />
-                  <input
-                    type="text"
-                    value={linkTitleInput.value}
-                    onChange={linkTitleInput.onChange}
-                  />
-                </label>
-              </form>
-              <br />
-              <div>링크</div>
-              <br />
-            </>
-          )}
+          {attachmentType === "link" && <PortfolioAddLinkForm />}
         </Modal>
       )}
     </>

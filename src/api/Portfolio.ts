@@ -24,7 +24,7 @@ export const getPortfolio = async (id: string) => {
     const { data } = await supabase
       .from("portfolios")
       .select(
-        "freelancerId, portfolioId, title, desc, thumbNailURL, pdfFileURL"
+        "freelancerId, portfolioId, title, desc, linkURL, thumbNailURL, pdfFileURL"
       )
       .eq("freelancerId", id);
 
@@ -86,6 +86,7 @@ interface NewPortfolioData {
   portfolioId: string;
   title: string;
   desc: string;
+  linkURL?: string;
   thumbNailURL?: string | null;
   pdfFileURL?: string | null;
 }
@@ -105,6 +106,7 @@ export const addPortfolio = async ({
       title: newPortfolioData.title,
       desc: newPortfolioData.desc,
       freelancerId: userId,
+      linkURL: newPortfolioData.linkURL,
       thumbNailURL: newPortfolioData.thumbNailURL,
       pdfFileURL: newPortfolioData.pdfFileURL,
     })
