@@ -19,6 +19,10 @@ const ContractInfoTab = () => {
   });
   console.log("freelancerProjects===>", projectsListBySort);
 
+  const freelancer = projectsListBySort?.map((project) => {
+    return project.projectId;
+  });
+
   return (
     <S.ContractInfoContainer>
       <span>프리랜서 이력</span>

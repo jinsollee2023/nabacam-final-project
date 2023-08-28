@@ -22,7 +22,6 @@ interface JoinFormProps {
 const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
   // useinput
 
-  const { handleSubmit } = useForm<FormValue>();
   const initialValues: any = {
     email: "",
     name: "",
@@ -124,40 +123,42 @@ const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
                 photoURLOnChange={handlePhotoURLOnChange}
               />
 
-              <Select
-                showSearch
-                placeholder="Select a person"
-                optionFilterProp="children"
-                onChange={onChange}
-                onSearch={onSearch}
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={[
-                  {
-                    value: "개발",
-                    label: "개발",
-                  },
-                  {
-                    value: "디자인",
-                    label: "디자인",
-                  },
-                  {
-                    value: "운영",
-                    label: "운영",
-                  },
-                  {
-                    value: "기획",
-                    label: "기획",
-                  },
-                  {
-                    value: "기타",
-                    label: "기타",
-                  },
-                ]}
-              />
+              {openFreelancer && (
+                <Select
+                  showSearch
+                  placeholder="Select a person"
+                  optionFilterProp="children"
+                  onChange={onChange}
+                  onSearch={onSearch}
+                  filterOption={(input, option) =>
+                    (option?.label ?? "")
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={[
+                    {
+                      value: "개발",
+                      label: "개발",
+                    },
+                    {
+                      value: "디자인",
+                      label: "디자인",
+                    },
+                    {
+                      value: "운영",
+                      label: "운영",
+                    },
+                    {
+                      value: "기획",
+                      label: "기획",
+                    },
+                    {
+                      value: "기타",
+                      label: "기타",
+                    },
+                  ]}
+                />
+              )}
 
               {openFreelancer && (
                 <input
