@@ -8,9 +8,10 @@ import { format } from "date-fns";
 
 interface TaskMonthProps {
   task: Task;
+  userRole: string;
 }
 
-const TaskMonth = ({ task }: TaskMonthProps) => {
+const TaskMonth = ({ task, userRole }: TaskMonthProps) => {
   const [monthOptionOn, setMonthOptionOn] = useState(false);
   const { updateTaskMonthMutation } = useTasksQueries(task.projectId);
 
@@ -22,12 +23,16 @@ const TaskMonth = ({ task }: TaskMonthProps) => {
     });
   };
 
+  const monthOptionOnclickHandler = () => {
+    if (userRole === "freelancer") setMonthOptionOn(!monthOptionOn);
+  };
+
   return (
     <>
       <S.TaskDetailBox
         width={5}
         backgroundColor="red"
-        onClick={() => setMonthOptionOn(!monthOptionOn)}
+        onClick={monthOptionOnclickHandler}
         style={{ marginRight: "5px", borderRadius: "0" }}
       ></S.TaskDetailBox>
       {monthOptionOn && (
