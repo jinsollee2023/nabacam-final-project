@@ -22,7 +22,7 @@ const MemberList = () => {
   };
 
   const addMemberButtonHandler = () => {
-    const addedMembers = [...client?.members!, updateMemberData];
+    const addedMembers = [...(client?.members || []), updateMemberData];
     // 업데이트
     clientMembersMutation.mutate({
       updatedData: { members: addedMembers },
@@ -79,12 +79,12 @@ const MemberList = () => {
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              {updateMemberData ? (
+              {currentMemberData?.name === "" ? (
+                <button onClick={addMemberButtonHandler}>멤버 추가하기</button>
+              ) : (
                 <button onClick={updateMemberButtonHandler}>
                   멤버 수정하기
                 </button>
-              ) : (
-                <button onClick={addMemberButtonHandler}>멤버 추가하기</button>
               )}
             </>
           }

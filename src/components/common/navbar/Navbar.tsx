@@ -5,7 +5,6 @@ import { useUserStore } from "src/zustand/useUserStore";
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
-  console.log("aaaassss", user);
   if (window.location.pathname === `/register`) {
     return null;
   }
