@@ -7,40 +7,30 @@ import { useUserStore } from "src/zustand/useUserStore";
 import { clientSignupHandler } from "src/api/auth";
 
 interface JoinFormProps {
-  freelancerOpen: boolean;
+  // freelancerOpen: boolean;
   role: string;
 }
 
 // 회원가입
-const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
+const JoinForm = ({ role }: JoinFormProps) => {
   // useinput
 
   const initialValues: any = {
     email: "",
     name: "",
-    userRole: "",
     workExp: 0,
     phone: "",
-    workField: "",
   };
 
   const navigate = useNavigate();
   const [photoFile, setPhotoFile] = useState<File>();
   const [values, setValues] = useState(initialValues);
   const [openClientJoin, setOpenClientJoin] = useState(true);
-  const [openFreelancer] = useState(freelancerOpen);
   const [workSelect, setWorkSelect] = useState("");
-  const { setUser, setUserId, setUserRole } = useUserStore(); // 추가
-
-  //  이미지 업로드 부분
+  const { setUser } = useUserStore(); // 추가
 
   const onChange = (value: string) => {
-    console.log(`selected ${value}`);
     setWorkSelect(value);
-  };
-
-  const onSearch = (value: string) => {
-    console.log("search:", value);
   };
 
   // 회원가입 api
@@ -54,8 +44,6 @@ const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
       role,
       workSelect,
       setUser,
-      setUserRole,
-      setUserId,
       setOpenClientJoin,
       navigate
     );
@@ -112,59 +100,51 @@ const JoinForm = ({ freelancerOpen, role }: JoinFormProps) => {
 
               <ImagePreview handlePhotoURLOnChange={handlePhotoURLOnChange} />
 
-              <Select
-                showSearch
-                placeholder="Select a person"
-                optionFilterProp="children"
-                onChange={onChange}
-                onSearch={onSearch}
-                filterOption={(input, option) =>
-                  (option?.label ?? "")
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={[
-                  {
-                    value: "개발",
-                    label: "개발",
-                  },
-                  {
-                    value: "디자인",
-                    label: "디자인",
-                  },
-                  {
-                    value: "운영",
-                    label: "운영",
-                  },
-                  {
-                    value: "기획",
-                    label: "기획",
-                  },
-                  {
-                    value: "기타",
-                    label: "기타",
-                  },
-                ]}
-              />
+              {role === "freelancer" && (
+                <>
+                  <Select
+                    placeholder="Select a person"
+                    optionFilterProp="children"
+                    onChange={onChange}
+                    options={[
+                      {
+                        value: "개발",
+                        label: "개발",
+                      },
+                      {
+                        value: "디자인",
+                        label: "디자인",
+                      },
+                      {
+                        value: "운영",
+                        label: "운영",
+                      },
+                      {
+                        value: "기획",
+                        label: "기획",
+                      },
+                      {
+                        value: "기타",
+                        label: "기타",
+                      },
+                    ]}
+                  />
+                  <input
+                    type="text"
+                    name="workField"
+                    value={values.workField}
+                    onChange={handleChange}
+                    placeholder="작업영역"
+                  />
 
-              {openFreelancer && (
-                <input
-                  type="text"
-                  name="workField"
-                  value={values.workField}
-                  onChange={handleChange}
-                  placeholder="작업영역"
-                />
-              )}
-
-              {openFreelancer && (
-                <input
-                  type="text"
-                  name="workExp"
-                  value={values.workExp}
-                  onChange={handleChange}
-                  placeholder="경험"
-                />
+                  <input
+                    type="text"
+                    name="workExp"
+                    value={values.workExp}
+                    onChange={handleChange}
+                    placeholder="경험"
+                  />
+                </>
               )}
 
               <input
