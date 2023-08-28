@@ -45,8 +45,8 @@ const useResumeExperienceQueries = (userId: string) => {
         pastWorkField: string;
         pastEmploymentType: string;
         pastWorkDuration: {
-          pastWorkEndDate: string;
-          pastWorkStartDate: string;
+          pastWorkEndDate: Date;
+          pastWorkStartDate: Date;
         };
         pastWorkPlace: string;
         pastWorkPosition: string;

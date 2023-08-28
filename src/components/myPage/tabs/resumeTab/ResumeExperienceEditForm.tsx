@@ -3,6 +3,8 @@ import React, { MouseEvent, useEffect, useState } from "react";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
 import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
 import { Experience } from "./ResumeExperience";
 
@@ -31,31 +33,42 @@ const ResumeExperienceEditForm: React.FC<EditModalProps> = ({
   const [editedPastWorkPlaceInput, setEditedPastWorkPlaceInput] = useState("");
   const [editedPastWorkPositionInput, setEditedPastWorkPositionInput] =
     useState("");
-  const [editedPastWorkStartDate, setEditedPastWorkStartDate] = useState("");
-  const [editedPastWorkEndDate, setEditedPastWorkEndDate] = useState("");
+  // const [editedPastWorkStartDate, setEditedPastWorkStartDate] = useState("");
+  // const [editedPastWorkEndDate, setEditedPastWorkEndDate] = useState("");
+  const [editedPastWorkStartDate, setEditedPastWorkStartDate] = useState(
+    new Date()
+  );
+  const [editedPastWorkEndDate, setEditedPastWorkEndDate] = useState(
+    new Date()
+  );
   const [editedPastWorkField, setEditedPastWorkField] = useState("");
   const [editedPastEmploymentType, setEditedPastEmploymentType] = useState("");
 
+  // 이전내용 띄워주기
   useEffect(() => {
     setEditedPastWorkPlaceInput(writtenPastWorkPlace);
     setEditedPastWorkPositionInput(writtenPastWorkPosition);
-    setEditedPastWorkStartDate(writtenPastWorkStartDate);
-    setEditedPastWorkEndDate(writtenPastWorkEndDate);
+    // setEditedPastWorkStartDate(writtenPastWorkStartDate);
+    // setEditedPastWorkEndDate(writtenPastWorkEndDate);
     setEditedPastWorkField(writtenPastWorkField);
     setEditedPastEmploymentType(writtenPastEmploymentType);
   }, [
     writtenPastWorkPlace,
     writtenPastWorkPosition,
-    writtenPastWorkStartDate,
-    writtenPastWorkEndDate,
+    // writtenPastWorkStartDate,
+    // writtenPastWorkEndDate,
     writtenPastWorkField,
     writtenPastEmploymentType,
   ]);
 
   const { userId } = useUserStore();
   const { updateExperienceMutation } = useResumeExperienceQueries(userId);
-  const handleChange = (value: string) => {
-    // console.log(`selected ${value}`);
+
+  const onChangeEditedStartDateHandler = (value: any) => {
+    setEditedPastWorkStartDate(value);
+  };
+  const onChangeEditedEndDateHandler = (value: any) => {
+    setEditedPastWorkEndDate(value);
   };
 
   const updateExperienceHandler = async ({
@@ -82,8 +95,8 @@ const ResumeExperienceEditForm: React.FC<EditModalProps> = ({
 
     setEditedPastWorkPlaceInput("");
     setEditedPastWorkPositionInput("");
-    setEditedPastWorkStartDate("");
-    setEditedPastWorkEndDate("");
+    // setEditedPastWorkStartDate("");
+    // setEditedPastWorkEndDate("");
     setEditedPastWorkField("");
     setEditedPastEmploymentType("");
 
@@ -157,16 +170,18 @@ const ResumeExperienceEditForm: React.FC<EditModalProps> = ({
                 근무기간
                 <br />
                 입사일:
-                <input
-                  type="text"
-                  value={editedPastWorkStartDate}
-                  onChange={(e) => setEditedPastWorkStartDate(e.target.value)}
+                <DatePicker
+                  selected={editedPastWorkStartDate}
+                  onChange={onChangeEditedStartDateHandler}
+                  dateFormat="yyyy-MM-dd"
+                  // inline
                 />
                 퇴사일:
-                <input
-                  type="text"
-                  value={editedPastWorkEndDate}
-                  onChange={(e) => setEditedPastWorkEndDate(e.target.value)}
+                <DatePicker
+                  selected={editedPastWorkEndDate}
+                  onChange={onChangeEditedEndDateHandler}
+                  dateFormat="yyyy-MM-dd"
+                  // inline
                 />
               </label>
             </form>

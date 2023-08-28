@@ -13,8 +13,10 @@ interface Userexperience {
   pastWorkField: string;
   pastEmploymentType: string;
   pastWorkDuration: {
-    pastWorkEndDate: string;
-    pastWorkStartDate: string;
+    // pastWorkEndDate: string;
+    // pastWorkStartDate: string;
+    pastWorkStartDate: Date;
+    pastWorkEndDate: Date;
   };
   pastWorkPlace: string;
   pastWorkPosition: string;
@@ -103,8 +105,8 @@ export const updateExperience = async ({
     pastWorkField: string;
     pastEmploymentType: string;
     pastWorkDuration: {
-      pastWorkEndDate: string;
-      pastWorkStartDate: string;
+      pastWorkEndDate: Date;
+      pastWorkStartDate: Date;
     };
     pastWorkPlace: string;
     pastWorkPosition: string;

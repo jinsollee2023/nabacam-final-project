@@ -5,6 +5,8 @@ import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
 import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
 import { v4 as uuidv4 } from "uuid";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface ModalProps {
   open: boolean;
@@ -14,15 +16,21 @@ interface ModalProps {
 const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
   const pastWorkPlaceInput = useInput("");
   const pastWorkPositionInput = useInput("");
-  const pastWorkStartDate = useInput("");
-  const pastWorkEndDate = useInput("");
+  // const pastWorkStartDate = useInput("");
+  // const pastWorkEndDate = useInput("");
+  const [pastWorkStartDate, setPastWorkStartDate] = useState(new Date());
+  const [pastWorkEndDate, setPastWorkEndDate] = useState(new Date());
   const [selectedWorkField, setSelectedWorkField] = useState("전체");
   const [selectedWorkType, setSelectedWorkType] = useState("전체");
 
   const { userId } = useUserStore();
   const { addExperienceMutation } = useResumeExperienceQueries(userId);
-  const handleChange = (value: string) => {
-    // console.log(`selected ${value}`);
+
+  const onChangeStartDateHandler = (value: any) => {
+    setPastWorkStartDate(value);
+  };
+  const onChangeEndDateHandler = (value: any) => {
+    setPastWorkEndDate(value);
   };
 
   const experienceId = uuidv4();
@@ -36,8 +44,8 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
       pastWorkField: selectedWorkField,
       pastEmploymentType: selectedWorkType,
       pastWorkDuration: {
-        pastWorkEndDate: pastWorkEndDate.value,
-        pastWorkStartDate: pastWorkStartDate.value,
+        pastWorkEndDate: pastWorkEndDate,
+        pastWorkStartDate: pastWorkStartDate,
       },
       pastWorkPlace: pastWorkPlaceInput.value,
       pastWorkPosition: pastWorkPositionInput.value,
@@ -50,8 +58,8 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
 
     pastWorkPlaceInput.reset();
     pastWorkPositionInput.reset();
-    pastWorkStartDate.reset();
-    pastWorkEndDate.reset();
+    // pastWorkStartDate("")
+    // pastWorkEndDate("")
     setOpen(false);
   };
   return (
@@ -125,16 +133,18 @@ const ResumeExperienceAddForm: React.FC<ModalProps> = ({ open, setOpen }) => {
               근무기간
               <br />
               입사일:
-              <S.Input
-                type="text"
-                value={pastWorkStartDate.value}
-                onChange={pastWorkStartDate.onChange}
+              <DatePicker
+                selected={pastWorkStartDate}
+                onChange={onChangeStartDateHandler}
+                dateFormat="yyyy-MM-dd"
+                // inline
               />
               퇴사일:
-              <S.Input
-                type="text"
-                value={pastWorkEndDate.value}
-                onChange={pastWorkEndDate.onChange}
+              <DatePicker
+                selected={pastWorkEndDate}
+                onChange={onChangeEndDateHandler}
+                dateFormat="yyyy-MM-dd"
+                // inline
               />
             </label>
           </form>
