@@ -21,14 +21,15 @@ export const S = {
   `,
   listContainer: styled.div`
     display: flex;
-    margin: 15px;
-    gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
   `,
   ListsBox: styled.div`
     border: 2px solid #0086d0;
     border-radius: 10px;
-    width: 280px;
+    width: 30%;
     height: 350px;
+    margin-bottom: 20px;
     display: table;
   `,
   Profile: styled.div`
