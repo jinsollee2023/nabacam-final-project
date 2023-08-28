@@ -9,26 +9,15 @@ const Info = () => {
   // 상태관리
   const [open, setOpen] = useState<boolean>(false);
   const { userId } = useUserStore();
-  const { setUserName, setProjectId } = useUserStore(); // 추가
 
   // GET
-  const { status, data: users } = useQuery(
+  const { data: user } = useQuery(
     ["users", userId],
     () => getFreelancer(userId),
     {
       enabled: !!userId,
     }
   );
-  console.log(users);
-
-  useEffect(() => {
-    if (status === "success" && users) {
-      const { name, projectId } = users[0];
-      if (name) setUserName(name);
-      if (projectId) setProjectId(projectId);
-    }
-  }, [status, users, setUserName]);
-  console.log();
 
   return (
     <>
@@ -39,11 +28,9 @@ const Info = () => {
           flexDirection: "column",
         }}
       >
-        <h1>{users && users[0]?.name}님</h1>
-        <S.Info>직무분야: {users && users[0]?.workField?.workField}</S.Info>
-        <S.Info>
-          세부분야: {users && users[0]?.workField?.workSmallField}
-        </S.Info>
+        <h1>{user && user?.name}님</h1>
+        <S.Info>직무분야: {user && user?.workField?.workField}</S.Info>
+        <S.Info>세부분야: {user && user?.workField?.workSmallField}</S.Info>
         {/* <S.Info>현재 진행중인 프로젝트: {users && users[0]?.projectId}</S.Info> */}
       </div>
       <div
@@ -54,11 +41,11 @@ const Info = () => {
         }}
       >
         <h1>연락망</h1>
-        <S.Info>전화번호: {users && users[0]?.contact?.phone}</S.Info>
-        <S.Info>이메일: {users && users[0]?.contact?.email}</S.Info>
+        <S.Info>전화번호: {user && user?.contact?.phone}</S.Info>
+        <S.Info>이메일: {user && user?.contact?.email}</S.Info>
       </div>
       <S.Btn onClick={() => setOpen(true)}>프로필 수정하기</S.Btn>
-      <EditForm open={open} setOpen={setOpen} users={users} />
+      <EditForm open={open} setOpen={setOpen} user={user} />
     </>
   );
 };

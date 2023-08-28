@@ -16,12 +16,12 @@ const ResumeProfileIntro = () => {
   const [profileIntroEditorOpen, setProfileIntroEditorOpen] =
     useState<boolean>(false);
   const profileIntroInput = useInput("");
-  const { userId, userRole, name, photoURL } = useUserStore(); // 각각 로그인, 회원가입, info, image에서 가져옴
+  const { userId } = useUserStore(); // 각각 로그인, 회원가입, info, image에서 가져옴
   // textArea
   const { TextArea } = Input;
 
   // GET
-  const { status, data: profileIntro } = useQuery(
+  const { data: profileIntro } = useQuery(
     ["profileIntro", userId],
     () => getFreelancerResumeProfileIntro(userId),
     {
