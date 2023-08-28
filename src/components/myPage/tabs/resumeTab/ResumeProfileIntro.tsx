@@ -11,7 +11,6 @@ import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 
 const ResumeProfileIntro = () => {
-  // 상태관리
   const [profileIntroAdderOpen, setProfileIntroAdderOpen] =
     useState<boolean>(false);
   const [profileIntroEditorOpen, setProfileIntroEditorOpen] =
@@ -32,7 +31,7 @@ const ResumeProfileIntro = () => {
   const previousData = profileIntro && profileIntro[0];
   const editedProfileIntroInput = useInput(previousData?.resumeProfileIntro);
 
-  // ADD - 프로필 추가
+  // ADD
   const queryClient = useQueryClient();
   const addMutation = useMutation(addFreelancerResumeProfileIntro, {
     onSuccess: () => {
@@ -44,21 +43,18 @@ const ResumeProfileIntro = () => {
   ) => {
     e.preventDefault();
 
-    // 추가 대상
     const profileIntroText = profileIntroInput.value;
 
-    // 추가
     addMutation.mutate({
       profileIntroText,
       userId,
     });
 
-    // 입력창 비우고 모달 닫기
     profileIntroInput.reset();
     setProfileIntroAdderOpen(false);
   };
 
-  // PATCH - 프로필 수정
+  // PATCH
   const patchMutation = useMutation(patchFreelancerResumeProfileIntro, {
     onSuccess: () => {
       queryClient.invalidateQueries(["profileIntro", userId]);
@@ -66,16 +62,13 @@ const ResumeProfileIntro = () => {
   });
 
   const patchFreelancerResumeProfileIntroHandler = async () => {
-    // 수정 대상
     const editedProfileIntroText = editedProfileIntroInput.value;
 
-    // PATCH 요청
     patchMutation.mutate({
       editedProfileIntroText,
       userId,
     });
 
-    // 입력창 비우고 모달 닫기
     editedProfileIntroInput.reset();
     setProfileIntroEditorOpen(false);
   };
@@ -84,22 +77,22 @@ const ResumeProfileIntro = () => {
     <>
       <S.ProfileContainer>
         <p>프로필</p>
-        <button
+        <S.Btn
           onClick={() => {
             setProfileIntroEditorOpen(true);
           }}
         >
           + 프로필 추가하기
-        </button>
+        </S.Btn>
         <S.ProfileInputBox>
           <div>{profileIntro && profileIntro[0].resumeProfileIntro}</div>
-          <button
+          <S.Btn
             onClick={() => {
               setProfileIntroEditorOpen(true);
             }}
           >
             수정
-          </button>
+          </S.Btn>
         </S.ProfileInputBox>
       </S.ProfileContainer>
       {/* ---------------------------추가모달--------------------------------- */}
@@ -167,25 +160,20 @@ const S = {
     background-color: #8080803d;
     padding: 10px;
     margin-top: 5px;
+    border-radius: 10px;
   `,
-  WorkExperienceContainer: styled.section`
-    width: 100%;
-    padding: 10px;
-    border: solid blue;
-  `,
-  WorkExperienceListWrapper: styled.ul`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+  Btn: styled.button`
+    background-color: #1fc17d;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
     margin-top: 10px;
-  `,
-  WorkExperienceList: styled.li`
-    background-color: #8080803d;
-    padding: 20px;
-    list-style: none;
-  `,
-  WorkExperienceAddBtn: styled.button`
-    padding: 10px;
-    margin-top: 30px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #168c68;
+    }
   `,
 };

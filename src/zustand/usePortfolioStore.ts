@@ -1,61 +1,37 @@
 import { create } from "zustand";
 
-// 기존
-// export type PortfolioStore = {
-//   portfolioThumbnailSrc: string;
-
-//   setUserportfolioThumbnailSrc: (portfolioThumbnailSrc: string) => void;
-// };
-
-// export const usePortfolioStore = create<PortfolioStore>((set) => ({
-//   portfolioThumbnailSrc: "",
-
-//   setUserportfolioThumbnailSrc: (portfolioThumbnailSrc) =>
-//     set({ portfolioThumbnailSrc }),
-// }));
-
-// 제네릭으로 수정 (실패)
-
-// export type PortfolioStore<T> = {
-//   portfolioFileSrc: T;
-
-//   setPortfolioFileSrc: (portfolioFileSrc: T) => void;
-// };
-
-// export const usePortfolioStore = <T>() =>
-//   create<PortfolioStore<T>>((set) => ({
-//     portfolioFileSrc: "" as T,
-
-//     setPortfolioFileSrc: (portfolioFileSrc) => set({ portfolioFileSrc }),
-//   }));
-
-// 파일타입별로 분류전
-
 export type PortfolioStore = {
-  portfolioFileSrc: string;
+  selectedTitle: string;
+  selectedDesc: string;
+  selectedThumbnailFile: File | null;
+  selectedPDFFile: File | null;
+  pfId: string;
+  thumbnailFileName: string;
+  PDFFileName: string;
 
-  setUserportfolioFileSrc: (portfolioFileSrc: string) => void;
+  setSelectedTitle: (title: string) => void;
+  setSelectedDesc: (desc: string) => void;
+  setSelectedThumbnailFile: (file: File | null) => void;
+  setSelectedPDFFile: (file: File | null) => void;
+  setPfId: (pfId: string) => void;
+  setThumbnailFileName: (thumbnailFileName: string) => void;
+  setPDFFileName: (PDFFileName: string) => void;
 };
 
 export const usePortfolioStore = create<PortfolioStore>((set) => ({
-  portfolioFileSrc: "",
+  selectedTitle: "",
+  selectedDesc: "",
+  selectedThumbnailFile: null,
+  selectedPDFFile: null,
+  pfId: "",
+  thumbnailFileName: "",
+  PDFFileName: "",
 
-  setUserportfolioFileSrc: (portfolioFileSrc) => set({ portfolioFileSrc }),
+  setSelectedTitle: (title) => set({ selectedTitle: title }),
+  setSelectedDesc: (desc) => set({ selectedDesc: desc }),
+  setSelectedThumbnailFile: (file) => set({ selectedThumbnailFile: file }),
+  setSelectedPDFFile: (file) => set({ selectedPDFFile: file }), // TS 타입 어노테이션 (selectedFile의 타입이 file의 타입과 동일하다는 뜻)
+  setPfId: (pfId) => set({ pfId }),
+  setThumbnailFileName: (thumbnailFileName) => set({ thumbnailFileName }),
+  setPDFFileName: (PDFFileName) => set({ PDFFileName }),
 }));
-
-// 파일타입별로 분류
-// export const usePortfolioStore = create((set) => ({
-//   portfolioFileSrc: {
-//     thumbnail: "", // 초기값 설정
-//     PDF: "", // 초기값 설정
-//     link: "", // 초기값 설정
-//   },
-
-//   setUserportfolioFileSrc: (fileType, portfolioFileSrc) =>
-//     set((state) => ({
-//       portfolioFileSrc: {
-//         ...state.portfolioFileSrc,
-//         [fileType]: portfolioFileSrc, // 해당 fileType의 URL을 업데이트
-//       },
-//     })),
-// }));
