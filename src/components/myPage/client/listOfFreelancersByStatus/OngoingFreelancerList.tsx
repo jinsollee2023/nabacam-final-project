@@ -28,7 +28,7 @@ const OngoingFreelancerList = () => {
     <>
       <S.listContainer>
         {ongoingProjectsWithFreelancers.map((project) => (
-          <S.ListsBox key={project.projectId}>
+          <S.ListsBox key={`${project.projectId}-${project.freelancer.userId}`}>
             <S.Profile>
               <S.ProfileContent>
                 {project.freelancer instanceof Promise ? (
@@ -62,7 +62,8 @@ const OngoingFreelancerList = () => {
                     <S.OngoingProject>진행중인 프로젝트</S.OngoingProject>
                     <S.ProjectTitle>{project.title}</S.ProjectTitle>
                     <S.ProjectDate>
-                      {dayjs(project.date.startDate).format("YYMMDD")} 부터{" "}
+                      {dayjs(project.date.startDate).format("YYMMDD")}{" "}
+                      <S.DateInnerText>부터</S.DateInnerText>{" "}
                       {dayjs(project.date.endDate).format("YYMMDD")}
                     </S.ProjectDate>
                     <S.DetailBtn

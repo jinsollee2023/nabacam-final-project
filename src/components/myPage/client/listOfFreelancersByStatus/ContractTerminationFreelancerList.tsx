@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useClientsQueries from "src/hooks/useClientsQueries";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { useUserStore } from "src/zustand/useUserStore";
@@ -8,12 +8,17 @@ import { MdEmail } from "react-icons/md";
 import { LuArrowUpDown } from "react-icons/lu";
 import Modal from "src/components/modal/Modal";
 import ContractTerminationInfoModal from "./ContractTerminationInfoModal";
-import { IUser } from "src/Types";
+import { IProjectWithFreelancer, IUser } from "src/Types";
 import dayjs from "dayjs";
 import OneTouchModal from "src/components/home/freelancerMarket/freelancerList/oneTouchModal/OneTouchModal";
 import { useProjectStore } from "src/zustand/useProjectStore";
+import SearchItemBar from "src/components/common/searchItemBar/SearchItemBar";
+import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
+import WorkFieldCategory from "src/components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";
 
 const ContractTerminationFreelancerList = () => {
+  const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
+
   const { userId } = useUserStore();
   const { client } = useClientsQueries(userId);
   const { selectedProject, setSelectedProject } = useProjectStore();
@@ -26,6 +31,31 @@ const ContractTerminationFreelancerList = () => {
   const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
   const [isLastFirst, setIsLastFirst] = useState(true);
+  const [selectedWorkField, setSelectedWorkField] = useState("전체보기");
+  const [filteredFreelancers, setFilteredFreelancers] = useState<IProjectWithFreelancer[]>(
+    terminationedProjectsWithFreelancers!
+  );
+
+  useEffect(() => {
+    changeSearchKeyword("");
+  }, []);
+
+  useEffect(() => {
+    if (terminationedProjectsWithFreelancers) {
+      const filteredfreelancerLists = terminationedProjectsWithFreelancers?.filter((project) => {
+        const lowerCaseSearch = String(searchKeyword).toLowerCase();
+        const workExp = String(project.freelancer.workExp);
+        return (
+          project.freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
+          project.freelancer?.workField?.workField?.toLowerCase().includes(lowerCaseSearch) ||
+          project.freelancer?.workField?.workSmallField?.toLowerCase().includes(lowerCaseSearch) ||
+          project.title.toLowerCase().includes(lowerCaseSearch) ||
+          workExp === searchKeyword
+        );
+      });
+      setFilteredFreelancers(filteredfreelancerLists);
+    }
+  }, [terminationedProjectsWithFreelancers, searchKeyword]);
 
   // console.log("현재 로그인된 클라이언트 정보", client);
   // console.log(
@@ -33,7 +63,7 @@ const ContractTerminationFreelancerList = () => {
   //   terminationedProjectsWithFreelancers
   // );
 
-  if (!terminationedProjectsWithFreelancers) {
+  if (!filteredFreelancers) {
     return <div>계약이 끝난 프로젝트가 없습니다.</div>;
   }
 
@@ -48,20 +78,30 @@ const ContractTerminationFreelancerList = () => {
 
   return (
     <>
-      <S.FilterBtn onClick={handleSortToggle}>
-        {isLastFirst ? "최신순" : "오래된 순"}
-        <LuArrowUpDown />
-      </S.FilterBtn>
+      <S.SearchBox>
+        <SearchItemBar />
+      </S.SearchBox>
+      <S.SelectBox>
+        <S.FilterBtn onClick={handleSortToggle}>
+          {isLastFirst ? "최신순" : "오래된 순"}
+          <LuArrowUpDown />
+        </S.FilterBtn>
+        <WorkFieldCategory onSelectWorkField={setSelectedWorkField} />
+      </S.SelectBox>
       <S.listContainer>
-        {terminationedProjectsWithFreelancers
-          .slice()
+        {filteredFreelancers
           .sort((a, b) =>
             isLastFirst
               ? new Date(b.date.endDate).getTime() - new Date(a.date.endDate).getTime()
               : new Date(a.date.endDate).getTime() - new Date(b.date.endDate).getTime()
           )
+          .filter(
+            (project) =>
+              selectedWorkField === "전체보기" ||
+              project.freelancer.workField?.workField === selectedWorkField
+          )
           .map((project) => (
-            <S.ListsBox key={project.projectId}>
+            <S.ListsBox key={`${project.freelancer.userId}-${project.projectId}`}>
               <S.Profile>
                 <S.ProfileContent>
                   {project.freelancer instanceof Promise ? (
@@ -97,7 +137,8 @@ const ContractTerminationFreelancerList = () => {
                           <S.OngoingProject>진행했던 프로젝트</S.OngoingProject>
                           <S.ProjectTitle>{project.title}</S.ProjectTitle>
                           <S.ProjectDate>
-                            {dayjs(project.date.startDate).format("YYMMDD")} 부터{" "}
+                            {dayjs(project.date.startDate).format("YYMMDD")}{" "}
+                            <S.DateInnerText>부터</S.DateInnerText>{" "}
                             {dayjs(project.date.endDate).format("YYMMDD")}
                           </S.ProjectDate>
 
@@ -135,16 +176,7 @@ const ContractTerminationFreelancerList = () => {
                               setIsModalOpen={setIsSuggestingAgainModalOpen}
                               buttons={
                                 <>
-                                  <S.DetailBtn
-                                    onClick={handleSuggestingAgainBtnClick}
-                                    disabled={
-                                      !selectedProject?.title ||
-                                      !(
-                                        projectDataForSuggestions &&
-                                        projectDataForSuggestions.length > 0
-                                      )
-                                    }
-                                  >
+                                  <S.DetailBtn onClick={handleSuggestingAgainBtnClick}>
                                     {selectedProject?.title} 제안하기
                                   </S.DetailBtn>
                                 </>

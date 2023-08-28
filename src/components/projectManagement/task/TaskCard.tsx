@@ -10,9 +10,10 @@ import TaskMonth from "./TaskMonth";
 
 interface TaskCardProps {
   task: Task;
+  userRole: string;
 }
 
-const TaskCard = ({ task }: TaskCardProps) => {
+const TaskCard = ({ task, userRole }: TaskCardProps) => {
   const { deleteTaskMutation } = useTasksQueries(task.projectId);
 
   const deleteTaskButtonHandler = () => {
@@ -21,15 +22,17 @@ const TaskCard = ({ task }: TaskCardProps) => {
 
   return (
     <S.TaskCardBox>
-      <TaskMonth task={task as Task} />
-      <TaskTitle task={task as Task} />
-      <TaskStatus task={task as Task} />
-      <TaskDeadLine task={task as Task} />
-      <TaskImportance task={task as Task} />
+      <TaskMonth task={task as Task} userRole={userRole} />
+      <TaskTitle task={task as Task} userRole={userRole} />
+      <TaskStatus task={task as Task} userRole={userRole} />
+      <TaskDeadLine task={task as Task} userRole={userRole} />
+      <TaskImportance task={task as Task} userRole={userRole} />
       <div>
-        <S.TaskDeleteButton onClick={deleteTaskButtonHandler}>
-          <BsTrash3Fill />
-        </S.TaskDeleteButton>
+        {userRole === " freelancer" ? (
+          <S.TaskDeleteButton onClick={deleteTaskButtonHandler}>
+            <BsTrash3Fill />
+          </S.TaskDeleteButton>
+        ) : null}
       </div>
     </S.TaskCardBox>
   );

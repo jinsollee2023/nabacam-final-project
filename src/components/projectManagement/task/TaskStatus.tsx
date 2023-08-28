@@ -5,13 +5,14 @@ import useTasksQueries from "../../../hooks/useTasksQueries";
 
 interface TaskStatusProps {
   task: Task;
+  userRole: string;
 }
 
-const TaskStatus = ({ task }: TaskStatusProps) => {
+const TaskStatus = ({ task, userRole }: TaskStatusProps) => {
   const [statusOptionOn, setStatusOptionOn] = useState(false);
 
   const statusDivOnClickHandler = () => {
-    setStatusOptionOn(!statusOptionOn);
+    if (userRole === "freelancer") setStatusOptionOn(!statusOptionOn);
   };
 
   const { updateTaskStatusMutation } = useTasksQueries(task.projectId);

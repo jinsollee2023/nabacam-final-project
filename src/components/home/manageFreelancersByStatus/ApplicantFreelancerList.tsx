@@ -58,7 +58,7 @@ const ApplicantFreelancerList = () => {
         ) : (
           applicantFreelancers?.map((project) =>
             project.volunteerUser?.map((freelancer) => (
-              <S.List key={freelancer.userId}>
+              <S.List key={`${freelancer.userId}-${project.projectId}`}>
                 <S.ListContents>
                   <S.ImgBox>
                     <S.Img alt="profileImg" src={freelancer.photoURL}></S.Img>
