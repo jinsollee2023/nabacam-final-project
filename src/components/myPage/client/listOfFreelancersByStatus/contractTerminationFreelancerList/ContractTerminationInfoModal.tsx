@@ -1,5 +1,5 @@
 import React from "react";
-import OngoingFreelancerInfoModal from "./OngoingFreelancerInfoModal";
+import OngoingFreelancerInfoModal from "../ongoingFreelancerList/OngoingFreelancerInfoModal";
 import { Project, User } from "src/Types";
 
 interface ContractTerminationInfoModalProps {

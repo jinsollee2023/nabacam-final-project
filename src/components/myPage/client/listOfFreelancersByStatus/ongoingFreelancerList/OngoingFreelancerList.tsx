@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useClientsQueries from "src/hooks/useClientsQueries";
 import { useUserStore } from "src/zustand/useUserStore";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { S } from "./listOfFreelancersByStatusStyle";
+import { S } from "../listOfFreelancersByStatusStyle";
 import { BsTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { IUser } from "src/Types";
