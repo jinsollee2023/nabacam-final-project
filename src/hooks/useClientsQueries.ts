@@ -1,25 +1,65 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "src/App";
-import { getClientByProject, getClients, updateUser } from "src/api/User";
+import { User } from "src/Types";
+import {
+  getClientByProject,
+  getFreelancersBySort,
+  updateUser,
+} from "src/api/User";
 
-const useClientsQueries = (clientId: string) => {
+interface useClientsQueriesProps {
+  userId: string;
+}
+
+const useClientsQueries = ({ userId }: useClientsQueriesProps) => {
   const { data: client } = useQuery(
-    ["clients", clientId],
+    ["clients", userId],
     async () => {
-      const clientData = await getClientByProject(clientId);
+      const clientData = await getClientByProject(userId);
       return clientData;
     },
     {
-      enabled: !!clientId,
+      enabled: !!userId,
     }
   );
 
   const clientMembersMutation = useMutation(
-    ({ updatedData, userId }: { updatedData: object; userId: string }) =>
-      updateUser({ updatedData, userId }),
+    ({
+      updatedData,
+      userId,
+      setUser,
+    }: {
+      updatedData: object;
+      userId: string;
+      setUser: (user: User) => void;
+    }) => updateUser({ updatedData, userId, setUser }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["clients", clientId]);
+        queryClient.invalidateQueries(["clients", userId]);
+      },
+    }
+  );
+
+  const updateUserMutation = useMutation(
+    ({
+      photoURL,
+      setUser,
+      userId,
+    }: {
+      photoURL: string;
+      setUser: (user: User) => void;
+      userId: string;
+    }) =>
+      updateUser({
+        userId,
+        updatedData: {
+          photoURL: `${photoURL}?updated=${new Date().getTime()}`,
+        },
+        setUser,
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["user"]);
       },
     }
   );
@@ -27,6 +67,7 @@ const useClientsQueries = (clientId: string) => {
   return {
     client,
     clientMembersMutation,
+    updateUserMutation,
   };
 };
 

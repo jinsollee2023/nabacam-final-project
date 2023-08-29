@@ -30,7 +30,7 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen, user }) => {
   const updatedPhoneInput = useInput(previousData?.contact?.phone);
   const updatedProjectIdInput = useInput(previousData?.contact?.projectId);
 
-  const { userId } = useUserStore();
+  const { userId, setUser } = useUserStore();
 
   // UPDATE
   const queryClient = useQueryClient();
@@ -60,7 +60,7 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen, user }) => {
     };
 
     // 업데이트
-    updateMutation.mutate({ updatedData, userId });
+    updateMutation.mutate({ updatedData, userId, setUser });
 
     // 입력창 비우고 모달 닫기
     updatedNameInput.reset();
