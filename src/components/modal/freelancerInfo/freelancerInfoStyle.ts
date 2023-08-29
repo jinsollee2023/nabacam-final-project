@@ -61,6 +61,7 @@ export const S = {
     height: 100px;
     border-radius: 15px;
     overflow: hidden;
+    cursor: pointer;
     background-color: rgba(0, 0, 0, 0.1);
   `,
   PortfolioImg: styled.img`
