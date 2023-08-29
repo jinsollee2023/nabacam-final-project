@@ -8,6 +8,10 @@ import {
   updateExperience,
 } from "src/api/ResumeExperience";
 
+/**
+ *
+ * 쿼리키에는 userId (o), experienceId (x)
+ */
 const useResumeExperienceQueries = ({
   userId,
   experienceId,
@@ -17,19 +21,15 @@ const useResumeExperienceQueries = ({
 }) => {
   const addExperienceMutation = useMutation(addExperience, {
     onSuccess: () => {
-      queryClient.invalidateQueries([
-        "resumeExperienceArray",
-        userId,
-        experienceId,
-      ]); // queryClient.invalidateQueries를 호출할 때 사용하는 키
+      queryClient.invalidateQueries(["resumeExperienceArray", userId]);
     },
   });
 
   const { status, data: resumeExperienceArray } = useQuery(
-    ["resumeExperienceArray", userId], // useQuery 키
+    ["resumeExperienceArray", userId, experienceId],
     () => getExperience(userId),
     {
-      enabled: !!userId || !!experienceId,
+      enabled: !!userId,
     }
   );
 
@@ -38,11 +38,7 @@ const useResumeExperienceQueries = ({
       deleteExperience({ experienceId, userId }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([
-          "resumeExperienceArray",
-          userId,
-          experienceId,
-        ]);
+        queryClient.invalidateQueries(["resumeExperienceArray", userId]);
       },
     }
   );
@@ -68,11 +64,7 @@ const useResumeExperienceQueries = ({
     }) => updateExperience({ userId, experienceId, newExperience }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([
-          "resumeExperienceArray",
-          userId,
-          experienceId,
-        ]);
+        queryClient.invalidateQueries(["resumeExperienceArray", userId]);
       },
     }
   );

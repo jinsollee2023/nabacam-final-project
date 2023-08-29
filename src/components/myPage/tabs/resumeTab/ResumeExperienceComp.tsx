@@ -16,10 +16,12 @@ const ResumeExperienceComp = () => {
   const [resumeExperienceArr, setResumeExperienceArr] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
+  console.log("resumeExperienceArray", resumeExperienceArray);
+
   // 저장
   useEffect(() => {
     if (resumeExperienceArray) setResumeExperienceArr(resumeExperienceArray);
-  }, [resumeExperienceArr]);
+  }, [resumeExperienceArray]);
 
   // add
   const addExperienceHandler = async (
@@ -33,6 +35,8 @@ const ResumeExperienceComp = () => {
     });
     setIsAddModalOpen(false);
   };
+
+  console.log("resumeExperienceArr", resumeExperienceArr);
 
   return (
     <>
