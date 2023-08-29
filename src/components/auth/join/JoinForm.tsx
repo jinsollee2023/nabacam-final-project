@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Select } from "antd";
 import ImagePreview from "./ProfileImg";
 import { uploadUserImage } from "src/api/User";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "src/zustand/useUserStore";
 import { clientSignupHandler } from "src/api/auth";
+import Validation from "./Validation";
 
 interface JoinFormProps {
   // freelancerOpen: boolean;
@@ -26,6 +27,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const [photoFile, setPhotoFile] = useState<File>();
   const [values, setValues] = useState(initialValues);
   const [openClientJoin, setOpenClientJoin] = useState(true);
+  const [errors, setErrors] = useState<any>({});
   const [workSelect, setWorkSelect] = useState("");
   const { setUser } = useUserStore(); // 추가
 
@@ -37,6 +39,8 @@ const JoinForm = ({ role }: JoinFormProps) => {
 
   const signUP = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrors(Validation(values));
+
     await clientSignupHandler(
       values,
       photoFile,
@@ -44,7 +48,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
       role,
       workSelect,
       setUser,
-      setOpenClientJoin,
+      // setOpenClientJoin
       navigate
     );
   };
@@ -52,6 +56,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
     setValues({ ...values, [name]: value });
   };
 
@@ -81,8 +86,8 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 value={values.email}
                 onChange={handleChange}
               />
-            </div>
-            <div>
+              {errors.email && <p>{errors.email}</p>}
+
               <input
                 type="password"
                 name="password"
@@ -90,13 +95,16 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 value={values.password}
                 onChange={handleChange}
               />
+              {errors.password && <p>{errors.password}</p>}
 
               <input
                 type="text"
                 name="name"
+                placeholder="이름"
                 value={values.name}
                 onChange={handleChange}
               />
+              {errors.name && <p>{errors.name}</p>}
 
               <ImagePreview handlePhotoURLOnChange={handlePhotoURLOnChange} />
 
@@ -154,6 +162,8 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 onChange={handleChange}
                 placeholder="핸드폰"
               />
+              {errors.phone && <p>{errors.phone}</p>}
+
               <button>회원가입</button>
               <button onClick={cancel}>취소</button>
             </div>

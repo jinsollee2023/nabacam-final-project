@@ -1,23 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
 import { Select } from "antd";
 
+import supabase from "src/config/supabaseClient";
+import { Project } from "src/Types";
+import { getProjects } from "src/api/Project";
+
 const ContractInfoTab = () => {
   // 프로젝트 진행중
   const [selectedSortLabel, setSelectedSortLabel] = useState("전체보기");
   const [selectedLabel, setSelectedLabel] = useState("전체 보기");
+
   const handleChange = (value: string) => {
     setSelectedLabel(value);
   };
 
   const { userId } = useUserStore();
-  const { projectsListBySort } = useProjectsQueries({
+
+  const { allProjectList } = useProjectsQueries({
     currentUserId: userId,
     sortLabel: selectedSortLabel,
   });
-  console.log("freelancerProjects===>", projectsListBySort);
+  console.log("allProjectList==>", allProjectList);
+  const freelancerProjects = allProjectList?.filter((freelancer) => {
+    return freelancer.freelancerId === userId;
+  });
 
   return (
     <S.ContractInfoContainer>
@@ -34,7 +43,7 @@ const ContractInfoTab = () => {
       />
 
       <>
-        {projectsListBySort
+        {freelancerProjects
           ?.filter((Proceeding) => {
             return Proceeding.status !== "진행 전";
           })
@@ -62,7 +71,7 @@ const ContractInfoTab = () => {
           })}
       </>
       <>
-        {projectsListBySort
+        {freelancerProjects
           ?.filter((Proceeding) => {
             return Proceeding.status === "진행 중";
           })
@@ -79,7 +88,7 @@ const ContractInfoTab = () => {
           })}
       </>
       <>
-        {projectsListBySort
+        {freelancerProjects
           ?.filter((Proceeding) => {
             return Proceeding.status === "진행 완료";
           })
