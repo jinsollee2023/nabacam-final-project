@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import supabase, { supabaseService } from "src/config/supabaseClient";
 
 // 회원탈퇴
@@ -25,12 +26,17 @@ export const Resign = async (userId: any) => {
 
 // 유저 데이터 테이블 추가
 
-export const userJoinData = async (newUserData: any, setUser: any) => {
+export const userJoinData = async (
+  newUserData: any,
+  setUser: any,
+  navigate: any
+) => {
   try {
     const { data } = await supabase.from("users").insert(newUserData).select();
     if (data) {
       // 추가
       setUser(data[0]);
+      navigate("/");
     }
   } catch (error) {
     console.log(error);
@@ -53,7 +59,7 @@ export const clientSignupHandler = async (
   role: string,
   workSelect: string,
   setUser: any,
-  setOpenClientJoin: any,
+  // setOpenClientJoin: any
   navigate: any
 ) => {
   try {
@@ -81,11 +87,11 @@ export const clientSignupHandler = async (
       workExp: values.workExp,
       contact: { email: user?.email, phone: values.phone },
     };
-    await userJoinData(newUserData, setUser);
+    await userJoinData(newUserData, setUser, navigate);
 
-    setOpenClientJoin(false);
+    // setOpenClientJoin(false);
 
-    navigate("/");
+    // navigate("/");
   } catch (error) {
     console.error(error);
   }
