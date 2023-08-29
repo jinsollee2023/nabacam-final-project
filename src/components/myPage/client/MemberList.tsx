@@ -6,8 +6,8 @@ import AddMemberModal from "./AddMemberModal";
 import { Member } from "src/Types";
 
 const MemberList = () => {
-  const { userId } = useUserStore();
-  const { client, clientMembersMutation } = useClientsQueries(userId);
+  const { userId, setUser } = useUserStore();
+  const { client, clientMembersMutation } = useClientsQueries({ userId });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [updateMemberData, setUpdateMemberData] = useState<Member>();
   const [currentMemberData, setCurrentMemberData] = useState<Member>();
@@ -27,6 +27,7 @@ const MemberList = () => {
     clientMembersMutation.mutate({
       updatedData: { members: addedMembers },
       userId,
+      setUser,
     });
     setIsAddModalOpen(false);
   };
@@ -53,6 +54,7 @@ const MemberList = () => {
     clientMembersMutation.mutate({
       updatedData: { members: updateMembers },
       userId,
+      setUser,
     });
     setIsAddModalOpen(false);
   };
@@ -65,6 +67,7 @@ const MemberList = () => {
     clientMembersMutation.mutate({
       updatedData: { members: deletedMember },
       userId,
+      setUser,
     });
     setIsAddModalOpen(false);
   };

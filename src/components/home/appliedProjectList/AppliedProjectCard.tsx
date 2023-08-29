@@ -13,7 +13,7 @@ const AppliedProjectCard = ({
   projectItem,
   userId,
 }: AppliedProjectCardProps) => {
-  const { client } = useClientsQueries(projectItem.clientId);
+  const { client } = useClientsQueries({ userId: projectItem.clientId });
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
   });

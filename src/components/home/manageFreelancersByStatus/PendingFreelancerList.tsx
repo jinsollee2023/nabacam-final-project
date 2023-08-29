@@ -9,10 +9,12 @@ import useProjectsQueries from "src/hooks/useProjectsQueries";
 
 const PendingFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
 
   const { userId } = useUserStore();
-  const { client } = useClientsQueries(userId);
+  const { client } = useClientsQueries({ userId });
   const {
     pendingFreelancers,
     updateFreelancerApprovalMutation,
@@ -22,7 +24,11 @@ const PendingFreelancerList = () => {
     currentUserId: userId,
   });
 
-  const updateFreelancer = (userId: string, projectId: string, endDate: string) => {
+  const updateFreelancer = (
+    userId: string,
+    projectId: string,
+    endDate: string
+  ) => {
     updateFreelancerApprovalMutation.mutate({ userId, projectId, endDate });
     deleteVolunteerAndPendingFreelancerMutation.mutate(projectId);
     alert("승인이 완료되었습니다.");
@@ -60,15 +66,22 @@ const PendingFreelancerList = () => {
             project.pendingFreelancerUser?.map((freelancer) => (
               <S.List key={`${project.projectId}-${freelancer.userId}`}>
                 <S.ListContents>
-                  <S.ImgBox>
-                    <S.Img alt="profileImg" src={freelancer.photoURL}></S.Img>
-                  </S.ImgBox>
                   <S.FreelancerName>{freelancer.name}</S.FreelancerName>
-                  <S.ListProjectTitle key={project.projectId}>
-                    <S.ProjectTitle>"{project.title}" 프로젝트에 지원</S.ProjectTitle>
-                  </S.ListProjectTitle>
+                  <span>{freelancer.workField?.workField}</span>
+                  <S.WorkFieldAndWorkExp>
+                    {freelancer.workField?.workSmallField}
+                  </S.WorkFieldAndWorkExp>
+                  <S.WorkFieldAndWorkExp>
+                    {freelancer.workExp}년차
+                  </S.WorkFieldAndWorkExp>
                 </S.ListContents>
-                <div>
+                <S.ProjectContents>
+                  <div key={project.projectId}>
+                    <S.ProjectTitle>
+                      {project.title} 프로젝트에 지원
+                    </S.ProjectTitle>
+                  </div>
+
                   <S.CheckingBtn
                     onClick={() => {
                       setSelectedFreelancer(freelancer);
@@ -84,7 +97,7 @@ const PendingFreelancerList = () => {
                         setIsModalOpen={setIsModalOpen}
                         buttons={
                           <>
-                            <S.Btn
+                            <S.ContractBtn
                               onClick={() =>
                                 updateFreelancer(
                                   freelancer.userId,
@@ -94,8 +107,8 @@ const PendingFreelancerList = () => {
                               }
                             >
                               계약하기
-                            </S.Btn>
-                            <S.Btn
+                            </S.ContractBtn>
+                            <S.PendingBtn
                               onClick={() =>
                                 deletePendingFreelancer(
                                   project.projectId || "",
@@ -104,15 +117,18 @@ const PendingFreelancerList = () => {
                                 )
                               }
                             >
-                              거절하기
-                            </S.Btn>
+                              삭제하기
+                            </S.PendingBtn>
                           </>
                         }
                       >
-                        <PendingFreelancerInfoModal user={freelancer} project={project} />
+                        <PendingFreelancerInfoModal
+                          user={freelancer}
+                          project={project}
+                        />
                       </Modal>
                     )}
-                </div>
+                </S.ProjectContents>
               </S.List>
             ))
           )

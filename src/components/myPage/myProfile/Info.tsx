@@ -8,16 +8,16 @@ import { getFreelancer } from "src/api/User";
 const Info = () => {
   // 상태관리
   const [open, setOpen] = useState<boolean>(false);
-  const { userId } = useUserStore();
+  const { userId, user } = useUserStore();
 
   // GET
-  const { data: user } = useQuery(
-    ["users", userId],
-    () => getFreelancer(userId),
-    {
-      enabled: !!userId,
-    }
-  );
+  // const { data: user } = useQuery(
+  //   ["users", userId],
+  //   () => getFreelancer(userId),
+  //   {
+  //     enabled: !!userId,
+  //   }
+  // );
 
   return (
     <>

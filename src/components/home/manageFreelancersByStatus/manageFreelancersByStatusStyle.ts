@@ -7,7 +7,7 @@ export const S = {
   `,
   ListContainer: styled.div`
     overflow: auto;
-    height: 47rem;
+    height: 45rem;
   `,
   List: styled.div`
     margin-top: 30px;
@@ -17,6 +17,8 @@ export const S = {
     margin-bottom: 25px;
     border-radius: 10px;
     align-items: center;
+    justify-content: space-between;
+    padding: 20px;
   `,
   ListContents: styled.div`
     width: 100%;
@@ -25,46 +27,41 @@ export const S = {
     align-items: center;
     text-align: center;
   `,
-  ImgBox: styled.div`
-    width: 40px;
-    height: 40px;
-    border-radius: 20%;
-    overflow: hidden;
-    margin: 8px;
-    background-color: rgba(0, 0, 0, 0.1);
-  `,
-  Img: styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  `,
   FreelancerName: styled.span`
-    width: 80px;
-    text-align: left;
+    font-size: 20px;
   `,
-  ListProjectTitle: styled.div`
-    width: 80%;
+  WorkFieldAndWorkExp: styled.span`
+    color: gray;
+  `,
+  ProjectContents: styled.div`
+    display: flex;
+    gap: 10px;
+    align-items: center;
   `,
   ProjectTitle: styled.span`
-    color: gray;
-    float: right;
-    /* text-align: right; */
+    white-space: nowrap;
   `,
   CheckingBtn: styled.button`
-    width: 100px;
+    width: 130px;
     height: 30px;
     border: none;
     border-radius: 10px;
-    background-color: #1fc17d;
+    background-color: #0086d0;
     color: white;
-
-    /* position: absolute;
-    right: 0; */
-    float: right;
-    margin-right: 10px;
     cursor: pointer;
   `,
-  Btn: styled.button`
+  ContractBtn: styled.button`
+    width: 50%;
+    height: 35px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 8px;
+    cursor: pointer;
+    background-color: #0086d0;
+    color: white;
+  `,
+  PendingBtn: styled.button`
     width: 50%;
     height: 35px;
     font-size: 16px;

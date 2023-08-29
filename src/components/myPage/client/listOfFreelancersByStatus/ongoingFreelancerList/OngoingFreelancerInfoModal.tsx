@@ -4,7 +4,7 @@ import { BsTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import FreelancerPortfolio from "src/components/modal/freelancerInfo/FreelancerPortfolio";
 import FreelancerResume from "src/components/modal/freelancerInfo/FreelancerResume";
-import { S } from "./freelancerInfoModalByStatusStyle";
+import { S } from "../freelancerInfoModalByStatusStyle";
 import dayjs from "dayjs";
 
 interface OngoingFreelancerInfoModalProps {
