@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Modal } from "antd";
 import React from "react";
+import { User } from "src/Types";
 import { updateUser } from "src/api/User";
 import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
@@ -8,15 +9,7 @@ import { useUserStore } from "src/zustand/useUserStore";
 interface EditFormProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  user:
-    | {
-        name: any;
-        contact: any;
-        workField: any;
-        projectId: any;
-      }
-    | null
-    | undefined;
+  user: User | null | undefined;
 }
 const EditForm: React.FC<EditFormProps> = ({ open, setOpen, user }) => {
   // 상태관리
@@ -28,7 +21,7 @@ const EditForm: React.FC<EditFormProps> = ({ open, setOpen, user }) => {
   );
   const updatedEmailInput = useInput(previousData?.contact?.email);
   const updatedPhoneInput = useInput(previousData?.contact?.phone);
-  const updatedProjectIdInput = useInput(previousData?.contact?.projectId);
+  const updatedProjectIdInput = useInput(previousData?.projectId);
 
   const { userId, setUser } = useUserStore();
 

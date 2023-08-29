@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { useUserStore } from "src/zustand/useUserStore";
-import { getPhotoURL, updateUserImage, uploadUserImage } from "src/api/User";
+import {
+  getPhotoURL,
+  updateUser,
+  updateUserImage,
+  uploadUserImage,
+} from "src/api/User";
 
 import useClientsQueries from "src/hooks/useClientsQueries";
 import { queryClient } from "src/App";
+import { User } from "src/Types";
+import { useMutation } from "@tanstack/react-query";
 
 const Image = () => {
   // 상태관리

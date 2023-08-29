@@ -67,8 +67,7 @@ export const getClientByProject = async (id: string): Promise<User> => {
       .select("*")
       .eq("role", "client")
       .eq("userId", id)
-      .match({ userId: id })
-      .single();
+      .maybeSingle();
 
     if (error) {
       alert(

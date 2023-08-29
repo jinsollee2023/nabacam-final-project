@@ -7,7 +7,7 @@ import OngoingFreelancerCards from "./OngoingFreelancerCards";
 
 const OngoingFreelancerList = () => {
   const { userId } = useUserStore();
-  const { client } = useClientsQueries(userId);
+  const { client } = useClientsQueries({ userId });
   const { ongoingProjectsWithFreelancers } = useProjectsQueries({
     currentUserId: userId,
   });
