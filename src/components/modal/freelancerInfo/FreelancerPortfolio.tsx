@@ -1,35 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import { IUser } from "../../../Types";
 import { useQuery } from "@tanstack/react-query";
 import { getPortfolio } from "../../../api/Portfolio";
 import { S } from "./freelancerInfoStyle";
+import PortfolioDetailModal from "src/components/myPage/tabs/portfolioTab/PortfolioDetailModal";
+import { useUserStore } from "src/zustand/useUserStore";
 
 interface FreelancerPortfolioProps {
   user: IUser;
 }
 
 const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
+  const { userId } = useUserStore();
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedPortfolio, setSelectedPortfolio] = useState<any>(null);
+
   const {
-    data: portfolio,
-    isLoading: portfolioIsLoading,
-    isError: portfolioIsError,
+    data: portfolios,
+    isLoading: portfoliosIsLoading,
+    isError: portfoliosIsError,
   } = useQuery(["portfolio"], (id) => getPortfolio(user.userId));
+
   return (
     <>
       <S.ResumeContent>포트폴리오</S.ResumeContent>
       <S.PortfolioBox>
-        {portfolio && portfolio.length > 0 ? (
-          portfolio.map((data) => (
-            <div key={data.portfolioId}>
-              <S.ImgBox>
-                <S.PortfolioImg alt="portfolioImage" src={data.thumbNailURL}></S.PortfolioImg>
+        {portfolios && portfolios.length > 0 ? (
+          portfolios.map((portfolio) => (
+            <div key={portfolio.portfolioId}>
+              <S.ImgBox
+                onClick={() => {
+                  setSelectedPortfolio(portfolio);
+                  setIsDetailModalOpen(true);
+                }}
+              >
+                <S.PortfolioImg alt="portfolioImage" src={portfolio.thumbNailURL} />
+
+                {isDetailModalOpen && (
+                  <PortfolioDetailModal
+                    setIsDetailModalOpen={setIsDetailModalOpen}
+                    portfolioData={selectedPortfolio}
+                    userId={userId}
+                  />
+                )}
               </S.ImgBox>
-              <S.PortfolioCmt>{data.title}</S.PortfolioCmt>
+              <S.PortfolioCmt>{portfolio.title}</S.PortfolioCmt>
             </div>
           ))
-        ) : portfolioIsLoading ? (
+        ) : portfoliosIsLoading ? (
           <S.DataNullBox>Loading Portfolio...</S.DataNullBox>
-        ) : portfolioIsError ? (
+        ) : portfoliosIsError ? (
           <S.DataNullBox>포트폴리오 데이터를 불러오지 못했습니다.</S.DataNullBox>
         ) : (
           <S.DataNullBox>등록된 포트폴리오가 없습니다.</S.DataNullBox>
