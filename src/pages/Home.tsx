@@ -3,6 +3,7 @@ import MenuTabBarComp from "../components/common/MenuTabBarComp";
 
 const Home = () => {
   const { user } = useUserStore();
+  console.log(user);
   const freelancerOfferMenu = [
     "프리랜서 마켓",
     "지원한 프리랜서 확인",

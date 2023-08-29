@@ -104,7 +104,7 @@ const TaskList = () => {
       ) : projects && projects.length > 0 ? (
         <div>진행중인 업무가 없습니다.</div>
       ) : (
-        <div>등록된 프로젝트가 없습니다.</div>
+        <div>진행중인 프로젝트가 없습니다.</div>
       )}
     </>
   );
