@@ -7,15 +7,28 @@ import { v4 as uuidv4 } from "uuid";
 import type { ResumeExperience } from "src/Types";
 import { useResumeExperienceStore } from "src/zustand/useResumeExperienceStore";
 
-const AddResumeExperienceModal = () => {
-  const [pastWorkPlace, setPastWorkPlace] = useState("");
-  const [pastWorkPosition, setPastWorkPosition] = useState("");
-  const [pastWorkStartDate, setPastWorkStartDate] = useState(new Date());
-  const [pastWorkEndDate, setPastWorkEndDate] = useState(new Date());
-  const [selectedPastWorkField, setSelectedPastWorkField] = useState("전체");
-  const [selectedPastEmploymentType, setSelectedPastEmploymentType] =
-    useState("전체");
-  const { changeNewExperience } = useResumeExperienceStore();
+const EditResumeExperienceModal = () => {
+  const { newExperience: previousExperience, changeNewExperience } =
+    useResumeExperienceStore();
+
+  const [pastWorkPlace, setPastWorkPlace] = useState(
+    previousExperience.pastWorkPlace || ""
+  );
+  const [pastWorkPosition, setPastWorkPosition] = useState(
+    previousExperience.pastWorkPosition || ""
+  );
+  const [pastWorkStartDate, setPastWorkStartDate] = useState(
+    previousExperience.pastWorkDuration.pastWorkStartDate || new Date()
+  );
+  const [pastWorkEndDate, setPastWorkEndDate] = useState(
+    previousExperience.pastWorkDuration.pastWorkEndDate || new Date()
+  );
+  const [selectedPastWorkField, setSelectedPastWorkField] = useState(
+    previousExperience.pastWorkField || "전체"
+  );
+  const [selectedPastEmploymentType, setSelectedPastEmploymentType] = useState(
+    previousExperience.pastEmploymentType || "전체"
+  );
 
   const onChangePastWorkStartDateHandler = (value: any) => {
     setPastWorkStartDate(value);
@@ -134,7 +147,7 @@ const AddResumeExperienceModal = () => {
   );
 };
 
-export default AddResumeExperienceModal;
+export default EditResumeExperienceModal;
 
 const S = {
   Input: styled.input`

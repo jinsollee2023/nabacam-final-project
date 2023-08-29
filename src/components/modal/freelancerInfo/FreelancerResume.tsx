@@ -1,11 +1,9 @@
 import React from "react";
 import { S } from "./freelancerInfoStyle";
 import { IUser } from "src/Types";
-import { User } from "src/Types";
-import type { ResumeExperience } from "src/Types";
 
 interface FreelancerResumeProps {
-  user: User;
+  user: IUser;
 }
 
 const FreelancerResume = ({ user }: FreelancerResumeProps) => {
@@ -23,38 +21,38 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
         }}
       >
         {user.resumeExperience && user.resumeExperience.length > 0 ? (
-          user.resumeExperience.map((experience: ResumeExperience, index) => (
-            <div
-              key={index}
-              style={{
-                backgroundColor: "rgba(0, 0, 0, 0.1)",
-                borderRadius: "15px",
-                minWidth: "210px",
-                minHeight: "100px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: "15px",
-                wordBreak: "break-all",
-              }}
-            >
-              <span>{experience.pastWorkPlace}</span>
-              <span>
-                {
-                  experience.pastWorkDuration.pastWorkStartDate
-                    .toISOString()
-                    .split("T")[0]
-                }
-                -
-                {
-                  experience.pastWorkDuration.pastWorkEndDate
-                    .toISOString()
-                    .split("T")[0]
-                }
-              </span>
-              <span>{experience.pastWorkPosition}</span>
-            </div>
-          ))
+          user.resumeExperience.map((experience, index) => {
+            const startDate = new Date(
+              experience.pastWorkDuration.pastWorkStartDate
+            );
+            const endDate = new Date(
+              experience.pastWorkDuration.pastWorkEndDate
+            );
+
+            return (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  borderRadius: "15px",
+                  minWidth: "210px",
+                  minHeight: "100px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "15px",
+                  wordBreak: "break-all",
+                }}
+              >
+                <span>{experience.pastWorkPlace}</span>
+                <span>
+                  {startDate.toISOString().split("T")[0]} -{" "}
+                  {endDate.toISOString().split("T")[0]}
+                </span>
+                <span>{experience.pastWorkPosition}</span>
+              </div>
+            );
+          })
         ) : (
           <S.DataNullBox>등록된 경력이 없습니다.</S.DataNullBox>
         )}

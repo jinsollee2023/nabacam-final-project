@@ -55,7 +55,6 @@ const ResumeProfileIntroComp = () => {
     <>
       <S.ProfileContainer>
         <p>프로필</p>
-        {/* ----------------------------------------------------------------- */}
         {newProfileIntroInput.length > 0 ? null : (
           <S.Btn
             onClick={() => {
@@ -65,7 +64,6 @@ const ResumeProfileIntroComp = () => {
             + 프로필 등록하기
           </S.Btn>
         )}
-        {/* --------------------------box--------------------------------------- */}
         <S.ProfileInputBox>
           <div>
             {resumeProfileIntroObject &&
@@ -81,7 +79,6 @@ const ResumeProfileIntroComp = () => {
         </S.ProfileInputBox>
       </S.ProfileContainer>
 
-      {/* ---------------------------추가모달--------------------------------- */}
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Modal from "src/components/modal/Modal";
-import AddResumeExperienceModal from "./AddResumeExperienceModal";
 import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
 import { useUserStore } from "src/zustand/useUserStore";
 import type { ResumeExperience } from "src/Types";
 import { styled } from "styled-components";
 import { useResumeExperienceStore } from "src/zustand/useResumeExperienceStore";
+import EditResumeExperienceModal from "./EditResumeExperienceModal";
 
 interface ExperienceCardProps {
   experience: ResumeExperience;
@@ -49,7 +49,7 @@ const ResumeExperienceCard: React.FC<ExperienceCardProps> = ({
             </>
           }
         >
-          <AddResumeExperienceModal />
+          <EditResumeExperienceModal />
         </Modal>
       )}
 
