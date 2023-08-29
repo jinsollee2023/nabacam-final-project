@@ -8,7 +8,9 @@ import OngoingFreelancerCards from "./OngoingFreelancerCards";
 const OngoingFreelancerList = () => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries(userId);
-  const { ongoingProjectsWithFreelancers } = useProjectsQueries({ currentUserId: userId });
+  const { ongoingProjectsWithFreelancers } = useProjectsQueries({
+    currentUserId: userId,
+  });
 
   // console.log("현재 로그인된 클라이언트 정보", client);
   // console.log("현재 로그인된 클라이언트의 진행중인 프로젝트 정보", ongoingProjectsWithFreelancers);

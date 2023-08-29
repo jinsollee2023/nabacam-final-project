@@ -60,15 +60,18 @@ const ApplicantFreelancerList = () => {
             project.volunteerUser?.map((freelancer) => (
               <S.List key={`${freelancer.userId}-${project.projectId}`}>
                 <S.ListContents>
-                  <S.ImgBox>
-                    <S.Img alt="profileImg" src={freelancer.photoURL}></S.Img>
-                  </S.ImgBox>
                   <S.FreelancerName>{freelancer.name}</S.FreelancerName>
-                  <S.ListProjectTitle key={project.projectId}>
-                    <S.ProjectTitle>"{project.title}" 프로젝트에 지원</S.ProjectTitle>
-                  </S.ListProjectTitle>
+                  <span>{freelancer.workField?.workField}</span>
+                  <S.WorkFieldAndWorkExp>
+                    {freelancer.workField?.workSmallField}
+                  </S.WorkFieldAndWorkExp>
+                  <S.WorkFieldAndWorkExp>{freelancer.workExp}년차</S.WorkFieldAndWorkExp>
                 </S.ListContents>
-                <div>
+                <S.ProjectContents>
+                  <div key={project.projectId}>
+                    <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
+                  </div>
+
                   <S.CheckingBtn
                     onClick={() => {
                       setSelectedFreelancer(freelancer);
@@ -84,7 +87,7 @@ const ApplicantFreelancerList = () => {
                         setIsModalOpen={setIsModalOpen}
                         buttons={
                           <>
-                            <S.Btn
+                            <S.ContractBtn
                               onClick={() =>
                                 updateFreelancer(
                                   freelancer.userId,
@@ -94,8 +97,8 @@ const ApplicantFreelancerList = () => {
                               }
                             >
                               계약하기
-                            </S.Btn>
-                            <S.Btn
+                            </S.ContractBtn>
+                            <S.PendingBtn
                               onClick={() =>
                                 updatePendingFreelancer(
                                   project.projectId || "",
@@ -106,14 +109,14 @@ const ApplicantFreelancerList = () => {
                               }
                             >
                               보류하기
-                            </S.Btn>
+                            </S.PendingBtn>
                           </>
                         }
                       >
                         <ApplicantFreelancerInfoModal user={freelancer} project={project} />
                       </Modal>
                     )}
-                </div>
+                </S.ProjectContents>
               </S.List>
             ))
           )

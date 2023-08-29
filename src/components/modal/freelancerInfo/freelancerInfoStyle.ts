@@ -95,4 +95,21 @@ export const S = {
     border-radius: 10px;
     cursor: pointer;
   `,
+  ExperienceWarp: styled.div`
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-flow: row wrap;
+  `,
+  ExperienceBox: styled.div`
+    border: 2px solid #0086d0;
+    border-radius: 15px;
+    min-width: 210px;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    word-break: break-all;
+  `,
 };
