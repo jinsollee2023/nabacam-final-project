@@ -1,4 +1,5 @@
 import supabase from "../config/supabaseClient";
+import type { ResumeExperience } from "src/Types";
 
 export const getExperience = async (userId: string) => {
   let { data, error } = await supabase
@@ -8,13 +9,12 @@ export const getExperience = async (userId: string) => {
   return data;
 };
 
+// 삭
 interface Userexperience {
   experienceId: string;
   pastWorkField: string;
   pastEmploymentType: string;
   pastWorkDuration: {
-    // pastWorkEndDate: string;
-    // pastWorkStartDate: string;
     pastWorkStartDate: Date;
     pastWorkEndDate: Date;
   };
@@ -22,10 +22,10 @@ interface Userexperience {
   pastWorkPosition: string;
 }
 export const addExperience = async ({
-  newData,
+  newPastExperience,
   userId,
 }: {
-  newData: Userexperience;
+  newPastExperience: ResumeExperience;
   userId: string;
 }) => {
   // 기존 데이터
@@ -41,15 +41,15 @@ export const addExperience = async ({
   // + 새로운 데이터
   const currentExperience = prevData[0].resumeExperience || [];
   currentExperience.push({
-    experienceId: newData.experienceId,
-    pastWorkField: newData.pastWorkField,
-    pastEmploymentType: newData.pastEmploymentType,
+    experienceId: newPastExperience.experienceId,
+    pastWorkField: newPastExperience.pastWorkField,
+    pastEmploymentType: newPastExperience.pastEmploymentType,
     pastWorkDuration: {
-      pastWorkEndDate: newData.pastWorkDuration.pastWorkEndDate,
-      pastWorkStartDate: newData.pastWorkDuration.pastWorkStartDate,
+      pastWorkEndDate: newPastExperience.pastWorkDuration.pastWorkEndDate,
+      pastWorkStartDate: newPastExperience.pastWorkDuration.pastWorkStartDate,
     },
-    pastWorkPlace: newData.pastWorkPlace,
-    pastWorkPosition: newData.pastWorkPosition,
+    pastWorkPlace: newPastExperience.pastWorkPlace,
+    pastWorkPosition: newPastExperience.pastWorkPosition,
   });
 
   // 업데이트 데이터 저장

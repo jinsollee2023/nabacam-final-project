@@ -1,9 +1,11 @@
 import React from "react";
 import { S } from "./freelancerInfoStyle";
 import { IUser } from "src/Types";
+import { User } from "src/Types";
+import type { ResumeExperience } from "src/Types";
 
 interface FreelancerResumeProps {
-  user: IUser;
+  user: User;
 }
 
 const FreelancerResume = ({ user }: FreelancerResumeProps) => {
@@ -21,7 +23,7 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
         }}
       >
         {user.resumeExperience && user.resumeExperience.length > 0 ? (
-          user.resumeExperience.map((experience, index) => (
+          user.resumeExperience.map((experience: ResumeExperience, index) => (
             <div
               key={index}
               style={{
@@ -38,8 +40,17 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
             >
               <span>{experience.pastWorkPlace}</span>
               <span>
-                {experience.pastWorkDuration.pastWorkStartDate} -
-                {experience.pastWorkDuration.pastWorkEndDate}
+                {
+                  experience.pastWorkDuration.pastWorkStartDate
+                    .toISOString()
+                    .split("T")[0]
+                }
+                -
+                {
+                  experience.pastWorkDuration.pastWorkEndDate
+                    .toISOString()
+                    .split("T")[0]
+                }
               </span>
               <span>{experience.pastWorkPosition}</span>
             </div>

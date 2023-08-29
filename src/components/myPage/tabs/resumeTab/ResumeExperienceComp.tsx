@@ -1,28 +1,15 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Modal, Select, SelectProps, Space } from "antd";
 import React, { useEffect, useState } from "react";
-import useInput from "src/hooks/useInput";
 import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
 import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
-import { v4 as uuidv4 } from "uuid";
-import ResumeExperienceAddForm from "./ResumeExperienceAddForm";
+import AddResumeExperienceModal from "./AddResumeExperienceModal";
 import ResumeExperienceEditForm from "./ResumeExperienceEditForm";
+import Modal from "src/components/modal/Modal";
+import type { ResumeExperience } from "src/Types";
+import { useResumeExperienceStore } from "src/zustand/useResumeExperienceStore";
 
-export interface Experience {
-  experienceId: string;
-  pastWorkField: string;
-  pastEmploymentType: string;
-  pastWorkPlace: string;
-  pastWorkPosition: string;
-  pastWorkDuration: {
-    pastWorkStartDate: string;
-    pastWorkEndDate: string;
-  };
-}
-
-const ResumeExperience = () => {
-  const [open, setOpen] = useState<boolean>(false);
+const ResumeExperienceComp = () => {
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [editOpen, setEditOpen] = useState<boolean>(false);
   const [userExperienceId, setUserExperienceId] = useState("");
   const [writtenPastWorkPlace, setWrittenPastWorkPlace] = useState("");
@@ -34,20 +21,17 @@ const ResumeExperience = () => {
     useState("");
 
   const { userId } = useUserStore();
-  const { deleteExperienceMutation, experienceData } =
+  const { addExperienceMutation, deleteExperienceMutation, experienceData } =
     useResumeExperienceQueries(userId);
-  const [userExperienceData, setUserExperienceData] = useState<Experience[]>(
-    []
-  );
+  const { newPastExperience } = useResumeExperienceStore();
+  const [userExperienceData, setUserExperienceData] = useState<
+    ResumeExperience[]
+  >([]);
 
   useEffect(() => {
     if (experienceData)
       setUserExperienceData(experienceData[0].resumeExperience);
   }, [userExperienceData]);
-
-  const handleChange = (value: string) => {
-    // console.log(`selected ${value}`);
-  };
 
   // delete
   const deleteExperienceHandler = async ({
@@ -90,6 +74,19 @@ const ResumeExperience = () => {
     setWrittenPastEmploymentType(pastEmploymentType);
   };
 
+  // add
+
+  const addExperienceHandler = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+
+    addExperienceMutation.mutate({
+      newPastExperience,
+      userId,
+    });
+  };
+
   return (
     <>
       <S.WorkExperienceContainer>
@@ -97,17 +94,22 @@ const ResumeExperience = () => {
         <S.WorkExperienceListWrapper>
           {experienceData &&
             experienceData[0]?.resumeExperience?.map(
-              (item: Experience, index: number) => (
+              (item: ResumeExperience, index: number) => (
                 <S.WorkExperienceList key={index}>
                   <h1>{item.pastWorkField}</h1>
                   <div>
                     {item.pastWorkPlace}/{item.pastEmploymentType}/
                     {item.pastWorkPosition}
                   </div>
-                  <div>
-                    {item.pastWorkDuration.pastWorkStartDate}~
-                    {item.pastWorkDuration.pastWorkEndDate}
-                  </div>
+                  {/* <div>
+                    {item.pastWorkDuration.pastWorkStartDate
+                      .toLocaleDateString()
+                      .split("T")}
+                    ~
+                    {item.pastWorkDuration.pastWorkEndDate
+                      .toLocaleDateString()
+                      .split("T")}
+                  </div> */}
                   <button
                     onClick={() =>
                       deleteExperienceHandler({
@@ -128,8 +130,9 @@ const ResumeExperience = () => {
                         pastWorkPlace: item.pastWorkPlace,
                         pastWorkPosition: item.pastWorkPosition,
                         pastWorkStartDate:
-                          item.pastWorkDuration.pastWorkStartDate,
-                        pastWorkEndDate: item.pastWorkDuration.pastWorkEndDate,
+                          item.pastWorkDuration.pastWorkStartDate.toLocaleDateString(),
+                        pastWorkEndDate:
+                          item.pastWorkDuration.pastWorkEndDate.toLocaleDateString(),
                       })
                     }
                   >
@@ -141,14 +144,25 @@ const ResumeExperience = () => {
         </S.WorkExperienceListWrapper>
         <S.Btn
           onClick={() => {
-            setOpen(true);
+            setIsAddModalOpen(true);
           }}
         >
           + 경력 추가하기
         </S.Btn>
       </S.WorkExperienceContainer>
       {/* ------------------------------------------------------------ */}
-      <ResumeExperienceAddForm open={open} setOpen={setOpen} />
+      {isAddModalOpen && (
+        <Modal
+          setIsModalOpen={setIsAddModalOpen}
+          buttons={
+            <>
+              <button onClick={addExperienceHandler}>등록하기</button>
+            </>
+          }
+        >
+          <AddResumeExperienceModal />
+        </Modal>
+      )}
       {/* ------------------------------------------------------------ */}
       <ResumeExperienceEditForm
         editOpen={editOpen}
@@ -165,7 +179,7 @@ const ResumeExperience = () => {
   );
 };
 
-export default ResumeExperience;
+export default ResumeExperienceComp;
 
 const S = {
   WorkExperienceContainer: styled.section`

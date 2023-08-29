@@ -6,7 +6,6 @@ import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
-import { Experience } from "./ResumeExperience";
 
 interface EditModalProps {
   editOpen: boolean;
