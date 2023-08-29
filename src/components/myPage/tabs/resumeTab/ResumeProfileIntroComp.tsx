@@ -7,16 +7,21 @@ import useResumeProfileIntroQueries from "src/hooks/useResumeProfileIntroQueries
 import { useResumeProfileIntroStore } from "src/zustand/useResumeProfileIntroStore";
 
 const ResumeProfileIntroComp = () => {
+  const {
+    newProfileIntroInput: previousProfileIntroInput,
+    changeNewProfileIntroInput,
+  } = useResumeProfileIntroStore();
   const { TextArea } = Input; // textArea
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [newProfileIntroInput, setNewProfileIntroInput] = useState("");
+  const [newProfileIntroInput, setNewProfileIntroInput] = useState(
+    previousProfileIntroInput || ""
+  );
   const { userId } = useUserStore();
   const {
     addProfileIntroMutation,
     resumeProfileIntroObject,
     updateProfileIntroMutation,
   } = useResumeProfileIntroQueries(userId);
-  const { changeNewProfileIntroInput } = useResumeProfileIntroStore();
 
   const onChangeNewprofileIntroInputHandler = (value: string) => {
     setNewProfileIntroInput(value);
@@ -55,7 +60,9 @@ const ResumeProfileIntroComp = () => {
     <>
       <S.ProfileContainer>
         <p>프로필</p>
-        {newProfileIntroInput.length > 0 ? null : (
+        {previousProfileIntroInput.length > 0 ? (
+          <S.Btn onClick={() => setIsAddModalOpen(true)}>프로필 수정하기</S.Btn>
+        ) : (
           <S.Btn
             onClick={() => {
               setIsAddModalOpen(true);
@@ -66,16 +73,11 @@ const ResumeProfileIntroComp = () => {
         )}
         <S.ProfileInputBox>
           <div>
-            {resumeProfileIntroObject &&
-              resumeProfileIntroObject.resumeProfileIntro}
+            {resumeProfileIntroObject
+              ? resumeProfileIntroObject.resumeProfileIntro ||
+                "등록된 소개가 없습니다."
+              : "등록된 소개가 없습니다."}
           </div>
-          <S.Btn
-            onClick={() => {
-              setIsAddModalOpen(true);
-            }}
-          >
-            수정 x
-          </S.Btn>
         </S.ProfileInputBox>
       </S.ProfileContainer>
 
