@@ -56,7 +56,6 @@ const ResumeExperienceCard: React.FC<ExperienceCardProps> = ({
       {/* 실제로 보여지는 부분 */}
 
       <S.WorkExperienceList>
-        <h1>{experience.experienceId}</h1>
         <h1>{experience.pastWorkField}</h1>
         <div>
           {experience.pastWorkPlace}/{experience.pastEmploymentType}/

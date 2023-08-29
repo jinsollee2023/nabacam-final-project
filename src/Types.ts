@@ -10,7 +10,7 @@ export interface User {
   singUpDate: Date;
   portfolioCount: number;
   resumeProfileIntro?: string;
-  resumeExperience?: [];
+  resumeExperience?: ResumeExperience[];
   members?: Member[];
 }
 

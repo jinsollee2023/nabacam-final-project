@@ -1,35 +1,36 @@
 import supabase from "../config/supabaseClient";
 
 export const getFreelancerResumeProfileIntro = async (userId: string) => {
-  let { data, error } = await supabase
+  const { data, error } = await supabase
     .from("users")
     .select("resumeProfileIntro")
-    .eq("userId", userId);
+    .eq("userId", userId)
+    .maybeSingle();
   return data;
 };
 
 export const addFreelancerResumeProfileIntro = async ({
-  profileIntroText,
+  newProfileIntroInput,
   userId,
 }: {
-  profileIntroText: string;
+  newProfileIntroInput: string;
   userId: string;
 }) => {
   const { data, error } = await supabase
     .from("users")
     .update({
-      userId: userId,
-      resumeProfileIntro: profileIntroText,
+      resumeProfileIntro: newProfileIntroInput,
     })
+    .eq("userId", userId)
     .select();
   return data;
 };
 
-export const patchFreelancerResumeProfileIntro = async ({
-  editedProfileIntroText,
+export const updateFreelancerResumeProfileIntro = async ({
+  editedProfileIntroInput,
   userId,
 }: {
-  editedProfileIntroText: string;
+  editedProfileIntroInput: string;
   userId: string;
 }) => {
   const { data, error } = await supabase
@@ -37,7 +38,7 @@ export const patchFreelancerResumeProfileIntro = async ({
     .update([
       {
         userId: userId,
-        resumeProfileIntro: editedProfileIntroText,
+        resumeProfileIntro: editedProfileIntroInput,
       },
     ])
     .select();

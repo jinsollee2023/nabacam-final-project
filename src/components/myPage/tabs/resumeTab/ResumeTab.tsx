@@ -1,12 +1,12 @@
 import { styled } from "styled-components";
 
-import ResumeProfileIntro from "./ResumeProfileIntro";
 import ResumeExperienceComp from "./ResumeExperienceComp";
+import ResumeProfileIntroComp from "./ResumeProfileIntroComp";
 
 const ResumeTab = () => {
   return (
     <>
-      <ResumeProfileIntro />
+      <ResumeProfileIntroComp />
       <ResumeExperienceComp />
     </>
   );
