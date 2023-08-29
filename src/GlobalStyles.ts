@@ -12,12 +12,12 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  /* @font-face {
+  @font-face {
     font-family: 'LINESeedKR-Bd';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
     font-weight: 200;
     font-style: normal;
-} */
+}
 
   body {
 
@@ -28,7 +28,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0; */
 
-    /* font-family: 'LINESeedKR-Bd', sans-serif; */
+    font-family: 'LINESeedKR-Bd', sans-serif;
 
   }
 /* 

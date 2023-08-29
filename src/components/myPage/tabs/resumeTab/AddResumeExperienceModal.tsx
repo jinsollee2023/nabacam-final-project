@@ -29,9 +29,9 @@ const AddResumeExperienceModal = () => {
     setPastWorkPosition(value);
   };
 
-  const { changeNewPastExperience } = useResumeExperienceStore();
+  const { changeNewExperience } = useResumeExperienceStore();
   const experienceId = uuidv4();
-  const newPastExperience: ResumeExperience = {
+  const newExperience: ResumeExperience = {
     experienceId,
     pastWorkField: selectedPastWorkField,
     pastEmploymentType: selectedPastEmploymentType,
@@ -42,10 +42,10 @@ const AddResumeExperienceModal = () => {
     pastWorkPlace: pastWorkPlace,
     pastWorkPosition: pastWorkPosition,
   };
-  console.log(newPastExperience);
+  // console.log(newExperience);
 
   useEffect(() => {
-    changeNewPastExperience(newPastExperience);
+    changeNewExperience(newExperience);
   }, [
     selectedPastWorkField,
     selectedPastEmploymentType,

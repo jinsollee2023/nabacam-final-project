@@ -3,88 +3,35 @@ import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
 import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
 import AddResumeExperienceModal from "./AddResumeExperienceModal";
-import ResumeExperienceEditForm from "./ResumeExperienceEditForm";
 import Modal from "src/components/modal/Modal";
 import type { ResumeExperience } from "src/Types";
 import { useResumeExperienceStore } from "src/zustand/useResumeExperienceStore";
+import ResumeExperienceCard from "./ResumeExperienceCard";
 
 const ResumeExperienceComp = () => {
-  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
-  const [editOpen, setEditOpen] = useState<boolean>(false);
-  const [userExperienceId, setUserExperienceId] = useState("");
-  const [writtenPastWorkPlace, setWrittenPastWorkPlace] = useState("");
-  const [writtenPastWorkPosition, setWrittenPastWorkPosition] = useState("");
-  const [writtenPastWorkStartDate, setWrittenPastWorkStartDate] = useState("");
-  const [writtenPastWorkEndDate, setWrittenPastWorkEndDate] = useState("");
-  const [writtenPastWorkField, setWrittenPastWorkField] = useState("");
-  const [writtenPastEmploymentType, setWrittenPastEmploymentType] =
-    useState("");
-
   const { userId } = useUserStore();
-  const { addExperienceMutation, deleteExperienceMutation, experienceData } =
-    useResumeExperienceQueries(userId);
-  const { newPastExperience } = useResumeExperienceStore();
-  const [userExperienceData, setUserExperienceData] = useState<
-    ResumeExperience[]
-  >([]);
+  const { addExperienceMutation, resumeExperienceArray } =
+    useResumeExperienceQueries({ userId });
+  const { newExperience } = useResumeExperienceStore();
+  const [resumeExperienceArr, setResumeExperienceArr] = useState([]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
+  // 저장
   useEffect(() => {
-    if (experienceData)
-      setUserExperienceData(experienceData[0].resumeExperience);
-  }, [userExperienceData]);
-
-  // delete
-  const deleteExperienceHandler = async ({
-    userId,
-    experienceId,
-  }: {
-    userId: string;
-    experienceId: string;
-  }) => {
-    deleteExperienceMutation.mutate({ userId, experienceId });
-  };
-
-  // update
-  const openEditModal = ({
-    userId,
-    experienceId,
-    pastWorkField,
-    pastEmploymentType,
-    pastWorkPlace,
-    pastWorkPosition,
-    pastWorkStartDate,
-    pastWorkEndDate,
-  }: {
-    userId: string;
-    experienceId: string;
-    pastWorkField: string;
-    pastEmploymentType: string;
-    pastWorkPlace: string;
-    pastWorkPosition: string;
-    pastWorkStartDate: string;
-    pastWorkEndDate: string;
-  }) => {
-    setEditOpen(true);
-    setUserExperienceId(experienceId);
-    setWrittenPastWorkPlace(pastWorkPlace);
-    setWrittenPastWorkPosition(pastWorkPosition);
-    setWrittenPastWorkStartDate(pastWorkStartDate);
-    setWrittenPastWorkEndDate(pastWorkEndDate);
-    setWrittenPastWorkField(pastWorkField);
-    setWrittenPastEmploymentType(pastEmploymentType);
-  };
+    if (resumeExperienceArray) setResumeExperienceArr(resumeExperienceArray);
+  }, [resumeExperienceArr]);
 
   // add
-
   const addExperienceHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
 
     addExperienceMutation.mutate({
-      newPastExperience,
+      newExperience,
       userId,
     });
+    setIsAddModalOpen(false);
   };
 
   return (
@@ -92,65 +39,21 @@ const ResumeExperienceComp = () => {
       <S.WorkExperienceContainer>
         <p>경력사항</p>
         <S.WorkExperienceListWrapper>
-          {experienceData &&
-            experienceData[0]?.resumeExperience?.map(
-              (item: ResumeExperience, index: number) => (
-                <S.WorkExperienceList key={index}>
-                  <h1>{item.pastWorkField}</h1>
-                  <div>
-                    {item.pastWorkPlace}/{item.pastEmploymentType}/
-                    {item.pastWorkPosition}
-                  </div>
-                  {/* <div>
-                    {item.pastWorkDuration.pastWorkStartDate
-                      .toLocaleDateString()
-                      .split("T")}
-                    ~
-                    {item.pastWorkDuration.pastWorkEndDate
-                      .toLocaleDateString()
-                      .split("T")}
-                  </div> */}
-                  <button
-                    onClick={() =>
-                      deleteExperienceHandler({
-                        userId,
-                        experienceId: item.experienceId,
-                      })
-                    }
-                  >
-                    삭제 x
-                  </button>
-                  <button
-                    onClick={() =>
-                      openEditModal({
-                        userId,
-                        experienceId: item.experienceId,
-                        pastWorkField: item.pastWorkField,
-                        pastEmploymentType: item.pastEmploymentType,
-                        pastWorkPlace: item.pastWorkPlace,
-                        pastWorkPosition: item.pastWorkPosition,
-                        pastWorkStartDate:
-                          item.pastWorkDuration.pastWorkStartDate.toLocaleDateString(),
-                        pastWorkEndDate:
-                          item.pastWorkDuration.pastWorkEndDate.toLocaleDateString(),
-                      })
-                    }
-                  >
-                    수정
-                  </button>
-                </S.WorkExperienceList>
-              )
-            )}
+          {resumeExperienceArr &&
+            resumeExperienceArr?.map((item: ResumeExperience) => (
+              <ResumeExperienceCard key={item.experienceId} experience={item} />
+            ))}
         </S.WorkExperienceListWrapper>
-        <S.Btn
-          onClick={() => {
-            setIsAddModalOpen(true);
-          }}
-        >
-          + 경력 추가하기
-        </S.Btn>
       </S.WorkExperienceContainer>
       {/* ------------------------------------------------------------ */}
+      <S.Btn
+        onClick={() => {
+          setIsAddModalOpen(true);
+        }}
+      >
+        + 경력 추가하기
+      </S.Btn>
+      {/* ---------------------------추가 모달--------------------------------- */}
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}
@@ -163,18 +66,6 @@ const ResumeExperienceComp = () => {
           <AddResumeExperienceModal />
         </Modal>
       )}
-      {/* ------------------------------------------------------------ */}
-      <ResumeExperienceEditForm
-        editOpen={editOpen}
-        setEditOpen={setEditOpen}
-        experienceId={userExperienceId}
-        writtenPastWorkPlace={writtenPastWorkPlace}
-        writtenPastWorkPosition={writtenPastWorkPosition}
-        writtenPastWorkStartDate={writtenPastWorkStartDate}
-        writtenPastWorkEndDate={writtenPastWorkEndDate}
-        writtenPastWorkField={writtenPastWorkField}
-        writtenPastEmploymentType={writtenPastEmploymentType}
-      />
     </>
   );
 };
