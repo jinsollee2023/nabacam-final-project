@@ -15,7 +15,7 @@ const ProjectList = ({
   selectedSortLabel,
   selectedWorkField,
 }: ProjectListProps) => {
-  const { searchKeyword } = useSearchKeywordStore();
+  const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const { userId } = useUserStore();
 
   const { projectsListBySort, projectListIsError, projectListIsLoading } =
@@ -27,6 +27,10 @@ const ProjectList = ({
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
     projectsListBySort!
   );
+
+  useEffect(() => {
+    changeSearchKeyword("");
+  }, []);
 
   useEffect(() => {
     if (projectsListBySort) {

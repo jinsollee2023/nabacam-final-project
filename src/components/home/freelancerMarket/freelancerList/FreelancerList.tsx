@@ -15,43 +15,34 @@ interface FreelancerListProps {
   selectedWorkField: string;
 }
 
-const FreelancerList = ({
-  selectedSortLabel,
-  selectedWorkField,
-}: FreelancerListProps) => {
-  const [selectedPortfolioIndex, setSelectedPortfolioIndex] =
-    useState<PortfolioIndexMap>({});
-  const { searchKeyword } = useSearchKeywordStore();
+const FreelancerList = ({ selectedSortLabel, selectedWorkField }: FreelancerListProps) => {
+  const [selectedPortfolioIndex, setSelectedPortfolioIndex] = useState<PortfolioIndexMap>({});
+  const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
 
   const { freelancersDataBySort, freelancersError, freelancersIsLoading } =
     useFreelancersQueries(selectedSortLabel);
 
-  const [filteredFreelancers, setFilteredFreelancers] = useState<User[]>(
-    freelancersDataBySort!
-  );
+  const [filteredFreelancers, setFilteredFreelancers] = useState<User[]>(freelancersDataBySort!);
+
+  useEffect(() => {
+    changeSearchKeyword("");
+  }, []);
 
   useEffect(() => {
     if (freelancersDataBySort) {
-      const filteredfreelancerLists = freelancersDataBySort?.filter(
-        (freelancer) => {
-          const lowerCaseSearch = String(searchKeyword).toLowerCase();
-          const workExp = String(freelancer.workExp);
-          return (
-            freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
-            freelancer?.workField?.workField
-              ?.toLowerCase()
-              .includes(lowerCaseSearch) ||
-            freelancer?.workField?.workSmallField
-              ?.toLowerCase()
-              .includes(lowerCaseSearch) ||
-            workExp === searchKeyword
-          );
-        }
-      );
+      const filteredfreelancerLists = freelancersDataBySort?.filter((freelancer) => {
+        const lowerCaseSearch = String(searchKeyword).toLowerCase();
+        const workExp = String(freelancer.workExp);
+        return (
+          freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
+          freelancer?.workField?.workField?.toLowerCase().includes(lowerCaseSearch) ||
+          freelancer?.workField?.workSmallField?.toLowerCase().includes(lowerCaseSearch) ||
+          workExp === searchKeyword
+        );
+      });
       setFilteredFreelancers(filteredfreelancerLists);
     }
   }, [freelancersDataBySort, searchKeyword]);
-  console.log("filteredFreelancers", filteredFreelancers);
 
   useEffect(() => {
     if (freelancersDataBySort) {

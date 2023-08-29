@@ -5,6 +5,10 @@ export const S = {
     font-size: 30px;
     font-weight: bold;
   `,
+  ListContainer: styled.div`
+    overflow: auto;
+    height: 47rem;
+  `,
   List: styled.div`
     margin-top: 30px;
     width: 100%;
@@ -13,13 +17,6 @@ export const S = {
     margin-bottom: 25px;
     border-radius: 10px;
     align-items: center;
-    overflow: auto;
-    // 스크롤바 숨기기
-    //  -ms-overflow-style: none; /* IE, Edge */
-    //  scrollbar-width: none; /* Firefox */
-    //  &::-webkit-scrollbar {
-    // display: none; /* Chrome, Safari, Opera */
-    //  }
   `,
   ListContents: styled.div`
     width: 100%;
@@ -54,8 +51,16 @@ export const S = {
     /* text-align: right; */
   `,
   CheckingBtn: styled.button`
-    position: absolute;
-    right: 0;
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    background-color: #1fc17d;
+    color: white;
+
+    /* position: absolute;
+    right: 0; */
+    float: right;
     margin-right: 10px;
     cursor: pointer;
   `,
@@ -73,5 +78,8 @@ export const S = {
     font-weight: bold;
     text-align: center;
     margin: 30px;
+  `,
+  DataStatus: styled.div`
+    margin: 10px;
   `,
 };

@@ -13,7 +13,7 @@ interface useClientsQueriesProps {
 
 const useClientsQueries = ({ userId }: useClientsQueriesProps) => {
   const { data: client } = useQuery(
-    ["client"],
+    ["clients", clientId],
     async () => {
       const clientData = await getClientByProject(userId);
       return clientData;
@@ -35,7 +35,7 @@ const useClientsQueries = ({ userId }: useClientsQueriesProps) => {
     }) => updateUser({ updatedData, userId, setUser }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["clients"]);
+        queryClient.invalidateQueries(["clients", clientId]);
       },
     }
   );
