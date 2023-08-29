@@ -6,6 +6,10 @@ export const getFreelancerResumeProfileIntro = async (userId: string) => {
     .select("resumeProfileIntro")
     .eq("userId", userId)
     .maybeSingle();
+
+  if (error) {
+    throw new Error("Failed to update profile intro");
+  }
   return data;
 };
 
@@ -23,24 +27,26 @@ export const addFreelancerResumeProfileIntro = async ({
     })
     .eq("userId", userId)
     .select();
+
+  if (error) {
+    throw new Error("Failed to update profile intro");
+  }
   return data;
 };
 
 export const updateFreelancerResumeProfileIntro = async ({
-  editedProfileIntroInput,
+  newProfileIntroInput,
   userId,
 }: {
-  editedProfileIntroInput: string;
+  newProfileIntroInput: string;
   userId: string;
 }) => {
   const { data, error } = await supabase
     .from("users")
-    .update([
-      {
-        userId: userId,
-        resumeProfileIntro: editedProfileIntroInput,
-      },
-    ])
+    .update({
+      resumeProfileIntro: newProfileIntroInput,
+    })
+    .eq("userId", userId)
     .select();
 
   if (error) {

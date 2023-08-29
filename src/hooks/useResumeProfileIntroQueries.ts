@@ -23,7 +23,7 @@ const useResumeProfileIntroQueries = (userId: string) => {
   );
 
   const updateProfileIntroMutation = useMutation(
-    () => updateFreelancerResumeProfileIntro(userId),
+    updateFreelancerResumeProfileIntro,
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["resumeProfileIntroObject", userId]);

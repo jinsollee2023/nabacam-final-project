@@ -9,7 +9,7 @@ import { useResumeProfileIntroStore } from "src/zustand/useResumeProfileIntroSto
 const ResumeProfileIntroComp = () => {
   const { TextArea } = Input; // textArea
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [profileIntroInput, setProfileIntroInput] = useState("");
+  const [newProfileIntroInput, setNewProfileIntroInput] = useState("");
   const { userId } = useUserStore();
   const {
     addProfileIntroMutation,
@@ -18,10 +18,9 @@ const ResumeProfileIntroComp = () => {
   } = useResumeProfileIntroQueries(userId);
   const { changeNewProfileIntroInput } = useResumeProfileIntroStore();
 
-  const onChangeprofileIntroInputHandler = (value: string) => {
-    setProfileIntroInput(value);
+  const onChangeNewprofileIntroInputHandler = (value: string) => {
+    setNewProfileIntroInput(value);
   };
-  const newProfileIntroInput: string = profileIntroInput;
   useEffect(() => {
     changeNewProfileIntroInput(newProfileIntroInput);
   }, [newProfileIntroInput]);
@@ -37,36 +36,48 @@ const ResumeProfileIntroComp = () => {
       userId,
     });
 
-    setProfileIntroInput("");
     setIsAddModalOpen(false);
   };
 
-  // // update
-  // const updateFreelancerResumeProfileIntroHandler = async () => {
-  //   updateProfileIntroMutation.mutate({
-  //     editedProfileIntroText,
-  //     userId,
-  //   });
-  // };
+  // update
+  const updateProfileIntroHandler = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
+    updateProfileIntroMutation.mutate({
+      newProfileIntroInput,
+      userId,
+    });
+    setIsAddModalOpen(false);
+  };
 
   return (
     <>
       <S.ProfileContainer>
         <p>프로필</p>
         {/* ----------------------------------------------------------------- */}
-        <S.Btn
-          onClick={() => {
-            setIsAddModalOpen(true);
-          }}
-        >
-          + 프로필 등록하기
-        </S.Btn>
+        {newProfileIntroInput.length > 0 ? null : (
+          <S.Btn
+            onClick={() => {
+              setIsAddModalOpen(true);
+            }}
+          >
+            + 프로필 등록하기
+          </S.Btn>
+        )}
         {/* --------------------------box--------------------------------------- */}
         <S.ProfileInputBox>
           <div>
             {resumeProfileIntroObject &&
               resumeProfileIntroObject.resumeProfileIntro}
           </div>
+          <S.Btn
+            onClick={() => {
+              setIsAddModalOpen(true);
+            }}
+          >
+            수정 x
+          </S.Btn>
         </S.ProfileInputBox>
       </S.ProfileContainer>
 
@@ -76,7 +87,12 @@ const ResumeProfileIntroComp = () => {
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <button onClick={addProfileIntroHandler}>등록하기</button>
+              {newProfileIntroInput.length > 0 ? (
+                <button onClick={updateProfileIntroHandler}>수정하기</button>
+              ) : (
+                <button onClick={addProfileIntroHandler}>등록하기</button>
+              )}
+              <button onClick={() => setIsAddModalOpen(false)}>취소</button>
             </>
           }
         >
@@ -88,9 +104,9 @@ const ResumeProfileIntroComp = () => {
                 maxLength={500}
                 style={{ height: 120, marginBottom: 24 }}
                 placeholder="500자 이하로 입력해주세요..."
-                value={profileIntroInput}
+                value={newProfileIntroInput}
                 onChange={(e) =>
-                  onChangeprofileIntroInputHandler(e.target.value)
+                  onChangeNewprofileIntroInputHandler(e.target.value)
                 }
               />
             </label>
