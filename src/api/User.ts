@@ -1,6 +1,5 @@
 import { User } from "../Types";
 import supabase from "../config/supabaseClient";
-import { v4 as uuidv4 } from "uuid";
 
 export const getUser = async (userId: string): Promise<User> => {
   try {
@@ -150,6 +149,7 @@ export const getFreelancer = async (userId: string) => {
 export const updateUser = async ({
   updatedData,
   userId,
+  setUser,
 }: {
   updatedData: {
     name?: string;
@@ -162,6 +162,7 @@ export const updateUser = async ({
       phone: string;
     };
     projectId?: string;
+    photoURL?: string;
     members?: [
       {
         name: string;
@@ -174,52 +175,49 @@ export const updateUser = async ({
     ];
   };
   userId: string;
+  setUser: (user: User) => void;
 }) => {
-  await supabase
-    .from("users")
-    .update(updatedData)
-    .eq("userId", userId)
-    .select();
+  try {
+    const { data } = await supabase
+      .from("users")
+      .update(updatedData)
+      .eq("userId", userId)
+      .select();
+    if (data && data.length > 0) {
+      setUser(data[0]);
+    }
+  } catch (error) {
+    console.error("Error updating user:", error);
+  }
 };
 
-// 프로필 이미지
-export const getFreelancerImage = async (userId: string) => {
-  const { data, error } = await supabase.storage
-    .from("users")
-    .list(userId + "/", {
-      limit: 100,
-      offset: 0,
-      sortBy: { column: "name", order: "asc" },
-    });
-  if (error) {
-    throw new Error("Error loading images");
-  }
-  data.sort((a, b) => {
-    const timeA = new Date(a.created_at).getTime();
-    const timeB = new Date(b.created_at).getTime();
-
-    return timeB - timeA;
-  });
-
-  return data || [];
-};
-
-export const uploadFreelancerImage = async (userId: string, file: File) => {
-  const { data, error } = await supabase.storage
-    .from("users")
-    .upload(userId + "/" + uuidv4(), file, { contentType: "image/jpeg" });
-
-  if (error) {
-    throw new Error("Error uploading image");
-  }
-
-  return data;
+export const getPhotoURL = async (filePath: {
+  path: string;
+}): Promise<string> => {
+  const { data } = await supabase.storage
+    .from("users") // 사용한 버킷 이름
+    .getPublicUrl(filePath.path);
+  return data.publicUrl;
 };
 
 export const uploadUserImage = async (userId: string, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
-    .upload(`${userId}/${uuidv4()}`, file);
+    .upload(`${userId}/profileImage`, file);
+
+  if (error) {
+    throw new Error("Error uploading image");
+  }
+  return data;
+};
+
+export const updateUserImage = async (userId: string, file: File) => {
+  const { data, error } = await supabase.storage
+    .from("users")
+    .update(`${userId}/profileImage`, file, {
+      cacheControl: "1",
+      upsert: true,
+    });
 
   if (error) {
     throw new Error("Error uploading image");

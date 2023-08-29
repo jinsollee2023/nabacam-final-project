@@ -20,7 +20,7 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const { client } = useClientsQueries(projectItem.clientId);
+  const { client } = useClientsQueries({ userId: projectItem.clientId });
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
   });

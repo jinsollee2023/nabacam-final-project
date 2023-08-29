@@ -1,37 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUserStore } from "src/zustand/useUserStore";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getFreelancerImage, uploadFreelancerImage } from "src/api/User";
+import { getPhotoURL, updateUserImage, uploadUserImage } from "src/api/User";
+
+import useClientsQueries from "src/hooks/useClientsQueries";
+import { queryClient } from "src/App";
 
 const Image = () => {
   // 상태관리
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const { userId, user, setUser } = useUserStore();
+  const { updateUserMutation } = useClientsQueries({ userId });
 
-  const { userId } = useUserStore();
-  const CDNURL =
-    "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/users";
-
-  // GET
-  const { data: images = [] } = useQuery(
-    ["images", userId],
-    () => getFreelancerImage(userId),
-    {
-      enabled: !!userId,
-    }
-  );
-  // POST & UPDATE
-  const queryClient = useQueryClient();
-  const uploadMutation = useMutation(
-    (file: File) => uploadFreelancerImage(userId, file),
-    {
-      onSuccess: () => queryClient.invalidateQueries(["images", userId]),
-    }
-  );
+  useEffect(() => {
+    queryClient.invalidateQueries([user]);
+  }, [user, setUser]);
 
   const uploadImageHandler = async (e: any) => {
     const file = e.target.files && e.target.files[0];
-    if (file) {
-      uploadMutation.mutate(file);
+    if (user.photoURL.includes("defaultProfileImage")) {
+      const filePath = await uploadUserImage(userId, file);
+      const photoURL = await getPhotoURL(filePath);
+      updateUserMutation.mutate({
+        photoURL: `${photoURL}?updated=${new Date().getTime()}`,
+        setUser,
+        userId,
+      });
+    } else {
+      const filePath = await updateUserImage(userId, file);
+      const photoURL = await getPhotoURL(filePath);
+      updateUserMutation.mutate({
+        photoURL: `${photoURL}?updated=${new Date().getTime()}`,
+        setUser,
+        userId,
+      });
     }
   };
 
@@ -40,15 +41,11 @@ const Image = () => {
     setIsFormVisible(!isFormVisible);
   };
 
-  // console.log(images);
-
   return (
     <>
       <img
         className="profileImg"
-        src={
-          images.length > 0 ? CDNURL + "/" + userId + "/" + images[0].name : ""
-        }
+        src={user.photoURL}
         alt="img"
         width="60px"
         height="60px"
