@@ -10,14 +10,17 @@ export interface User {
   singUpDate: Date;
   portfolioCount: number;
   resumeProfileIntro?: string;
-  resumeExperience?: [
-    {
-      pastWorkPlace: string;
-      pastWorkDuration: { pastWorkEndDate: string; pastWorkStartDate: string };
-      pastWorkPosition: string;
-    }
-  ];
+  resumeExperience?: ResumeExperience[];
   members?: Member[];
+}
+
+export interface ResumeExperience {
+  experienceId: string;
+  pastWorkField: string;
+  pastEmploymentType: string;
+  pastWorkPlace: string;
+  pastWorkDuration: { pastWorkEndDate: Date; pastWorkStartDate: Date };
+  pastWorkPosition: string;
 }
 
 export interface Member {

@@ -14,16 +14,38 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
       <S.ResumeContent>경력사항</S.ResumeContent>
       <S.ExperienceWarp>
         {user.resumeExperience && user.resumeExperience.length > 0 ? (
-          user.resumeExperience.map((experience, index) => (
-            <S.ExperienceBox key={index}>
-              <span>{experience.pastWorkPlace}</span>
-              <span>
-                {experience.pastWorkDuration.pastWorkStartDate} -
-                {experience.pastWorkDuration.pastWorkEndDate}
-              </span>
-              <span>{experience.pastWorkPosition}</span>
-            </S.ExperienceBox>
-          ))
+          user.resumeExperience.map((experience, index) => {
+            const startDate = new Date(
+              experience.pastWorkDuration.pastWorkStartDate
+            );
+            const endDate = new Date(
+              experience.pastWorkDuration.pastWorkEndDate
+            );
+
+            return (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  borderRadius: "15px",
+                  minWidth: "210px",
+                  minHeight: "100px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "15px",
+                  wordBreak: "break-all",
+                }}
+              >
+                <span>{experience.pastWorkPlace}</span>
+                <span>
+                  {startDate.toISOString().split("T")[0]} -{" "}
+                  {endDate.toISOString().split("T")[0]}
+                </span>
+                <span>{experience.pastWorkPosition}</span>
+              </div>
+            );
+          })
         ) : (
           <S.DataNullBox>등록된 경력이 없습니다.</S.DataNullBox>
         )}

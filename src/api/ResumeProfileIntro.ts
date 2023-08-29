@@ -1,45 +1,52 @@
 import supabase from "../config/supabaseClient";
 
 export const getFreelancerResumeProfileIntro = async (userId: string) => {
-  let { data, error } = await supabase
+  const { data, error } = await supabase
     .from("users")
     .select("resumeProfileIntro")
-    .eq("userId", userId);
+    .eq("userId", userId)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error("Failed to update profile intro");
+  }
   return data;
 };
 
 export const addFreelancerResumeProfileIntro = async ({
-  profileIntroText,
-  userId /** zustand */,
+  newProfileIntroInput,
+  userId,
 }: {
-  profileIntroText: string;
+  newProfileIntroInput: string;
   userId: string;
 }) => {
   const { data, error } = await supabase
     .from("users")
     .update({
-      userId: userId,
-      resumeProfileIntro: profileIntroText,
+      resumeProfileIntro: newProfileIntroInput,
     })
+    .eq("userId", userId)
     .select();
+
+  if (error) {
+    throw new Error("Failed to update profile intro");
+  }
   return data;
 };
 
-export const patchFreelancerResumeProfileIntro = async ({
-  editedProfileIntroText,
+export const updateFreelancerResumeProfileIntro = async ({
+  newProfileIntroInput,
   userId,
 }: {
-  editedProfileIntroText: string;
+  newProfileIntroInput: string;
   userId: string;
 }) => {
   const { data, error } = await supabase
     .from("users")
-    .update([
-      {
-        userId: userId,
-        resumeProfileIntro: editedProfileIntroText,
-      },
-    ])
+    .update({
+      resumeProfileIntro: newProfileIntroInput,
+    })
+    .eq("userId", userId)
     .select();
 
   if (error) {
