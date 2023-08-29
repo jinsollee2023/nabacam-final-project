@@ -91,7 +91,6 @@ const ResumeProfileIntroComp = () => {
               ) : (
                 <button onClick={addProfileIntroHandler}>등록하기</button>
               )}
-              <button onClick={() => setIsAddModalOpen(false)}>취소</button>
             </>
           }
         >
