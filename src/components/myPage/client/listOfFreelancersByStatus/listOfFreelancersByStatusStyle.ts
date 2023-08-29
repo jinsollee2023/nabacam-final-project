@@ -8,7 +8,8 @@ export const S = {
     margin-bottom: 20px;
   `,
   FilterBtn: styled.button`
-    position: absolute;
+    position: relative;
+    float: right;
     right: 100px;
     width: 90px;
     height: 30px;
