@@ -1,22 +1,13 @@
 import { styled } from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useUserStore } from "src/zustand/useUserStore";
-import Modal from "src/components/modal/Modal";
-import { Input } from "antd";
 import useResumeProfileIntroQueries from "src/hooks/useResumeProfileIntroQueries";
-import { useResumeProfileIntroStore } from "src/zustand/useResumeProfileIntroStore";
 import { MdAddCircle } from "react-icons/md";
+import Modal from "src/components/modal/Modal";
+import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
+import { useResumeProfileIntroStore } from "src/zustand/useResumeProfileIntroStore";
 
 const ResumeProfileIntroComp = () => {
-  const {
-    newProfileIntroInput: previousProfileIntroInput,
-    changeNewProfileIntroInput,
-  } = useResumeProfileIntroStore();
-  const { TextArea } = Input; // textArea
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [newProfileIntroInput, setNewProfileIntroInput] = useState(
-    previousProfileIntroInput || ""
-  );
   const { userId } = useUserStore();
   const {
     addProfileIntroMutation,
@@ -24,12 +15,8 @@ const ResumeProfileIntroComp = () => {
     updateProfileIntroMutation,
   } = useResumeProfileIntroQueries(userId);
 
-  const onChangeNewprofileIntroInputHandler = (value: string) => {
-    setNewProfileIntroInput(value);
-  };
-  useEffect(() => {
-    changeNewProfileIntroInput(newProfileIntroInput);
-  }, [newProfileIntroInput]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const { newProfileIntroInput } = useResumeProfileIntroStore();
 
   // add
   const addProfileIntroHandler = async (
@@ -62,7 +49,8 @@ const ResumeProfileIntroComp = () => {
       <S.ProfileContainer>
         <div style={{ display: "flex", alignItems: "center" }}>
           <S.ProfileTitle>프로필</S.ProfileTitle>
-          {previousProfileIntroInput.length > 0 ? (
+          {resumeProfileIntroObject &&
+          resumeProfileIntroObject.resumeProfileIntro !== "" ? (
             <S.ProfileBtn onClick={() => setIsAddModalOpen(true)}>
               프로필 수정하기
             </S.ProfileBtn>
@@ -73,6 +61,7 @@ const ResumeProfileIntroComp = () => {
               }}
             >
               <MdAddCircle size="20" />
+              추가
             </S.ProfileBtn>
           )}
         </div>
@@ -100,21 +89,12 @@ const ResumeProfileIntroComp = () => {
             </>
           }
         >
-          <form>
-            <label>
-              간단한 프로필을 입력해주세요.
-              <TextArea
-                showCount
-                maxLength={500}
-                style={{ height: 120, marginBottom: 24 }}
-                placeholder="500자 이하로 입력해주세요..."
-                value={newProfileIntroInput}
-                onChange={(e) =>
-                  onChangeNewprofileIntroInputHandler(e.target.value)
-                }
-              />
-            </label>
-          </form>
+          <AddResumeProfileIntroModal
+            profileIntro={
+              resumeProfileIntroObject &&
+              resumeProfileIntroObject.resumeProfileIntro
+            }
+          />
         </Modal>
       )}
     </>
