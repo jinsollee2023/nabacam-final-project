@@ -80,10 +80,7 @@ export const clientSignupHandler = async (
       contact: { email: user?.email, phone: values.phone },
     };
     await userJoinData(newUserData, setUser, navigate);
-
-    // setOpenClientJoin(false);
-
-    // navigate("/");
+    alert("회원가입이 완료되었습니다.");
   } catch (error) {
     console.error(error);
   }
