@@ -59,7 +59,7 @@ const S = {
     margin-top: 5px;
   `,
   Btn: styled.button`
-    background-color: #1fc17d;
+    background-color: var(--main-blue);
     color: white;
     border: none;
     padding: 10px;
@@ -69,7 +69,7 @@ const S = {
     font-size: 13px;
     transition: background-color 0.3s ease;
     &:hover {
-      background-color: #168c68;
+      background-color: var(--hover-blue);
     }
     margin-left: 60px;
   `,

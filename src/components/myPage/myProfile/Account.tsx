@@ -9,7 +9,6 @@ const Account = () => {
           display: "flex",
           marginTop: "10px",
           padding: "10px",
-          backgroundColor: "#f8f5ed",
         }}
       >
         <Image />

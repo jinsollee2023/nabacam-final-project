@@ -56,32 +56,57 @@ const ResumeExperienceCard: React.FC<ExperienceCardProps> = ({
       {/* 실제로 보여지는 부분 */}
 
       <S.WorkExperienceList>
-        <h1>{experience.pastWorkField}</h1>
-        <div>
-          {experience.pastWorkPlace}/{experience.pastEmploymentType}/
-          {experience.pastWorkPosition}
-        </div>
-        <div>
-          <span>
-            {
-              new Date(experience.pastWorkDuration.pastWorkStartDate)
-                .toISOString()
-                .split("T")[0]
-            }
-          </span>
-          ~
-          <span>
-            {
-              new Date(experience.pastWorkDuration.pastWorkEndDate)
-                .toISOString()
-                .split("T")[0]
-            }
-          </span>
-        </div>
-        <div className="buttonBox">
-          <S.Btn onClick={() => setIsUpdateModalOpen(true)}>수정 x</S.Btn>
-          <S.Btn onClick={deleteExperienceHandler}>삭제 x</S.Btn>
-        </div>
+        <S.TextArea>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <S.PastWorkField>{experience.pastWorkField}</S.PastWorkField>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <S.PastWorkDetail>
+              {experience.pastWorkPlace}/{experience.pastEmploymentType}/
+              {experience.pastWorkPosition}
+            </S.PastWorkDetail>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <S.PastWorkDuration>
+              {
+                new Date(experience.pastWorkDuration.pastWorkStartDate)
+                  .toISOString()
+                  .split("T")[0]
+              }
+              ~
+              {
+                new Date(experience.pastWorkDuration.pastWorkEndDate)
+                  .toISOString()
+                  .split("T")[0]
+              }
+            </S.PastWorkDuration>
+          </div>
+        </S.TextArea>
+        <S.BtnBox>
+          <S.Btn onClick={() => setIsUpdateModalOpen(true)}>수정</S.Btn>
+          <S.Btn marginLeft="10px" onClick={deleteExperienceHandler}>
+            삭제
+          </S.Btn>
+        </S.BtnBox>
       </S.WorkExperienceList>
     </>
   );
@@ -89,6 +114,13 @@ const ResumeExperienceCard: React.FC<ExperienceCardProps> = ({
 
 export default ResumeExperienceCard;
 
+interface BtnProps {
+  width?: string;
+  height?: string;
+  padding?: string;
+  margin?: string;
+  marginLeft?: string;
+}
 const S = {
   WorkExperienceContainer: styled.section`
     width: 100%;
@@ -97,29 +129,53 @@ const S = {
   WorkExperienceListWrapper: styled.ul`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 30px;
     margin-top: 10px;
   `,
   WorkExperienceList: styled.li`
-    background-color: #8080803d;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 5px;
     list-style: none;
-    border-radius: 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--main-blue);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   `,
-
-  Btn: styled.button`
-    background-color: #1fc17d;
+  TextArea: styled.div``,
+  PastWorkField: styled.p`
+    font-size: 26px;
+  `,
+  PastWorkDetail: styled.p`
+    font-size: 20px;
+    margin-top: 5px;
+  `,
+  PastWorkDuration: styled.p`
+    font-size: 18px;
+    margin-top: 5px;
+  `,
+  BtnBox: styled.div`
+    display: flex;
+    margin-top: 25px;
+    margin-left: auto;
+    padding-right: 3%;
+  `,
+  Btn: styled.button<BtnProps>`
+    background-color: var(--main-blue);
     color: white;
     border: none;
-    padding: 10px;
+
     border-radius: 5px;
-    margin-top: 30px;
     cursor: pointer;
     font-size: 13px;
     transition: background-color 0.3s ease;
     &:hover {
-      background-color: #168c68;
+      background-color: var(--hover-blue);
     }
-    width: 100%;
+    width: ${(props) => props.width};
+    height: ${(props) => props.height};
+    padding: ${(props) => props.padding || "10px"};
+    margin-left: ${(props) => props.marginLeft};
   `,
 };

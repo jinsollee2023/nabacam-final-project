@@ -17,7 +17,7 @@ const PortfolioTab = () => {
   return (
     <>
       {/* 썸네일만 */}
-      <S.PortfolioListContainer style={{ border: "solid black" }}>
+      <S.PortfolioListContainer>
         <S.PortfolioListWrapper>
           {portfolios &&
             portfolios.map((portfolio) => (

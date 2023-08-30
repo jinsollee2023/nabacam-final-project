@@ -59,18 +59,23 @@ const ResumeProfileIntroComp = () => {
   return (
     <>
       <S.ProfileContainer>
-        <p>프로필</p>
-        {previousProfileIntroInput.length > 0 ? (
-          <S.Btn onClick={() => setIsAddModalOpen(true)}>프로필 수정하기</S.Btn>
-        ) : (
-          <S.Btn
-            onClick={() => {
-              setIsAddModalOpen(true);
-            }}
-          >
-            + 프로필 등록하기
-          </S.Btn>
-        )}
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <S.ProfileTitle>프로필</S.ProfileTitle>
+          {previousProfileIntroInput.length > 0 ? (
+            <S.ProfileBtn onClick={() => setIsAddModalOpen(true)}>
+              프로필 수정하기
+            </S.ProfileBtn>
+          ) : (
+            <S.ProfileBtn
+              onClick={() => {
+                setIsAddModalOpen(true);
+              }}
+            >
+              + 프로필 등록하기
+            </S.ProfileBtn>
+          )}
+        </div>
+
         <S.ProfileInputBox>
           <div>
             {resumeProfileIntroObject
@@ -120,16 +125,23 @@ export default ResumeProfileIntroComp;
 const S = {
   ProfileContainer: styled.section`
     width: 100%;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+  `,
+  ProfileTitle: styled.p`
+    font-size: 36px;
+    font-weight: bold;
   `,
   ProfileInputBox: styled.div`
-    background-color: #8080803d;
+    font-size: 24px;
     padding: 10px;
-    margin-top: 5px;
-    border-radius: 10px;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: 1.5px solid var(--main-blue);
   `,
-  Btn: styled.button`
-    background-color: #1fc17d;
+  ProfileBtn: styled.button`
+    background-color: var(--main-blue);
     color: white;
     border: none;
     padding: 4px 8px;
@@ -139,7 +151,7 @@ const S = {
     font-size: 13px;
     transition: background-color 0.3s ease;
     &:hover {
-      background-color: #168c68;
+      background-color: var(--hover-blue);
     }
   `,
 };

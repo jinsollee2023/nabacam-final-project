@@ -41,7 +41,7 @@ const ResumeExperienceComp = () => {
   return (
     <>
       <S.WorkExperienceContainer>
-        <p>경력사항</p>
+        <S.WorkExperienceTitle>경력사항</S.WorkExperienceTitle>
         <S.WorkExperienceListWrapper>
           {resumeExperienceArr &&
             resumeExperienceArr?.map((item: ResumeExperience) => (
@@ -51,6 +51,7 @@ const ResumeExperienceComp = () => {
       </S.WorkExperienceContainer>
       {/* ------------------------------------------------------------ */}
       <S.Btn
+        marginTop="30px"
         onClick={() => {
           setIsAddModalOpen(true);
         }}
@@ -63,7 +64,7 @@ const ResumeExperienceComp = () => {
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <button onClick={addExperienceHandler}>등록하기</button>
+              <S.Btn onClick={addExperienceHandler}>등록하기</S.Btn>
             </>
           }
         >
@@ -76,37 +77,46 @@ const ResumeExperienceComp = () => {
 
 export default ResumeExperienceComp;
 
+interface BtnProps {
+  marginTop?: string;
+}
 const S = {
   WorkExperienceContainer: styled.section`
     width: 100%;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+  `,
+  WorkExperienceTitle: styled.p`
+    font-size: 36px;
+    font-weight: bold;
   `,
   WorkExperienceListWrapper: styled.ul`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 15px;
   `,
   WorkExperienceList: styled.li`
-    background-color: #8080803d;
     padding: 20px;
     list-style: none;
-    border-radius: 10px;
+    border-radius: 8px;
+    border: solid #0086d0;
   `,
 
-  Btn: styled.button`
-    background-color: #1fc17d;
+  Btn: styled.button<BtnProps>`
+    background-color: var(--main-blue);
     color: white;
     border: none;
     padding: 10px;
     border-radius: 5px;
-    margin-top: 30px;
     cursor: pointer;
     font-size: 13px;
     transition: background-color 0.3s ease;
     &:hover {
-      background-color: #168c68;
+      background-color: var(--hover-blue);
     }
     width: 100%;
+    margin-top: ${(props) => props.marginTop};
   `,
 };

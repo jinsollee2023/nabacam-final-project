@@ -58,8 +58,9 @@ const AddResumeExperienceModal = () => {
   return (
     <>
       <form>
-        <label>
+        <S.Label>
           근무분야
+          <br />
           <Space wrap>
             <Select
               defaultValue={selectedPastWorkField}
@@ -76,9 +77,12 @@ const AddResumeExperienceModal = () => {
               ]}
             />
           </Space>
-        </label>
-        <label>
+        </S.Label>
+        <br />
+        <br />
+        <S.Label>
           근무형태
+          <br />
           <Space wrap>
             <Select
               defaultValue={selectedPastEmploymentType}
@@ -91,44 +95,50 @@ const AddResumeExperienceModal = () => {
               ]}
             />
           </Space>
-        </label>
+        </S.Label>
 
         <br />
         <br />
-        <label>
-          근무지:
+        <S.Label>
+          근무지
+          <br />
           <S.Input
             type="text"
             value={pastWorkPlace}
             onChange={(e) => onChangePastWorkPlaceHandler(e.target.value)}
+            placeholder="입력해주세요."
           />
-        </label>
+        </S.Label>
         <br />
-        <label>
-          직책:
+        <S.Label>
+          직책
+          <br />
           <S.Input
             type="text"
             value={pastWorkPosition}
             onChange={(e) => onChangePastWorkPositionHandler(e.target.value)}
+            placeholder="입력해주세요."
           />
-        </label>
+        </S.Label>
         <br />
-        <label>
-          근무기간
-          <br />
-          입사일:
+        <S.Label>
+          근무 일자
+          <p style={{ fontSize: "15px", marginTop: "10px" }}>
+            입사일을 선택해주세요.
+          </p>
           <DatePicker
             selected={pastWorkStartDate}
             onChange={onChangePastWorkStartDateHandler}
             dateFormat="yyyy-MM-dd"
           />
-          퇴사일:
+          <br />
+          <p style={{ fontSize: "15px" }}>퇴사일을 선택해주세요.</p>
           <DatePicker
             selected={pastWorkEndDate}
             onChange={onChangePastWorkEndDateHandler}
             dateFormat="yyyy-MM-dd"
           />
-        </label>
+        </S.Label>
       </form>
     </>
   );
@@ -138,9 +148,14 @@ export default AddResumeExperienceModal;
 
 const S = {
   Input: styled.input`
+    width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 28px;
+  `,
+  Label: styled.label`
+    font-size: 32px;
   `,
 };
