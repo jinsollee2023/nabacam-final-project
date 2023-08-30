@@ -61,7 +61,11 @@ const ContractTerminationFreelancerList = ({
   return (
     <>
       <S.listContainer>
-        {filteredFreelancers
+        {[
+          ...new Map(
+            filteredFreelancers.map((project) => [project.freelancerId, project])
+          ).values(),
+        ]
           .sort((a, b) =>
             isLastFirst
               ? new Date(b.date.endDate).getTime() - new Date(a.date.endDate).getTime()

@@ -327,7 +327,6 @@ const useProjectsQueries = ({
           freelancer: await project.freelancerPromise,
         }))
       );
-      // console.log(terminationedProjectsWithFreelancers);
       return terminationedProjectsWithFreelancers;
     },
     {

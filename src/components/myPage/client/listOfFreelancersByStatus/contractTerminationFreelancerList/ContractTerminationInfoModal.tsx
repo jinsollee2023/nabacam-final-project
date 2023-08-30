@@ -19,7 +19,7 @@ const ContractTerminationInfoModal = ({ user, project }: ContractTerminationInfo
     currentUserId: userId,
     freelancerId: user.userId,
   });
-  console.log("ddd", user);
+
   return (
     <>
       <S.ModalTitle>이전에 함께 작업했던 {user.name}님의 프로필이에요.</S.ModalTitle>
