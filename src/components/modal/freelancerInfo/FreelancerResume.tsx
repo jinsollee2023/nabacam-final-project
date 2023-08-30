@@ -19,12 +19,14 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
             const endDate = new Date(experience.pastWorkDuration.pastWorkEndDate);
 
             return (
-              <S.ExperienceBox key={index}>
+              <S.ExperienceBox key={`${experience.experienceId}-${index}`}>
+                <span>{experience.pastWorkField}</span>
                 <span>{experience.pastWorkPlace}</span>
-                <span>
-                  {startDate.toISOString().split("T")[0]} - {endDate.toISOString().split("T")[0]}
-                </span>
+                <span>{experience.pastEmploymentType}</span>
                 <span>{experience.pastWorkPosition}</span>
+                <span>
+                  {startDate.toISOString().split("T")[0]} ~ {endDate.toISOString().split("T")[0]}
+                </span>
               </S.ExperienceBox>
             );
           })

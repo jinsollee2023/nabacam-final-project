@@ -20,21 +20,14 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
           <S.UserWorkField>{user.workField?.workField}</S.UserWorkField>
           <p>{user.workExp}년차</p>
         </div>
-        <div
-          style={{
-            display: "flex",
-            gap: "5px",
-            color: "gray",
-            fontSize: "14px",
-          }}
-        >
-          <p>
+        <S.Contact>
+          <S.Contacts>
             <BsTelephoneFill color="black" /> {user.contact.phone}
-          </p>
-          <p style={{ marginLeft: "10px" }}>
+          </S.Contacts>
+          <S.Contacts>
             <MdEmail color="black" /> {user.contact.email}
-          </p>
-        </div>
+          </S.Contacts>
+        </S.Contact>
       </S.UserBox>
     </S.UserInfoBox>
   );

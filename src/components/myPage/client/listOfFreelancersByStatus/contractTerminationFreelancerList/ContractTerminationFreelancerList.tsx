@@ -24,31 +24,26 @@ const ContractTerminationFreelancerList = ({
     currentUserId: userId,
   });
 
-  const [filteredFreelancers, setFilteredFreelancers] = useState<
-    IProjectWithFreelancer[]
-  >(terminationedProjectsWithFreelancers!);
+  const [filteredFreelancers, setFilteredFreelancers] = useState<IProjectWithFreelancer[]>(
+    terminationedProjectsWithFreelancers!
+  );
   useEffect(() => {
     changeSearchKeyword("");
   }, []);
 
   useEffect(() => {
     if (terminationedProjectsWithFreelancers) {
-      const filteredfreelancerLists =
-        terminationedProjectsWithFreelancers?.filter((project) => {
-          const lowerCaseSearch = String(searchKeyword).toLowerCase();
-          const workExp = String(project.freelancer.workExp);
-          return (
-            project.freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
-            project.freelancer?.workField?.workField
-              ?.toLowerCase()
-              .includes(lowerCaseSearch) ||
-            project.freelancer?.workField?.workSmallField
-              ?.toLowerCase()
-              .includes(lowerCaseSearch) ||
-            project.title.toLowerCase().includes(lowerCaseSearch) ||
-            workExp === searchKeyword
-          );
-        });
+      const filteredfreelancerLists = terminationedProjectsWithFreelancers?.filter((project) => {
+        const lowerCaseSearch = String(searchKeyword).toLowerCase();
+        const workExp = String(project.freelancer.workExp);
+        return (
+          project.freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
+          project.freelancer?.workField?.workField?.toLowerCase().includes(lowerCaseSearch) ||
+          project.freelancer?.workField?.workSmallField?.toLowerCase().includes(lowerCaseSearch) ||
+          project.title.toLowerCase().includes(lowerCaseSearch) ||
+          workExp === searchKeyword
+        );
+      });
       setFilteredFreelancers(filteredfreelancerLists);
     }
   }, [terminationedProjectsWithFreelancers, searchKeyword]);
@@ -69,10 +64,8 @@ const ContractTerminationFreelancerList = ({
         {filteredFreelancers
           .sort((a, b) =>
             isLastFirst
-              ? new Date(b.date.endDate).getTime() -
-                new Date(a.date.endDate).getTime()
-              : new Date(a.date.endDate).getTime() -
-                new Date(b.date.endDate).getTime()
+              ? new Date(b.date.endDate).getTime() - new Date(a.date.endDate).getTime()
+              : new Date(a.date.endDate).getTime() - new Date(b.date.endDate).getTime()
           )
           .filter(
             (project) =>
@@ -80,9 +73,7 @@ const ContractTerminationFreelancerList = ({
               project.freelancer.workField?.workField === selectedWorkField
           )
           .map((project) => (
-            <S.ListsBox
-              key={`${project.freelancer.userId}-${project.projectId}`}
-            >
+            <S.ListsBox key={`${project.freelancer.userId}-${project.projectId}`}>
               <ContractTerminationFreelancerCards
                 key={`${project.freelancer.userId}-${project.projectId}`}
                 user={project.freelancer}

@@ -15,6 +15,7 @@ const ApplicantFreelancerInfoModal = ({ user, project }: ApplicantFreelancerInfo
     <>
       <S.ModalTitle>{project.title} 프로젝트에 지원</S.ModalTitle>
       <FreelancerProfile user={user} />
+      <hr />
       <S.ProjectConditions>
         <div style={{ width: "100%" }}>
           <S.ProjectConditionTitle>목표 기간</S.ProjectConditionTitle>

@@ -9,8 +9,8 @@ export const S = {
   `,
   FilterBtn: styled.button`
     position: relative;
-    float: right;
-    right: 100px;
+    margin: 15px;
+    left: 10px;
     width: 90px;
     height: 30px;
     background-color: transparent;

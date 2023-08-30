@@ -50,6 +50,17 @@ export const S = {
     word-break: break-all;
     background-color: rgba(0, 0, 0, 0.1);
   `,
+  Contact: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+  `,
+  Contacts: styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  `,
   PortfolioBox: styled.div`
     display: flex;
     gap: 10px;
@@ -107,6 +118,7 @@ export const S = {
     min-width: 210px;
     min-height: 100px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 15px;
