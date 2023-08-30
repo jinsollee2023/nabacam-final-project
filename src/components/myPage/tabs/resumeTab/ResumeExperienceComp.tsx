@@ -49,7 +49,6 @@ const ResumeExperienceComp = () => {
             ))}
         </S.WorkExperienceListWrapper>
       </S.WorkExperienceContainer>
-      {/* ------------------------------------------------------------ */}
       <S.Btn
         marginTop="30px"
         onClick={() => {
@@ -58,7 +57,6 @@ const ResumeExperienceComp = () => {
       >
         + 경력 추가하기
       </S.Btn>
-      {/* ---------------------------추가 모달--------------------------------- */}
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}
