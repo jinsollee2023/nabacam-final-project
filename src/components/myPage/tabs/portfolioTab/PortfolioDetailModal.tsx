@@ -47,9 +47,7 @@ const PortfolioDetailModal = ({
             >
               pdf 확인 및 다운로드
             </a>
-          ) : (
-            "첨부된 pdf 없음"
-          )}
+          ) : null}
         </S.PFPDFContainer>
         <S.PFLinkContainer>
           {portfolioData.linkURL ? (
@@ -60,9 +58,7 @@ const PortfolioDetailModal = ({
             >
               링크 주소 바로가기
             </a>
-          ) : (
-            "첨부된 링크 주소 없음"
-          )}
+          ) : null}
         </S.PFLinkContainer>
       </>
     </Modal>
@@ -86,17 +82,14 @@ const S = {
     line-height: 1.4;
   `,
   PFThumbnailContainer: styled.section`
-    border: solid;
     margin-top: 20px;
     padding: 5px;
   `,
   PFPDFContainer: styled.section`
-    border: solid;
     margin-top: 30px;
     padding: 5px;
   `,
   PFLinkContainer: styled.section`
-    border: solid;
     margin-top: 30px;
     padding: 5px;
   `,

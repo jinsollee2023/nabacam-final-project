@@ -1,71 +1,55 @@
 import supabase from "../config/supabaseClient";
+import type { ResumeExperience } from "src/Types";
 
 export const getExperience = async (userId: string) => {
   let { data, error } = await supabase
     .from("users")
     .select("resumeExperience")
     .eq("userId", userId);
-  return data;
+
+  // data 내에서 resumeExperience 필드 배열만 추출
+  const resumeExperienceArray = data?.[0]?.resumeExperience || [];
+
+  return resumeExperienceArray;
 };
 
-interface NewData {
-  experienceId: string;
-  pastWorkDuration: {
-    pastWorkEndDate: string;
-    pastWorkStartDate: string;
-  };
-  pastWorkPlace: string;
-  pastWorkPosition: string;
-}
 export const addExperience = async ({
-  newData,
+  newExperience,
   userId,
 }: {
-  newData: NewData;
+  newExperience: ResumeExperience;
   userId: string;
 }) => {
-  // 먼저 사용자의 현재 데이터를 가져옴
+  // 기존 데이터
   const { data: prevData, error } = await supabase
     .from("users")
     .select("resumeExperience")
     .eq("userId", userId);
-
   if (error) {
     return;
   }
-
-  // 기존 데이터를 가져온 후, 새로운 데이터를 추가
-  const currentExperience = prevData[0].resumeExperience || []; // 데이터가 없으면 빈 배열로 시작
+  // + 새로운 데이터
+  const currentExperience = prevData[0].resumeExperience || [];
   currentExperience.push({
-    experienceId: newData.experienceId,
+    experienceId: newExperience.experienceId,
+    pastWorkField: newExperience.pastWorkField,
+    pastEmploymentType: newExperience.pastEmploymentType,
     pastWorkDuration: {
-      pastWorkEndDate: newData.pastWorkDuration.pastWorkEndDate,
-      pastWorkStartDate: newData.pastWorkDuration.pastWorkStartDate,
+      pastWorkEndDate: newExperience.pastWorkDuration.pastWorkEndDate,
+      pastWorkStartDate: newExperience.pastWorkDuration.pastWorkStartDate,
     },
-    pastWorkPlace: newData.pastWorkPlace,
-    pastWorkPosition: newData.pastWorkPosition,
+    pastWorkPlace: newExperience.pastWorkPlace,
+    pastWorkPosition: newExperience.pastWorkPosition,
   });
-
-  // 업데이트된 데이터를 다시 Supabase에 저장
+  // 업데이트 데이터 저장
   const { data: accumulatedData } = await supabase
     .from("users")
     .update({ resumeExperience: currentExperience })
     .eq("userId", userId)
     .select();
-
-  console.log("accumulatedData", accumulatedData);
 };
 
 // 삭제, 수정
-interface Experience {
-  experienceId: string;
-  pastWorkDuration: {
-    pastWorkEndDate: string;
-    pastWorkStartDate: string;
-  };
-  pastWorkPlace: string;
-  pastWorkPosition: string;
-}
 export const deleteExperience = async ({
   userId,
   experienceId,
@@ -82,16 +66,13 @@ export const deleteExperience = async ({
     return;
   }
 
-  // 기존 데이터를 가져온 후, 특정 경력 데이터를 식별하여 삭제합니다.
+  // 기존 데이터에서, experienceId와 일치하는 데이터를 찾아서 삭제
   const currentExperience = prevData[0].resumeExperience || [];
-
-  // experienceId와 일치하는 데이터를 찾아서 삭제
-
   const updatedExperience = currentExperience.filter(
-    (experience: Experience) => experience.experienceId !== experienceId
+    (experience: ResumeExperience) => experience.experienceId !== experienceId
   );
 
-  // 업데이트된 데이터를 다시 Supabase에 저장합니다.
+  // 업데이트 데이터 저장
   const { data: accumulatedData } = await supabase
     .from("users")
     .update({ resumeExperience: updatedExperience })
@@ -102,20 +83,22 @@ export const deleteExperience = async ({
 export const updateExperience = async ({
   userId,
   experienceId,
-  updatedData,
+  newExperience,
 }: {
   userId: string;
   experienceId: string;
-  updatedData: {
+  newExperience: {
+    pastWorkField: string;
+    pastEmploymentType: string;
     pastWorkDuration: {
-      pastWorkEndDate: string;
-      pastWorkStartDate: string;
+      pastWorkEndDate: Date;
+      pastWorkStartDate: Date;
     };
     pastWorkPlace: string;
     pastWorkPosition: string;
   };
 }) => {
-  // 사용자의 현재 데이터를 가져옵니다.
+  // 기존 데이터
   const { data: prevData, error } = await supabase
     .from("users")
     .select("resumeExperience")
@@ -124,23 +107,21 @@ export const updateExperience = async ({
   if (error) {
     return;
   }
-
-  // 기존 데이터를 가져온 후, 특정 경력 데이터를 식별하여 업데이트합니다.
+  // experienceId와 일치하는 데이터 찾아서 업데이트
   const currentExperience = prevData[0].resumeExperience || [];
-
-  // experienceId와 일치하는 데이터를 찾아서 업데이트
-  const updatedExperience = currentExperience.map((experience: Experience) => {
-    if (experience.experienceId === experienceId) {
-      return {
-        experienceId,
-        ...updatedData,
-      };
+  const updatedExperience = currentExperience.map(
+    (experience: ResumeExperience) => {
+      if (experience.experienceId === experienceId) {
+        return {
+          experienceId, // id
+          ...newExperience,
+        };
+      }
+      return experience;
     }
-    return experience;
-  });
-
-  // 업데이트된 데이터를 다시 Supabase에 저장합니다.
-  const { data: accumulatedData } = await supabase
+  );
+  // 업데이트 데이터 저장
+  const { data: updatedesumeExperienceArray } = await supabase
     .from("users")
     .update({ resumeExperience: updatedExperience })
     .eq("userId", userId)
