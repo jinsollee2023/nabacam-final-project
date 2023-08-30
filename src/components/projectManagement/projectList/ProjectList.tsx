@@ -115,9 +115,9 @@ const ProjectList = () => {
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <button onClick={addProjectButtonHandler}>
+              <S.ModalPostBtn onClick={addProjectButtonHandler}>
                 프로젝트 게시하기
-              </button>
+              </S.ModalPostBtn>
             </>
           }
         >

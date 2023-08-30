@@ -119,28 +119,6 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <Select
-          placeholder="Select a person"
-          style={{ width: 120 }}
-          value={category}
-          onChange={categoryOnChange}
-          options={[
-            { value: "개발", label: "개발" },
-            { value: "디자인", label: "디자인" },
-            { value: "마케팅", label: "마케팅" },
-            { value: "운영", label: "운영" },
-            { value: "기획", label: "기획" },
-            { value: "기타", label: "기타" },
-          ]}
-        />
-        <S.ModalContentsLabel htmlFor="projectQualification">
-          지원조건
-        </S.ModalContentsLabel>
-        <S.ModalTitleInput
-          id="projectQualification"
-          value={qualification}
-          onChange={(e) => setQualification(Number(e.target.value))}
-        />
         <S.ModalContentsLabel htmlFor="projectDesc">
           프로젝트 설명
         </S.ModalContentsLabel>
@@ -149,56 +127,122 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
         />
+        <S.ModalContentsLabel htmlFor="projectQualification">
+          모집조건
+        </S.ModalContentsLabel>
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+          }}
+        >
+          <div style={{ width: "50%" }}>
+            분야
+            <br />
+            <Select
+              placeholder="Select a person"
+              value={category}
+              onChange={categoryOnChange}
+              options={[
+                { value: "개발", label: "개발" },
+                { value: "디자인", label: "디자인" },
+                { value: "마케팅", label: "마케팅" },
+                { value: "운영", label: "운영" },
+                { value: "기획", label: "기획" },
+                { value: "기타", label: "기타" },
+              ]}
+              style={{
+                width: "97%",
+                marginRight: "3%",
+                border: `1.5px solid var(--main-blue)`,
+                borderRadius: "8px",
+              }}
+            />
+          </div>
+          <div style={{ width: "50%" }}>
+            경력
+            <br />
+            <S.ModalTitleInput
+              id="projectQualification"
+              value={qualification}
+              onChange={(e) => setQualification(Number(e.target.value))}
+              style={{
+                width: "97%",
+                marginLeft: "3%",
+                border: `1.5px solid var(--main-blue)`,
+                borderRadius: "4px",
+              }}
+            />
+          </div>
+        </div>
       </S.ModalMainInfoBox>
       <S.ModalSubInfoBox>
-        <S.ModalContentsLabel htmlFor="projectManager">
-          담당자
-        </S.ModalContentsLabel>
-        <Select
-          id="projectManager"
-          showSearch
-          placeholder="Select a person"
-          optionFilterProp="children"
-          onChange={managerOnChange}
-          value={manager.name}
-          filterOption={(input, option) =>
-            (String(option?.label) ?? "")
-              .toLowerCase()
-              .includes(input.toLowerCase())
-          }
-          options={
-            client?.members?.length! > 0
-              ? client?.members?.map((member) => ({
-                  value: member.name,
-                  label: `${member.name} | ${member.team}`,
-                }))
-              : [
-                  {
-                    value: "disabled",
-                    label: "등록된 멤버가 없습니다.",
-                    disabled: true,
-                  },
-                  {
-                    value: "goToAddMember",
-                    label: "멤버 등록하기",
-                  },
-                  {
-                    value: client?.name,
-                    label: "기업 계정으로 설정하기",
-                  },
-                ]
-          }
-          style={{ marginBottom: "10px" }}
-        />
-        <S.ModalContentsLabel htmlFor="projectDeadLine">
-          목표 기간
-        </S.ModalContentsLabel>
-        <DatePicker
-          id="projectDeadLine"
-          onChange={dateOnChange}
-          style={{ marginBottom: "20px" }}
-          defaultValue={deadLine ? dayjs(deadLine) : undefined}
-        />
+        <div style={{ width: "50%" }}>
+          <S.ModalContentsLabel htmlFor="projectDeadLine">
+            목표 기간
+          </S.ModalContentsLabel>
+          <br />
+          <DatePicker
+            id="projectDeadLine"
+            onChange={dateOnChange}
+            style={{
+              marginBottom: "20px",
+              width: "97%",
+              marginRight: "3%",
+              border: `1.5px solid var(--main-blue)`,
+              borderRadius: "4px",
+            }}
+            defaultValue={deadLine ? dayjs(deadLine) : undefined}
+          />
+        </div>
+        <div style={{ width: "50%" }}>
+          <S.ModalContentsLabel htmlFor="projectManager">
+            담당자
+          </S.ModalContentsLabel>
+          <br />
+          <Select
+            id="projectManager"
+            showSearch
+            placeholder="Select a person"
+            optionFilterProp="children"
+            onChange={managerOnChange}
+            value={manager.name}
+            filterOption={(input, option) =>
+              (String(option?.label) ?? "")
+                .toLowerCase()
+                .includes(input.toLowerCase())
+            }
+            options={
+              client?.members?.length! > 0
+                ? client?.members?.map((member) => ({
+                    value: member.name,
+                    label: `${member.name} | ${member.team}`,
+                  }))
+                : [
+                    {
+                      value: "disabled",
+                      label: "등록된 멤버가 없습니다.",
+                      disabled: true,
+                    },
+                    {
+                      value: "goToAddMember",
+                      label: "멤버 등록하기",
+                    },
+                    {
+                      value: client?.name,
+                      label: "기업 계정으로 설정하기",
+                    },
+                  ]
+            }
+            style={{
+              marginBottom: "20px",
+              width: "97%",
+              marginLeft: "3%",
+              border: `1.5px solid var(--main-blue)`,
+              borderRadius: "8px",
+            }}
+          />
+        </div>
       </S.ModalSubInfoBox>
 
       <S.ModalContentsLabel htmlFor="payBox">급여</S.ModalContentsLabel>

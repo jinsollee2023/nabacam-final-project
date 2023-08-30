@@ -7,6 +7,7 @@ import Modal from "src/components/modal/Modal";
 import type { ResumeExperience } from "src/Types";
 import { useResumeExperienceStore } from "src/zustand/useResumeExperienceStore";
 import ResumeExperienceCard from "./ResumeExperienceCard";
+import { BsPlusSquareDotted } from "react-icons/bs";
 
 const ResumeExperienceComp = () => {
   const { userId } = useUserStore();
@@ -51,11 +52,21 @@ const ResumeExperienceComp = () => {
       </S.WorkExperienceContainer>
       <S.Btn
         marginTop="30px"
+        style={{ marginBottom: "30px" }}
         onClick={() => {
           setIsAddModalOpen(true);
         }}
       >
-        + 경력 추가하기
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <BsPlusSquareDotted size="15" style={{ marginRight: "5px" }} />
+          <span>경력 추가하기</span>
+        </div>
       </S.Btn>
       {isAddModalOpen && (
         <Modal
@@ -86,7 +97,7 @@ const S = {
     margin-top: 10px;
   `,
   WorkExperienceTitle: styled.p`
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
   `,
   WorkExperienceListWrapper: styled.ul`

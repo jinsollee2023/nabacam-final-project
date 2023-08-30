@@ -101,7 +101,7 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
         </S.TextArea>
         <S.BtnBox>
           <S.Btn onClick={() => setIsUpdateModalOpen(true)}>수정</S.Btn>
-          <S.Btn marginLeft="10px" onClick={deleteExperienceHandler}>
+          <S.Btn marginleft="10px" onClick={deleteExperienceHandler}>
             삭제
           </S.Btn>
         </S.BtnBox>
@@ -117,7 +117,7 @@ interface BtnProps {
   height?: string;
   padding?: string;
   margin?: string;
-  marginLeft?: string;
+  marginleft?: string;
 }
 const S = {
   WorkExperienceContainer: styled.section`
@@ -127,8 +127,8 @@ const S = {
   WorkExperienceListWrapper: styled.ul`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin-top: 10px;
+    gap: 10px;
+    margin-top: 50px;
   `,
   WorkExperienceList: styled.li`
     padding-top: 20px;
@@ -143,7 +143,8 @@ const S = {
   `,
   TextArea: styled.div``,
   PastWorkField: styled.p`
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: bolder;
   `,
   PastWorkDetail: styled.p`
     font-size: 16px;
@@ -174,6 +175,6 @@ const S = {
     width: ${(props) => props.width};
     height: ${(props) => props.height};
     padding: ${(props) => props.padding || "10px"};
-    margin-left: ${(props) => props.marginLeft};
+    margin-left: ${(props) => props.marginleft};
   `,
 };

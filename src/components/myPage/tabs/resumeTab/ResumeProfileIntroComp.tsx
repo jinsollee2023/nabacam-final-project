@@ -111,7 +111,7 @@ const S = {
     margin-top: 10px;
   `,
   ProfileTitle: styled.p`
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
   `,
   ProfileInputBox: styled.div`
