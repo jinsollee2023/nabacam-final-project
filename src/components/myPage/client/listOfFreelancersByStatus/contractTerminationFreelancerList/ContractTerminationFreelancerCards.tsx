@@ -30,9 +30,11 @@ const ContractTerminationFreelancerCards = ({
     suggestedFreelancersData,
     updateSuggestedFreelancersDataMutation,
     refetchprojectDataForSuggestions,
+    terminationedProjectsWithFreelancers,
   } = useProjectsQueries({
     currentUserId: userId,
     selectedProject,
+    freelancerId: project.freelancerId,
   });
 
   useEffect(() => {
@@ -57,6 +59,19 @@ const ContractTerminationFreelancerCards = ({
     setIsSuggestingAgainModalOpen(false);
     alert("프로젝트 제안이 완료 되었습니다.");
   };
+
+  // 프리랜서 아이디별 개수를 세기 위한 객체
+  const freelancerCounts: Record<string, number> = {};
+
+  terminationedProjectsWithFreelancers?.forEach((project) => {
+    const freelancerId = project.freelancerId as string;
+
+    if (!freelancerCounts[freelancerId]) {
+      freelancerCounts[freelancerId] = 1;
+    } else {
+      freelancerCounts[freelancerId]++;
+    }
+  });
 
   return (
     <>
@@ -91,7 +106,9 @@ const ContractTerminationFreelancerCards = ({
                     </div>
                   </S.ContentContainer>
                   <S.Line />
-                  <S.OngoingProject>진행했던 프로젝트</S.OngoingProject>
+                  <S.OngoingProject>
+                    {freelancerCounts[user.userId] || 0}건의 함께 했던 프로젝트
+                  </S.OngoingProject>
                   <S.ProjectTitle>{project.title}</S.ProjectTitle>
                   <S.ProjectDate>
                     {dayjs(project.date.startDate).format("YYMMDD")}{" "}

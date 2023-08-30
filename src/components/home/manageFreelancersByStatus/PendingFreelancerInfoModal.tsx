@@ -15,6 +15,7 @@ const PendingFreelancerInfoModal = ({ user, project }: PendingFreelancerInfoModa
     <>
       <S.ModalTitle>보류한 프리랜서</S.ModalTitle>
       <FreelancerProfile user={user} />
+      <hr />
       <S.ProjectConditions>
         <div style={{ width: "100%" }}>
           <S.ProjectConditionTitle>목표 기간</S.ProjectConditionTitle>
