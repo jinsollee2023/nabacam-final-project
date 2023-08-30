@@ -130,11 +130,11 @@ const S = {
     margin-top: 10px;
   `,
   ProfileTitle: styled.p`
-    font-size: 36px;
+    font-size: 24px;
     font-weight: bold;
   `,
   ProfileInputBox: styled.div`
-    font-size: 24px;
+    font-size: 18px;
     padding: 10px;
     margin-top: 15px;
     border-radius: 8px;

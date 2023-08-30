@@ -145,14 +145,14 @@ const S = {
   `,
   TextArea: styled.div``,
   PastWorkField: styled.p`
-    font-size: 26px;
+    font-size: 20px;
   `,
   PastWorkDetail: styled.p`
-    font-size: 20px;
+    font-size: 16px;
     margin-top: 5px;
   `,
   PastWorkDuration: styled.p`
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 5px;
   `,
   BtnBox: styled.div`

@@ -153,9 +153,9 @@ const S = {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 28px;
+    font-size: 14px;
   `,
   Label: styled.label`
-    font-size: 32px;
+    font-size: 18px;
   `,
 };

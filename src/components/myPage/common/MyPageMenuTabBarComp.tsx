@@ -41,7 +41,7 @@ const S = {
   `,
   MenuTab: styled.span<MenuTabProps>`
     margin: 0 20px;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: ${(props) => props.fontWeight};
     cursor: pointer;
   `,

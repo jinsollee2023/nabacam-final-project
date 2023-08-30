@@ -88,7 +88,7 @@ const S = {
     margin-top: 10px;
   `,
   WorkExperienceTitle: styled.p`
-    font-size: 36px;
+    font-size: 24px;
     font-weight: bold;
   `,
   WorkExperienceListWrapper: styled.ul`
