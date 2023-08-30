@@ -17,11 +17,11 @@ const ContractTerminationFreelancers = () => {
     <>
       <S.SearchBox>
         <SearchItemBar />
+        <S.FilterBtn onClick={handleSortToggle}>
+          {isLastFirst ? "최신순" : "오래된 순"}
+          <LuArrowUpDown />
+        </S.FilterBtn>
       </S.SearchBox>
-      <S.FilterBtn onClick={handleSortToggle}>
-        {isLastFirst ? "최신순" : "오래된 순"}
-        <LuArrowUpDown />
-      </S.FilterBtn>
       <S.SelectBox>
         <WorkFieldCategory onSelectWorkField={setSelectedWorkField} />
       </S.SelectBox>

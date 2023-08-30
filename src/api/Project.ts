@@ -199,6 +199,20 @@ export const getTerminationedProjects = async (clientId: string): Promise<Projec
   return projects as Project[];
 };
 
+export const getTerminationedProjectsWithFreelancer = async (
+  clientId: string,
+  freelancerId: string
+): Promise<Project[]> => {
+  const { data: projects } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("clientId", clientId)
+    .eq("freelancerId", freelancerId)
+    .eq("status", "진행 완료");
+
+  return projects as Project[];
+};
+
 /* 프리랜서 승인 API */
 export const updateApprovalFreelancer = async (
   userId: string,

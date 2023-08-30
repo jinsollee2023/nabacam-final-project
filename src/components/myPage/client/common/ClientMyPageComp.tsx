@@ -1,4 +1,5 @@
 import MenuTabBarComp from "src/components/common/MenuTabBarComp";
+import Account from "../../myProfile/Account";
 
 const ClientMyPageComp = () => {
   const menu = [
@@ -8,7 +9,9 @@ const ClientMyPageComp = () => {
   ];
   return (
     <div>
-      <MenuTabBarComp menu={menu} />
+      <MenuTabBarComp menu={menu}>
+        <Account />
+      </MenuTabBarComp>
     </div>
   );
 };

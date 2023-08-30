@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Select } from "antd";
-import ImagePreview from "./ProfileImg";
+import PreviewImage from "./PreviewImage";
 import { uploadUserImage } from "src/api/User";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "src/zustand/useUserStore";
@@ -66,7 +66,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
     setModal(!modal);
   };
   // 미리보기 핸들러
-
   const handlePhotoURLOnChange = (file: File) => {
     setPhotoFile(file);
   };
@@ -76,6 +75,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const cancel = () => {
     setOpenClientJoin(false);
   };
+
+  const JoinDefaultImage =
+    "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMyAg/MDAxNjA0MjI5NDA4NDMy.5zGHwAo_UtaQFX8Hd7zrDi1WiV5KrDsPHcRzu3e6b8Eg.IlkR3QN__c3o7Qe9z5_xYyCyr2vcx7L_W1arNFgwAJwg.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%8C%8C%EC%8A%A4%ED%85%94.jpg?type=w800";
 
   return (
     <>
@@ -124,7 +126,10 @@ const JoinForm = ({ role }: JoinFormProps) => {
               />
               <div>{errors.name && <p>{errors.name}</p>}</div>
 
-              <ImagePreview handlePhotoURLOnChange={handlePhotoURLOnChange} />
+              <PreviewImage
+                handlePhotoURLOnChange={handlePhotoURLOnChange}
+                defaultImage={JoinDefaultImage}
+              />
 
               {role === "freelancer" && (
                 <>

@@ -1,129 +1,119 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Modal } from "antd";
-import React from "react";
+import { Select } from "antd";
+import React, { useEffect, useState } from "react";
 import { User } from "src/Types";
-import { updateUser } from "src/api/User";
-import useInput from "src/hooks/useInput";
-import { useUserStore } from "src/zustand/useUserStore";
+import PreviewImage from "src/components/auth/join/PreviewImage";
+import { useProfileInfoStore } from "src/zustand/useProfileInfoStore";
 
 interface EditFormProps {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  user: User | null | undefined;
+  user: User;
 }
-const EditForm: React.FC<EditFormProps> = ({ open, setOpen, user }) => {
+const EditForm = ({ user }: EditFormProps) => {
   // 상태관리
-  const previousData = user;
-  const updatedNameInput = useInput(previousData?.name);
-  const updatedWorkFieldInput = useInput(previousData?.workField?.workField);
-  const updatedWorkSmallFieldInput = useInput(
-    previousData?.workField?.workSmallField
-  );
-  const updatedEmailInput = useInput(previousData?.contact?.email);
-  const updatedPhoneInput = useInput(previousData?.contact?.phone);
-  const updatedProjectIdInput = useInput(previousData?.projectId);
-
-  const { userId, setUser } = useUserStore();
-
-  // UPDATE
-  const queryClient = useQueryClient();
-  const updateMutation = useMutation(updateUser, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["profileIntro", userId]);
-    },
-  });
-
-  const updateFreelancerHandler = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
-
-    // 업데이트 대상
-    const updatedData = {
-      name: updatedNameInput.value,
-      workField: {
-        workField: updatedWorkFieldInput.value,
-        workSmallField: updatedWorkSmallFieldInput.value,
-      },
-      contact: {
-        email: updatedEmailInput.value,
-        phone: updatedPhoneInput.value,
-      },
-      projectId: updatedProjectIdInput.value,
-    };
-
-    // 업데이트
-    updateMutation.mutate({ updatedData, userId, setUser });
-
-    // 입력창 비우고 모달 닫기
-    updatedNameInput.reset();
-    updatedWorkFieldInput.reset();
-    updatedEmailInput.reset();
-    updatedPhoneInput.reset();
-    updatedProjectIdInput.reset();
-    setOpen(false);
+  const initialValues = {
+    name: user.name,
+    workSmallField: user.workField?.workSmallField as string,
+    phone: user.contact.phone,
+    photo: user.photoURL,
   };
 
+  const [values, setValues] = useState(initialValues);
+  const [workField, setWorkField] = useState(user.workField?.workField);
+  const [photoFile, setPhotoFile] = useState<File>();
+  const { changeNewProfileInfo } = useProfileInfoStore();
+
+  const newProfileInfo = {
+    name: values.name,
+    workField: workField as string,
+    workSmallField: values.workSmallField,
+    phone: values.phone,
+    photo: photoFile ? (photoFile as File) : user.photoURL,
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+    setValues({ ...values, [id]: value });
+  };
+
+  const selectOnChange = (value: string) => {
+    setWorkField(value);
+  };
+
+  useEffect(() => {
+    changeNewProfileInfo(newProfileInfo);
+  }, [values, photoFile, workField]);
+
   return (
-    <Modal
-      title="개인정보 수정"
-      open={open}
-      onOk={updateFreelancerHandler}
-      onCancel={() => {
-        setOpen(false);
-      }}
-    >
+    <>
       <form>
+        <PreviewImage
+          handlePhotoURLOnChange={setPhotoFile}
+          defaultImage={user.photoURL}
+        />
         <label>
           이름:
           <input
+            id="name"
             type="text"
-            value={updatedNameInput.value}
-            onChange={updatedNameInput.onChange}
+            value={values.name}
+            onChange={handleChange}
           />
         </label>
         <label>
           직무분야:
-          <input
-            type="text"
-            value={updatedWorkFieldInput.value}
-            onChange={updatedWorkFieldInput.onChange}
+          <Select
+            id="workField"
+            placeholder="Select a person"
+            optionFilterProp="children"
+            onChange={selectOnChange}
+            value={workField}
+            options={[
+              {
+                value: "개발",
+                label: "개발",
+              },
+              {
+                value: "디자인",
+                label: "디자인",
+              },
+              {
+                value: "운영",
+                label: "운영",
+              },
+              {
+                value: "마케팅",
+                label: "마케팅",
+              },
+              {
+                value: "기획",
+                label: "기획",
+              },
+              {
+                value: "기타",
+                label: "기타",
+              },
+            ]}
           />
         </label>
         <label>
           세부분야:
           <input
+            id="workSmallField"
             type="text"
-            value={updatedWorkSmallFieldInput.value}
-            onChange={updatedWorkSmallFieldInput.onChange}
-          />
-        </label>
-        <label>
-          이메일:
-          <input
-            type="text"
-            value={updatedEmailInput.value}
-            onChange={updatedEmailInput.onChange}
+            value={values.workSmallField}
+            onChange={handleChange}
           />
         </label>
         <label>
           전화번호:
           <input
+            id="phone"
             type="text"
-            value={updatedPhoneInput.value}
-            onChange={updatedPhoneInput.onChange}
-          />
-        </label>
-        <label>
-          현재 진행중인 프로젝트:
-          <input
-            type="text"
-            value={updatedProjectIdInput.value}
-            onChange={updatedProjectIdInput.onChange}
+            value={values.phone}
+            onChange={handleChange}
           />
         </label>
       </form>
-    </Modal>
+    </>
   );
 };
 
