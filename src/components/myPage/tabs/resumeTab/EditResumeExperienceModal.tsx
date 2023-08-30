@@ -7,27 +7,30 @@ import { v4 as uuidv4 } from "uuid";
 import type { ResumeExperience } from "src/Types";
 import { useResumeExperienceStore } from "src/zustand/useResumeExperienceStore";
 
-const EditResumeExperienceModal = () => {
-  const { newExperience: previousExperience, changeNewExperience } =
-    useResumeExperienceStore();
+interface ExperienceProps {
+  experience: ResumeExperience;
+}
+const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
+  console.log("14", experience);
+  const { changeNewExperience } = useResumeExperienceStore();
 
   const [pastWorkPlace, setPastWorkPlace] = useState(
-    previousExperience.pastWorkPlace || ""
+    experience ? experience.pastWorkPlace : ""
   );
   const [pastWorkPosition, setPastWorkPosition] = useState(
-    previousExperience.pastWorkPosition || ""
+    experience ? experience.pastWorkPosition : ""
   );
   const [pastWorkStartDate, setPastWorkStartDate] = useState(
-    previousExperience.pastWorkDuration.pastWorkStartDate || new Date()
+    experience ? experience.pastWorkDuration.pastWorkStartDate : new Date()
   );
   const [pastWorkEndDate, setPastWorkEndDate] = useState(
-    previousExperience.pastWorkDuration.pastWorkEndDate || new Date()
+    experience ? experience.pastWorkDuration.pastWorkEndDate : new Date()
   );
   const [selectedPastWorkField, setSelectedPastWorkField] = useState(
-    previousExperience.pastWorkField || "전체"
+    experience ? experience.pastWorkField : "전체"
   );
   const [selectedPastEmploymentType, setSelectedPastEmploymentType] = useState(
-    previousExperience.pastEmploymentType || "전체"
+    experience ? experience.pastEmploymentType : "전체"
   );
 
   const onChangePastWorkStartDateHandler = (value: any) => {

@@ -7,12 +7,10 @@ import { styled } from "styled-components";
 import { useResumeExperienceStore } from "src/zustand/useResumeExperienceStore";
 import EditResumeExperienceModal from "./EditResumeExperienceModal";
 
-interface ExperienceCardProps {
+interface ExperienceProps {
   experience: ResumeExperience;
 }
-const ResumeExperienceCard: React.FC<ExperienceCardProps> = ({
-  experience,
-}: ExperienceCardProps) => {
+const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
   const { userId } = useUserStore();
   const experienceId = experience.experienceId;
   const { newExperience } = useResumeExperienceStore();
@@ -49,7 +47,7 @@ const ResumeExperienceCard: React.FC<ExperienceCardProps> = ({
             </>
           }
         >
-          <EditResumeExperienceModal />
+          <EditResumeExperienceModal experience={experience} />
         </Modal>
       )}
 
