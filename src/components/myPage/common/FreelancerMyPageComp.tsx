@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { styled } from "styled-components";
 import { useUserStore } from "src/zustand/useUserStore";
-import MyPageMenuTabBarComp from "src/components/myPage/common/MyPageMenuTabBarComp";
 import Account from "../myProfile/Account";
 import ResumeTab from "../tabs/resumeTab/ResumeTab";
 import PortfolioTab from "../tabs/portfolioTab/PortfolioTab";
 import ContractInfoTab from "../tabs/ContractInfoTab";
 import FeedbackTab from "../tabs/FeedbackTab";
+import MenuTabBarComp from "src/components/common/MenuTabBarComp";
 
 const FreelancerMyPageComp = () => {
   const [activeTab, setActiveTab] = useState("이력서");
@@ -22,8 +22,7 @@ const FreelancerMyPageComp = () => {
   };
 
   return (
-    <>
-      <MyPageMenuTabBarComp menu={myPageMenu} />
+    <MenuTabBarComp menu={myPageMenu}>
       <S.Container>
         <Account />
         <section
@@ -95,7 +94,7 @@ const FreelancerMyPageComp = () => {
           </div>
         </section>
       </S.Container>
-    </>
+    </MenuTabBarComp>
   );
 };
 
