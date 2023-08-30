@@ -11,23 +11,14 @@ import { queryClient } from "../App";
 const usePortfolioInfoQueries = ({
   userId,
   pfId,
-  thumbnailFileName,
 }: {
   userId: string;
   pfId?: string;
-  thumbnailFileName?: string;
 }) => {
   // 썸네일 - 스토리지
   const uploadThumbnailMutation = useMutation(
-    ({
-      file,
-      pfId,
-      thumbnailFileName,
-    }: {
-      file: File;
-      pfId: string;
-      thumbnailFileName: string;
-    }) => uploadThumbnail({ userId, file, pfId, thumbnailFileName }),
+    ({ file, pfId }: { file: File; pfId: string }) =>
+      uploadThumbnail({ userId, file, pfId }),
     {
       onSuccess: () =>
         queryClient.invalidateQueries(["PortfolioThumbnail", userId]),
@@ -36,15 +27,8 @@ const usePortfolioInfoQueries = ({
 
   // PDF - 스토리지
   const uploadPDFMutation = useMutation(
-    ({
-      file,
-      pfId,
-      PDFFileName,
-    }: {
-      file: File;
-      pfId: string;
-      PDFFileName: string;
-    }) => uploadPDF({ userId, file, pfId, PDFFileName }),
+    ({ file, pfId }: { file: File; pfId: string }) =>
+      uploadPDF({ userId, file, pfId }),
     {
       onSuccess: () => queryClient.invalidateQueries(["PortfolioPDF", userId]),
     }

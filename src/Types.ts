@@ -71,10 +71,11 @@ export interface Task {
 export interface Portfolio {
   portfolioId: string;
   freelancerId: string;
-  thumbNailURL: string;
   title: string;
   desc: string;
-  pdfFileURL: string;
+  thumbNailURL: string | File;
+  pdfFileURL?: string | File;
+  linkURL?: string;
 }
 
 export interface Review {

@@ -1,88 +1,183 @@
-import React, { useState } from "react";
-import { styled } from "styled-components";
-import PortfolioAddModal from "./PortfolioAddModal";
+import { useState } from "react";
+import { S } from "./portfolioTab.styles";
+import PortfolioAddModal from "./portfolioAddModal/PortfolioAddModal";
 import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
 import { useUserStore } from "src/zustand/useUserStore";
 import { usePortfolioStore } from "src/zustand/usePortfolioStore";
-import PortfolioDetailModal from "./PortfolioDetailModal";
+import PortfolioDetailModal from "./portfolioDetailModal/PortfolioDetailModal";
+import { Button } from "antd";
+import Modal from "src/components/modal/Modal";
+import { Portfolio } from "src/Types";
+import { uploadThumbnail } from "src/api/Portfolio";
 
 const PortfolioTab = () => {
   const { userId } = useUserStore();
-  const [open, setOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedPortfolio, setSelectedPortfolio] = useState<any>(null);
-
+  const { selectedPortfolio, setSelectedPortfolio } = usePortfolioStore();
   const { portfolios } = usePortfolioInfoQueries({ userId });
+  const { newPortfolio } = usePortfolioStore();
+  const { addPortfolioMutation } = usePortfolioInfoQueries({
+    userId,
+    pfId: newPortfolio.portfolioId,
+  });
+
+  const handleOpenAddModalButtonClick = () => {
+    setIsAddModalOpen(true);
+    setIsDetailModalOpen(false);
+  };
+
+  const handleOpenDetailModalButtonClick = (portfolio: Portfolio) => {
+    setSelectedPortfolio(portfolio);
+    setIsDetailModalOpen(true);
+    setIsAddModalOpen(false);
+  };
+
+  const handleDetailModalClose = () => {
+    setIsDetailModalOpen(false);
+    setSelectedPortfolio(null);
+  };
+
+  const handleAddModalClose = () => {
+    setIsAddModalOpen(false);
+    setSelectedPortfolio(null);
+  };
+
+  // const { uploadThumbnailMutation, uploadPDFMutation } =
+  //   usePortfolioInfoQueries({ userId });
+  // 위의 두 함수를 합쳐보자!
+  const uploadFiles = async () => {
+    // 스토리지
+    if (newPortfolio.thumbNailURL !== null) {
+      const filePath = await uploadThumbnail({
+        userId,
+        file: newPortfolio.thumbNailURL as File,
+        pfId: newPortfolio.portfolioId,
+      });
+
+      console.log(filePath);
+    }
+  };
+  // uploadThumbnailMutation.mutate({
+  //   file: newPortfolio.thumbNailURL as File,
+  //   pfId: newPortfolio.portfolioId,
+  // });
+  // if (newPortfolio.pdfFileURL !== null) {
+  //   uploadPDFMutation.mutate({
+  //     file: newPortfolio.pdfFileURL as File,
+  //     pfId: newPortfolio.portfolioId,
+  //   });
+  // }
+  // console.log(filePath);
+
+  const handleAddPortfolioButtonClick = () => {
+    uploadFiles();
+    addPortfolioMutation.mutate({
+      newPortfolio,
+      userId,
+      pfId: newPortfolio.portfolioId,
+    });
+    setSelectedPortfolio(null);
+    setIsAddModalOpen(!isAddModalOpen);
+    console.log("됐니..?");
+  };
 
   return (
     <>
-      {/* 썸네일만 */}
-      <S.PortfolioListContainer style={{ border: "solid black" }}>
+      {isDetailModalOpen && (
+        <Modal
+          setIsModalOpen={handleDetailModalClose}
+          buttons={
+            <>
+              <Button
+                type="primary"
+                block
+                onClick={handleOpenAddModalButtonClick}
+              >
+                수정하기
+              </Button>
+              <Button type="primary" block>
+                삭제하기
+              </Button>
+            </>
+          }
+        >
+          <PortfolioDetailModal
+            setIsDetailModalOpen={handleAddModalClose}
+            isAddModalOpen={!isAddModalOpen}
+            setIsAddModalOpen={setIsAddModalOpen}
+            userId={userId}
+          />
+        </Modal>
+      )}
+
+      {isAddModalOpen && (
+        <Modal
+          setIsModalOpen={() => {
+            setIsAddModalOpen(!isAddModalOpen);
+            setSelectedPortfolio(null);
+          }}
+          buttons={
+            <>
+              {selectedPortfolio ? (
+                <>
+                  <Button
+                    type="primary"
+                    block
+                    onClick={() => {
+                      setIsAddModalOpen(!isAddModalOpen);
+                      setIsDetailModalOpen(!isDetailModalOpen);
+                    }}
+                  >
+                    취소하기
+                  </Button>
+                  <Button
+                    type="primary"
+                    block
+                    onClick={handleAddPortfolioButtonClick}
+                  >
+                    수정하기
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  type="primary"
+                  block
+                  onClick={handleAddPortfolioButtonClick}
+                >
+                  추가하기
+                </Button>
+              )}
+            </>
+          }
+        >
+          <PortfolioAddModal />
+        </Modal>
+      )}
+
+      <S.PortfolioListContainer>
         <S.PortfolioListWrapper>
           {portfolios &&
             portfolios.map((portfolio) => (
               <S.PortfolioList
                 key={portfolio.portfolioId}
                 onClick={() => {
-                  setSelectedPortfolio(portfolio); // 선택한 포트폴리오 데이터를 상태에 저장
-                  setIsDetailModalOpen(true);
+                  handleOpenDetailModalButtonClick(portfolio);
                 }}
               >
-                <img
-                  className="portfolioThumbnail"
-                  src={portfolio.thumbNailURL}
-                  alt="등록된 이미지가 없습니다."
-                  width="120px"
-                  height="120px"
-                  style={{ marginLeft: "10px" }}
-                />
+                <img src={portfolio.thumbNailURL} alt="썸네일 이미지" />
               </S.PortfolioList>
             ))}
 
-          <S.PortfolioList onClick={() => setOpen(true)}>
-            + 포트폴리오 첨부하기
+          <S.PortfolioList>
+            <button onClick={() => setIsAddModalOpen(!isAddModalOpen)}>
+              포트폴리오 첨부하기
+            </button>
           </S.PortfolioList>
-          <PortfolioAddModal open={open} setOpen={setOpen} />
         </S.PortfolioListWrapper>
       </S.PortfolioListContainer>
-
-      {isDetailModalOpen && (
-        <PortfolioDetailModal
-          setIsDetailModalOpen={setIsDetailModalOpen}
-          portfolioData={selectedPortfolio}
-          userId={userId}
-        />
-      )}
     </>
   );
 };
 
 export default PortfolioTab;
-
-const S = {
-  PortfolioListContainer: styled.section`
-    width: 100%;
-    padding: 10px;
-  `,
-  PortfolioListWrapper: styled.div`
-    margin-top: 5px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-top: 10px;
-  `,
-  PortfolioList: styled.div`
-    background-color: #8080803d;
-    width: 130px;
-    height: 130px;
-    margin-right: 20px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 13px;
-    padding: 10px;
-    list-style: none;
-  `,
-};

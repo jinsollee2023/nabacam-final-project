@@ -1,6 +1,4 @@
-import { useUserStore } from "src/zustand/useUserStore";
 import supabase from "../config/supabaseClient";
-import { v4 as uuidv4 } from "uuid";
 
 export const getPortfolios = async () => {
   try {
@@ -40,16 +38,14 @@ export const uploadThumbnail = async ({
   userId,
   file,
   pfId,
-  thumbnailFileName,
 }: {
   userId: string;
   file: File;
   pfId: string;
-  thumbnailFileName: string;
 }) => {
   const { data, error } = await supabase.storage
     .from("portfolios")
-    .upload(`${userId}/thumbnail/${thumbnailFileName}`, file);
+    .upload(`${userId}/${pfId}/thumbnail/`, file);
 
   if (error) {
     throw new Error("Error uploading image");
@@ -63,16 +59,14 @@ export const uploadPDF = async ({
   userId,
   file,
   pfId,
-  PDFFileName,
 }: {
   userId: string;
   file: File;
   pfId: string;
-  PDFFileName: string;
 }) => {
   const { data, error } = await supabase.storage
     .from("portfolios")
-    .upload(`${userId}/pdf/${PDFFileName}`, file);
+    .upload(`${userId}/${pfId}/pdf/`, file);
 
   if (error) {
     throw new Error("Error uploading image");
@@ -82,20 +76,20 @@ export const uploadPDF = async ({
 };
 
 //------------------------------------------------------
-interface NewPortfolioData {
+interface NewPortfolio {
   portfolioId: string;
   title: string;
   desc: string;
   linkURL?: string;
-  thumbNailURL?: string | null;
-  pdfFileURL?: string | null;
+  thumbNailURL?: string | File | null;
+  pdfFileURL?: string | File | null;
 }
 export const addPortfolio = async ({
-  newPortfolioData,
+  newPortfolio,
   userId,
   pfId,
 }: {
-  newPortfolioData: NewPortfolioData;
+  newPortfolio: NewPortfolio;
   userId: string;
   pfId: string;
 }) => {
@@ -103,12 +97,12 @@ export const addPortfolio = async ({
     .from("portfolios")
     .insert({
       portfolioId: pfId,
-      title: newPortfolioData.title,
-      desc: newPortfolioData.desc,
+      title: newPortfolio.title,
+      desc: newPortfolio.desc,
       freelancerId: userId,
-      linkURL: newPortfolioData.linkURL,
-      thumbNailURL: newPortfolioData.thumbNailURL,
-      pdfFileURL: newPortfolioData.pdfFileURL,
+      linkURL: newPortfolio.linkURL,
+      thumbNailURL: newPortfolio.thumbNailURL,
+      pdfFileURL: newPortfolio.pdfFileURL,
     })
     .select();
 };
