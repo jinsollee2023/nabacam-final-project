@@ -20,12 +20,8 @@ const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
   const [pastWorkPosition, setPastWorkPosition] = useState(
     experience ? experience.pastWorkPosition : ""
   );
-  const [pastWorkStartDate, setPastWorkStartDate] = useState(
-    experience ? experience.pastWorkDuration.pastWorkStartDate : new Date()
-  );
-  const [pastWorkEndDate, setPastWorkEndDate] = useState(
-    experience ? experience.pastWorkDuration.pastWorkEndDate : new Date()
-  );
+  const [pastWorkStartDate, setPastWorkStartDate] = useState(new Date());
+  const [pastWorkEndDate, setPastWorkEndDate] = useState(new Date());
   const [selectedPastWorkField, setSelectedPastWorkField] = useState(
     experience ? experience.pastWorkField : "전체"
   );
