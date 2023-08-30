@@ -10,6 +10,7 @@ import Review from "../pages/Review";
 import ProjectManagement from "../pages/ProjectManagement";
 import { PrivateRoute } from "../components/auth/login/PrivateRoute";
 import LoginComp from "src/components/auth/login/LoginComp";
+import ResetPassword from "src/components/auth/resetpassword/ResetPassword";
 
 const Router = () => {
   return (
@@ -26,6 +27,7 @@ const Router = () => {
           </Route>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<LoginComp />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
         </Routes>
       </Layout>
     </BrowserRouter>

@@ -11,24 +11,28 @@ const JoinComp = () => {
 
   return (
     <>
-      <Tabs
-        tabPosition={tabPosition}
-        items={new Array(2).fill(null).map((_, i) => {
-          const id = String(i + 1);
-          return {
-            label:
-              id == "1" ? (
-                <S.tabsContainer onClick={() => setUserRole("client")}>
-                  클라이언트
-                </S.tabsContainer>
-              ) : (
-                <div onClick={() => setUserRole("freelancer")}>프리랜서</div>
-              ),
-            key: id,
-            children: <JoinForm role={userRole} />,
-          };
-        })}
-      />
+      <S.TabsBack>
+        <Tabs
+          tabPosition={tabPosition}
+          items={new Array(2).fill(null).map((_, i) => {
+            const id = String(i + 1);
+            return {
+              label:
+                id == "1" ? (
+                  <S.tabsContainer onClick={() => setUserRole("client")}>
+                    클라이언트
+                  </S.tabsContainer>
+                ) : (
+                  <S.tabsContainer onClick={() => setUserRole("freelancer")}>
+                    프리랜서
+                  </S.tabsContainer>
+                ),
+              key: id,
+              children: <JoinForm role={userRole} />,
+            };
+          })}
+        />
+      </S.TabsBack>
     </>
   );
 };
@@ -37,11 +41,18 @@ export default JoinComp;
 
 const S = {
   tabsContainer: styled.div`
-    height: 100%;
-    padding: 10px;
+    height: 100px;
+    font-size: 40px;
+    margin-top: 30%;
+    margin-bottom: 30%;
   `,
   Tabs: styled.div`
-    height: 100%;
-    padding: 10px;
+    height: 100px;
+    padding: 100px;
+  `,
+  TabsBack: styled.div`
+    position: relative;
+    top: 200px;
+    left: 100px;
   `,
 };

@@ -24,11 +24,11 @@ const ProfileImg: React.FC<ProfileImgProps> = ({ handlePhotoURLOnChange }) => {
   return (
     <div>
       <input type="file" accept="image/*" onChange={handleImageChange} />
-
+      <br />
       <img
         src={selectedImage}
         alt="Selected"
-        style={{ maxWidth: "100%", maxHeight: "300px", marginTop: "10px" }}
+        style={{ maxWidth: "100%", maxHeight: "200px", marginTop: "10px" }}
       />
     </div>
   );
