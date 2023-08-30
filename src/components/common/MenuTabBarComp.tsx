@@ -14,9 +14,10 @@ import ContractTerminationFreelancers from "../myPage/client/listOfFreelancersBy
 
 interface MenuTabBarCompProps {
   menu: string[];
+  children?: React.ReactNode;
 }
 
-const MenuTabBarComp = ({ menu }: MenuTabBarCompProps) => {
+const MenuTabBarComp = ({ menu, children }: MenuTabBarCompProps) => {
   const [currentTab, setCurrentTab] = useState(menu[0]);
 
   return (
@@ -32,6 +33,7 @@ const MenuTabBarComp = ({ menu }: MenuTabBarCompProps) => {
           </S.MenuTab>
         ))}
       </S.MenuTabBar>
+      {children}
       <S.CompContainer>
         {currentTab === "프로젝트 진행 상태" && <TaskList />}
         {currentTab === "프로젝트 목록" && <ProjectList />}
@@ -43,7 +45,9 @@ const MenuTabBarComp = ({ menu }: MenuTabBarCompProps) => {
         {currentTab === "보류한 프리랜서" && <PendingFreelancerList />}
         {currentTab === "우리 기업 구성원" && <MemberList />}
         {currentTab === "진행 중인 프리랜서" && <OngoingFreelancerList />}
-        {currentTab === "계약이 끝난 프리랜서" && <ContractTerminationFreelancers />}
+        {currentTab === "계약이 끝난 프리랜서" && (
+          <ContractTerminationFreelancers />
+        )}
       </S.CompContainer>
     </>
   );

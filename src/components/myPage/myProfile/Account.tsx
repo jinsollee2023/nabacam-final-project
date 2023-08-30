@@ -86,8 +86,16 @@ const Account = () => {
           }}
         >
           <h1>{user && user?.name}님</h1>
-          <S.Info>직무분야: {user && user?.workField?.workField}</S.Info>
-          <S.Info>세부분야: {user && user?.workField?.workSmallField}</S.Info>
+          {user.role === "freelancer" ? (
+            <>
+              <S.Info>직무분야: {user && user?.workField?.workField}</S.Info>
+              <S.Info>
+                세부분야: {user && user?.workField?.workSmallField}
+              </S.Info>
+            </>
+          ) : (
+            <S.Info>client</S.Info>
+          )}
         </div>
         <div
           style={{
