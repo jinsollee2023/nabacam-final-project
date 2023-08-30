@@ -5,6 +5,7 @@ import Modal from "src/components/modal/Modal";
 import { Input } from "antd";
 import useResumeProfileIntroQueries from "src/hooks/useResumeProfileIntroQueries";
 import { useResumeProfileIntroStore } from "src/zustand/useResumeProfileIntroStore";
+import { MdAddCircle } from "react-icons/md";
 
 const ResumeProfileIntroComp = () => {
   const {
@@ -71,7 +72,7 @@ const ResumeProfileIntroComp = () => {
                 setIsAddModalOpen(true);
               }}
             >
-              + 프로필 등록하기
+              <MdAddCircle size="20" />
             </S.ProfileBtn>
           )}
         </div>
@@ -141,8 +142,7 @@ const S = {
     border: 1.5px solid var(--main-blue);
   `,
   ProfileBtn: styled.button`
-    background-color: var(--main-blue);
-    color: white;
+    background-color: none;
     border: none;
     padding: 4px 8px;
     border-radius: 5px;
