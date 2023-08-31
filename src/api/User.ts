@@ -168,6 +168,15 @@ export const getPhotoURL = async (filePath: { path: string }): Promise<string> =
   return data.publicUrl;
 };
 
+export const getPortfolioFileURL = async (filePath: {
+  path: string;
+}): Promise<string> => {
+  const { data } = await supabase.storage
+    .from("portfolios") // 사용한 버킷 이름
+    .getPublicUrl(filePath.path);
+  return data.publicUrl;
+};
+
 export const uploadUserImage = async (userId: string, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
