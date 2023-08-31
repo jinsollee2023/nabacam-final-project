@@ -3,8 +3,8 @@ import { IUser } from "../../../Types";
 import { useQuery } from "@tanstack/react-query";
 import { getPortfolio } from "../../../api/Portfolio";
 import { S } from "./freelancerInfoStyle";
-import PortfolioDetailModal from "src/components/myPage/tabs/portfolioTab/PortfolioDetailModal";
-import { useUserStore } from "src/zustand/useUserStore";
+import PortfolioDetailModal from "../../../components/myPage/tabs/portfolioTab/PortfolioDetailModal";
+import { useUserStore } from "../../../zustand/useUserStore";
 
 interface FreelancerPortfolioProps {
   user: IUser;
@@ -34,7 +34,10 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
                   setIsDetailModalOpen(true);
                 }}
               >
-                <S.PortfolioImg alt="portfolioImage" src={portfolio.thumbNailURL} />
+                <S.PortfolioImg
+                  alt="portfolioImage"
+                  src={portfolio.thumbNailURL}
+                />
 
                 {isDetailModalOpen && (
                   <PortfolioDetailModal
@@ -50,7 +53,9 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
         ) : portfoliosIsLoading ? (
           <S.DataNullBox>Loading Portfolio...</S.DataNullBox>
         ) : portfoliosIsError ? (
-          <S.DataNullBox>포트폴리오 데이터를 불러오지 못했습니다.</S.DataNullBox>
+          <S.DataNullBox>
+            포트폴리오 데이터를 불러오지 못했습니다.
+          </S.DataNullBox>
         ) : (
           <S.DataNullBox>등록된 포트폴리오가 없습니다.</S.DataNullBox>
         )}

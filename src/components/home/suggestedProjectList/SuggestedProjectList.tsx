@@ -1,8 +1,8 @@
 import React from "react";
 import { S } from "./suggestedProjectList.styles";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
+import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { Spin } from "antd";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "../../../zustand/useUserStore";
 import SuggestedProjectCard from "./SuggestedProjectCard";
 
 const SuggestedProjectList = () => {

@@ -4,6 +4,11 @@ import reset from "styled-reset";
 const GlobalStyles = createGlobalStyle`
   ${reset}
 
+  :root {
+    --main-blue: #0086d0;
+    --hover-blue: #cce7f7;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -13,25 +18,17 @@ const GlobalStyles = createGlobalStyle`
   }
 
   @font-face {
-    font-family: 'LINESeedKR-Bd';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/LINESeedKR-Bd.woff2') format('woff2');
-    font-weight: 200;
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
     font-style: normal;
 }
 
   body {
-
-    /* background-color: #040714;
-    color: #f9f9f9;
-
-    font-family: Avenir-Roman, sans-serif;
-    margin: 0;
-    padding: 0; */
-
-    font-family: 'LINESeedKR-Bd', sans-serif;
-
+    font-family: 'Pretendard-Regular', sans-serif;
   }
-/* 
+
+  /* 
   a,
   a:visited
   {

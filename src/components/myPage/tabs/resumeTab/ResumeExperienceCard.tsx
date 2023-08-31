@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import Modal from "src/components/modal/Modal";
-import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
-import { useUserStore } from "src/zustand/useUserStore";
-import type { ResumeExperience } from "src/Types";
+import Modal from "../../../../components/modal/Modal";
+import useResumeExperienceQueries from "../../../../hooks/useResumeExperienceQueries";
+import { useUserStore } from "../../../../zustand/useUserStore";
+import type { ResumeExperience } from "../../../../Types";
 import { styled } from "styled-components";
-import { useResumeExperienceStore } from "src/zustand/useResumeExperienceStore";
+import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
 import EditResumeExperienceModal from "./EditResumeExperienceModal";
 
-interface ExperienceCardProps {
+interface ExperienceProps {
   experience: ResumeExperience;
 }
-const ResumeExperienceCard: React.FC<ExperienceCardProps> = ({
-  experience,
-}: ExperienceCardProps) => {
+const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
   const { userId } = useUserStore();
   const experienceId = experience.experienceId;
   const { newExperience } = useResumeExperienceStore();
@@ -49,39 +47,64 @@ const ResumeExperienceCard: React.FC<ExperienceCardProps> = ({
             </>
           }
         >
-          <EditResumeExperienceModal />
+          <EditResumeExperienceModal experience={experience} />
         </Modal>
       )}
 
       {/* 실제로 보여지는 부분 */}
 
       <S.WorkExperienceList>
-        <h1>{experience.pastWorkField}</h1>
-        <div>
-          {experience.pastWorkPlace}/{experience.pastEmploymentType}/
-          {experience.pastWorkPosition}
-        </div>
-        <div>
-          <span>
-            {
-              new Date(experience.pastWorkDuration.pastWorkStartDate)
-                .toISOString()
-                .split("T")[0]
-            }
-          </span>
-          ~
-          <span>
-            {
-              new Date(experience.pastWorkDuration.pastWorkEndDate)
-                .toISOString()
-                .split("T")[0]
-            }
-          </span>
-        </div>
-        <div className="buttonBox">
-          <S.Btn onClick={() => setIsUpdateModalOpen(true)}>수정 x</S.Btn>
-          <S.Btn onClick={deleteExperienceHandler}>삭제 x</S.Btn>
-        </div>
+        <S.TextArea>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <S.PastWorkField>{experience.pastWorkField}</S.PastWorkField>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <S.PastWorkDetail>
+              {experience.pastWorkPlace}/{experience.pastEmploymentType}/
+              {experience.pastWorkPosition}
+            </S.PastWorkDetail>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <S.PastWorkDuration>
+              {
+                new Date(experience.pastWorkDuration.pastWorkStartDate)
+                  .toISOString()
+                  .split("T")[0]
+              }
+              ~
+              {
+                new Date(experience.pastWorkDuration.pastWorkEndDate)
+                  .toISOString()
+                  .split("T")[0]
+              }
+            </S.PastWorkDuration>
+          </div>
+        </S.TextArea>
+        <S.BtnBox>
+          <S.Btn onClick={() => setIsUpdateModalOpen(true)}>수정</S.Btn>
+          <S.Btn marginleft="10px" onClick={deleteExperienceHandler}>
+            삭제
+          </S.Btn>
+        </S.BtnBox>
       </S.WorkExperienceList>
     </>
   );
@@ -89,6 +112,13 @@ const ResumeExperienceCard: React.FC<ExperienceCardProps> = ({
 
 export default ResumeExperienceCard;
 
+interface BtnProps {
+  width?: string;
+  height?: string;
+  padding?: string;
+  margin?: string;
+  marginleft?: string;
+}
 const S = {
   WorkExperienceContainer: styled.section`
     width: 100%;
@@ -98,28 +128,53 @@ const S = {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 50px;
   `,
   WorkExperienceList: styled.li`
-    background-color: #8080803d;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 5px;
     list-style: none;
-    border-radius: 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--main-blue);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   `,
-
-  Btn: styled.button`
-    background-color: #1fc17d;
+  TextArea: styled.div``,
+  PastWorkField: styled.p`
+    font-size: 18px;
+    font-weight: bolder;
+  `,
+  PastWorkDetail: styled.p`
+    font-size: 16px;
+    margin-top: 5px;
+  `,
+  PastWorkDuration: styled.p`
+    font-size: 16px;
+    margin-top: 5px;
+  `,
+  BtnBox: styled.div`
+    display: flex;
+    margin-top: 25px;
+    margin-left: auto;
+    padding-right: 3%;
+  `,
+  Btn: styled.button<BtnProps>`
+    background-color: var(--main-blue);
     color: white;
     border: none;
-    padding: 10px;
+
     border-radius: 5px;
-    margin-top: 30px;
     cursor: pointer;
     font-size: 13px;
     transition: background-color 0.3s ease;
     &:hover {
-      background-color: #168c68;
+      background-color: var(--hover-blue);
     }
-    width: 100%;
+    width: ${(props) => props.width};
+    height: ${(props) => props.height};
+    padding: ${(props) => props.padding || "10px"};
+    margin-left: ${(props) => props.marginleft};
   `,
 };

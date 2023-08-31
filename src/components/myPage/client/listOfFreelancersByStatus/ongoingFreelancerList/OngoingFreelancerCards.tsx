@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { S } from "../listOfFreelancersByStatusStyle";
-import Modal from "src/components/modal/Modal";
+import Modal from "../../../../../components/modal/Modal";
 import OngoingFreelancerInfoModal from "./OngoingFreelancerInfoModal";
 import dayjs from "dayjs";
-import { BsTelephoneFill } from "react-icons/bs";
-import { MdEmail } from "react-icons/md";
-import { useUserStore } from "src/zustand/useUserStore";
-import { IUser, Project, User } from "src/Types";
+import { FiPhoneCall } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import { IUser, Project, User } from "../../../../../Types";
 
 interface OngoingFreelancerCardsProps {
   user: User;
@@ -39,11 +39,11 @@ const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) 
                   </S.ProfileContents>
                   <S.ContactBox>
                     <span>
-                      <BsTelephoneFill />
+                      <FiPhoneCall />
                       {user.contact.phone}
                     </span>
                     <span>
-                      <MdEmail />
+                      <FiMail />
                       {user.contact.email}
                     </span>
                   </S.ContactBox>

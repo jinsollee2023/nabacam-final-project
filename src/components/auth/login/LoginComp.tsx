@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
-import { useUserStore } from "src/zustand/useUserStore";
-import { getUser } from "src/api/User";
+import { useUserStore } from "../../../zustand/useUserStore";
+import { getUser } from "../../../api/User";
 import Validation from "../join/Validation";
 import LoginValidation from "./LoginValidation";
+import React from "react";
 
 interface LoginForm {
   email: string;

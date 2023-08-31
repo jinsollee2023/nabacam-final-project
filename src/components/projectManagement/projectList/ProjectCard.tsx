@@ -1,11 +1,12 @@
-import { Project } from "src/Types";
+import { Project } from "../../../Types";
 import S from "./ProjectListStyles";
 import { useState } from "react";
-import Modal from "src/components/modal/Modal";
+import Modal from "../../../components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
-import { useProjectStore } from "src/zustand/useProjectStore";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
+import { useProjectStore } from "../../../zustand/useProjectStore";
+import useProjectsQueries from "../../../hooks/useProjectsQueries";
+import React from "react";
 
 interface projectCardProps {
   project: Project;

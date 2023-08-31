@@ -14,9 +14,10 @@ import {
   updateApprovalFreelancer,
   deleteVolunteerAndPendingFreelancer,
   deletePendingFreelancer,
-} from "src/api/Project";
-import { IProjectWithFreelancer, Project } from "src/Types";
-import { getUser } from "src/api/User";
+  getTerminationedProjectsWithFreelancer,
+} from "../api/Project";
+import { IProjectWithFreelancer, Project } from "../Types";
+import { addProjectIdToUser, getUser } from "../api/User";
 import { updatePendingFreelancer } from "../api/Project";
 
 interface useProjectsQueriesProps {
@@ -266,6 +267,17 @@ const useProjectsQueries = ({
     }
   );
 
+  const addProjectIdToUserMutation = useMutation(
+    ({ userId, projectIds }: { userId: string; projectIds: string[] }) =>
+      addProjectIdToUser(userId, projectIds),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["applicantFreelancers"]);
+        queryClient.invalidateQueries(["pendingFreelancers"]);
+      },
+    }
+  );
+
   const deletePendingFreelancerMutation = useMutation(
     ({
       projectId,
@@ -326,7 +338,6 @@ const useProjectsQueries = ({
           freelancer: await project.freelancerPromise,
         }))
       );
-      // console.log(terminationedProjectsWithFreelancers);
       return terminationedProjectsWithFreelancers;
     },
     {
@@ -334,39 +345,22 @@ const useProjectsQueries = ({
     }
   );
 
-  // const { data: matchingCompletedProjectsData } = useQuery(
-  //   ["matchingCompletedProjectsData"],
-  //   async () => {
-  //     const terminationedProjects = await getTerminationedProjects(currentUserId as string);
-  //     if (!terminationedProjects) {
-  //       console.log("No matching completed projects data.");
-  //       return [];
-  //     }
-
-  //     // 프로젝트 아이디별 개수를 세기 위한 객체
-  //     const projectCounts: Record<string, number> = {};
-
-  //     terminationedProjects.forEach((project) => {
-  //       if (!projectCounts[project.projectId]) {
-  //         projectCounts[project.projectId] = 1;
-  //       } else {
-  //         projectCounts[project.projectId]++;
-  //       }
-  //     });
-
-  //     // 프로젝트 정보와 함께 함께한 개수 출력
-  //     terminationedProjects.forEach((project) => {
-  //       const projectCount = projectCounts[project.projectId] || 0;
-
-  //       console.log(`${project.title}, 개수: ${projectCount}`);
-  //     });
-
-  //     return terminationedProjects;
-  //   },
-  //   {
-  //     enabled: !!currentUserId,
-  //   }
-  // );
+  const { data: matchingCompletedProjectsData } = useQuery(
+    ["matchingCompletedProjectsData"],
+    async () => {
+      const terminationedProjects = await getTerminationedProjectsWithFreelancer(
+        currentUserId as string,
+        freelancerId as string
+      );
+      if (!terminationedProjects) {
+        return [];
+      }
+      return terminationedProjects;
+    },
+    {
+      enabled: !!currentUserId,
+    }
+  );
 
   return {
     projects,
@@ -399,7 +393,8 @@ const useProjectsQueries = ({
     updatePendingFreelancerMutation,
     deletePendingFreelancerMutation,
     allProjectList,
-    // matchingCompletedProjectsData,
+    matchingCompletedProjectsData,
+    addProjectIdToUserMutation,
   };
 };
 

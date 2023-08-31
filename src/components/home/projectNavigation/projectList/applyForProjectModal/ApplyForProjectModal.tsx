@@ -1,4 +1,5 @@
-import { Project } from "src/Types";
+import { Project } from "../../../../../Types";
+import React from "react";
 
 interface ApplyForProjectModalProps {
   projectItem: Project;

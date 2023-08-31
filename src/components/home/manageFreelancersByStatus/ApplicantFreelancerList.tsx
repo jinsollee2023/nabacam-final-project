@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { S } from "./manageFreelancersByStatusStyle";
 import Modal from "../../modal/Modal";
-import { IUser } from "src/Types";
+import { IUser } from "../../../Types";
 import ApplicantFreelancerInfoModal from "./ApplicantFreelancerInfoModal";
-import { useUserStore } from "src/zustand/useUserStore";
-import useClientsQueries from "src/hooks/useClientsQueries";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
+import { useUserStore } from "../../../zustand/useUserStore";
+import useClientsQueries from "../../../hooks/useClientsQueries";
+import useProjectsQueries from "../../../hooks/useProjectsQueries";
 
 const ApplicantFreelancerList = () => {
   const { userId } = useUserStore();
@@ -15,21 +15,24 @@ const ApplicantFreelancerList = () => {
     updateFreelancerApprovalMutation,
     deleteVolunteerAndPendingFreelancerMutation,
     updatePendingFreelancerMutation,
+    addProjectIdToUserMutation,
   } = useProjectsQueries({
     currentUserId: userId,
   });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
-    null
-  );
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
 
   const updateFreelancer = (
     userId: string,
     projectId: string,
-    endDate: string
+    endDate: string,
+    projectIds: string[]
   ) => {
+    const customProjectIds = projectIds.concat(projectId);
     updateFreelancerApprovalMutation.mutate({ userId, projectId, endDate });
     deleteVolunteerAndPendingFreelancerMutation.mutate(projectId);
+    addProjectIdToUserMutation.mutate({ userId, projectIds: customProjectIds });
     alert("승인이 완료되었습니다.");
     setIsModalOpen(false);
   };
@@ -40,9 +43,7 @@ const ApplicantFreelancerList = () => {
     pendingFreelancer: string[],
     freelancerId: string
   ) => {
-    const updateVolunteerData = volunteer.filter(
-      (user) => user !== freelancerId
-    );
+    const updateVolunteerData = volunteer.filter((user) => user !== freelancerId);
     const updatePendingFreelancerData = pendingFreelancer.concat(freelancerId);
     updatePendingFreelancerMutation.mutate({
       projectId,
@@ -73,15 +74,11 @@ const ApplicantFreelancerList = () => {
                   <S.WorkFieldAndWorkExp>
                     {freelancer.workField?.workSmallField}
                   </S.WorkFieldAndWorkExp>
-                  <S.WorkFieldAndWorkExp>
-                    {freelancer.workExp}년차
-                  </S.WorkFieldAndWorkExp>
+                  <S.WorkFieldAndWorkExp>{freelancer.workExp}년차</S.WorkFieldAndWorkExp>
                 </S.ListContents>
                 <S.ProjectContents>
                   <div key={project.projectId}>
-                    <S.ProjectTitle>
-                      {project.title} 프로젝트에 지원
-                    </S.ProjectTitle>
+                    <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
                   </div>
 
                   <S.CheckingBtn
@@ -104,7 +101,8 @@ const ApplicantFreelancerList = () => {
                                 updateFreelancer(
                                   freelancer.userId,
                                   project.projectId ?? "",
-                                  project.date.endDate
+                                  project.date.endDate,
+                                  freelancer.projectId || []
                                 )
                               }
                             >
@@ -125,10 +123,7 @@ const ApplicantFreelancerList = () => {
                           </>
                         }
                       >
-                        <ApplicantFreelancerInfoModal
-                          user={freelancer}
-                          project={project}
-                        />
+                        <ApplicantFreelancerInfoModal user={freelancer} project={project} />
                       </Modal>
                     )}
                 </S.ProjectContents>

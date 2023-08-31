@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { S } from "../../home/freelancerMarket/sortFreelancers/sortFreelancers.styles";
 import { Select } from "antd";
+import React from "react";
 
 interface SortProjectsProps {
   handleSort: (label: string) => void;

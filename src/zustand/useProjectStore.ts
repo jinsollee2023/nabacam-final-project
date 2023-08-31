@@ -1,4 +1,4 @@
-import { Project } from "src/Types";
+import { Project } from "../Types";
 import { create } from "zustand";
 
 type ProjectStore = {

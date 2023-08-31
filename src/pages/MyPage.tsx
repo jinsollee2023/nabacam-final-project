@@ -1,7 +1,8 @@
-import ClientMyPageComp from "src/components/myPage/client/common/ClientMyPageComp";
-import FreelancerMyPageComp from "src/components/myPage/common/FreelancerMyPageComp";
-import { useUserStore } from "src/zustand/useUserStore";
+import ClientMyPageComp from "../components/myPage/client/common/ClientMyPageComp";
+import FreelancerMyPageComp from "../components/myPage/common/FreelancerMyPageComp";
+import { useUserStore } from "../zustand/useUserStore";
 import { styled } from "styled-components";
+import React from "react";
 
 const MyPage = () => {
   const { userRole } = useUserStore();
@@ -14,9 +15,3 @@ const MyPage = () => {
 };
 
 export default MyPage;
-
-const S = {
-  Container: styled.div`
-    padding-left: 30px;
-  `,
-};

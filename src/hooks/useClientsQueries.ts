@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient } from "src/App";
-import { User } from "src/Types";
-import { getClientByProject, updateUser } from "src/api/User";
+import { queryClient } from "../App";
+import { User } from "../Types";
+import { getClientByProject, updateUser } from "../api/User";
 
 interface useClientsQueriesProps {
   userId: string;

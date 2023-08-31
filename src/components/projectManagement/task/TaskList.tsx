@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { Select } from "antd";
 import { MdAddCircle } from "react-icons/md";
 import { Task } from "../../../Types";
-import { useUserStore } from "src/zustand/useUserStore";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
+import { useUserStore } from "../../../zustand/useUserStore";
+import useProjectsQueries from "../../../hooks/useProjectsQueries";
+import React from "react";
 
 const TaskList = () => {
   const { userId, userRole } = useUserStore();

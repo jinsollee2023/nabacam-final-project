@@ -1,7 +1,7 @@
 import React from "react";
-import { Project } from "src/Types";
-import useClientsQueries from "src/hooks/useClientsQueries";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
+import { Project } from "../../../Types";
+import useClientsQueries from "../../../hooks/useClientsQueries";
+import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { S } from "./appliedProjectList.styles";
 
 interface AppliedProjectCardProps {

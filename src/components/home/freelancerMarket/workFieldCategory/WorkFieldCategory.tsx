@@ -1,5 +1,6 @@
 import { Tabs, TabsProps } from "antd";
 import { S } from "./WorkFiledCategory.style";
+import React from "react";
 
 interface WorkFieldCategoryProps {
   onSelectWorkField: (selectedLabel: string) => void;

@@ -1,6 +1,6 @@
 import React from "react";
 import { S } from "./freelancerInfoStyle";
-import { IUser } from "src/Types";
+import { IUser } from "../../../Types";
 
 interface FreelancerResumeProps {
   user: IUser;
@@ -23,27 +23,16 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
             );
 
             return (
-              <div
-                key={index}
-                style={{
-                  backgroundColor: "rgba(0, 0, 0, 0.1)",
-                  borderRadius: "15px",
-                  minWidth: "210px",
-                  minHeight: "100px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  fontSize: "15px",
-                  wordBreak: "break-all",
-                }}
-              >
+              <S.ExperienceBox key={`${experience.experienceId}-${index}`}>
+                <span>{experience.pastWorkField}</span>
                 <span>{experience.pastWorkPlace}</span>
+                <span>{experience.pastEmploymentType}</span>
+                <span>{experience.pastWorkPosition}</span>
                 <span>
-                  {startDate.toISOString().split("T")[0]} -{" "}
+                  {startDate.toISOString().split("T")[0]} ~{" "}
                   {endDate.toISOString().split("T")[0]}
                 </span>
-                <span>{experience.pastWorkPosition}</span>
-              </div>
+              </S.ExperienceBox>
             );
           })
         ) : (

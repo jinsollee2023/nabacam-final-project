@@ -16,7 +16,8 @@ const S = {
     margin-top: 20px;
   `,
   ProjectCardBox: styled.div<ProjectCardBoxProps>`
-    background-color: aliceblue;
+    border: 1.5px solid var(--main-blue);
+    border-radius: 4px;
     width: 100%;
     height: 100px;
 
@@ -45,11 +46,9 @@ const S = {
     display: flex;
     flex-direction: column;
     margin: 20px 0;
-    border-bottom: 2px solid grey;
   `,
   ModalSubInfoBox: styled.div`
     display: flex;
-    flex-direction: column;
     margin-bottom: 10px;
   `,
   ModalContentsLabel: styled.label`
@@ -58,11 +57,15 @@ const S = {
   ModalTitleInput: styled.input`
     height: 30px;
     margin-bottom: 10px;
+    border: 1.5px solid var(--main-blue);
+    border-radius: 4px;
   `,
   ModalDescTextarea: styled.textarea`
     height: 100px;
     resize: none;
     margin-bottom: 25px;
+    border: 1.5px solid var(--main-blue);
+    border-radius: 4px;
   `,
   ModalPayInfoBox: styled.div`
     display: flex;
@@ -72,6 +75,16 @@ const S = {
   `,
   ModalPayBox: styled.div`
     width: 35%;
+  `,
+  ModalPostBtn: styled.button`
+    width: 100%;
+    height: 35px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    margin-top: 8px;
+    background-color: var(--main-blue);
+    color: white;
   `,
 };
 

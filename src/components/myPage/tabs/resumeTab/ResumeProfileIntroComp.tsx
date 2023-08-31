@@ -1,21 +1,13 @@
 import { styled } from "styled-components";
-import React, { useEffect, useState } from "react";
-import { useUserStore } from "src/zustand/useUserStore";
-import Modal from "src/components/modal/Modal";
-import { Input } from "antd";
-import useResumeProfileIntroQueries from "src/hooks/useResumeProfileIntroQueries";
-import { useResumeProfileIntroStore } from "src/zustand/useResumeProfileIntroStore";
+import React, { useState } from "react";
+import { useUserStore } from "../../../../zustand/useUserStore";
+import useResumeProfileIntroQueries from "../../../../hooks/useResumeProfileIntroQueries";
+import { MdAddCircle } from "react-icons/md";
+import Modal from "../../../../components/modal/Modal";
+import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
+import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
 
 const ResumeProfileIntroComp = () => {
-  const {
-    newProfileIntroInput: previousProfileIntroInput,
-    changeNewProfileIntroInput,
-  } = useResumeProfileIntroStore();
-  const { TextArea } = Input; // textArea
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [newProfileIntroInput, setNewProfileIntroInput] = useState(
-    previousProfileIntroInput || ""
-  );
   const { userId } = useUserStore();
   const {
     addProfileIntroMutation,
@@ -23,12 +15,8 @@ const ResumeProfileIntroComp = () => {
     updateProfileIntroMutation,
   } = useResumeProfileIntroQueries(userId);
 
-  const onChangeNewprofileIntroInputHandler = (value: string) => {
-    setNewProfileIntroInput(value);
-  };
-  useEffect(() => {
-    changeNewProfileIntroInput(newProfileIntroInput);
-  }, [newProfileIntroInput]);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const { newProfileIntroInput } = useResumeProfileIntroStore();
 
   // add
   const addProfileIntroHandler = async (
@@ -59,18 +47,25 @@ const ResumeProfileIntroComp = () => {
   return (
     <>
       <S.ProfileContainer>
-        <p>프로필</p>
-        {previousProfileIntroInput.length > 0 ? (
-          <S.Btn onClick={() => setIsAddModalOpen(true)}>프로필 수정하기</S.Btn>
-        ) : (
-          <S.Btn
-            onClick={() => {
-              setIsAddModalOpen(true);
-            }}
-          >
-            + 프로필 등록하기
-          </S.Btn>
-        )}
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <S.ProfileTitle>프로필</S.ProfileTitle>
+          {resumeProfileIntroObject &&
+          resumeProfileIntroObject.resumeProfileIntro !== "" ? (
+            <S.ProfileBtn onClick={() => setIsAddModalOpen(true)}>
+              프로필 수정하기
+            </S.ProfileBtn>
+          ) : (
+            <S.ProfileBtn
+              onClick={() => {
+                setIsAddModalOpen(true);
+              }}
+            >
+              <MdAddCircle size="20" />
+              추가
+            </S.ProfileBtn>
+          )}
+        </div>
+
         <S.ProfileInputBox>
           <div>
             {resumeProfileIntroObject
@@ -94,21 +89,12 @@ const ResumeProfileIntroComp = () => {
             </>
           }
         >
-          <form>
-            <label>
-              간단한 프로필을 입력해주세요.
-              <TextArea
-                showCount
-                maxLength={500}
-                style={{ height: 120, marginBottom: 24 }}
-                placeholder="500자 이하로 입력해주세요..."
-                value={newProfileIntroInput}
-                onChange={(e) =>
-                  onChangeNewprofileIntroInputHandler(e.target.value)
-                }
-              />
-            </label>
-          </form>
+          <AddResumeProfileIntroModal
+            profileIntro={
+              resumeProfileIntroObject &&
+              resumeProfileIntroObject.resumeProfileIntro
+            }
+          />
         </Modal>
       )}
     </>
@@ -120,17 +106,23 @@ export default ResumeProfileIntroComp;
 const S = {
   ProfileContainer: styled.section`
     width: 100%;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+  `,
+  ProfileTitle: styled.p`
+    font-size: 20px;
+    font-weight: bold;
   `,
   ProfileInputBox: styled.div`
-    background-color: #8080803d;
+    font-size: 18px;
     padding: 10px;
-    margin-top: 5px;
-    border-radius: 10px;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: 1.5px solid var(--main-blue);
   `,
-  Btn: styled.button`
-    background-color: #1fc17d;
-    color: white;
+  ProfileBtn: styled.button`
+    background-color: none;
     border: none;
     padding: 4px 8px;
     border-radius: 5px;
@@ -139,7 +131,7 @@ const S = {
     font-size: 13px;
     transition: background-color 0.3s ease;
     &:hover {
-      background-color: #168c68;
+      background-color: var(--hover-blue);
     }
   `,
 };

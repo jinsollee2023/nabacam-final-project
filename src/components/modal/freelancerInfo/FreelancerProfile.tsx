@@ -1,6 +1,6 @@
 import React from "react";
-import { BsTelephoneFill } from "react-icons/bs";
-import { MdEmail } from "react-icons/md";
+import { FiPhoneCall } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
 import { S } from "./freelancerInfoStyle";
 import { IUser } from "../../../Types";
 
@@ -20,21 +20,14 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
           <S.UserWorkField>{user.workField?.workField}</S.UserWorkField>
           <p>{user.workExp}년차</p>
         </div>
-        <div
-          style={{
-            display: "flex",
-            gap: "5px",
-            color: "gray",
-            fontSize: "14px",
-          }}
-        >
-          <p>
-            <BsTelephoneFill color="black" /> {user.contact.phone}
-          </p>
-          <p style={{ marginLeft: "10px" }}>
-            <MdEmail color="black" /> {user.contact.email}
-          </p>
-        </div>
+        <S.Contact>
+          <S.Contacts>
+            <FiPhoneCall color="black" /> {user.contact.phone}
+          </S.Contacts>
+          <S.Contacts>
+            <FiMail color="black" /> {user.contact.email}
+          </S.Contacts>
+        </S.Contact>
       </S.UserBox>
     </S.UserInfoBox>
   );

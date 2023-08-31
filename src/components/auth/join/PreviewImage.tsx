@@ -26,12 +26,12 @@ const PreviewImage = ({
   return (
     <div>
       <input type="file" accept="image/*" onChange={handleImageChange} />
-
+      <br />
       <img
         id="photoURL"
         src={selectedImage}
         alt="Selected"
-        style={{ maxWidth: "100%", maxHeight: "300px", marginTop: "10px" }}
+        style={{ maxWidth: "100%", maxHeight: "200px", marginTop: "10px" }}
       />
     </div>
   );

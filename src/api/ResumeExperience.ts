@@ -1,5 +1,5 @@
 import supabase from "../config/supabaseClient";
-import type { ResumeExperience } from "src/Types";
+import type { ResumeExperience } from "../Types";
 
 export const getExperience = async (userId: string) => {
   let { data, error } = await supabase

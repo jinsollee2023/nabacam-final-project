@@ -1,4 +1,4 @@
-import { User } from "src/Types";
+import { User } from "../Types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

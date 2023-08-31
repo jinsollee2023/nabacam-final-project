@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import { useUserStore } from "src/zustand/useUserStore";
-import { getPhotoURL, updateUserImage, uploadUserImage } from "src/api/User";
-import useClientsQueries from "src/hooks/useClientsQueries";
-import { queryClient } from "src/App";
+import { useUserStore } from "../../../zustand/useUserStore";
+import {
+  getPhotoURL,
+  updateUserImage,
+  uploadUserImage,
+} from "../../../api/User";
+import useClientsQueries from "../../../hooks/useClientsQueries";
+import { queryClient } from "../../../App";
 import EditForm from "./EditForm";
 import { styled } from "styled-components";
-import Modal from "src/components/modal/Modal";
-import { useProfileInfoStore } from "src/zustand/useProfileInfoStore";
+import Modal from "../../../components/modal/Modal";
+import { useProfileInfoStore } from "../../../zustand/useProfileInfoStore";
+import React from "react";
 
 const Account = () => {
   const { userId, user, setUser } = useUserStore();
@@ -67,7 +72,6 @@ const Account = () => {
           display: "flex",
           marginTop: "10px",
           padding: "10px",
-          backgroundColor: "#f8f5ed",
         }}
       >
         <img
