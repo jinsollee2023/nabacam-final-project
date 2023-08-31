@@ -3,8 +3,8 @@ import { S } from "../listOfFreelancersByStatusStyle";
 import Modal from "../../../../../components/modal/Modal";
 import OngoingFreelancerInfoModal from "./OngoingFreelancerInfoModal";
 import dayjs from "dayjs";
-import { BsTelephoneFill } from "react-icons/bs";
-import { MdEmail } from "react-icons/md";
+import { FiPhoneCall } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
 import { useUserStore } from "../../../../../zustand/useUserStore";
 import { IUser, Project, User } from "../../../../../Types";
 
@@ -13,15 +13,10 @@ interface OngoingFreelancerCardsProps {
   project: Project;
 }
 
-const OngoingFreelancerCards = ({
-  user,
-  project,
-}: OngoingFreelancerCardsProps) => {
+const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) => {
   const { userId } = useUserStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
-    null
-  );
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
 
   return (
     <>
@@ -44,11 +39,11 @@ const OngoingFreelancerCards = ({
                   </S.ProfileContents>
                   <S.ContactBox>
                     <span>
-                      <BsTelephoneFill />
+                      <FiPhoneCall />
                       {user.contact.phone}
                     </span>
                     <span>
-                      <MdEmail />
+                      <FiMail />
                       {user.contact.email}
                     </span>
                   </S.ContactBox>
@@ -70,9 +65,7 @@ const OngoingFreelancerCards = ({
               >
                 자세히 보기
               </S.DetailBtn>
-              {isModalOpen &&
-              selectedFreelancer &&
-              selectedFreelancer.userId === user.userId ? (
+              {isModalOpen && selectedFreelancer && selectedFreelancer.userId === user.userId ? (
                 <Modal setIsModalOpen={setIsModalOpen}>
                   <OngoingFreelancerInfoModal user={user} project={project} />
                 </Modal>

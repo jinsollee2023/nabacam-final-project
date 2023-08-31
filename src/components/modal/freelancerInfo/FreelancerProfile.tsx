@@ -1,6 +1,6 @@
 import React from "react";
-import { BsTelephoneFill } from "react-icons/bs";
-import { MdEmail } from "react-icons/md";
+import { FiPhoneCall } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
 import { S } from "./freelancerInfoStyle";
 import { IUser } from "../../../Types";
 
@@ -22,10 +22,10 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
         </div>
         <S.Contact>
           <S.Contacts>
-            <BsTelephoneFill color="black" /> {user.contact.phone}
+            <FiPhoneCall color="black" /> {user.contact.phone}
           </S.Contacts>
           <S.Contacts>
-            <MdEmail color="black" /> {user.contact.email}
+            <FiMail color="black" /> {user.contact.email}
           </S.Contacts>
         </S.Contact>
       </S.UserBox>
