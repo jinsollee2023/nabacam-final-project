@@ -36,7 +36,19 @@ const ProjectCard = ({ project }: projectCardProps) => {
   return (
     <>
       {isDetailModalOpen && (
-        <Modal setIsModalOpen={setIsDetailModalOpen}>
+        <Modal
+          setIsModalOpen={setIsDetailModalOpen}
+          buttons={
+            <>
+              <S.ModalPostBtn onClick={updateProjectButtonHandler}>
+                수정하기
+              </S.ModalPostBtn>
+              <S.ModalPostBtn onClick={deleteProjectButtonHandler}>
+                삭제하기
+              </S.ModalPostBtn>
+            </>
+          }
+        >
           <ProjectDetailModal project={project} />
         </Modal>
       )}
@@ -45,9 +57,12 @@ const ProjectCard = ({ project }: projectCardProps) => {
           setIsModalOpen={setIsUpadateModalOpen}
           buttons={
             <>
-              <button onClick={updateProjectButtonHandler}>
-                프로젝트 수정하기
-              </button>
+              <S.ModalPostBtn onClick={updateProjectButtonHandler}>
+                수정하기
+              </S.ModalPostBtn>
+              <S.ModalPostBtn onClick={deleteProjectButtonHandler}>
+                삭제하기
+              </S.ModalPostBtn>
             </>
           }
         >

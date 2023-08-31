@@ -2,9 +2,31 @@ import { styled } from "styled-components";
 
 interface ProjectCardBoxProps {
   justifyContent?: string;
+  marginTop?: number;
   marginBottom?: number;
   fontSize?: string;
   fontWeight?: number;
+}
+interface ModalTitleProps {
+  fontSize?: string;
+  fontWeight?: number;
+  marginTop?: string;
+  marginBottom?: string;
+}
+interface ModalDetailProps {
+  marginTop?: string;
+  marginBottom?: string;
+  marginLeft?: string;
+  marginRight?: string;
+  fontSize?: string;
+  color?: string;
+}
+interface ModalInfoColumnBoxProps {
+  marginLeft?: string;
+}
+
+interface ModalInfoFlexBoxProps {
+  marginTop?: string;
 }
 
 const S = {
@@ -39,15 +61,23 @@ const S = {
     justify-content: flex-end;
     margin-bottom: 15px;
   `,
-  ModalTitle: styled.p<ProjectCardBoxProps>`
-    font-size: ${(props) => props.fontSize || "20px"};
+
+  // -----------------------------------------------------------//
+  ModalTitle: styled.p<ModalTitleProps>`
+    font-size: ${(props) => props.fontSize || "18px"};
     font-weight: ${(props) => props.fontWeight || "700"};
-    margin-bottom: 10px;
+    margin-top: ${(props) => props.marginTop || "0px"};
+    margin-bottom: ${(props) => props.marginBottom || "0px"};
   `,
-  ModalDetail: styled.p<ProjectCardBoxProps>`
-    font-size: ${(props) => props.fontSize || "16px"};
-    margin-bottom: ${(props) => props.marginBottom || "10"}px;
+  ModalDetail: styled.p<ModalDetailProps>`
+    font-size: ${(props) => props.fontSize || "14px"};
+    margin-top: ${(props) => props.marginTop || "0px"};
+    margin-bottom: ${(props) => props.marginBottom || "0px"};
+    margin-left: ${(props) => props.marginLeft || "0px"};
+    margin-right: ${(props) => props.marginRight || "0px"};
+    color: ${(props) => props.color};
     line-height: 1.5;
+    text-align: justify;
   `,
   ModalMainInfoBox: styled.div`
     display: flex;
@@ -68,12 +98,14 @@ const S = {
   ModalSubInfoInnerBox: styled.div`
     width: 50%;
   `,
-  ModalInfoColumnBox: styled.div`
+  ModalInfoColumnBox: styled.div<ModalInfoColumnBoxProps>`
     display: flex;
     flex-direction: column;
+    margin-left: ${(props) => props.marginLeft || "0px"};
   `,
-  ModalInfoFlexBox: styled.div`
+  ModalInfoFlexBox: styled.div<ModalInfoFlexBoxProps>`
     display: flex;
+    margin-top: ${(props) => props.marginTop || "0px"};
   `,
 
   ModalContentsLabel: styled.label`
@@ -119,8 +151,12 @@ const S = {
     border-top: 1px solid #ccc;
     width: 100%;
     margin: 0 auto;
+    margin-top: 10px;
     margin-bottom: 10px;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  `,
+  DetailModalContainer: styled.div`
+    margin-right: 10px;
   `,
 };
 
