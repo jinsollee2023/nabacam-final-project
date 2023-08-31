@@ -1,4 +1,3 @@
-import { useUserStore } from "src/zustand/useUserStore";
 import supabase from "../config/supabaseClient";
 import { v4 as uuidv4 } from "uuid";
 

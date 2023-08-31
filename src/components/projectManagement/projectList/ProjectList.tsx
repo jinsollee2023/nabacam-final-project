@@ -1,17 +1,18 @@
+import React from "react";
 import ProjectCard from "./ProjectCard";
 import { RiAddBoxLine } from "react-icons/ri";
-import Modal from "src/components/modal/Modal";
+import Modal from "../../modal/Modal";
 import AddProjectModal from "./AddProjectModal";
-import { useProjectStore } from "src/zustand/useProjectStore";
+import { useProjectStore } from "../../../zustand/useProjectStore";
 import S from "./ProjectListStyles";
 import { useEffect, useState } from "react";
-import { useUserStore } from "src/zustand/useUserStore";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
-import SearchItemBar from "src/components/common/searchItemBar/SearchItemBar";
+import { useUserStore } from "../../../zustand/useUserStore";
+import useProjectsQueries from "../../../hooks/useProjectsQueries";
+import SearchItemBar from "../../../components/common/searchItemBar/SearchItemBar";
 import SortProjects from "./SortProjects";
-import { queryClient } from "src/App";
-import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
-import { Project } from "src/Types";
+import { queryClient } from "../../../App";
+import { useSearchKeywordStore } from "../../../zustand/useSearchKeywordStore";
+import { Project } from "../../../Types";
 
 const ProjectList = () => {
   const { userId } = useUserStore();
@@ -115,9 +116,9 @@ const ProjectList = () => {
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <button onClick={addProjectButtonHandler}>
+              <S.ModalPostBtn onClick={addProjectButtonHandler}>
                 프로젝트 게시하기
-              </button>
+              </S.ModalPostBtn>
             </>
           }
         >

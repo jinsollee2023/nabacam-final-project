@@ -1,9 +1,9 @@
 import React from "react";
-import { User } from "src/Types";
-import { S } from "src/components/modal/freelancerInfo/freelancerInfoStyle";
-import FreelancerPortfolio from "src/components/modal/freelancerInfo/FreelancerPortfolio";
-import FreelancerProfile from "src/components/modal/freelancerInfo/FreelancerProfile";
-import FreelancerResume from "src/components/modal/freelancerInfo/FreelancerResume";
+import { User } from "../../../../../Types";
+import { S } from "../../../../../components/modal/freelancerInfo/freelancerInfoStyle";
+import FreelancerPortfolio from "../../../../../components/modal/freelancerInfo/FreelancerPortfolio";
+import FreelancerProfile from "../../../../../components/modal/freelancerInfo/FreelancerProfile";
+import FreelancerResume from "../../../../../components/modal/freelancerInfo/FreelancerResume";
 
 interface FreelancerInfoModalProps {
   user: User;

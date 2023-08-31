@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import supabase, { supabaseService } from "src/config/supabaseClient";
+import supabase, { supabaseService } from "../config/supabaseClient";
 import { getPhotoURL } from "./User";
 // 회원탈퇴
 

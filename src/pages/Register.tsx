@@ -1,4 +1,5 @@
-import JoinComp from "src/components/auth/join/JoinComp";
+import JoinComp from "../components/auth/join/JoinComp";
+import React from "react";
 
 const Register = () => {
   return (

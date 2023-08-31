@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import { S } from "../listOfFreelancersByStatusStyle";
-import Modal from "src/components/modal/Modal";
+import Modal from "../../../../../components/modal/Modal";
 import OngoingFreelancerInfoModal from "./OngoingFreelancerInfoModal";
 import dayjs from "dayjs";
 import { BsTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
-import { useUserStore } from "src/zustand/useUserStore";
-import { IUser, Project, User } from "src/Types";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import { IUser, Project, User } from "../../../../../Types";
 
 interface OngoingFreelancerCardsProps {
   user: User;
   project: Project;
 }
 
-const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) => {
+const OngoingFreelancerCards = ({
+  user,
+  project,
+}: OngoingFreelancerCardsProps) => {
   const { userId } = useUserStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
 
   return (
     <>
@@ -65,7 +70,9 @@ const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) 
               >
                 자세히 보기
               </S.DetailBtn>
-              {isModalOpen && selectedFreelancer && selectedFreelancer.userId === user.userId ? (
+              {isModalOpen &&
+              selectedFreelancer &&
+              selectedFreelancer.userId === user.userId ? (
                 <Modal setIsModalOpen={setIsModalOpen}>
                   <OngoingFreelancerInfoModal user={user} project={project} />
                 </Modal>

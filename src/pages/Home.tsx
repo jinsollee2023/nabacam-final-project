@@ -1,5 +1,6 @@
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "../zustand/useUserStore";
 import MenuTabBarComp from "../components/common/MenuTabBarComp";
+import React from "react";
 
 const Home = () => {
   const { user } = useUserStore();

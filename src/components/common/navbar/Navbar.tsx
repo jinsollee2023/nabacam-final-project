@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "../../../zustand/useUserStore";
+import React from "react";
 
 const Navbar = () => {
   const navigate = useNavigate();

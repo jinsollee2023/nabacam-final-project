@@ -4,6 +4,7 @@ import SearchItemBar from "../../common/searchItemBar/SearchItemBar";
 import SortFreelancers from "./sortFreelancers/SortFreelancers";
 import { styled } from "styled-components";
 import WorkFieldCategory from "./workFieldCategory/WorkFieldCategory";
+import React from "react";
 
 const FreelancerMarket = () => {
   const [selectedSortLabel, setSelectedSortLabel] = useState("");

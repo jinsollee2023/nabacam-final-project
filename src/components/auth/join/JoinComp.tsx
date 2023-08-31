@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Tabs } from "antd";
 import { styled } from "styled-components";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "../../../zustand/useUserStore";
 import JoinForm from "./JoinForm";
 type TabPosition = "left" | "right" | "top" | "bottom";
 

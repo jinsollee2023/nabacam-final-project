@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Select } from "antd";
 import PreviewImage from "./PreviewImage";
-import { uploadUserImage } from "src/api/User";
+import { uploadUserImage } from "../../../api/User";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "src/zustand/useUserStore";
-import { clientSignupHandler } from "src/api/auth";
+import { useUserStore } from "../../../zustand/useUserStore";
+import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
 import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
