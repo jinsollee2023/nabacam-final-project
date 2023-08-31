@@ -1,4 +1,4 @@
-import supabase from "../config/supabaseClient";
+import supabase, { supabaseService } from "../config/supabaseClient";
 
 export const getPortfolios = async () => {
   try {
@@ -21,9 +21,7 @@ export const getPortfolio = async (id: string) => {
   try {
     const { data } = await supabase
       .from("portfolios")
-      .select(
-        "freelancerId, portfolioId, title, desc, linkURL, thumbNailURL, pdfFileURL"
-      )
+      .select("*")
       .eq("freelancerId", id);
 
     return data;
@@ -46,7 +44,6 @@ export const uploadThumbnail = async ({
   const { data, error } = await supabase.storage
     .from("portfolios")
     .upload(`${userId}/${pfId}/thumbnail/`, file);
-
   if (error) {
     throw new Error("Error uploading image");
   }
@@ -64,24 +61,24 @@ export const uploadPDF = async ({
   file: File;
   pfId: string;
 }) => {
-  const { data, error } = await supabase.storage
+  const { data, error } = await supabaseService.storage
     .from("portfolios")
-    .upload(`${userId}/${pfId}/pdf/`, file);
+    .upload(`${userId}/${pfId}/pdf`, file);
 
   if (error) {
-    throw new Error("Error uploading image");
+    throw new Error("Error uploading PDF");
   }
-
   return data;
 };
 
 //------------------------------------------------------
 interface NewPortfolio {
   portfolioId: string;
+  freelancerId: string;
   title: string;
   desc: string;
   linkURL?: string;
-  thumbNailURL?: string | File | null;
+  thumbNailURL: string | File | null;
   pdfFileURL?: string | File | null;
 }
 export const addPortfolio = async ({
@@ -95,7 +92,7 @@ export const addPortfolio = async ({
 }) => {
   const { data: portfolioData, error: portfolioError } = await supabase
     .from("portfolios")
-    .insert({
+    .upsert({
       portfolioId: pfId,
       title: newPortfolio.title,
       desc: newPortfolio.desc,
@@ -105,4 +102,60 @@ export const addPortfolio = async ({
       pdfFileURL: newPortfolio.pdfFileURL,
     })
     .select();
+};
+
+export const deletePortfolio = async (
+  portfolioId: string,
+  freelancerId: string
+): Promise<void> => {
+  await supabase.from("portfolios").delete().eq("portfolioId", portfolioId);
+  await supabase.storage
+    .from("portfolios")
+    .remove([
+      `${freelancerId}/${portfolioId}/pdf`,
+      `${freelancerId}/${portfolioId}/thumbnail`,
+    ]);
+};
+
+export const updatePortfolioFile = async (
+  userId: string,
+  pfId: string,
+  fileType: string,
+  file: File
+) => {
+  const { data, error } = await supabase.storage
+    .from("portfolios")
+    .update(`${userId}/${pfId}/${fileType}`, file, {
+      cacheControl: "1",
+      upsert: true,
+    });
+  if (error) {
+    throw new Error("Error uploading file");
+  }
+  return data;
+};
+
+export const updatePortfolio = async ({
+  updatedData,
+  pfId,
+}: {
+  updatedData: {
+    freelancerId: string;
+    title: string;
+    desc: string;
+    linkURL: string;
+    thumbNailURL: string;
+    pdfFileURL: string;
+  };
+  pfId: string;
+}) => {
+  try {
+    await supabase
+      .from("portfolios")
+      .update(updatedData)
+      .eq("portfolioId", pfId)
+      .select();
+  } catch (error) {
+    console.error("Error updating portfolio:", error);
+  }
 };

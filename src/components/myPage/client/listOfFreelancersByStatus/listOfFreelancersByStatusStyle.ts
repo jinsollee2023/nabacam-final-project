@@ -1,10 +1,16 @@
 import { styled } from "styled-components";
 
 export const S = {
+  SearchBox: styled.div`
+    display: flex;
+  `,
+  SelectBox: styled.div`
+    margin-bottom: 20px;
+  `,
   FilterBtn: styled.button`
-    position: absolute;
-    /* 위치 변경 예정 */
-    right: 300px;
+    position: relative;
+    float: right;
+    right: 100px;
     width: 90px;
     height: 30px;
     background-color: transparent;
@@ -17,14 +23,15 @@ export const S = {
   `,
   listContainer: styled.div`
     display: flex;
-    margin: 15px;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 30px;
   `,
   ListsBox: styled.div`
     border: 2px solid #0086d0;
     border-radius: 10px;
-    width: 280px;
+    width: 30%;
     height: 350px;
+    margin-bottom: 20px;
     display: table;
   `,
   Profile: styled.div`
@@ -77,6 +84,10 @@ export const S = {
     font-size: 18px;
   `,
   ProjectDate: styled.span``,
+  DateInnerText: styled.span`
+    color: gray;
+    font-size: 12px;
+  `,
   DetailBtn: styled.button`
     border: 1px solid gray;
     border-radius: 10px;

@@ -9,7 +9,7 @@ import useProjectsQueries from "src/hooks/useProjectsQueries";
 
 const ApplicantFreelancerList = () => {
   const { userId } = useUserStore();
-  const { client } = useClientsQueries(userId);
+  const { client } = useClientsQueries({ userId });
   const {
     applicantFreelancers,
     updateFreelancerApprovalMutation,
@@ -19,9 +19,15 @@ const ApplicantFreelancerList = () => {
     currentUserId: userId,
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
 
-  const updateFreelancer = (userId: string, projectId: string, endDate: string) => {
+  const updateFreelancer = (
+    userId: string,
+    projectId: string,
+    endDate: string
+  ) => {
     updateFreelancerApprovalMutation.mutate({ userId, projectId, endDate });
     deleteVolunteerAndPendingFreelancerMutation.mutate(projectId);
     alert("승인이 완료되었습니다.");
@@ -34,7 +40,9 @@ const ApplicantFreelancerList = () => {
     pendingFreelancer: string[],
     freelancerId: string
   ) => {
-    const updateVolunteerData = volunteer.filter((user) => user !== freelancerId);
+    const updateVolunteerData = volunteer.filter(
+      (user) => user !== freelancerId
+    );
     const updatePendingFreelancerData = pendingFreelancer.concat(freelancerId);
     updatePendingFreelancerMutation.mutate({
       projectId,
@@ -58,17 +66,24 @@ const ApplicantFreelancerList = () => {
         ) : (
           applicantFreelancers?.map((project) =>
             project.volunteerUser?.map((freelancer) => (
-              <S.List key={freelancer.userId}>
+              <S.List key={`${freelancer.userId}-${project.projectId}`}>
                 <S.ListContents>
-                  <S.ImgBox>
-                    <S.Img alt="profileImg" src={freelancer.photoURL}></S.Img>
-                  </S.ImgBox>
                   <S.FreelancerName>{freelancer.name}</S.FreelancerName>
-                  <S.ListProjectTitle key={project.projectId}>
-                    <S.ProjectTitle>"{project.title}" 프로젝트에 지원</S.ProjectTitle>
-                  </S.ListProjectTitle>
+                  <span>{freelancer.workField?.workField}</span>
+                  <S.WorkFieldAndWorkExp>
+                    {freelancer.workField?.workSmallField}
+                  </S.WorkFieldAndWorkExp>
+                  <S.WorkFieldAndWorkExp>
+                    {freelancer.workExp}년차
+                  </S.WorkFieldAndWorkExp>
                 </S.ListContents>
-                <div>
+                <S.ProjectContents>
+                  <div key={project.projectId}>
+                    <S.ProjectTitle>
+                      {project.title} 프로젝트에 지원
+                    </S.ProjectTitle>
+                  </div>
+
                   <S.CheckingBtn
                     onClick={() => {
                       setSelectedFreelancer(freelancer);
@@ -84,7 +99,7 @@ const ApplicantFreelancerList = () => {
                         setIsModalOpen={setIsModalOpen}
                         buttons={
                           <>
-                            <S.Btn
+                            <S.ContractBtn
                               onClick={() =>
                                 updateFreelancer(
                                   freelancer.userId,
@@ -94,8 +109,8 @@ const ApplicantFreelancerList = () => {
                               }
                             >
                               계약하기
-                            </S.Btn>
-                            <S.Btn
+                            </S.ContractBtn>
+                            <S.PendingBtn
                               onClick={() =>
                                 updatePendingFreelancer(
                                   project.projectId || "",
@@ -106,14 +121,17 @@ const ApplicantFreelancerList = () => {
                               }
                             >
                               보류하기
-                            </S.Btn>
+                            </S.PendingBtn>
                           </>
                         }
                       >
-                        <ApplicantFreelancerInfoModal user={freelancer} project={project} />
+                        <ApplicantFreelancerInfoModal
+                          user={freelancer}
+                          project={project}
+                        />
                       </Modal>
                     )}
-                </div>
+                </S.ProjectContents>
               </S.List>
             ))
           )

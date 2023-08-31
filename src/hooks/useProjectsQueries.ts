@@ -69,6 +69,21 @@ const useProjectsQueries = ({
     }
   );
 
+  const {
+    data: allProjectList,
+    isError: allProjectListIsError,
+    isLoading: allProjectListIsLoading,
+  } = useQuery(
+    ["allprojectList"],
+    async () => {
+      const projectsData = await getProjects(currentUserId as string);
+      return projectsData;
+    },
+    {
+      enabled: !!currentUserId,
+    }
+  );
+
   // 제안 받은 프로젝트 확인에 사용
   const {
     data: suggestedProjectList,
@@ -319,6 +334,40 @@ const useProjectsQueries = ({
     }
   );
 
+  // const { data: matchingCompletedProjectsData } = useQuery(
+  //   ["matchingCompletedProjectsData"],
+  //   async () => {
+  //     const terminationedProjects = await getTerminationedProjects(currentUserId as string);
+  //     if (!terminationedProjects) {
+  //       console.log("No matching completed projects data.");
+  //       return [];
+  //     }
+
+  //     // 프로젝트 아이디별 개수를 세기 위한 객체
+  //     const projectCounts: Record<string, number> = {};
+
+  //     terminationedProjects.forEach((project) => {
+  //       if (!projectCounts[project.projectId]) {
+  //         projectCounts[project.projectId] = 1;
+  //       } else {
+  //         projectCounts[project.projectId]++;
+  //       }
+  //     });
+
+  //     // 프로젝트 정보와 함께 함께한 개수 출력
+  //     terminationedProjects.forEach((project) => {
+  //       const projectCount = projectCounts[project.projectId] || 0;
+
+  //       console.log(`${project.title}, 개수: ${projectCount}`);
+  //     });
+
+  //     return terminationedProjects;
+  //   },
+  //   {
+  //     enabled: !!currentUserId,
+  //   }
+  // );
+
   return {
     projects,
     appliedProjectList,
@@ -349,6 +398,8 @@ const useProjectsQueries = ({
     terminationedProjectsWithFreelancers,
     updatePendingFreelancerMutation,
     deletePendingFreelancerMutation,
+    allProjectList,
+    // matchingCompletedProjectsData,
   };
 };
 

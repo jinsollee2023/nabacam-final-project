@@ -1,20 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { usePortfolioStore } from "src/zustand/usePortfolioStore";
 import { S } from "./portfolioDetailModal.styles";
 
 interface PortfolioDetailModalProps {
   setIsDetailModalOpen: (isOpen: boolean) => void;
-  isAddModalOpen: boolean;
-  setIsAddModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isAddModalOpen?: boolean;
+  setIsAddModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string;
 }
 
-const PortfolioDetailModal = ({
-  setIsDetailModalOpen,
-  isAddModalOpen,
-  setIsAddModalOpen,
-  userId,
-}: PortfolioDetailModalProps) => {
+const PortfolioDetailModal = ({ userId }: PortfolioDetailModalProps) => {
   const { selectedPortfolio } = usePortfolioStore();
 
   return (

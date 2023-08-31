@@ -16,7 +16,7 @@ interface AddProjectModal {
 
 const AddProjectModal = ({ project }: AddProjectModal) => {
   const { userId } = useUserStore();
-  const { client } = useClientsQueries(userId);
+  const { client } = useClientsQueries({ userId });
   const [title, setTitle] = useState(project ? project.title : "");
   const [category, setCategory] = useState(project ? project.category : "");
   const [desc, setDesc] = useState(project ? project.desc : "");

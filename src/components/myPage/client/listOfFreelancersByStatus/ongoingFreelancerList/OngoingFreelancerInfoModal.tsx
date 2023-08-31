@@ -4,7 +4,7 @@ import { BsTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import FreelancerPortfolio from "src/components/modal/freelancerInfo/FreelancerPortfolio";
 import FreelancerResume from "src/components/modal/freelancerInfo/FreelancerResume";
-import { S } from "./freelancerInfoModalByStatusStyle";
+import { S } from "../freelancerInfoModalByStatusStyle";
 import dayjs from "dayjs";
 
 interface OngoingFreelancerInfoModalProps {
@@ -49,8 +49,8 @@ const OngoingFreelancerInfoModal = ({
           <S.ProjectContents>
             <span>{project.title}</span>
             <span>
-              {dayjs(project.date.startDate).format("YYMMDD")} 부터{" "}
-              {dayjs(project.date.endDate).format("YYMMDD")}
+              {dayjs(project.date.startDate).format("YYMMDD")}{" "}
+              <S.DateInnerText>부터</S.DateInnerText> {dayjs(project.date.endDate).format("YYMMDD")}
             </span>
           </S.ProjectContents>
         </S.ProjectInfo>
