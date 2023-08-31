@@ -10,7 +10,8 @@ import ResumeExperienceCard from "./ResumeExperienceCard";
 import { BsPlusSquareDotted } from "react-icons/bs";
 
 const ResumeExperienceComp = () => {
-  const { userId } = useUserStore();
+  const { user } = useUserStore();
+  const userId = user.userId;
   const { addExperienceMutation, resumeExperienceArray } =
     useResumeExperienceQueries({ userId });
   const { newExperience } = useResumeExperienceStore();

@@ -1,8 +1,10 @@
 import { styled } from "styled-components";
 
 interface ProjectCardBoxProps {
-  justifyContent: string;
-  marginBottom: number;
+  justifyContent?: string;
+  marginBottom?: number;
+  fontSize?: string;
+  fontWeight?: number;
 }
 
 const S = {
@@ -37,22 +39,45 @@ const S = {
     justify-content: flex-end;
     margin-bottom: 15px;
   `,
-  ModalTitle: styled.p`
-    font-size: 20px;
-    font-weight: 700;
+  ModalTitle: styled.p<ProjectCardBoxProps>`
+    font-size: ${(props) => props.fontSize || "20px"};
+    font-weight: ${(props) => props.fontWeight || "700"};
     margin-bottom: 10px;
+  `,
+  ModalDetail: styled.p<ProjectCardBoxProps>`
+    font-size: ${(props) => props.fontSize || "16px"};
+    margin-bottom: ${(props) => props.marginBottom || "10"}px;
+    line-height: 1.5;
   `,
   ModalMainInfoBox: styled.div`
     display: flex;
     flex-direction: column;
     margin: 20px 0;
   `,
+  ModalMainInfoInnerBox: styled.div`
+    width: 50%;
+  `,
+  ModalMainInfoInnerBoxWrapper: styled.div`
+    display: flex;
+    width: 100%;
+  `,
   ModalSubInfoBox: styled.div`
     display: flex;
     margin-bottom: 10px;
   `,
+  ModalSubInfoInnerBox: styled.div`
+    width: 50%;
+  `,
+  ModalInfoColumnBox: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
+  ModalInfoFlexBox: styled.div`
+    display: flex;
+  `,
+
   ModalContentsLabel: styled.label`
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   `,
   ModalTitleInput: styled.input`
     height: 30px;
@@ -85,6 +110,17 @@ const S = {
     margin-top: 8px;
     background-color: var(--main-blue);
     color: white;
+  `,
+  ModalSubTitle: styled.p`
+    margin-bottom: 3px;
+  `,
+  ModalLine: styled.hr`
+    border: none;
+    border-top: 1px solid #ccc;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   `,
 };
 

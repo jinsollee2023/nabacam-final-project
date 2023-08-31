@@ -11,7 +11,8 @@ interface ExperienceProps {
   experience: ResumeExperience;
 }
 const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
-  const { userId } = useUserStore();
+  const { user } = useUserStore();
+  const userId = user.userId;
   const experienceId = experience.experienceId;
   const { newExperience } = useResumeExperienceStore();
   const { deleteExperienceMutation, updateExperienceMutation } =

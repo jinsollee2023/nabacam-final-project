@@ -8,7 +8,9 @@ import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
 import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
 
 const ResumeProfileIntroComp = () => {
-  const { userId } = useUserStore();
+  const { user } = useUserStore();
+  const userId = user.userId;
+  console.log("12", user);
   const {
     addProfileIntroMutation,
     resumeProfileIntroObject,
