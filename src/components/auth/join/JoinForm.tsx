@@ -86,7 +86,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
           <form onSubmit={(e) => signUP(e)}>
             <h1>회원가입</h1>
             <div>
-              <input
+              <S.JoinInput
                 type="email"
                 name="email"
                 placeholder="이메일"
@@ -205,20 +205,12 @@ const JoinForm = ({ role }: JoinFormProps) => {
 export default JoinForm;
 
 const S = {
-  tabsContainer: styled.div`
-    height: 50%px;
-    font-size: 50px;
-    position: relative;
-    margin-top: 50%;
-  `,
-  Tabs: styled.div`
-    height: 100px;
-    padding: 100px;
-    position: relative;
-    top: 100px;
-  `,
   JoinForm: styled.div`
     position: relative;
     left: 100px;
+  `,
+  JoinInput: styled.input`
+    border: 1px solid black;
+    width: 466px;
   `,
 };
