@@ -33,6 +33,21 @@ const S = {
   SearchSortWrapper: styled.div`
     display: flex;
   `,
+  SearchSortBtnBox: styled.div`
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+  `,
+  SearchSortBtn: styled.span`
+    cursor: pointer;
+    color: var(--lighter-gray);
+    font-size: 14px;
+    /* &:hover,
+    &:active {
+      border-bottom: solid var(--lighter-gray);
+    } */
+  `,
+  SubmitBtn: styled.span``, // 상속
   ProjectContainer: styled.div`
     overflow: auto;
     width: 100%;
@@ -40,7 +55,7 @@ const S = {
     margin-top: 20px;
   `,
   ProjectCardBox: styled.div<ProjectCardBoxProps>`
-    border: 1.5px solid var(--main-blue);
+    border: 1.5px solid var(--lighter-gray);
     border-radius: 4px;
     width: 100%;
     height: 100px;
@@ -136,7 +151,6 @@ const S = {
   ModalPostBtn: styled.button`
     width: 100%;
     height: 35px;
-    cursor: pointer;
     border: none;
     border-radius: 10px;
     margin-top: 8px;
@@ -159,5 +173,9 @@ const S = {
     margin-right: 10px;
   `,
 };
+
+S.SubmitBtn = styled(S.SearchSortBtn)`
+  border-bottom: solid var(--lighter-gray);
+`;
 
 export default S;

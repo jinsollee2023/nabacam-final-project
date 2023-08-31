@@ -75,12 +75,29 @@ const ProjectCard = ({ project }: projectCardProps) => {
         </S.ProjcetTitleBox>
         <div>
           <S.ProjectCardButtonBox>
-            <span onClick={() => setIsUpadateModalOpen(true)}>수정</span>
-            <span onClick={deleteProjectButtonHandler}>삭제</span>
+            <S.SubmitBtn
+              style={{ marginRight: "5px" }}
+              onClick={() => setIsUpadateModalOpen(true)}
+            >
+              수정
+            </S.SubmitBtn>
+            <S.SubmitBtn onClick={deleteProjectButtonHandler}>삭제</S.SubmitBtn>
           </S.ProjectCardButtonBox>
           <div>
-            <p>{project.manager.name}</p>
-            <p>{project.date.endDate} 종료</p>
+            <p>
+              {project.manager.team}팀&nbsp;{project.manager.name}
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <p
+                style={{
+                  color: "var(--middle-gray)",
+                  fontSize: "13px",
+                  marginTop: "5px",
+                }}
+              >
+                {project.date.endDate} 종료
+              </p>
+            </div>
           </div>
         </div>
       </S.ProjectCardBox>

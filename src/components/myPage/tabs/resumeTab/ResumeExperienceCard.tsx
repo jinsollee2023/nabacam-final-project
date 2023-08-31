@@ -6,6 +6,7 @@ import type { ResumeExperience } from "../../../../Types";
 import { styled } from "styled-components";
 import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
 import EditResumeExperienceModal from "./EditResumeExperienceModal";
+import { S } from "./ResumeStyles";
 
 interface ExperienceProps {
   experience: ResumeExperience;
@@ -22,12 +23,10 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
     });
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  // 삭제버튼
   const deleteExperienceHandler = () => {
     deleteExperienceMutation.mutate({ userId, experienceId });
   };
 
-  // 수정버튼
   const updateExperienceHandler = () => {
     updateExperienceMutation.mutate({
       userId,
@@ -100,82 +99,15 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
             </S.PastWorkDuration>
           </div>
         </S.TextArea>
-        <S.BtnBox>
+        <S.RightEndBtnBox>
           <S.Btn onClick={() => setIsUpdateModalOpen(true)}>수정</S.Btn>
-          <S.Btn marginleft="10px" onClick={deleteExperienceHandler}>
+          <S.Btn marginLeft="10px" onClick={deleteExperienceHandler}>
             삭제
           </S.Btn>
-        </S.BtnBox>
+        </S.RightEndBtnBox>
       </S.WorkExperienceList>
     </>
   );
 };
 
 export default ResumeExperienceCard;
-
-interface BtnProps {
-  width?: string;
-  height?: string;
-  padding?: string;
-  margin?: string;
-  marginleft?: string;
-}
-const S = {
-  WorkExperienceContainer: styled.section`
-    width: 100%;
-    padding: 10px;
-  `,
-  WorkExperienceListWrapper: styled.ul`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 50px;
-  `,
-  WorkExperienceList: styled.li`
-    padding-top: 20px;
-    padding-bottom: 5px;
-    list-style: none;
-    border-radius: 8px;
-    border: 1.5px solid var(--main-blue);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  `,
-  TextArea: styled.div``,
-  PastWorkField: styled.p`
-    font-size: 18px;
-    font-weight: bolder;
-  `,
-  PastWorkDetail: styled.p`
-    font-size: 16px;
-    margin-top: 5px;
-  `,
-  PastWorkDuration: styled.p`
-    font-size: 16px;
-    margin-top: 5px;
-  `,
-  BtnBox: styled.div`
-    display: flex;
-    margin-top: 25px;
-    margin-left: auto;
-    padding-right: 3%;
-  `,
-  Btn: styled.button<BtnProps>`
-    background-color: var(--main-blue);
-    color: white;
-    border: none;
-
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: background-color 0.3s ease;
-    &:hover {
-      background-color: var(--hover-blue);
-    }
-    width: ${(props) => props.width};
-    height: ${(props) => props.height};
-    padding: ${(props) => props.padding || "10px"};
-    margin-left: ${(props) => props.marginleft};
-  `,
-};

@@ -19,7 +19,7 @@ export interface ResumeExperience {
   pastWorkField: string;
   pastEmploymentType: string;
   pastWorkPlace: string;
-  pastWorkDuration: { pastWorkEndDate: Date; pastWorkStartDate: Date };
+  pastWorkDuration: { pastWorkEndDate: string; pastWorkStartDate: string };
   pastWorkPosition: string;
 }
 

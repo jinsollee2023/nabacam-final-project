@@ -88,7 +88,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           <S.ModalDetail color="var(--main-blue)">
             {String(project.date.startDate)}
           </S.ModalDetail>
-          <p style={{ fontSize: "5px", color: "var(--sub-gray)" }}>부터</p>
+          <p style={{ fontSize: "5px", color: "var(--darker-gray)" }}>부터</p>
           <S.ModalDetail color="var(--main-blue)">
             {String(project.date.endDate)}
           </S.ModalDetail>
@@ -109,7 +109,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           <p
             style={{
               fontSize: "5px",
-              color: "var(--sub-gray)",
+              color: "var(--darker-gray)",
               marginRight: "15px",
               marginLeft: "15px",
             }}
@@ -126,7 +126,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           <p
             style={{
               fontSize: "5px",
-              color: "var(--sub-gray)",
+              color: "var(--darker-gray)",
               marginRight: "15px",
               marginLeft: "15px",
             }}

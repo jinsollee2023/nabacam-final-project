@@ -1,27 +1,38 @@
-import { Modal, Select, SelectProps, Space } from "antd";
+import {
+  DatePicker,
+  DatePickerProps,
+  Modal,
+  Select,
+  SelectProps,
+  Space,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
 import type { ResumeExperience } from "../../../../Types";
 import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
+import dayjs from "dayjs";
 
 const AddResumeExperienceModal = () => {
   const [pastWorkPlace, setPastWorkPlace] = useState("");
   const [pastWorkPosition, setPastWorkPosition] = useState("");
-  const [pastWorkStartDate, setPastWorkStartDate] = useState(new Date());
-  const [pastWorkEndDate, setPastWorkEndDate] = useState(new Date());
+  const [pastWorkStartDate, setPastWorkStartDate] = useState("");
+  const [pastWorkEndDate, setPastWorkEndDate] = useState("");
   const [selectedPastWorkField, setSelectedPastWorkField] = useState("전체");
   const [selectedPastEmploymentType, setSelectedPastEmploymentType] =
     useState("전체");
   const { changeNewExperience } = useResumeExperienceStore();
 
-  const onChangePastWorkStartDateHandler = (value: any) => {
-    setPastWorkStartDate(value);
+  const onChangePastWorkStartDateHandler: DatePickerProps["onChange"] = (
+    dateString
+  ) => {
+    setPastWorkStartDate(dateString?.toISOString().split("T")[0] as string);
   };
-  const onChangePastWorkEndDateHandler = (value: any) => {
-    setPastWorkEndDate(value);
+  const onChangePastWorkEndDateHandler: DatePickerProps["onChange"] = (
+    datestring
+  ) => {
+    setPastWorkEndDate(datestring?.toISOString().split("T")[0] as string);
   };
   const onChangePastWorkPlaceHandler = (value: string) => {
     setPastWorkPlace(value);
@@ -127,16 +138,16 @@ const AddResumeExperienceModal = () => {
             입사일을 선택해주세요.
           </p>
           <DatePicker
-            selected={pastWorkStartDate}
             onChange={onChangePastWorkStartDateHandler}
-            dateFormat="yyyy-MM-dd"
+            defaultValue={
+              pastWorkStartDate ? dayjs(pastWorkStartDate) : undefined
+            }
           />
           <br />
           <p style={{ fontSize: "15px" }}>퇴사일을 선택해주세요.</p>
           <DatePicker
-            selected={pastWorkEndDate}
             onChange={onChangePastWorkEndDateHandler}
-            dateFormat="yyyy-MM-dd"
+            defaultValue={pastWorkEndDate ? dayjs(pastWorkEndDate) : undefined}
           />
         </S.Label>
       </form>
