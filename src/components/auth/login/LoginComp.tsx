@@ -3,8 +3,11 @@ import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
 import { getUser } from "src/api/User";
-import Validation from "../join/Validation";
+
 import LoginValidation from "./LoginValidation";
+import { Tabs } from "antd";
+
+type TabPosition = "left" | "right" | "top" | "bottom";
 
 interface LoginForm {
   email: string;
@@ -19,6 +22,7 @@ const LoginComp = () => {
 
   // const { email, setUserEmail } = useUserStore();
   const [values, setValues] = useState<any>(initialValues);
+  const [tabPosition, setTabPosition] = useState<TabPosition>("left");
 
   const [errors, setErrors] = useState<any>("");
   const { setUserId, setUserRole, setUser } = useUserStore();
@@ -55,25 +59,37 @@ const LoginComp = () => {
 
   return (
     <>
-      <form onSubmit={loginHandler}>
-        <input
-          type="email"
-          name="email"
-          value={values.email}
-          onChange={handleChange}
-        />
-        {errors.email && <p>{errors.email}</p>}
+      <Tabs
+        tabPosition={tabPosition}
+        items={new Array(1).fill(null).map((_, i) => {
+          const id = String(i + 1);
+          return {
+            label: id == "1" && <div>클라이언트</div>,
+            key: id,
+            children: (
+              <form onSubmit={loginHandler}>
+                <input
+                  type="email"
+                  name="email"
+                  value={values.email}
+                  onChange={handleChange}
+                />
+                {errors.email && <p>{errors.email}</p>}
 
-        <input
-          type="password"
-          name="password"
-          value={values.password}
-          onChange={handleChange}
-        />
-        {errors.password && <p>{errors.password}</p>}
+                <input
+                  type="password"
+                  name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                />
+                {errors.password && <p>{errors.password}</p>}
 
-        <button>로그인</button>
-      </form>
+                <button>로그인</button>
+              </form>
+            ),
+          };
+        })}
+      />
     </>
   );
 };

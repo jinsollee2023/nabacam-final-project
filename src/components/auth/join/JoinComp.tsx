@@ -41,18 +41,23 @@ export default JoinComp;
 
 const S = {
   tabsContainer: styled.div`
-    height: 100px;
+    position: relative;
+    top: 150px;
+    height: 250px;
+    width: 200px;
     font-size: 40px;
     margin-top: 30%;
     margin-bottom: 30%;
   `,
   Tabs: styled.div`
-    height: 100px;
-    padding: 100px;
+    border: none;
   `,
   TabsBack: styled.div`
-    position: relative;
-    top: 200px;
-    left: 100px;
+    && {
+      position: relative;
+      border: none;
+      top: 100px;
+      left: 100px;
+    }
   `,
 };
