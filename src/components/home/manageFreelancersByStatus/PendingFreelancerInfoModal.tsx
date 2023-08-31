@@ -10,16 +10,12 @@ interface PendingFreelancerInfoModalProps {
   project: Project;
 }
 
-const PendingFreelancerInfoModal = ({
-  user,
-  project,
-}: PendingFreelancerInfoModalProps) => {
+const PendingFreelancerInfoModal = ({ user, project }: PendingFreelancerInfoModalProps) => {
   return (
     <>
-      <S.ModalTitle>보류한 프리랜서</S.ModalTitle>
+      <S.ModalTitle>{user.name}님의 이력서와 포르폴리오</S.ModalTitle>
       <FreelancerProfile user={user} />
-      <hr />
-      <S.ProjectConditions>
+      {/* <S.ProjectConditions>
         <div style={{ width: "100%" }}>
           <S.ProjectConditionTitle>목표 기간</S.ProjectConditionTitle>
           <S.ProjectDeadLineBox>
@@ -30,8 +26,7 @@ const PendingFreelancerInfoModal = ({
           <S.ProjectConditionTitle>급여</S.ProjectConditionTitle>
           <S.ProjectPayBox>
             <S.ProjectPayContent>
-              {project.pay?.min === "상의 후 결정" &&
-              project.pay?.max === "상의 후 결정" ? (
+              {project.pay?.min === "상의 후 결정" && project.pay?.max === "상의 후 결정" ? (
                 <span>상의 후 결정</span>
               ) : (
                 <>
@@ -42,7 +37,7 @@ const PendingFreelancerInfoModal = ({
             </S.ProjectPayContent>
           </S.ProjectPayBox>
         </div>
-      </S.ProjectConditions>
+      </S.ProjectConditions> */}
 
       <div>
         <FreelancerResume user={user} />
