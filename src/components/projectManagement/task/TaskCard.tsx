@@ -7,6 +7,7 @@ import useTasksQueries from "../../../hooks/useTasksQueries";
 import TaskDeadLine from "./TaskDeadLine";
 import { BsTrash3Fill } from "react-icons/bs";
 import TaskMonth from "./TaskMonth";
+import React from "react";
 
 interface TaskCardProps {
   task: Task;

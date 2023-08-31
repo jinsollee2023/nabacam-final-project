@@ -1,10 +1,10 @@
 import { Radio } from "antd";
 import React, { ChangeEvent, useState, useEffect } from "react";
-import { useUserStore } from "src/zustand/useUserStore";
-import { usePortfolioStore } from "src/zustand/usePortfolioStore";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import { usePortfolioStore } from "../../../../../zustand/usePortfolioStore";
 import { v4 as uuidv4 } from "uuid";
-import { Portfolio } from "src/Types";
-import PreviewImage from "src/components/auth/join/PreviewImage";
+import { Portfolio } from "../../../../../Types";
+import PreviewImage from "../../../../../components/auth/join/PreviewImage";
 
 interface PortfolioAddModalProps {
   errorMessage: string;

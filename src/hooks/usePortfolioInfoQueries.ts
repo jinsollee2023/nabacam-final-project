@@ -6,7 +6,7 @@ import {
   updatePortfolio,
   uploadPDF,
   uploadThumbnail,
-} from "src/api/Portfolio";
+} from "../api/Portfolio";
 
 import { queryClient } from "../App";
 import { Portfolio } from "src/Types";

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { S } from "./searchItemBar.styles";
 import { MdPersonSearch } from "react-icons/md";
-import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
-import useInput from "src/hooks/useInput";
+import { useSearchKeywordStore } from "../../../zustand/useSearchKeywordStore";
+import useInput from "../../../hooks/useInput";
 
 const SearchItemBar = () => {
   const searchInput = useRef<HTMLInputElement | null>(null);

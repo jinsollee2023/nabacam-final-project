@@ -1,7 +1,7 @@
 import React from "react";
-import useClientsQueries from "src/hooks/useClientsQueries";
-import { useUserStore } from "src/zustand/useUserStore";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
+import useClientsQueries from "../../../../../hooks/useClientsQueries";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { S } from "../listOfFreelancersByStatusStyle";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
 

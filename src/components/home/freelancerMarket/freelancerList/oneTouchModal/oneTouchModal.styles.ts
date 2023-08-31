@@ -44,8 +44,7 @@ export const S = {
     }
 
     border: ${({ isselected }) => (isselected ? "2px solid #58ACFA" : "none")};
-    background-color: ${({ isselected }) =>
-      isselected ? "#a9e2f3" : "rgba(0, 0, 0, 0.1)"};
+    background-color: ${({ isselected }) => (isselected ? "#a9e2f3" : "rgba(0, 0, 0, 0.1)")};
   `,
 
   ProjectItemTitle: styled.h4`

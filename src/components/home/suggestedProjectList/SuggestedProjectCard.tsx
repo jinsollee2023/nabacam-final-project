@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { Project } from "src/Types";
-import useClientsQueries from "src/hooks/useClientsQueries";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
+import { Project } from "../../../Types";
+import useClientsQueries from "../../../hooks/useClientsQueries";
+import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { S } from "./suggestedProjectList.styles";
-import Modal from "src/components/modal/Modal";
+import Modal from "../../../components/modal/Modal";
 import { Button } from "antd";
 import ApplyForProjectModal from "../projectNavigation/projectList/applyForProjectModal/ApplyForProjectModal";
 import {
   calculateDaysAgo,
   getDayOfWeek,
-} from "src/components/common/commonFunc";
+} from "../../../components/common/commonFunc";
+import React from "react";
 
 interface SuggestedProjectCardProps {
   projectItem: Project;

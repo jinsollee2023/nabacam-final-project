@@ -4,6 +4,7 @@ const Validation = (values: any) => {
   const errors = {
     email: "",
     password: "",
+    passwordConfirmCurrent: "",
     name: "",
     phone: "",
   };
@@ -17,7 +18,7 @@ const Validation = (values: any) => {
   const phoneReg = /^(010{1})[0-9]{3,4}[0-9]{4}$/;
 
   if (values.email === "") {
-    errors.email = "이름을 입력해주세요";
+    errors.email = "이메일을 입력해주세요";
   } else if (!emailRegEx.test(values.email)) {
     errors.email = "이메일 형식에 맞지 않습니다.";
   }
@@ -26,6 +27,13 @@ const Validation = (values: any) => {
   } else if (!passwordReg.test(values.password)) {
     errors.password = " 영문 숫자 가 들어간 8자리 이상 비밀번호";
   }
+
+  if (values.passwordConfirmCurrent !== values.password) {
+    errors.passwordConfirmCurrent = " 비밀번호가 틀립니다 . 다시 확인해주세요 ";
+  }
+  // } else if (values.passwordConfirmCurrent === values.password) {
+  //   errors.passwordConfirmCurrent = " 비밀번호가 틀립니다 . 다시 확인해주세요 ";
+  // }
 
   if (values.phone === "") {
     errors.phone = "전화번호를 입력해주세요";

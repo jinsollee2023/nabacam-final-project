@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { S } from "./portfolioTab.styles";
 import PortfolioAddModal from "./portfolioAddModal/PortfolioAddModal";
-import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
-import { useUserStore } from "src/zustand/useUserStore";
-import { usePortfolioStore } from "src/zustand/usePortfolioStore";
+import usePortfolioInfoQueries from "../../../../hooks/usePortfolioInfoQueries";
+import { useUserStore } from "../../../../zustand/useUserStore";
+import { usePortfolioStore } from "../../../../zustand/usePortfolioStore";
 import PortfolioDetailModal from "./portfolioDetailModal/PortfolioDetailModal";
 import { Button } from "antd";
-import Modal from "src/components/modal/Modal";
-import { Portfolio } from "src/Types";
+import Modal from "../../../modal/Modal";
+import { Portfolio } from "../../../../Types";
 import {
   updatePortfolioFile,
   uploadPDF,
   uploadThumbnail,
-} from "src/api/Portfolio";
-import { getPortfolioFileURL } from "src/api/User";
+} from "../../../../api/Portfolio";
+import { getPortfolioFileURL } from "../../../../api/User";
 
 const PortfolioTab = () => {
   const { userId } = useUserStore();

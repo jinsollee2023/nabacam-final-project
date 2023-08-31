@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { S } from "../listOfFreelancersByStatusStyle";
-import { IUser, Project, User } from "src/Types";
+import { IUser, Project, User } from "../../../../../Types";
 import dayjs from "dayjs";
-import { BsTelephoneFill } from "react-icons/bs";
-import { MdEmail } from "react-icons/md";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { useUserStore } from "src/zustand/useUserStore";
-import { useProjectStore } from "src/zustand/useProjectStore";
-import Modal from "src/components/modal/Modal";
+import { FiPhoneCall } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
+import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import { useProjectStore } from "../../../../../zustand/useProjectStore";
+import Modal from "../../../../../components/modal/Modal";
 import ContractTerminationInfoModal from "./ContractTerminationInfoModal";
-import OneTouchModal from "src/components/home/freelancerMarket/freelancerList/oneTouchModal/OneTouchModal";
+import OneTouchModal from "../../../../../components/home/freelancerMarket/freelancerList/oneTouchModal/OneTouchModal";
 
 interface ContractTerminationFreelancerCardsProps {
   user: User;
@@ -30,9 +30,11 @@ const ContractTerminationFreelancerCards = ({
     suggestedFreelancersData,
     updateSuggestedFreelancersDataMutation,
     refetchprojectDataForSuggestions,
+    terminationedProjectsWithFreelancers,
   } = useProjectsQueries({
     currentUserId: userId,
     selectedProject,
+    freelancerId: project.freelancerId,
   });
 
   useEffect(() => {
@@ -58,6 +60,19 @@ const ContractTerminationFreelancerCards = ({
     alert("프로젝트 제안이 완료 되었습니다.");
   };
 
+  // 프리랜서 아이디별 개수를 세기 위한 객체
+  const freelancerCounts: Record<string, number> = {};
+
+  terminationedProjectsWithFreelancers?.forEach((project) => {
+    const freelancerId = project.freelancerId as string;
+
+    if (!freelancerCounts[freelancerId]) {
+      freelancerCounts[freelancerId] = 1;
+    } else {
+      freelancerCounts[freelancerId]++;
+    }
+  });
+
   return (
     <>
       <S.Profile>
@@ -80,18 +95,20 @@ const ContractTerminationFreelancerCards = ({
                       </S.ProfileContents>
                       <S.ContactBox>
                         <span>
-                          <BsTelephoneFill />
+                          <FiPhoneCall />
                           {user.contact.phone}
                         </span>
                         <span>
-                          <MdEmail />
+                          <FiMail />
                           {user.contact.email}
                         </span>
                       </S.ContactBox>
                     </div>
                   </S.ContentContainer>
                   <S.Line />
-                  <S.OngoingProject>진행했던 프로젝트</S.OngoingProject>
+                  <S.OngoingProject>
+                    {freelancerCounts[user.userId] || 0}건의 함께 했던 프로젝트
+                  </S.OngoingProject>
                   <S.ProjectTitle>{project.title}</S.ProjectTitle>
                   <S.ProjectDate>
                     {dayjs(project.date.startDate).format("YYMMDD")}{" "}

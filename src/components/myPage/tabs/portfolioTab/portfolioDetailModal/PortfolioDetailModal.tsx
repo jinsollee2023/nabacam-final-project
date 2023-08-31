@@ -1,5 +1,5 @@
 import React from "react";
-import { usePortfolioStore } from "src/zustand/usePortfolioStore";
+import { usePortfolioStore } from "../../../../../zustand/usePortfolioStore";
 import { S } from "./portfolioDetailModal.styles";
 
 interface PortfolioDetailModalProps {

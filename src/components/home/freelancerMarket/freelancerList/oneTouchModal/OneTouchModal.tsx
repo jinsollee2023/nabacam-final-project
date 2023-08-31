@@ -1,7 +1,8 @@
-import { Project, User } from "src/Types";
-import FreelancerProfile from "src/components/modal/freelancerInfo/FreelancerProfile";
+import { Project, User } from "../../../../../Types";
+import FreelancerProfile from "../../../../../components/modal/freelancerInfo/FreelancerProfile";
 import { S } from "./oneTouchModal.styles";
-import { useProjectStore } from "src/zustand/useProjectStore";
+import { useProjectStore } from "../../../../../zustand/useProjectStore";
+import React from "react";
 
 interface OneTouchModalProps {
   user: User;

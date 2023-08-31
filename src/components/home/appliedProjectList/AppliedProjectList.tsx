@@ -1,7 +1,8 @@
 import { Spin } from "antd";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { useUserStore } from "src/zustand/useUserStore";
+import useProjectsQueries from "../../../hooks/useProjectsQueries";
+import { useUserStore } from "../../../zustand/useUserStore";
 import AppliedProjectCard from "./AppliedProjectCard";
+import React from "react";
 
 const AppliedProjectList = () => {
   const { userId } = useUserStore();
