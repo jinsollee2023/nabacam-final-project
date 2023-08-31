@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 
 import ResumeExperienceComp from "./ResumeExperienceComp";
 import ResumeProfileIntroComp from "./ResumeProfileIntroComp";
+import React from "react";
 
 const ResumeTab = () => {
   return (

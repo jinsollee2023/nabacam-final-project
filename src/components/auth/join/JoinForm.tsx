@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Select } from "antd";
-import ImagePreview from "./ProfileImg";
-import { uploadUserImage } from "src/api/User";
+import PreviewImage from "./PreviewImage";
+import { uploadUserImage } from "../../../api/User";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "src/zustand/useUserStore";
-import { clientSignupHandler } from "src/api/auth";
+import { useUserStore } from "../../../zustand/useUserStore";
+import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
+import { styled } from "styled-components";
+import EmailCheck from "../resetpassword/EmailCheck";
 
 interface JoinFormProps {
   // freelancerOpen: boolean;
@@ -29,6 +31,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const [openClientJoin, setOpenClientJoin] = useState(true);
   const [errors, setErrors] = useState<any>({});
   const [workSelect, setWorkSelect] = useState("");
+  const [modal, setModal] = useState(false);
   const { setUser } = useUserStore(); // 추가
 
   const onChange = (value: string) => {
@@ -59,9 +62,10 @@ const JoinForm = ({ role }: JoinFormProps) => {
 
     setValues({ ...values, [name]: value });
   };
-
+  const openModalHandler = () => {
+    setModal(!modal);
+  };
   // 미리보기 핸들러
-
   const handlePhotoURLOnChange = (file: File) => {
     setPhotoFile(file);
   };
@@ -72,9 +76,12 @@ const JoinForm = ({ role }: JoinFormProps) => {
     setOpenClientJoin(false);
   };
 
+  const JoinDefaultImage =
+    "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMyAg/MDAxNjA0MjI5NDA4NDMy.5zGHwAo_UtaQFX8Hd7zrDi1WiV5KrDsPHcRzu3e6b8Eg.IlkR3QN__c3o7Qe9z5_xYyCyr2vcx7L_W1arNFgwAJwg.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%8C%8C%EC%8A%A4%ED%85%94.jpg?type=w800";
+
   return (
     <>
-      <div>
+      <S.JoinForm>
         {openClientJoin && (
           <form onSubmit={(e) => signUP(e)}>
             <h1>회원가입</h1>
@@ -86,7 +93,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 value={values.email}
                 onChange={handleChange}
               />
-              {errors.email && <p>{errors.email}</p>}
+              <div>{errors.email && <p>{errors.email}</p>}</div>
 
               <input
                 type="password"
@@ -95,7 +102,20 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 value={values.password}
                 onChange={handleChange}
               />
-              {errors.password && <p>{errors.password}</p>}
+              <div>{errors.password && <p>{errors.password}</p>}</div>
+
+              <input
+                type="password"
+                name="passwordConfirmCurrent"
+                placeholder="비밀번호 확인"
+                value={values.passwordConfirmCurrent}
+                onChange={handleChange}
+              />
+              <div>
+                {errors.passwordConfirmCurrent && (
+                  <p>{errors.passwordConfirmCurrent}</p>
+                )}
+              </div>
 
               <input
                 type="text"
@@ -104,9 +124,12 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 value={values.name}
                 onChange={handleChange}
               />
-              {errors.name && <p>{errors.name}</p>}
+              <div>{errors.name && <p>{errors.name}</p>}</div>
 
-              <ImagePreview handlePhotoURLOnChange={handlePhotoURLOnChange} />
+              <PreviewImage
+                handlePhotoURLOnChange={handlePhotoURLOnChange}
+                defaultImage={JoinDefaultImage}
+              />
 
               {role === "freelancer" && (
                 <>
@@ -137,6 +160,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       },
                     ]}
                   />
+
                   <input
                     type="text"
                     name="workField"
@@ -162,16 +186,39 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 onChange={handleChange}
                 placeholder="핸드폰"
               />
-              {errors.phone && <p>{errors.phone}</p>}
+              <div>{errors.phone && <p>{errors.phone}</p>}</div>
 
               <button>회원가입</button>
               <button onClick={cancel}>취소</button>
             </div>
           </form>
         )}
-      </div>
+        <div>
+          <button onClick={openModalHandler}>비밀번호찾기</button>
+          {modal && <EmailCheck />}
+        </div>
+      </S.JoinForm>
     </>
   );
 };
 
 export default JoinForm;
+
+const S = {
+  tabsContainer: styled.div`
+    height: 50%px;
+    font-size: 50px;
+    position: relative;
+    margin-top: 50%;
+  `,
+  Tabs: styled.div`
+    height: 100px;
+    padding: 100px;
+    position: relative;
+    top: 100px;
+  `,
+  JoinForm: styled.div`
+    position: relative;
+    left: 100px;
+  `,
+};

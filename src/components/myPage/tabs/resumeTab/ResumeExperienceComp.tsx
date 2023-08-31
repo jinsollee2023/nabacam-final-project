@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useUserStore } from "src/zustand/useUserStore";
 import { styled } from "styled-components";
-import useResumeExperienceQueries from "src/hooks/useResumeExperienceQueries";
+import { useUserStore } from "../../../../zustand/useUserStore";
+import useResumeExperienceQueries from "../../../../hooks/useResumeExperienceQueries";
 import AddResumeExperienceModal from "./AddResumeExperienceModal";
-import Modal from "src/components/modal/Modal";
-import type { ResumeExperience } from "src/Types";
-import { useResumeExperienceStore } from "src/zustand/useResumeExperienceStore";
+import Modal from "../../../modal/Modal";
+import type { ResumeExperience } from "../../../../Types";
+import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
 import ResumeExperienceCard from "./ResumeExperienceCard";
 import { BsPlusSquareDotted } from "react-icons/bs";
 

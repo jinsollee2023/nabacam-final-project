@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "antd";
-import { useResumeProfileIntroStore } from "src/zustand/useResumeProfileIntroStore";
+import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
 
 interface profileIntroProps {
   profileIntro: string;

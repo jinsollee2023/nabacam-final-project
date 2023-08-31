@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "src/components/modal/Modal";
+import Modal from "../../../../components/modal/Modal";
 import { Button } from "antd";
 import { styled } from "styled-components";
 

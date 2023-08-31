@@ -2,13 +2,14 @@ import type { DatePickerProps } from "antd";
 import { Checkbox, DatePicker, Select, Slider } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect, useState } from "react";
-import { useProjectStore } from "src/zustand/useProjectStore";
+import { useProjectStore } from "../../../zustand/useProjectStore";
 import S from "./ProjectListStyles";
-import { Project } from "src/Types";
+import { Project } from "../../../Types";
 import dayjs from "dayjs";
-import { useUserStore } from "src/zustand/useUserStore";
-import useClientsQueries from "src/hooks/useClientsQueries";
+import { useUserStore } from "../../../zustand/useUserStore";
+import useClientsQueries from "../../../hooks/useClientsQueries";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 interface AddProjectModal {
   project?: Project;

@@ -4,8 +4,8 @@ import { styled } from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
-import type { ResumeExperience } from "src/Types";
-import { useResumeExperienceStore } from "src/zustand/useResumeExperienceStore";
+import type { ResumeExperience } from "../../../../Types";
+import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
 
 interface ExperienceProps {
   experience: ResumeExperience;

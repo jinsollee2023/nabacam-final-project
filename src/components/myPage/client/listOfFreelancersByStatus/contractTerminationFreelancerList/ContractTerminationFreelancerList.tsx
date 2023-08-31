@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import useClientsQueries from "src/hooks/useClientsQueries";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { useUserStore } from "src/zustand/useUserStore";
+import useClientsQueries from "../../../../../hooks/useClientsQueries";
+import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
+import { useUserStore } from "../../../../../zustand/useUserStore";
 import { S } from "../listOfFreelancersByStatusStyle";
-import { IProjectWithFreelancer } from "src/Types";
-import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
+import { IProjectWithFreelancer } from "../../../../../Types";
+import { useSearchKeywordStore } from "../../../../../zustand/useSearchKeywordStore";
 import ContractTerminationFreelancerCards from "./ContractTerminationFreelancerCards";
 
 interface ContractTerminationFreelancerListProps {
@@ -66,7 +66,14 @@ const ContractTerminationFreelancerList = ({
   return (
     <>
       <S.listContainer>
-        {filteredFreelancers
+        {[
+          ...new Map(
+            filteredFreelancers.map((project) => [
+              project.freelancerId,
+              project,
+            ])
+          ).values(),
+        ]
           .sort((a, b) =>
             isLastFirst
               ? new Date(b.date.endDate).getTime() -

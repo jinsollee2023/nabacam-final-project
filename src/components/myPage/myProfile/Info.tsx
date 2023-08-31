@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import EditForm from "./EditForm";
 import { styled } from "styled-components";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "../../../zustand/useUserStore";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getFreelancer } from "src/api/User";
+import { getFreelancer } from "../../../api/User";
 
 const Info = () => {
   // 상태관리

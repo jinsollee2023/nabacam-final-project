@@ -1,11 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
-import { queryClient } from "src/App";
+import { queryClient } from "../App";
 import {
   addFreelancerResumeProfileIntro,
   getFreelancerResumeProfileIntro,
   updateFreelancerResumeProfileIntro,
-} from "src/api/ResumeProfileIntro";
+} from "../api/ResumeProfileIntro";
 
 const useResumeProfileIntroQueries = (userId: string) => {
   const addProfileIntroMutation = useMutation(addFreelancerResumeProfileIntro, {

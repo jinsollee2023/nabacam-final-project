@@ -1,11 +1,11 @@
 import { styled } from "styled-components";
 import React, { useState } from "react";
-import { useUserStore } from "src/zustand/useUserStore";
-import useResumeProfileIntroQueries from "src/hooks/useResumeProfileIntroQueries";
+import { useUserStore } from "../../../../zustand/useUserStore";
+import useResumeProfileIntroQueries from "../../../../hooks/useResumeProfileIntroQueries";
 import { MdAddCircle } from "react-icons/md";
-import Modal from "src/components/modal/Modal";
+import Modal from "../../../../components/modal/Modal";
 import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
-import { useResumeProfileIntroStore } from "src/zustand/useResumeProfileIntroStore";
+import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
 
 const ResumeProfileIntroComp = () => {
   const { userId } = useUserStore();

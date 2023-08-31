@@ -1,11 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient } from "src/App";
-import { User } from "src/Types";
-import {
-  getClientByProject,
-  getFreelancersBySort,
-  updateUser,
-} from "src/api/User";
+import { queryClient } from "../App";
+import { User } from "../Types";
+import { getClientByProject, updateUser } from "../api/User";
 
 interface useClientsQueriesProps {
   userId: string;
@@ -36,21 +32,31 @@ const useClientsQueries = ({ userId }: useClientsQueriesProps) => {
 
   const updateUserMutation = useMutation(
     ({
-      photoURL,
+      updatedData,
       setUser,
       userId,
     }: {
-      photoURL: string;
+      updatedData: {
+        name: string;
+        workField: {
+          workField: string;
+          workSmallField: string;
+        };
+        contact: {
+          email: string;
+          phone: string;
+        };
+        photoURL: string;
+      };
       setUser: (user: User) => void;
       userId: string;
     }) =>
       updateUser({
         userId,
-        updatedData: {
-          photoURL: `${photoURL}?updated=${new Date().getTime()}`,
-        },
+        updatedData,
         setUser,
       }),
+
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["user"]);

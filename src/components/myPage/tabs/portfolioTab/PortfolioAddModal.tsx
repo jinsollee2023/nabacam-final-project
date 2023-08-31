@@ -1,11 +1,11 @@
 import { Modal, Radio, Space } from "antd";
 import React, { useState } from "react";
 
-import useInput from "src/hooks/useInput";
+import useInput from "../../../../hooks/useInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useUserStore } from "src/zustand/useUserStore";
-import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
-import { usePortfolioStore } from "src/zustand/usePortfolioStore";
+import { useUserStore } from "../../../../zustand/useUserStore";
+import usePortfolioInfoQueries from "../../../../hooks/usePortfolioInfoQueries";
+import { usePortfolioStore } from "../../../../zustand/usePortfolioStore";
 import { v4 as uuidv4 } from "uuid";
 import PortfolioAddFilesForm from "./PortfolioAddFilesForm";
 import PortfolioAddLinkForm from "./PortfolioAddLinkForm";
@@ -14,7 +14,7 @@ interface ModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
+const PortfolioAddModal = ({ open, setOpen }: ModalProps) => {
   const [attachmentType, setAttachmentType] = useState<string>("file");
   const fileTitleInput = useInput("");
   const fileDescInput = useInput("");
@@ -28,8 +28,6 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
     pfId,
     thumbnailFileName,
     PDFFileName,
-    setThumbnailFileName,
-    setPDFFileName,
   } = usePortfolioStore();
 
   const { addPortfolioMutation } = usePortfolioInfoQueries({ userId, pfId });
@@ -56,14 +54,8 @@ const PortfolioAddModal: React.FC<ModalProps> = ({ open, setOpen }) => {
     fileTitleInput.reset();
     fileDescInput.reset();
     linkInput.reset();
-
-    setThumbnailFileName("");
-    setPDFFileName("");
-
     setOpen(false);
   };
-  console.log(thumbnailFileName);
-  console.log(PDFFileName);
   return (
     <>
       {open && (

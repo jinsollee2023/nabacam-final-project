@@ -1,20 +1,24 @@
 import React from "react";
-import { Project, User } from "src/Types";
+import { Project, User } from "../../../Types";
 import { S } from "./freelancersByStatusInfoModalStyle";
-import FreelancerProfile from "src/components/modal/freelancerInfo/FreelancerProfile";
-import FreelancerResume from "src/components/modal/freelancerInfo/FreelancerResume";
-import FreelancerPortfolio from "src/components/modal/freelancerInfo/FreelancerPortfolio";
+import FreelancerProfile from "../../../components/modal/freelancerInfo/FreelancerProfile";
+import FreelancerResume from "../../../components/modal/freelancerInfo/FreelancerResume";
+import FreelancerPortfolio from "../../../components/modal/freelancerInfo/FreelancerPortfolio";
 
 interface ApplicantFreelancerInfoModalProps {
   user: User;
   project: Project;
 }
 
-const ApplicantFreelancerInfoModal = ({ user, project }: ApplicantFreelancerInfoModalProps) => {
+const ApplicantFreelancerInfoModal = ({
+  user,
+  project,
+}: ApplicantFreelancerInfoModalProps) => {
   return (
     <>
       <S.ModalTitle>{project.title} 프로젝트에 지원</S.ModalTitle>
       <FreelancerProfile user={user} />
+      <hr />
       <S.ProjectConditions>
         <div style={{ width: "100%" }}>
           <S.ProjectConditionTitle>목표 기간</S.ProjectConditionTitle>
@@ -26,7 +30,8 @@ const ApplicantFreelancerInfoModal = ({ user, project }: ApplicantFreelancerInfo
           <S.ProjectConditionTitle>급여</S.ProjectConditionTitle>
           <S.ProjectPayBox>
             <S.ProjectPayContent>
-              {project.pay?.min === "상의 후 결정" && project.pay?.max === "상의 후 결정" ? (
+              {project.pay?.min === "상의 후 결정" &&
+              project.pay?.max === "상의 후 결정" ? (
                 <span>상의 후 결정</span>
               ) : (
                 <>

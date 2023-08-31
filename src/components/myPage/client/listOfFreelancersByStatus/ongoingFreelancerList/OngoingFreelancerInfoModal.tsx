@@ -1,26 +1,24 @@
 import React from "react";
-import { Project, User } from "src/Types";
+import { Project, User } from "../../../../../Types";
 import { BsTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
-import FreelancerPortfolio from "src/components/modal/freelancerInfo/FreelancerPortfolio";
-import FreelancerResume from "src/components/modal/freelancerInfo/FreelancerResume";
+import FreelancerPortfolio from "../../../../../components/modal/freelancerInfo/FreelancerPortfolio";
+import FreelancerResume from "../../../../../components/modal/freelancerInfo/FreelancerResume";
 import { S } from "../freelancerInfoModalByStatusStyle";
 import dayjs from "dayjs";
 
 interface OngoingFreelancerInfoModalProps {
   user: User;
   project: Project;
-  modalTitle?: React.ReactNode;
 }
 
 const OngoingFreelancerInfoModal = ({
   user,
   project,
-  modalTitle = "지금 현재 진행중인 프리랜서의 프로필입니다.",
 }: OngoingFreelancerInfoModalProps) => {
   return (
     <>
-      <S.ModalTitle>{modalTitle}</S.ModalTitle>
+      <S.ModalTitle>지금 현재 진행중인 프리랜서의 프로필입니다.</S.ModalTitle>
       <S.ProfileInfo>
         <S.ImgBox>
           <S.Img src={user.photoURL} alt="profileImg" />
@@ -50,11 +48,13 @@ const OngoingFreelancerInfoModal = ({
             <span>{project.title}</span>
             <span>
               {dayjs(project.date.startDate).format("YYMMDD")}{" "}
-              <S.DateInnerText>부터</S.DateInnerText> {dayjs(project.date.endDate).format("YYMMDD")}
+              <S.DateInnerText>부터</S.DateInnerText>{" "}
+              {dayjs(project.date.endDate).format("YYMMDD")}
             </span>
           </S.ProjectContents>
         </S.ProjectInfo>
       </S.ProfileInfo>
+      <hr />
       <FreelancerResume user={user} />
       <FreelancerPortfolio user={user} />
     </>

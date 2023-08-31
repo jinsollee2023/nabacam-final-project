@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { User } from "src/Types";
-import { getPortfolios } from "src/api/Portfolio";
+import { User } from "../Types";
+import { getPortfolios } from "../api/Portfolio";
 
 const usePortfoliosQueries = (freelancerItem: User) => {
   const {

@@ -14,9 +14,10 @@ import {
   updateApprovalFreelancer,
   deleteVolunteerAndPendingFreelancer,
   deletePendingFreelancer,
-} from "src/api/Project";
-import { IProjectWithFreelancer, Project } from "src/Types";
-import { getUser } from "src/api/User";
+  getTerminationedProjectsWithFreelancer,
+} from "../api/Project";
+import { IProjectWithFreelancer, Project } from "../Types";
+import { getUser } from "../api/User";
 import { updatePendingFreelancer } from "../api/Project";
 
 interface useProjectsQueriesProps {
@@ -98,21 +99,29 @@ const useProjectsQueries = ({
     {
       enabled: !!currentUserId,
       select: (allProjectList) =>
-        allProjectList?.filter((project) => project.SuggestedFreelancers?.includes(currentUserId)),
+        allProjectList?.filter((project) =>
+          project.SuggestedFreelancers?.includes(currentUserId)
+        ),
     }
   );
 
-  const addProjectMutation = useMutation((newProject: Project) => addProject(newProject), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
-    },
-  });
+  const addProjectMutation = useMutation(
+    (newProject: Project) => addProject(newProject),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["projects"]);
+      },
+    }
+  );
 
-  const deleteProjectMutation = useMutation((projectId: string) => deleteProject(projectId), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
-    },
-  });
+  const deleteProjectMutation = useMutation(
+    (projectId: string) => deleteProject(projectId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["projects"]);
+      },
+    }
+  );
 
   const updateProjectMutation = useMutation(
     ({ projectId, newProject }: { projectId: string; newProject: Project }) =>
@@ -138,7 +147,8 @@ const useProjectsQueries = ({
       enabled: !!currentUserId,
       select: (projectLists) =>
         projectLists?.filter(
-          (projectList) => !projectList.SuggestedFreelancers?.includes(freelancerId as string)
+          (projectList) =>
+            !projectList.SuggestedFreelancers?.includes(freelancerId as string)
         ),
     }
   );
@@ -247,7 +257,8 @@ const useProjectsQueries = ({
       projectId: string;
       updateVolunteer: string[];
       pendingFreelancer: string[];
-    }) => updatePendingFreelancer(projectId, updateVolunteer, pendingFreelancer),
+    }) =>
+      updatePendingFreelancer(projectId, updateVolunteer, pendingFreelancer),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["applicantFreelancers"]);
@@ -256,8 +267,15 @@ const useProjectsQueries = ({
   );
 
   const updateFreelancerApprovalMutation = useMutation(
-    ({ userId, projectId, endDate }: { userId: string; projectId: string; endDate: string }) =>
-      updateApprovalFreelancer(userId, projectId, endDate),
+    ({
+      userId,
+      projectId,
+      endDate,
+    }: {
+      userId: string;
+      projectId: string;
+      endDate: string;
+    }) => updateApprovalFreelancer(userId, projectId, endDate),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["applicantFreelancers"]);
@@ -290,10 +308,14 @@ const useProjectsQueries = ({
     }
   );
 
-  const { data: ongoingProjectsWithFreelancers } = useQuery<IProjectWithFreelancer[]>(
+  const { data: ongoingProjectsWithFreelancers } = useQuery<
+    IProjectWithFreelancer[]
+  >(
     ["ongoingProjectsWithFreelancers"],
     async () => {
-      const ongoingProjectsData = await getOngoingProjects(currentUserId as string);
+      const ongoingProjectsData = await getOngoingProjects(
+        currentUserId as string
+      );
       const ongoingProjectsWithPromise = ongoingProjectsData.map((info) => ({
         ...info,
         freelancerPromise: getUser(info.freelancerId as string),
@@ -312,21 +334,26 @@ const useProjectsQueries = ({
     }
   );
 
-  const { data: terminationedProjectsWithFreelancers } = useQuery<IProjectWithFreelancer[]>(
+  const { data: terminationedProjectsWithFreelancers } = useQuery<
+    IProjectWithFreelancer[]
+  >(
     ["terminationedProjectsWithFreelancers"],
     async () => {
-      const terminationedProjectsData = await getTerminationedProjects(currentUserId as string);
-      const terminationedProjectsWithPromise = terminationedProjectsData.map((info) => ({
-        ...info,
-        freelancerPromise: getUser(info.freelancerId as string),
-      }));
+      const terminationedProjectsData = await getTerminationedProjects(
+        currentUserId as string
+      );
+      const terminationedProjectsWithPromise = terminationedProjectsData.map(
+        (info) => ({
+          ...info,
+          freelancerPromise: getUser(info.freelancerId as string),
+        })
+      );
       const terminationedProjectsWithFreelancers = await Promise.all(
         terminationedProjectsWithPromise.map(async (project) => ({
           ...project,
           freelancer: await project.freelancerPromise,
         }))
       );
-      // console.log(terminationedProjectsWithFreelancers);
       return terminationedProjectsWithFreelancers;
     },
     {
@@ -334,39 +361,23 @@ const useProjectsQueries = ({
     }
   );
 
-  // const { data: matchingCompletedProjectsData } = useQuery(
-  //   ["matchingCompletedProjectsData"],
-  //   async () => {
-  //     const terminationedProjects = await getTerminationedProjects(currentUserId as string);
-  //     if (!terminationedProjects) {
-  //       console.log("No matching completed projects data.");
-  //       return [];
-  //     }
-
-  //     // 프로젝트 아이디별 개수를 세기 위한 객체
-  //     const projectCounts: Record<string, number> = {};
-
-  //     terminationedProjects.forEach((project) => {
-  //       if (!projectCounts[project.projectId]) {
-  //         projectCounts[project.projectId] = 1;
-  //       } else {
-  //         projectCounts[project.projectId]++;
-  //       }
-  //     });
-
-  //     // 프로젝트 정보와 함께 함께한 개수 출력
-  //     terminationedProjects.forEach((project) => {
-  //       const projectCount = projectCounts[project.projectId] || 0;
-
-  //       console.log(`${project.title}, 개수: ${projectCount}`);
-  //     });
-
-  //     return terminationedProjects;
-  //   },
-  //   {
-  //     enabled: !!currentUserId,
-  //   }
-  // );
+  const { data: matchingCompletedProjectsData } = useQuery(
+    ["matchingCompletedProjectsData"],
+    async () => {
+      const terminationedProjects =
+        await getTerminationedProjectsWithFreelancer(
+          currentUserId as string,
+          freelancerId as string
+        );
+      if (!terminationedProjects) {
+        return [];
+      }
+      return terminationedProjects;
+    },
+    {
+      enabled: !!currentUserId,
+    }
+  );
 
   return {
     projects,
@@ -399,7 +410,7 @@ const useProjectsQueries = ({
     updatePendingFreelancerMutation,
     deletePendingFreelancerMutation,
     allProjectList,
-    // matchingCompletedProjectsData,
+    matchingCompletedProjectsData,
   };
 };
 

@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
-import { queryClient } from "src/App";
+import { queryClient } from "../App";
 import {
   addExperience,
   deleteExperience,
   getExperience,
   updateExperience,
-} from "src/api/ResumeExperience";
+} from "../api/ResumeExperience";
 
 /**
  *

@@ -1,4 +1,4 @@
-import { ResumeExperience } from "src/Types";
+import { ResumeExperience } from "../Types";
 import { create } from "zustand";
 
 type ResumeExperienceStore = {

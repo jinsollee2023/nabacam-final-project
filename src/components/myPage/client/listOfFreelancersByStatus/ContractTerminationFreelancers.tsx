@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { S } from "./listOfFreelancersByStatusStyle";
-import SearchItemBar from "src/components/common/searchItemBar/SearchItemBar";
+import SearchItemBar from "../../../../components/common/searchItemBar/SearchItemBar";
 import { LuArrowUpDown } from "react-icons/lu";
-import WorkFieldCategory from "src/components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";
+import WorkFieldCategory from "../../../../components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";
 import ContractTerminationFreelancerList from "./contractTerminationFreelancerList/ContractTerminationFreelancerList";
 
 const ContractTerminationFreelancers = () => {
@@ -17,11 +17,11 @@ const ContractTerminationFreelancers = () => {
     <>
       <S.SearchBox>
         <SearchItemBar />
+        <S.FilterBtn onClick={handleSortToggle}>
+          {isLastFirst ? "최신순" : "오래된 순"}
+          <LuArrowUpDown />
+        </S.FilterBtn>
       </S.SearchBox>
-      <S.FilterBtn onClick={handleSortToggle}>
-        {isLastFirst ? "최신순" : "오래된 순"}
-        <LuArrowUpDown />
-      </S.FilterBtn>
       <S.SelectBox>
         <WorkFieldCategory onSelectWorkField={setSelectedWorkField} />
       </S.SelectBox>
