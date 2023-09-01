@@ -83,12 +83,13 @@ const ProjectCard = ({ project }: projectCardProps) => {
 
   return (
     <>
+      {/* FIX */}
       {isDetailModalOpen && (
         <Modal
           setIsModalOpen={setIsDetailModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={updateProjectButtonHandler}>
+              <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>
                 수정하기
               </S.ModalPostBtn>
               <S.ModalPostBtn onClick={deleteProjectButtonHandler}>
@@ -125,6 +126,7 @@ const ProjectCard = ({ project }: projectCardProps) => {
           />
         </Modal>
       )}
+      {/* ---------------------------------------------------------------- */}
       <S.ProjectCardBox justifyContent="space-between" marginBottom={20}>
         <S.ProjcetTitleBox onClick={() => setIsDetailModalOpen(true)}>
           {project.title}
