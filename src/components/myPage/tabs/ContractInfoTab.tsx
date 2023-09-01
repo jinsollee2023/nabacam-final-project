@@ -55,7 +55,7 @@ const ContractInfoTab = () => {
                     freelancerProject.status === "진행 중" && (
                       <S.ContractInfoBox
                         key={freelancerProject.projectId}
-                      >{`${freelancerProject.title}/${freelancerProject.date.startDate}~${freelancerProject.date.endDate}`}</S.ContractInfoBox>
+                      >{`${freelancerProject.title}/${freelancerProject.date?.startDate}~${freelancerProject.date?.endDate}`}</S.ContractInfoBox>
                     )}
                 </>
                 <>
@@ -63,7 +63,7 @@ const ContractInfoTab = () => {
                     freelancerProject.status === "진행 완료" && (
                       <S.ContractInfoGrayBox
                         key={freelancerProject.projectId}
-                      >{`${freelancerProject.title}/${freelancerProject.date.startDate}~${freelancerProject.date.endDate}`}</S.ContractInfoGrayBox>
+                      >{`${freelancerProject.title}/${freelancerProject.date?.startDate}~${freelancerProject.date?.endDate}`}</S.ContractInfoGrayBox>
                     )}
                 </>
               </>
@@ -81,7 +81,7 @@ const ContractInfoTab = () => {
                 {selectedLabel === "진행 중" && (
                   <S.ContractInfoBox
                     key={freelancerProject.projectId}
-                  >{`${freelancerProject.title}/${freelancerProject.date.startDate}~${freelancerProject.date.endDate}`}</S.ContractInfoBox>
+                  >{`${freelancerProject.title}/${freelancerProject.date?.startDate}~${freelancerProject.date?.endDate}`}</S.ContractInfoBox>
                 )}
               </>
             );
@@ -98,7 +98,7 @@ const ContractInfoTab = () => {
                 {selectedLabel === "진행 완료" && (
                   <S.ContractInfoGrayBox
                     key={freelancerProject.projectId}
-                  >{`${freelancerProject.title}/${freelancerProject.date.startDate}~${freelancerProject.date.endDate}`}</S.ContractInfoGrayBox>
+                  >{`${freelancerProject.title}/${freelancerProject.date?.startDate}~${freelancerProject.date?.endDate}`}</S.ContractInfoGrayBox>
                 )}
               </>
             );

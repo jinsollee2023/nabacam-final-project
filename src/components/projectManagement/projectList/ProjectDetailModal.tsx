@@ -42,7 +42,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
 
   return (
     <S.DetailModalContainer>
-      <S.ModalTitle fontSize="24px" marginBottom="30px">
+      <S.ModalTitle fontSize="20px" marginBottom="30px">
         {project.title}
       </S.ModalTitle>
 
@@ -86,11 +86,11 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
         <S.ModalDetail>목표기간</S.ModalDetail>
         <S.ModalInfoFlexBox style={{ alignItems: "center" }}>
           <S.ModalDetail color="var(--main-blue)">
-            {String(project.date.startDate)}
+            {String(project.date?.startDate)}
           </S.ModalDetail>
           <p style={{ fontSize: "5px", color: "var(--darker-gray)" }}>부터</p>
           <S.ModalDetail color="var(--main-blue)">
-            {String(project.date.endDate)}
+            {String(project.date?.endDate)}
           </S.ModalDetail>
         </S.ModalInfoFlexBox>
 

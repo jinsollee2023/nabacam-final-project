@@ -12,6 +12,9 @@ const Navbar = () => {
   if (window.location.pathname === `/login`) {
     return null;
   }
+  if (window.location.pathname === `/resetpassword`) {
+    return null;
+  }
   return (
     <S.SidebarWrapper>
       <S.ProfileWrapper>

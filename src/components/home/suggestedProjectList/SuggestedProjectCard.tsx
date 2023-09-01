@@ -30,7 +30,7 @@ const SuggestedProjectCard = ({
     currentUserId: userId,
   });
 
-  const dayOfWeek = getDayOfWeek(new Date(projectItem.date.endDate));
+  const dayOfWeek = getDayOfWeek(new Date(projectItem.expectedStartDate));
 
   const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
   const daysAgo = calculateDaysAgo(targetDate);
@@ -76,6 +76,7 @@ const SuggestedProjectCard = ({
           date: {
             ...projectItem.date,
             startDate: new Date().toISOString().split("T")[0],
+            endDate: "",
           },
         };
 
@@ -173,8 +174,8 @@ const SuggestedProjectCard = ({
 
           <S.ProejctContentRightTextWrapper>
             <span>
-              ~{projectItem.date.endDate.slice(5, 7)}/
-              {projectItem.date.endDate.slice(8, 10)} ({dayOfWeek})
+              ~{projectItem.expectedStartDate.slice(5, 7)}/
+              {projectItem.expectedStartDate.slice(8, 10)} ({dayOfWeek})
             </span>
             <S.ProjectRegistrationDate>
               {daysAgo} 등록

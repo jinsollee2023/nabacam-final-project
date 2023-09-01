@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { Project } from "src/Types";
 import Modal from "src/components/modal/Modal";
@@ -30,7 +29,7 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
     queryClient.invalidateQueries([client]);
   }, [projectItem]);
 
-  const dayOfWeek = getDayOfWeek(new Date(projectItem.date.endDate));
+  const dayOfWeek = getDayOfWeek(new Date(projectItem.expectedStartDate));
 
   const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
   const daysAgo = calculateDaysAgo(targetDate);
@@ -130,8 +129,8 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
 
             <S.ProejctContentRightTextWrapper>
               <span>
-                ~{projectItem.date.endDate.slice(5, 7)}/
-                {projectItem.date.endDate.slice(8, 10)} ({dayOfWeek})
+                ~{projectItem.date?.endDate.slice(5, 7)}/
+                {projectItem.date?.endDate.slice(8, 10)} ({dayOfWeek})
               </span>
               <S.ProjectRegistrationDate>
                 {daysAgo} 등록

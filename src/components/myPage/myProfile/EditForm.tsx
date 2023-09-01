@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { User } from "../../../Types";
 import PreviewImage from "../../../components/auth/join/PreviewImage";
 import { useProfileInfoStore } from "../../../zustand/useProfileInfoStore";
+import { S } from "./myProfile.styles";
 
 interface EditFormProps {
   user: User;
 }
 const EditForm = ({ user }: EditFormProps) => {
-  // 상태관리
   const initialValues = {
     name: user.name,
     workSmallField: user.workField?.workSmallField as string,
@@ -49,69 +49,67 @@ const EditForm = ({ user }: EditFormProps) => {
           handlePhotoURLOnChange={setPhotoFile}
           defaultImage={user.photoURL}
         />
-        <label>
-          이름:
-          <input
-            id="name"
-            type="text"
-            value={values.name}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          직무분야:
-          <Select
-            id="workField"
-            placeholder="Select a person"
-            optionFilterProp="children"
-            onChange={selectOnChange}
-            value={workField}
-            options={[
-              {
-                value: "개발",
-                label: "개발",
-              },
-              {
-                value: "디자인",
-                label: "디자인",
-              },
-              {
-                value: "운영",
-                label: "운영",
-              },
-              {
-                value: "마케팅",
-                label: "마케팅",
-              },
-              {
-                value: "기획",
-                label: "기획",
-              },
-              {
-                value: "기타",
-                label: "기타",
-              },
-            ]}
-          />
-        </label>
-        <label>
-          세부분야:
-          <input
-            id="workSmallField"
-            type="text"
-            value={values.workSmallField}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          전화번호:
-          <input
-            id="phone"
-            type="text"
-            value={values.phone}
-            onChange={handleChange}
-          />
-        </label>
+        <S.Label>이름 </S.Label>
+        <S.Input
+          id="name"
+          type="text"
+          value={values.name}
+          onChange={handleChange}
+        />
+
+        <S.Label>직무분야</S.Label>
+        <br />
+        <Select
+          id="workField"
+          placeholder="Select a person"
+          optionFilterProp="children"
+          onChange={selectOnChange}
+          value={workField}
+          options={[
+            {
+              value: "개발",
+              label: "개발",
+            },
+            {
+              value: "디자인",
+              label: "디자인",
+            },
+            {
+              value: "운영",
+              label: "운영",
+            },
+            {
+              value: "마케팅",
+              label: "마케팅",
+            },
+            {
+              value: "기획",
+              label: "기획",
+            },
+            {
+              value: "기타",
+              label: "기타",
+            },
+          ]}
+          style={{ marginTop: "15px" }}
+        />
+        <br />
+        <br />
+        <S.Label>세부분야</S.Label>
+        <S.Input
+          id="workSmallField"
+          type="text"
+          value={values.workSmallField}
+          onChange={handleChange}
+        />
+
+        <S.Label>전화번호</S.Label>
+        <S.Input
+          id="phone"
+          type="text"
+          value={values.phone}
+          onChange={handleChange}
+        />
       </form>
     </>
   );

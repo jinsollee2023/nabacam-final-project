@@ -76,10 +76,10 @@ const ContractTerminationFreelancerList = ({
         ]
           .sort((a, b) =>
             isLastFirst
-              ? new Date(b.date.endDate).getTime() -
-                new Date(a.date.endDate).getTime()
-              : new Date(a.date.endDate).getTime() -
-                new Date(b.date.endDate).getTime()
+              ? new Date(b.date?.endDate as string).getTime() -
+                new Date(a.date?.endDate as string).getTime()
+              : new Date(a.date?.endDate as string).getTime() -
+                new Date(b.date?.endDate as string).getTime()
           )
           .filter(
             (project) =>

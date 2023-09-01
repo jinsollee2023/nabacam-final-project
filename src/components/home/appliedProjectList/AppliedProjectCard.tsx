@@ -1,4 +1,3 @@
-import React from "react";
 import { Project } from "../../../Types";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
@@ -83,8 +82,8 @@ const AppliedProjectCard = ({
             )}
           </div>
           <S.ProejctContentRightTextWrapper>
-            <span>프로젝트 마감 날짜 </span>
-            <span>{projectItem.date.endDate}</span>
+            <span>프로젝트 시작 예정일 </span>
+            <span>{projectItem.date?.startDate}</span>
           </S.ProejctContentRightTextWrapper>
         </S.ProejctContentRightWrapper>
       </S.ProjectCardContainer>

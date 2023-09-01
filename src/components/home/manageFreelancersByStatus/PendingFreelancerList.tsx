@@ -27,11 +27,18 @@ const PendingFreelancerList = () => {
     userId: string,
     projectId: string,
     endDate: string,
-    projectIds: string[]
+    projectIds: string[],
+    volunteer: string[],
+    pendingFreelancer: string[]
   ) => {
     const customProjectIds = projectIds.concat(projectId);
+    const customPendingFreelancers = pendingFreelancer.filter((v) => v !== userId);
     updateFreelancerApprovalMutation.mutate({ userId, projectId, endDate });
-    deleteVolunteerAndPendingFreelancerMutation.mutate(projectId);
+    deleteVolunteerAndPendingFreelancerMutation.mutate({
+      projectId,
+      updateVolunteer: volunteer,
+      updatePendingFreelancer: customPendingFreelancers,
+    });
     addProjectIdToUserMutation.mutate({ userId, projectIds: customProjectIds });
     alert("승인이 완료되었습니다.");
     setIsModalOpen(false);
@@ -68,6 +75,7 @@ const PendingFreelancerList = () => {
             project.pendingFreelancerUser?.map((freelancer) => (
               <S.List key={`${project.projectId}-${freelancer.userId}`}>
                 <S.ListContents>
+                  {project.freelancerId ? <div>모집완료</div> : <div>모집중</div>}
                   <S.FreelancerName>{freelancer.name}</S.FreelancerName>
                   <span>{freelancer.workField?.workField}</span>
                   <S.WorkFieldAndWorkExp>
@@ -100,8 +108,10 @@ const PendingFreelancerList = () => {
                                 updateFreelancer(
                                   freelancer.userId,
                                   project.projectId ?? "",
-                                  project.date.endDate,
-                                  freelancer.projectId || []
+                                  project.date?.endDate as string,
+                                  freelancer.projectId || [],
+                                  project.volunteer || [],
+                                  project.pendingFreelancer || []
                                 )
                               }
                             >

@@ -103,7 +103,6 @@ export const S = {
   `,
   DetailBtn: styled.button`
     position: relative;
-    top: 50px;
     border: 1px solid #0086d0;
     border-radius: 4px;
     width: 90%;

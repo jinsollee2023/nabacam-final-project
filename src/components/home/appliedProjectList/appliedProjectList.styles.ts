@@ -86,7 +86,7 @@ export const S = {
   ProejctContentRightTextWrapper: styled.div`
     display: flex;
     justify-content: space-between;
-    width: 190px;
+    width: 100%;
     font-size: 14px;
     color: gray;
     margin-top: 3px;
