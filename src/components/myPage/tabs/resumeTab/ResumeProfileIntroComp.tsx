@@ -84,9 +84,13 @@ const ResumeProfileIntroComp = () => {
           buttons={
             <>
               {newProfileIntroInput.length > 0 ? (
-                <button onClick={updateProfileIntroHandler}>수정하기</button>
+                <S.Btn width="100%" onClick={updateProfileIntroHandler}>
+                  수정하기
+                </S.Btn>
               ) : (
-                <button onClick={addProfileIntroHandler}>등록하기</button>
+                <S.Btn width="100%" onClick={addProfileIntroHandler}>
+                  등록하기
+                </S.Btn>
               )}
             </>
           }

@@ -27,20 +27,21 @@ export const S = {
     font-weight: bold;
   `,
   ProfileInputBox: styled.div`
-    font-size: 18px;
+    font-size: 16px;
     padding: 10px;
     margin-top: 15px;
     border-radius: 8px;
     border: 1.5px solid var(--main-blue);
   `,
   ProfileBtn: styled.button`
-    background-color: none;
-    border: none;
-    padding: 4px 8px;
+    background-color: transparent;
+    border: solid var(--hover-blue);
+    padding: 5px 7px;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-top: 6px;
+    margin-left: 8px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 10px;
     transition: background-color 0.3s ease;
     &:hover {
       background-color: var(--hover-blue);
@@ -121,5 +122,9 @@ export const S = {
     display: flex;
     align-items: center;
     justify-content: center;
+  `,
+  JustifyBox: styled.div`
+    display: flex;
+    align-items: center;
   `,
 };

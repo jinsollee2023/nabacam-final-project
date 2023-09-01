@@ -42,7 +42,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
 
   return (
     <S.DetailModalContainer>
-      <S.ModalTitle fontSize="24px" marginBottom="30px">
+      <S.ModalTitle fontSize="20px" marginBottom="30px">
         {project.title}
       </S.ModalTitle>
 
