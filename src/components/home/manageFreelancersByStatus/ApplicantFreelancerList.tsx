@@ -27,11 +27,22 @@ const ApplicantFreelancerList = () => {
     userId: string,
     projectId: string,
     endDate: string,
-    projectIds: string[]
+    projectIds: string[],
+    volunteer: string[],
+    pendingFreelancer: string[]
   ) => {
     const customProjectIds = projectIds.concat(projectId);
-    updateFreelancerApprovalMutation.mutate({ userId, projectId, endDate });
-    deleteVolunteerAndPendingFreelancerMutation.mutate(projectId);
+    const customVolunteers = volunteer.filter((v) => v !== userId);
+    updateFreelancerApprovalMutation.mutate({
+      userId,
+      projectId,
+      endDate,
+    });
+    deleteVolunteerAndPendingFreelancerMutation.mutate({
+      projectId,
+      updateVolunteer: customVolunteers,
+      updatePendingFreelancer: pendingFreelancer,
+    });
     addProjectIdToUserMutation.mutate({ userId, projectIds: customProjectIds });
     alert("승인이 완료되었습니다.");
     setIsModalOpen(false);
@@ -69,6 +80,7 @@ const ApplicantFreelancerList = () => {
             project.volunteerUser?.map((freelancer) => (
               <S.List key={`${freelancer.userId}-${project.projectId}`}>
                 <S.ListContents>
+                  {project.freelancerId ? <div>모집완료</div> : <div>모집중</div>}
                   <S.FreelancerName>{freelancer.name}</S.FreelancerName>
                   <span>{freelancer.workField?.workField}</span>
                   <S.WorkFieldAndWorkExp>
@@ -101,8 +113,10 @@ const ApplicantFreelancerList = () => {
                                 updateFreelancer(
                                   freelancer.userId,
                                   project.projectId ?? "",
-                                  project.date.endDate,
-                                  freelancer.projectId || []
+                                  project.date?.endDate as string,
+                                  freelancer.projectId || [],
+                                  project.volunteer || [],
+                                  project.pendingFreelancer || []
                                 )
                               }
                             >

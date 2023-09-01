@@ -294,10 +294,19 @@ const useProjectsQueries = ({
   );
 
   const deleteVolunteerAndPendingFreelancerMutation = useMutation(
-    (projectId: string) => deleteVolunteerAndPendingFreelancer(projectId),
+    ({
+      projectId,
+      updateVolunteer,
+      updatePendingFreelancer,
+    }: {
+      projectId: string;
+      updateVolunteer: string[];
+      updatePendingFreelancer: string[];
+    }) => deleteVolunteerAndPendingFreelancer(projectId, updateVolunteer, updatePendingFreelancer),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["applicantFreelancers"]);
+        queryClient.invalidateQueries(["pendingFreelancers"]);
       },
     }
   );

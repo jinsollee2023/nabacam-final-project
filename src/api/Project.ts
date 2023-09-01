@@ -55,7 +55,7 @@ export const addProject = async (newProject: Project): Promise<void> => {
         desc: newProject.desc,
         clientId: newProject.clientId,
         manager: newProject.manager,
-        date: { startDate: "", endDate: newProject.date.endDate },
+        expectedStartDate: newProject.expectedStartDate,
         pay: newProject.pay,
         status: newProject.status,
         category: newProject.category,
@@ -75,7 +75,7 @@ export const updateProject = async (
     title?: string;
     desc?: string;
     clientId?: string;
-    deadLine?: Date;
+    expectedStartDate?: string;
     pay?: {
       min: number | string;
       max: number | string;
@@ -122,12 +122,12 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
         orderByField = "created_at";
         ascending = true;
         break;
-      case "마감기한 빠른 순":
-        orderByField = "deadLine";
+      case "시작 예정일 빠른 순":
+        orderByField = "expectedStartDate";
         ascending = true;
         break;
-      case "마감기한 느린 순":
-        orderByField = "deadLine";
+      case "시작 예정일 느린 순":
+        orderByField = "expectedStartDate";
         ascending = false;
         break;
       case "지원자 많은 순":
@@ -229,11 +229,18 @@ export const updateApprovalFreelancer = async (
     .match({ projectId });
 };
 
-/* 신청 및 제안, 보류된 프리랜서 목록 초기화 API */
-export const deleteVolunteerAndPendingFreelancer = async (projectId: string) => {
+/* 지원한 프리랜서&보류한 프리랜서 탭에서 계약된 프리랜서 목록 삭제 API */
+export const deleteVolunteerAndPendingFreelancer = async (
+  projectId: string,
+  updateVolunteer: string[],
+  updatePendingFreelancer: string[]
+) => {
   return await supabase
     .from("projects")
-    .update({ volunteer: [], pendingFreelancer: [], SuggestedFreelancers: [] })
+    .update({
+      volunteer: updateVolunteer,
+      pendingFreelancer: updatePendingFreelancer,
+    })
     .match({ projectId });
 };
 

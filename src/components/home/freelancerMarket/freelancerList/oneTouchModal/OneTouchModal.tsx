@@ -40,7 +40,7 @@ const OneTouchModal = ({ user, projectLists }: OneTouchModalProps) => {
               >
                 <S.ProjectItemTitle>{projectItem.title}</S.ProjectItemTitle>
                 <S.ProjectItemDeadLine>
-                  목표 기간 : {String(projectItem.date.endDate)}
+                  시작 예정일 : {projectItem.expectedStartDate}
                 </S.ProjectItemDeadLine>
               </S.ProjectItem>
             );

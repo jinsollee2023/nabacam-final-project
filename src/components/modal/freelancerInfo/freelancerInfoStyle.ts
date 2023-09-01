@@ -71,6 +71,7 @@ export const S = {
   `,
   Contacts: styled.span`
     display: flex;
+    width: 200px;
     font-size: 14px;
   `,
   PortfolioBox: styled.div`

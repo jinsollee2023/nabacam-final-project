@@ -7,6 +7,7 @@ export const S = {
     margin-bottom: 20px;
   `,
   ProfileInfo: styled.div`
+    gap: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;

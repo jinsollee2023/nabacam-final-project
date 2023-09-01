@@ -29,7 +29,7 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
     queryClient.invalidateQueries([client]);
   }, [projectItem]);
 
-  const dayOfWeek = getDayOfWeek(new Date(projectItem.date.endDate));
+  const dayOfWeek = getDayOfWeek(new Date(projectItem.expectedStartDate));
 
   const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
   const daysAgo = calculateDaysAgo(targetDate);
@@ -104,8 +104,8 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
           <span>{projectItem.volunteer?.length}명 지원 중</span>
           <div>
             <span>
-              ~{projectItem.date.endDate.slice(5, 7)}/
-              {projectItem.date.endDate.slice(8, 10)} ({dayOfWeek})
+              ~{projectItem.expectedStartDate?.slice(5, 7)}/
+              {projectItem.expectedStartDate?.slice(8, 10)} ({dayOfWeek})
             </span>
             <span>{daysAgo} 등록</span>
           </div>

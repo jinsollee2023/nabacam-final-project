@@ -12,7 +12,10 @@ interface OngoingFreelancerInfoModalProps {
   project: Project;
 }
 
-const OngoingFreelancerInfoModal = ({ user, project }: OngoingFreelancerInfoModalProps) => {
+const OngoingFreelancerInfoModal = ({
+  user,
+  project,
+}: OngoingFreelancerInfoModalProps) => {
   return (
     <>
       <S.ModalTitle>지금 현재 진행중인 프리랜서의 프로필입니다.</S.ModalTitle>
@@ -44,8 +47,9 @@ const OngoingFreelancerInfoModal = ({ user, project }: OngoingFreelancerInfoModa
           <S.ProjectContents>
             <span>{project.title}</span>
             <span>
-              {dayjs(project.date.startDate).format("YYMMDD")}{" "}
-              <S.DateInnerText>부터</S.DateInnerText> {dayjs(project.date.endDate).format("YYMMDD")}
+              {dayjs(project.date?.startDate).format("YYMMDD")}{" "}
+              <S.DateInnerText>부터</S.DateInnerText>{" "}
+              {dayjs(project.date?.endDate).format("YYMMDD")}
             </span>
           </S.ProjectContents>
         </S.ProjectInfo>
