@@ -144,15 +144,9 @@ const AddProjectModal = ({
         <S.ModalContentsLabel htmlFor="qualification">
           모집조건
         </S.ModalContentsLabel>
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-          }}
-        >
-          <div style={{ width: "50%" }}>
-            분야
-            <br />
+        <S.ModalMainInfoInnerBoxWrapper>
+          <S.ModalMainInfoInnerBox>
+            <S.ModalSubTitle>분야</S.ModalSubTitle>
             <Select
               id="category"
               value={values.category}
@@ -178,10 +172,9 @@ const AddProjectModal = ({
                 borderRadius: "8px",
               }}
             />
-          </div>
-          <div style={{ width: "50%" }}>
-            경력
-            <br />
+          </S.ModalMainInfoInnerBox>
+          <S.ModalMainInfoInnerBox>
+            <S.ModalSubTitle>경력</S.ModalSubTitle>
             <S.ModalTitleInput
               id="qualification"
               type="number"
@@ -194,19 +187,19 @@ const AddProjectModal = ({
               }`}
               style={{
                 width: "97%",
+                height: "35px",
                 marginLeft: "3%",
                 borderRadius: "4px",
               }}
             />
-          </div>
-        </div>
+          </S.ModalMainInfoInnerBox>
+        </S.ModalMainInfoInnerBoxWrapper>
       </S.ModalMainInfoBox>
       <S.ModalSubInfoBox>
-        <div style={{ width: "50%" }}>
+        <S.ModalSubInfoInnerBox>
           <S.ModalContentsLabel htmlFor="projectDeadLine">
-            목표 기간
+            목표기간
           </S.ModalContentsLabel>
-          <br />
           <DatePicker
             id="projectDeadLine"
             onChange={(date) =>
@@ -217,6 +210,7 @@ const AddProjectModal = ({
             }
             style={{
               marginBottom: "20px",
+              marginTop: "5px",
               width: "97%",
               marginRight: "3%",
               border: `1.5px solid ${
@@ -232,12 +226,11 @@ const AddProjectModal = ({
                 : undefined
             }
           />
-        </div>
-        <div style={{ width: "50%" }}>
+        </S.ModalSubInfoInnerBox>
+        <S.ModalSubInfoInnerBox>
           <S.ModalContentsLabel htmlFor="projectManager">
             담당자
           </S.ModalContentsLabel>
-          <br />
           <Select
             id="projectManager"
             showSearch
@@ -274,6 +267,7 @@ const AddProjectModal = ({
             }
             style={{
               marginBottom: "20px",
+              marginTop: "5px",
               width: "97%",
               marginLeft: "3%",
               border: `1.5px solid ${
@@ -284,7 +278,7 @@ const AddProjectModal = ({
               borderRadius: "8px",
             }}
           />
-        </div>
+        </S.ModalSubInfoInnerBox>
       </S.ModalSubInfoBox>
 
       <S.ModalContentsLabel htmlFor="payBox">급여</S.ModalContentsLabel>

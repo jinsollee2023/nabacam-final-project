@@ -84,7 +84,19 @@ const ProjectCard = ({ project }: projectCardProps) => {
   return (
     <>
       {isDetailModalOpen && (
-        <Modal setIsModalOpen={setIsDetailModalOpen}>
+        <Modal
+          setIsModalOpen={setIsDetailModalOpen}
+          buttons={
+            <>
+              <S.ModalPostBtn onClick={updateProjectButtonHandler}>
+                수정하기
+              </S.ModalPostBtn>
+              <S.ModalPostBtn onClick={deleteProjectButtonHandler}>
+                삭제하기
+              </S.ModalPostBtn>
+            </>
+          }
+        >
           <ProjectDetailModal project={project} />
         </Modal>
       )}
@@ -93,9 +105,12 @@ const ProjectCard = ({ project }: projectCardProps) => {
           setIsModalOpen={setIsUpadateModalOpen}
           buttons={
             <>
-              <button onClick={updateProjectButtonHandler}>
-                프로젝트 수정하기
-              </button>
+              <S.ModalPostBtn onClick={updateProjectButtonHandler}>
+                수정하기
+              </S.ModalPostBtn>
+              <S.ModalPostBtn onClick={deleteProjectButtonHandler}>
+                삭제하기
+              </S.ModalPostBtn>
             </>
           }
         >
@@ -116,12 +131,29 @@ const ProjectCard = ({ project }: projectCardProps) => {
         </S.ProjcetTitleBox>
         <div>
           <S.ProjectCardButtonBox>
-            <span onClick={updateProjectModalOpenHandler}>수정</span>
-            <span onClick={deleteProjectButtonHandler}>삭제</span>
+            <S.SubmitBtn
+              style={{ marginRight: "5px" }}
+              onClick={updateProjectModalOpenHandler}
+            >
+              수정
+            </S.SubmitBtn>
+            <S.SubmitBtn onClick={deleteProjectButtonHandler}>삭제</S.SubmitBtn>
           </S.ProjectCardButtonBox>
           <div>
-            <p>{project.manager.name}</p>
-            <p>{project.expectedStartDate} 시작 예정</p>
+            <p>
+              {project.manager.team}팀&nbsp;{project.manager.name}
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <p
+                style={{
+                  color: "var(--middle-gray)",
+                  fontSize: "13px",
+                  marginTop: "5px",
+                }}
+              >
+                {project.expectedStartDate} 시작 예정
+              </p>
+            </div>
           </div>
         </div>
       </S.ProjectCardBox>

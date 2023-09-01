@@ -163,7 +163,9 @@ export const S = {
     height: 35px;
     cursor: pointer;
     border: none;
-    border-radius: 10px;
+    border-radius: 15px;
     margin-top: 8px;
+    background-color: #0086d0;
+    color: white;
   `,
 };

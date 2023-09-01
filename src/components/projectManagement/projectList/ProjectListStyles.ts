@@ -1,8 +1,32 @@
 import { styled } from "styled-components";
 
 interface ProjectCardBoxProps {
-  justifyContent: string;
-  marginBottom: number;
+  justifyContent?: string;
+  marginTop?: number;
+  marginBottom?: number;
+  fontSize?: string;
+  fontWeight?: number;
+}
+interface ModalTitleProps {
+  fontSize?: string;
+  fontWeight?: number;
+  marginTop?: string;
+  marginBottom?: string;
+}
+interface ModalDetailProps {
+  marginTop?: string;
+  marginBottom?: string;
+  marginLeft?: string;
+  marginRight?: string;
+  fontSize?: string;
+  color?: string;
+}
+interface ModalInfoColumnBoxProps {
+  marginLeft?: string;
+}
+
+interface ModalInfoFlexBoxProps {
+  marginTop?: string;
 }
 
 interface ModalTitleInputProps {
@@ -17,6 +41,21 @@ const S = {
   SearchSortWrapper: styled.div`
     display: flex;
   `,
+  SearchSortBtnBox: styled.div`
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+  `,
+  SearchSortBtn: styled.span`
+    cursor: pointer;
+    color: var(--lighter-gray);
+    font-size: 14px;
+    /* &:hover,
+    &:active {
+      border-bottom: solid var(--lighter-gray);
+    } */
+  `,
+  SubmitBtn: styled.span``, // 상속
   ProjectContainer: styled.div`
     overflow: auto;
     width: 100%;
@@ -24,7 +63,7 @@ const S = {
     margin-top: 20px;
   `,
   ProjectCardBox: styled.div<ProjectCardBoxProps>`
-    border: 1.5px solid var(--main-blue);
+    border: 1.5px solid var(--lighter-gray);
     border-radius: 4px;
     width: 100%;
     height: 100px;
@@ -45,22 +84,55 @@ const S = {
     justify-content: flex-end;
     margin-bottom: 15px;
   `,
-  ModalTitle: styled.p`
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 10px;
+
+  // -----------------------------------------------------------//
+  ModalTitle: styled.p<ModalTitleProps>`
+    font-size: ${(props) => props.fontSize || "18px"};
+    font-weight: ${(props) => props.fontWeight || "700"};
+    margin-top: ${(props) => props.marginTop || "0px"};
+    margin-bottom: ${(props) => props.marginBottom || "0px"};
+  `,
+  ModalDetail: styled.p<ModalDetailProps>`
+    font-size: ${(props) => props.fontSize || "14px"};
+    margin-top: ${(props) => props.marginTop || "0px"};
+    margin-bottom: ${(props) => props.marginBottom || "0px"};
+    margin-left: ${(props) => props.marginLeft || "0px"};
+    margin-right: ${(props) => props.marginRight || "0px"};
+    color: ${(props) => props.color};
+    line-height: 1.5;
+    text-align: justify;
   `,
   ModalMainInfoBox: styled.div`
     display: flex;
     flex-direction: column;
     margin: 20px 0;
   `,
+  ModalMainInfoInnerBox: styled.div`
+    width: 50%;
+  `,
+  ModalMainInfoInnerBoxWrapper: styled.div`
+    display: flex;
+    width: 100%;
+  `,
   ModalSubInfoBox: styled.div`
     display: flex;
     margin-bottom: 10px;
   `,
+  ModalSubInfoInnerBox: styled.div`
+    width: 50%;
+  `,
+  ModalInfoColumnBox: styled.div<ModalInfoColumnBoxProps>`
+    display: flex;
+    flex-direction: column;
+    margin-left: ${(props) => props.marginLeft || "0px"};
+  `,
+  ModalInfoFlexBox: styled.div<ModalInfoFlexBoxProps>`
+    display: flex;
+    margin-top: ${(props) => props.marginTop || "0px"};
+  `,
+
   ModalContentsLabel: styled.label`
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   `,
   ModalTitleInput: styled.input<ModalTitleInputProps>`
     height: 30px;
@@ -87,13 +159,31 @@ const S = {
   ModalPostBtn: styled.button`
     width: 100%;
     height: 35px;
-    cursor: pointer;
     border: none;
     border-radius: 10px;
     margin-top: 8px;
     background-color: var(--main-blue);
     color: white;
   `,
+  ModalSubTitle: styled.p`
+    margin-bottom: 3px;
+  `,
+  ModalLine: styled.hr`
+    border: none;
+    border-top: 1px solid #ccc;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  `,
+  DetailModalContainer: styled.div`
+    margin-right: 10px;
+  `,
 };
+
+S.SubmitBtn = styled(S.SearchSortBtn)`
+  border-bottom: solid var(--lighter-gray);
+`;
 
 export default S;

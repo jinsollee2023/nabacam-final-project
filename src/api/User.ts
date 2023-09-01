@@ -114,7 +114,7 @@ export const getFreelancersBySort = async (sortLabel: string) => {
 export const getFreelancer = async (userId: string) => {
   let { data: freelancer, error } = await supabase
     .from("users")
-    .select("name, contact, workField, projectId, resumeProfileIntro")
+    .select("name, contact, workField, projectId, resumeProfileIntro, photoURL")
     .eq("userId", userId)
     .maybeSingle();
   return freelancer;
@@ -164,6 +164,15 @@ export const updateUser = async ({
 export const getPhotoURL = async (filePath: { path: string }): Promise<string> => {
   const { data } = await supabase.storage
     .from("users") // 사용한 버킷 이름
+    .getPublicUrl(filePath.path);
+  return data.publicUrl;
+};
+
+export const getPortfolioFileURL = async (filePath: {
+  path: string;
+}): Promise<string> => {
+  const { data } = await supabase.storage
+    .from("portfolios") // 사용한 버킷 이름
     .getPublicUrl(filePath.path);
   return data.publicUrl;
 };

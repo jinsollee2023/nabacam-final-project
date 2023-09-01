@@ -101,22 +101,20 @@ const ContractTerminationFreelancerCards = ({
                         </S.WorkSmallFieldAndWorkExp>
                       </S.ProfileContents>
                       <S.ContactBox>
-                        <span>
-                          <FiPhoneCall />
-                          {user.contact.phone}
-                        </span>
-                        <span>
-                          <FiMail />
-                          {user.contact.email}
-                        </span>
+                        <FiPhoneCall size={20} />
+                        <S.Contact>{user.contact.phone}</S.Contact>
+                      </S.ContactBox>
+                      <S.ContactBox>
+                        <FiMail size={20} />
+                        <S.Contact>{user.contact.email}</S.Contact>
                       </S.ContactBox>
                     </div>
                   </S.ContentContainer>
                   <S.Line />
-                  <S.OngoingProject>
+                  <S.ProjectTitle>
                     {freelancerCounts[user.userId] || 0}건의 함께 했던 프로젝트
-                  </S.OngoingProject>
-                  <S.ProjectTitle>{project.title}</S.ProjectTitle>
+                  </S.ProjectTitle>
+                  <S.ProjectSubTitle>{project.title}</S.ProjectSubTitle>
                   <S.ProjectDate>
                     {dayjs(project.date?.startDate as string).format("YYMMDD")}{" "}
                     <S.DateInnerText>부터</S.DateInnerText>{" "}

@@ -54,7 +54,6 @@ const OngoingFreelancerInfoModal = ({
           </S.ProjectContents>
         </S.ProjectInfo>
       </S.ProfileInfo>
-      <hr />
       <FreelancerResume user={user} />
       <FreelancerPortfolio user={user} />
     </>

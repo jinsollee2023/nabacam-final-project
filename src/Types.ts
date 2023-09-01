@@ -19,7 +19,7 @@ export interface ResumeExperience {
   pastWorkField: string;
   pastEmploymentType: string;
   pastWorkPlace: string;
-  pastWorkDuration: { pastWorkEndDate: Date; pastWorkStartDate: Date };
+  pastWorkDuration: { pastWorkEndDate: string; pastWorkStartDate: string };
   pastWorkPosition: string;
 }
 
@@ -75,10 +75,11 @@ export interface Task {
 export interface Portfolio {
   portfolioId: string;
   freelancerId: string;
-  thumbNailURL: string;
   title: string;
   desc: string;
-  pdfFileURL: string;
+  thumbNailURL: string | File;
+  pdfFileURL?: string | File;
+  linkURL?: string;
 }
 
 export interface Review {

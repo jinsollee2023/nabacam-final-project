@@ -10,16 +10,12 @@ interface ApplicantFreelancerInfoModalProps {
   project: Project;
 }
 
-const ApplicantFreelancerInfoModal = ({
-  user,
-  project,
-}: ApplicantFreelancerInfoModalProps) => {
+const ApplicantFreelancerInfoModal = ({ user, project }: ApplicantFreelancerInfoModalProps) => {
   return (
     <>
-      <S.ModalTitle>{project.title} 프로젝트에 지원</S.ModalTitle>
+      <S.ModalTitle>{user.name}님의 이력서와 포트폴리오</S.ModalTitle>
       <FreelancerProfile user={user} />
-      <hr />
-      <S.ProjectConditions>
+      {/* <S.ProjectConditions>
         <div style={{ width: "100%" }}>
           <S.ProjectConditionTitle>시작 예정일</S.ProjectConditionTitle>
           <S.ProjectDeadLineBox>
@@ -30,8 +26,7 @@ const ApplicantFreelancerInfoModal = ({
           <S.ProjectConditionTitle>급여</S.ProjectConditionTitle>
           <S.ProjectPayBox>
             <S.ProjectPayContent>
-              {project.pay?.min === "상의 후 결정" &&
-              project.pay?.max === "상의 후 결정" ? (
+              {project.pay?.min === "상의 후 결정" && project.pay?.max === "상의 후 결정" ? (
                 <span>상의 후 결정</span>
               ) : (
                 <>
@@ -42,7 +37,7 @@ const ApplicantFreelancerInfoModal = ({
             </S.ProjectPayContent>
           </S.ProjectPayBox>
         </div>
-      </S.ProjectConditions>
+      </S.ProjectConditions> */}
 
       <div>
         <FreelancerResume user={user} />

@@ -15,23 +15,19 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
       <S.ExperienceWarp>
         {user.resumeExperience && user.resumeExperience.length > 0 ? (
           user.resumeExperience.map((experience, index) => {
-            const startDate = new Date(
-              experience.pastWorkDuration.pastWorkStartDate
-            );
-            const endDate = new Date(
-              experience.pastWorkDuration.pastWorkEndDate
-            );
+            const startDate = new Date(experience.pastWorkDuration.pastWorkStartDate);
+            const endDate = new Date(experience.pastWorkDuration.pastWorkEndDate);
 
             return (
               <S.ExperienceBox key={`${experience.experienceId}-${index}`}>
-                <span>{experience.pastWorkField}</span>
-                <span>{experience.pastWorkPlace}</span>
-                <span>{experience.pastEmploymentType}</span>
-                <span>{experience.pastWorkPosition}</span>
-                <span>
-                  {startDate.toISOString().split("T")[0]} ~{" "}
-                  {endDate.toISOString().split("T")[0]}
-                </span>
+                <S.PastWorkPlace>{experience.pastWorkPlace}</S.PastWorkPlace>
+                <S.PastWorkInfo>
+                  {experience.pastWorkField} / {experience.pastEmploymentType} /{" "}
+                  {experience.pastWorkPosition}
+                </S.PastWorkInfo>
+                <S.PastWorkDate>
+                  {startDate.toISOString().split("T")[0]}-{endDate.toISOString().split("T")[0]}
+                </S.PastWorkDate>
               </S.ExperienceBox>
             );
           })

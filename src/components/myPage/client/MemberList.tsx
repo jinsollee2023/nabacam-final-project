@@ -4,6 +4,7 @@ import useClientsQueries from "src/hooks/useClientsQueries";
 import { useUserStore } from "src/zustand/useUserStore";
 import AddMemberModal from "./AddMemberModal";
 import { Member } from "src/Types";
+import { S } from "./memberListStyle";
 
 const MemberList = () => {
   const { userId, setUser } = useUserStore();
@@ -60,9 +61,7 @@ const MemberList = () => {
   };
 
   const deleteMemberButtonHandler = (deleteMember: Member) => {
-    const deletedMember = client?.members?.filter(
-      (member) => member !== deleteMember
-    );
+    const deletedMember = client?.members?.filter((member) => member !== deleteMember);
     // 업데이트
     clientMembersMutation.mutate({
       updatedData: { members: deletedMember },
@@ -75,7 +74,7 @@ const MemberList = () => {
   return (
     <>
       <div>
-        <button onClick={openModalButtonHandler}>추가</button>
+        <S.AddMemberBtn onClick={openModalButtonHandler}>+ 구성원 추가하기</S.AddMemberBtn>
       </div>
       {isAddModalOpen && (
         <Modal
@@ -83,11 +82,11 @@ const MemberList = () => {
           buttons={
             <>
               {currentMemberData?.name === "" ? (
-                <button onClick={addMemberButtonHandler}>멤버 추가하기</button>
+                <S.ModalInnerAddBtn onClick={addMemberButtonHandler}>추가하기</S.ModalInnerAddBtn>
               ) : (
-                <button onClick={updateMemberButtonHandler}>
+                <S.ModalInnerAddBtn onClick={updateMemberButtonHandler}>
                   멤버 수정하기
-                </button>
+                </S.ModalInnerAddBtn>
               )}
             </>
           }
@@ -98,35 +97,41 @@ const MemberList = () => {
           />
         </Modal>
       )}
-      <div>
+      <S.MemberListContainer>
         {client &&
           client.members?.map((member) => {
             return (
-              <div>
-                <div>
-                  <span>{member.name}</span>
-                  <span>{member.team}</span>
-                </div>
-                <div>
-                  <span>{member.contact.phone}</span>
-                  <span>{member.contact.email}</span>
-                </div>
-                <div>
-                  <button onClick={() => updateButtonHandler(member)}>
-                    수정
-                  </button>
-                  <button
-                    onClick={() => {
-                      deleteMemberButtonHandler(member);
-                    }}
-                  >
-                    삭제
-                  </button>
-                </div>
-              </div>
+              <S.MemberList>
+                <S.MemberInfo>
+                  <S.MemberName>{member.name}</S.MemberName>
+                  <S.MemberTeam>{member.team}</S.MemberTeam>
+                </S.MemberInfo>
+                <S.MemberContactBox>
+                  <S.BtnBox>
+                    <S.EditAndDelBtn onClick={() => updateButtonHandler(member)}>
+                      수정
+                    </S.EditAndDelBtn>
+                    <S.EditAndDelBtn
+                      onClick={() => {
+                        deleteMemberButtonHandler(member);
+                      }}
+                    >
+                      삭제
+                    </S.EditAndDelBtn>
+                  </S.BtnBox>
+                  <S.ContactBox>
+                    <S.ContactLabel>전화번호</S.ContactLabel>
+                    <S.MemberContact>{member.contact.phone}</S.MemberContact>
+                  </S.ContactBox>
+                  <S.ContactBox>
+                    <S.ContactLabel>이메일</S.ContactLabel>
+                    <S.MemberContact>{member.contact.email}</S.MemberContact>
+                  </S.ContactBox>
+                </S.MemberContactBox>
+              </S.MemberList>
             );
           })}
-      </div>
+      </S.MemberListContainer>
     </>
   );
 };

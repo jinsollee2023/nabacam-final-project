@@ -43,20 +43,18 @@ const OngoingFreelancerCards = ({
                     </S.WorkSmallFieldAndWorkExp>
                   </S.ProfileContents>
                   <S.ContactBox>
-                    <span>
-                      <FiPhoneCall />
-                      {user.contact.phone}
-                    </span>
-                    <span>
-                      <FiMail />
-                      {user.contact.email}
-                    </span>
+                    <FiPhoneCall size={20} />
+                    <S.Contact>{user.contact.phone}</S.Contact>
+                  </S.ContactBox>
+                  <S.ContactBox>
+                    <FiMail size={20} />
+                    <S.Contact>{user.contact.email}</S.Contact>
                   </S.ContactBox>
                 </div>
               </S.ContentContainer>
               <S.Line />
-              <S.OngoingProject>진행중인 프로젝트</S.OngoingProject>
-              <S.ProjectTitle>{project.title}</S.ProjectTitle>
+              <S.ProjectTitle>진행중인 프로젝트</S.ProjectTitle>
+              <S.ProjectSubTitle>{project.title}</S.ProjectSubTitle>
               <S.ProjectDate>
                 {dayjs(project.date?.startDate).format("YYMMDD")}{" "}
                 <S.DateInnerText>부터</S.DateInnerText>{" "}

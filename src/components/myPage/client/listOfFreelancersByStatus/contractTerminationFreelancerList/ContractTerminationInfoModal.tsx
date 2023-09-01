@@ -29,7 +29,6 @@ const ContractTerminationInfoModal = ({
         이전에 함께 작업했던 {user.name}님의 프로필이에요.
       </S.ModalTitle>
       <FreelancerProfile user={user} />
-      <hr />
       <div>진행했던 프로젝트</div>
       <div>
         {matchingCompletedProjectsData?.map((project) => (
