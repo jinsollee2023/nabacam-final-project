@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 export const S = {
   Title: styled.span`
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
   `,
   ListContainer: styled.div`
@@ -13,7 +13,7 @@ export const S = {
     margin-top: 30px;
     padding: 0 20px;
     width: 100%;
-    height: 100px;
+    height: 80px;
     display: flex;
     margin-bottom: 25px;
     border-radius: 8px;
@@ -30,7 +30,7 @@ export const S = {
     text-align: center;
   `,
   FreelancerName: styled.span`
-    font-size: 22px;
+    font-size: 20px;
   `,
   WorkFieldAndWorkExp: styled.span`
     color: #595959;
@@ -45,8 +45,8 @@ export const S = {
     color: #595959;
   `,
   CheckingBtn: styled.button`
-    width: 250px;
-    height: 50px;
+    width: 150px;
+    height: 40px;
     border: none;
     border-radius: 15px;
     background-color: #0086d0;
