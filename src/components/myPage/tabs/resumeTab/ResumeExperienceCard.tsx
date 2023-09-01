@@ -6,7 +6,7 @@ import type { ResumeExperience } from "../../../../Types";
 import { styled } from "styled-components";
 import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
 import EditResumeExperienceModal from "./EditResumeExperienceModal";
-import { S } from "./ResumeStyles";
+import { S } from "./Resume.styles";
 
 interface ExperienceProps {
   experience: ResumeExperience;

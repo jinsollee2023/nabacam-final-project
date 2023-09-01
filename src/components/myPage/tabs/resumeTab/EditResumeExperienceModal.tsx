@@ -114,6 +114,7 @@ const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
                 { value: "전체", label: "전체" },
                 { value: "정규직", label: "정규직" },
                 { value: "계약직", label: "계약직" },
+                { value: "프리랜서", label: "프리랜서" },
               ]}
             />
           </Space>
