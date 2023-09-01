@@ -13,10 +13,7 @@ interface ContractTerminationInfoModalProps {
   project: Project;
 }
 
-const ContractTerminationInfoModal = ({
-  user,
-  project,
-}: ContractTerminationInfoModalProps) => {
+const ContractTerminationInfoModal = ({ user, project }: ContractTerminationInfoModalProps) => {
   const { userId } = useUserStore();
   const { matchingCompletedProjectsData } = useProjectsQueries({
     currentUserId: userId,
@@ -25,11 +22,8 @@ const ContractTerminationInfoModal = ({
 
   return (
     <>
-      <S.ModalTitle>
-        이전에 함께 작업했던 {user.name}님의 프로필이에요.
-      </S.ModalTitle>
+      <S.ModalTitle>이전에 함께 작업했던 {user.name}님의 프로필이에요.</S.ModalTitle>
       <FreelancerProfile user={user} />
-      <hr />
       <div>진행했던 프로젝트</div>
       <div>
         {matchingCompletedProjectsData?.map((project) => (
@@ -37,8 +31,7 @@ const ContractTerminationInfoModal = ({
             <span>{project.title}</span>
             <span>
               {dayjs(project.date.startDate).format("YYMMDD")}{" "}
-              <S.DateInnerText>부터</S.DateInnerText>{" "}
-              {dayjs(project.date.endDate).format("YYMMDD")}
+              <S.DateInnerText>부터</S.DateInnerText> {dayjs(project.date.endDate).format("YYMMDD")}
             </span>
           </div>
         ))}

@@ -14,7 +14,6 @@ const FreelancerInfoModal = ({ user }: FreelancerInfoModalProps) => {
     <>
       <S.ModalTitle>{user.name}님의 이력서와 포트폴리오</S.ModalTitle>
       <FreelancerProfile user={user} />
-      <hr />
       <FreelancerResume user={user} />
       <FreelancerPortfolio user={user} />
     </>
