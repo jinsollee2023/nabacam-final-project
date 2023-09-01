@@ -8,23 +8,21 @@ import type { ResumeExperience } from "../../../../Types";
 import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
 import ResumeExperienceCard from "./ResumeExperienceCard";
 import { BsPlusSquareDotted } from "react-icons/bs";
+import { S } from "./ResumeStyles";
 
 const ResumeExperienceComp = () => {
-  const { userId } = useUserStore();
+  const { user } = useUserStore();
+  const userId = user.userId;
   const { addExperienceMutation, resumeExperienceArray } =
     useResumeExperienceQueries({ userId });
   const { newExperience } = useResumeExperienceStore();
   const [resumeExperienceArr, setResumeExperienceArr] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
 
-  console.log("resumeExperienceArray", resumeExperienceArray);
-
-  // 저장
   useEffect(() => {
     if (resumeExperienceArray) setResumeExperienceArr(resumeExperienceArray);
   }, [resumeExperienceArray]);
 
-  // add
   const addExperienceHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -36,8 +34,6 @@ const ResumeExperienceComp = () => {
     });
     setIsAddModalOpen(false);
   };
-
-  console.log("resumeExperienceArr", resumeExperienceArr);
 
   return (
     <>
@@ -52,28 +48,25 @@ const ResumeExperienceComp = () => {
       </S.WorkExperienceContainer>
       <S.Btn
         marginTop="30px"
-        style={{ marginBottom: "30px" }}
+        marginBottom="30px"
+        width="100%"
         onClick={() => {
           setIsAddModalOpen(true);
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+        <S.CenterizeBox>
           <BsPlusSquareDotted size="15" style={{ marginRight: "5px" }} />
           <span>경력 추가하기</span>
-        </div>
+        </S.CenterizeBox>
       </S.Btn>
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <S.Btn onClick={addExperienceHandler}>등록하기</S.Btn>
+              <S.Btn width="100%" onClick={addExperienceHandler}>
+                등록하기
+              </S.Btn>
             </>
           }
         >
@@ -85,47 +78,3 @@ const ResumeExperienceComp = () => {
 };
 
 export default ResumeExperienceComp;
-
-interface BtnProps {
-  marginTop?: string;
-}
-const S = {
-  WorkExperienceContainer: styled.section`
-    width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-top: 10px;
-  `,
-  WorkExperienceTitle: styled.p`
-    font-size: 20px;
-    font-weight: bold;
-  `,
-  WorkExperienceListWrapper: styled.ul`
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 15px;
-  `,
-  WorkExperienceList: styled.li`
-    padding: 20px;
-    list-style: none;
-    border-radius: 8px;
-    border: solid #0086d0;
-  `,
-
-  Btn: styled.button<BtnProps>`
-    background-color: var(--main-blue);
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: background-color 0.3s ease;
-    &:hover {
-      background-color: var(--hover-blue);
-    }
-    width: 100%;
-    margin-top: ${(props) => props.marginTop};
-  `,
-};

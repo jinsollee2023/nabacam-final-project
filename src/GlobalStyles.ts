@@ -7,6 +7,9 @@ const GlobalStyles = createGlobalStyle`
   :root {
     --main-blue: #0086d0;
     --hover-blue: #cce7f7;
+    --darker-gray: #787878;
+    --middle-gray: #595959;
+    --lighter-gray: #D6D6D6;
   }
 
   html {
@@ -26,6 +29,9 @@ const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: 'Pretendard-Regular', sans-serif;
+  }
+  button, .button {
+    cursor: pointer;
   }
 
   /* 

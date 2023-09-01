@@ -2,10 +2,9 @@ import { styled } from "styled-components";
 
 export const S = {
   ModalTitle: styled.div`
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
-    text-align: center;
-    margin: 30px;
+    margin-bottom: 30px;
   `,
   ProjectConditions: styled.div`
     display: flex;

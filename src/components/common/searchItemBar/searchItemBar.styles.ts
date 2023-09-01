@@ -17,9 +17,8 @@ export const S = {
   searchInput: styled.input`
     width: 100%;
     padding: 15px;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 50px;
+    border: solid 1px;
+    border-radius: 5px;
 
     &:focus {
       outline: none;

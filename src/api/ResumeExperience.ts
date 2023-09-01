@@ -91,8 +91,8 @@ export const updateExperience = async ({
     pastWorkField: string;
     pastEmploymentType: string;
     pastWorkDuration: {
-      pastWorkEndDate: Date;
-      pastWorkStartDate: Date;
+      pastWorkEndDate: string;
+      pastWorkStartDate: string;
     };
     pastWorkPlace: string;
     pastWorkPosition: string;

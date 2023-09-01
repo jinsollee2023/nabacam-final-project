@@ -95,11 +95,18 @@ const ProjectList = () => {
       <S.SearchSortWrapper>
         <SearchItemBar />
         <SortProjects handleSort={handleSort} />
-        <div>
-          <span onClick={() => setSelectedSortLabel("최신순")}>최신순</span>
-          <span onClick={() => setSelectedSortLabel("오래된순")}>오래된순</span>
-        </div>
       </S.SearchSortWrapper>
+      <S.SearchSortBtnBox>
+        <S.SearchSortBtn
+          onClick={() => setSelectedSortLabel("최신순")}
+          style={{ marginRight: "5px" }}
+        >
+          최신순
+        </S.SearchSortBtn>
+        <S.SearchSortBtn onClick={() => setSelectedSortLabel("오래된순")}>
+          오래된순
+        </S.SearchSortBtn>
+      </S.SearchSortBtnBox>
       <S.ProjectContainer>
         {projects && renderProjects(projectsToRender)}
       </S.ProjectContainer>
