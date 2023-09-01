@@ -283,8 +283,8 @@ const S = {
   `,
   passwordView: styled.button`
     position: fixed;
-    top: 21%;
-    left: 53.5%;
+    top: 23.5%;
+    left: 59%;
     width: 2%;
     height: 2%;
     background-color: white;

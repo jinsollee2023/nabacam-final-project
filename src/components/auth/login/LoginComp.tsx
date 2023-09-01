@@ -160,7 +160,7 @@ const S = {
   `,
   passwordView: styled.button`
     position: relative;
-    top: -39.5%;
+    top: -41.5%;
     left: 94%;
     width: 5%;
     height: 5%;
