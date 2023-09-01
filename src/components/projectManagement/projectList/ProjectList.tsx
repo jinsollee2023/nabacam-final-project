@@ -13,6 +13,8 @@ import SortProjects from "./SortProjects";
 import { queryClient } from "../../../App";
 import { useSearchKeywordStore } from "../../../zustand/useSearchKeywordStore";
 import { Project } from "../../../Types";
+import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
+import useProjectValid from "src/hooks/useProjectValid";
 
 const ProjectList = () => {
   const { userId } = useUserStore();
@@ -28,6 +30,34 @@ const ProjectList = () => {
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
     projects!
   );
+  const { values, changeValues } = useProjectValuesStore();
+  const {
+    checkValidation,
+    isTitleValid,
+    isDescValid,
+    isCategoryValid,
+    isQualificationValid,
+    isExpectedStartDateValid,
+    isManagerValid,
+    isMaxPayValid,
+    setIsTitleValid,
+    setIsDescValid,
+    setIsCategoryValid,
+    setIsQualificationValid,
+    setIsExpectedStartDateValid,
+    setIsManagerValid,
+    setIsMaxPayValid,
+  } = useProjectValid();
+
+  const isAllValid =
+    isTitleValid &&
+    isDescValid &&
+    isDescValid &&
+    isCategoryValid &&
+    isQualificationValid &&
+    isExpectedStartDateValid &&
+    isManagerValid &&
+    isMaxPayValid;
 
   useEffect(() => {
     if (projects) {
@@ -52,8 +82,12 @@ const ProjectList = () => {
   };
 
   const addProjectButtonHandler = () => {
-    addProjectMutation.mutate(newProject);
-    setIsAddModalOpen(false);
+    checkValidation(values);
+    if (isAllValid) {
+      console.log("실행됐니???");
+      addProjectMutation.mutate(newProject);
+      setIsAddModalOpen(false);
+    }
   };
 
   const beforeProgressProjects = filteredProjects?.filter(
@@ -90,6 +124,27 @@ const ProjectList = () => {
     );
   };
 
+  const addProjectModalOpenHandler = () => {
+    setIsAddModalOpen(true);
+    setIsTitleValid(null);
+    setIsDescValid(null);
+    setIsCategoryValid(null);
+    setIsQualificationValid(null);
+    setIsExpectedStartDateValid(null);
+    setIsManagerValid(null);
+    setIsMaxPayValid(null);
+    changeValues({
+      title: "",
+      desc: "",
+      category: "",
+      qualification: null,
+      expectedStartDate: "",
+      manager: { name: "", team: "", contact: { email: "", phone: "" } },
+      minPay: 100,
+      maxPay: 100,
+    });
+  };
+
   return (
     <>
       <S.SearchSortWrapper>
@@ -104,7 +159,7 @@ const ProjectList = () => {
         {projects && renderProjects(projectsToRender)}
       </S.ProjectContainer>
       <S.ProjectCardBox
-        onClick={() => setIsAddModalOpen(!isAddModalOpen)}
+        onClick={addProjectModalOpenHandler}
         justifyContent="center"
         marginBottom={0}
       >
@@ -122,7 +177,15 @@ const ProjectList = () => {
             </>
           }
         >
-          <AddProjectModal />
+          <AddProjectModal
+            isTitleValid={isTitleValid}
+            isDescValid={isDescValid}
+            isCategoryValid={isCategoryValid}
+            isQualificationValid={isQualificationValid}
+            isDeadLineValid={isExpectedStartDateValid}
+            isManagerValid={isManagerValid}
+            isMaxPayValid={isMaxPayValid}
+          />
         </Modal>
       )}
     </>

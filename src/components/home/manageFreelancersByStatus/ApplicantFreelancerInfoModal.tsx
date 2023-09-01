@@ -21,9 +21,9 @@ const ApplicantFreelancerInfoModal = ({
       <hr />
       <S.ProjectConditions>
         <div style={{ width: "100%" }}>
-          <S.ProjectConditionTitle>목표 기간</S.ProjectConditionTitle>
+          <S.ProjectConditionTitle>시작 예정일</S.ProjectConditionTitle>
           <S.ProjectDeadLineBox>
-            <span>{project.date?.endDate.toLocaleString()}</span>
+            <span>{project.expectedStartDate}</span>
           </S.ProjectDeadLineBox>
         </div>
         <div>

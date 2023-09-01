@@ -1,4 +1,3 @@
-import type { DatePickerProps } from "antd";
 import { Checkbox, DatePicker, Select, Slider } from "antd";
 import type { CheckboxChangeEvent } from "antd/es/checkbox";
 import { useEffect, useState } from "react";
@@ -10,57 +9,62 @@ import { useUserStore } from "../../../zustand/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import { useNavigate } from "react-router-dom";
 import React from "react";
+import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
 
 interface AddProjectModal {
-  project?: Project;
+  isTitleValid?: boolean | null;
+  isDescValid?: boolean | null;
+  isCategoryValid?: boolean | null;
+  isQualificationValid?: boolean | null;
+  isDeadLineValid?: boolean | null;
+  isManagerValid?: boolean | null;
+  isMaxPayValid?: boolean | null;
 }
 
-const AddProjectModal = ({ project }: AddProjectModal) => {
+const AddProjectModal = ({
+  isTitleValid,
+  isDescValid,
+  isCategoryValid,
+  isQualificationValid,
+  isDeadLineValid,
+  isManagerValid,
+  isMaxPayValid,
+}: AddProjectModal) => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const [title, setTitle] = useState(project ? project.title : "");
-  const [category, setCategory] = useState(project ? project.category : "");
-  const [desc, setDesc] = useState(project ? project.desc : "");
-  const [manager, setManager] = useState(
-    project
-      ? project.manager
-      : { name: "", team: "", contact: { email: "", phone: "" } }
-  );
+
+  const { values, changeValues } = useProjectValuesStore();
   const [paySlideOff, setPaySlideOff] = useState(false);
-  const [minPay, setMinPay] = useState(project ? project.pay.min : 0);
-  const [maxPay, setMaxPay] = useState(project ? project.pay.max : 0);
-  const [deadLine, setDeadLine] = useState(project ? project.date.endDate : "");
-  const [qualification, setQualification] = useState(
-    project ? project.qualification : 0
-  );
-
   const navigate = useNavigate();
-  const categoryOnChange = (value: string) => {
-    setCategory(value);
+  const handleChange = (key: string, value: string | number) => {
+    changeValues({ ...values, [key]: value });
   };
-
-  const dateOnChange: DatePickerProps["onChange"] = (dateString) => {
-    setDeadLine(dateString?.toISOString().split("T")[0] as string);
-  };
-
+  // console.log(
+  //   "모달",
+  //   values,
+  //   isTitleValid,
+  //   isDescValid,
+  //   isCategoryValid,
+  //   isQualificationValid,
+  //   isDeadLineValid,
+  //   isManagerValid,
+  //   isMaxPayValid
+  // );
   const CheckBoxOnChange = (e: CheckboxChangeEvent) => {
     setPaySlideOff(e.target.checked);
   };
-
-  const minPayOnChange = (value: number) => {
-    setMinPay(value);
-  };
-
-  const maxPayOnChange = (value: number) => {
-    setMaxPay(value);
-  };
-
   const managerOnChange = (value: string) => {
     if (value === client!.name) {
-      setManager({
-        name: client!.name,
-        team: "",
-        contact: { email: client!.contact.email, phone: client!.contact.phone },
+      changeValues({
+        ...values,
+        ["manager"]: {
+          name: client!.name,
+          team: "",
+          contact: {
+            email: client!.contact.email,
+            phone: client!.contact.phone,
+          },
+        },
       });
     } else if (value === "goToAddMember") {
       const isConfirmed = window.confirm(
@@ -72,63 +76,72 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
       const selectedMember = client?.members?.find(
         (member) => member.name === value
       );
-      setManager(selectedMember!);
+      changeValues({
+        ...values,
+        manager: {
+          name: selectedMember?.name as string,
+          team: selectedMember?.team as string,
+          contact: {
+            email: selectedMember?.contact.email as string,
+            phone: selectedMember?.contact.phone as string,
+          },
+        },
+      });
     }
   };
 
   const { changeNewProject } = useProjectStore();
   const newProject: Project = {
-    title,
-    desc,
+    title: values.title,
+    desc: values.desc,
     clientId: userId,
-    manager,
-    date: { startDate: "", endDate: deadLine },
+    manager: values.manager,
+    expectedStartDate: values.expectedStartDate,
     pay: {
-      min: paySlideOff ? "상의 후 결정" : minPay,
-      max: paySlideOff ? "상의 후 결정" : maxPay,
+      min: paySlideOff ? "상의 후 결정" : values.minPay,
+      max: paySlideOff ? "상의 후 결정" : values.maxPay,
     },
     status: "진행 전",
-    category,
-    qualification,
+    category: values.category,
+    qualification: values.qualification as number,
   };
-
-  console.log(newProject);
 
   useEffect(() => {
     changeNewProject(newProject);
-  }, [
-    title,
-    desc,
-    deadLine,
-    minPay,
-    maxPay,
-    category,
-    manager,
-    qualification,
-    paySlideOff,
-  ]);
+  }, [values, paySlideOff]);
 
+  console.log();
   return (
     <div>
       <S.ModalTitle>어떤 프로젝트를 게시하시나요?</S.ModalTitle>
       <S.ModalMainInfoBox>
-        <S.ModalContentsLabel htmlFor="projectTitle">
+        <S.ModalContentsLabel htmlFor="title">
           프로젝트 이름
         </S.ModalContentsLabel>
         <S.ModalTitleInput
-          id="projectTitle"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          id="title"
+          value={values.title}
+          onChange={(e) => handleChange("title", e.target.value)}
+          border={`1.5px solid ${
+            isTitleValid === true || isTitleValid === null
+              ? "var(--main-blue)"
+              : "red"
+          }`}
         />
-        <S.ModalContentsLabel htmlFor="projectDesc">
+        <S.ModalContentsLabel htmlFor="desc">
           프로젝트 설명
         </S.ModalContentsLabel>
         <S.ModalDescTextarea
-          id="projectDesc"
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
+          id="desc"
+          value={values.desc}
+          onChange={(e) => handleChange("desc", e.target.value)}
+          border={`1.5px solid ${
+            isDescValid === true || isDescValid === null
+              ? "var(--main-blue)"
+              : "red"
+          }`}
         />
-        <S.ModalContentsLabel htmlFor="projectQualification">
+        <S.ModalContentsLabel htmlFor="qualification">
           모집조건
         </S.ModalContentsLabel>
         <div
@@ -141,9 +154,11 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
             분야
             <br />
             <Select
-              placeholder="Select a person"
-              value={category}
-              onChange={categoryOnChange}
+              id="category"
+              value={values.category}
+              onChange={(selectedValue) =>
+                handleChange("category", selectedValue)
+              }
               options={[
                 { value: "개발", label: "개발" },
                 { value: "디자인", label: "디자인" },
@@ -155,7 +170,11 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
               style={{
                 width: "97%",
                 marginRight: "3%",
-                border: `1.5px solid var(--main-blue)`,
+                border: `1.5px solid ${
+                  isCategoryValid === true || isCategoryValid === null
+                    ? "var(--main-blue)"
+                    : "red"
+                }`,
                 borderRadius: "8px",
               }}
             />
@@ -164,13 +183,18 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
             경력
             <br />
             <S.ModalTitleInput
-              id="projectQualification"
-              value={qualification}
-              onChange={(e) => setQualification(Number(e.target.value))}
+              id="qualification"
+              type="number"
+              value={values.qualification as number}
+              onChange={(e) => handleChange("qualification", e.target.value)}
+              border={`1.5px solid ${
+                isQualificationValid === true || isQualificationValid === null
+                  ? "var(--main-blue)"
+                  : "red"
+              }`}
               style={{
                 width: "97%",
                 marginLeft: "3%",
-                border: `1.5px solid var(--main-blue)`,
                 borderRadius: "4px",
               }}
             />
@@ -185,15 +209,28 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
           <br />
           <DatePicker
             id="projectDeadLine"
-            onChange={dateOnChange}
+            onChange={(date) =>
+              handleChange(
+                "deadLine",
+                date?.toISOString().split("T")[0] as string
+              )
+            }
             style={{
               marginBottom: "20px",
               width: "97%",
               marginRight: "3%",
-              border: `1.5px solid var(--main-blue)`,
+              border: `1.5px solid ${
+                isDeadLineValid === true || isDeadLineValid === null
+                  ? "var(--main-blue)"
+                  : "red"
+              }`,
               borderRadius: "4px",
             }}
-            defaultValue={deadLine ? dayjs(deadLine) : undefined}
+            defaultValue={
+              values.expectedStartDate
+                ? dayjs(values.expectedStartDate)
+                : undefined
+            }
           />
         </div>
         <div style={{ width: "50%" }}>
@@ -207,7 +244,7 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
             placeholder="Select a person"
             optionFilterProp="children"
             onChange={managerOnChange}
-            value={manager.name}
+            value={values.manager.name}
             filterOption={(input, option) =>
               (String(option?.label) ?? "")
                 .toLowerCase()
@@ -239,7 +276,11 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
               marginBottom: "20px",
               width: "97%",
               marginLeft: "3%",
-              border: `1.5px solid var(--main-blue)`,
+              border: `1.5px solid ${
+                isManagerValid === true || isManagerValid === null
+                  ? "var(--main-blue)"
+                  : "red"
+              }`,
               borderRadius: "8px",
             }}
           />
@@ -250,27 +291,37 @@ const AddProjectModal = ({ project }: AddProjectModal) => {
       <S.ModalPayInfoBox id="payBox">
         <S.ModalPayBox>
           <S.ModalContentsLabel>
-            최소 {paySlideOff ? null : `${minPay}만원`}
+            최소 {paySlideOff ? null : `${values.minPay}만원`}
           </S.ModalContentsLabel>
           <Slider
+            id="minPay"
             min={100}
             max={1000}
-            defaultValue={Number(minPay)}
+            defaultValue={Number(values.minPay)}
             disabled={paySlideOff}
-            onChange={minPayOnChange}
+            onChange={(value) => handleChange("minPay", value)}
             tooltip={{ formatter: null }}
           />
         </S.ModalPayBox>
         <S.ModalPayBox>
           <S.ModalContentsLabel>
-            최대 {paySlideOff ? null : `${maxPay}만원`}
+            최대 {paySlideOff ? null : `${values.maxPay}만원`}
           </S.ModalContentsLabel>
           <Slider
+            id="maxPay"
             min={100}
             max={1000}
-            defaultValue={Number(maxPay)}
+            railStyle={{
+              backgroundColor: "black", // 레일 부분의 색상 설정
+            }}
+            handleStyle={{
+              borderColor: "red",
+              height: 14, // 높이 조정
+              width: 14, // 너비 조정
+            }}
+            defaultValue={Number(values.maxPay)}
             disabled={paySlideOff}
-            onChange={maxPayOnChange}
+            onChange={(value) => handleChange("maxPay", value)}
             tooltip={{ formatter: null }}
           />
         </S.ModalPayBox>

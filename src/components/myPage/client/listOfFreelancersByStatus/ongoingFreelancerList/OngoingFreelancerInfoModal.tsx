@@ -47,9 +47,9 @@ const OngoingFreelancerInfoModal = ({
           <S.ProjectContents>
             <span>{project.title}</span>
             <span>
-              {dayjs(project.date.startDate).format("YYMMDD")}{" "}
+              {dayjs(project.date?.startDate).format("YYMMDD")}{" "}
               <S.DateInnerText>부터</S.DateInnerText>{" "}
-              {dayjs(project.date.endDate).format("YYMMDD")}
+              {dayjs(project.date?.endDate).format("YYMMDD")}
             </span>
           </S.ProjectContents>
         </S.ProjectInfo>

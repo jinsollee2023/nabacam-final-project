@@ -21,8 +21,11 @@ const ContractTerminationFreelancerCards = ({
   project,
 }: ContractTerminationFreelancerCardsProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] =
+    useState(false);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
   const { userId } = useUserStore();
   const { selectedProject, setSelectedProject } = useProjectStore();
   const {
@@ -49,8 +52,12 @@ const ContractTerminationFreelancerCards = ({
   };
 
   const handleProjectSuggestingBtnClick = () => {
-    const suggestedFreelancers = suggestedFreelancersData?.SuggestedFreelancers || [];
-    const updatedSuggestedFreelancers = [...(suggestedFreelancers as string[]), user.userId];
+    const suggestedFreelancers =
+      suggestedFreelancersData?.SuggestedFreelancers || [];
+    const updatedSuggestedFreelancers = [
+      ...(suggestedFreelancers as string[]),
+      user.userId,
+    ];
     updateSuggestedFreelancersDataMutation.mutate({
       projectId: selectedProject?.projectId as string,
       updatedSuggestedFreelancers,
@@ -111,9 +118,9 @@ const ContractTerminationFreelancerCards = ({
                   </S.OngoingProject>
                   <S.ProjectTitle>{project.title}</S.ProjectTitle>
                   <S.ProjectDate>
-                    {dayjs(project.date.startDate).format("YYMMDD")}{" "}
+                    {dayjs(project.date?.startDate as string).format("YYMMDD")}{" "}
                     <S.DateInnerText>부터</S.DateInnerText>{" "}
-                    {dayjs(project.date.endDate).format("YYMMDD")}
+                    {dayjs(project.date?.endDate as string).format("YYMMDD")}
                   </S.ProjectDate>
 
                   <S.DetailBtn
@@ -137,7 +144,10 @@ const ContractTerminationFreelancerCards = ({
                         </>
                       }
                     >
-                      <ContractTerminationInfoModal user={user} project={project} />
+                      <ContractTerminationInfoModal
+                        user={user}
+                        project={project}
+                      />
                     </Modal>
                   ) : null}
                   {isSuggestingAgainModalOpen &&
@@ -151,7 +161,10 @@ const ContractTerminationFreelancerCards = ({
                             onClick={handleProjectSuggestingBtnClick}
                             disabled={
                               !selectedProject?.title ||
-                              !(projectDataForSuggestions && projectDataForSuggestions.length > 0)
+                              !(
+                                projectDataForSuggestions &&
+                                projectDataForSuggestions.length > 0
+                              )
                             }
                           >
                             {selectedProject?.title} 제안하기
@@ -159,7 +172,10 @@ const ContractTerminationFreelancerCards = ({
                         </>
                       }
                     >
-                      <OneTouchModal user={user} projectLists={projectDataForSuggestions!} />
+                      <OneTouchModal
+                        user={user}
+                        projectLists={projectDataForSuggestions!}
+                      />
                     </Modal>
                   ) : null}
                 </>
