@@ -19,7 +19,9 @@ const AppliedProjectCard = ({
   });
 
   const handleCancelApplyButtonClick = () => {
-    const isConfirmed = window.confirm("지원을 취소하시겠습니까?");
+    const isConfirmed = window.confirm(
+      `${projectItem.title}에 대한 지원을 취소하시겠습니까?`
+    );
     if (isConfirmed) {
       const updatedProject = {
         ...projectItem,
@@ -39,32 +41,53 @@ const AppliedProjectCard = ({
 
   return (
     <>
-      <S.CardContainer>
-        <div>
-          <span>{client?.name}</span>
-        </div>
-        <div>
-          <span>
-            {projectItem.title} · {projectItem.category}
-          </span>
-        </div>
-        <div>
-          <span>프로젝트 마감 날짜</span>
-          <span>{projectItem.date.endDate}</span>
-        </div>
-        <div>
-          {projectItem.volunteer?.includes(userId) ? (
-            <>
-              <span>지원</span>
-              <button onClick={handleCancelApplyButtonClick}>
-                지원 취소하기
-              </button>
-            </>
-          ) : (
-            <span>보류</span>
-          )}
-        </div>
-      </S.CardContainer>
+      <S.ProjectCardContainer>
+        <S.ProejctContentLeftWrapper>
+          <S.ProjectStatus
+            recruitmentCompleted={projectItem.status === "진행 전"}
+          >
+            {projectItem.status === "진행 중" ||
+            projectItem.status === "진행 완료"
+              ? "모집 완료"
+              : "모집 중"}
+          </S.ProjectStatus>
+          <S.ClientName>
+            <span>{client?.name}</span>
+          </S.ClientName>
+          <S.ProjectName>
+            <span>
+              {projectItem.title} · {projectItem.category}
+            </span>
+          </S.ProjectName>
+        </S.ProejctContentLeftWrapper>
+        <S.ProejctContentRightWrapper>
+          <div>
+            {projectItem.volunteer?.includes(userId) ? (
+              <>
+                {projectItem.status === "진행 전" ? (
+                  <S.AppliedCancleButton onClick={handleCancelApplyButtonClick}>
+                    지원 취소
+                  </S.AppliedCancleButton>
+                ) : null}
+                <span>지원</span>
+              </>
+            ) : (
+              <>
+                {projectItem.status === "진행 전" ? (
+                  <S.AppliedCancleButton onClick={handleCancelApplyButtonClick}>
+                    지원 취소
+                  </S.AppliedCancleButton>
+                ) : null}
+                <span>보류</span>
+              </>
+            )}
+          </div>
+          <S.ProejctContentRightTextWrapper>
+            <span>프로젝트 마감 날짜 </span>
+            <span>{projectItem.date.endDate}</span>
+          </S.ProejctContentRightTextWrapper>
+        </S.ProejctContentRightWrapper>
+      </S.ProjectCardContainer>
     </>
   );
 };
