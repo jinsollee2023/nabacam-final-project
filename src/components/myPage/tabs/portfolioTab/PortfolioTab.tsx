@@ -19,7 +19,6 @@ const PortfolioTab = () => {
   const { userId } = useUserStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const {
     selectedPortfolio,
     setSelectedPortfolio,
@@ -37,7 +36,6 @@ const PortfolioTab = () => {
   });
 
   const handleOpenAddModalButtonClick = () => {
-    setErrorMessage("");
     setIsAddModalOpen(true);
     setIsDetailModalOpen(false);
   };
@@ -60,20 +58,13 @@ const PortfolioTab = () => {
 
   const handleAddPortfolioButtonClick = async () => {
     // 유효성 검사 변경될 수 있음
-    // if (newPortfolio.title === "" && newPortfolio.desc === "") {
-    //   return setErrorMessage("포트폴리오 제목과 내용을 입력해주세요.");
-    // } else if (newPortfolio.title === "") {
-    //   return setErrorMessage("포트폴리오 제목을 입력해주세요.");
-    // } else if (newPortfolio.desc === "") {
-    //   return setErrorMessage("포트폴리오 내용을 입력해주세요.");
-    // } else if (newPortfolio.thumbNailURL instanceof String) {
-    //   const isConfirmed = window.confirm(
-    //     "썸네일 이미지는 클라이언트에게 포트폴리오를 소개하는 중요한 요소일 수 있습니다.\n 등록없이 진행하시겠습니까?"
-    //   );
-    //   if (!isConfirmed) {
-    //     return setErrorMessage("썸네일 이미지를 등록해주세요.");
-    //   }
-    // }
+    if (newPortfolio.title === "" && newPortfolio.desc === "") {
+    } else if (newPortfolio.title === "") {
+    } else if (newPortfolio.desc === "") {
+    } else if (newPortfolio.thumbNailURL instanceof String) {
+    }
+
+    // --------------------
 
     const pdfFilePath = await uploadPDF({
       userId,
@@ -202,6 +193,19 @@ const PortfolioTab = () => {
     setIsDetailModalOpen(!isDetailModalOpen);
   };
 
+  //----------------------
+  const [titleMessage, setTitleMessage] = useState<string>("");
+  const [descMessage, setDescMessage] = useState<string>("");
+  const [thumbNailMessage, setThumbnailMessage] = useState<string>("");
+  const [pdfMessage, setPdfMessage] = useState<string>("");
+  const [linkMessage, setLinkMessage] = useState<string>("");
+
+  const [isTitle, setIsTitle] = useState<boolean>(false);
+  const [isDesc, setIsDesc] = useState<boolean>(false);
+  const [isThumbnail, setIsThumbnail] = useState<boolean>(false);
+  const [isPdf, setIsPdf] = useState<boolean>(false);
+  const [isLink, setIsLink] = useState<boolean>(false);
+
   return (
     <>
       {isDetailModalOpen && (
@@ -263,6 +267,7 @@ const PortfolioTab = () => {
                 <Button
                   type="primary"
                   block
+                  disabled={!(isTitle && isDesc)}
                   onClick={handleAddPortfolioButtonClick}
                 >
                   추가하기
@@ -271,7 +276,7 @@ const PortfolioTab = () => {
             </>
           }
         >
-          <PortfolioAddModal errorMessage={errorMessage} />
+          <PortfolioAddModal />
         </Modal>
       )}
 
