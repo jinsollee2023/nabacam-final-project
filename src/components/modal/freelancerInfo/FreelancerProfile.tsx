@@ -10,26 +10,30 @@ interface FreelancerProfileProps {
 
 const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
   return (
-    <S.UserInfoBox>
-      <S.ProfileImgBox>
-        <S.ProfileImg alt="profileImg" src={user.photoURL}></S.ProfileImg>
-      </S.ProfileImgBox>
-      <S.UserBox>
-        <p style={{ display: "flex" }}>{user.name}</p>
-        <div style={{ display: "flex", gap: "5px", color: "gray", fontSize: "13px" }}>
-          <S.UserWorkField>{user.workField?.workField}</S.UserWorkField>
-          <p>{user.workExp}년차</p>
-        </div>
-        <S.Contact>
-          <S.Contacts>
-            <FiPhoneCall color="black" /> {user.contact.phone}
-          </S.Contacts>
-          <S.Contacts>
-            <FiMail color="black" /> {user.contact.email}
-          </S.Contacts>
-        </S.Contact>
-      </S.UserBox>
-    </S.UserInfoBox>
+    <>
+      <S.UserInfoBox>
+        <S.ProfileImgBox>
+          <S.ProfileImg alt="profileImg" src={user.photoURL}></S.ProfileImg>
+        </S.ProfileImgBox>
+        <S.UserBox>
+          <S.UserName>{user.name}</S.UserName>
+          <S.WorkField>{user.workField?.workField}</S.WorkField>
+          <S.WorkSmallFieldAndWorkExp>
+            <span>{user.workField?.workSmallField}</span>
+            <span>{user.workExp}년차</span>
+          </S.WorkSmallFieldAndWorkExp>
+          <S.ContactBox>
+            <FiPhoneCall size={18} />
+            <S.Contacts>{user.contact.phone}</S.Contacts>
+          </S.ContactBox>
+          <S.ContactBox>
+            <FiMail size={18} />
+            <S.Contacts>{user.contact.email}</S.Contacts>
+          </S.ContactBox>
+        </S.UserBox>
+      </S.UserInfoBox>
+      <S.UnderLine />
+    </>
   );
 };
 
