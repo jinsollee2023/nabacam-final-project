@@ -49,8 +49,8 @@ const AppliedProjectCard = ({
           </span>
         </div>
         <div>
-          <span>프로젝트 마감 날짜</span>
-          <span>{projectItem.date.endDate}</span>
+          <span>프로젝트 시작 예정일</span>
+          <span>{String(projectItem.expectedStartDate)}</span>
         </div>
         <div>
           {projectItem.volunteer?.includes(userId) ? (

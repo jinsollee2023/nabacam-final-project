@@ -29,6 +29,14 @@ interface ModalInfoFlexBoxProps {
   marginTop?: string;
 }
 
+interface ModalTitleInputProps {
+  border: string;
+}
+
+interface ModalDescTextareaProps {
+  border: string;
+}
+
 const S = {
   SearchSortWrapper: styled.div`
     display: flex;
@@ -126,17 +134,17 @@ const S = {
   ModalContentsLabel: styled.label`
     margin-bottom: 10px;
   `,
-  ModalTitleInput: styled.input`
+  ModalTitleInput: styled.input<ModalTitleInputProps>`
     height: 30px;
     margin-bottom: 10px;
-    border: 1.5px solid var(--main-blue);
+    border: ${(props) => props.border};
     border-radius: 4px;
   `,
-  ModalDescTextarea: styled.textarea`
+  ModalDescTextarea: styled.textarea<ModalDescTextareaProps>`
     height: 100px;
     resize: none;
     margin-bottom: 25px;
-    border: 1.5px solid var(--main-blue);
+    border: ${(props) => props.border};
     border-radius: 4px;
   `,
   ModalPayInfoBox: styled.div`
