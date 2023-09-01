@@ -26,7 +26,7 @@ const ProjectVolunteeredFreelancerProfile = ({
               height="160px"
               alt="img"
             />
-            <S.ModalInfoColumnBox>
+            <S.ModalInfoColumnBox marginLeft="15px">
               <S.ModalDetail marginBottom="3px">
                 {volunteeredFreelancer?.name}
               </S.ModalDetail>

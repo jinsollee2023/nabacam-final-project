@@ -129,6 +129,7 @@ const S = {
   ModalInfoFlexBox: styled.div<ModalInfoFlexBoxProps>`
     display: flex;
     margin-top: ${(props) => props.marginTop || "0px"};
+    margin-top: ${(props) => props.marginTop || "0px"};
   `,
 
   ModalContentsLabel: styled.label`
