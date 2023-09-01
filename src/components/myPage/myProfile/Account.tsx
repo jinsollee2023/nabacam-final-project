@@ -8,10 +8,11 @@ import {
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import { queryClient } from "../../../App";
 import EditForm from "./EditForm";
-import { styled } from "styled-components";
 import Modal from "../../../components/modal/Modal";
 import { useProfileInfoStore } from "../../../zustand/useProfileInfoStore";
 import React from "react";
+import { S } from "./myProfile.styles";
+import { IoMdSettings } from "react-icons/io";
 
 const Account = () => {
   const { userId, user, setUser } = useUserStore();
@@ -67,52 +68,39 @@ const Account = () => {
 
   return (
     <>
-      <section
-        style={{
-          display: "flex",
-          marginTop: "10px",
-          padding: "10px",
-        }}
-      >
-        <img
-          className="profileImg"
-          src={user.photoURL}
-          alt="img"
-          width="60px"
-          height="60px"
-          style={{ marginLeft: "10px" }}
-        />
-        <div
-          style={{
-            marginLeft: "20px",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <h1>{user && user?.name}님</h1>
+      <S.AccountContainer>
+        <S.Img className="profileImg" src={user.photoURL} alt="img" />
+        {/*  */}
+        <S.ColumnBox marginLeft="5%">
+          <S.FlexBox>
+            <S.Title>{user && user?.name}</S.Title>
+            <S.Detail marginLeft="7px">{user.role}</S.Detail>
+          </S.FlexBox>
+
           {user.role === "freelancer" ? (
             <>
-              <S.Info>직무분야: {user && user?.workField?.workField}</S.Info>
-              <S.Info>
-                세부분야: {user && user?.workField?.workSmallField}
-              </S.Info>
+              <S.Detail>{user && user?.workField?.workField}</S.Detail>
+              <S.Detail>{user && user?.workField?.workSmallField}</S.Detail>
+              {/* <S.Detail>data here 진행중</S.Detail> */}
             </>
           ) : (
-            <S.Info>client</S.Info>
+            <S.Detail>client</S.Detail>
           )}
-        </div>
-        <div
-          style={{
-            marginLeft: "30px",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <h1>연락망</h1>
-          <S.Info>전화번호: {user && user?.contact?.phone}</S.Info>
-          <S.Info>이메일: {user && user?.contact?.email}</S.Info>
-        </div>
-        <S.Btn onClick={() => setIsModalOpen(true)}>프로필 수정하기</S.Btn>
+        </S.ColumnBox>
+        {/*  */}
+        <S.ColumnBox marginLeft="20%">
+          <S.Title>연락망</S.Title>
+          <S.Detail>전화번호: {user && user?.contact?.phone}</S.Detail>
+          <S.Detail>이메일: {user && user?.contact?.email}</S.Detail>
+        </S.ColumnBox>
+        {/*  */}
+        <S.RightEndBtnBox>
+          <S.SettingBtn onClick={() => setIsModalOpen(true)}>
+            <IoMdSettings />
+          </S.SettingBtn>
+        </S.RightEndBtnBox>
+
+        {/* ------------------------------------- */}
         {isModlaopen ? (
           <Modal
             setIsModalOpen={setIsModalOpen}
@@ -123,32 +111,9 @@ const Account = () => {
             <EditForm user={user} />
           </Modal>
         ) : null}
-      </section>
+      </S.AccountContainer>
     </>
   );
 };
 
 export default Account;
-
-const S = {
-  Info: styled.p`
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.583);
-    margin-top: 5px;
-  `,
-  Btn: styled.button`
-    background-color: #1fc17d;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 30px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: background-color 0.3s ease;
-    &:hover {
-      background-color: #168c68;
-    }
-    margin-left: 60px;
-  `,
-};

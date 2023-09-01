@@ -23,15 +23,15 @@ export const S = {
     margin-top: 10px;
   `,
   ProfileTitle: styled.p`
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
   `,
   ProfileInputBox: styled.div`
-    font-size: 16px;
+    font-size: 14px;
     padding: 10px;
-    margin-top: 15px;
+    margin-top: 10px;
     border-radius: 8px;
-    border: 1.5px solid var(--main-blue);
+    border: 1.2px solid var(--main-blue);
   `,
   ProfileBtn: styled.button`
     background-color: transparent;
@@ -76,21 +76,21 @@ export const S = {
     margin-top: 10px;
   `,
   WorkExperienceTitle: styled.p`
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
   `,
   WorkExperienceListWrapper: styled.ul`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
-    margin-top: 50px;
+    margin-top: 10px;
   `,
   WorkExperienceList: styled.li`
     padding-top: 20px;
     padding-bottom: 5px;
     list-style: none;
     border-radius: 8px;
-    border: 1.5px solid var(--main-blue);
+    border: 1.2px solid var(--main-blue);
     display: flex;
     flex-direction: column;
     justify-content: center;

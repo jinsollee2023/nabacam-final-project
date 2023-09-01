@@ -6,7 +6,8 @@ import { MdAddCircle } from "react-icons/md";
 import Modal from "../../../../components/modal/Modal";
 import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
 import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
-import { S } from "./ResumeStyles";
+import { S } from "./Resume.styles";
+import { IoMdSettings } from "react-icons/io";
 
 const ResumeProfileIntroComp = () => {
   const { user } = useUserStore();
@@ -54,7 +55,8 @@ const ResumeProfileIntroComp = () => {
           {resumeProfileIntroObject &&
           resumeProfileIntroObject.resumeProfileIntro !== "" ? (
             <S.ProfileBtn onClick={() => setIsAddModalOpen(true)}>
-              프로필 수정하기
+              <IoMdSettings style={{ marginRight: "2px" }} />
+              수정하기
             </S.ProfileBtn>
           ) : (
             <S.ProfileBtn

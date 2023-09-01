@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { ResumeExperience } from "../../../../Types";
 import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
 import dayjs from "dayjs";
-import { S } from "./ResumeStyles";
+import { S } from "./Resume.styles";
 
 const AddResumeExperienceModal = () => {
   const [pastWorkPlace, setPastWorkPlace] = useState("");
@@ -99,6 +99,7 @@ const AddResumeExperienceModal = () => {
               { value: "전체", label: "전체" },
               { value: "정규직", label: "정규직" },
               { value: "계약직", label: "계약직" },
+              { value: "프리랜서", label: "프리랜서" },
             ]}
           />
         </Space>

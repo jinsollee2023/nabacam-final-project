@@ -8,7 +8,7 @@ import type { ResumeExperience } from "../../../../Types";
 import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
 import ResumeExperienceCard from "./ResumeExperienceCard";
 import { BsPlusSquareDotted } from "react-icons/bs";
-import { S } from "./ResumeStyles";
+import { S } from "./Resume.styles";
 
 const ResumeExperienceComp = () => {
   const { user } = useUserStore();
