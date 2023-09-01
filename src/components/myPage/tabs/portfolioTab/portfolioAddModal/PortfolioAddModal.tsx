@@ -5,12 +5,13 @@ import { usePortfolioStore } from "../../../../../zustand/usePortfolioStore";
 import { v4 as uuidv4 } from "uuid";
 import { Portfolio } from "../../../../../Types";
 import PreviewImage from "../../../../../components/auth/join/PreviewImage";
+import { css, styled } from "styled-components";
 
-interface PortfolioAddModalProps {
-  errorMessage: string;
-}
+// 유효성 검사...버튼을 클릭했을 때 예를 들이 newPortfolio.title이 "" 이 값이면
+// newPortfolio.title을 value로 받는? 아니다 title을 value로 받는 input요소에 className을 추가하고 // 어케 찾아갈건데...ㅋ..props..........
+// 해당 className을 가지고 있는 경우에는 이미 어떠한 스타일(빨간 선)을 적용하게끔? ....이게 되냐고...
 
-const PortfolioAddModal = ({ errorMessage }: PortfolioAddModalProps) => {
+const PortfolioAddModal = () => {
   const [attachmentType, setAttachmentType] = useState<string>("file");
   const { selectedPortfolio, setSelectedPortfolio } = usePortfolioStore();
   const [pfId, setPfId] = useState(
@@ -70,44 +71,6 @@ const PortfolioAddModal = ({ errorMessage }: PortfolioAddModalProps) => {
     changeNewPortfolio(newPortfolio);
   }, [pfId, userId, title, desc, linkURL, thumbNailFile, pdfFile]);
 
-  //-----------------------
-
-  //  const useValid = (changeValue: any) => {
-  //   const [validText, setValidText] = useState("");
-  //   const [isValid, setIsValid] = useState({
-  //     isTitle: false,
-  //     isDesc: false,
-  //     isThumbnail: false,
-  //     isPdf: false,
-  //     isLink: false,
-  //   });
-
-  //   useEffect(() => {
-  //     if (changeValue.title === "") {
-  //       setValidText("제목을 입력해주세요.");
-  //       setIsValid({ ...isValid, isTitle: false });
-  //     } else {
-  //       setValidText("");
-  //       setIsValid({ ...isValid, isTitle: true });
-  //     }
-  //   }, [changeValue.title]);
-
-  //   useEffect(() => {
-  //     if (changeValue.desc === "") {
-  //       setValidText("내용을 입력해주세요.");
-  //       setIsValid({ ...isValid, isDesc: false });
-  //     } else {
-  //       setValidText("");
-  //       setIsValid({ ...isValid, isDesc: true });
-  //     }
-  //   }, [changeValue.desc]);
-  // };
-
-  //   //------------------------
-  //   const useRevalidator = (changeValue: IValidType) => {
-
-  //   }
-
   return (
     <>
       <Radio.Group
@@ -119,22 +82,27 @@ const PortfolioAddModal = ({ errorMessage }: PortfolioAddModalProps) => {
       </Radio.Group>
 
       <form>
-        <input
-          type="text"
-          name="title"
-          value={title}
-          onChange={allOnChange}
-          placeholder="제목"
-          // valid={"title"}
-        />
+        <div className="formBox">
+          <S.InputText
+            type="text"
+            name="title"
+            value={title}
+            onChange={allOnChange}
+            placeholder="제목"
+            title={newPortfolio.title}
+          />
+        </div>
         <br />
-        <input
-          type="text"
-          name="desc"
-          value={desc}
-          onChange={allOnChange}
-          placeholder="내용"
-        />
+        <div className="formBox">
+          <S.InputText
+            type="text"
+            name="desc"
+            value={desc}
+            onChange={allOnChange}
+            placeholder="내용"
+            title={newPortfolio.desc}
+          />
+        </div>
         <br />
 
         <PreviewImage
@@ -157,6 +125,7 @@ const PortfolioAddModal = ({ errorMessage }: PortfolioAddModalProps) => {
             placeholder="링크"
           />
         )}
+        <S.TestDiv title="">테스트 박스</S.TestDiv>
         <input
           type="file"
           id="fileInputThumbnail"
@@ -175,9 +144,35 @@ const PortfolioAddModal = ({ errorMessage }: PortfolioAddModalProps) => {
         />
       </form>
       {/* <span>{errorMessage}</span> */}
-      {/* <div>{validText}</div> */}
     </>
   );
 };
 
 export default PortfolioAddModal;
+
+const S = {
+  TestDiv: styled.div`
+    ${(props) =>
+      props.title === "" &&
+      css`
+        color: orange;
+        font-size: 18px;
+      `}
+  `,
+
+  InputText: styled.input`
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%;
+    outline: none;
+    ${(props) =>
+      props.title === ""
+        ? css`
+            border: 2px solid red;
+          `
+        : css`
+            border: 1px solid #0086d0;
+          `}
+  `,
+};

@@ -5,6 +5,7 @@ import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
 import { useUserStore } from "src/zustand/useUserStore";
 import ProjectCard from "./ProjectCard";
+import { S } from "./projectList.styles";
 
 interface ProjectListProps {
   selectedSortLabel: string;
@@ -69,8 +70,8 @@ const ProjectList = ({
   return (
     <>
       {filteredProjects && (
-        <div id="freelancerListContainer">
-          <span>
+        <S.ProjectListContainer>
+          {/* <span>
             모집 중인 {selectedWorkField} 분야의 프로젝트는 총{" "}
             {selectedWorkField === "전체보기"
               ? filteredProjects.length
@@ -78,7 +79,7 @@ const ProjectList = ({
                   (project) => project.category === selectedWorkField
                 ).length}
             개입니다.
-          </span>
+          </span> */}
           {filteredProjects
             ?.filter(
               (project) =>
@@ -96,7 +97,7 @@ const ProjectList = ({
                 </div>
               );
             })}
-        </div>
+        </S.ProjectListContainer>
       )}
     </>
   );
