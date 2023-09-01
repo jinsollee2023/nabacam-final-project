@@ -75,6 +75,7 @@ const PendingFreelancerList = () => {
             project.pendingFreelancerUser?.map((freelancer) => (
               <S.List key={`${project.projectId}-${freelancer.userId}`}>
                 <S.ListContents>
+                  {project.freelancerId ? <div>모집완료</div> : <div>모집중</div>}
                   <S.FreelancerName>{freelancer.name}</S.FreelancerName>
                   <span>{freelancer.workField?.workField}</span>
                   <S.WorkFieldAndWorkExp>
