@@ -70,23 +70,27 @@ const Account = () => {
     <>
       <S.AccountContainer>
         <S.Img className="profileImg" src={user.photoURL} alt="img" />
-        <S.ColumnBox marginLeft="5%">
-          <S.FlexBox>
+        {/* ------------------------------------------------------------ */}
+        {user.role === "freelancer" ? (
+          // freelancer
+          <S.ColumnBox marginLeft="50px">
+            <S.FlexBox>
+              <S.Title>{user && user?.name}</S.Title>
+              <S.Detail marginLeft="7px">{user.role}</S.Detail>
+            </S.FlexBox>
+            <S.Detail>{user && user?.workField?.workField}</S.Detail>
+            <S.Detail>{user && user?.workField?.workSmallField}</S.Detail>
+            {/* <S.Detail>data here 진행중</S.Detail> */}
+          </S.ColumnBox>
+        ) : (
+          // client
+          <S.ColumnBox marginLeft="50px">
             <S.Title>{user && user?.name}</S.Title>
             <S.Detail marginLeft="7px">{user.role}</S.Detail>
-          </S.FlexBox>
-
-          {user.role === "freelancer" ? (
-            <>
-              <S.Detail>{user && user?.workField?.workField}</S.Detail>
-              <S.Detail>{user && user?.workField?.workSmallField}</S.Detail>
-              {/* <S.Detail>data here 진행중</S.Detail> */}
-            </>
-          ) : (
-            <S.Detail>client</S.Detail>
-          )}
-        </S.ColumnBox>
-        <S.ColumnBox marginLeft="20%">
+          </S.ColumnBox>
+        )}
+        {/* ------------------------------------------------------------ */}
+        <S.ColumnBox marginLeft="200px">
           <S.Title>연락망</S.Title>
           <S.Detail>전화번호: {user && user?.contact?.phone}</S.Detail>
           <S.Detail>이메일: {user && user?.contact?.email}</S.Detail>
