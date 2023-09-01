@@ -47,6 +47,26 @@ export const S = {
       background-color: var(--hover-blue);
     }
   `,
+  // 프로필 추가 & 수정 모달
+  Input: styled.input`
+    width: 100%;
+    height: 32px;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  `,
+  Label: styled.label`
+    font-size: 16px;
+    margin-bottom: 15px;
+  `,
+  subText: styled.p`
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  `,
 
   // 경력사항
   WorkExperienceContainer: styled.section`
