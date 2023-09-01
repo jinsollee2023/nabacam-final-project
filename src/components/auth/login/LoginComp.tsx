@@ -8,6 +8,7 @@ import LoginValidation from "./LoginValidation";
 import { Tabs } from "antd";
 import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 type TabPosition = "left" | "right" | "top" | "bottom";
 
@@ -35,22 +36,24 @@ const LoginComp = () => {
   const loginHandler = async (e: any) => {
     e.preventDefault();
     setErrors(LoginValidation(values));
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: values.email,
-        password: values.password,
-      });
-      if (error) {
+    if (!errors.email && !errors.password) {
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: values.email,
+          password: values.password,
+        });
+        if (error) {
+          console.error(error);
+        } else if (data) {
+          const user = await getUser(data.user.id as string);
+          setUserId(user.userId as string);
+          setUserRole(user.role as string);
+          setUser(user);
+          navigate("/");
+        }
+      } catch (error) {
         console.error(error);
-      } else if (data) {
-        const user = await getUser(data.user.id as string);
-        setUserId(user.userId as string);
-        setUserRole(user.role as string);
-        setUser(user);
-        navigate("/");
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -82,8 +85,6 @@ const LoginComp = () => {
             />
             <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
 
-            <span>비밀번호</span>
-
             <S.LoginInput
               type={showPswd ? "text" : "password"}
               name="password"
@@ -99,7 +100,13 @@ const LoginComp = () => {
           비밀번호 찾기
         </S.passwordFindButton>
         {findPassword && <EmailCheck openModal={findPasswordModalHandler} />}
-        <S.passwordView onClick={showPasswordHandler}>표시</S.passwordView>
+        <S.passwordView onClick={showPasswordHandler}>
+          {showPswd ? (
+            <EyeOutlined onClick={showPasswordHandler} />
+          ) : (
+            <EyeInvisibleOutlined />
+          )}
+        </S.passwordView>
       </S.LoginBG>
     </>
   );
@@ -153,11 +160,11 @@ const S = {
   `,
   passwordView: styled.button`
     position: relative;
-    top: -36.5%;
-    left: 100%;
-    width: 10%;
+    top: -39.5%;
+    left: 94%;
+    width: 5%;
     height: 5%;
-    background-color: white;
+    background-color: #dbcfcf;
     border: none;
     cursor: pointer;
     border-radius: 10px;

@@ -8,6 +8,7 @@ import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
 import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 interface JoinFormProps {
   // freelancerOpen: boolean;
@@ -34,7 +35,12 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const [workSelect, setWorkSelect] = useState("");
   const [modal, setModal] = useState(false);
   const { setUser } = useUserStore(); // 추가
-
+  const check =
+    errors.email &&
+    errors.password &&
+    errors.passwordConfirmCurrent &&
+    errors.name &&
+    errors.phone;
   const onChange = (value: string) => {
     setWorkSelect(value);
   };
@@ -44,18 +50,26 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const signUP = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors(Validation(values));
+    if (
+      !errors.email &&
+      !errors.password &&
+      !errors.passwordConfirmCurrent &&
+      !errors.name &&
+      !errors.phone
+    ) {
+      await clientSignupHandler(
+        values,
+        photoFile,
+        uploadUserImage,
+        role,
+        workSelect,
+        setUser,
 
-    await clientSignupHandler(
-      values,
-      photoFile,
-      uploadUserImage,
-      role,
-      workSelect,
-      setUser,
-      // setOpenClientJoin
-      navigate
-    );
+        navigate
+      );
+    }
   };
+
   //  순수 useState handler
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -215,7 +229,13 @@ const JoinForm = ({ role }: JoinFormProps) => {
             </div>
           </form>
         )}
-        <S.passwordView onClick={showPasswordHandler}>표시</S.passwordView>
+        <S.passwordView onClick={showPasswordHandler}>
+          {showPswd ? (
+            <EyeOutlined onClick={showPasswordHandler} />
+          ) : (
+            <EyeInvisibleOutlined />
+          )}
+        </S.passwordView>
 
         <br />
         <div>
@@ -263,10 +283,10 @@ const S = {
   `,
   passwordView: styled.button`
     position: fixed;
-    top: 19.5%;
-    left: 57%;
+    top: 21%;
+    left: 53.5%;
     width: 2%;
-    height: 5%;
+    height: 2%;
     background-color: white;
     border: none;
     cursor: pointer;
