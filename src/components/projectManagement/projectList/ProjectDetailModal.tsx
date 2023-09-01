@@ -1,28 +1,198 @@
+import useFreelancersQueries from "src/hooks/useFreelancersQueries";
 import { Project } from "../../../Types";
 import S from "./ProjectListStyles";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getFreelancer } from "src/api/User";
+import { BiPhoneCall } from "react-icons/bi";
+import { AiOutlineMail } from "react-icons/ai";
 
 interface ProjectDetailModalProps {
   project: Project;
 }
+interface FreelancerInfo {
+  name: string;
+  contact: {
+    email: string;
+    phone: string;
+  };
+  workField: {
+    workField?: string;
+    workSmallField: string;
+  };
+  projectId: string;
+  resumeProfileIntro: string;
+  photoURL: string;
+}
 
 const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
+  const [volunteeredFreelancer, setVolunteeredFreelancer] =
+    useState<FreelancerInfo | null>(null);
+
+  useEffect(() => {
+    const fetchVolunteeredFreelancer = async () => {
+      if (project.volunteer && project.volunteer[0]) {
+        const userId = project.volunteer[0];
+        const freelancer = await getFreelancer(userId);
+        setVolunteeredFreelancer(freelancer);
+      }
+    };
+
+    fetchVolunteeredFreelancer();
+  }, [project.volunteer]);
+
   return (
-    <div>
-      <p>{project.title}</p>
-      <S.ModalMainInfoBox>
-        <label htmlFor="projectTitle">프로젝트 이름</label>
-        <div id="projectTitle">{project.title}</div>
-        <label htmlFor="projectDesc">프로젝트 설명</label>
-        <div id="projectDesc">{project.desc}</div>
-      </S.ModalMainInfoBox>
-      <S.ModalSubInfoBox>
-        <label htmlFor="projectManager">담당자</label>
-        <div id="projectManager">{project.manager.name}</div>
-        <label htmlFor="projectDeadLine">{String(project.date.endDate)}</label>
-        <div></div>
-      </S.ModalSubInfoBox>
-    </div>
+    <S.DetailModalContainer>
+      <S.ModalTitle fontSize="24px" marginBottom="30px">
+        {project.title}
+      </S.ModalTitle>
+
+      <S.ModalInfoColumnBox>
+        <S.ModalTitle marginBottom="5px">
+          <label htmlFor="projectTitle">프로젝트 이름</label>
+        </S.ModalTitle>
+        <S.ModalDetail id="projectTitle" marginBottom="3px">
+          {project.title}
+        </S.ModalDetail>
+        <S.ModalTitle marginTop="7px" marginBottom="3px">
+          <label htmlFor="projectDesc">프로젝트 설명</label>
+        </S.ModalTitle>
+        <S.ModalDetail id="projectDesc">{project.desc}</S.ModalDetail>
+      </S.ModalInfoColumnBox>
+      <S.ModalLine />
+      {/* --------------------------------------------------------- */}
+      <S.ModalTitle marginBottom="10px">
+        <label htmlFor="projectQualification">모집 조건</label>
+      </S.ModalTitle>
+      <S.ModalInfoFlexBox>
+        <S.ModalInfoColumnBox>
+          <S.ModalDetail>경력</S.ModalDetail>
+          <S.ModalDetail color="var(--main-blue)">
+            {project.qualification}년차 이상부터
+          </S.ModalDetail>
+        </S.ModalInfoColumnBox>
+        <S.ModalInfoColumnBox marginLeft="30%">
+          <S.ModalDetail marginBottom="0px">분야</S.ModalDetail>
+          <S.ModalDetail color="var(--main-blue)" marginBottom="0px">
+            {project.category}
+          </S.ModalDetail>
+        </S.ModalInfoColumnBox>
+      </S.ModalInfoFlexBox>
+      {/* --------------------------------------------------------- */}
+      <S.ModalLine />
+      <S.ModalTitle marginBottom="10px">
+        <label htmlFor="projectInfo">프로젝트 설정</label>
+      </S.ModalTitle>
+      <S.ModalInfoColumnBox>
+        <S.ModalDetail>목표기간</S.ModalDetail>
+        <S.ModalInfoFlexBox style={{ alignItems: "center" }}>
+          <S.ModalDetail color="var(--main-blue)">
+            {String(project.date.startDate)}
+          </S.ModalDetail>
+          <p style={{ fontSize: "5px", color: "var(--darker-gray)" }}>부터</p>
+          <S.ModalDetail color="var(--main-blue)">
+            {String(project.date.endDate)}
+          </S.ModalDetail>
+        </S.ModalInfoFlexBox>
+
+        <S.ModalDetail marginTop="10px" marginBottom="2px">
+          담당자
+        </S.ModalDetail>
+        <S.ModalDetail color="var(--main-blue)">
+          {project.category}팀 {project.manager.name}
+        </S.ModalDetail>
+
+        <S.ModalDetail marginTop="10px" marginBottom="2px">
+          급여
+        </S.ModalDetail>
+
+        <S.ModalInfoFlexBox style={{ alignItems: "center" }}>
+          <p
+            style={{
+              fontSize: "5px",
+              color: "var(--darker-gray)",
+              marginRight: "15px",
+              marginLeft: "15px",
+            }}
+          >
+            최소
+          </p>
+          <S.ModalDetail
+            color="var(--main-blue)"
+            marginRight="15px"
+            marginLeft="15px"
+          >
+            {project.pay.min},000₩
+          </S.ModalDetail>
+          <p
+            style={{
+              fontSize: "5px",
+              color: "var(--darker-gray)",
+              marginRight: "15px",
+              marginLeft: "15px",
+            }}
+          >
+            최대
+          </p>
+          <S.ModalDetail
+            color="var(--main-blue)"
+            marginRight="15px"
+            marginLeft="15px"
+          >
+            {project.pay.max},000₩
+          </S.ModalDetail>
+        </S.ModalInfoFlexBox>
+      </S.ModalInfoColumnBox>
+      <S.ModalLine />
+      {/* --------------------------------------------------------- */}
+      <S.ModalTitle marginBottom="10px">
+        <label htmlFor="volunteeredFreelancer">투입한 프리랜서</label>
+      </S.ModalTitle>
+      <S.ModalInfoFlexBox>
+        <div>
+          {project.volunteer && project.volunteer.length > 0 ? (
+            <S.ModalInfoFlexBox>
+              <img
+                src={volunteeredFreelancer?.photoURL}
+                width="160px"
+                height="160px"
+                alt="img"
+              />
+              <S.ModalInfoColumnBox>
+                <S.ModalDetail marginBottom="3px">
+                  {volunteeredFreelancer?.name}
+                </S.ModalDetail>
+                <S.ModalDetail marginBottom="3px">
+                  {volunteeredFreelancer?.workField.workSmallField}
+                </S.ModalDetail>
+                <S.ModalDetail marginBottom="3px">
+                  {volunteeredFreelancer?.resumeProfileIntro}
+                </S.ModalDetail>
+                <S.ModalDetail
+                  marginBottom="3px"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <BiPhoneCall />
+                  {volunteeredFreelancer?.contact.phone}
+                </S.ModalDetail>
+                <S.ModalDetail
+                  marginBottom="3px"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <AiOutlineMail />
+                  {volunteeredFreelancer?.contact.email}
+                </S.ModalDetail>
+              </S.ModalInfoColumnBox>
+            </S.ModalInfoFlexBox>
+          ) : (
+            <p>모집중</p>
+          )}
+        </div>
+        <div>
+          <div>계약기간</div>
+          <div></div>
+        </div>
+      </S.ModalInfoFlexBox>
+    </S.DetailModalContainer>
   );
 };
 

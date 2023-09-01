@@ -114,7 +114,7 @@ export const getFreelancersBySort = async (sortLabel: string) => {
 export const getFreelancer = async (userId: string) => {
   let { data: freelancer, error } = await supabase
     .from("users")
-    .select("name, contact, workField, projectId, resumeProfileIntro")
+    .select("name, contact, workField, projectId, resumeProfileIntro, photoURL")
     .eq("userId", userId)
     .maybeSingle();
   return freelancer;
