@@ -52,6 +52,20 @@ export const S = {
   `,
 
   // EditForm
+  Label: styled.label`
+    font-size: 16px;
+    margin-bottom: 15px;
+  `,
+  Input: styled.input`
+    width: 100%;
+    height: 32px;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  `,
 
   // 공통
   ColumnBox: styled.div<ColumnBoxProps>`
@@ -82,10 +96,7 @@ export const S = {
     background-color: var(--main-blue);
     color: white;
     border: none;
-    /* padding: 10px; */
     border-radius: 5px;
-    /* margin-top: 30px; */
-    /* margin-left: 60px; */
     cursor: pointer;
     font-size: 13px;
     transition: background-color 0.3s ease;
@@ -97,7 +108,7 @@ export const S = {
     margin-left: ${(props) => props.marginLeft};
     margin-right: ${(props) => props.marginRight};
     width: ${(props) => props.width};
-    height: ${(props) => props.height};
+    height: ${(props) => props.height || "40px"};
     padding: ${(props) => props.padding};
   `,
 };

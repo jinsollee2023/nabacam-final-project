@@ -52,26 +52,6 @@ export const S = {
       background-color: var(--hover-blue);
     }
   `,
-  // 프로필 추가 & 수정 모달
-  Input: styled.input`
-    width: 100%;
-    height: 32px;
-    padding: 10px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-  `,
-  Label: styled.label`
-    font-size: 16px;
-    margin-bottom: 15px;
-  `,
-  subText: styled.p`
-    font-size: 15px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  `,
 
   // 경력사항
   WorkExperienceContainer: styled.section`
@@ -113,6 +93,36 @@ export const S = {
   PastWorkDuration: styled.p`
     font-size: 16px;
     margin-top: 5px;
+  `,
+
+  //------------모달-----------------------//
+  // 계정 모달
+
+  // 프로필 모달
+  AccountForm: styled.form`
+    max-width: 400px;
+    margin: 0 auto;
+  `,
+
+  // 경력 모달
+  Input: styled.input`
+    width: 100%;
+    height: 32px;
+    padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  `,
+  Label: styled.label`
+    font-size: 16px;
+    margin-bottom: 15px;
+  `,
+  subText: styled.p`
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   `,
 
   // 공통

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "antd";
 import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
-import { styled } from "styled-components";
+import { S } from "./Resume.styles";
 
 interface profileIntroProps {
   profileIntro: string;
@@ -22,12 +22,12 @@ const AddResumeProfileIntroModal = ({ profileIntro }: profileIntroProps) => {
   }, [newProfileIntroInput]);
 
   return (
-    <S.Form>
+    <S.AccountForm>
       <S.Label>
-        간단한 프로필을 입력해주세요.
+        프리랜서마켓에 등록될 프로필을 입력해주세요.
         <TextArea
           showCount
-          maxLength={500}
+          maxLength={100}
           style={{
             height: "120px",
             marginTop: "24px",
@@ -37,36 +37,13 @@ const AddResumeProfileIntroModal = ({ profileIntro }: profileIntroProps) => {
             border: "1px solid var(--main-blue)",
             width: "100%",
           }}
-          placeholder="500자 이하로 입력해주세요..."
+          placeholder="100자 이하로 입력해주세요..."
           value={newProfileIntroInput}
           onChange={(e) => onChangeNewprofileIntroInputHandler(e.target.value)}
         />
       </S.Label>
-    </S.Form>
+    </S.AccountForm>
   );
 };
 
 export default AddResumeProfileIntroModal;
-
-const S = {
-  Form: styled.form`
-    max-width: 400px;
-    margin: 0 auto;
-  `,
-
-  Label: styled.label`
-    display: block;
-    margin-bottom: 16px;
-    font-size: 18px;
-  `,
-
-  TextArea: styled.textarea`
-    height: 120px;
-    margin-bottom: 16px;
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    width: 100%;
-  `,
-};

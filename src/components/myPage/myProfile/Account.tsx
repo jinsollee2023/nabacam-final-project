@@ -70,7 +70,6 @@ const Account = () => {
     <>
       <S.AccountContainer>
         <S.Img className="profileImg" src={user.photoURL} alt="img" />
-        {/*  */}
         <S.ColumnBox marginLeft="5%">
           <S.FlexBox>
             <S.Title>{user && user?.name}</S.Title>
@@ -87,7 +86,6 @@ const Account = () => {
             <S.Detail>client</S.Detail>
           )}
         </S.ColumnBox>
-        {/*  */}
         <S.ColumnBox marginLeft="20%">
           <S.Title>연락망</S.Title>
           <S.Detail>전화번호: {user && user?.contact?.phone}</S.Detail>
@@ -100,12 +98,13 @@ const Account = () => {
           </S.SettingBtn>
         </S.RightEndBtnBox>
 
-        {/* ------------------------------------- */}
         {isModlaopen ? (
           <Modal
             setIsModalOpen={setIsModalOpen}
             buttons={
-              <button onClick={updateProfileInfoButtonHandler}>수정하기</button>
+              <S.Btn width="100%" onClick={updateProfileInfoButtonHandler}>
+                수정하기
+              </S.Btn>
             }
           >
             <EditForm user={user} />

@@ -49,11 +49,14 @@ const ResumeProfileIntroComp = () => {
 
   return (
     <>
+      {/* FIX */}
       <S.ProfileContainer>
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <S.JustifyBox>
           <S.ProfileTitle>프로필</S.ProfileTitle>
           {resumeProfileIntroObject &&
-          resumeProfileIntroObject.resumeProfileIntro !== "" ? (
+          resumeProfileIntroObject !== null &&
+          resumeProfileIntroObject.resumeProfileIntro !== null &&
+          resumeProfileIntroObject.resumeProfileIntro.length > 0 ? (
             <S.ProfileBtn onClick={() => setIsAddModalOpen(true)}>
               <IoMdSettings style={{ marginRight: "2px" }} />
               수정하기
@@ -64,11 +67,11 @@ const ResumeProfileIntroComp = () => {
                 setIsAddModalOpen(true);
               }}
             >
-              <MdAddCircle size="20" />
+              <MdAddCircle size="10" />
               추가
             </S.ProfileBtn>
           )}
-        </div>
+        </S.JustifyBox>
 
         <S.ProfileInputBox>
           <div>
