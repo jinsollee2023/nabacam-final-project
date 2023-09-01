@@ -33,7 +33,9 @@ const AddProjectModal = ({
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
   const { values, changeValues } = useProjectValuesStore();
-  const [payInputOff, setPayInputOff] = useState(false);
+  const [payInputOff, setPayInputOff] = useState(
+    values.maxPay === "상의 후 결정" ? true : false
+  );
   const navigate = useNavigate();
 
   const handleChange = (key: string, value: string | number) => {
@@ -124,7 +126,7 @@ const AddProjectModal = ({
         ["maxPay"]: "상의 후 결정",
       });
     } else {
-      // changeValues({ ...values, ["minPay"]: "", ["maxPay"]: "" });
+      changeValues({ ...values, ["minPay"]: "", ["maxPay"]: "" });
     }
   }, [payInputOff]);
 
@@ -139,7 +141,7 @@ const AddProjectModal = ({
           id="title"
           value={values.title}
           onChange={(e) => handleChange("title", e.target.value)}
-          border={`1.5px solid ${
+          border={`1px solid ${
             isTitleValid === true || isTitleValid === null
               ? "var(--main-blue)"
               : "red"

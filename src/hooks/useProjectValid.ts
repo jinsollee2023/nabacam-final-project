@@ -69,15 +69,6 @@ const useProjectValid = () => {
     } else {
       setIsMaxPayValid(true);
     }
-    return (
-      isTitleValid &&
-      isDescValid &&
-      isCategoryValid &&
-      isQualificationValid &&
-      isExpectedStartDateValid &&
-      isManagerValid &&
-      isMaxPayValid
-    );
   };
 
   return {
@@ -96,6 +87,15 @@ const useProjectValid = () => {
     setIsExpectedStartDateValid,
     setIsManagerValid,
     setIsMaxPayValid,
+    allValid: Boolean(
+      isTitleValid &&
+        isDescValid &&
+        isCategoryValid &&
+        isQualificationValid &&
+        isExpectedStartDateValid &&
+        isManagerValid &&
+        isMaxPayValid
+    ),
   };
 };
 
