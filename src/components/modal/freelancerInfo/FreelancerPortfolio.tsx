@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { IUser } from "../../../Types";
+import { IUser, Portfolio } from "../../../Types";
 import { useQuery } from "@tanstack/react-query";
 import { getPortfolio } from "../../../api/Portfolio";
 import { S } from "./freelancerInfoStyle";
-import PortfolioDetailModal from "../../../components/myPage/tabs/portfolioTab/PortfolioDetailModal";
 import { useUserStore } from "../../../zustand/useUserStore";
+import PortfolioDetailModal from "../../myPage/tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
 
 interface FreelancerPortfolioProps {
   user: IUser;
@@ -13,7 +13,7 @@ interface FreelancerPortfolioProps {
 const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
   const { userId } = useUserStore();
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedPortfolio, setSelectedPortfolio] = useState<any>(null);
+  const [selectedPortfolio, setSelectedPortfolio] = useState<Portfolio>();
 
   const {
     data: portfolios,
@@ -42,7 +42,6 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
                 {isDetailModalOpen && (
                   <PortfolioDetailModal
                     setIsDetailModalOpen={setIsDetailModalOpen}
-                    portfolioData={selectedPortfolio}
                     userId={userId}
                   />
                 )}

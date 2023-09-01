@@ -25,10 +25,12 @@ export const S = {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
+    height: 61vh;
+    overflow: auto;
   `,
   ListsBox: styled.div`
-    border: 2px solid #0086d0;
-    border-radius: 10px;
+    border: 2px solid #d6d6d6;
+    border-radius: 5px;
     width: 30%;
     height: 350px;
     margin-bottom: 20px;
@@ -74,7 +76,9 @@ export const S = {
 
   Line: styled.hr`
     width: 90%;
-    background-color: gray;
+    height: 1px;
+    border: 0;
+    background: #0086d0;
   `,
   OngoingProject: styled.span`
     font-weight: bold;
@@ -89,8 +93,8 @@ export const S = {
     font-size: 12px;
   `,
   DetailBtn: styled.button`
-    border: 1px solid gray;
-    border-radius: 10px;
+    border: 1px solid #0086d0;
+    border-radius: 5px;
     width: 90%;
     height: 35px;
     background-color: transparent;

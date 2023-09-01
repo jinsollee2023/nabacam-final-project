@@ -3,7 +3,7 @@ export interface User {
   role: string;
   name: string;
   photoURL: string;
-  projectId?: string;
+  projectId?: string[];
   workField?: { workField: string; workSmallField: string };
   workExp?: string;
   contact: { email: string; phone: string };
@@ -74,10 +74,11 @@ export interface Task {
 export interface Portfolio {
   portfolioId: string;
   freelancerId: string;
-  thumbNailURL: string;
   title: string;
   desc: string;
-  pdfFileURL: string;
+  thumbNailURL: string | File;
+  pdfFileURL?: string | File;
+  linkURL?: string;
 }
 
 export interface Review {
