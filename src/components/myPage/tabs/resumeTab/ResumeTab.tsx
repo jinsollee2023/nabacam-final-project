@@ -7,8 +7,10 @@ import { S } from "./Resume.styles";
 const ResumeTab = () => {
   return (
     <S.Container>
-      <ResumeProfileIntroComp />
-      <ResumeExperienceComp />
+      <S.ContainerInner>
+        <ResumeProfileIntroComp />
+        <ResumeExperienceComp />
+      </S.ContainerInner>
     </S.Container>
   );
 };

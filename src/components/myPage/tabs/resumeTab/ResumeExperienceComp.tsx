@@ -48,11 +48,11 @@ const ResumeExperienceComp = () => {
       </S.WorkExperienceContainer>
       <S.Btn
         marginTop="30px"
-        marginBottom="30px"
         width="100%"
         onClick={() => {
           setIsAddModalOpen(true);
         }}
+        style={{ position: "sticky" }}
       >
         <S.CenterizeBox>
           <BsPlusSquareDotted size="15" style={{ marginRight: "5px" }} />
