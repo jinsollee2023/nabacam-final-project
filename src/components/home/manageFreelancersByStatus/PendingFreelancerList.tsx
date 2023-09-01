@@ -9,7 +9,9 @@ import useProjectsQueries from "../../../hooks/useProjectsQueries";
 
 const PendingFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
 
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
@@ -73,11 +75,15 @@ const PendingFreelancerList = () => {
                   <S.WorkFieldAndWorkExp>
                     {freelancer.workField?.workSmallField}
                   </S.WorkFieldAndWorkExp>
-                  <S.WorkFieldAndWorkExp>{freelancer.workExp}년차</S.WorkFieldAndWorkExp>
+                  <S.WorkFieldAndWorkExp>
+                    {freelancer.workExp}년차
+                  </S.WorkFieldAndWorkExp>
                 </S.ListContents>
                 <S.ProjectContents>
                   <div key={project.projectId}>
-                    <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
+                    <S.ProjectTitle>
+                      {project.title} 프로젝트에 지원
+                    </S.ProjectTitle>
                   </div>
 
                   <S.CheckingBtn
@@ -100,7 +106,7 @@ const PendingFreelancerList = () => {
                                 updateFreelancer(
                                   freelancer.userId,
                                   project.projectId ?? "",
-                                  project.date.endDate,
+                                  project.date?.endDate as string,
                                   freelancer.projectId || []
                                 )
                               }
@@ -121,7 +127,10 @@ const PendingFreelancerList = () => {
                           </>
                         }
                       >
-                        <PendingFreelancerInfoModal user={freelancer} project={project} />
+                        <PendingFreelancerInfoModal
+                          user={freelancer}
+                          project={project}
+                        />
                       </Modal>
                     )}
                 </S.ProjectContents>

@@ -21,7 +21,7 @@ const ApplyForProjectModal = ({
       <div>
         <div>
           <span>목표 기간</span>
-          <span>{String(projectItem.date.endDate)}</span>
+          <span>{String(projectItem.date?.endDate)}</span>
         </div>
         <div>
           <span>급여</span>
