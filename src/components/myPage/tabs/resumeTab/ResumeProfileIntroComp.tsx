@@ -6,9 +6,11 @@ import { MdAddCircle } from "react-icons/md";
 import Modal from "../../../../components/modal/Modal";
 import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
 import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
+import { S } from "./ResumeStyles";
 
 const ResumeProfileIntroComp = () => {
-  const { userId } = useUserStore();
+  const { user } = useUserStore();
+  const userId = user.userId;
   const {
     addProfileIntroMutation,
     resumeProfileIntroObject,
@@ -102,36 +104,3 @@ const ResumeProfileIntroComp = () => {
 };
 
 export default ResumeProfileIntroComp;
-
-const S = {
-  ProfileContainer: styled.section`
-    width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-top: 10px;
-  `,
-  ProfileTitle: styled.p`
-    font-size: 20px;
-    font-weight: bold;
-  `,
-  ProfileInputBox: styled.div`
-    font-size: 18px;
-    padding: 10px;
-    margin-top: 15px;
-    border-radius: 8px;
-    border: 1.5px solid var(--main-blue);
-  `,
-  ProfileBtn: styled.button`
-    background-color: none;
-    border: none;
-    padding: 4px 8px;
-    border-radius: 5px;
-    margin-top: 10px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: background-color 0.3s ease;
-    &:hover {
-      background-color: var(--hover-blue);
-    }
-  `,
-};

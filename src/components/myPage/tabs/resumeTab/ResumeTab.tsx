@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
-
 import ResumeExperienceComp from "./ResumeExperienceComp";
 import ResumeProfileIntroComp from "./ResumeProfileIntroComp";
 import React from "react";
+import { S } from "./ResumeStyles";
 
 const ResumeTab = () => {
   return (
@@ -14,9 +14,3 @@ const ResumeTab = () => {
 };
 
 export default ResumeTab;
-
-const S = {
-  Container: styled.div`
-    width: 100%;
-  `,
-};

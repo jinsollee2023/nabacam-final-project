@@ -13,8 +13,8 @@ export const useResumeExperienceStore = create<ResumeExperienceStore>(
       pastWorkField: "",
       pastEmploymentType: "",
       pastWorkDuration: {
-        pastWorkEndDate: new Date(),
-        pastWorkStartDate: new Date(),
+        pastWorkEndDate: "",
+        pastWorkStartDate: "",
       },
       pastWorkPlace: "",
       pastWorkPosition: "",
