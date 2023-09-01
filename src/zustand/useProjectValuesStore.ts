@@ -28,8 +28,8 @@ export const useProjectValuesStore = create<ProjectValuesStore>()((set) => ({
     qualification: null,
     expectedStartDate: "",
     manager: { name: "", team: "", contact: { email: "", phone: "" } },
-    minPay: 100,
-    maxPay: 100,
+    minPay: "",
+    maxPay: "",
   },
   changeValues: (values) => set(() => ({ values })),
 }));

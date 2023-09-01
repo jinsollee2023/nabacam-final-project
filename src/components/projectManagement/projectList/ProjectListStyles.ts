@@ -154,7 +154,13 @@ const S = {
     margin-top: 10px;
   `,
   ModalPayBox: styled.div`
-    width: 35%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  `,
+  ModalMinMaxPayBox: styled.div`
+    display: flex;
+    align-items: center;
   `,
   ModalPostBtn: styled.button`
     width: 100%;
