@@ -47,6 +47,7 @@ const ProjectList = () => {
     setIsExpectedStartDateValid,
     setIsManagerValid,
     setIsMaxPayValid,
+    allValid,
   } = useProjectValid();
 
   useEffect(() => {
@@ -58,6 +59,13 @@ const ProjectList = () => {
       setFilteredProjects(filteredprojectList);
     }
   }, [projects, searchKeyword]);
+
+  useEffect(() => {
+    if (allValid) {
+      addProjectMutation.mutate(newProject);
+      setIsAddModalOpen(false);
+    }
+  }, [allValid]);
 
   useEffect(() => {
     queryClient.invalidateQueries(["projectList", selectedSortLabel]);
@@ -72,11 +80,11 @@ const ProjectList = () => {
   };
 
   const addProjectButtonHandler = () => {
-    const isValidationPassed = checkValidation(values);
-    if (isValidationPassed) {
-      addProjectMutation.mutate(newProject);
-      setIsAddModalOpen(false);
-    }
+    checkValidation(values);
+    // if (isValidationPassed) {
+    //   addProjectMutation.mutate(newProject);
+    //   setIsAddModalOpen(false);
+    // }
   };
 
   const beforeProgressProjects = filteredProjects?.filter(
