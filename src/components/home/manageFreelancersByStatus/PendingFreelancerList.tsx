@@ -9,9 +9,7 @@ import useProjectsQueries from "../../../hooks/useProjectsQueries";
 
 const PendingFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
-    null
-  );
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
 
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
@@ -29,11 +27,18 @@ const PendingFreelancerList = () => {
     userId: string,
     projectId: string,
     endDate: string,
-    projectIds: string[]
+    projectIds: string[],
+    volunteer: string[],
+    pendingFreelancer: string[]
   ) => {
     const customProjectIds = projectIds.concat(projectId);
+    const customPendingFreelancers = pendingFreelancer.filter((v) => v !== userId);
     updateFreelancerApprovalMutation.mutate({ userId, projectId, endDate });
-    deleteVolunteerAndPendingFreelancerMutation.mutate(projectId);
+    deleteVolunteerAndPendingFreelancerMutation.mutate({
+      projectId,
+      updateVolunteer: volunteer,
+      updatePendingFreelancer: customPendingFreelancers,
+    });
     addProjectIdToUserMutation.mutate({ userId, projectIds: customProjectIds });
     alert("승인이 완료되었습니다.");
     setIsModalOpen(false);
@@ -75,15 +80,11 @@ const PendingFreelancerList = () => {
                   <S.WorkFieldAndWorkExp>
                     {freelancer.workField?.workSmallField}
                   </S.WorkFieldAndWorkExp>
-                  <S.WorkFieldAndWorkExp>
-                    {freelancer.workExp}년차
-                  </S.WorkFieldAndWorkExp>
+                  <S.WorkFieldAndWorkExp>{freelancer.workExp}년차</S.WorkFieldAndWorkExp>
                 </S.ListContents>
                 <S.ProjectContents>
                   <div key={project.projectId}>
-                    <S.ProjectTitle>
-                      {project.title} 프로젝트에 지원
-                    </S.ProjectTitle>
+                    <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
                   </div>
 
                   <S.CheckingBtn
@@ -107,7 +108,9 @@ const PendingFreelancerList = () => {
                                   freelancer.userId,
                                   project.projectId ?? "",
                                   project.date?.endDate as string,
-                                  freelancer.projectId || []
+                                  freelancer.projectId || [],
+                                  project.volunteer || [],
+                                  project.pendingFreelancer || []
                                 )
                               }
                             >
@@ -127,10 +130,7 @@ const PendingFreelancerList = () => {
                           </>
                         }
                       >
-                        <PendingFreelancerInfoModal
-                          user={freelancer}
-                          project={project}
-                        />
+                        <PendingFreelancerInfoModal user={freelancer} project={project} />
                       </Modal>
                     )}
                 </S.ProjectContents>

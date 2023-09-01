@@ -86,11 +86,7 @@ export const updateProject = async (
     qualification?: number;
   }
 ): Promise<void> => {
-  await supabase
-    .from("projects")
-    .update(column)
-    .eq("projectId", projectId)
-    .select();
+  await supabase.from("projects").update(column).eq("projectId", projectId).select();
 };
 
 export const getSuggestedFreelancers = async (
@@ -108,9 +104,7 @@ export const getSuggestedFreelancers = async (
     }
     return data as { SuggestedFreelancers: string[] };
   } catch (error) {
-    throw new Error(
-      `제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
-    );
+    throw new Error(`제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
   }
 };
 
@@ -164,15 +158,11 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
       .order(orderByField, { ascending })
       .eq("status", "진행 전");
     if (error) {
-      alert(
-        `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`
-      );
+      alert(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
     return data;
   } catch (error) {
-    throw new Error(
-      `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
-    );
+    throw new Error(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
   }
 };
 
@@ -189,9 +179,7 @@ export const getPendingFreelancers = async (
   return projects as Project[];
 };
 
-export const getOngoingProjects = async (
-  clientId: string
-): Promise<Project[]> => {
+export const getOngoingProjects = async (clientId: string): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
@@ -201,9 +189,7 @@ export const getOngoingProjects = async (
   return projects as Project[];
 };
 
-export const getTerminationedProjects = async (
-  clientId: string
-): Promise<Project[]> => {
+export const getTerminationedProjects = async (clientId: string): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
@@ -243,13 +229,18 @@ export const updateApprovalFreelancer = async (
     .match({ projectId });
 };
 
-/* 신청 및 제안, 보류된 프리랜서 목록 초기화 API */
+/* 지원한 프리랜서&보류한 프리랜서 탭에서 계약된 프리랜서 목록 삭제 API */
 export const deleteVolunteerAndPendingFreelancer = async (
-  projectId: string
+  projectId: string,
+  updateVolunteer: string[],
+  updatePendingFreelancer: string[]
 ) => {
   return await supabase
     .from("projects")
-    .update({ volunteer: [], pendingFreelancer: [], SuggestedFreelancers: [] })
+    .update({
+      volunteer: updateVolunteer,
+      pendingFreelancer: updatePendingFreelancer,
+    })
     .match({ projectId });
 };
 
