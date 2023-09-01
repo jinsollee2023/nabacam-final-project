@@ -31,7 +31,7 @@ const useProjectValid = () => {
 
   // console.log(
   //   "밸리드",
-  //   values,
+  //   values
   //   isTitleValid,
   //   isDescValid,
   //   isCategoryValid,
@@ -42,8 +42,6 @@ const useProjectValid = () => {
   // );
 
   const checkValidation = (values: Values) => {
-    console.log("실행됐니?????????????????????????????");
-
     values.title && setIsTitleValid(true);
     !values.title && setIsTitleValid(false);
 
@@ -62,8 +60,24 @@ const useProjectValid = () => {
     values.manager.name && setIsManagerValid(true);
     !values.manager.name && setIsManagerValid(false);
 
-    values.maxPay > values.minPay && setIsMaxPayValid(true);
-    !(values.maxPay > values.minPay) && setIsMaxPayValid(false);
+    if (
+      !(values.minPay == "상의 후 결정") &&
+      !(values.maxPay == "상의 후 결정")
+    ) {
+      values.maxPay > values.minPay && setIsMaxPayValid(true);
+      !(values.maxPay > values.minPay) && setIsMaxPayValid(false);
+    } else {
+      setIsMaxPayValid(true);
+    }
+    return (
+      isTitleValid &&
+      isDescValid &&
+      isCategoryValid &&
+      isQualificationValid &&
+      isExpectedStartDateValid &&
+      isManagerValid &&
+      isMaxPayValid
+    );
   };
 
   return {

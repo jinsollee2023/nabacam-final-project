@@ -49,16 +49,6 @@ const ProjectList = () => {
     setIsMaxPayValid,
   } = useProjectValid();
 
-  const isAllValid =
-    isTitleValid &&
-    isDescValid &&
-    isDescValid &&
-    isCategoryValid &&
-    isQualificationValid &&
-    isExpectedStartDateValid &&
-    isManagerValid &&
-    isMaxPayValid;
-
   useEffect(() => {
     if (projects) {
       const filteredprojectList = projects?.filter((project) => {
@@ -82,9 +72,8 @@ const ProjectList = () => {
   };
 
   const addProjectButtonHandler = () => {
-    checkValidation(values);
-    if (isAllValid) {
-      console.log("실행됐니???");
+    const isValidationPassed = checkValidation(values);
+    if (isValidationPassed) {
       addProjectMutation.mutate(newProject);
       setIsAddModalOpen(false);
     }
@@ -140,8 +129,8 @@ const ProjectList = () => {
       qualification: null,
       expectedStartDate: "",
       manager: { name: "", team: "", contact: { email: "", phone: "" } },
-      minPay: 100,
-      maxPay: 100,
+      minPay: "",
+      maxPay: "",
     });
   };
 

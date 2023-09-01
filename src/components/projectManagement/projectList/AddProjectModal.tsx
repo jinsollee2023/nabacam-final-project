@@ -32,27 +32,20 @@ const AddProjectModal = ({
 }: AddProjectModal) => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-
   const { values, changeValues } = useProjectValuesStore();
-  const [paySlideOff, setPaySlideOff] = useState(false);
+  const [payInputOff, setPayInputOff] = useState(false);
   const navigate = useNavigate();
+
   const handleChange = (key: string, value: string | number) => {
     changeValues({ ...values, [key]: value });
   };
-  // console.log(
-  //   "모달",
-  //   values,
-  //   isTitleValid,
-  //   isDescValid,
-  //   isCategoryValid,
-  //   isQualificationValid,
-  //   isDeadLineValid,
-  //   isManagerValid,
-  //   isMaxPayValid
-  // );
-  const CheckBoxOnChange = (e: CheckboxChangeEvent) => {
-    setPaySlideOff(e.target.checked);
-  };
+
+  console.log("모달", values, payInputOff);
+
+  // const CheckBoxOnChange = (e: CheckboxChangeEvent) => {
+  //   setPayInputOff(e.target.checked);
+  // };
+
   const managerOnChange = (value: string) => {
     if (value === client!.name) {
       changeValues({
@@ -91,26 +84,50 @@ const AddProjectModal = ({
   };
 
   const { changeNewProject } = useProjectStore();
-  const newProject: Project = {
-    title: values.title,
-    desc: values.desc,
-    clientId: userId,
-    manager: values.manager,
-    expectedStartDate: values.expectedStartDate,
-    pay: {
-      min: paySlideOff ? "상의 후 결정" : values.minPay,
-      max: paySlideOff ? "상의 후 결정" : values.maxPay,
-    },
-    status: "진행 전",
-    category: values.category,
-    qualification: values.qualification as number,
-  };
+  // const newProject: Project = {
+  //   title: values.title,
+  //   desc: values.desc,
+  //   clientId: userId,
+  //   manager: values.manager,
+  //   expectedStartDate: values.expectedStartDate,
+  //   pay: {
+  //     min: values.minPay,
+  //     max: values.maxPay,
+  //   },
+  //   status: "진행 전",
+  //   category: values.category,
+  //   qualification: values.qualification as number,
+  // };
 
   useEffect(() => {
-    changeNewProject(newProject);
-  }, [values, paySlideOff]);
+    changeNewProject({
+      title: values.title,
+      desc: values.desc,
+      clientId: userId,
+      manager: values.manager,
+      expectedStartDate: values.expectedStartDate,
+      pay: {
+        min: values.minPay,
+        max: values.maxPay,
+      },
+      status: "진행 전",
+      category: values.category,
+      qualification: values.qualification as number,
+    });
+  }, [values, payInputOff]);
 
-  console.log();
+  useEffect(() => {
+    if (payInputOff) {
+      changeValues({
+        ...values,
+        ["minPay"]: "상의 후 결정",
+        ["maxPay"]: "상의 후 결정",
+      });
+    } else {
+      // changeValues({ ...values, ["minPay"]: "", ["maxPay"]: "" });
+    }
+  }, [payInputOff]);
+
   return (
     <div>
       <S.ModalTitle>어떤 프로젝트를 게시하시나요?</S.ModalTitle>
@@ -197,14 +214,14 @@ const AddProjectModal = ({
       </S.ModalMainInfoBox>
       <S.ModalSubInfoBox>
         <S.ModalSubInfoInnerBox>
-          <S.ModalContentsLabel htmlFor="projectDeadLine">
+          <S.ModalContentsLabel htmlFor="expectedStartDate">
             목표기간
           </S.ModalContentsLabel>
           <DatePicker
-            id="projectDeadLine"
+            id="expectedStartDate"
             onChange={(date) =>
               handleChange(
-                "deadLine",
+                "expectedStartDate",
                 date?.toISOString().split("T")[0] as string
               )
             }
@@ -282,55 +299,70 @@ const AddProjectModal = ({
       </S.ModalSubInfoBox>
 
       <S.ModalContentsLabel htmlFor="payBox">급여</S.ModalContentsLabel>
+      <Checkbox
+        defaultChecked={values.maxPay === "상의 후 결정" ? true : false}
+        checked={payInputOff}
+        onChange={(e) => setPayInputOff(e.target.checked)}
+        style={{
+          width: "25%",
+          display: "flex",
+          alignItems: "center",
+          marginTop: "15px",
+        }}
+      >
+        상의 후 결정
+      </Checkbox>
       <S.ModalPayInfoBox id="payBox">
         <S.ModalPayBox>
-          <S.ModalContentsLabel>
-            최소 {paySlideOff ? null : `${values.minPay}만원`}
-          </S.ModalContentsLabel>
-          <Slider
-            id="minPay"
-            min={100}
-            max={1000}
-            defaultValue={Number(values.minPay)}
-            disabled={paySlideOff}
-            onChange={(value) => handleChange("minPay", value)}
-            tooltip={{ formatter: null }}
-          />
+          <S.ModalMinMaxPayBox>
+            <S.ModalContentsLabel htmlFor="minPay">최소</S.ModalContentsLabel>
+            <S.ModalTitleInput
+              id="minPay"
+              type="number"
+              value={values.minPay}
+              disabled={payInputOff ? true : false}
+              onChange={(e) =>
+                handleChange(
+                  "minPay",
+                  payInputOff ? "상의 후 결정" : e.target.value
+                )
+              }
+              border={`1.5px solid ${
+                isMaxPayValid === true || isMaxPayValid === null
+                  ? "var(--main-blue)"
+                  : "red"
+              }`}
+            />
+            <p>만원</p>
+          </S.ModalMinMaxPayBox>
+          <S.ModalMinMaxPayBox>
+            <S.ModalContentsLabel htmlFor="maxPay">최대</S.ModalContentsLabel>
+            <S.ModalTitleInput
+              id="maxPay"
+              type="number"
+              value={values.maxPay}
+              disabled={payInputOff ? true : false}
+              onChange={(e) =>
+                handleChange(
+                  "maxPay",
+                  payInputOff ? "상의 후 결정" : e.target.value
+                )
+              }
+              border={`1.5px solid ${
+                isMaxPayValid === true || isMaxPayValid === null
+                  ? "var(--main-blue)"
+                  : "red"
+              }`}
+            />
+            <p>만원</p>
+          </S.ModalMinMaxPayBox>
         </S.ModalPayBox>
-        <S.ModalPayBox>
-          <S.ModalContentsLabel>
-            최대 {paySlideOff ? null : `${values.maxPay}만원`}
-          </S.ModalContentsLabel>
-          <Slider
-            id="maxPay"
-            min={100}
-            max={1000}
-            railStyle={{
-              backgroundColor: "black", // 레일 부분의 색상 설정
-            }}
-            handleStyle={{
-              borderColor: "red",
-              height: 14, // 높이 조정
-              width: 14, // 너비 조정
-            }}
-            defaultValue={Number(values.maxPay)}
-            disabled={paySlideOff}
-            onChange={(value) => handleChange("maxPay", value)}
-            tooltip={{ formatter: null }}
-          />
-        </S.ModalPayBox>
-        <Checkbox
-          onChange={CheckBoxOnChange}
-          style={{
-            width: "25%",
-            display: "flex",
-            alignItems: "center",
-            marginTop: "15px",
-          }}
-        >
-          상의 후 결정
-        </Checkbox>
       </S.ModalPayInfoBox>
+      <p>
+        {isMaxPayValid === false
+          ? "최대 급여는 최소 급여보다 높아야합니다."
+          : null}
+      </p>
     </div>
   );
 };
