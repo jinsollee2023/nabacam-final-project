@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "antd";
 import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
+import { S } from "./Resume.styles";
 
 interface profileIntroProps {
   profileIntro: string;
@@ -21,19 +22,27 @@ const AddResumeProfileIntroModal = ({ profileIntro }: profileIntroProps) => {
   }, [newProfileIntroInput]);
 
   return (
-    <form>
-      <label>
-        간단한 프로필을 입력해주세요.
+    <S.AccountForm>
+      <S.Label>
+        프리랜서마켓에 등록될 프로필을 입력해주세요.
         <TextArea
           showCount
-          maxLength={500}
-          style={{ height: 120, marginBottom: 24 }}
-          placeholder="500자 이하로 입력해주세요..."
+          maxLength={100}
+          style={{
+            height: "120px",
+            marginTop: "24px",
+            padding: "8px",
+            fontSize: "16px",
+            borderRadius: "4px",
+            border: "1px solid var(--main-blue)",
+            width: "100%",
+          }}
+          placeholder="100자 이하로 입력해주세요..."
           value={newProfileIntroInput}
           onChange={(e) => onChangeNewprofileIntroInputHandler(e.target.value)}
         />
-      </label>
-    </form>
+      </S.Label>
+    </S.AccountForm>
   );
 };
 

@@ -6,7 +6,8 @@ import { MdAddCircle } from "react-icons/md";
 import Modal from "../../../../components/modal/Modal";
 import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
 import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
-import { S } from "./ResumeStyles";
+import { S } from "./Resume.styles";
+import { IoMdSettings } from "react-icons/io";
 
 const ResumeProfileIntroComp = () => {
   const { user } = useUserStore();
@@ -48,13 +49,17 @@ const ResumeProfileIntroComp = () => {
 
   return (
     <>
+      {/* FIX */}
       <S.ProfileContainer>
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <S.JustifyBox>
           <S.ProfileTitle>프로필</S.ProfileTitle>
           {resumeProfileIntroObject &&
-          resumeProfileIntroObject.resumeProfileIntro !== "" ? (
+          resumeProfileIntroObject !== null &&
+          resumeProfileIntroObject.resumeProfileIntro !== null &&
+          resumeProfileIntroObject.resumeProfileIntro.length > 0 ? (
             <S.ProfileBtn onClick={() => setIsAddModalOpen(true)}>
-              프로필 수정하기
+              <IoMdSettings style={{ marginRight: "2px" }} />
+              수정하기
             </S.ProfileBtn>
           ) : (
             <S.ProfileBtn
@@ -62,11 +67,11 @@ const ResumeProfileIntroComp = () => {
                 setIsAddModalOpen(true);
               }}
             >
-              <MdAddCircle size="20" />
+              <MdAddCircle size="10" />
               추가
             </S.ProfileBtn>
           )}
-        </div>
+        </S.JustifyBox>
 
         <S.ProfileInputBox>
           <div>
@@ -84,9 +89,13 @@ const ResumeProfileIntroComp = () => {
           buttons={
             <>
               {newProfileIntroInput.length > 0 ? (
-                <button onClick={updateProfileIntroHandler}>수정하기</button>
+                <S.Btn width="100%" onClick={updateProfileIntroHandler}>
+                  수정하기
+                </S.Btn>
               ) : (
-                <button onClick={addProfileIntroHandler}>등록하기</button>
+                <S.Btn width="100%" onClick={addProfileIntroHandler}>
+                  등록하기
+                </S.Btn>
               )}
             </>
           }

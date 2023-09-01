@@ -2,13 +2,15 @@ import { styled } from "styled-components";
 import ResumeExperienceComp from "./ResumeExperienceComp";
 import ResumeProfileIntroComp from "./ResumeProfileIntroComp";
 import React from "react";
-import { S } from "./ResumeStyles";
+import { S } from "./Resume.styles";
 
 const ResumeTab = () => {
   return (
     <S.Container>
-      <ResumeProfileIntroComp />
-      <ResumeExperienceComp />
+      <S.ContainerInner>
+        <ResumeProfileIntroComp />
+        <ResumeExperienceComp />
+      </S.ContainerInner>
     </S.Container>
   );
 };

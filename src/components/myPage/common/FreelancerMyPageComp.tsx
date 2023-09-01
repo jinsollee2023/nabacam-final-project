@@ -116,5 +116,6 @@ const S = {
     padding: 8px 16px;
     margin-right: 10px;
     cursor: pointer;
+    background-color: transparent;
   `,
 };

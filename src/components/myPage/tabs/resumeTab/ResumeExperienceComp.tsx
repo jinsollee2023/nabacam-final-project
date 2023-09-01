@@ -8,7 +8,7 @@ import type { ResumeExperience } from "../../../../Types";
 import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
 import ResumeExperienceCard from "./ResumeExperienceCard";
 import { BsPlusSquareDotted } from "react-icons/bs";
-import { S } from "./ResumeStyles";
+import { S } from "./Resume.styles";
 
 const ResumeExperienceComp = () => {
   const { user } = useUserStore();
@@ -48,11 +48,11 @@ const ResumeExperienceComp = () => {
       </S.WorkExperienceContainer>
       <S.Btn
         marginTop="30px"
-        marginBottom="30px"
         width="100%"
         onClick={() => {
           setIsAddModalOpen(true);
         }}
+        style={{ position: "sticky" }}
       >
         <S.CenterizeBox>
           <BsPlusSquareDotted size="15" style={{ marginRight: "5px" }} />
