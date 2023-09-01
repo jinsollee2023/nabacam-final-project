@@ -33,15 +33,15 @@ const ProjectCard = ({ project }: projectCardProps) => {
     isMaxPayValid,
   } = useProjectValid();
 
-  const isAllValid =
-    isTitleValid &&
-    isDescValid &&
-    isDescValid &&
-    isCategoryValid &&
-    isQualificationValid &&
-    isExpectedStartDateValid &&
-    isManagerValid &&
-    isMaxPayValid;
+  // const isAllValid =
+  //   isTitleValid &&
+  //   isDescValid &&
+  //   isDescValid &&
+  //   isCategoryValid &&
+  //   isQualificationValid &&
+  //   isExpectedStartDateValid &&
+  //   isManagerValid &&
+  //   isMaxPayValid;
 
   const deleteProjectButtonHandler = () => {
     deleteProjectMutation.mutate(project.projectId!);
@@ -49,7 +49,16 @@ const ProjectCard = ({ project }: projectCardProps) => {
 
   const updateProjectButtonHandler = () => {
     checkValidation(values);
-    if (isAllValid) {
+    if (
+      isTitleValid &&
+      isDescValid &&
+      isDescValid &&
+      isCategoryValid &&
+      isQualificationValid &&
+      isExpectedStartDateValid &&
+      isManagerValid &&
+      isMaxPayValid
+    ) {
       updateProjectMutation.mutate({
         projectId: project.projectId as string,
         newProject,
@@ -78,8 +87,6 @@ const ProjectCard = ({ project }: projectCardProps) => {
       maxPay: project.pay.max,
     });
   };
-
-  console.log(project);
 
   return (
     <>
