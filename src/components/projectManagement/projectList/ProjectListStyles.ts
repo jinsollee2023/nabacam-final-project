@@ -6,6 +6,7 @@ interface ProjectCardBoxProps {
   marginBottom?: number;
   fontSize?: string;
   fontWeight?: number;
+  backgroundColor?: string;
 }
 interface ModalTitleProps {
   fontSize?: string;
@@ -64,7 +65,7 @@ const S = {
   `,
   ProjectCardBox: styled.div<ProjectCardBoxProps>`
     border: 1.5px solid var(--lighter-gray);
-    border-radius: 4px;
+    border-radius: 8px;
     width: 100%;
     height: 100px;
 
@@ -74,6 +75,11 @@ const S = {
     display: flex;
     justify-content: ${(props) => props.justifyContent};
     align-items: center;
+    background-color: ${(props) => props.backgroundColor};
+  `,
+  ProjectSpanBtn: styled.span`
+    cursor: pointer;
+    color: white;
   `,
   ProjcetTitleBox: styled.div`
     margin: auto 0;

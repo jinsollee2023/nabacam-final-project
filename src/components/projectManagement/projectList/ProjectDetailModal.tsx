@@ -99,7 +99,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           담당자
         </S.ModalDetail>
         <S.ModalDetail color="var(--main-blue)">
-          {project.category}팀 {project.manager.name}
+          {project.manager.team}팀 {project.manager.name}
         </S.ModalDetail>
 
         <S.ModalDetail marginTop="10px" marginBottom="2px">
