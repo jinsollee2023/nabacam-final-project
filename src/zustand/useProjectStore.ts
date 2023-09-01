@@ -13,7 +13,7 @@ export const useProjectStore = create<ProjectStore>((set) => ({
     title: "",
     desc: "",
     clientId: "",
-    date: { startDate: "", endDate: "" },
+    expectedStartDate: "",
     pay: {
       min: 0,
       max: 0,
@@ -33,5 +33,4 @@ export const useProjectStore = create<ProjectStore>((set) => ({
   changeNewProject: (newProject) => set(() => ({ newProject: newProject })),
   selectedProject: null,
   setSelectedProject: (project) => set(() => ({ selectedProject: project })),
-  // updateProjectVolunteers :
 }));

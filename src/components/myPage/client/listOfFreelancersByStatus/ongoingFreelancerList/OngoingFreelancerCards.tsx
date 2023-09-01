@@ -13,10 +13,15 @@ interface OngoingFreelancerCardsProps {
   project: Project;
 }
 
-const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) => {
+const OngoingFreelancerCards = ({
+  user,
+  project,
+}: OngoingFreelancerCardsProps) => {
   const { userId } = useUserStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
 
   return (
     <>
@@ -51,9 +56,9 @@ const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) 
               <S.ProjectTitle>진행중인 프로젝트</S.ProjectTitle>
               <S.ProjectSubTitle>{project.title}</S.ProjectSubTitle>
               <S.ProjectDate>
-                {dayjs(project.date.startDate).format("YYMMDD")}{" "}
+                {dayjs(project.date?.startDate).format("YYMMDD")}{" "}
                 <S.DateInnerText>부터</S.DateInnerText>{" "}
-                {dayjs(project.date.endDate).format("YYMMDD")}
+                {dayjs(project.date?.endDate).format("YYMMDD")}
               </S.ProjectDate>
               <S.DetailBtn
                 onClick={() => {
@@ -63,7 +68,9 @@ const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) 
               >
                 자세히 보기
               </S.DetailBtn>
-              {isModalOpen && selectedFreelancer && selectedFreelancer.userId === user.userId ? (
+              {isModalOpen &&
+              selectedFreelancer &&
+              selectedFreelancer.userId === user.userId ? (
                 <Modal setIsModalOpen={setIsModalOpen}>
                   <OngoingFreelancerInfoModal user={user} project={project} />
                 </Modal>
