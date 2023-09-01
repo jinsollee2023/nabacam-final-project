@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import supabase from "src/config/supabaseClient";
+import supabase from "../../../config/supabaseClient";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const ResetPassword = () => {
       password: newPassword,
     });
     if (data) {
-      alert("Password updated successfully!");
+      alert("비밀번호가 성공적으로 바뀌었습니다.");
       setNewPassword("");
       navigate("/");
     }
@@ -25,7 +25,12 @@ const ResetPassword = () => {
   return (
     <div>
       <form onSubmit={(e) => updatePasswordHandler(e)}>
-        <input type="password" value={newPassword} onChange={passwordHandler} />
+        <input
+          type="password"
+          placeholder="비밀번호"
+          value={newPassword}
+          onChange={passwordHandler}
+        />
         <button>비밀번호변경</button>
       </form>
     </div>

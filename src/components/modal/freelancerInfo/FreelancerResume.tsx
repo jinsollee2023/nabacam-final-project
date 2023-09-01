@@ -1,6 +1,6 @@
 import React from "react";
 import { S } from "./freelancerInfoStyle";
-import { IUser } from "src/Types";
+import { IUser } from "../../../Types";
 
 interface FreelancerResumeProps {
   user: IUser;
@@ -15,8 +15,12 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
       <S.ExperienceWarp>
         {user.resumeExperience && user.resumeExperience.length > 0 ? (
           user.resumeExperience.map((experience, index) => {
-            const startDate = new Date(experience.pastWorkDuration.pastWorkStartDate);
-            const endDate = new Date(experience.pastWorkDuration.pastWorkEndDate);
+            const startDate = new Date(
+              experience.pastWorkDuration.pastWorkStartDate
+            );
+            const endDate = new Date(
+              experience.pastWorkDuration.pastWorkEndDate
+            );
 
             return (
               <S.ExperienceBox key={`${experience.experienceId}-${index}`}>
@@ -25,7 +29,8 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
                 <span>{experience.pastEmploymentType}</span>
                 <span>{experience.pastWorkPosition}</span>
                 <span>
-                  {startDate.toISOString().split("T")[0]} ~ {endDate.toISOString().split("T")[0]}
+                  {startDate.toISOString().split("T")[0]} ~{" "}
+                  {endDate.toISOString().split("T")[0]}
                 </span>
               </S.ExperienceBox>
             );

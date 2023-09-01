@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { S } from "./manageFreelancersByStatusStyle";
 import Modal from "../../modal/Modal";
-import { IUser } from "src/Types";
+import { IUser } from "../../../Types";
 import PendingFreelancerInfoModal from "./PendingFreelancerInfoModal";
-import { useUserStore } from "src/zustand/useUserStore";
-import useClientsQueries from "src/hooks/useClientsQueries";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
+import { useUserStore } from "../../../zustand/useUserStore";
+import useClientsQueries from "../../../hooks/useClientsQueries";
+import useProjectsQueries from "../../../hooks/useProjectsQueries";
 
 const PendingFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

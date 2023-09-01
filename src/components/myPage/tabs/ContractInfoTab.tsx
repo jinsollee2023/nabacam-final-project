@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { useUserStore } from "src/zustand/useUserStore";
+import useProjectsQueries from "../../../hooks/useProjectsQueries";
+import { useUserStore } from "../../../zustand/useUserStore";
 import { styled } from "styled-components";
 import { Select } from "antd";
 
-import supabase from "src/config/supabaseClient";
-import { Project } from "src/Types";
-import { getProjects } from "src/api/Project";
+import supabase from "../../../config/supabaseClient";
+import { Project } from "../../../Types";
+import { getProjects } from "../../../api/Project";
 
 const ContractInfoTab = () => {
   // 프로젝트 진행중

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import PortfolioAddModal from "./PortfolioAddModal";
-import usePortfolioInfoQueries from "src/hooks/usePortfolioInfoQueries";
-import { useUserStore } from "src/zustand/useUserStore";
-import { usePortfolioStore } from "src/zustand/usePortfolioStore";
+import usePortfolioInfoQueries from "../../../../hooks/usePortfolioInfoQueries";
+import { useUserStore } from "../../../../zustand/useUserStore";
+import { usePortfolioStore } from "../../../../zustand/usePortfolioStore";
 import PortfolioDetailModal from "./PortfolioDetailModal";
 
 const PortfolioTab = () => {
@@ -17,7 +17,7 @@ const PortfolioTab = () => {
   return (
     <>
       {/* 썸네일만 */}
-      <S.PortfolioListContainer style={{ border: "solid black" }}>
+      <S.PortfolioListContainer>
         <S.PortfolioListWrapper>
           {portfolios &&
             portfolios.map((portfolio) => (

@@ -1,5 +1,6 @@
-import MenuTabBarComp from "src/components/common/MenuTabBarComp";
+import MenuTabBarComp from "../../../../components/common/MenuTabBarComp";
 import Account from "../../myProfile/Account";
+import React from "react";
 
 const ClientMyPageComp = () => {
   const menu = [

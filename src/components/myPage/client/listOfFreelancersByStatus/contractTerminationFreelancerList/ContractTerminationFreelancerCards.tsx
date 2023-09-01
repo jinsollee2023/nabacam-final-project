@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { S } from "../listOfFreelancersByStatusStyle";
-import { IUser, Project, User } from "src/Types";
+import { IUser, Project, User } from "../../../../../Types";
 import dayjs from "dayjs";
 import { BsTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { useUserStore } from "src/zustand/useUserStore";
-import { useProjectStore } from "src/zustand/useProjectStore";
-import Modal from "src/components/modal/Modal";
+import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import { useProjectStore } from "../../../../../zustand/useProjectStore";
+import Modal from "../../../../../components/modal/Modal";
 import ContractTerminationInfoModal from "./ContractTerminationInfoModal";
-import OneTouchModal from "src/components/home/freelancerMarket/freelancerList/oneTouchModal/OneTouchModal";
+import OneTouchModal from "../../../../../components/home/freelancerMarket/freelancerList/oneTouchModal/OneTouchModal";
 
 interface ContractTerminationFreelancerCardsProps {
   user: User;
@@ -21,8 +21,11 @@ const ContractTerminationFreelancerCards = ({
   project,
 }: ContractTerminationFreelancerCardsProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] =
+    useState(false);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
   const { userId } = useUserStore();
   const { selectedProject, setSelectedProject } = useProjectStore();
   const {
@@ -49,8 +52,12 @@ const ContractTerminationFreelancerCards = ({
   };
 
   const handleProjectSuggestingBtnClick = () => {
-    const suggestedFreelancers = suggestedFreelancersData?.SuggestedFreelancers || [];
-    const updatedSuggestedFreelancers = [...(suggestedFreelancers as string[]), user.userId];
+    const suggestedFreelancers =
+      suggestedFreelancersData?.SuggestedFreelancers || [];
+    const updatedSuggestedFreelancers = [
+      ...(suggestedFreelancers as string[]),
+      user.userId,
+    ];
     updateSuggestedFreelancersDataMutation.mutate({
       projectId: selectedProject?.projectId as string,
       updatedSuggestedFreelancers,
@@ -137,7 +144,10 @@ const ContractTerminationFreelancerCards = ({
                         </>
                       }
                     >
-                      <ContractTerminationInfoModal user={user} project={project} />
+                      <ContractTerminationInfoModal
+                        user={user}
+                        project={project}
+                      />
                     </Modal>
                   ) : null}
                   {isSuggestingAgainModalOpen &&
@@ -151,7 +161,10 @@ const ContractTerminationFreelancerCards = ({
                             onClick={handleProjectSuggestingBtnClick}
                             disabled={
                               !selectedProject?.title ||
-                              !(projectDataForSuggestions && projectDataForSuggestions.length > 0)
+                              !(
+                                projectDataForSuggestions &&
+                                projectDataForSuggestions.length > 0
+                              )
                             }
                           >
                             {selectedProject?.title} 제안하기
@@ -159,7 +172,10 @@ const ContractTerminationFreelancerCards = ({
                         </>
                       }
                     >
-                      <OneTouchModal user={user} projectLists={projectDataForSuggestions!} />
+                      <OneTouchModal
+                        user={user}
+                        projectLists={projectDataForSuggestions!}
+                      />
                     </Modal>
                   ) : null}
                 </>

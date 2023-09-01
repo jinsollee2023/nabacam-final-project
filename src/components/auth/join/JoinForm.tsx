@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Select } from "antd";
 import PreviewImage from "./PreviewImage";
-import { uploadUserImage } from "src/api/User";
+import { uploadUserImage } from "../../../api/User";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "src/zustand/useUserStore";
-import { clientSignupHandler } from "src/api/auth";
+import { useUserStore } from "../../../zustand/useUserStore";
+import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
 import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
@@ -30,6 +30,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const [values, setValues] = useState(initialValues);
   const [openClientJoin, setOpenClientJoin] = useState(true);
   const [errors, setErrors] = useState<any>({});
+  const [showPswd, setShowPswd] = useState<boolean>(false);
   const [workSelect, setWorkSelect] = useState("");
   const [modal, setModal] = useState(false);
   const { setUser } = useUserStore(); // 추가
@@ -69,6 +70,10 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const handlePhotoURLOnChange = (file: File) => {
     setPhotoFile(file);
   };
+  // 비밀번호 표시
+  const showPasswordHandler = () => {
+    setShowPswd(!showPswd);
+  };
 
   // 모달
 
@@ -89,35 +94,35 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 value={values.email}
                 onChange={handleChange}
               />
-              <div>{errors.email && <p>{errors.email}</p>}</div>
-              <br />
+              <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
+
               <h1>비밀번호</h1>
               <S.JoinInput
-                type="password"
+                type={showPswd ? "text" : "password"}
                 name="password"
                 placeholder="비밀번호"
                 value={values.password}
                 onChange={handleChange}
               />
-              <div>{errors.password && <p>{errors.password}</p>}</div>
-              <br />
+              <S.errordiv>
+                {errors.password && <p>{errors.password}</p>}
+              </S.errordiv>
 
               <h1>비밀번호 확인</h1>
 
               <S.JoinInput
-                type="password"
+                type={showPswd ? "text" : "password"}
                 name="passwordConfirmCurrent"
                 placeholder="비밀번호 확인"
                 value={values.passwordConfirmCurrent}
                 onChange={handleChange}
               />
 
-              <div>
+              <S.errordiv>
                 {errors.passwordConfirmCurrent && (
                   <p>{errors.passwordConfirmCurrent}</p>
                 )}
-              </div>
-              <br />
+              </S.errordiv>
 
               <h1>이름</h1>
 
@@ -202,16 +207,22 @@ const JoinForm = ({ role }: JoinFormProps) => {
               <div>{errors.phone && <p>{errors.phone}</p>}</div>
               <br />
 
-              <S.JoinButton>회원가입</S.JoinButton>
+              <S.JoinButton>
+                {role !== "freelancer"
+                  ? "클라이언트 회원가입"
+                  : "프리랜서 회원가입"}
+              </S.JoinButton>
             </div>
           </form>
         )}
+        <S.passwordView onClick={showPasswordHandler}>표시</S.passwordView>
+
         <br />
         <div>
-          <S.passwordButton onClick={openModalHandler}>
+          <S.passwordFindButton onClick={openModalHandler}>
             비밀번호찾기
-          </S.passwordButton>
-          {modal && <EmailCheck />}
+          </S.passwordFindButton>
+          {modal && <EmailCheck openModal={openModalHandler} />}
         </div>
       </S.JoinForm>
     </>
@@ -229,6 +240,7 @@ const S = {
   `,
   JoinInput: styled.input`
     border: 1px solid black;
+    left: 10%;
     width: 416px;
     height: 43px;
     border-radius: 10px;
@@ -241,12 +253,26 @@ const S = {
     background-color: white;
     cursor: pointer;
   `,
-  passwordButton: styled.button`
+  passwordFindButton: styled.button`
     width: 417px;
     height: 43px;
     border-radius: 10px;
     border: none;
     cursor: pointer;
     background-color: white;
+  `,
+  passwordView: styled.button`
+    position: fixed;
+    top: 19.5%;
+    left: 57%;
+    width: 2%;
+    height: 5%;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+  `,
+  errordiv: styled.div`
+    height: 20px;
   `,
 };

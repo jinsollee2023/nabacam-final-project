@@ -11,6 +11,7 @@ import AppliedProjectList from "../home/appliedProjectList/AppliedProjectList";
 import SuggestedProjectList from "../home/suggestedProjectList/SuggestedProjectList";
 import OngoingFreelancerList from "../myPage/client/listOfFreelancersByStatus/ongoingFreelancerList/OngoingFreelancerList";
 import ContractTerminationFreelancers from "../myPage/client/listOfFreelancersByStatus/ContractTerminationFreelancers";
+import React from "react";
 
 interface MenuTabBarCompProps {
   menu: string[];

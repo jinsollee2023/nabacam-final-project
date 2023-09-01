@@ -9,8 +9,9 @@ import Register from "../pages/Register";
 import Review from "../pages/Review";
 import ProjectManagement from "../pages/ProjectManagement";
 import { PrivateRoute } from "../components/auth/login/PrivateRoute";
-import LoginComp from "src/components/auth/login/LoginComp";
-import ResetPassword from "src/components/auth/resetpassword/ResetPassword";
+import LoginComp from "../components/auth/login/LoginComp";
+import ResetPassword from "../components/auth/resetpassword/ResetPassword";
+import React from "react";
 
 const Router = () => {
   return (

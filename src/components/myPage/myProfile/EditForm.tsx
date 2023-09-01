@@ -1,8 +1,8 @@
 import { Select } from "antd";
 import React, { useEffect, useState } from "react";
-import { User } from "src/Types";
-import PreviewImage from "src/components/auth/join/PreviewImage";
-import { useProfileInfoStore } from "src/zustand/useProfileInfoStore";
+import { User } from "../../../Types";
+import PreviewImage from "../../../components/auth/join/PreviewImage";
+import { useProfileInfoStore } from "../../../zustand/useProfileInfoStore";
 
 interface EditFormProps {
   user: User;
