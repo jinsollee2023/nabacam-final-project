@@ -3,11 +3,15 @@ import Layout from "../components/common/Layout";
 import GlobalStyles from "../GlobalStyles";
 import Home from "../pages/Home";
 import Chat from "../pages/Chat";
-import Login from "../pages/Login";
+
 import MyPage from "../pages/MyPage";
-import ProjectList from "../pages/ProjectList";
 import Register from "../pages/Register";
 import Review from "../pages/Review";
+import ProjectManagement from "../pages/ProjectManagement";
+import { PrivateRoute } from "../components/auth/login/PrivateRoute";
+import LoginComp from "../components/auth/login/LoginComp";
+import ResetPassword from "../components/auth/resetpassword/ResetPassword";
+import React from "react";
 
 const Router = () => {
   return (
@@ -15,13 +19,16 @@ const Router = () => {
       <GlobalStyles />
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/my-page" element={<MyPage />} />
-          <Route path="/project-list" element={<ProjectList />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/chat" element={<Chat />} />
+            <Route path="/my-page" element={<MyPage />} />
+            <Route path="/project-management" element={<ProjectManagement />} />
+            <Route path="/review" element={<Review />} />
+          </Route>
           <Route path="/register" element={<Register />} />
-          <Route path="/review" element={<Review />} />
+          <Route path="/login" element={<LoginComp />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
         </Routes>
       </Layout>
     </BrowserRouter>

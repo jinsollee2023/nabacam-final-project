@@ -4,6 +4,14 @@ import reset from "styled-reset";
 const GlobalStyles = createGlobalStyle`
   ${reset}
 
+  :root {
+    --main-blue: #0086d0;
+    --hover-blue: #cce7f7;
+    --darker-gray: #787878;
+    --middle-gray: #595959;
+    --lighter-gray: #D6D6D6;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -12,15 +20,21 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  body {
-    /* background-color: #040714;
-    color: #f9f9f9;
+  @font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 
-    font-family: Avenir-Roman, sans-serif;
-    margin: 0;
-    padding: 0; */
+  body {
+    font-family: 'Pretendard-Regular', sans-serif;
   }
-/* 
+  button, .button {
+    cursor: pointer;
+  }
+
+  /* 
   a,
   a:visited
   {
