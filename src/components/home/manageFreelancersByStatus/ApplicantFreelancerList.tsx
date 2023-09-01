@@ -21,19 +21,28 @@ const ApplicantFreelancerList = () => {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
-    null
-  );
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
 
   const updateFreelancer = (
     userId: string,
     projectId: string,
     endDate: string,
-    projectIds: string[]
+    projectIds: string[],
+    volunteer: string[],
+    pendingFreelancer: string[]
   ) => {
     const customProjectIds = projectIds.concat(projectId);
-    updateFreelancerApprovalMutation.mutate({ userId, projectId, endDate });
-    deleteVolunteerAndPendingFreelancerMutation.mutate(projectId);
+    const customVolunteers = volunteer.filter((v) => v !== userId);
+    updateFreelancerApprovalMutation.mutate({
+      userId,
+      projectId,
+      endDate,
+    });
+    deleteVolunteerAndPendingFreelancerMutation.mutate({
+      projectId,
+      updateVolunteer: customVolunteers,
+      updatePendingFreelancer: pendingFreelancer,
+    });
     addProjectIdToUserMutation.mutate({ userId, projectIds: customProjectIds });
     alert("승인이 완료되었습니다.");
     setIsModalOpen(false);
@@ -45,9 +54,7 @@ const ApplicantFreelancerList = () => {
     pendingFreelancer: string[],
     freelancerId: string
   ) => {
-    const updateVolunteerData = volunteer.filter(
-      (user) => user !== freelancerId
-    );
+    const updateVolunteerData = volunteer.filter((user) => user !== freelancerId);
     const updatePendingFreelancerData = pendingFreelancer.concat(freelancerId);
     updatePendingFreelancerMutation.mutate({
       projectId,
@@ -73,20 +80,17 @@ const ApplicantFreelancerList = () => {
             project.volunteerUser?.map((freelancer) => (
               <S.List key={`${freelancer.userId}-${project.projectId}`}>
                 <S.ListContents>
+                  {project.freelancerId ? <div>모집완료</div> : <div>모집중</div>}
                   <S.FreelancerName>{freelancer.name}</S.FreelancerName>
                   <span>{freelancer.workField?.workField}</span>
                   <S.WorkFieldAndWorkExp>
                     {freelancer.workField?.workSmallField}
                   </S.WorkFieldAndWorkExp>
-                  <S.WorkFieldAndWorkExp>
-                    {freelancer.workExp}년차
-                  </S.WorkFieldAndWorkExp>
+                  <S.WorkFieldAndWorkExp>{freelancer.workExp}년차</S.WorkFieldAndWorkExp>
                 </S.ListContents>
                 <S.ProjectContents>
                   <div key={project.projectId}>
-                    <S.ProjectTitle>
-                      {project.title} 프로젝트에 지원
-                    </S.ProjectTitle>
+                    <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
                   </div>
 
                   <S.CheckingBtn
@@ -110,7 +114,9 @@ const ApplicantFreelancerList = () => {
                                   freelancer.userId,
                                   project.projectId ?? "",
                                   project.date?.endDate as string,
-                                  freelancer.projectId || []
+                                  freelancer.projectId || [],
+                                  project.volunteer || [],
+                                  project.pendingFreelancer || []
                                 )
                               }
                             >
@@ -131,10 +137,7 @@ const ApplicantFreelancerList = () => {
                           </>
                         }
                       >
-                        <ApplicantFreelancerInfoModal
-                          user={freelancer}
-                          project={project}
-                        />
+                        <ApplicantFreelancerInfoModal user={freelancer} project={project} />
                       </Modal>
                     )}
                 </S.ProjectContents>
