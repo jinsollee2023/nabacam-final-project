@@ -29,7 +29,7 @@ const TaskCard = ({ task, userRole }: TaskCardProps) => {
       <TaskDeadLine task={task as Task} userRole={userRole} />
       <TaskImportance task={task as Task} userRole={userRole} />
       <div>
-        {userRole === " freelancer" ? (
+        {userRole === "freelancer" ? (
           <S.TaskDeleteButton onClick={deleteTaskButtonHandler}>
             <BsTrash3Fill />
           </S.TaskDeleteButton>

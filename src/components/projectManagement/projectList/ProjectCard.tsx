@@ -1,6 +1,6 @@
 import { Project } from "../../../Types";
 import S from "./ProjectListStyles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../../components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
@@ -22,6 +22,8 @@ const ProjectCard = ({ project }: projectCardProps) => {
   const [isUpadateModalOpen, setIsUpadateModalOpen] = useState(false);
   const { newProject } = useProjectStore();
   const { values, changeValues } = useProjectValuesStore();
+  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] =
+    useState(false);
   const {
     checkValidation,
     isTitleValid,
@@ -31,44 +33,34 @@ const ProjectCard = ({ project }: projectCardProps) => {
     isExpectedStartDateValid,
     isManagerValid,
     isMaxPayValid,
+    allValid,
   } = useProjectValid();
-
-  // const isAllValid =
-  //   isTitleValid &&
-  //   isDescValid &&
-  //   isDescValid &&
-  //   isCategoryValid &&
-  //   isQualificationValid &&
-  //   isExpectedStartDateValid &&
-  //   isManagerValid &&
-  //   isMaxPayValid;
 
   const deleteProjectButtonHandler = () => {
     deleteProjectMutation.mutate(project.projectId!);
   };
 
-  const updateProjectButtonHandler = () => {
-    checkValidation(values);
-    if (
-      isTitleValid &&
-      isDescValid &&
-      isDescValid &&
-      isCategoryValid &&
-      isQualificationValid &&
-      isExpectedStartDateValid &&
-      isManagerValid &&
-      isMaxPayValid
-    ) {
+  useEffect(() => {
+    if (allValid && updateSubmitButtonClicked) {
       updateProjectMutation.mutate({
         projectId: project.projectId as string,
         newProject,
       });
+      setUpdateSubmitButtonClicked(false);
       setIsUpadateModalOpen(false);
+    } else if (!allValid) {
+      setUpdateSubmitButtonClicked(false);
     }
+  }, [allValid, updateSubmitButtonClicked]);
+
+  const updateProjectButtonHandler = () => {
+    checkValidation(values);
+    allValid && setUpdateSubmitButtonClicked(true);
   };
 
   const updateProjectModalOpenHandler = () => {
     setIsUpadateModalOpen(true);
+    setUpdateSubmitButtonClicked(false);
     changeValues({
       title: project.title,
       desc: project.desc,
