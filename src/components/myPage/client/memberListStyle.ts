@@ -4,11 +4,12 @@ export const S = {
   AddMemberBtn: styled.button`
     cursor: pointer;
     width: 120px;
-    height: 35px;
+    height: 30px;
     float: right;
     border-radius: 4px;
     border: 1.5px solid #0086d0;
     background-color: transparent;
+    margin: 10px;
   `,
   MemberListContainer: styled.div`
     width: 100%;
@@ -16,9 +17,11 @@ export const S = {
     overflow: auto;
   `,
   MemberList: styled.div`
+    height: 70px;
+    padding: 10px;
     border-radius: 4px;
     border: 1.5px solid #d6d6d6;
-    margin-top: 20px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
   `,
@@ -29,15 +32,15 @@ export const S = {
     align-items: center;
   `,
   MemberName: styled.span`
-    font-size: 18px;
-    margin-left: 20px;
+    font-size: 16px;
+    margin-left: 10px;
   `,
   MemberTeam: styled.span`
     color: #595959;
-    font-size: 16px;
+    font-size: 14px;
   `,
   MemberContactBox: styled.div`
-    gap: 5px;
+    gap: 2px;
     display: flex;
     flex-direction: column;
   `,
@@ -50,7 +53,6 @@ export const S = {
     font-size: 12px;
     display: flex;
     flex-direction: row;
-    margin-bottom: 10px;
   `,
   MemberContact: styled.span`
     width: 10rem;
@@ -69,7 +71,6 @@ export const S = {
     border: none;
     color: #595959;
     cursor: pointer;
-    margin: 5px 0;
     text-decoration: underline;
     background-color: transparent;
   `,

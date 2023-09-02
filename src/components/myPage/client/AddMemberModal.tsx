@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Member } from "src/Types";
-import { styled } from "styled-components";
 import { S } from "./addMemberModalStyle";
 
 interface AddMemberModalProps {

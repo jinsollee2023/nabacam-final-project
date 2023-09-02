@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 
 export const S = {
   Title: styled.span`
-    font-size: 22px;
+    font-size: 16px;
     font-weight: bold;
   `,
   ListContainer: styled.div`
@@ -13,7 +13,7 @@ export const S = {
     margin-top: 30px;
     padding: 0 20px;
     width: 100%;
-    height: 80px;
+    height: 70px;
     display: flex;
     margin-bottom: 25px;
     border-radius: 8px;
@@ -29,8 +29,31 @@ export const S = {
     align-items: center;
     text-align: center;
   `,
+  Recruiting: styled.span`
+    width: 62px;
+    padding: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+    color: #0086d0;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    background-color: aliceblue;
+  `,
+  RecruitmentCompleted: styled.span`
+    width: 62px;
+    padding: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+    color: var(--darker-gray);
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #f6f6f6;
+  `,
+
   FreelancerName: styled.span`
-    font-size: 20px;
+    font-size: 16px;
   `,
   WorkFieldAndWorkExp: styled.span`
     color: #595959;
@@ -41,16 +64,17 @@ export const S = {
     align-items: center;
   `,
   ProjectTitle: styled.span`
+    font-size: 14px;
     white-space: nowrap;
     color: #595959;
   `,
   CheckingBtn: styled.button`
-    width: 150px;
-    height: 40px;
+    width: 100px;
+    height: 35px;
     border: none;
-    border-radius: 15px;
+    border-radius: 10px;
     background-color: #0086d0;
-    font-size: 18px;
+    font-size: 14px;
     color: white;
     cursor: pointer;
   `,
