@@ -11,14 +11,26 @@ import React from "react";
 
 const TaskList = () => {
   const { userId, userRole } = useUserStore();
-  const { projects } = useProjectsQueries({ currentUserId: userId });
+  const { projectsOfClient, projectsOfFreelancer } = useProjectsQueries({
+    currentUserId: userId,
+  });
   const [projectId, setProjectId] = useState("");
 
   useEffect(() => {
-    if (projects && projects.length > 0) {
-      setProjectId(projects[0].projectId!);
+    if (
+      userRole === "client" &&
+      projectsOfClient &&
+      projectsOfClient.length > 0
+    ) {
+      setProjectId(projectsOfClient[0].projectId!);
+    } else if (
+      userRole === "freelancer" &&
+      projectsOfFreelancer &&
+      projectsOfFreelancer.length > 0
+    ) {
+      setProjectId(projectsOfFreelancer[0].projectId!);
     }
-  }, [projects]);
+  }, [projectsOfClient, projectsOfFreelancer]);
 
   const { tasks, addTaskMutation } = useTasksQueries(projectId);
 
@@ -44,7 +56,15 @@ const TaskList = () => {
       <S.SelectAddButtonContainer>
         <Select
           showSearch
-          disabled={projects && projects?.length > 0 ? false : true}
+          disabled={
+            userRole === "client"
+              ? projectsOfClient && projectsOfClient?.length > 0
+                ? false
+                : true
+              : projectsOfFreelancer && projectsOfFreelancer?.length > 0
+              ? false
+              : true
+          }
           placeholder="Select a project"
           optionFilterProp="children"
           onChange={onChange}
@@ -53,13 +73,21 @@ const TaskList = () => {
             (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
           }
           options={
-            projects &&
-            projects.map((project) => {
-              return {
-                value: project.projectId,
-                label: project.title,
-              };
-            })
+            userRole === "client"
+              ? projectsOfClient &&
+                projectsOfClient.map((project) => {
+                  return {
+                    value: project.projectId,
+                    label: project.title,
+                  };
+                })
+              : projectsOfFreelancer &&
+                projectsOfFreelancer.map((project) => {
+                  return {
+                    value: project.projectId,
+                    label: project.title,
+                  };
+                })
           }
           style={{ width: "200px" }}
         />
@@ -102,7 +130,8 @@ const TaskList = () => {
             }
           )}
         </div>
-      ) : projects && projects.length > 0 ? (
+      ) : (projectsOfClient && projectsOfClient.length > 0) ||
+        (projectsOfFreelancer && projectsOfFreelancer.length > 0) ? (
         <div>진행중인 업무가 없습니다.</div>
       ) : (
         <div>진행중인 프로젝트가 없습니다.</div>
