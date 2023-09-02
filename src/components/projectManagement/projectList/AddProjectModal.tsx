@@ -8,6 +8,7 @@ import useClientsQueries from "../../../hooks/useClientsQueries";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
+import useProjectValid from "src/hooks/useProjectValid";
 
 interface AddProjectModal {
   isTitleValid?: boolean | null;
@@ -110,6 +111,27 @@ const AddProjectModal = ({
         });
   }, [payInputOff]);
 
+  // const {
+  //   setIsTitleValid,
+  //   setIsDescValid,
+  //   setIsCategoryValid,
+  //   setIsQualificationValid,
+  //   setIsExpectedStartDateValid,
+  //   setIsManagerValid,
+  //   setIsMaxPayValid,
+  //   allValid,
+  // } = useProjectValid();
+
+  // console.log(
+  //   values.title,
+  //   isTitleValid,
+  //   isDescValid,
+  //   isCategoryValid,
+  //   isQualificationValid,
+  //   isDeadLineValid,
+  //   isManagerValid,
+  //   isMaxPayValid
+  // );
   return (
     <div>
       <S.ModalTitle>어떤 프로젝트를 게시하시나요?</S.ModalTitle>
@@ -121,11 +143,8 @@ const AddProjectModal = ({
           id="title"
           value={values.title}
           onChange={(e) => handleChange("title", e.target.value)}
-          borderColor={
-            isTitleValid === true || isTitleValid === null
-              ? "var(--main-blue)"
-              : "red"
-          }
+          className={isTitleValid === false ? "shake" : ""}
+          borderColor={isTitleValid === false ? "red" : "var(--main-blue)"}
         />
         <S.ModalContentsLabel htmlFor="desc">
           프로젝트 설명
@@ -134,11 +153,7 @@ const AddProjectModal = ({
           id="desc"
           value={values.desc}
           onChange={(e) => handleChange("desc", e.target.value)}
-          borderColor={
-            isDescValid === true || isDescValid === null
-              ? "var(--main-blue)"
-              : "red"
-          }
+          borderColor={isDescValid === false ? "red" : "var(--main-blue)"}
         />
         <S.ModalContentsLabel htmlFor="qualification">
           모집조건
@@ -180,10 +195,9 @@ const AddProjectModal = ({
               value={values.qualification as number}
               onChange={(e) => handleChange("qualification", e.target.value)}
               borderColor={
-                isQualificationValid === true || isQualificationValid === null
-                  ? "var(--main-blue)"
-                  : "red"
+                isQualificationValid === false ? "red" : "var(--main-blue)"
               }
+              className={isQualificationValid === false ? "shake" : ""}
               style={{
                 width: "97%",
                 height: "35px",
@@ -309,11 +323,8 @@ const AddProjectModal = ({
                   payInputOff ? "상의 후 결정" : e.target.value
                 )
               }
-              borderColor={
-                isMaxPayValid === true || isMaxPayValid === null
-                  ? "var(--main-blue)"
-                  : "red"
-              }
+              borderColor={isMaxPayValid === false ? "red" : "var(--main-blue)"}
+              className={isMaxPayValid === false ? "shake" : ""}
             />
             <p>만원</p>
           </S.ModalMinMaxPayBox>
@@ -330,11 +341,8 @@ const AddProjectModal = ({
                   payInputOff ? "상의 후 결정" : e.target.value
                 )
               }
-              borderColor={
-                isMaxPayValid === true || isMaxPayValid === null
-                  ? "var(--main-blue)"
-                  : "red"
-              }
+              borderColor={isMaxPayValid === false ? "red" : "var(--main-blue)"}
+              className={isMaxPayValid === false ? "shake" : ""}
             />
             <p>만원</p>
           </S.ModalMinMaxPayBox>

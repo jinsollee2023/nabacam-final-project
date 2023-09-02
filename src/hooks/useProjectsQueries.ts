@@ -20,6 +20,7 @@ import {
 import { IProjectWithFreelancer, Project } from "../Types";
 import { addProjectIdToUser, getUser } from "../api/User";
 import { updatePendingFreelancer } from "../api/Project";
+import { Dispatch, SetStateAction } from "react";
 
 interface useProjectsQueriesProps {
   currentUserId: string;

@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled, keyframes } from "styled-components";
 
 interface ProjectCardBoxProps {
   justifyContent?: string;
@@ -139,6 +139,10 @@ const S = {
     margin-bottom: 10px;
     border: 1px solid ${(props) => props.borderColor};
     border-radius: 4px;
+
+    &:focus {
+      outline: none;
+    }
   `,
   ModalDescTextarea: styled.textarea<ModalDescTextareaProps>`
     height: 100px;
@@ -146,6 +150,10 @@ const S = {
     margin-bottom: 25px;
     border: 1px solid ${(props) => props.borderColor};
     border-radius: 4px;
+
+    &:focus {
+      outline: none;
+    }
   `,
   ModalPayInfoBox: styled.div`
     display: flex;

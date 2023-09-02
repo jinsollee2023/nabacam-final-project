@@ -22,6 +22,8 @@ const ProjectCard = ({ project }: projectCardProps) => {
   const [isUpadateModalOpen, setIsUpadateModalOpen] = useState(false);
   const { newProject } = useProjectStore();
   const { values, changeValues } = useProjectValuesStore();
+  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] =
+    useState(false);
   const {
     checkValidation,
     isTitleValid,
@@ -39,21 +41,26 @@ const ProjectCard = ({ project }: projectCardProps) => {
   };
 
   useEffect(() => {
-    if (allValid) {
+    if (allValid && updateSubmitButtonClicked) {
       updateProjectMutation.mutate({
         projectId: project.projectId as string,
         newProject,
       });
+      setUpdateSubmitButtonClicked(false);
       setIsUpadateModalOpen(false);
+    } else if (!allValid) {
+      setUpdateSubmitButtonClicked(false);
     }
-  }, [allValid]);
+  }, [allValid, updateSubmitButtonClicked]);
 
   const updateProjectButtonHandler = () => {
     checkValidation(values);
+    allValid && setUpdateSubmitButtonClicked(true);
   };
 
   const updateProjectModalOpenHandler = () => {
     setIsUpadateModalOpen(true);
+    setUpdateSubmitButtonClicked(false);
     changeValues({
       title: project.title,
       desc: project.desc,
