@@ -16,10 +16,8 @@ export const S = {
     height: 100%;
     margin-bottom: 0;
     display: block;
-    background-color: aliceblue;
   `,
   ContainerInner: styled.div`
-    /* background-color: beige; */
     height: 50vh;
     overflow-y: auto;
 

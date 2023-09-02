@@ -21,14 +21,14 @@ const ProjectList = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedselectOption, setSelectedselectOption] = useState("전체보기");
   const [selectedSortLabel, setSelectedSortLabel] = useState("전체보기");
-  const { projects, addProjectMutation } = useProjectsQueries({
+  const { projectsOfClient, addProjectMutation } = useProjectsQueries({
     currentUserId: userId,
     sortLabel: selectedSortLabel,
   });
   const { newProject } = useProjectStore();
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
-    projects!
+    projectsOfClient!
   );
   const { values, changeValues } = useProjectValuesStore();
   const {
@@ -47,17 +47,25 @@ const ProjectList = () => {
     setIsExpectedStartDateValid,
     setIsManagerValid,
     setIsMaxPayValid,
+    allValid,
   } = useProjectValid();
 
   useEffect(() => {
-    if (projects) {
-      const filteredprojectList = projects?.filter((project) => {
+    if (projectsOfClient) {
+      const filteredprojectList = projectsOfClient?.filter((project) => {
         const lowerCaseSearch = String(searchKeyword).toLowerCase();
         return project?.title?.toLowerCase().includes(lowerCaseSearch);
       });
       setFilteredProjects(filteredprojectList);
     }
-  }, [projects, searchKeyword]);
+  }, [projectsOfClient, searchKeyword]);
+
+  useEffect(() => {
+    if (allValid) {
+      addProjectMutation.mutate(newProject);
+      setIsAddModalOpen(false);
+    }
+  }, [allValid]);
 
   useEffect(() => {
     queryClient.invalidateQueries(["projectList", selectedSortLabel]);
@@ -72,11 +80,11 @@ const ProjectList = () => {
   };
 
   const addProjectButtonHandler = () => {
-    const isValidationPassed = checkValidation(values);
-    if (isValidationPassed) {
-      addProjectMutation.mutate(newProject);
-      setIsAddModalOpen(false);
-    }
+    checkValidation(values);
+    // if (isValidationPassed) {
+    //   addProjectMutation.mutate(newProject);
+    //   setIsAddModalOpen(false);
+    // }
   };
 
   const beforeProgressProjects = filteredProjects?.filter(
@@ -152,7 +160,7 @@ const ProjectList = () => {
         </S.SearchSortBtn>
       </S.SearchSortBtnBox>
       <S.ProjectContainer>
-        {projects && renderProjects(projectsToRender)}
+        {projectsOfClient && renderProjects(projectsToRender)}
       </S.ProjectContainer>
       <S.ProjectCardBox
         onClick={addProjectModalOpenHandler}

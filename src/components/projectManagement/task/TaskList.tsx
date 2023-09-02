@@ -11,19 +11,27 @@ import React from "react";
 
 const TaskList = () => {
   const { userId, userRole } = useUserStore();
-  // const { user } = useUserStore();
-  // const userId = user.userId;
-  // const userRole = user.role;
-  const { projects } = useProjectsQueries({ currentUserId: userId }); // 초기값: 참여중인 첫번째 프로젝트
+  const { projectsOfClient, projectsOfFreelancer } = useProjectsQueries({
+    currentUserId: userId,
+  });
   const [projectId, setProjectId] = useState("");
-  console.log(projects);
   console.log("projectId", projectId);
 
   useEffect(() => {
-    if (projects && projects.length > 0) {
-      setProjectId(projects[0].projectId!);
+    if (
+      userRole === "client" &&
+      projectsOfClient &&
+      projectsOfClient.length > 0
+    ) {
+      setProjectId(projectsOfClient[0].projectId!);
+    } else if (
+      userRole === "freelancer" &&
+      projectsOfFreelancer &&
+      projectsOfFreelancer.length > 0
+    ) {
+      setProjectId(projectsOfFreelancer[0].projectId!);
     }
-  }, [projects]);
+  }, [projectsOfClient, projectsOfFreelancer]);
 
   console.log("projectId2", projectId); // 기업일 경우에만 들어옴
 
@@ -55,7 +63,15 @@ const TaskList = () => {
       <S.SelectAddButtonContainer>
         <Select
           showSearch
-          disabled={projects && projects?.length > 0 ? false : true}
+          disabled={
+            userRole === "client"
+              ? projectsOfClient && projectsOfClient?.length > 0
+                ? false
+                : true
+              : projectsOfFreelancer && projectsOfFreelancer?.length > 0
+              ? false
+              : true
+          }
           placeholder="Select a project"
           optionFilterProp="children" // 옵션 검색에 사용될 속성을 설정
           onChange={onChange}
@@ -64,14 +80,21 @@ const TaskList = () => {
             (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
           }
           options={
-            // 프로젝트 목록을 반복하여 드롭다운의 옵션으로 생성
-            projects &&
-            projects.map((project) => {
-              return {
-                value: project.projectId,
-                label: project.title,
-              };
-            })
+            userRole === "client"
+              ? projectsOfClient &&
+                projectsOfClient.map((project) => {
+                  return {
+                    value: project.projectId,
+                    label: project.title,
+                  };
+                })
+              : projectsOfFreelancer &&
+                projectsOfFreelancer.map((project) => {
+                  return {
+                    value: project.projectId,
+                    label: project.title,
+                  };
+                })
           }
           style={{ width: "200px" }}
         />
@@ -117,7 +140,8 @@ const TaskList = () => {
             }
           )}
         </div>
-      ) : projects && projects.length > 0 ? (
+      ) : (projectsOfClient && projectsOfClient.length > 0) ||
+        (projectsOfFreelancer && projectsOfFreelancer.length > 0) ? (
         <div>진행중인 업무가 없습니다.</div>
       ) : (
         <div>진행중인 프로젝트가 없습니다.</div>
