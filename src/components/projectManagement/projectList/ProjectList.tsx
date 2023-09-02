@@ -50,6 +50,8 @@ const ProjectList = () => {
     allValid,
   } = useProjectValid();
 
+  console.log(projectsOfClient);
+
   useEffect(() => {
     if (projectsOfClient) {
       const filteredprojectList = projectsOfClient?.filter((project) => {
