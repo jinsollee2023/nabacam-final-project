@@ -17,7 +17,6 @@ const TaskList = () => {
     currentUserId: userId,
   });
   const [projectId, setProjectId] = useState("");
-  console.log("projectId", projectId);
 
   useEffect(() => {
     if (
@@ -59,43 +58,57 @@ const TaskList = () => {
   // 각 월에 대한 업무목록을 정렬 = TaskCard
   return (
     <>
-      <Select
-        showSearch
-        disabled={
-          userRole === "client"
-            ? projectsOfClient && projectsOfClient?.length > 0
-              ? false
-              : true
-            : projectsOfFreelancer && projectsOfFreelancer?.length > 0
-            ? false
-            : true
-        }
-        placeholder="Select a project"
-        optionFilterProp="children" // 옵션 검색에 사용될 속성을 설정
-        onChange={onChange}
-        value={projectId}
-        filterOption={(input, option) =>
-          (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-        }
-        options={
-          userRole === "client"
-            ? projectsOfClient &&
-              projectsOfClient.map((project) => {
-                return {
-                  value: project.projectId,
-                  label: project.title,
-                };
-              })
-            : projectsOfFreelancer &&
-              projectsOfFreelancer.map((project) => {
-                return {
-                  value: project.projectId,
-                  label: project.title,
-                };
-              })
-        }
-        style={{ width: "50%" }}
-      />
+      <S.SelectAddButtonContainer>
+        <div>
+          <Select
+            showSearch
+            disabled={
+              userRole === "client"
+                ? projectsOfClient && projectsOfClient?.length > 0
+                  ? false
+                  : true
+                : projectsOfFreelancer && projectsOfFreelancer?.length > 0
+                ? false
+                : true
+            }
+            placeholder="Select a project"
+            optionFilterProp="children" // 옵션 검색에 사용될 속성을 설정
+            onChange={onChange}
+            value={projectId}
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            options={
+              userRole === "client"
+                ? projectsOfClient &&
+                  projectsOfClient.map((project) => {
+                    return {
+                      value: project.projectId,
+                      label: project.title,
+                    };
+                  })
+                : projectsOfFreelancer &&
+                  projectsOfFreelancer.map((project) => {
+                    return {
+                      value: project.projectId,
+                      label: project.title,
+                    };
+                  })
+            }
+            style={{
+              width: "300px",
+            }}
+          />
+        </div>
+        {userRole === "freelancer" ? (
+          <S.TaskAddButton onClick={addTaskButtonHandler}>
+            <S.TaskAddSpan>
+              <RiAddBoxLine size="17" color="white" />
+              &nbsp;타임라인 추가하기
+            </S.TaskAddSpan>
+          </S.TaskAddButton>
+        ) : null}
+      </S.SelectAddButtonContainer>
 
       {tasks && tasks.length > 0 ? (
         <div>
@@ -117,7 +130,6 @@ const TaskList = () => {
                     <S.ColumnLabel width={240}>마감 기한</S.ColumnLabel>
                     <S.ColumnLabel width={200}>중요도</S.ColumnLabel>
                   </S.ColumnLabelWrapper>
-                  {/* Task 카드 랜더링 부분 */}
                   <div>
                     {sortByMonthTasks.map((task: Task) => (
                       <TaskCard
@@ -138,15 +150,6 @@ const TaskList = () => {
       ) : (
         <div>진행중인 프로젝트가 없습니다.</div>
       )}
-
-      {userRole === "freelancer" ? (
-        <CommonS.CommonBtn onClick={addTaskButtonHandler}>
-          <CommonS.CommonSpan>
-            <RiAddBoxLine size="23" color="white" />
-            &nbsp;타임라인 추가하기
-          </CommonS.CommonSpan>
-        </CommonS.CommonBtn>
-      ) : null}
     </>
   );
 };

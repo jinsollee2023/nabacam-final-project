@@ -32,6 +32,24 @@ const TaskStatus = ({ task, userRole }: TaskStatusProps) => {
     });
     setStatusOptionOn(false);
   };
+
+  const getStatusBackgroundColor = (status: string): string => {
+    switch (status) {
+      case "Before working":
+        return "#FD3F78";
+      case "Working on it":
+        return "#FDAB3F";
+      case "Check":
+        return "#4252E3";
+      case "Done":
+        return "#16C671";
+      case "Stuck":
+        return "#E3425F";
+      default:
+        return "#d3d3d3";
+    }
+  };
+
   return (
     <>
       <div>
@@ -41,9 +59,13 @@ const TaskStatus = ({ task, userRole }: TaskStatusProps) => {
 
         {statusOptionOn
           ? statusOptionArray.map((status) => {
+              const backgroundColor = getStatusBackgroundColor(status);
+
               return (
                 <S.TaskDetailBox
+                  key={status} /**key 추가했습니다 */
                   width={150}
+                  backgroundColor={backgroundColor}
                   onClick={() => statusOptionOnClickHandler(status)}
                 >
                   {status}

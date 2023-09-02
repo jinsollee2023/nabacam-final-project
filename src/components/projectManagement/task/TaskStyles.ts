@@ -1,3 +1,4 @@
+import { CommonS } from "src/components/common/button/commonButton";
 import { styled } from "styled-components";
 
 interface TaskDetailBoxProps {
@@ -15,6 +16,7 @@ const S = {
     display: flex;
   `,
   TaskDetailBox: styled.div<TaskDetailBoxProps>`
+    cursor: pointer;
     background-color: ${(props) =>
       props.backgroundColor ? props.backgroundColor : "#d3d3d3"};
     width: ${(props) => props.width}px;
@@ -36,10 +38,14 @@ const S = {
     display: flex;
     justify-content: space-between;
   `,
-  TaskAddButton: styled.button`
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+  TaskAddButton: styled(CommonS.CommonBtn)`
+    width: 200px;
+    height: 30px;
+    margin-top: 0px;
+    padding: 5px;
+  `,
+  TaskAddSpan: styled(CommonS.CommonSpan)`
+    font-size: 13px;
   `,
   ColumnLabelWrapper: styled.div`
     display: flex;
