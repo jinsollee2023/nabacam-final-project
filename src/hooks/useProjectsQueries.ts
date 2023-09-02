@@ -15,6 +15,7 @@ import {
   deleteVolunteerAndPendingFreelancer,
   deletePendingFreelancer,
   getTerminationedProjectsWithFreelancer,
+  getProjectsOfFreelancer,
 } from "../api/Project";
 import { IProjectWithFreelancer, Project } from "../Types";
 import { addProjectIdToUser, getUser } from "../api/User";
@@ -33,7 +34,7 @@ const useProjectsQueries = ({
   freelancerId,
   selectedProject,
 }: useProjectsQueriesProps) => {
-  const { data: projects } = useQuery(
+  const { data: projectsOfClient } = useQuery(
     ["projects", sortLabel],
     async () => {
       const projectsData = await getProjectOfClientBySort(
@@ -41,6 +42,19 @@ const useProjectsQueries = ({
         sortLabel as string
       );
 
+      return projectsData;
+    },
+    {
+      enabled: !!currentUserId,
+    }
+  );
+
+  const { data: projectsOfFreelancer } = useQuery(
+    ["projects"],
+    async () => {
+      const projectsData = await getProjectsOfFreelancer(
+        currentUserId as string
+      );
       return projectsData;
     },
     {
@@ -320,7 +334,12 @@ const useProjectsQueries = ({
       projectId: string;
       updateVolunteer: string[];
       updatePendingFreelancer: string[];
-    }) => deleteVolunteerAndPendingFreelancer(projectId, updateVolunteer, updatePendingFreelancer),
+    }) =>
+      deleteVolunteerAndPendingFreelancer(
+        projectId,
+        updateVolunteer,
+        updatePendingFreelancer
+      ),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["applicantFreelancers"]);
@@ -401,7 +420,8 @@ const useProjectsQueries = ({
   );
 
   return {
-    projects,
+    projectsOfClient,
+    projectsOfFreelancer,
     appliedProjectList,
     appliedProjectListIsError,
     appliedProjectListIsLoading,

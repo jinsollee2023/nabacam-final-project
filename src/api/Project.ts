@@ -11,6 +11,18 @@ export const getProjects = async (id: string): Promise<Project[]> => {
   return projects as Project[];
 };
 
+export const getProjectsOfFreelancer = async (
+  id: string
+): Promise<Project[]> => {
+  const { data: projects } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("freelancerId", id)
+    .order("created_at", { ascending: true });
+
+  return projects as Project[];
+};
+
 export const getProjectOfClientBySort = async (
   id: string,
   sortLabel: string
