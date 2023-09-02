@@ -51,10 +51,6 @@ const S = {
     cursor: pointer;
     color: var(--lighter-gray);
     font-size: 14px;
-    /* &:hover,
-    &:active {
-      border-bottom: solid var(--lighter-gray);
-    } */
   `,
   SubmitBtn: styled.span``, // 상속
   ProjectContainer: styled.div`

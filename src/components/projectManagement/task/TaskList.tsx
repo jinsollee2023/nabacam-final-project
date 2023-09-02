@@ -7,7 +7,9 @@ import { MdAddCircle } from "react-icons/md";
 import { Task } from "../../../Types";
 import { useUserStore } from "../../../zustand/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
+import { CommonS } from "src/components/common/button/commonButton";
 import React from "react";
+import { RiAddBoxLine } from "react-icons/ri";
 
 const TaskList = () => {
   const { userId, userRole } = useUserStore();
@@ -33,15 +35,12 @@ const TaskList = () => {
     }
   }, [projectsOfClient, projectsOfFreelancer]);
 
-  console.log("projectId2", projectId); // 기업일 경우에만 들어옴
-
   const { tasks, addTaskMutation } = useTasksQueries(projectId);
 
   const onChange = (value: string) => {
     setProjectId(value);
   };
 
-  // 프리랜서의 경우에만 task 추가 가능
   const addTaskButtonHandler = () => {
     addTaskMutation.mutate();
   };
@@ -60,51 +59,44 @@ const TaskList = () => {
   // 각 월에 대한 업무목록을 정렬 = TaskCard
   return (
     <>
-      <S.SelectAddButtonContainer>
-        <Select
-          showSearch
-          disabled={
-            userRole === "client"
-              ? projectsOfClient && projectsOfClient?.length > 0
-                ? false
-                : true
-              : projectsOfFreelancer && projectsOfFreelancer?.length > 0
+      <Select
+        showSearch
+        disabled={
+          userRole === "client"
+            ? projectsOfClient && projectsOfClient?.length > 0
               ? false
               : true
-          }
-          placeholder="Select a project"
-          optionFilterProp="children" // 옵션 검색에 사용될 속성을 설정
-          onChange={onChange}
-          value={projectId}
-          filterOption={(input, option) =>
-            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-          }
-          options={
-            userRole === "client"
-              ? projectsOfClient &&
-                projectsOfClient.map((project) => {
-                  return {
-                    value: project.projectId,
-                    label: project.title,
-                  };
-                })
-              : projectsOfFreelancer &&
-                projectsOfFreelancer.map((project) => {
-                  return {
-                    value: project.projectId,
-                    label: project.title,
-                  };
-                })
-          }
-          style={{ width: "200px" }}
-        />
+            : projectsOfFreelancer && projectsOfFreelancer?.length > 0
+            ? false
+            : true
+        }
+        placeholder="Select a project"
+        optionFilterProp="children" // 옵션 검색에 사용될 속성을 설정
+        onChange={onChange}
+        value={projectId}
+        filterOption={(input, option) =>
+          (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+        }
+        options={
+          userRole === "client"
+            ? projectsOfClient &&
+              projectsOfClient.map((project) => {
+                return {
+                  value: project.projectId,
+                  label: project.title,
+                };
+              })
+            : projectsOfFreelancer &&
+              projectsOfFreelancer.map((project) => {
+                return {
+                  value: project.projectId,
+                  label: project.title,
+                };
+              })
+        }
+        style={{ width: "50%" }}
+      />
 
-        {userRole === "freelancer" ? (
-          <S.TaskAddButton onClick={addTaskButtonHandler}>
-            <MdAddCircle size="20" />
-          </S.TaskAddButton>
-        ) : null}
-      </S.SelectAddButtonContainer>
       {tasks && tasks.length > 0 ? (
         <div>
           {Array.from(monthlyTaskData.entries()).map(
@@ -146,6 +138,15 @@ const TaskList = () => {
       ) : (
         <div>진행중인 프로젝트가 없습니다.</div>
       )}
+
+      {userRole === "freelancer" ? (
+        <CommonS.CommonBtn onClick={addTaskButtonHandler}>
+          <CommonS.CommonSpan>
+            <RiAddBoxLine size="23" color="white" />
+            &nbsp;타임라인 추가하기
+          </CommonS.CommonSpan>
+        </CommonS.CommonBtn>
+      ) : null}
     </>
   );
 };
