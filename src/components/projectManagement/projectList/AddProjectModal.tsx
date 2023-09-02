@@ -1,9 +1,7 @@
-import { Checkbox, DatePicker, Select, Slider } from "antd";
-import type { CheckboxChangeEvent } from "antd/es/checkbox";
+import { Checkbox, DatePicker, Select } from "antd";
 import { useEffect, useState } from "react";
 import { useProjectStore } from "../../../zustand/useProjectStore";
 import S from "./ProjectListStyles";
-import { Project } from "../../../Types";
 import dayjs from "dayjs";
 import { useUserStore } from "../../../zustand/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
@@ -41,12 +39,6 @@ const AddProjectModal = ({
   const handleChange = (key: string, value: string | number) => {
     changeValues({ ...values, [key]: value });
   };
-
-  console.log("모달", values, payInputOff);
-
-  // const CheckBoxOnChange = (e: CheckboxChangeEvent) => {
-  //   setPayInputOff(e.target.checked);
-  // };
 
   const managerOnChange = (value: string) => {
     if (value === client!.name) {
@@ -86,20 +78,6 @@ const AddProjectModal = ({
   };
 
   const { changeNewProject } = useProjectStore();
-  // const newProject: Project = {
-  //   title: values.title,
-  //   desc: values.desc,
-  //   clientId: userId,
-  //   manager: values.manager,
-  //   expectedStartDate: values.expectedStartDate,
-  //   pay: {
-  //     min: values.minPay,
-  //     max: values.maxPay,
-  //   },
-  //   status: "진행 전",
-  //   category: values.category,
-  //   qualification: values.qualification as number,
-  // };
 
   useEffect(() => {
     changeNewProject({
@@ -117,18 +95,6 @@ const AddProjectModal = ({
       qualification: values.qualification as number,
     });
   }, [values, payInputOff]);
-
-  useEffect(() => {
-    if (payInputOff) {
-      changeValues({
-        ...values,
-        ["minPay"]: "상의 후 결정",
-        ["maxPay"]: "상의 후 결정",
-      });
-    } else {
-      changeValues({ ...values, ["minPay"]: "", ["maxPay"]: "" });
-    }
-  }, [payInputOff]);
 
   return (
     <div>
@@ -217,7 +183,7 @@ const AddProjectModal = ({
       <S.ModalSubInfoBox>
         <S.ModalSubInfoInnerBox>
           <S.ModalContentsLabel htmlFor="expectedStartDate">
-            목표기간
+            시작예정일
           </S.ModalContentsLabel>
           <DatePicker
             id="expectedStartDate"

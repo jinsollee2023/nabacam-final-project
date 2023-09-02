@@ -414,7 +414,7 @@ const useProjectsQueries = ({
       return terminationedProjects;
     },
     {
-      enabled: !!currentUserId,
+      enabled: !!currentUserId && !!freelancerId,
     }
   );
 
