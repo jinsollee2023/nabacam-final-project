@@ -10,12 +10,11 @@ export const S = {
     height: 45rem;
   `,
   List: styled.div`
-    margin-top: 30px;
     padding: 0 20px;
     width: 100%;
     height: 70px;
     display: flex;
-    margin-bottom: 25px;
+    margin: 10px 0;
     border-radius: 8px;
     align-items: center;
     border: 1px solid #d6d6d6;
@@ -24,7 +23,6 @@ export const S = {
   ListContents: styled.div`
     width: 100%;
     display: flex;
-
     gap: 5px;
     align-items: center;
     text-align: center;
@@ -106,5 +104,9 @@ export const S = {
   `,
   DataStatus: styled.div`
     margin: 10px;
+  `,
+  DisabledBtn: styled.button`
+    width: 100%;
+    height: 35px;
   `,
 };

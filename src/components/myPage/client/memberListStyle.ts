@@ -9,7 +9,7 @@ export const S = {
     border-radius: 4px;
     border: 1.5px solid #0086d0;
     background-color: transparent;
-    margin: 10px;
+    margin-bottom: 10px;
   `,
   MemberListContainer: styled.div`
     width: 100%;

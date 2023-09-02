@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Member } from "src/Types";
 import { S } from "./addMemberModalStyle";
+import { useUserStore } from "src/zustand/useUserStore";
 
 interface AddMemberModalProps {
   currentMemberData?: Member;
@@ -12,6 +13,7 @@ const AddMemberModal = ({ currentMemberData, setUpdateMemberData }: AddMemberMod
   const [team, setTeam] = useState(currentMemberData ? currentMemberData.team : "");
   const [email, setEmail] = useState(currentMemberData ? currentMemberData.contact.email : "");
   const [phone, setPhone] = useState(currentMemberData ? currentMemberData.contact.phone : "");
+  const { user } = useUserStore();
 
   useEffect(() => {
     setUpdateMemberData({
@@ -26,7 +28,12 @@ const AddMemberModal = ({ currentMemberData, setUpdateMemberData }: AddMemberMod
 
   return (
     <S.AddMemberBox>
-      <S.ModalTitle>기업 구성원</S.ModalTitle>
+      <S.ClientInfo>
+        <S.ProfileImgBox>
+          <S.ProfileImg alt="profileImg" src={user.photoURL} />
+        </S.ProfileImgBox>
+        <S.ModalTitle>기업 구성원</S.ModalTitle>
+      </S.ClientInfo>
       <S.WriteBox>
         <S.Label htmlFor="memberName">이름</S.Label>
         <S.Input id="memberName" value={name} onChange={(e) => setName(e.target.value)} />

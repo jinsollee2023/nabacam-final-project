@@ -112,32 +112,38 @@ const ApplicantFreelancerList = () => {
                         setIsModalOpen={setIsModalOpen}
                         buttons={
                           <>
-                            <S.ContractBtn
-                              onClick={() =>
-                                updateFreelancer(
-                                  freelancer.userId,
-                                  project.projectId ?? "",
-                                  project.date?.endDate as string,
-                                  freelancer.projectId || [],
-                                  project.volunteer || [],
-                                  project.pendingFreelancer || []
-                                )
-                              }
-                            >
-                              계약하기
-                            </S.ContractBtn>
-                            <S.PendingBtn
-                              onClick={() =>
-                                updatePendingFreelancer(
-                                  project.projectId || "",
-                                  project.volunteer || [],
-                                  project.pendingFreelancer || [],
-                                  freelancer.userId
-                                )
-                              }
-                            >
-                              보류하기
-                            </S.PendingBtn>
+                            {project.freelancerId ? (
+                              <S.DisabledBtn disabled>모집이 완료된 프로젝트입니다.</S.DisabledBtn>
+                            ) : (
+                              <>
+                                <S.ContractBtn
+                                  onClick={() =>
+                                    updateFreelancer(
+                                      freelancer.userId,
+                                      project.projectId ?? "",
+                                      project.date?.endDate as string,
+                                      freelancer.projectId || [],
+                                      project.volunteer || [],
+                                      project.pendingFreelancer || []
+                                    )
+                                  }
+                                >
+                                  계약하기
+                                </S.ContractBtn>
+                                <S.PendingBtn
+                                  onClick={() =>
+                                    updatePendingFreelancer(
+                                      project.projectId || "",
+                                      project.volunteer || [],
+                                      project.pendingFreelancer || [],
+                                      freelancer.userId
+                                    )
+                                  }
+                                >
+                                  보류하기
+                                </S.PendingBtn>
+                              </>
+                            )}
                           </>
                         }
                       >

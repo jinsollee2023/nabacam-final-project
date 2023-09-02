@@ -82,6 +82,7 @@ const S = {
     width: 100%;
   `,
   TabBarContainer: styled.div`
+    margin-bottom: 15px;
     border-bottom: solid #d9d9d9 4px;
     display: flex;
     width: 100%;
