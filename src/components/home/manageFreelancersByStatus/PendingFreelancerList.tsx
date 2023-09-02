@@ -75,7 +75,11 @@ const PendingFreelancerList = () => {
             project.pendingFreelancerUser?.map((freelancer) => (
               <S.List key={`${project.projectId}-${freelancer.userId}`}>
                 <S.ListContents>
-                  {project.freelancerId ? <div>모집완료</div> : <div>모집중</div>}
+                  {project.freelancerId ? (
+                    <S.RecruitmentCompleted>모집완료</S.RecruitmentCompleted>
+                  ) : (
+                    <S.Recruiting>모집중</S.Recruiting>
+                  )}
                   <S.FreelancerName>{freelancer.name}</S.FreelancerName>
                   <span>{freelancer.workField?.workField}</span>
                   <S.WorkFieldAndWorkExp>
@@ -103,31 +107,37 @@ const PendingFreelancerList = () => {
                         setIsModalOpen={setIsModalOpen}
                         buttons={
                           <>
-                            <S.ContractBtn
-                              onClick={() =>
-                                updateFreelancer(
-                                  freelancer.userId,
-                                  project.projectId ?? "",
-                                  project.date?.endDate as string,
-                                  freelancer.projectId || [],
-                                  project.volunteer || [],
-                                  project.pendingFreelancer || []
-                                )
-                              }
-                            >
-                              계약하기
-                            </S.ContractBtn>
-                            <S.PendingBtn
-                              onClick={() =>
-                                deletePendingFreelancer(
-                                  project.projectId || "",
-                                  freelancer.userId,
-                                  project.pendingFreelancer || []
-                                )
-                              }
-                            >
-                              삭제하기
-                            </S.PendingBtn>
+                            {project.freelancerId ? (
+                              <S.DisabledBtn disabled>모집이 완료된 프로젝트입니다.</S.DisabledBtn>
+                            ) : (
+                              <>
+                                <S.ContractBtn
+                                  onClick={() =>
+                                    updateFreelancer(
+                                      freelancer.userId,
+                                      project.projectId ?? "",
+                                      project.date?.endDate as string,
+                                      freelancer.projectId || [],
+                                      project.volunteer || [],
+                                      project.pendingFreelancer || []
+                                    )
+                                  }
+                                >
+                                  계약하기
+                                </S.ContractBtn>
+                                <S.PendingBtn
+                                  onClick={() =>
+                                    deletePendingFreelancer(
+                                      project.projectId || "",
+                                      freelancer.userId,
+                                      project.pendingFreelancer || []
+                                    )
+                                  }
+                                >
+                                  삭제하기
+                                </S.PendingBtn>
+                              </>
+                            )}
                           </>
                         }
                       >
