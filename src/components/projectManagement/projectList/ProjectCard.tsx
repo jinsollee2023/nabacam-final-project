@@ -1,6 +1,6 @@
 import { Project } from "../../../Types";
 import S from "./ProjectListStyles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../../components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
@@ -31,40 +31,25 @@ const ProjectCard = ({ project }: projectCardProps) => {
     isExpectedStartDateValid,
     isManagerValid,
     isMaxPayValid,
+    allValid,
   } = useProjectValid();
-
-  // const isAllValid =
-  //   isTitleValid &&
-  //   isDescValid &&
-  //   isDescValid &&
-  //   isCategoryValid &&
-  //   isQualificationValid &&
-  //   isExpectedStartDateValid &&
-  //   isManagerValid &&
-  //   isMaxPayValid;
 
   const deleteProjectButtonHandler = () => {
     deleteProjectMutation.mutate(project.projectId!);
   };
 
-  const updateProjectButtonHandler = () => {
-    checkValidation(values);
-    if (
-      isTitleValid &&
-      isDescValid &&
-      isDescValid &&
-      isCategoryValid &&
-      isQualificationValid &&
-      isExpectedStartDateValid &&
-      isManagerValid &&
-      isMaxPayValid
-    ) {
+  useEffect(() => {
+    if (allValid) {
       updateProjectMutation.mutate({
         projectId: project.projectId as string,
         newProject,
       });
       setIsUpadateModalOpen(false);
     }
+  }, [allValid]);
+
+  const updateProjectButtonHandler = () => {
+    checkValidation(values);
   };
 
   const updateProjectModalOpenHandler = () => {
