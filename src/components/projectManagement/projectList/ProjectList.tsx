@@ -30,6 +30,7 @@ const ProjectList = () => {
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
     projectsOfClient!
   );
+  const [addSubmitButtonClicked, setAddSubmitButtonClicked] = useState(false);
   const { values, changeValues } = useProjectValuesStore();
   const {
     checkValidation,
@@ -61,11 +62,14 @@ const ProjectList = () => {
   }, [projectsOfClient, searchKeyword]);
 
   useEffect(() => {
-    if (allValid) {
+    if (allValid && addSubmitButtonClicked) {
       addProjectMutation.mutate(newProject);
+      setAddSubmitButtonClicked(false);
       setIsAddModalOpen(false);
+    } else if (!allValid) {
+      setAddSubmitButtonClicked(false);
     }
-  }, [allValid]);
+  }, [allValid, addSubmitButtonClicked]);
 
   useEffect(() => {
     queryClient.invalidateQueries(["projectList", selectedSortLabel]);
@@ -81,10 +85,7 @@ const ProjectList = () => {
 
   const addProjectButtonHandler = () => {
     checkValidation(values);
-    // if (isValidationPassed) {
-    //   addProjectMutation.mutate(newProject);
-    //   setIsAddModalOpen(false);
-    // }
+    setAddSubmitButtonClicked(true);
   };
 
   const beforeProgressProjects = filteredProjects?.filter(
@@ -123,6 +124,7 @@ const ProjectList = () => {
 
   const addProjectModalOpenHandler = () => {
     setIsAddModalOpen(true);
+    setAddSubmitButtonClicked(false);
     setIsTitleValid(null);
     setIsDescValid(null);
     setIsCategoryValid(null);

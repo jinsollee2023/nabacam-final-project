@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled, keyframes } from "styled-components";
 
 interface ProjectCardBoxProps {
   justifyContent?: string;
@@ -30,11 +30,11 @@ interface ModalInfoFlexBoxProps {
 }
 
 interface ModalTitleInputProps {
-  border: string;
+  borderColor: string;
 }
 
 interface ModalDescTextareaProps {
-  border: string;
+  borderColor: string;
 }
 
 const S = {
@@ -137,15 +137,23 @@ const S = {
   ModalTitleInput: styled.input<ModalTitleInputProps>`
     height: 30px;
     margin-bottom: 10px;
-    border: ${(props) => props.border};
+    border: 1px solid ${(props) => props.borderColor};
     border-radius: 4px;
+
+    &:focus {
+      outline: none;
+    }
   `,
   ModalDescTextarea: styled.textarea<ModalDescTextareaProps>`
     height: 100px;
     resize: none;
     margin-bottom: 25px;
-    border: ${(props) => props.border};
+    border: 1px solid ${(props) => props.borderColor};
     border-radius: 4px;
+
+    &:focus {
+      outline: none;
+    }
   `,
   ModalPayInfoBox: styled.div`
     display: flex;
