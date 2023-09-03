@@ -9,6 +9,15 @@ interface FreelancerProfileProps {
 }
 
 const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("클립보드에 복사되었습니다.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <S.UserInfoBox>
@@ -24,11 +33,15 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
           </S.WorkSmallFieldAndWorkExp>
           <S.ContactBox>
             <FiPhoneCall size={18} />
-            <S.Contacts>{user.contact.phone}</S.Contacts>
+            <S.Contacts onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
+              {user.contact.phone}
+            </S.Contacts>
           </S.ContactBox>
           <S.ContactBox>
             <FiMail size={18} />
-            <S.Contacts>{user.contact.email}</S.Contacts>
+            <S.Contacts onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
+              {user.contact.email}
+            </S.Contacts>
           </S.ContactBox>
         </S.UserBox>
       </S.UserInfoBox>
