@@ -194,17 +194,17 @@ const PortfolioTab = () => {
   };
 
   //----------------------
-  const [titleMessage, setTitleMessage] = useState<string>("");
-  const [descMessage, setDescMessage] = useState<string>("");
-  const [thumbNailMessage, setThumbnailMessage] = useState<string>("");
-  const [pdfMessage, setPdfMessage] = useState<string>("");
-  const [linkMessage, setLinkMessage] = useState<string>("");
+  // const [titleMessage, setTitleMessage] = useState<string>("");
+  // const [descMessage, setDescMessage] = useState<string>("");
+  // const [thumbNailMessage, setThumbnailMessage] = useState<string>("");
+  // const [pdfMessage, setPdfMessage] = useState<string>("");
+  // const [linkMessage, setLinkMessage] = useState<string>("");
 
-  const [isTitle, setIsTitle] = useState<boolean>(false);
-  const [isDesc, setIsDesc] = useState<boolean>(false);
-  const [isThumbnail, setIsThumbnail] = useState<boolean>(false);
-  const [isPdf, setIsPdf] = useState<boolean>(false);
-  const [isLink, setIsLink] = useState<boolean>(false);
+  // const [isTitle, setIsTitle] = useState<boolean>(false);
+  // const [isDesc, setIsDesc] = useState<boolean>(false);
+  // const [isThumbnail, setIsThumbnail] = useState<boolean>(false);
+  // const [isPdf, setIsPdf] = useState<boolean>(false);
+  // const [isLink, setIsLink] = useState<boolean>(false);
 
   return (
     <>
@@ -267,7 +267,7 @@ const PortfolioTab = () => {
                 <Button
                   type="primary"
                   block
-                  disabled={!(isTitle && isDesc)}
+                  // disabled={!(isTitle && isDesc)}
                   onClick={handleAddPortfolioButtonClick}
                 >
                   추가하기
