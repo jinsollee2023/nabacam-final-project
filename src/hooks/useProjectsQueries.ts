@@ -251,7 +251,7 @@ const useProjectsQueries = ({
     },
     {
       refetchOnWindowFocus: false,
-      enabled: !!currentUserId && !!freelancerId,
+      enabled: !!currentUserId,
     }
   );
 
@@ -279,7 +279,7 @@ const useProjectsQueries = ({
     },
     {
       refetchOnWindowFocus: false,
-      enabled: !!currentUserId && !!freelancerId,
+      enabled: !!currentUserId,
     }
   );
 
@@ -295,6 +295,7 @@ const useProjectsQueries = ({
     }) => updatePendingFreelancer(projectId, updateVolunteer, pendingFreelancer),
     {
       onSuccess: () => {
+        queryClient.invalidateQueries(["applicantFreelancers"]);
         queryClient.invalidateQueries(["applicantFreelancers"]);
       },
     }
