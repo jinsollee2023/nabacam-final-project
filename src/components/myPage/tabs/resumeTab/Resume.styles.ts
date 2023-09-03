@@ -13,12 +13,11 @@ interface BtnProps {
 export const S = {
   Container: styled.div`
     width: 100%;
-    height: 100%;
+    /* height: 100vh; */
     margin-bottom: 0;
-    display: block;
   `,
   ContainerInner: styled.div`
-    height: 50vh;
+    height: 60vh;
     overflow-y: auto;
 
     &::-webkit-scrollbar {
