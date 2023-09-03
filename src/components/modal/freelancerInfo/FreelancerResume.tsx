@@ -10,7 +10,12 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
   return (
     <>
       <S.ResumeContent>프로필</S.ResumeContent>
-      <S.ProfileIntro>{user.resumeProfileIntro}</S.ProfileIntro>
+      {user.resumeProfileIntro ? (
+        <S.ProfileIntro>{user.resumeProfileIntro}</S.ProfileIntro>
+      ) : (
+        <S.DataNullBox>등록된 프로필이 없습니다.</S.DataNullBox>
+      )}
+
       <S.ResumeContent>경력사항</S.ResumeContent>
       <S.ExperienceWarp>
         {user.resumeExperience && user.resumeExperience.length > 0 ? (
