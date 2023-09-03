@@ -85,17 +85,15 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
             }}
           >
             <S.PastWorkDuration>
-              {
+              {experience.pastWorkDuration.pastWorkStartDate &&
                 new Date(experience.pastWorkDuration.pastWorkStartDate)
                   .toISOString()
-                  .split("T")[0]
-              }
+                  .split("T")[0]}
               ~
-              {
+              {experience.pastWorkDuration.pastWorkEndDate &&
                 new Date(experience.pastWorkDuration.pastWorkEndDate)
                   .toISOString()
-                  .split("T")[0]
-              }
+                  .split("T")[0]}
             </S.PastWorkDuration>
           </div>
         </S.TextArea>

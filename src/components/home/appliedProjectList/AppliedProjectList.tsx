@@ -3,6 +3,7 @@ import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { useUserStore } from "../../../zustand/useUserStore";
 import AppliedProjectCard from "./AppliedProjectCard";
 import React from "react";
+import { S } from "./appliedProjectList.styles";
 
 const AppliedProjectList = () => {
   const { userId } = useUserStore();
@@ -30,7 +31,7 @@ const AppliedProjectList = () => {
   }
 
   return (
-    <>
+    <S.ProjectListContainer>
       {appliedProjectList && appliedProjectList.length > 0 ? (
         appliedProjectList.map((projectItem) => {
           return (
@@ -42,7 +43,7 @@ const AppliedProjectList = () => {
       ) : (
         <div>지원한 프로젝트가 없습니다.</div>
       )}
-    </>
+    </S.ProjectListContainer>
   );
 };
 

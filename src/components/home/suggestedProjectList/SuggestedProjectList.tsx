@@ -6,7 +6,7 @@ import { useUserStore } from "../../../zustand/useUserStore";
 import SuggestedProjectCard from "./SuggestedProjectCard";
 
 const SuggestedProjectList = () => {
-  const { userId } = useUserStore();
+  const { userId, user } = useUserStore();
 
   const {
     suggestedProjectList,
@@ -33,19 +33,23 @@ const SuggestedProjectList = () => {
   }
 
   return (
-    <>
+    <S.ProjectListContainer>
       {suggestedProjectList && suggestedProjectList.length > 0 ? (
         suggestedProjectList.map((projectItem) => {
           return (
             <div key={projectItem.projectId}>
-              <SuggestedProjectCard projectItem={projectItem} userId={userId} />
+              <SuggestedProjectCard
+                projectItem={projectItem}
+                userId={userId}
+                userName={user.name}
+              />
             </div>
           );
         })
       ) : (
         <div>제안 받은 프로젝트가 없습니다.</div>
       )}
-    </>
+    </S.ProjectListContainer>
   );
 };
 

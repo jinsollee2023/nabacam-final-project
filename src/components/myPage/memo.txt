@@ -1,0 +1,39 @@
+<S.ModalInfoFlexBox>
+        <div>
+          {project.volunteer && project.volunteer.length > 0 ? (
+            <S.ModalInfoFlexBox>
+              <img
+                src={volunteeredFreelancer?.photoURL}
+                width="160px"
+                height="160px"
+                alt="img"
+              />
+              <S.ModalInfoColumnBox>
+                <S.ModalDetail marginBottom="3px">
+                  {volunteeredFreelancer?.name}
+                </S.ModalDetail>
+                <S.ModalDetail marginBottom="3px">
+                  {volunteeredFreelancer?.workField.workSmallField}
+                </S.ModalDetail>
+                <S.ModalDetail marginBottom="3px">
+                  {volunteeredFreelancer?.resumeProfileIntro}
+                </S.ModalDetail>
+                <S.ModalDetail
+                  marginBottom="3px"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <BiPhoneCall />
+                  {volunteeredFreelancer?.contact.phone}
+                </S.ModalDetail>
+                <S.ModalDetail
+                  marginBottom="3px"
+                  style={{ display: "flex", alignItems: "center" }}
+                >
+                  <AiOutlineMail />
+                  {volunteeredFreelancer?.contact.email}
+                </S.ModalDetail>
+              </S.ModalInfoColumnBox>
+            </S.ModalInfoFlexBox>
+          ) : null}
+        </div>
+      </S.ModalInfoFlexBox>

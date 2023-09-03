@@ -31,8 +31,8 @@ export const S = {
   ListsBox: styled.div`
     border: 1.5px solid #d6d6d6;
     border-radius: 4px;
-    width: 340px;
-    height: 420px;
+    width: 280px;
+    height: 300px;
     margin-bottom: 20px;
     display: table;
   `,
@@ -58,11 +58,11 @@ export const S = {
     align-items: center;
   `,
   Name: styled.span`
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
   `,
   WorkField: styled.span`
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     color: #3d3d3d;
   `,
@@ -88,14 +88,14 @@ export const S = {
     background: #0086d0;
   `,
   ProjectTitle: styled.span`
+    font-size: 16px;
     font-weight: bold;
-    font-size: 20px;
   `,
   ProjectSubTitle: styled.span`
-    font-size: 16px;
+    font-size: 14px;
   `,
   ProjectDate: styled.span`
-    font-size: 14px;
+    font-size: 12px;
   `,
   DateInnerText: styled.span`
     color: #595959;
@@ -106,10 +106,10 @@ export const S = {
     border: 1px solid #0086d0;
     border-radius: 4px;
     width: 90%;
-    max-width: 300px;
-    height: 44px;
+    height: 35px;
+    margin-top: 5px;
     background-color: transparent;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     color: #0086d0;
   `,

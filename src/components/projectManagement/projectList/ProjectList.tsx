@@ -21,15 +21,16 @@ const ProjectList = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedselectOption, setSelectedselectOption] = useState("전체보기");
   const [selectedSortLabel, setSelectedSortLabel] = useState("전체보기");
-  const { projects, addProjectMutation } = useProjectsQueries({
+  const { projectsOfClient, addProjectMutation } = useProjectsQueries({
     currentUserId: userId,
     sortLabel: selectedSortLabel,
   });
   const { newProject } = useProjectStore();
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
-    projects!
+    projectsOfClient!
   );
+  const [addSubmitButtonClicked, setAddSubmitButtonClicked] = useState(false);
   const { values, changeValues } = useProjectValuesStore();
   const {
     checkValidation,
@@ -47,17 +48,28 @@ const ProjectList = () => {
     setIsExpectedStartDateValid,
     setIsManagerValid,
     setIsMaxPayValid,
+    allValid,
   } = useProjectValid();
 
   useEffect(() => {
-    if (projects) {
-      const filteredprojectList = projects?.filter((project) => {
+    if (projectsOfClient) {
+      const filteredprojectList = projectsOfClient?.filter((project) => {
         const lowerCaseSearch = String(searchKeyword).toLowerCase();
         return project?.title?.toLowerCase().includes(lowerCaseSearch);
       });
       setFilteredProjects(filteredprojectList);
     }
-  }, [projects, searchKeyword]);
+  }, [projectsOfClient, searchKeyword]);
+
+  useEffect(() => {
+    if (allValid && addSubmitButtonClicked) {
+      addProjectMutation.mutate(newProject);
+      setAddSubmitButtonClicked(false);
+      setIsAddModalOpen(false);
+    } else if (!allValid) {
+      setAddSubmitButtonClicked(false);
+    }
+  }, [allValid, addSubmitButtonClicked]);
 
   useEffect(() => {
     queryClient.invalidateQueries(["projectList", selectedSortLabel]);
@@ -72,11 +84,8 @@ const ProjectList = () => {
   };
 
   const addProjectButtonHandler = () => {
-    const isValidationPassed = checkValidation(values);
-    if (isValidationPassed) {
-      addProjectMutation.mutate(newProject);
-      setIsAddModalOpen(false);
-    }
+    checkValidation(values);
+    setAddSubmitButtonClicked(true);
   };
 
   const beforeProgressProjects = filteredProjects?.filter(
@@ -115,6 +124,7 @@ const ProjectList = () => {
 
   const addProjectModalOpenHandler = () => {
     setIsAddModalOpen(true);
+    setAddSubmitButtonClicked(false);
     setIsTitleValid(null);
     setIsDescValid(null);
     setIsCategoryValid(null);
@@ -152,15 +162,16 @@ const ProjectList = () => {
         </S.SearchSortBtn>
       </S.SearchSortBtnBox>
       <S.ProjectContainer>
-        {projects && renderProjects(projectsToRender)}
+        {projectsOfClient && renderProjects(projectsToRender)}
       </S.ProjectContainer>
       <S.ProjectCardBox
         onClick={addProjectModalOpenHandler}
         justifyContent="center"
         marginBottom={0}
+        backgroundColor="var(--main-blue)"
       >
-        <RiAddBoxLine size="23" />
-        <span>프로젝트 게시하기</span>
+        <RiAddBoxLine size="23" color="white" />
+        <S.ProjectSpanBtn>프로젝트 게시하기</S.ProjectSpanBtn>
       </S.ProjectCardBox>
       {isAddModalOpen && (
         <Modal

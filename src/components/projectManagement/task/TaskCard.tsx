@@ -15,6 +15,7 @@ interface TaskCardProps {
 }
 
 const TaskCard = ({ task, userRole }: TaskCardProps) => {
+  console.log(task.status);
   const { deleteTaskMutation } = useTasksQueries(task.projectId);
 
   const deleteTaskButtonHandler = () => {
@@ -29,7 +30,7 @@ const TaskCard = ({ task, userRole }: TaskCardProps) => {
       <TaskDeadLine task={task as Task} userRole={userRole} />
       <TaskImportance task={task as Task} userRole={userRole} />
       <div>
-        {userRole === " freelancer" ? (
+        {userRole === "freelancer" ? (
           <S.TaskDeleteButton onClick={deleteTaskButtonHandler}>
             <BsTrash3Fill />
           </S.TaskDeleteButton>

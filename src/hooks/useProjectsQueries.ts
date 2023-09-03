@@ -15,10 +15,12 @@ import {
   deleteVolunteerAndPendingFreelancer,
   deletePendingFreelancer,
   getTerminationedProjectsWithFreelancer,
+  getProjectsOfFreelancer,
 } from "../api/Project";
 import { IProjectWithFreelancer, Project } from "../Types";
 import { addProjectIdToUser, getUser } from "../api/User";
 import { updatePendingFreelancer } from "../api/Project";
+import { Dispatch, SetStateAction } from "react";
 
 interface useProjectsQueriesProps {
   currentUserId: string;
@@ -33,7 +35,7 @@ const useProjectsQueries = ({
   freelancerId,
   selectedProject,
 }: useProjectsQueriesProps) => {
-  const { data: projects } = useQuery(
+  const { data: projectsOfClient } = useQuery(
     ["projects", sortLabel],
     async () => {
       const projectsData = await getProjectOfClientBySort(
@@ -41,6 +43,19 @@ const useProjectsQueries = ({
         sortLabel as string
       );
 
+      return projectsData;
+    },
+    {
+      enabled: !!currentUserId,
+    }
+  );
+
+  const { data: projectsOfFreelancer } = useQuery(
+    ["projects"],
+    async () => {
+      const projectsData = await getProjectsOfFreelancer(
+        currentUserId as string
+      );
       return projectsData;
     },
     {
@@ -170,6 +185,7 @@ const useProjectsQueries = ({
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["suggestedFreelancersData"]);
+        queryClient.invalidateQueries(["currentClientprojectLists"]);
       },
     }
   );
@@ -302,7 +318,12 @@ const useProjectsQueries = ({
       projectId: string;
       updateVolunteer: string[];
       updatePendingFreelancer: string[];
-    }) => deleteVolunteerAndPendingFreelancer(projectId, updateVolunteer, updatePendingFreelancer),
+    }) =>
+      deleteVolunteerAndPendingFreelancer(
+        projectId,
+        updateVolunteer,
+        updatePendingFreelancer
+      ),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["applicantFreelancers"]);
@@ -350,7 +371,7 @@ const useProjectsQueries = ({
       return terminationedProjectsWithFreelancers;
     },
     {
-      enabled: !!currentUserId,
+      enabled: !!currentUserId && !!freelancerId,
     }
   );
 
@@ -367,12 +388,13 @@ const useProjectsQueries = ({
       return terminationedProjects;
     },
     {
-      enabled: !!currentUserId,
+      enabled: !!currentUserId && !!freelancerId,
     }
   );
 
   return {
-    projects,
+    projectsOfClient,
+    projectsOfFreelancer,
     appliedProjectList,
     appliedProjectListIsError,
     appliedProjectListIsLoading,

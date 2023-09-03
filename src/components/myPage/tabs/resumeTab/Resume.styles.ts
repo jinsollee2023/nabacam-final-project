@@ -13,11 +13,17 @@ interface BtnProps {
 export const S = {
   Container: styled.div`
     width: 100%;
+    height: 100%;
+    margin-bottom: 0;
     display: block;
   `,
   ContainerInner: styled.div`
     height: 50vh;
     overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   `,
 
   // 프로필

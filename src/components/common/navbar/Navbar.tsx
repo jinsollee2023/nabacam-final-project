@@ -53,12 +53,11 @@ const S = {
     position: sticky;
     display: flex;
     flex-direction: column;
-    background-color: #333333f7;
-    color: white;
+    border-right: 2px solid var(--hover-blue);
     width: 17vw;
+    max-width: 280px;
     min-width: 210px;
-    padding: 20px;
-    z-index: 999;
+    padding: 20px 0 0 20px;
     height: 100vh;
   `,
   ProfileWrapper: styled.div`
@@ -69,8 +68,8 @@ const S = {
   ProfileImage: styled.img`
     width: 35px;
     height: 35px;
-    border-radius: 50%;
-    margin-right: 5px;
+    border-radius: 10px;
+    margin-right: 10px;
   `,
   Name: styled.div`
     font-size: 18px;
@@ -78,7 +77,7 @@ const S = {
   `,
   Role: styled.div`
     margin-left: 7px;
-    font-size: 5px;
+    font-size: 12px;
   `,
   UpperNavLinks: styled.ul`
     list-style: none;
@@ -87,8 +86,9 @@ const S = {
   Divider: styled.hr`
     margin: 20px 0;
     border: none;
-    height: 1px;
-    background-color: white;
+    height: 2px;
+    box-shadow: 0px 2px 4px #f2f2f2;
+    background-color: #bfbfbf;
   `,
   LowerNavLinks: styled.ul`
     list-style: none;
@@ -100,7 +100,7 @@ const S = {
     transition: 0.2s ease-in-out;
 
     &:hover {
-      background-color: gray;
+      background-color: var(--hover-blue);
     }
   `,
 };

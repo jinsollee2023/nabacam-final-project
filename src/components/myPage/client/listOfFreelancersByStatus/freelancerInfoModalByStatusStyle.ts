@@ -6,6 +6,31 @@ export const S = {
     font-weight: bold;
     margin-bottom: 20px;
   `,
+  ProjectTitleContents: styled.p`
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: bold;
+  `,
+  ProjectWarp: styled.div`
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+  `,
+  ProjectBox: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `,
+  ProjectTitle: styled.span`
+    font-size: 16px;
+  `,
+  ProjectDate: styled.span`
+    font-size: 14px;
+  `,
+  DateInnerText: styled.span`
+    color: #595959;
+    font-size: 12px;
+  `,
   ProfileInfo: styled.div`
     gap: 10px;
     display: flex;
@@ -62,9 +87,5 @@ export const S = {
   `,
   WorkExp: styled.span`
     color: gray;
-  `,
-  DateInnerText: styled.span`
-    color: gray;
-    font-size: 12px;
   `,
 };
