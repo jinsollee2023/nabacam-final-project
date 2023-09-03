@@ -16,7 +16,8 @@ import {
 import { getPortfolioFileURL } from "../../../../api/User";
 
 const PortfolioTab = () => {
-  const { userId } = useUserStore();
+  const { user } = useUserStore();
+  console.log(user);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const {
@@ -31,7 +32,7 @@ const PortfolioTab = () => {
     updatePortfolioMutation,
     portfolios,
   } = usePortfolioInfoQueries({
-    userId,
+    userId: user.userId,
     pfId: newPortfolio.portfolioId,
   });
   console.log("portfolios==>", portfolios);
@@ -67,7 +68,7 @@ const PortfolioTab = () => {
     // --------------------
 
     const pdfFilePath = await uploadPDF({
-      userId,
+      userId: user.userId,
       file: newPortfolio.pdfFileURL as File,
       pfId: newPortfolio.portfolioId,
     });
@@ -77,14 +78,14 @@ const PortfolioTab = () => {
       portfolioId: newPortfolio.portfolioId,
       title: newPortfolio.title,
       desc: newPortfolio.desc,
-      freelancerId: userId,
+      freelancerId: user.userId,
       linkURL: newPortfolio.linkURL,
       pdfFileURL: `${pdfURL}?updated=${new Date().getTime()}`,
     };
 
     if (newPortfolio.thumbNailURL instanceof File) {
       const thumbnailFilePath = await uploadThumbnail({
-        userId,
+        userId: user.userId,
         file: newPortfolio.thumbNailURL as File,
         pfId: newPortfolio.portfolioId,
       });
@@ -95,7 +96,7 @@ const PortfolioTab = () => {
           ...newPortfolioExceptThumbnail,
           thumbNailURL: `${thumbNailURL}?updated=${new Date().getTime()}`,
         },
-        userId,
+        userId: user.userId,
         pfId: newPortfolio.portfolioId,
       });
     } else {
@@ -104,7 +105,7 @@ const PortfolioTab = () => {
           ...newPortfolioExceptThumbnail,
           thumbNailURL: newPortfolio.thumbNailURL,
         },
-        userId,
+        userId: user.userId,
         pfId: newPortfolio.portfolioId,
       });
     }
@@ -118,7 +119,7 @@ const PortfolioTab = () => {
       portfolioId: "",
       title: "",
       desc: "",
-      freelancerId: userId,
+      freelancerId: user.userId,
       linkURL: "",
       thumbNailURL:
         "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg",
@@ -129,7 +130,7 @@ const PortfolioTab = () => {
 
   const handleEditPortfolioButtonClick = async () => {
     const pdfFilePath = await updatePortfolioFile(
-      userId,
+      user.userId,
       newPortfolio.portfolioId,
       "pdf",
       newPortfolio.pdfFileURL as File
@@ -140,12 +141,12 @@ const PortfolioTab = () => {
         selectedPortfolio?.thumbNailURL
       ).includes("default")
         ? uploadThumbnail({
-            userId,
+            userId: user.userId,
             file: newPortfolio?.thumbNailURL as File,
             pfId: newPortfolio?.portfolioId,
           })
         : updatePortfolioFile(
-            userId,
+            user.userId,
             newPortfolio?.portfolioId as string,
             "thumbnail",
             newPortfolio.thumbNailURL as File
@@ -230,7 +231,7 @@ const PortfolioTab = () => {
             setIsDetailModalOpen={handleAddModalClose}
             isAddModalOpen={!isAddModalOpen}
             setIsAddModalOpen={setIsAddModalOpen}
-            userId={userId}
+            userId={user.userId}
           />
         </Modal>
       )}

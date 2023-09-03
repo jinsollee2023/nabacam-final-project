@@ -19,7 +19,7 @@ export const useUserStore = create(
     (set) => ({
       user: {
         userId: "",
-        role: "",
+        role: "client",
         name: "",
         photoURL: "",
         contact: { email: "", phone: "" },
@@ -27,7 +27,7 @@ export const useUserStore = create(
         portfolioCount: 0,
       },
       userId: "",
-      userRole: "",
+      userRole: "client",
 
       setUser: (user) => set({ user }),
       setUserId: (userId) => set({ userId }),

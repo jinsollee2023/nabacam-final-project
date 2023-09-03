@@ -25,7 +25,6 @@ const LoginComp = () => {
 
   // const { email, setUserEmail } = useUserStore();
   const [values, setValues] = useState<any>(initialValues);
-  const [tabPosition, setTabPosition] = useState<TabPosition>("left");
   const [findPassword, setFindPassword] = useState(false);
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [errors, setErrors] = useState<any>("");
@@ -98,6 +97,9 @@ const LoginComp = () => {
         </form>
         <S.passwordFindButton onClick={findPasswordModalHandler}>
           비밀번호 찾기
+        </S.passwordFindButton>
+        <S.passwordFindButton onClick={() => navigate("/register")}>
+          회원가입 하기
         </S.passwordFindButton>
         {findPassword && <EmailCheck openModal={findPasswordModalHandler} />}
         <S.passwordView onClick={showPasswordHandler}>

@@ -1,17 +1,14 @@
 import { useState } from "react";
 import { styled } from "styled-components";
-import { useUserStore } from "../../../zustand/useUserStore";
 import Account from "../myProfile/Account";
 import ResumeTab from "../tabs/resumeTab/ResumeTab";
 import PortfolioTab from "../tabs/portfolioTab/PortfolioTab";
 import ContractInfoTab from "../tabs/ContractInfoTab";
-import FeedbackTab from "../tabs/FeedbackTab";
 import MenuTabBarComp from "../../../components/common/MenuTabBarComp";
 import React from "react";
 
 const FreelancerMyPageComp = () => {
   const [activeTab, setActiveTab] = useState("이력서");
-  const { userId } = useUserStore();
 
   const myPageMenu = ["마이페이지"];
 
