@@ -13,26 +13,30 @@ import { RiAddBoxLine } from "react-icons/ri";
 
 const TaskList = () => {
   const { userId, userRole } = useUserStore();
-  const { projectsOfClient, projectsOfFreelancer } = useProjectsQueries({
+  const [projectId, setProjectId] = useState("");
+  const {
+    ongoingProjectsOfClient,
+    ongoingProjectsOfFreelancer,
+    updateProjectMutation,
+  } = useProjectsQueries({
     currentUserId: userId,
   });
-  const [projectId, setProjectId] = useState("");
 
   useEffect(() => {
     if (
       userRole === "client" &&
-      projectsOfClient &&
-      projectsOfClient.length > 0
+      ongoingProjectsOfClient &&
+      ongoingProjectsOfClient.length > 0
     ) {
-      setProjectId(projectsOfClient[0].projectId!);
+      setProjectId(ongoingProjectsOfClient[0].projectId!);
     } else if (
       userRole === "freelancer" &&
-      projectsOfFreelancer &&
-      projectsOfFreelancer.length > 0
+      ongoingProjectsOfFreelancer &&
+      ongoingProjectsOfFreelancer.length > 0
     ) {
-      setProjectId(projectsOfFreelancer[0].projectId!);
+      setProjectId(ongoingProjectsOfFreelancer[0].projectId!);
     }
-  }, [projectsOfClient, projectsOfFreelancer]);
+  }, [ongoingProjectsOfClient, ongoingProjectsOfFreelancer]);
 
   const { tasks, addTaskMutation } = useTasksQueries(projectId);
 
@@ -42,6 +46,19 @@ const TaskList = () => {
 
   const addTaskButtonHandler = () => {
     addTaskMutation.mutate();
+  };
+
+  const terminateProjectButtonHandler = () => {
+    const isConfirmed = window.confirm(
+      "프로젝트가 종료되면 진행 상태를 확인할 수 없습니다. \n프로젝트를 종료하시겠습니까?"
+    );
+    if (isConfirmed) {
+      updateProjectMutation.mutate({
+        projectId,
+        newProject: { status: "진행 완료" },
+      });
+      setProjectId("");
+    }
   };
 
   const monthlyTaskData: Map<string, Task[]> = new Map();
@@ -62,10 +79,11 @@ const TaskList = () => {
             showSearch
             disabled={
               userRole === "client"
-                ? projectsOfClient && projectsOfClient?.length > 0
+                ? ongoingProjectsOfClient && ongoingProjectsOfClient?.length > 0
                   ? false
                   : true
-                : projectsOfFreelancer && projectsOfFreelancer?.length > 0
+                : ongoingProjectsOfFreelancer &&
+                  ongoingProjectsOfFreelancer?.length > 0
                 ? false
                 : true
             }
@@ -78,15 +96,15 @@ const TaskList = () => {
             }
             options={
               userRole === "client"
-                ? projectsOfClient &&
-                  projectsOfClient.map((project) => {
+                ? ongoingProjectsOfClient &&
+                  ongoingProjectsOfClient.map((project) => {
                     return {
                       value: project.projectId,
                       label: project.title,
                     };
                   })
-                : projectsOfFreelancer &&
-                  projectsOfFreelancer.map((project) => {
+                : ongoingProjectsOfFreelancer &&
+                  ongoingProjectsOfFreelancer.map((project) => {
                     return {
                       value: project.projectId,
                       label: project.title,
@@ -104,10 +122,16 @@ const TaskList = () => {
           <S.TaskAddButton onClick={addTaskButtonHandler}>
             <S.TaskAddSpan>
               <RiAddBoxLine size="17" color="white" />
-              &nbsp;타임라인 추가하기
+              타임라인 추가하기
             </S.TaskAddSpan>
           </S.TaskAddButton>
-        ) : null}
+        ) : (
+          projectId && (
+            <S.TaskAddButton onClick={terminateProjectButtonHandler}>
+              <S.TaskAddSpan>프로젝트 종료하기</S.TaskAddSpan>
+            </S.TaskAddButton>
+          )
+        )}
       </S.SelectAddButtonContainer>
 
       {tasks && tasks.length > 0 ? (
@@ -144,8 +168,9 @@ const TaskList = () => {
             }
           )}
         </div>
-      ) : (projectsOfClient && projectsOfClient.length > 0) ||
-        (projectsOfFreelancer && projectsOfFreelancer.length > 0) ? (
+      ) : (ongoingProjectsOfClient && ongoingProjectsOfClient.length > 0) ||
+        (ongoingProjectsOfFreelancer &&
+          ongoingProjectsOfFreelancer.length > 0) ? (
         <div>진행중인 업무가 없습니다.</div>
       ) : (
         <div>진행중인 프로젝트가 없습니다.</div>
