@@ -151,13 +151,32 @@ const useProjectsQueries = ({
   );
 
   const updateProjectMutation = useMutation(
-    ({ projectId, newProject }: { projectId: string; newProject: Project }) =>
-      updateProject(projectId, newProject),
+    ({
+      projectId,
+      newProject,
+    }: {
+      projectId: string;
+      newProject: {
+        title?: string;
+        desc?: string;
+        clientId?: string;
+        expectedStartDate?: string;
+        pay?: {
+          min: number | string;
+          max: number | string;
+        };
+        volunteer?: string[];
+        status?: string;
+        SuggestedFreelancers?: string[];
+        qualification?: number;
+      };
+    }) => updateProject(projectId, newProject),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["projects"]);
         queryClient.invalidateQueries(["projectsListBySort"]);
         queryClient.invalidateQueries(["projectList"]);
+        queryClient.invalidateQueries(["ongoingProjectsOfClient"]);
       },
     }
   );
