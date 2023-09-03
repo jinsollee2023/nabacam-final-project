@@ -13,12 +13,15 @@ import { useProfileInfoStore } from "../../../zustand/useProfileInfoStore";
 import React from "react";
 import { S } from "./myProfile.styles";
 import { IoMdSettings } from "react-icons/io";
+import { resign } from "src/api/auth";
+import { useNavigate } from "react-router-dom";
 
 const Account = () => {
   const { userId, user, setUser } = useUserStore();
   const { updateUserMutation } = useClientsQueries({ userId });
   const [isModlaopen, setIsModalOpen] = useState(false);
   const { newProfileInfo } = useProfileInfoStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     queryClient.invalidateQueries([user]);
@@ -66,6 +69,10 @@ const Account = () => {
     setIsModalOpen(false);
   };
 
+  const signOutButtonHandler = () => {
+    resign(userId, navigate);
+  };
+
   return (
     <>
       <S.AccountContainer>
@@ -100,6 +107,7 @@ const Account = () => {
           <S.SettingBtn onClick={() => setIsModalOpen(true)}>
             <IoMdSettings />
           </S.SettingBtn>
+          <button onClick={signOutButtonHandler}>회원 탈퇴</button>
         </S.RightEndBtnBox>
 
         {isModlaopen ? (
