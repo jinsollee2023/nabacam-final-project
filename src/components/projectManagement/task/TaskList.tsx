@@ -160,6 +160,7 @@ const TaskList = () => {
                         key={task.taskId}
                         task={task}
                         userRole={userRole}
+                        month={month}
                       />
                     ))}
                   </div>
