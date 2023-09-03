@@ -37,7 +37,7 @@ const ContractTerminationFreelancerList = ({
       const filteredfreelancerLists =
         terminationedProjectsWithFreelancers?.filter((project) => {
           const lowerCaseSearch = String(searchKeyword).toLowerCase();
-          const workExp = String(project.freelancer.workExp);
+          const workExp = String(project.freelancer?.workExp);
           return (
             project.freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
             project.freelancer?.workField?.workField
@@ -89,10 +89,10 @@ const ContractTerminationFreelancerList = ({
           )
           .map((project) => (
             <S.ListsBox
-              key={`${project.freelancer.userId}-${project.projectId}`}
+              key={`${project.freelancer?.userId}-${project.projectId}`}
             >
               <ContractTerminationFreelancerCards
-                key={`${project.freelancer.userId}-${project.projectId}`}
+                key={`${project.freelancer?.userId}-${project.projectId}`}
                 user={project.freelancer}
                 project={project}
               />
