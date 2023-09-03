@@ -35,12 +35,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const [workSelect, setWorkSelect] = useState("");
   const [modal, setModal] = useState(false);
   const { setUser } = useUserStore(); // 추가
-  const check =
-    errors.email &&
-    errors.password &&
-    errors.passwordConfirmCurrent &&
-    errors.name &&
-    errors.phone;
+
   const onChange = (value: string) => {
     setWorkSelect(value);
   };
