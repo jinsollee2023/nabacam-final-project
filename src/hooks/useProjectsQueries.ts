@@ -56,7 +56,7 @@ const useProjectsQueries = ({
       return projectsData;
     },
     {
-      enabled: !!currentUserId && !!freelancerId,
+      enabled: !!currentUserId,
     }
   );
 
@@ -67,7 +67,7 @@ const useProjectsQueries = ({
       return ongoingProjectsOfClientData;
     },
     {
-      enabled: !!currentUserId && !!freelancerId,
+      enabled: !!currentUserId,
     }
   );
 
@@ -83,7 +83,7 @@ const useProjectsQueries = ({
       return projectsData;
     },
     {
-      enabled: !!currentUserId && !!freelancerId,
+      enabled: !!currentUserId,
       select: (allProjectList) =>
         allProjectList?.filter(
           (project) =>
@@ -251,7 +251,7 @@ const useProjectsQueries = ({
     },
     {
       refetchOnWindowFocus: false,
-      enabled: !!currentUserId,
+      enabled: !!currentUserId && !!freelancerId,
     }
   );
 
