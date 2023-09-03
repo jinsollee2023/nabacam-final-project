@@ -21,7 +21,6 @@ const ResumeProfileIntroComp = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const { newProfileIntroInput } = useResumeProfileIntroStore();
 
-  // add
   const addProfileIntroHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -35,7 +34,6 @@ const ResumeProfileIntroComp = () => {
     setIsAddModalOpen(false);
   };
 
-  // update
   const updateProfileIntroHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {

@@ -27,7 +27,7 @@ export const S = {
 
   // 프로필
   ProfileContainer: styled.section`
-    width: 100%;
+    width: 92%;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-top: 10px;
@@ -60,7 +60,7 @@ export const S = {
 
   // 경력사항
   WorkExperienceContainer: styled.section`
-    width: 100%;
+    width: 93%;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-top: 10px;
@@ -71,8 +71,9 @@ export const S = {
   `,
   WorkExperienceListWrapper: styled.ul`
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    /* grid-template-columns: repeat(3, 1fr); */
+    grid-template-columns: repeat(3, 31%);
+    gap: 30px;
     margin-top: 10px;
   `,
   WorkExperienceList: styled.li`
@@ -88,15 +89,15 @@ export const S = {
   `,
   TextArea: styled.div``,
   PastWorkField: styled.p`
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bolder;
   `,
   PastWorkDetail: styled.p`
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 5px;
   `,
   PastWorkDuration: styled.p`
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 5px;
   `,
 
@@ -135,7 +136,6 @@ export const S = {
     background-color: var(--main-blue);
     color: white;
     border: none;
-    padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 13px;
@@ -149,7 +149,7 @@ export const S = {
     margin-right: ${(props) => props.marginRight};
     width: ${(props) => props.width};
     height: ${(props) => props.height};
-    padding: ${(props) => props.padding || "10px"};
+    padding: ${(props) => props.padding || "7px"};
   `,
   RightEndBtnBox: styled.div`
     display: flex;
