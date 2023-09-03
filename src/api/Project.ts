@@ -11,13 +11,14 @@ export const getProjects = async (id: string): Promise<Project[]> => {
   return projects as Project[];
 };
 
-export const getProjectsOfFreelancer = async (
+export const getOngoingProjectsOfFreelancer = async (
   id: string
 ): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
     .eq("freelancerId", id)
+    .eq("status", "진행 중")
     .order("created_at", { ascending: true });
 
   return projects as Project[];
@@ -201,14 +202,15 @@ export const getPendingFreelancers = async (
   return projects as Project[];
 };
 
-export const getOngoingProjects = async (
+export const getOngoingProjectsOfClient = async (
   clientId: string
 ): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
     .eq("clientId", clientId)
-    .eq("status", "진행 중");
+    .eq("status", "진행 중")
+    .order("created_at", { ascending: true });
 
   return projects as Project[];
 };
