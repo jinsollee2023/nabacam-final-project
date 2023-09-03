@@ -68,7 +68,6 @@ const ApplicantFreelancerList = () => {
   return (
     <>
       <S.ListContainer>
-        <S.Title>지원한 프리랜서들을 확인해보세요.</S.Title>
         {Number(
           applicantFreelancers
             ?.map((project) => project.volunteerUser.length)
@@ -85,6 +84,7 @@ const ApplicantFreelancerList = () => {
                   ) : (
                     <S.Recruiting>모집중</S.Recruiting>
                   )}
+                  <S.Title>지원한 프리랜서들을 확인해보세요.</S.Title>
                   <S.FreelancerName>{freelancer.name}</S.FreelancerName>
                   <span>{freelancer.workField?.workField}</span>
                   <S.WorkFieldAndWorkExp>

@@ -63,7 +63,6 @@ const PendingFreelancerList = () => {
   return (
     <>
       <S.ListContainer>
-        <S.Title>보류했던 프리랜서들을 다시 확인해보세요.</S.Title>
         {Number(
           pendingFreelancers
             ?.map((project) => project.pendingFreelancerUser.length)
@@ -80,6 +79,7 @@ const PendingFreelancerList = () => {
                   ) : (
                     <S.Recruiting>모집중</S.Recruiting>
                   )}
+                  <S.Title>보류했던 프리랜서들을 다시 확인해보세요.</S.Title>
                   <S.FreelancerName>{freelancer.name}</S.FreelancerName>
                   <span>{freelancer.workField?.workField}</span>
                   <S.WorkFieldAndWorkExp>
