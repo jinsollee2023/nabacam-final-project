@@ -1,7 +1,6 @@
 import ClientMyPageComp from "../components/myPage/client/common/ClientMyPageComp";
 import FreelancerMyPageComp from "../components/myPage/common/FreelancerMyPageComp";
 import { useUserStore } from "../zustand/useUserStore";
-import { styled } from "styled-components";
 import React from "react";
 
 const MyPage = () => {

@@ -7,7 +7,9 @@ import { MdAddCircle } from "react-icons/md";
 import { Task } from "../../../Types";
 import { useUserStore } from "../../../zustand/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
+import { CommonS } from "src/components/common/button/commonButton";
 import React from "react";
+import { RiAddBoxLine } from "react-icons/ri";
 
 const TaskList = () => {
   const { userId, userRole } = useUserStore();
@@ -51,53 +53,63 @@ const TaskList = () => {
     }
     monthlyTaskData.get(month)?.push(task);
   });
+
   return (
     <>
       <S.SelectAddButtonContainer>
-        <Select
-          showSearch
-          disabled={
-            userRole === "client"
-              ? projectsOfClient && projectsOfClient?.length > 0
+        <div>
+          <Select
+            showSearch
+            disabled={
+              userRole === "client"
+                ? projectsOfClient && projectsOfClient?.length > 0
+                  ? false
+                  : true
+                : projectsOfFreelancer && projectsOfFreelancer?.length > 0
                 ? false
                 : true
-              : projectsOfFreelancer && projectsOfFreelancer?.length > 0
-              ? false
-              : true
-          }
-          placeholder="Select a project"
-          optionFilterProp="children"
-          onChange={onChange}
-          value={projectId}
-          filterOption={(input, option) =>
-            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-          }
-          options={
-            userRole === "client"
-              ? projectsOfClient &&
-                projectsOfClient.map((project) => {
-                  return {
-                    value: project.projectId,
-                    label: project.title,
-                  };
-                })
-              : projectsOfFreelancer &&
-                projectsOfFreelancer.map((project) => {
-                  return {
-                    value: project.projectId,
-                    label: project.title,
-                  };
-                })
-          }
-          style={{ width: "200px" }}
-        />
-
+            }
+            placeholder="Select a project"
+            optionFilterProp="children"
+            onChange={onChange}
+            value={projectId}
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+            options={
+              userRole === "client"
+                ? projectsOfClient &&
+                  projectsOfClient.map((project) => {
+                    return {
+                      value: project.projectId,
+                      label: project.title,
+                    };
+                  })
+                : projectsOfFreelancer &&
+                  projectsOfFreelancer.map((project) => {
+                    return {
+                      value: project.projectId,
+                      label: project.title,
+                    };
+                  })
+            }
+            style={{
+              width: "300px",
+              border: "1.8px solid var(--main-blue)",
+              borderRadius: "7px",
+            }}
+          />
+        </div>
         {userRole === "freelancer" ? (
           <S.TaskAddButton onClick={addTaskButtonHandler}>
-            <MdAddCircle size="20" />
+            <S.TaskAddSpan>
+              <RiAddBoxLine size="17" color="white" />
+              &nbsp;타임라인 추가하기
+            </S.TaskAddSpan>
           </S.TaskAddButton>
         ) : null}
       </S.SelectAddButtonContainer>
+
       {tasks && tasks.length > 0 ? (
         <div>
           {Array.from(monthlyTaskData.entries()).map(
@@ -111,7 +123,9 @@ const TaskList = () => {
               return (
                 <>
                   <S.ColumnLabelWrapper key={month}>
-                    <S.ColumnLabel width={200}>{`${month}월`}</S.ColumnLabel>
+                    <S.ColumnLabel
+                      width={200}
+                    >{`${month}월 타임라인`}</S.ColumnLabel>
                     <S.ColumnLabel width={150}>진행 상황</S.ColumnLabel>
                     <S.ColumnLabel width={240}>마감 기한</S.ColumnLabel>
                     <S.ColumnLabel width={200}>중요도</S.ColumnLabel>

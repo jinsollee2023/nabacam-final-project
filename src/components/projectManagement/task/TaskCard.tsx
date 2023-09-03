@@ -15,6 +15,7 @@ interface TaskCardProps {
 }
 
 const TaskCard = ({ task, userRole }: TaskCardProps) => {
+  console.log(task.status);
   const { deleteTaskMutation } = useTasksQueries(task.projectId);
 
   const deleteTaskButtonHandler = () => {
