@@ -9,8 +9,6 @@ const JoinComp = () => {
   const [tabPosition, setTabPosition] = useState<TabPosition>("left");
   const { userRole, setUserRole } = useUserStore();
 
-  console.log(userRole);
-
   return (
     <>
       <S.TabsBack>

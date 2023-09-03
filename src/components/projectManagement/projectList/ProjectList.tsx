@@ -113,7 +113,7 @@ const ProjectList = () => {
     }
     return (
       <>
-        {projectsToRender.map((project) => (
+        {projectsToRender?.map((project) => (
           <ProjectCard key={project.projectId} project={project} />
         ))}
       </>
