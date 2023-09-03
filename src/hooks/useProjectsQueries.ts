@@ -382,17 +382,16 @@ const useProjectsQueries = ({
     ["terminationedProjectsWithFreelancers"],
     async () => {
       const terminationedProjectsData = await getTerminationedProjects(currentUserId as string);
-      const terminationedProjectsWithPromise = terminationedProjectsData.map((info) => ({
-        ...info,
-        freelancerPromise: getUser(info.freelancerId as string),
-      }));
-      const terminationedProjectsWithFreelancers = await Promise.all(
-        terminationedProjectsWithPromise.map(async (project) => ({
-          ...project,
-          freelancer: await project.freelancerPromise,
-        }))
-      );
-      return terminationedProjectsWithFreelancers;
+      const terminationedProjectsArray = [];
+
+      for (const info of terminationedProjectsData) {
+        terminationedProjectsArray.push({
+          ...info,
+          freelancer: await getUser(info.freelancerId as string),
+        });
+      }
+
+      return terminationedProjectsArray.filter((info) => info.freelancer !== null);
     },
     {
       enabled: !!currentUserId && !!freelancerId,

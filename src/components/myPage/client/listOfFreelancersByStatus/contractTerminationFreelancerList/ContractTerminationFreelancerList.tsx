@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import useClientsQueries from "../../../../../hooks/useClientsQueries";
-import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
-import { useUserStore } from "../../../../../zustand/useUserStore";
 import { S } from "../listOfFreelancersByStatusStyle";
 import { IProjectWithFreelancer } from "../../../../../Types";
 import { useSearchKeywordStore } from "../../../../../zustand/useSearchKeywordStore";
@@ -19,11 +16,6 @@ const ContractTerminationFreelancerList = ({
   terminationedProjectsWithFreelancers,
 }: ContractTerminationFreelancerListProps) => {
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
-
-  // const { userId } = useUserStore();
-  // const { terminationedProjectsWithFreelancers } = useProjectsQueries({
-  //   currentUserId: userId,
-  // });
 
   const [filteredFreelancers, setFilteredFreelancers] = useState<IProjectWithFreelancer[]>(
     terminationedProjectsWithFreelancers!
@@ -54,10 +46,6 @@ const ContractTerminationFreelancerList = ({
   //   "현재 로그인된 클라이언트의 진행 완료된 프로젝트 정보",
   //   terminationedProjectsWithFreelancers
   // );
-
-  if (!filteredFreelancers || filteredFreelancers.length === 0) {
-    return <div>계약이 끝난 프리랜서가 없습니다.</div>;
-  }
 
   return (
     <>

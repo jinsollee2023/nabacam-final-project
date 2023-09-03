@@ -24,6 +24,7 @@ const ContractTerminationFreelancerCards = ({
   const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
   const { userId } = useUserStore();
+  console.log(userId);
   const { selectedProject, setSelectedProject } = useProjectStore();
   const {
     projectDataForSuggestions,
