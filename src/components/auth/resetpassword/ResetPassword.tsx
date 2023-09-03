@@ -132,11 +132,11 @@ const S = {
   `,
   passwordView: styled.button`
     position: relative;
-    top: -39.5%;
+    top: -36%;
     left: 94%;
     width: 5%;
     height: 5%;
-    background-color: #dbcfcf;
+    background-color: transparent;
     border: none;
     cursor: pointer;
     border-radius: 10px;
