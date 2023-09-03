@@ -99,20 +99,22 @@ const ProjectList = () => {
   const DoneProjects = filteredProjects?.filter(
     (project) => project.status === "진행 완료"
   );
-  const projectsToRender =
-    selectedselectOption === "전체보기"
-      ? filteredProjects
-      : selectedselectOption === "진행 전"
-      ? beforeProgressProjects
-      : selectedselectOption === "진행 중"
-      ? onProgressProjects
-      : DoneProjects;
 
-  const renderProjects = (projectList: Project[]) => {
+  const renderProjects = () => {
+    let projectsToRender: Project[] = [];
+    if (selectedselectOption === "전체보기") {
+      projectsToRender = filteredProjects;
+    } else if (selectedselectOption === "진행 전") {
+      projectsToRender = beforeProgressProjects;
+    } else if (selectedselectOption === "진행 중") {
+      projectsToRender = onProgressProjects;
+    } else if (selectedselectOption === "진행 완료") {
+      projectsToRender = DoneProjects;
+    }
     return (
       <>
-        {projectList?.length > 0 ? (
-          projectList.map((project) => (
+        {projectsToRender?.length > 0 ? (
+          projectsToRender.map((project) => (
             <ProjectCard key={project.projectId} project={project} />
           ))
         ) : (
@@ -162,7 +164,7 @@ const ProjectList = () => {
         </S.SearchSortBtn>
       </S.SearchSortBtnBox>
       <S.ProjectContainer>
-        {projectsOfClient && renderProjects(projectsToRender)}
+        {projectsOfClient && renderProjects()}
       </S.ProjectContainer>
       <S.ProjectCardBox
         onClick={addProjectModalOpenHandler}
