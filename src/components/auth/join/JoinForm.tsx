@@ -11,7 +11,6 @@ import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 interface JoinFormProps {
-  // freelancerOpen: boolean;
   role: string;
 }
 
@@ -19,31 +18,34 @@ interface JoinFormProps {
 const JoinForm = ({ role }: JoinFormProps) => {
   // useinput
 
-  const initialValues: any = {
+  const initialValues: {
+    email: string;
+    password: string;
+    passwordConfirmCurrent: string;
+    name: string;
+    workExp: number;
+    phone: string;
+    category: string;
+    workField: string;
+    photoFile: File | null;
+  } = {
     email: "",
+    password: "",
+    passwordConfirmCurrent: "",
     name: "",
     workExp: 0,
     phone: "",
+    category: "",
+    workField: "",
+    photoFile: null,
   };
 
   const navigate = useNavigate();
-  const [photoFile, setPhotoFile] = useState<File>();
   const [values, setValues] = useState(initialValues);
-  const [openClientJoin, setOpenClientJoin] = useState(true);
   const [errors, setErrors] = useState<any>({});
   const [showPswd, setShowPswd] = useState<boolean>(false);
-  const [workSelect, setWorkSelect] = useState("");
-  const [modal, setModal] = useState(false);
+  const [findPasswordModalOpen, setFindPasswordModalOpen] = useState(false);
   const { setUser } = useUserStore(); // 추가
-  const check =
-    errors.email &&
-    errors.password &&
-    errors.passwordConfirmCurrent &&
-    errors.name &&
-    errors.phone;
-  const onChange = (value: string) => {
-    setWorkSelect(value);
-  };
 
   // 회원가입 api
 
@@ -59,30 +61,25 @@ const JoinForm = ({ role }: JoinFormProps) => {
     ) {
       await clientSignupHandler(
         values,
-        photoFile,
         uploadUserImage,
         role,
-        workSelect,
         setUser,
-
         navigate
       );
     }
   };
 
   //  순수 useState handler
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setValues({ ...values, [name]: value });
+  const handleChange = (key: string, value: string | number) => {
+    setValues({ ...values, [key]: value });
   };
-  const openModalHandler = () => {
-    setModal(!modal);
+
+  const openFindPasswordModalButtonHandler = () => {
+    setFindPasswordModalOpen(!findPasswordModalOpen);
   };
   // 미리보기 핸들러
   const handlePhotoURLOnChange = (file: File) => {
-    setPhotoFile(file);
+    setValues({ ...values, ["photoFile"]: file });
   };
   // 비밀번호 표시
   const showPasswordHandler = () => {
@@ -97,138 +94,143 @@ const JoinForm = ({ role }: JoinFormProps) => {
   return (
     <>
       <S.JoinForm>
-        {openClientJoin && (
-          <form onSubmit={(e) => signUP(e)}>
-            <h1>이메일</h1>
-            <div>
-              <S.JoinInput
-                type="email"
-                name="email"
-                placeholder="ex ) email@google.com"
-                value={values.email}
-                onChange={handleChange}
-              />
-              <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
+        <form onSubmit={(e) => signUP(e)}>
+          <h1>이메일</h1>
+          <div>
+            <S.JoinInput
+              type="email"
+              name="email"
+              placeholder="ex ) email@google.com"
+              value={values.email}
+              onChange={(e) => handleChange("email", e.target.value)}
+            />
+            <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
 
-              <h1>비밀번호</h1>
-              <S.JoinInput
-                type={showPswd ? "text" : "password"}
-                name="password"
-                placeholder="비밀번호"
-                value={values.password}
-                onChange={handleChange}
-              />
-              <S.errordiv>
-                {errors.password && <p>{errors.password}</p>}
-              </S.errordiv>
+            <h1>비밀번호</h1>
+            <S.JoinInput
+              type={showPswd ? "text" : "password"}
+              name="password"
+              placeholder="비밀번호"
+              value={values.password}
+              onChange={(e) => handleChange("password", e.target.value)}
+            />
+            <S.errordiv>
+              {errors.password && <p>{errors.password}</p>}
+            </S.errordiv>
 
-              <h1>비밀번호 확인</h1>
+            <h1>비밀번호 확인</h1>
 
-              <S.JoinInput
-                type={showPswd ? "text" : "password"}
-                name="passwordConfirmCurrent"
-                placeholder="비밀번호 확인"
-                value={values.passwordConfirmCurrent}
-                onChange={handleChange}
-              />
+            <S.JoinInput
+              type={showPswd ? "text" : "password"}
+              name="passwordConfirmCurrent"
+              placeholder="비밀번호 확인"
+              value={values.passwordConfirmCurrent}
+              onChange={(e) =>
+                handleChange("passwordConfirmCurrent", e.target.value)
+              }
+            />
 
-              <S.errordiv>
-                {errors.passwordConfirmCurrent && (
-                  <p>{errors.passwordConfirmCurrent}</p>
-                )}
-              </S.errordiv>
-
-              <h1>이름</h1>
-
-              <S.JoinInput
-                type="text"
-                name="name"
-                placeholder="ex) 홍길동"
-                value={values.name}
-                onChange={handleChange}
-              />
-              <div>{errors.name && <p>{errors.name}</p>}</div>
-              <br />
-
-              <PreviewImage
-                handlePhotoURLOnChange={handlePhotoURLOnChange}
-                defaultImage={JoinDefaultImage}
-              />
-              <br />
-
-              {role === "freelancer" && (
-                <>
-                  <Select
-                    placeholder="Select a person"
-                    optionFilterProp="children"
-                    onChange={onChange}
-                    options={[
-                      {
-                        value: "개발",
-                        label: "개발",
-                      },
-                      {
-                        value: "디자인",
-                        label: "디자인",
-                      },
-                      {
-                        value: "운영",
-                        label: "운영",
-                      },
-                      {
-                        value: "기획",
-                        label: "기획",
-                      },
-                      {
-                        value: "기타",
-                        label: "기타",
-                      },
-                    ]}
-                  />
-                  <br />
-
-                  <h1>작업영역</h1>
-
-                  <S.JoinInput
-                    type="text"
-                    name="workField"
-                    value={values.workField}
-                    onChange={handleChange}
-                    placeholder="ex) react"
-                  />
-                  <br />
-
-                  <h1>경험</h1>
-                  <S.JoinInput
-                    type="text"
-                    name="workExp"
-                    value={values.workExp}
-                    onChange={handleChange}
-                    placeholder="ex) 1"
-                  />
-                  <br />
-                </>
+            <S.errordiv>
+              {errors.passwordConfirmCurrent && (
+                <p>{errors.passwordConfirmCurrent}</p>
               )}
-              <h1>전화번호</h1>
+            </S.errordiv>
 
-              <S.JoinInput
-                type="text"
-                name="phone"
-                value={values.phone}
-                onChange={handleChange}
-                placeholder="ex) 010-1234-5678 "
-              />
-              <div>{errors.phone && <p>{errors.phone}</p>}</div>
-              <br />
+            <h1>이름</h1>
 
-              <S.JoinButton>
-                {role !== "freelancer"
-                  ? "클라이언트 회원가입"
-                  : "프리랜서 회원가입"}
-              </S.JoinButton>
-            </div>
-          </form>
-        )}
+            <S.JoinInput
+              type="text"
+              name="name"
+              placeholder="ex) 홍길동"
+              value={values.name}
+              onChange={(e) => handleChange("name", e.target.value)}
+            />
+            <div>{errors.name && <p>{errors.name}</p>}</div>
+            <br />
+
+            <PreviewImage
+              handlePhotoURLOnChange={handlePhotoURLOnChange}
+              defaultImage={JoinDefaultImage}
+            />
+            <br />
+
+            {role === "freelancer" && (
+              <>
+                <Select
+                  placeholder="Select a work field"
+                  optionFilterProp="children"
+                  onChange={(e) => handleChange("category", e.target.value)}
+                  options={[
+                    {
+                      value: "개발",
+                      label: "개발",
+                    },
+                    {
+                      value: "디자인",
+                      label: "디자인",
+                    },
+                    {
+                      value: "운영",
+                      label: "운영",
+                    },
+                    {
+                      value: "기획",
+                      label: "기획",
+                    },
+                    {
+                      value: "마케팅",
+                      label: "마케팅",
+                    },
+                    {
+                      value: "기타",
+                      label: "기타",
+                    },
+                  ]}
+                />
+                <br />
+
+                <h1>작업영역</h1>
+
+                <S.JoinInput
+                  type="text"
+                  name="workField"
+                  value={values.workField}
+                  onChange={(e) => handleChange("workField", e.target.value)}
+                  placeholder="ex) 프론트엔드, 콘텐츠 마케터, UX/UI"
+                />
+                <br />
+
+                <h1>경험</h1>
+                <S.JoinInput
+                  type="text"
+                  name="workExp"
+                  value={values.workExp}
+                  onChange={(e) => handleChange("workExp", e.target.value)}
+                  placeholder="ex) 1"
+                />
+                <br />
+              </>
+            )}
+            <h1>전화번호</h1>
+
+            <S.JoinInput
+              type="text"
+              name="phone"
+              value={values.phone}
+              onChange={(e) => handleChange("phone", e.target.value)}
+              placeholder="ex) 010-1234-5678 "
+            />
+            <div>{errors.phone && <p>{errors.phone}</p>}</div>
+            <br />
+
+            <S.JoinButton>
+              {role !== "freelancer"
+                ? "클라이언트 회원가입"
+                : "프리랜서 회원가입"}
+            </S.JoinButton>
+          </div>
+        </form>
+
         <S.passwordView onClick={showPasswordHandler}>
           {showPswd ? (
             <EyeOutlined onClick={showPasswordHandler} />
@@ -236,13 +238,14 @@ const JoinForm = ({ role }: JoinFormProps) => {
             <EyeInvisibleOutlined />
           )}
         </S.passwordView>
-
         <br />
         <div>
-          <S.passwordFindButton onClick={openModalHandler}>
+          <S.passwordFindButton onClick={openFindPasswordModalButtonHandler}>
             비밀번호찾기
           </S.passwordFindButton>
-          {modal && <EmailCheck openModal={openModalHandler} />}
+          {findPasswordModalOpen && (
+            <EmailCheck openModal={openFindPasswordModalButtonHandler} />
+          )}
         </div>
       </S.JoinForm>
     </>
