@@ -75,63 +75,72 @@ const TaskList = () => {
     <>
       <S.SelectAddButtonContainer>
         <div>
-          <Select
-            showSearch
-            disabled={
-              userRole === "client"
-                ? ongoingProjectsOfClient && ongoingProjectsOfClient?.length > 0
+          {(ongoingProjectsOfClient && ongoingProjectsOfClient?.length > 0) ||
+          (ongoingProjectsOfFreelancer &&
+            ongoingProjectsOfFreelancer?.length > 0) ? (
+            <Select
+              showSearch
+              disabled={
+                userRole === "client"
+                  ? ongoingProjectsOfClient &&
+                    ongoingProjectsOfClient?.length > 0
+                    ? false
+                    : true
+                  : ongoingProjectsOfFreelancer &&
+                    ongoingProjectsOfFreelancer?.length > 0
                   ? false
                   : true
-                : ongoingProjectsOfFreelancer &&
-                  ongoingProjectsOfFreelancer?.length > 0
-                ? false
-                : true
-            }
-            placeholder="Select a project"
-            optionFilterProp="children"
-            onChange={onChange}
-            value={projectId}
-            filterOption={(input, option) =>
-              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-            }
-            options={
-              userRole === "client"
-                ? ongoingProjectsOfClient &&
-                  ongoingProjectsOfClient.map((project) => {
-                    return {
-                      value: project.projectId,
-                      label: project.title,
-                    };
-                  })
-                : ongoingProjectsOfFreelancer &&
-                  ongoingProjectsOfFreelancer.map((project) => {
-                    return {
-                      value: project.projectId,
-                      label: project.title,
-                    };
-                  })
-            }
-            style={{
-              width: "300px",
-              border: "1.8px solid var(--main-blue)",
-              borderRadius: "7px",
-            }}
-          />
+              }
+              placeholder="Select a project"
+              optionFilterProp="children"
+              onChange={onChange}
+              value={projectId}
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={
+                userRole === "client"
+                  ? ongoingProjectsOfClient &&
+                    ongoingProjectsOfClient.map((project) => {
+                      return {
+                        value: project.projectId,
+                        label: project.title,
+                      };
+                    })
+                  : ongoingProjectsOfFreelancer &&
+                    ongoingProjectsOfFreelancer.map((project) => {
+                      return {
+                        value: project.projectId,
+                        label: project.title,
+                      };
+                    })
+              }
+              style={{
+                width: "300px",
+                border: "1.8px solid var(--main-blue)",
+                borderRadius: "7px",
+              }}
+            />
+          ) : (
+            <p>진행 중인 프로젝트가 없습니다.</p>
+          )}
         </div>
-        {userRole === "freelancer" ? (
-          <S.TaskAddButton onClick={addTaskButtonHandler}>
-            <S.TaskAddSpan>
-              <RiAddBoxLine size="17" color="white" />
-              타임라인 추가하기
-            </S.TaskAddSpan>
-          </S.TaskAddButton>
-        ) : (
-          projectId && (
-            <S.TaskAddButton onClick={terminateProjectButtonHandler}>
-              <S.TaskAddSpan>프로젝트 종료하기</S.TaskAddSpan>
-            </S.TaskAddButton>
-          )
-        )}
+        {userRole === "freelancer"
+          ? projectId && (
+              <S.TaskAddButton onClick={addTaskButtonHandler}>
+                <S.TaskAddSpan>
+                  <RiAddBoxLine size="17" color="white" />
+                  타임라인 추가하기
+                </S.TaskAddSpan>
+              </S.TaskAddButton>
+            )
+          : projectId && (
+              <S.TaskAddButton onClick={terminateProjectButtonHandler}>
+                <S.TaskAddSpan>프로젝트 종료하기</S.TaskAddSpan>
+              </S.TaskAddButton>
+            )}
       </S.SelectAddButtonContainer>
       <S.TimelineContainer>
         {tasks && tasks.length > 0 ? (
@@ -171,9 +180,7 @@ const TaskList = () => {
           (ongoingProjectsOfFreelancer &&
             ongoingProjectsOfFreelancer.length > 0) ? (
           <div>진행중인 업무가 없습니다.</div>
-        ) : (
-          <div>진행중인 프로젝트가 없습니다.</div>
-        )}
+        ) : null}
       </S.TimelineContainer>
     </>
   );

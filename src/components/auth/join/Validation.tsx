@@ -31,9 +31,6 @@ const Validation = (values: any) => {
   if (values.passwordConfirmCurrent !== values.password) {
     errors.passwordConfirmCurrent = " 비밀번호가 틀립니다 . 다시 확인해주세요 ";
   }
-  // } else if (values.passwordConfirmCurrent === values.password) {
-  //   errors.passwordConfirmCurrent = " 비밀번호가 틀립니다 . 다시 확인해주세요 ";
-  // }
 
   if (values.phone === "") {
     errors.phone = "전화번호를 입력해주세요";
