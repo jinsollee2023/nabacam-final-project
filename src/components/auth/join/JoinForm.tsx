@@ -285,12 +285,12 @@ const S = {
     background-color: white;
   `,
   passwordView: styled.button`
-    position: fixed;
-    top: 21%;
-    left: 53.5%;
+    position: relative;
+    top: -90%;
+    left: 59%;
     width: 2%;
     height: 2%;
-    background-color: white;
+    background-color: transparent;
     border: none;
     cursor: pointer;
     border-radius: 10px;

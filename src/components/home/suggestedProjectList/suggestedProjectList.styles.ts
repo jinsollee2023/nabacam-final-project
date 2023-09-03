@@ -94,14 +94,14 @@ export const S = {
   ProejctContentRightTextWrapper: styled.div`
     display: flex;
     justify-content: space-between;
-    width: 145px;
+    width: 100%;
     font-size: 14px;
     color: gray;
     margin-top: 3px;
   `,
   ProjectRegistrationDate: styled.span`
-    width: 68px;
-    text-align: left;
+    width: 75px;
+    text-align: right;
   `,
   AcceptButton: styled(Button)`
     background-color: var(--main-blue);

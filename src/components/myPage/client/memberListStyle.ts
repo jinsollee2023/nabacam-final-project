@@ -6,7 +6,7 @@ export const S = {
     width: 120px;
     height: 30px;
     float: right;
-    border-radius: 4px;
+    border-radius: 6px;
     border: 1.5px solid #0086d0;
     background-color: transparent;
     margin-bottom: 10px;

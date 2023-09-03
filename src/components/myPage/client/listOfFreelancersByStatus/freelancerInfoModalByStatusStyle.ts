@@ -8,7 +8,7 @@ export const S = {
   `,
   ProjectTitleContents: styled.p`
     margin: 20px 0;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
   `,
   ProjectWarp: styled.div`
@@ -22,14 +22,14 @@ export const S = {
     align-items: center;
   `,
   ProjectTitle: styled.span`
-    font-size: 16px;
+    font-size: 14px;
   `,
   ProjectDate: styled.span`
-    font-size: 14px;
+    font-size: 12px;
   `,
   DateInnerText: styled.span`
     color: #595959;
-    font-size: 12px;
+    font-size: 10px;
   `,
   ProfileInfo: styled.div`
     gap: 10px;
@@ -56,14 +56,15 @@ export const S = {
   `,
   Contact: styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 5px;
     justify-content: center;
   `,
   Contacts: styled.div`
     display: flex;
-    flex-direction: row;
-    gap: 5px;
+    width: 150px;
+    font-size: 14px;
+    cursor: pointer;
   `,
   ProjectInfo: styled.div`
     display: flex;
@@ -76,6 +77,12 @@ export const S = {
     flex-direction: column;
     align-items: center;
     gap: 5px;
+  `,
+  OngoingProjectTitle: styled.span`
+    font-size: 14px;
+  `,
+  OngoingProjectDate: styled.span`
+    font-size: 12px;
   `,
   ContentTitle: styled.span`
     font-size: 15px;

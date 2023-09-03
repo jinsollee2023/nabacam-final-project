@@ -27,8 +27,8 @@ const TaskDeadLine = ({ task, userRole }: TaskTitleProps) => {
   };
 
   return (
-    <div>
-      <S.TaskDetailBox width={240} onClick={handleOnClick}>
+    <S.TaskDetailBoxWrapper width="30%">
+      <S.TaskDetailBox onClick={handleOnClick}>
         {task.deadLine.toLocaleString().slice(0, 10)}
       </S.TaskDetailBox>
       {isCalenderOpen && (
@@ -38,7 +38,7 @@ const TaskDeadLine = ({ task, userRole }: TaskTitleProps) => {
           inline
         />
       )}
-    </div>
+    </S.TaskDetailBoxWrapper>
   );
 };
 

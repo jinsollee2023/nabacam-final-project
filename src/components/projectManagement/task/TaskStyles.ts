@@ -3,23 +3,27 @@ import { styled } from "styled-components";
 
 interface TaskDetailBoxProps {
   backgroundColor?: string;
-  width: number;
+}
+interface TaskDetailBoxWrapperProps {
+  width?: string;
 }
 
 interface ColumnLabelProps {
   backgroundColor?: string;
-  width: number;
+  width: string;
 }
 
 const S = {
   TaskCardBox: styled.div`
     display: flex;
   `,
+  TaskDetailBoxWrapper: styled.div<TaskDetailBoxWrapperProps>`
+    width: ${(props) => props.width};
+  `,
   TaskDetailBox: styled.div<TaskDetailBoxProps>`
     cursor: pointer;
     background-color: ${(props) =>
       props.backgroundColor ? props.backgroundColor : "#ffffff"};
-    width: ${(props) => props.width}px;
     height: 40px;
     margin: 5px 10px 5px 0;
     border: 1.2px solid var(--lighter-gray);
@@ -50,12 +54,18 @@ const S = {
   TaskAddSpan: styled(CommonS.CommonSpan)`
     font-size: 13px;
   `,
+  TimelineContainer: styled.div`
+    overflow-y: scroll;
+    height: 80vh;
+    margin-top: 20px;
+    padding-right: 10px;
+  `,
   ColumnLabelWrapper: styled.div`
     display: flex;
-    margin: 35px 0 5px 10px;
+    margin: 0 0 5px 10px;
   `,
   ColumnLabel: styled.div<ColumnLabelProps>`
-    width: ${(props) => props.width}px;
+    width: ${(props) => props.width};
     height: 30px;
     margin: 0px 10px 0px 0;
 

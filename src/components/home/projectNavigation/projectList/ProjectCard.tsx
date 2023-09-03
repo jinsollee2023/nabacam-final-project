@@ -11,6 +11,7 @@ import {
 } from "src/components/common/commonFunc";
 import { queryClient } from "src/App";
 import { FiUsers } from "react-icons/fi";
+import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
 
 interface ProjectCardProps {
   projectItem: Project;
@@ -88,10 +89,7 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
             </>
           }
         >
-          <ApplyForProjectModal
-            projectItem={projectItem}
-            clientName={client?.name!}
-          />
+          <ProjectDetailModal project={projectItem} />
         </Modal>
       )}
       <S.ProejctCardContainer>

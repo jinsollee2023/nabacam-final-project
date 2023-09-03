@@ -24,32 +24,34 @@ const TaskImportance = ({ task, userRole }: TaskImportanceProps) => {
   const greyStars = 5 - yellowStars;
 
   return (
-    <S.TaskDetailBox width={200}>
-      {Array.from({ length: yellowStars }, (_, index) => {
-        return (
-          <span
-            key={index}
-            style={{ color: "yellow" }}
-            onClick={() => importanceIconOnClickHandler(index + 1)}
-          >
-            <AiFillStar />
-          </span>
-        );
-      })}
-      {Array.from({ length: greyStars }, (_, index) => {
-        return (
-          <span
-            key={index}
-            style={{ color: "grey" }}
-            onClick={() =>
-              importanceIconOnClickHandler(yellowStars + index + 1)
-            }
-          >
-            <AiFillStar />
-          </span>
-        );
-      })}
-    </S.TaskDetailBox>
+    <S.TaskDetailBoxWrapper width="25%">
+      <S.TaskDetailBox>
+        {Array.from({ length: yellowStars }, (_, index) => {
+          return (
+            <span
+              key={index}
+              style={{ color: "yellow" }}
+              onClick={() => importanceIconOnClickHandler(index + 1)}
+            >
+              <AiFillStar />
+            </span>
+          );
+        })}
+        {Array.from({ length: greyStars }, (_, index) => {
+          return (
+            <span
+              key={index}
+              style={{ color: "grey" }}
+              onClick={() =>
+                importanceIconOnClickHandler(yellowStars + index + 1)
+              }
+            >
+              <AiFillStar />
+            </span>
+          );
+        })}
+      </S.TaskDetailBox>
+    </S.TaskDetailBoxWrapper>
   );
 };
 
