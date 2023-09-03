@@ -30,7 +30,7 @@ const TaskTitle = ({ task, userRole }: TaskTitleProps) => {
   const { updateTaskTitleMutation } = useTasksQueries(task.projectId);
 
   return (
-    <div style={{ width: "24%" }}>
+    <S.TaskDetailBoxWrapper width="24%">
       <S.TaskDetailBox onDoubleClick={handleTitleDoubleClick}>
         {isTitleEditable ? (
           <S.TaskTitleInput
@@ -43,7 +43,7 @@ const TaskTitle = ({ task, userRole }: TaskTitleProps) => {
           <p>{task.title}</p>
         )}
       </S.TaskDetailBox>
-    </div>
+    </S.TaskDetailBoxWrapper>
   );
 };
 

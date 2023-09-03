@@ -66,7 +66,7 @@ const TaskMonth = ({ task, userRole, month }: TaskMonthProps) => {
   }, [month]);
 
   return (
-    <div style={{ width: "1%" }}>
+    <S.TaskDetailBoxWrapper width="1.2%">
       <S.TaskDetailBox
         backgroundColor={monthColor}
         onClick={monthOptionOnclickHandler}
@@ -81,7 +81,7 @@ const TaskMonth = ({ task, userRole, month }: TaskMonthProps) => {
           inline
         />
       )}
-    </div>
+    </S.TaskDetailBoxWrapper>
   );
 };
 

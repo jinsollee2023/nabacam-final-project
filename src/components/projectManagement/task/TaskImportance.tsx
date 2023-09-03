@@ -24,7 +24,7 @@ const TaskImportance = ({ task, userRole }: TaskImportanceProps) => {
   const greyStars = 5 - yellowStars;
 
   return (
-    <div style={{ width: "25%" }}>
+    <S.TaskDetailBoxWrapper width="25%">
       <S.TaskDetailBox>
         {Array.from({ length: yellowStars }, (_, index) => {
           return (
@@ -51,7 +51,7 @@ const TaskImportance = ({ task, userRole }: TaskImportanceProps) => {
           );
         })}
       </S.TaskDetailBox>
-    </div>
+    </S.TaskDetailBoxWrapper>
   );
 };
 

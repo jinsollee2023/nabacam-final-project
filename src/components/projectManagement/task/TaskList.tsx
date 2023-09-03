@@ -147,7 +147,7 @@ const TaskList = () => {
                 return (
                   <>
                     <S.ColumnLabelWrapper key={month}>
-                      <S.ColumnLabel width="24%">{`${month}월`}</S.ColumnLabel>
+                      <S.ColumnLabel width="25%">{`${month}월`}</S.ColumnLabel>
                       <S.ColumnLabel width="18%">진행 상황</S.ColumnLabel>
                       <S.ColumnLabel width="29%">마감 기한</S.ColumnLabel>
                       <S.ColumnLabel width="25%">중요도</S.ColumnLabel>

@@ -3,6 +3,8 @@ import { styled } from "styled-components";
 
 interface TaskDetailBoxProps {
   backgroundColor?: string;
+}
+interface TaskDetailBoxWrapperProps {
   width?: string;
 }
 
@@ -15,11 +17,13 @@ const S = {
   TaskCardBox: styled.div`
     display: flex;
   `,
+  TaskDetailBoxWrapper: styled.div<TaskDetailBoxWrapperProps>`
+    width: ${(props) => props.width};
+  `,
   TaskDetailBox: styled.div<TaskDetailBoxProps>`
     cursor: pointer;
     background-color: ${(props) =>
       props.backgroundColor ? props.backgroundColor : "#ffffff"};
-    width: ${(props) => props.width};
     height: 40px;
     margin: 5px 10px 5px 0;
     border: 1.2px solid var(--lighter-gray);
