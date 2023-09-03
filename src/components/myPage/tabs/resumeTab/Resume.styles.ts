@@ -154,9 +154,6 @@ export const S = {
   RightEndBtnBox: styled.div`
     display: flex;
     margin-left: auto;
-
-    margin-top: 25px;
-    padding-right: 3%;
   `,
   CenterizeBox: styled.div`
     display: flex;

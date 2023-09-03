@@ -44,7 +44,7 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
             <S.PastWorkField>{experience.pastWorkField}</S.PastWorkField>
           </CommonS.CenterizeBox>
 
-          <CommonS.CenterizeBox>
+          <CommonS.CenterizeBox marginTop="5px">
             <S.PastWorkDetail>
               {experience.pastWorkPlace}/{experience.pastEmploymentType}/
               {experience.pastWorkPosition}
@@ -78,12 +78,12 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
           setIsModalOpen={setIsUpdateModalOpen}
           buttons={
             <>
-              <S.RightEndBtnBox>
+              <CommonS.RightEndBtnBox>
                 <S.Btn onClick={updateExperienceHandler}>수정하기</S.Btn>
                 <S.Btn marginLeft="10px" onClick={deleteExperienceHandler}>
                   삭제하기
                 </S.Btn>
-              </S.RightEndBtnBox>
+              </CommonS.RightEndBtnBox>
             </>
           }
         >

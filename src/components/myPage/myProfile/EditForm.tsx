@@ -91,7 +91,7 @@ const EditForm = ({ user }: EditFormProps) => {
               label: "기타",
             },
           ]}
-          style={{ marginTop: "15px" }}
+          style={{ marginTop: "15px", width: "100%" }}
         />
         <br />
         <br />

@@ -18,6 +18,9 @@ interface FlexBoxProps {
   marginLeft?: string;
   marginTop?: string;
 }
+interface CenterizeBoxProps {
+  marginTop?: string;
+}
 
 export const CommonS = {
   CommonBtn: styled.button<commonBtnProps>`
@@ -55,10 +58,11 @@ export const CommonS = {
     margin-left: ${(props) => props.marginLeft};
     margin-top: ${(props) => props.marginTop};
   `,
-  CenterizeBox: styled.div`
+  CenterizeBox: styled.div<CenterizeBoxProps>`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: ${(props) => props.marginTop};
   `,
   JustifyBox: styled.div`
     display: flex;

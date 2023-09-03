@@ -49,6 +49,10 @@ export const S = {
   SettingBtn: styled.span`
     cursor: pointer;
     font-size: 20px;
+    margin-left: 5px;
+  `,
+  SettingSpan: styled.span`
+    font-size: 5px;
   `,
 
   // EditForm
