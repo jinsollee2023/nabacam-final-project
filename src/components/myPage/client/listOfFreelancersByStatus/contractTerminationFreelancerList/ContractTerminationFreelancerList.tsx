@@ -26,7 +26,8 @@ const ContractTerminationFreelancerList = ({
 
   useEffect(() => {
     if (terminationedProjectsWithFreelancers) {
-      const filteredfreelancerLists = terminationedProjectsWithFreelancers?.filter((project) => {
+      const filteredfreelancerLists = 
+        terminationedProjectsWithFreelancers?.filter((project) => {
         const lowerCaseSearch = String(searchKeyword).toLowerCase();
         const workExp = String(project.freelancer.workExp);
         return (
@@ -68,9 +69,12 @@ const ContractTerminationFreelancerList = ({
               project.freelancer.workField?.workField === selectedWorkField
           )
           .map((project) => (
-            <S.ListsBox key={`${project.freelancer.userId}-${project.projectId}`}>
+            <S.ListsBox
+              key={`${project.freelancer?.userId}-${project.projectId}`}
+            >
+
               <ContractTerminationFreelancerCards
-                key={`${project.freelancer.userId}-${project.projectId}`}
+                key={`${project.freelancer?.userId}-${project.projectId}`}
                 user={project.freelancer}
                 project={project}
               />

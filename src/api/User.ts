@@ -57,7 +57,9 @@ export const getClientByProject = async (id: string): Promise<User> => {
       .maybeSingle();
 
     if (error) {
-      // alert(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      console.log(
+        `사용자 정보를 가져오는 중 오류가 발생했습니다????.\n ${error.message}`
+
     }
     return data as User;
   } catch (error) {
