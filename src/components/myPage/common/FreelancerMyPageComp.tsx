@@ -65,7 +65,7 @@ const FreelancerMyPageComp = () => {
                 계약정보
               </S.Tab>
 
-              <S.Tab
+              {/* <S.Tab
                 onClick={() => handleTabClick("피드백 관리")}
                 style={{
                   borderBottom:
@@ -75,13 +75,13 @@ const FreelancerMyPageComp = () => {
                 }}
               >
                 피드백 관리
-              </S.Tab>
+              </S.Tab> */}
             </S.TabBarContainer>
             {/* ----- */}
             {activeTab === "이력서" && <ResumeTab />}
             {activeTab === "포트폴리오" && <PortfolioTab />}
             {activeTab === "계약정보" && <ContractInfoTab />}
-            {activeTab === "피드백 관리" && <FeedbackTab />}
+            {/* {activeTab === "피드백 관리" && <FeedbackTab />} */}
           </S.TabsContainerInner>
         </S.TabsContainer>
       </S.Container>

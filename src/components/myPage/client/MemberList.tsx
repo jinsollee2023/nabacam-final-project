@@ -61,7 +61,9 @@ const MemberList = () => {
   };
 
   const deleteMemberButtonHandler = (deleteMember: Member) => {
-    const deletedMember = client?.members?.filter((member) => member !== deleteMember);
+    const deletedMember = client?.members?.filter(
+      (member) => member !== deleteMember
+    );
     // 업데이트
     clientMembersMutation.mutate({
       updatedData: { members: deletedMember },
@@ -74,7 +76,12 @@ const MemberList = () => {
   return (
     <>
       <div>
-        <S.AddMemberBtn onClick={openModalButtonHandler}>+ 구성원 추가하기</S.AddMemberBtn>
+        {client?.members && client.members.length > 0 ? null : (
+          <p>등록된 구성원이 없습니다.</p>
+        )}
+        <S.AddMemberBtn onClick={openModalButtonHandler}>
+          + 구성원 추가하기
+        </S.AddMemberBtn>
       </div>
       {isAddModalOpen && (
         <Modal
@@ -82,10 +89,12 @@ const MemberList = () => {
           buttons={
             <>
               {currentMemberData?.name === "" ? (
-                <S.ModalInnerAddBtn onClick={addMemberButtonHandler}>추가하기</S.ModalInnerAddBtn>
+                <S.ModalInnerAddBtn onClick={addMemberButtonHandler}>
+                  구성원 추가하기
+                </S.ModalInnerAddBtn>
               ) : (
                 <S.ModalInnerAddBtn onClick={updateMemberButtonHandler}>
-                  멤버 수정하기
+                  구성원 수정하기
                 </S.ModalInnerAddBtn>
               )}
             </>
@@ -108,7 +117,9 @@ const MemberList = () => {
                 </S.MemberInfo>
                 <S.MemberContactBox>
                   <S.BtnBox>
-                    <S.EditAndDelBtn onClick={() => updateButtonHandler(member)}>
+                    <S.EditAndDelBtn
+                      onClick={() => updateButtonHandler(member)}
+                    >
                       수정
                     </S.EditAndDelBtn>
                     <S.EditAndDelBtn

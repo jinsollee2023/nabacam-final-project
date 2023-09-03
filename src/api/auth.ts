@@ -45,13 +45,20 @@ export const userJoinData = async (
 //  회원가입
 
 export const clientSignupHandler = async (
-  values: any,
-  photoFile: any,
+  values: {
+    email: string;
+    password: string;
+    passwordConfirmCurrent: string;
+    name: string;
+    workExp: number;
+    phone: string;
+    category: string;
+    workField: string;
+    photoFile: File | null;
+  },
   uploadUserImage: any,
   role: string,
-  workSelect: string,
   setUser: any,
-  // setOpenClientJoin: any
   navigate: any
 ) => {
   try {
@@ -65,17 +72,20 @@ export const clientSignupHandler = async (
     } = await supabase.auth.getUser();
 
     // 사진을 스토리지에 업로드
-    const filePath = await uploadUserImage(user?.id, photoFile);
+    const filePath = await uploadUserImage(user?.id, values.photoFile);
     const photoURL = await getPhotoURL(filePath);
 
     const newUserData = {
       userId: user?.id,
       name: values.name,
       role: role === "" ? "client" : role,
-      photoURL: photoFile
+      photoURL: values.photoFile
         ? `${photoURL}?updated=${new Date().getTime()}`
         : "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/users/defaultProfileImage/defaultProfileImage.jpeg",
-      workField: { workField: workSelect, workSmallField: values.workField },
+      workField: {
+        workField: values.category,
+        workSmallField: values.workField,
+      },
       workExp: values.workExp,
       contact: { email: user?.email, phone: values.phone },
     };
