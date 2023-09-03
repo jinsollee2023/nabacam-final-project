@@ -37,7 +37,6 @@ const SortProjects = ({ handleSort }: SortProjectsProps) => {
           },
         ]}
       />
-      <BsArrowDownUp />
     </S.SortContainer>
   );
 };

@@ -49,10 +49,10 @@ const ResumeExperienceComp = () => {
       <S.Btn
         marginTop="30px"
         width="100%"
+        height="40px"
         onClick={() => {
           setIsAddModalOpen(true);
         }}
-        style={{ position: "sticky" }}
       >
         <S.CenterizeBox>
           <BsPlusSquareDotted size="15" style={{ marginRight: "5px" }} />

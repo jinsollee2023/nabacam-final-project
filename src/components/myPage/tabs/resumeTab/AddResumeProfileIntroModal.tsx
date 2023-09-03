@@ -24,7 +24,7 @@ const AddResumeProfileIntroModal = ({ profileIntro }: profileIntroProps) => {
   return (
     <S.AccountForm>
       <S.Label>
-        프리랜서마켓에 등록될 프로필을 입력해주세요.
+        프리랜서마켓에 등록될 프로필을 100자 이내로 입력해주세요.
         <TextArea
           showCount
           maxLength={100}
@@ -37,7 +37,7 @@ const AddResumeProfileIntroModal = ({ profileIntro }: profileIntroProps) => {
             border: "1px solid var(--main-blue)",
             width: "100%",
           }}
-          placeholder="100자 이하로 입력해주세요..."
+          placeholder="예시)UI/UX디자인 3년차"
           value={newProfileIntroInput}
           onChange={(e) => onChangeNewprofileIntroInputHandler(e.target.value)}
         />
