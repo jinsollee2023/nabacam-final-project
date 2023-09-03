@@ -50,9 +50,14 @@ const S = {
   TaskAddSpan: styled(CommonS.CommonSpan)`
     font-size: 13px;
   `,
+  TimelineContainer: styled.div`
+    overflow-y: scroll;
+    height: 80vh;
+    margin-top: 20px;
+  `,
   ColumnLabelWrapper: styled.div`
     display: flex;
-    margin: 35px 0 5px 10px;
+    margin: 0 0 5px 10px;
   `,
   ColumnLabel: styled.div<ColumnLabelProps>`
     width: ${(props) => props.width}px;
