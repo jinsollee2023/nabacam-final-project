@@ -2,10 +2,17 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../zustand/useUserStore";
 import React from "react";
+import { logOut } from "src/api/auth";
+import { FiLogOut } from "react-icons/fi";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
+
+  const logOutButtonHandler = async () => {
+    await logOut(navigate);
+  };
+
   if (window.location.pathname === `/register`) {
     return null;
   }
@@ -19,8 +26,13 @@ const Navbar = () => {
     <S.SidebarWrapper>
       <S.ProfileWrapper>
         <S.ProfileImage src={user.photoURL} alt="img" />
-        <S.Name>{user.name}</S.Name>
-        <S.Role>{user.role}</S.Role>
+        <div>
+          <S.Name>{user.name}</S.Name>
+          <S.Role>{user.role}</S.Role>
+        </div>
+        <S.LogOutButton onClick={logOutButtonHandler}>
+          <FiLogOut size="20" />
+        </S.LogOutButton>
       </S.ProfileWrapper>
       <S.UpperNavLinks>
         <S.NavLinkItem onClick={() => navigate("/")}>
@@ -63,11 +75,12 @@ const S = {
   ProfileWrapper: styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-around;
     margin-bottom: 30px;
   `,
   ProfileImage: styled.img`
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     border-radius: 10px;
     margin-right: 10px;
   `,
@@ -76,7 +89,7 @@ const S = {
     font-weight: bold;
   `,
   Role: styled.div`
-    margin-left: 7px;
+    margin-top: 7px;
     font-size: 12px;
   `,
   UpperNavLinks: styled.ul`
@@ -102,5 +115,9 @@ const S = {
     &:hover {
       background-color: var(--hover-blue);
     }
+  `,
+  LogOutButton: styled.button`
+    background-color: transparent;
+    border: none;
   `,
 };
