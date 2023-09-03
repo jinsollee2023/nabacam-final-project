@@ -5,12 +5,12 @@ import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { S } from "./suggestedProjectList.styles";
 import Modal from "../../../components/modal/Modal";
 import { Button } from "antd";
-import ApplyForProjectModal from "../projectNavigation/projectList/applyForProjectModal/ApplyForProjectModal";
 import {
   calculateDaysAgo,
   getDayOfWeek,
 } from "../../../components/common/commonFunc";
 import { FiUsers } from "react-icons/fi";
+import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
 
 interface SuggestedProjectCardProps {
   projectItem: Project;
@@ -60,7 +60,6 @@ const SuggestedProjectCard = ({
           );
         }
       }
-      // setIsDetailModalOpen(false);
     } else if (action === "accept") {
       const isAcceptConfirmed = window.confirm(
         `${projectItem.title}에 대한 제안을 수락하시겠습니까?`
@@ -70,9 +69,6 @@ const SuggestedProjectCard = ({
           ...projectItem,
           freelancerId: userId,
           status: "진행 중",
-          // volunteer: [],
-          // pendingFreelancer: [],
-          // SuggestedFreelancers: [],
           date: {
             ...projectItem.date,
             startDate: new Date().toISOString().split("T")[0],
@@ -92,7 +88,6 @@ const SuggestedProjectCard = ({
           );
         }
       }
-      // setIsDetailModalOpen(false);
     }
   };
 
@@ -134,10 +129,7 @@ const SuggestedProjectCard = ({
             )
           }
         >
-          <ApplyForProjectModal
-            projectItem={projectItem}
-            clientName={client?.name!}
-          />
+          <ProjectDetailModal project={projectItem} />
         </Modal>
       )}
 

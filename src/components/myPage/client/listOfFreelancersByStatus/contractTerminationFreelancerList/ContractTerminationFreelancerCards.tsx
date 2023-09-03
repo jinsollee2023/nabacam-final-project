@@ -73,6 +73,15 @@ const ContractTerminationFreelancerCards = ({
     }
   });
 
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("클립보드에 복사되었습니다.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <S.Profile>
@@ -95,11 +104,15 @@ const ContractTerminationFreelancerCards = ({
                       </S.ProfileContents>
                       <S.ContactBox>
                         <FiPhoneCall size={20} />
-                        <S.Contact>{user.contact.phone}</S.Contact>
+                        <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
+                          {user.contact.phone}
+                        </S.Contact>
                       </S.ContactBox>
                       <S.ContactBox>
                         <FiMail size={20} />
-                        <S.Contact>{user.contact.email}</S.Contact>
+                        <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
+                          {user.contact.email}
+                        </S.Contact>
                       </S.ContactBox>
                     </div>
                   </S.ContentContainer>
@@ -129,9 +142,9 @@ const ContractTerminationFreelancerCards = ({
                       setIsModalOpen={setIsDetailModalOpen}
                       buttons={
                         <>
-                          <S.DetailBtn onClick={handleSuggestingAgainBtnClick}>
+                          <S.ModalInnerBtn onClick={handleSuggestingAgainBtnClick}>
                             프로젝트 다시 제안하기
-                          </S.DetailBtn>
+                          </S.ModalInnerBtn>
                         </>
                       }
                     >
@@ -145,7 +158,7 @@ const ContractTerminationFreelancerCards = ({
                       setIsModalOpen={setIsSuggestingAgainModalOpen}
                       buttons={
                         <>
-                          <S.DetailBtn
+                          <S.ModalInnerBtn
                             onClick={handleProjectSuggestingBtnClick}
                             disabled={
                               !selectedProject?.title ||
@@ -153,7 +166,7 @@ const ContractTerminationFreelancerCards = ({
                             }
                           >
                             {selectedProject?.title} 제안하기
-                          </S.DetailBtn>
+                          </S.ModalInnerBtn>
                         </>
                       }
                     >

@@ -14,8 +14,8 @@ export const S = {
     width: 90px;
     height: 30px;
     background-color: transparent;
-    border: 2px solid #0086d0;
-    border-radius: 4px;
+    border: 1.5px solid #0086d0;
+    border-radius: 6px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -31,7 +31,7 @@ export const S = {
   ListsBox: styled.div`
     border: 1.5px solid #d6d6d6;
     border-radius: 4px;
-    width: 280px;
+    width: 300px;
     height: 300px;
     margin-bottom: 20px;
     display: table;
@@ -79,6 +79,7 @@ export const S = {
   `,
   Contact: styled.span`
     font-size: 14px;
+    cursor: pointer;
   `,
 
   Line: styled.hr`
@@ -104,7 +105,7 @@ export const S = {
   DetailBtn: styled.button`
     position: relative;
     border: 1px solid #0086d0;
-    border-radius: 4px;
+    border-radius: 6px;
     width: 90%;
     height: 35px;
     margin-top: 5px;
@@ -112,5 +113,17 @@ export const S = {
     font-size: 14px;
     cursor: pointer;
     color: #0086d0;
+  `,
+  ModalInnerBtn: styled.button`
+    position: relative;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    height: 35px;
+    margin-top: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    color: white;
+    background-color: #0086d0;
   `,
 };

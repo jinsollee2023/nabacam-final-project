@@ -34,6 +34,19 @@ export const S = {
   ModalContents: styled.div`
     height: 90%;
     overflow: auto;
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #848484;
+      border-radius: 10px;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #f3f3f3;
+      border-radius: 10px;
+    }
   `,
   ModalBtnBox: styled.div`
     display: flex;
