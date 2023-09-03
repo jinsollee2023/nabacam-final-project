@@ -67,11 +67,11 @@ export const S = {
     gap: 5px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
   `,
   Contacts: styled.span`
+    gap: 5px;
     display: flex;
-    width: 200px;
+    flex-direction: row;
     font-size: 14px;
     cursor: pointer;
   `,
