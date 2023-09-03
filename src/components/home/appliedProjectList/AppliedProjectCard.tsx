@@ -83,7 +83,7 @@ const AppliedProjectCard = ({
           </div>
           <S.ProejctContentRightTextWrapper>
             <span>프로젝트 시작 예정일 </span>
-            <span>{projectItem.date?.startDate}</span>
+            <span>{projectItem.expectedStartDate}</span>
           </S.ProejctContentRightTextWrapper>
         </S.ProejctContentRightWrapper>
       </S.ProjectCardContainer>

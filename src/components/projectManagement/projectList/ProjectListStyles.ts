@@ -1,4 +1,4 @@
-import { styled, keyframes } from "styled-components";
+import { styled } from "styled-components";
 
 interface ProjectCardBoxProps {
   justifyContent?: string;
@@ -196,6 +196,17 @@ const S = {
   `,
   DetailModalContainer: styled.div`
     margin-right: 10px;
+  `,
+  ImageBox: styled.div`
+    width: 130px;
+    height: 130px;
+    border-radius: 5px;
+    object-fit: cover;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   `,
 };
 

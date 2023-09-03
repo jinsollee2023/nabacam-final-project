@@ -1,11 +1,8 @@
-import useFreelancersQueries from "src/hooks/useFreelancersQueries";
 import { Project } from "../../../Types";
 import S from "./ProjectListStyles";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getFreelancer } from "src/api/User";
-import { BiPhoneCall } from "react-icons/bi";
-import { AiOutlineMail } from "react-icons/ai";
-import ProjectVolunteeredFreelancerProfile from "./ProjectVolunteeredFreelancerProfile";
+import ProjectCommittedFreelancerProfile from "./ProjectCommittedFreelancerProfile";
 
 export interface ProjectDetailModalProps {
   project: Project;
@@ -26,20 +23,26 @@ export interface FreelancerInfo {
 }
 
 const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
-  const [volunteeredFreelancer, setVolunteeredFreelancer] =
+  const [committedFreelancer, setCommittedFreelancer] =
     useState<FreelancerInfo | null>(null);
 
+  const fetchCommittedFreelancer = async () => {
+    const userId = project.freelancerId!;
+    const freelancer = await getFreelancer(userId);
+    setCommittedFreelancer(freelancer);
+  };
   useEffect(() => {
-    const fetchVolunteeredFreelancer = async () => {
-      if (project.volunteer && project.volunteer[0]) {
-        const userId = project.volunteer[0];
-        const freelancer = await getFreelancer(userId);
-        setVolunteeredFreelancer(freelancer);
-      }
-    };
+    fetchCommittedFreelancer();
+  }, [project]);
 
-    fetchVolunteeredFreelancer();
-  }, [project.volunteer]);
+  const payUnitConversion = (pay: number | string) => {
+    if (pay === "상의 후 결정") {
+      return pay;
+    } else {
+      const convertedPay = (pay as number) * 10000;
+      return convertedPay.toLocaleString("ko-KR") + "₩";
+    }
+  };
 
   return (
     <S.DetailModalContainer>
@@ -122,7 +125,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
             marginRight="15px"
             marginLeft="15px"
           >
-            {project.pay.min}
+            {payUnitConversion(project.pay.min as number)}
           </S.ModalDetail>
           <p
             style={{
@@ -139,20 +142,25 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
             marginRight="15px"
             marginLeft="15px"
           >
-            {project.pay.max}
+            {payUnitConversion(project.pay.max as number)}
           </S.ModalDetail>
         </S.ModalInfoFlexBox>
       </S.ModalInfoColumnBox>
-      <S.ModalLine />
       {/* --------------------------------------------------------- */}
-      <S.ModalTitle marginBottom="10px">
-        <label htmlFor="volunteeredFreelancer">투입한 프리랜서</label>
-      </S.ModalTitle>
 
-      <ProjectVolunteeredFreelancerProfile
-        volunteeredFreelancer={volunteeredFreelancer}
-        project={project}
-      />
+      {committedFreelancer && (
+        <>
+          <S.ModalLine />
+          <S.ModalTitle marginBottom="10px">
+            <label htmlFor="volunteeredFreelancer">투입한 프리랜서</label>
+          </S.ModalTitle>
+
+          <ProjectCommittedFreelancerProfile
+            committedFreelancer={committedFreelancer}
+            project={project}
+          />
+        </>
+      )}
     </S.DetailModalContainer>
   );
 };
