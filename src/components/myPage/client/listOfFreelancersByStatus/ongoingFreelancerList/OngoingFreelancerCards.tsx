@@ -13,15 +13,19 @@ interface OngoingFreelancerCardsProps {
   project: Project;
 }
 
-const OngoingFreelancerCards = ({
-  user,
-  project,
-}: OngoingFreelancerCardsProps) => {
+const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) => {
   const { userId } = useUserStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
-    null
-  );
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("클립보드에 복사되었습니다.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -44,11 +48,15 @@ const OngoingFreelancerCards = ({
                   </S.ProfileContents>
                   <S.ContactBox>
                     <FiPhoneCall size={20} />
-                    <S.Contact>{user.contact.phone}</S.Contact>
+                    <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
+                      {user.contact.phone}
+                    </S.Contact>
                   </S.ContactBox>
                   <S.ContactBox>
                     <FiMail size={20} />
-                    <S.Contact>{user.contact.email}</S.Contact>
+                    <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
+                      {user.contact.email}
+                    </S.Contact>
                   </S.ContactBox>
                 </div>
               </S.ContentContainer>
@@ -68,9 +76,7 @@ const OngoingFreelancerCards = ({
               >
                 자세히 보기
               </S.DetailBtn>
-              {isModalOpen &&
-              selectedFreelancer &&
-              selectedFreelancer.userId === user.userId ? (
+              {isModalOpen && selectedFreelancer && selectedFreelancer.userId === user.userId ? (
                 <Modal setIsModalOpen={setIsModalOpen}>
                   <OngoingFreelancerInfoModal user={user} project={project} />
                 </Modal>

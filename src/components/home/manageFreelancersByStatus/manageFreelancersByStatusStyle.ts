@@ -78,8 +78,8 @@ export const S = {
   `,
   ContractBtn: styled.button`
     width: 50%;
-    height: 35px;
-    font-size: 16px;
+    height: 30px;
+    font-size: 14px;
     border: none;
     border-radius: 10px;
     margin-top: 8px;
@@ -89,8 +89,8 @@ export const S = {
   `,
   PendingBtn: styled.button`
     width: 50%;
-    height: 35px;
-    font-size: 16px;
+    height: 30px;
+    font-size: 14px;
     border: none;
     border-radius: 10px;
     margin-top: 8px;

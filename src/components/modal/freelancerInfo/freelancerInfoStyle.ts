@@ -55,12 +55,12 @@ export const S = {
 
   ResumeContent: styled.p`
     margin: 20px 0;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
   `,
   ProfileIntro: styled.div`
     width: 100%;
-    font-size: 16px;
+    font-size: 14px;
     word-break: break-all;
   `,
   ContactBox: styled.div`
@@ -73,11 +73,13 @@ export const S = {
     display: flex;
     width: 200px;
     font-size: 14px;
+    cursor: pointer;
   `,
   PortfolioBox: styled.div`
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
+    width: 100%;
   `,
 
   ImgBox: styled.div`
@@ -95,7 +97,8 @@ export const S = {
   `,
   PortfolioCmt: styled.p`
     margin-top: 5px;
-    font-size: 14px;
+    font-size: 12px;
+    text-align: center;
   `,
   DataNullBox: styled.div`
     background-color: rgba(0, 0, 0, 0.1);
@@ -105,7 +108,7 @@ export const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 15px;
+    font-size: 14px;
   `,
   BtnBox: styled.div`
     display: flex;
@@ -134,12 +137,12 @@ export const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 15px;
+    font-size: 14px;
     word-break: break-all;
     gap: 5px;
   `,
   PastWorkPlace: styled.span`
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
   `,
   PastWorkInfo: styled.span`
