@@ -7,10 +7,6 @@ import { Portfolio } from "../../../../../Types";
 import PreviewImage from "../../../../../components/auth/join/PreviewImage";
 import { css, styled } from "styled-components";
 
-// 유효성 검사...버튼을 클릭했을 때 예를 들이 newPortfolio.title이 "" 이 값이면
-// newPortfolio.title을 value로 받는? 아니다 title을 value로 받는 input요소에 className을 추가하고 // 어케 찾아갈건데...ㅋ..props..........
-// 해당 className을 가지고 있는 경우에는 이미 어떠한 스타일(빨간 선)을 적용하게끔? ....이게 되냐고...
-
 const PortfolioAddModal = () => {
   const [attachmentType, setAttachmentType] = useState<string>("file");
   const { selectedPortfolio, setSelectedPortfolio } = usePortfolioStore();
