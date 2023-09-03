@@ -74,10 +74,14 @@ export const S = {
     gap: 10px;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    justify-content: center;
     margin-top: 5px;
   `,
   Contact: styled.span`
+    gap: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-size: 14px;
     cursor: pointer;
   `,

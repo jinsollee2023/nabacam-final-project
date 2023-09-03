@@ -9,9 +9,7 @@ import useProjectsQueries from "../../../hooks/useProjectsQueries";
 
 const PendingFreelancerList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
-    null
-  );
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
 
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
@@ -34,9 +32,7 @@ const PendingFreelancerList = () => {
     pendingFreelancer: string[]
   ) => {
     const customProjectIds = projectIds.concat(projectId);
-    const customPendingFreelancers = pendingFreelancer.filter(
-      (v) => v !== userId
-    );
+    const customPendingFreelancers = pendingFreelancer.filter((v) => v !== userId);
     updateFreelancerApprovalMutation.mutate({ userId, projectId, endDate });
     deleteVolunteerAndPendingFreelancerMutation.mutate({
       projectId,
@@ -86,15 +82,11 @@ const PendingFreelancerList = () => {
                 <S.WorkFieldAndWorkExp>
                   {freelancer.workField?.workSmallField}
                 </S.WorkFieldAndWorkExp>
-                <S.WorkFieldAndWorkExp>
-                  {freelancer.workExp}년차
-                </S.WorkFieldAndWorkExp>
+                <S.WorkFieldAndWorkExp>{freelancer.workExp}년차</S.WorkFieldAndWorkExp>
               </S.ListContents>
               <S.ProjectContents>
                 <div key={project.projectId}>
-                  <S.ProjectTitle>
-                    {project.title} 프로젝트에 지원
-                  </S.ProjectTitle>
+                  <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
                 </div>
 
                 <S.CheckingBtn
@@ -113,9 +105,7 @@ const PendingFreelancerList = () => {
                       buttons={
                         <>
                           {project.freelancerId ? (
-                            <S.DisabledBtn disabled>
-                              모집이 완료된 프로젝트입니다.
-                            </S.DisabledBtn>
+                            <S.DisabledBtn disabled>모집이 완료된 프로젝트입니다.</S.DisabledBtn>
                           ) : (
                             <>
                               <S.ContractBtn
@@ -148,10 +138,7 @@ const PendingFreelancerList = () => {
                         </>
                       }
                     >
-                      <PendingFreelancerInfoModal
-                        user={freelancer}
-                        project={project}
-                      />
+                      <PendingFreelancerInfoModal user={freelancer} project={project} />
                     </Modal>
                   )}
               </S.ProjectContents>
