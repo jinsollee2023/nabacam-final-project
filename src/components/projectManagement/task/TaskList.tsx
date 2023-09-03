@@ -13,11 +13,14 @@ import { RiAddBoxLine } from "react-icons/ri";
 
 const TaskList = () => {
   const { userId, userRole } = useUserStore();
-  const { ongoingProjectsOfClient, ongoingProjectsOfFreelancer } =
-    useProjectsQueries({
-      currentUserId: userId,
-    });
   const [projectId, setProjectId] = useState("");
+  const {
+    ongoingProjectsOfClient,
+    ongoingProjectsOfFreelancer,
+    updateProjectMutation,
+  } = useProjectsQueries({
+    currentUserId: userId,
+  });
 
   useEffect(() => {
     if (
@@ -43,6 +46,19 @@ const TaskList = () => {
 
   const addTaskButtonHandler = () => {
     addTaskMutation.mutate();
+  };
+
+  const terminateProjectButtonHandler = () => {
+    const isConfirmed = window.confirm(
+      "프로젝트가 종료되면 진행 상태를 확인할 수 없습니다. \n프로젝트를 종료하시겠습니까?"
+    );
+    if (isConfirmed) {
+      updateProjectMutation.mutate({
+        projectId,
+        newProject: { status: "진행 완료" },
+      });
+      setProjectId("");
+    }
   };
 
   const monthlyTaskData: Map<string, Task[]> = new Map();
@@ -106,10 +122,16 @@ const TaskList = () => {
           <S.TaskAddButton onClick={addTaskButtonHandler}>
             <S.TaskAddSpan>
               <RiAddBoxLine size="17" color="white" />
-              &nbsp;타임라인 추가하기
+              타임라인 추가하기
             </S.TaskAddSpan>
           </S.TaskAddButton>
-        ) : null}
+        ) : (
+          projectId && (
+            <S.TaskAddButton onClick={terminateProjectButtonHandler}>
+              <S.TaskAddSpan>프로젝트 종료하기</S.TaskAddSpan>
+            </S.TaskAddButton>
+          )
+        )}
       </S.SelectAddButtonContainer>
 
       {tasks && tasks.length > 0 ? (
