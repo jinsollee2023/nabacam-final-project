@@ -113,13 +113,9 @@ const ProjectList = () => {
     }
     return (
       <>
-        {projectsToRender?.length > 0 ? (
-          projectsToRender.map((project) => (
-            <ProjectCard key={project.projectId} project={project} />
-          ))
-        ) : (
-          <div>프로젝트가 없습니다.</div>
-        )}
+        {projectsToRender.map((project) => (
+          <ProjectCard key={project.projectId} project={project} />
+        ))}
       </>
     );
   };
@@ -148,24 +144,31 @@ const ProjectList = () => {
 
   return (
     <>
-      <S.SearchSortWrapper>
-        <SearchItemBar />
-        <SortProjects handleSort={handleSort} />
-      </S.SearchSortWrapper>
-      <S.SearchSortBtnBox>
-        <S.SearchSortBtn
-          onClick={() => setSelectedSortLabel("최신순")}
-          style={{ marginRight: "5px" }}
-        >
-          최신순
-        </S.SearchSortBtn>
-        <S.SearchSortBtn onClick={() => setSelectedSortLabel("오래된순")}>
-          오래된순
-        </S.SearchSortBtn>
-      </S.SearchSortBtnBox>
+      {projectsOfClient && projectsOfClient.length > 0 ? (
+        <>
+          <S.SearchSortWrapper>
+            <SearchItemBar />
+            <SortProjects handleSort={handleSort} />
+          </S.SearchSortWrapper>
+          <S.SearchSortBtnBox>
+            <S.SearchSortBtn
+              onClick={() => setSelectedSortLabel("최신순")}
+              style={{ marginRight: "5px" }}
+            >
+              최신순
+            </S.SearchSortBtn>
+            <S.SearchSortBtn onClick={() => setSelectedSortLabel("오래된순")}>
+              오래된순
+            </S.SearchSortBtn>
+          </S.SearchSortBtnBox>
+        </>
+      ) : (
+        <p>등록된 프로젝트가 없습니다.</p>
+      )}
       <S.ProjectContainer>
         {projectsOfClient && renderProjects()}
       </S.ProjectContainer>
+
       <S.ProjectCardBox
         onClick={addProjectModalOpenHandler}
         justifyContent="center"

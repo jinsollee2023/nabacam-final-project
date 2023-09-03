@@ -76,6 +76,9 @@ const MemberList = () => {
   return (
     <>
       <div>
+        {client?.members && client.members.length > 0 ? null : (
+          <p>등록된 구성원이 없습니다.</p>
+        )}
         <S.AddMemberBtn onClick={openModalButtonHandler}>
           + 구성원 추가하기
         </S.AddMemberBtn>

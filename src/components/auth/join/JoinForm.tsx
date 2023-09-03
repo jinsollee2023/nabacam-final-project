@@ -47,6 +47,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const [findPasswordModalOpen, setFindPasswordModalOpen] = useState(false);
   const { setUser } = useUserStore(); // 추가
 
+  console.log(values);
   // 회원가입 api
 
   const signUP = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -159,7 +160,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 <Select
                   placeholder="Select a work field"
                   optionFilterProp="children"
-                  onChange={(e) => handleChange("category", e.target.value)}
+                  onChange={(selectedValue) =>
+                    handleChange("category", selectedValue)
+                  }
                   options={[
                     {
                       value: "개발",
