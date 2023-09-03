@@ -16,6 +16,7 @@ interface ColumnBoxProps {
 }
 interface FlexBoxProps {
   marginLeft?: string;
+  marginTop?: string;
 }
 
 export const CommonS = {
@@ -52,6 +53,7 @@ export const CommonS = {
   FlexBox: styled.div<FlexBoxProps>`
     display: flex;
     margin-left: ${(props) => props.marginLeft};
+    margin-top: ${(props) => props.marginTop};
   `,
   CenterizeBox: styled.div`
     display: flex;
