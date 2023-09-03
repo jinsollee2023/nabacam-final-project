@@ -57,34 +57,30 @@ const TaskStatus = ({ task, userRole }: TaskStatusProps) => {
   }, [task.status]);
 
   return (
-    <>
-      <div>
-        <S.TaskDetailBox
-          width={150}
-          onClick={statusDivOnClickHandler}
-          backgroundColor={backgroundColor}
-        >
-          {task.status}
-        </S.TaskDetailBox>
+    <div style={{ width: "19%" }}>
+      <S.TaskDetailBox
+        onClick={statusDivOnClickHandler}
+        backgroundColor={backgroundColor}
+      >
+        {task.status}
+      </S.TaskDetailBox>
 
-        {statusOptionOn
-          ? statusOptionArray.map((status) => {
-              const backgroundColor = getStatusBackgroundColor(status);
+      {statusOptionOn
+        ? statusOptionArray.map((status) => {
+            const backgroundColor = getStatusBackgroundColor(status);
 
-              return (
-                <S.TaskDetailBox
-                  key={status} /**key 추가했습니다 */
-                  width={150}
-                  backgroundColor={backgroundColor}
-                  onClick={() => statusOptionOnClickHandler(status)}
-                >
-                  {status}
-                </S.TaskDetailBox>
-              );
-            })
-          : null}
-      </div>
-    </>
+            return (
+              <S.TaskDetailBox
+                key={status} /**key 추가했습니다 */
+                backgroundColor={backgroundColor}
+                onClick={() => statusOptionOnClickHandler(status)}
+              >
+                {status}
+              </S.TaskDetailBox>
+            );
+          })
+        : null}
+    </div>
   );
 };
 

@@ -27,8 +27,8 @@ const TaskDeadLine = ({ task, userRole }: TaskTitleProps) => {
   };
 
   return (
-    <div>
-      <S.TaskDetailBox width={240} onClick={handleOnClick}>
+    <div style={{ width: "30%" }}>
+      <S.TaskDetailBox onClick={handleOnClick}>
         {task.deadLine.toLocaleString().slice(0, 10)}
       </S.TaskDetailBox>
       {isCalenderOpen && (

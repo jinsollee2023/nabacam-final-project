@@ -3,12 +3,12 @@ import { styled } from "styled-components";
 
 interface TaskDetailBoxProps {
   backgroundColor?: string;
-  width: number;
+  width?: string;
 }
 
 interface ColumnLabelProps {
   backgroundColor?: string;
-  width: number;
+  width: string;
 }
 
 const S = {
@@ -19,7 +19,7 @@ const S = {
     cursor: pointer;
     background-color: ${(props) =>
       props.backgroundColor ? props.backgroundColor : "#ffffff"};
-    width: ${(props) => props.width}px;
+    width: ${(props) => props.width};
     height: 40px;
     margin: 5px 10px 5px 0;
     border: 1.2px solid var(--lighter-gray);
@@ -54,13 +54,14 @@ const S = {
     overflow-y: scroll;
     height: 80vh;
     margin-top: 20px;
+    padding-right: 10px;
   `,
   ColumnLabelWrapper: styled.div`
     display: flex;
     margin: 0 0 5px 10px;
   `,
   ColumnLabel: styled.div<ColumnLabelProps>`
-    width: ${(props) => props.width}px;
+    width: ${(props) => props.width};
     height: 30px;
     margin: 0px 10px 0px 0;
 

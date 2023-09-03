@@ -30,18 +30,20 @@ const TaskTitle = ({ task, userRole }: TaskTitleProps) => {
   const { updateTaskTitleMutation } = useTasksQueries(task.projectId);
 
   return (
-    <S.TaskDetailBox width={200} onDoubleClick={handleTitleDoubleClick}>
-      {isTitleEditable ? (
-        <S.TaskTitleInput
-          type="text"
-          value={title}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
-      ) : (
-        <p>{task.title}</p>
-      )}
-    </S.TaskDetailBox>
+    <div style={{ width: "24%" }}>
+      <S.TaskDetailBox onDoubleClick={handleTitleDoubleClick}>
+        {isTitleEditable ? (
+          <S.TaskTitleInput
+            type="text"
+            value={title}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+          />
+        ) : (
+          <p>{task.title}</p>
+        )}
+      </S.TaskDetailBox>
+    </div>
   );
 };
 
