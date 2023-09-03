@@ -10,19 +10,20 @@ import ContractTerminationFreelancerCards from "./ContractTerminationFreelancerC
 interface ContractTerminationFreelancerListProps {
   selectedWorkField: string;
   isLastFirst: boolean;
+  terminationedProjectsWithFreelancers: IProjectWithFreelancer[];
 }
 
 const ContractTerminationFreelancerList = ({
   selectedWorkField,
   isLastFirst,
+  terminationedProjectsWithFreelancers,
 }: ContractTerminationFreelancerListProps) => {
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
 
-  const { userId } = useUserStore();
-  const { client } = useClientsQueries({ userId });
-  const { terminationedProjectsWithFreelancers } = useProjectsQueries({
-    currentUserId: userId,
-  });
+  // const { userId } = useUserStore();
+  // const { terminationedProjectsWithFreelancers } = useProjectsQueries({
+  //   currentUserId: userId,
+  // });
 
   const [filteredFreelancers, setFilteredFreelancers] = useState<IProjectWithFreelancer[]>(
     terminationedProjectsWithFreelancers!

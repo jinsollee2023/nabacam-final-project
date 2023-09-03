@@ -64,6 +64,10 @@ const PendingFreelancerList = () => {
     return <S.DataStatus>보류한 프리랜서가 없습니다.</S.DataStatus>;
   }
 
+  if (!pendingFreelancers || pendingFreelancers.length === 0) {
+    return <S.DataStatus>보류한 프리랜서가 없습니다.</S.DataStatus>;
+  }
+
   return (
     <>
       <S.ListContainer>

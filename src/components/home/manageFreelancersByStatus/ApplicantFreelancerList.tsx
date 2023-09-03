@@ -69,6 +69,10 @@ const ApplicantFreelancerList = () => {
     return <S.DataStatus>지원한 프리랜서가 없습니다.</S.DataStatus>;
   }
 
+  if (!applicantFreelancers || applicantFreelancers.length === 0) {
+    return <S.DataStatus>지원한 프리랜서가 없습니다.</S.DataStatus>;
+  }
+
   return (
     <>
       <S.ListContainer>

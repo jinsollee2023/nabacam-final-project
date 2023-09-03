@@ -1,10 +1,14 @@
-import { useNavigate } from "react-router-dom";
 import supabase, { supabaseService } from "../config/supabaseClient";
 import { getPhotoURL } from "./User";
 // 회원탈퇴
 
-export const Resign = async (userId: any) => {
-  const isConfirmed = window.confirm("정말로 회원 탈퇴하시겠습니까?");
+export const resign = async (
+  userId: string,
+  navigate: (path: string) => void
+) => {
+  const isConfirmed = window.confirm(
+    "회원 탈퇴시 모든 정보가 삭제되며, 삭제된 정보는 복구가 불가능합니다. \n회원 탈퇴하시겠습니까?"
+  );
 
   if (isConfirmed && userId !== undefined) {
     try {
@@ -15,6 +19,7 @@ export const Resign = async (userId: any) => {
         await supabase.auth.signOut();
 
         alert("탈퇴 되었습니다. 로그인 페이지로 이동합니다.");
+        navigate("/login");
       }
     } catch (error) {
       alert(
@@ -45,13 +50,20 @@ export const userJoinData = async (
 //  회원가입
 
 export const clientSignupHandler = async (
-  values: any,
-  photoFile: any,
+  values: {
+    email: string;
+    password: string;
+    passwordConfirmCurrent: string;
+    name: string;
+    workExp: number;
+    phone: string;
+    category: string;
+    workField: string;
+    photoFile: File | null;
+  },
   uploadUserImage: any,
   role: string,
-  workSelect: string,
   setUser: any,
-  // setOpenClientJoin: any
   navigate: any
 ) => {
   try {
@@ -65,17 +77,20 @@ export const clientSignupHandler = async (
     } = await supabase.auth.getUser();
 
     // 사진을 스토리지에 업로드
-    const filePath = await uploadUserImage(user?.id, photoFile);
+    const filePath = await uploadUserImage(user?.id, values.photoFile);
     const photoURL = await getPhotoURL(filePath);
 
     const newUserData = {
       userId: user?.id,
       name: values.name,
       role: role === "" ? "client" : role,
-      photoURL: photoFile
+      photoURL: values.photoFile
         ? `${photoURL}?updated=${new Date().getTime()}`
         : "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/users/defaultProfileImage/defaultProfileImage.jpeg",
-      workField: { workField: workSelect, workSmallField: values.workField },
+      workField: {
+        workField: values.category,
+        workSmallField: values.workField,
+      },
       workExp: values.workExp,
       contact: { email: user?.email, phone: values.phone },
     };
@@ -87,10 +102,15 @@ export const clientSignupHandler = async (
 };
 
 // 로그아웃
-export const Logout = async () => {
-  try {
-    const { error } = await supabase.auth.signOut();
-  } catch (error) {
-    alert(error);
+export const logOut = async (navigate: (path: string) => void) => {
+  const isConfirmed = window.confirm("정말로 로그아웃 하시겠습니까?");
+  if (isConfirmed) {
+    try {
+      await supabase.auth.signOut();
+      alert("로그아웃 되었습니다. 로그인 페이지로 이동합니다.");
+      navigate("/login");
+    } catch (error) {
+      alert(error);
+    }
   }
 };
