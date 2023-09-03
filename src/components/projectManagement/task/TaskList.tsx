@@ -44,18 +44,16 @@ const TaskList = () => {
     addTaskMutation.mutate();
   };
 
-  const monthlyTaskData: Map<string, Task[]> = new Map(); // 월별로 업무를 그룹화 // (key, value) = (문자열, Task [])
+  const monthlyTaskData: Map<string, Task[]> = new Map();
 
   tasks?.forEach((task) => {
-    const month = `${new Date(task.taskDate).getMonth() + 1}`; // 각 작업의 taskDate 속성을 가져와서 해당 작업의 월을 계산
+    const month = `${new Date(task.taskDate).getMonth() + 1}`;
     if (!monthlyTaskData.has(month)) {
       monthlyTaskData.set(month, []);
     }
     monthlyTaskData.get(month)?.push(task);
   });
 
-  // 선택된 프로젝트에 대한 업무 목록을 월별로 그룹화
-  // 각 월에 대한 업무목록을 정렬 = TaskCard
   return (
     <>
       <S.SelectAddButtonContainer>
@@ -72,7 +70,7 @@ const TaskList = () => {
                 : true
             }
             placeholder="Select a project"
-            optionFilterProp="children" // 옵션 검색에 사용될 속성을 설정
+            optionFilterProp="children"
             onChange={onChange}
             value={projectId}
             filterOption={(input, option) =>
@@ -115,11 +113,9 @@ const TaskList = () => {
       {tasks && tasks.length > 0 ? (
         <div>
           {Array.from(monthlyTaskData.entries()).map(
-            // Map 객체의 엔트리를 배열로 변환
-            // [month, tasks]: [string, Task[]] 형태로 배열 항목을 분해
             ([month, tasks]: [string, Task[]]) => {
               const sortByMonthTasks = tasks.sort((a, b) => {
-                const dateA = new Date(a.deadLine).getTime(); // tasks 배열을 deadLine 속성을 기준으로 오름차순으로 정렬
+                const dateA = new Date(a.deadLine).getTime();
                 const dateB = new Date(b.deadLine).getTime();
                 return dateA - dateB; // 오름차순 정렬
               });
