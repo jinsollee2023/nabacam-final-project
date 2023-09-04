@@ -44,10 +44,14 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
             <S.PastWorkField>{experience.pastWorkField}</S.PastWorkField>
           </CommonS.CenterizeBox>
 
-          <CommonS.CenterizeBox marginTop="5px">
+          <CommonS.CenterizeBox marginTop="2px">
             <S.PastWorkDetail>
-              {experience.pastWorkPlace}/{experience.pastEmploymentType}/
-              {experience.pastWorkPosition}
+              <CommonS.CenterizeBox marginBottom="5px">
+                {experience.pastWorkPlace}
+              </CommonS.CenterizeBox>
+              <CommonS.CenterizeBox>
+                {experience.pastEmploymentType}/{experience.pastWorkPosition}
+              </CommonS.CenterizeBox>
             </S.PastWorkDetail>
           </CommonS.CenterizeBox>
 
