@@ -1,47 +1,95 @@
-# Getting Started with Create React App
+# React,TS 팀 프로젝트 "Work Wave"
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🖥️ 프로젝트 소개
 
-## Available Scripts
+#### - 프리랜서와 클라이언트 매칭 플랫폼입니다.
 
-In the project directory, you can run:
+    1. 프리랜서모드/클라이언트모드로 각각 로그인하여 접속한다.
+    2. 프리랜서모드에서는 본인의 프로필, 포트폴리오(pdf, 링크)를 게시한다.
+    3. 클라이언트모드에서는 기업 구성원을 추가하고, 프로젝트를 게시한다.
+    4. 클라이언트가 게시한 프로젝트에 프리랜서가 지원하고 클라이언트가 수락을 누르면, 프리랜서 - 클라이언트가 매칭된다.
+    5. 프로젝트관리도구탭에서 프리랜서와 클라이언트가 프로젝트 진행상황을 공유할 수 있다.
 
-### `yarn start`
+## 📜 [S.A(Starting Assignments)](https://teamsparta.notion.site/5-125-77bf26509f0c4c7f9abbe32b76df6fec)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🎬 구현 사이트
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- 배포 링크 : https://tripshare-theta.vercel.app/
 
-### `yarn test`
+## ⏰ 개발 기간
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 23.07.17일(월) - 23.07.24일(월)
 
-### `yarn build`
+## 🧑‍🤝‍🧑 맴버 구성 및 역할 분담
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+|이름||역할|
+|------|---|---|
+|조진명|팀장||
+|박제이|팀원|회원가입, 로그인, 로그아웃, 유저 정보 수정|
+|원유길|팀원|Google Map API, 검색, 주변 관광지 추천|
+|이안진|팀원|게시글 Detail 페이지, 내가 쓴 게시글 수정 & 삭제, 좋아요, 페이지네이션|
+|이혜영|팀원|위치 기반 주변 정보 + 카테고리 분류, 게시글 작성|
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🖨️ 개발 프로세스 가이드
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1.  CRA 프로젝트 셋업
+2.  .prettierrc 파일 만들기
+3.  Firebase 셋업 (서버 및 DB 셋업)
+4.  환경변수(.env) 셋업
+5.  git 브렌치 관리 권장사항
 
-### `yarn eject`
+- main 또는 dev 브랜치에 직접 push 지양
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🛠️ 화면 구성
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Main page
+  > 장소 검색, 관련 장소 목록<br/>
+  > 주변 장소 카테고리별 게시글
+- My page
+  > 회원 정보 수정<br/>
+  > 작성한 게시글
+- Detail page
+  > 게시글 세부 내용 (작성자, 제목, 사진 내용)
+- Modal
+  > 회원가입<br/>
+  > 로그인<br/>
+  > 글작성 (Main)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## ❗ Commit Convention
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`Commit message 작성 예시) “Feat/first commit”`
 
-## Learn More
+- `Feat`: 새로운 기능, 특징 추가
+- `Fix`: 버그 수정
+- `Design`: UI Design 변경
+- `Style`: 코드 포맷 변경, 세미 콜론 누락 (코드 수정X)
+- `Refactor`: 리팩토링
+- `Comment`: 필요한 주석 추가 및 변경
+- `Docs`: 문서 수정
+- `Test`: 테스트 코드 (프로덕션 코드 수정X)
+- `Chore`: 빌드 업무 & 패키지 매니저 수정, 패키지 관리자 구성 업데이트 등 (프로덕션 코드 수정X)
+- `Rename`: 폴더 & 파일 이름 수정 및 옮기는 작업
+- `Remove`: 파일 삭제하는 작업만 수행한 경우
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ⚙️ 개발 환경 / 기술스택
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-# nabacam-final-project
+- Kakao Maps API
+- React
+- Redux-Toolkit
+  - thunk
+- Firebase
+  - firestore
+  - auth
+  - S3
+- Styled-components
+- JavaScript
+- HTML
+
+## ⚔️ Trouble Shooting
+
+- Main page
+  > hook의 위치 조정 issue
+- Detail page
+  > 변수가 가끔 undefined되며 발생하는 invalid data issue
+- My page
+  > THUNK의 fetch data, useEffect와 관련한 무한루프 issue
