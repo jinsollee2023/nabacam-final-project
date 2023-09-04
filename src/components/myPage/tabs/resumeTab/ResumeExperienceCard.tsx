@@ -3,10 +3,10 @@ import Modal from "../../../../components/modal/Modal";
 import useResumeExperienceQueries from "../../../../hooks/useResumeExperienceQueries";
 import { useUserStore } from "../../../../zustand/useUserStore";
 import type { ResumeExperience } from "../../../../Types";
-import { styled } from "styled-components";
 import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
 import EditResumeExperienceModal from "./EditResumeExperienceModal";
 import { S } from "./Resume.styles";
+import { CommonS } from "src/components/common/button/commonButton";
 
 interface ExperienceProps {
   experience: ResumeExperience;
@@ -38,52 +38,24 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
 
   return (
     <>
-      {isUpdateModalOpen && (
-        <Modal
-          setIsModalOpen={setIsUpdateModalOpen}
-          buttons={
-            <>
-              <S.Btn onClick={updateExperienceHandler}>등록</S.Btn>
-            </>
-          }
-        >
-          <EditResumeExperienceModal experience={experience} />
-        </Modal>
-      )}
-
-      {/* 실제로 보여지는 부분 */}
-
       <S.WorkExperienceList>
         <S.TextArea>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <CommonS.CenterizeBox>
             <S.PastWorkField>{experience.pastWorkField}</S.PastWorkField>
-          </div>
+          </CommonS.CenterizeBox>
 
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <CommonS.CenterizeBox marginTop="2px">
             <S.PastWorkDetail>
-              {experience.pastWorkPlace}/{experience.pastEmploymentType}/
-              {experience.pastWorkPosition}
+              <CommonS.CenterizeBox marginBottom="5px">
+                {experience.pastWorkPlace}
+              </CommonS.CenterizeBox>
+              <CommonS.CenterizeBox>
+                {experience.pastEmploymentType}/{experience.pastWorkPosition}
+              </CommonS.CenterizeBox>
             </S.PastWorkDetail>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          </CommonS.CenterizeBox>
+
+          <CommonS.CenterizeBox>
             <S.PastWorkDuration>
               {experience.pastWorkDuration.pastWorkStartDate &&
                 new Date(experience.pastWorkDuration.pastWorkStartDate)
@@ -95,15 +67,33 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
                   .toISOString()
                   .split("T")[0]}
             </S.PastWorkDuration>
-          </div>
+          </CommonS.CenterizeBox>
         </S.TextArea>
-        <S.RightEndBtnBox>
+        <CommonS.FlexBox marginTop="15px">
           <S.Btn onClick={() => setIsUpdateModalOpen(true)}>수정</S.Btn>
-          <S.Btn marginLeft="10px" onClick={deleteExperienceHandler}>
+          <S.Btn marginLeft="5px" onClick={deleteExperienceHandler}>
             삭제
           </S.Btn>
-        </S.RightEndBtnBox>
+        </CommonS.FlexBox>
       </S.WorkExperienceList>
+      {/* --------------------------------------------------------------- */}
+      {isUpdateModalOpen && (
+        <Modal
+          setIsModalOpen={setIsUpdateModalOpen}
+          buttons={
+            <>
+              <CommonS.RightEndBtnBox>
+                <S.Btn onClick={updateExperienceHandler}>수정하기</S.Btn>
+                <S.Btn marginLeft="10px" onClick={deleteExperienceHandler}>
+                  삭제하기
+                </S.Btn>
+              </CommonS.RightEndBtnBox>
+            </>
+          }
+        >
+          <EditResumeExperienceModal experience={experience} />
+        </Modal>
+      )}
     </>
   );
 };

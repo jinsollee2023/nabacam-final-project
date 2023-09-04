@@ -37,15 +37,13 @@ const OngoingFreelancerInfoModal = ({ user, project }: OngoingFreelancerInfoModa
             {user.workField?.workSmallField} {user.workExp}년차
           </S.WorkExp>
           <S.Contact>
-            <FiPhoneCall size={18} />
             <S.Contacts onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
-              {user.contact.phone}
+              <FiPhoneCall size={18} /> {user.contact.phone}
             </S.Contacts>
           </S.Contact>
           <S.Contact>
-            <FiMail size={18} />
             <S.Contacts onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
-              {user.contact.email}
+              <FiMail size={18} /> {user.contact.email}
             </S.Contacts>
           </S.Contact>
         </S.Info>

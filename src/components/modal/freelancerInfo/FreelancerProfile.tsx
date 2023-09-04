@@ -32,15 +32,13 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
             <span>{user.workExp}년차</span>
           </S.WorkSmallFieldAndWorkExp>
           <S.ContactBox>
-            <FiPhoneCall size={18} />
             <S.Contacts onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
-              {user.contact.phone}
+              <FiPhoneCall size={18} /> {user.contact.phone}
             </S.Contacts>
           </S.ContactBox>
           <S.ContactBox>
-            <FiMail size={18} />
             <S.Contacts onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
-              {user.contact.email}
+              <FiMail size={18} /> {user.contact.email}
             </S.Contacts>
           </S.ContactBox>
         </S.UserBox>

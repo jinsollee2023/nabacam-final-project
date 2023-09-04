@@ -16,6 +16,11 @@ interface ColumnBoxProps {
 }
 interface FlexBoxProps {
   marginLeft?: string;
+  marginTop?: string;
+}
+interface CenterizeBoxProps {
+  marginTop?: string;
+  marginBottom?: string;
 }
 
 export const CommonS = {
@@ -52,11 +57,14 @@ export const CommonS = {
   FlexBox: styled.div<FlexBoxProps>`
     display: flex;
     margin-left: ${(props) => props.marginLeft};
+    margin-top: ${(props) => props.marginTop};
   `,
-  CenterizeBox: styled.div`
+  CenterizeBox: styled.div<CenterizeBoxProps>`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: ${(props) => props.marginTop};
+    margin-bottom: ${(props) => props.marginBottom};
   `,
   JustifyBox: styled.div`
     display: flex;
@@ -65,5 +73,9 @@ export const CommonS = {
   RightEndBtnBox: styled.div`
     display: flex;
     margin-left: auto;
+  `,
+  RightEndBox: styled.div`
+    display: flex;
+    justify-content: flex-end;
   `,
 };

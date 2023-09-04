@@ -13,6 +13,7 @@ import { useProfileInfoStore } from "../../../zustand/useProfileInfoStore";
 import React from "react";
 import { S } from "./myProfile.styles";
 import { IoMdSettings } from "react-icons/io";
+import { FaSignOutAlt } from "react-icons/fa";
 import { resign } from "src/api/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -107,7 +108,10 @@ const Account = () => {
           <S.SettingBtn onClick={() => setIsModalOpen(true)}>
             <IoMdSettings />
           </S.SettingBtn>
-          <button onClick={signOutButtonHandler}>회원 탈퇴</button>
+          <S.SettingBtn onClick={signOutButtonHandler}>
+            <FaSignOutAlt />
+            <S.SettingSpan>탈퇴하기</S.SettingSpan>
+          </S.SettingBtn>
         </S.RightEndBtnBox>
 
         {isModlaopen ? (

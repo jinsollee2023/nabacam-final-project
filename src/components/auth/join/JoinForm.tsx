@@ -44,11 +44,13 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState<any>({});
   const [showPswd, setShowPswd] = useState<boolean>(false);
-  const { setUser } = useUserStore(); // 추가
+  const [findPasswordModalOpen, setFindPasswordModalOpen] = useState(false);
+  const { setUser, setUserId, setUserRole } = useUserStore(); // 추가
 
   // 회원가입 api
 
   const signUP = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(values);
     e.preventDefault();
     setErrors(Validation(values));
     if (
@@ -63,6 +65,8 @@ const JoinForm = ({ role }: JoinFormProps) => {
         uploadUserImage,
         role,
         setUser,
+        setUserId,
+        setUserRole,
         navigate
       );
     }

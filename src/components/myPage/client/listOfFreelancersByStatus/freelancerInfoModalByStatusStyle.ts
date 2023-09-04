@@ -58,11 +58,11 @@ export const S = {
     display: flex;
     flex-direction: row;
     gap: 5px;
-    justify-content: center;
   `,
   Contacts: styled.div`
+    gap: 5px;
     display: flex;
-    width: 150px;
+    flex-direction: row;
     font-size: 14px;
     cursor: pointer;
   `,
@@ -85,14 +85,16 @@ export const S = {
     font-size: 12px;
   `,
   ContentTitle: styled.span`
-    font-size: 15px;
+    font-size: 16px;
     font-weight: bold;
   `,
   WorkField: styled.span`
-    color: gray;
+    color: #595959;
+    font-size: 14px;
     font-weight: bold;
   `,
   WorkExp: styled.span`
-    color: gray;
+    color: #595959;
+    font-size: 14px;
   `,
 };
