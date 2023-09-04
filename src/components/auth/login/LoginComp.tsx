@@ -25,7 +25,6 @@ const LoginComp = () => {
 
   // const { email, setUserEmail } = useUserStore();
   const [values, setValues] = useState<any>(initialValues);
-  const [tabPosition, setTabPosition] = useState<TabPosition>("left");
   const [findPassword, setFindPassword] = useState(false);
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [errors, setErrors] = useState<any>("");
@@ -99,6 +98,9 @@ const LoginComp = () => {
         <S.passwordFindButton onClick={findPasswordModalHandler}>
           비밀번호 찾기
         </S.passwordFindButton>
+        <S.passwordFindButton onClick={() => navigate("/register")}>
+          회원가입 하기
+        </S.passwordFindButton>
         {findPassword && <EmailCheck openModal={findPasswordModalHandler} />}
         <S.passwordView onClick={showPasswordHandler}>
           {showPswd ? (
@@ -160,11 +162,11 @@ const S = {
   `,
   passwordView: styled.button`
     position: relative;
-    top: -39.5%;
+    top: -41.5%;
     left: 94%;
     width: 5%;
     height: 5%;
-    background-color: #dbcfcf;
+    background-color: transparent;
     border: none;
     cursor: pointer;
     border-radius: 10px;

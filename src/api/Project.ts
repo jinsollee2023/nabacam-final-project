@@ -11,6 +11,19 @@ export const getProjects = async (id: string): Promise<Project[]> => {
   return projects as Project[];
 };
 
+export const getOngoingProjectsOfFreelancer = async (
+  id: string
+): Promise<Project[]> => {
+  const { data: projects } = await supabase
+    .from("projects")
+    .select("*")
+    .eq("freelancerId", id)
+    .eq("status", "진행 중")
+    .order("created_at", { ascending: true });
+
+  return projects as Project[];
+};
+
 export const getProjectOfClientBySort = async (
   id: string,
   sortLabel: string
@@ -86,7 +99,11 @@ export const updateProject = async (
     qualification?: number;
   }
 ): Promise<void> => {
-  await supabase.from("projects").update(column).eq("projectId", projectId).select();
+  await supabase
+    .from("projects")
+    .update(column)
+    .eq("projectId", projectId)
+    .select();
 };
 
 export const getSuggestedFreelancers = async (
@@ -104,7 +121,9 @@ export const getSuggestedFreelancers = async (
     }
     return data as { SuggestedFreelancers: string[] };
   } catch (error) {
-    throw new Error(`제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error(
+      `제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
   }
 };
 
@@ -155,14 +174,18 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
     const { data, error } = await supabase
       .from("projects")
       .select("*")
-      .order(orderByField, { ascending })
-      .eq("status", "진행 전");
+      .order(orderByField, { ascending });
+    // .eq("status", "진행 전");
     if (error) {
-      alert(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      alert(
+        `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`
+      );
     }
     return data;
   } catch (error) {
-    throw new Error(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error(
+      `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
   }
 };
 
@@ -179,17 +202,22 @@ export const getPendingFreelancers = async (
   return projects as Project[];
 };
 
-export const getOngoingProjects = async (clientId: string): Promise<Project[]> => {
+export const getOngoingProjectsOfClient = async (
+  clientId: string
+): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
     .eq("clientId", clientId)
-    .eq("status", "진행 중");
+    .eq("status", "진행 중")
+    .order("created_at", { ascending: true });
 
   return projects as Project[];
 };
 
-export const getTerminationedProjects = async (clientId: string): Promise<Project[]> => {
+export const getTerminationedProjects = async (
+  clientId: string
+): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")

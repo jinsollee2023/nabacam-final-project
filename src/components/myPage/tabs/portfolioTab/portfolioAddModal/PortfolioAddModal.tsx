@@ -5,12 +5,10 @@ import { usePortfolioStore } from "../../../../../zustand/usePortfolioStore";
 import { v4 as uuidv4 } from "uuid";
 import { Portfolio } from "../../../../../Types";
 import PreviewImage from "../../../../../components/auth/join/PreviewImage";
+import { FcOk } from "react-icons/fc";
+import { S } from "./portfolioAddModal.styles";
 
-interface PortfolioAddModalProps {
-  errorMessage: string;
-}
-
-const PortfolioAddModal = ({ errorMessage }: PortfolioAddModalProps) => {
+const PortfolioAddModal = () => {
   const [attachmentType, setAttachmentType] = useState<string>("file");
   const { selectedPortfolio, setSelectedPortfolio } = usePortfolioStore();
   const [pfId, setPfId] = useState(
@@ -34,24 +32,24 @@ const PortfolioAddModal = ({ errorMessage }: PortfolioAddModalProps) => {
 
   const { userId } = useUserStore();
 
-  const allOnChange = (e: ChangeEvent<HTMLInputElement>, fileType?: string) => {
-    const {
-      target: { files, name, value },
-    } = e;
+  const allOnChange = (name: string, value: string | File) => {
+    // const {
+    //   target: { files, name, value },
+    // } = e;
     if (name === "title") {
-      setTitle(value);
+      setTitle(value as string);
     }
     if (name === "desc") {
-      setDesc(value);
+      setDesc(value as string);
     }
-    if (fileType === "thumbnail" && files && files[0]) {
-      setThumbNailFile(files[0]);
+    if (name === "thumbnail") {
+      setThumbNailFile(value as File);
     }
-    if (fileType === "pdf" && files && files[0]) {
-      setPdfFile(files[0]);
+    if (name === "pdf") {
+      setPdfFile(value as File);
     }
     if (name === "link") {
-      setLinkURL(value);
+      setLinkURL(value as string);
     }
   };
 
@@ -70,112 +68,81 @@ const PortfolioAddModal = ({ errorMessage }: PortfolioAddModalProps) => {
     changeNewPortfolio(newPortfolio);
   }, [pfId, userId, title, desc, linkURL, thumbNailFile, pdfFile]);
 
-  //-----------------------
-
-  //  const useValid = (changeValue: any) => {
-  //   const [validText, setValidText] = useState("");
-  //   const [isValid, setIsValid] = useState({
-  //     isTitle: false,
-  //     isDesc: false,
-  //     isThumbnail: false,
-  //     isPdf: false,
-  //     isLink: false,
-  //   });
-
-  //   useEffect(() => {
-  //     if (changeValue.title === "") {
-  //       setValidText("제목을 입력해주세요.");
-  //       setIsValid({ ...isValid, isTitle: false });
-  //     } else {
-  //       setValidText("");
-  //       setIsValid({ ...isValid, isTitle: true });
-  //     }
-  //   }, [changeValue.title]);
-
-  //   useEffect(() => {
-  //     if (changeValue.desc === "") {
-  //       setValidText("내용을 입력해주세요.");
-  //       setIsValid({ ...isValid, isDesc: false });
-  //     } else {
-  //       setValidText("");
-  //       setIsValid({ ...isValid, isDesc: true });
-  //     }
-  //   }, [changeValue.desc]);
-  // };
-
-  //   //------------------------
-  //   const useRevalidator = (changeValue: IValidType) => {
-
-  //   }
-
   return (
     <>
-      <Radio.Group
-        onChange={(e) => setAttachmentType(e.target.value)}
-        value={attachmentType}
-      >
-        <Radio value="file">파일로 첨부하기</Radio>
-        <Radio value="link">링크로 첨부하기</Radio>
-      </Radio.Group>
+      <S.RadioWrapper>
+        <Radio.Group
+          onChange={(e) => setAttachmentType(e.target.value)}
+          value={attachmentType}
+        >
+          <Radio value="file" onClick={() => setLinkURL("")}>
+            파일로 첨부하기
+          </Radio>
+          <Radio value="link" onClick={() => setPdfFile("")}>
+            링크로 첨부하기
+          </Radio>
+        </Radio.Group>
+      </S.RadioWrapper>
 
-      <form>
-        <input
-          type="text"
-          name="title"
-          value={title}
-          onChange={allOnChange}
-          placeholder="제목"
-          // valid={"title"}
-        />
-        <br />
-        <input
-          type="text"
-          name="desc"
-          value={desc}
-          onChange={allOnChange}
-          placeholder="내용"
-        />
-        <br />
-
+      <S.ModalForm>
         <PreviewImage
           handlePhotoURLOnChange={setThumbNailFile}
           defaultImage={newPortfolio.thumbNailURL as string}
         />
-        <br />
+        <S.InputText
+          type="text"
+          name="title"
+          value={title}
+          onChange={(e) => allOnChange("title", e.target.value)}
+          placeholder="제목"
+          title={newPortfolio.title}
+        />
+        <S.TextareaDesc
+          rows={5}
+          name="desc"
+          value={desc}
+          onChange={(e) => allOnChange("desc", e.target.value)}
+          placeholder="내용"
+          title={newPortfolio.desc}
+        />
 
-        {/* attachmentType에 따라서 pdf파일이거나 링크이거나 */}
-        {attachmentType === "file" ? (
-          <>
-            <label htmlFor="fileInputPDF">PDF 파일 첨부</label>
-          </>
-        ) : (
+        <S.PdfInputWrapper>
+          {/* attachmentType에 따라서 pdf파일이거나 링크이거나 */}
+          {attachmentType === "file" ? (
+            <>
+              {/* {setLinkURL("")} */}
+              <S.PdfInputLabel htmlFor="fileInputPDF">
+                PDF 파일 첨부
+              </S.PdfInputLabel>
+            </>
+          ) : (
+            <S.InputText
+              type="text"
+              name="link"
+              value={linkURL}
+              onChange={(e) => allOnChange("link", e.target.value)}
+              placeholder="링크"
+            />
+          )}
           <input
-            type="text"
-            name="link"
-            value={linkURL}
-            onChange={allOnChange}
-            placeholder="링크"
+            type="file"
+            id="fileInputThumbnail"
+            style={{ display: "none" }}
+            accept="image/*"
+            name="thumbnail"
+            onChange={(e) => allOnChange("thumbnail", e.target.value)}
           />
-        )}
-        <input
-          type="file"
-          id="fileInputThumbnail"
-          style={{ display: "none" }}
-          accept="image/*"
-          name="thumbnail"
-          onChange={(e) => allOnChange(e, "thumbnail")}
-        />
-        <input
-          type="file"
-          id="fileInputPDF"
-          style={{ display: "none" }}
-          name="pdf"
-          accept="application/pdf, .doc, .docx, .ppt, .pptx"
-          onChange={(e) => allOnChange(e, "pdf")}
-        />
-      </form>
-      {/* <span>{errorMessage}</span> */}
-      {/* <div>{validText}</div> */}
+          <input
+            type="file"
+            id="fileInputPDF"
+            style={{ display: "none" }}
+            name="pdf"
+            accept="application/pdf, .doc, .docx, .ppt, .pptx"
+            onChange={(e) => allOnChange("pdf", e.target.value)}
+          />
+          <span>{pdfFile && attachmentType === "file" && <FcOk />}</span>
+        </S.PdfInputWrapper>
+      </S.ModalForm>
     </>
   );
 };

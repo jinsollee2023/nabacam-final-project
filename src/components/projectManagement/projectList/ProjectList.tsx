@@ -21,15 +21,16 @@ const ProjectList = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedselectOption, setSelectedselectOption] = useState("전체보기");
   const [selectedSortLabel, setSelectedSortLabel] = useState("전체보기");
-  const { projects, addProjectMutation } = useProjectsQueries({
+  const { projectsOfClient, addProjectMutation } = useProjectsQueries({
     currentUserId: userId,
     sortLabel: selectedSortLabel,
   });
   const { newProject } = useProjectStore();
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(
-    projects!
+    projectsOfClient!
   );
+  const [addSubmitButtonClicked, setAddSubmitButtonClicked] = useState(false);
   const { values, changeValues } = useProjectValuesStore();
   const {
     checkValidation,
@@ -51,21 +52,24 @@ const ProjectList = () => {
   } = useProjectValid();
 
   useEffect(() => {
-    if (projects) {
-      const filteredprojectList = projects?.filter((project) => {
+    if (projectsOfClient) {
+      const filteredprojectList = projectsOfClient?.filter((project) => {
         const lowerCaseSearch = String(searchKeyword).toLowerCase();
         return project?.title?.toLowerCase().includes(lowerCaseSearch);
       });
       setFilteredProjects(filteredprojectList);
     }
-  }, [projects, searchKeyword]);
+  }, [projectsOfClient, searchKeyword]);
 
   useEffect(() => {
-    if (allValid) {
+    if (allValid && addSubmitButtonClicked) {
       addProjectMutation.mutate(newProject);
+      setAddSubmitButtonClicked(false);
       setIsAddModalOpen(false);
+    } else if (!allValid) {
+      setAddSubmitButtonClicked(false);
     }
-  }, [allValid]);
+  }, [allValid, addSubmitButtonClicked]);
 
   useEffect(() => {
     queryClient.invalidateQueries(["projectList", selectedSortLabel]);
@@ -81,10 +85,7 @@ const ProjectList = () => {
 
   const addProjectButtonHandler = () => {
     checkValidation(values);
-    // if (isValidationPassed) {
-    //   addProjectMutation.mutate(newProject);
-    //   setIsAddModalOpen(false);
-    // }
+    setAddSubmitButtonClicked(true);
   };
 
   const beforeProgressProjects = filteredProjects?.filter(
@@ -98,31 +99,30 @@ const ProjectList = () => {
   const DoneProjects = filteredProjects?.filter(
     (project) => project.status === "진행 완료"
   );
-  const projectsToRender =
-    selectedselectOption === "전체보기"
-      ? filteredProjects
-      : selectedselectOption === "진행 전"
-      ? beforeProgressProjects
-      : selectedselectOption === "진행 중"
-      ? onProgressProjects
-      : DoneProjects;
 
-  const renderProjects = (projectList: Project[]) => {
+  const renderProjects = () => {
+    let projectsToRender: Project[] = [];
+    if (selectedselectOption === "전체보기") {
+      projectsToRender = filteredProjects;
+    } else if (selectedselectOption === "진행 전") {
+      projectsToRender = beforeProgressProjects;
+    } else if (selectedselectOption === "진행 중") {
+      projectsToRender = onProgressProjects;
+    } else if (selectedselectOption === "진행 완료") {
+      projectsToRender = DoneProjects;
+    }
     return (
       <>
-        {projectList?.length > 0 ? (
-          projectList.map((project) => (
-            <ProjectCard key={project.projectId} project={project} />
-          ))
-        ) : (
-          <div>프로젝트가 없습니다.</div>
-        )}
+        {projectsToRender?.map((project) => (
+          <ProjectCard key={project.projectId} project={project} />
+        ))}
       </>
     );
   };
 
   const addProjectModalOpenHandler = () => {
     setIsAddModalOpen(true);
+    setAddSubmitButtonClicked(false);
     setIsTitleValid(null);
     setIsDescValid(null);
     setIsCategoryValid(null);
@@ -144,31 +144,39 @@ const ProjectList = () => {
 
   return (
     <>
-      <S.SearchSortWrapper>
-        <SearchItemBar />
-        <SortProjects handleSort={handleSort} />
-      </S.SearchSortWrapper>
-      <S.SearchSortBtnBox>
-        <S.SearchSortBtn
-          onClick={() => setSelectedSortLabel("최신순")}
-          style={{ marginRight: "5px" }}
-        >
-          최신순
-        </S.SearchSortBtn>
-        <S.SearchSortBtn onClick={() => setSelectedSortLabel("오래된순")}>
-          오래된순
-        </S.SearchSortBtn>
-      </S.SearchSortBtnBox>
+      {projectsOfClient && projectsOfClient.length > 0 ? (
+        <>
+          <S.SearchSortWrapper>
+            <SearchItemBar />
+            <SortProjects handleSort={handleSort} />
+          </S.SearchSortWrapper>
+          <S.SearchSortBtnBox>
+            <S.SearchSortBtn
+              onClick={() => setSelectedSortLabel("최신순")}
+              style={{ marginRight: "5px" }}
+            >
+              최신순
+            </S.SearchSortBtn>
+            <S.SearchSortBtn onClick={() => setSelectedSortLabel("오래된순")}>
+              오래된순
+            </S.SearchSortBtn>
+          </S.SearchSortBtnBox>
+        </>
+      ) : (
+        <p>등록된 프로젝트가 없습니다.</p>
+      )}
       <S.ProjectContainer>
-        {projects && renderProjects(projectsToRender)}
+        {projectsOfClient && renderProjects()}
       </S.ProjectContainer>
+
       <S.ProjectCardBox
         onClick={addProjectModalOpenHandler}
         justifyContent="center"
         marginBottom={0}
+        backgroundColor="var(--main-blue)"
       >
-        <RiAddBoxLine size="23" />
-        <span>프로젝트 게시하기</span>
+        <RiAddBoxLine size="23" color="white" />
+        <S.ProjectSpanBtn>프로젝트 게시하기</S.ProjectSpanBtn>
       </S.ProjectCardBox>
       {isAddModalOpen && (
         <Modal

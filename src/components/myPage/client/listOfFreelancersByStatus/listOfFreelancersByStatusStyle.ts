@@ -14,8 +14,8 @@ export const S = {
     width: 90px;
     height: 30px;
     background-color: transparent;
-    border: 2px solid #0086d0;
-    border-radius: 4px;
+    border: 1.5px solid #0086d0;
+    border-radius: 6px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -31,8 +31,8 @@ export const S = {
   ListsBox: styled.div`
     border: 1.5px solid #d6d6d6;
     border-radius: 4px;
-    width: 340px;
-    height: 420px;
+    width: 300px;
+    height: 300px;
     margin-bottom: 20px;
     display: table;
   `,
@@ -58,11 +58,11 @@ export const S = {
     align-items: center;
   `,
   Name: styled.span`
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
   `,
   WorkField: styled.span`
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     color: #3d3d3d;
   `,
@@ -74,11 +74,16 @@ export const S = {
     gap: 10px;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    justify-content: center;
     margin-top: 5px;
   `,
   Contact: styled.span`
+    gap: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-size: 14px;
+    cursor: pointer;
   `,
 
   Line: styled.hr`
@@ -88,14 +93,14 @@ export const S = {
     background: #0086d0;
   `,
   ProjectTitle: styled.span`
+    font-size: 16px;
     font-weight: bold;
-    font-size: 20px;
   `,
   ProjectSubTitle: styled.span`
-    font-size: 16px;
+    font-size: 14px;
   `,
   ProjectDate: styled.span`
-    font-size: 14px;
+    font-size: 12px;
   `,
   DateInnerText: styled.span`
     color: #595959;
@@ -104,13 +109,25 @@ export const S = {
   DetailBtn: styled.button`
     position: relative;
     border: 1px solid #0086d0;
-    border-radius: 4px;
+    border-radius: 6px;
     width: 90%;
-    max-width: 300px;
-    height: 44px;
+    height: 35px;
+    margin-top: 5px;
     background-color: transparent;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     color: #0086d0;
+  `,
+  ModalInnerBtn: styled.button`
+    position: relative;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    height: 35px;
+    margin-top: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    color: white;
+    background-color: #0086d0;
   `,
 };

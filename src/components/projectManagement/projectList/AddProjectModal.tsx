@@ -1,15 +1,14 @@
-import { Checkbox, DatePicker, Select, Slider } from "antd";
-import type { CheckboxChangeEvent } from "antd/es/checkbox";
+import { Checkbox, DatePicker, Select } from "antd";
 import { useEffect, useState } from "react";
 import { useProjectStore } from "../../../zustand/useProjectStore";
 import S from "./ProjectListStyles";
-import { Project } from "../../../Types";
 import dayjs from "dayjs";
 import { useUserStore } from "../../../zustand/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
+import useProjectValid from "src/hooks/useProjectValid";
 
 interface AddProjectModal {
   isTitleValid?: boolean | null;
@@ -41,12 +40,6 @@ const AddProjectModal = ({
   const handleChange = (key: string, value: string | number) => {
     changeValues({ ...values, [key]: value });
   };
-
-  console.log("모달", values, payInputOff);
-
-  // const CheckBoxOnChange = (e: CheckboxChangeEvent) => {
-  //   setPayInputOff(e.target.checked);
-  // };
 
   const managerOnChange = (value: string) => {
     if (value === client!.name) {
@@ -86,20 +79,6 @@ const AddProjectModal = ({
   };
 
   const { changeNewProject } = useProjectStore();
-  // const newProject: Project = {
-  //   title: values.title,
-  //   desc: values.desc,
-  //   clientId: userId,
-  //   manager: values.manager,
-  //   expectedStartDate: values.expectedStartDate,
-  //   pay: {
-  //     min: values.minPay,
-  //     max: values.maxPay,
-  //   },
-  //   status: "진행 전",
-  //   category: values.category,
-  //   qualification: values.qualification as number,
-  // };
 
   useEffect(() => {
     changeNewProject({
@@ -119,15 +98,17 @@ const AddProjectModal = ({
   }, [values, payInputOff]);
 
   useEffect(() => {
-    if (payInputOff) {
-      changeValues({
-        ...values,
-        ["minPay"]: "상의 후 결정",
-        ["maxPay"]: "상의 후 결정",
-      });
-    } else {
-      changeValues({ ...values, ["minPay"]: "", ["maxPay"]: "" });
-    }
+    payInputOff
+      ? changeValues({
+          ...values,
+          ["minPay"]: "상의 후 결정",
+          ["maxPay"]: "상의 후 결정",
+        })
+      : changeValues({
+          ...values,
+          ["minPay"]: "",
+          ["maxPay"]: "",
+        });
   }, [payInputOff]);
 
   return (
@@ -141,11 +122,8 @@ const AddProjectModal = ({
           id="title"
           value={values.title}
           onChange={(e) => handleChange("title", e.target.value)}
-          border={`1px solid ${
-            isTitleValid === true || isTitleValid === null
-              ? "var(--main-blue)"
-              : "red"
-          }`}
+          className={isTitleValid === false ? "shake" : ""}
+          borderColor={isTitleValid === false ? "red" : "var(--main-blue)"}
         />
         <S.ModalContentsLabel htmlFor="desc">
           프로젝트 설명
@@ -154,11 +132,7 @@ const AddProjectModal = ({
           id="desc"
           value={values.desc}
           onChange={(e) => handleChange("desc", e.target.value)}
-          border={`1.5px solid ${
-            isDescValid === true || isDescValid === null
-              ? "var(--main-blue)"
-              : "red"
-          }`}
+          borderColor={isDescValid === false ? "red" : "var(--main-blue)"}
         />
         <S.ModalContentsLabel htmlFor="qualification">
           모집조건
@@ -183,7 +157,7 @@ const AddProjectModal = ({
               style={{
                 width: "97%",
                 marginRight: "3%",
-                border: `1.5px solid ${
+                border: `1px solid ${
                   isCategoryValid === true || isCategoryValid === null
                     ? "var(--main-blue)"
                     : "red"
@@ -199,11 +173,10 @@ const AddProjectModal = ({
               type="number"
               value={values.qualification as number}
               onChange={(e) => handleChange("qualification", e.target.value)}
-              border={`1.5px solid ${
-                isQualificationValid === true || isQualificationValid === null
-                  ? "var(--main-blue)"
-                  : "red"
-              }`}
+              borderColor={
+                isQualificationValid === false ? "red" : "var(--main-blue)"
+              }
+              className={isQualificationValid === false ? "shake" : ""}
               style={{
                 width: "97%",
                 height: "35px",
@@ -217,7 +190,7 @@ const AddProjectModal = ({
       <S.ModalSubInfoBox>
         <S.ModalSubInfoInnerBox>
           <S.ModalContentsLabel htmlFor="expectedStartDate">
-            목표기간
+            시작예정일
           </S.ModalContentsLabel>
           <DatePicker
             id="expectedStartDate"
@@ -232,7 +205,7 @@ const AddProjectModal = ({
               marginTop: "5px",
               width: "97%",
               marginRight: "3%",
-              border: `1.5px solid ${
+              border: `1px solid ${
                 isDeadLineValid === true || isDeadLineValid === null
                   ? "var(--main-blue)"
                   : "red"
@@ -289,7 +262,7 @@ const AddProjectModal = ({
               marginTop: "5px",
               width: "97%",
               marginLeft: "3%",
-              border: `1.5px solid ${
+              border: `1px solid ${
                 isManagerValid === true || isManagerValid === null
                   ? "var(--main-blue)"
                   : "red"
@@ -329,11 +302,8 @@ const AddProjectModal = ({
                   payInputOff ? "상의 후 결정" : e.target.value
                 )
               }
-              border={`1.5px solid ${
-                isMaxPayValid === true || isMaxPayValid === null
-                  ? "var(--main-blue)"
-                  : "red"
-              }`}
+              borderColor={isMaxPayValid === false ? "red" : "var(--main-blue)"}
+              className={isMaxPayValid === false ? "shake" : ""}
             />
             <p>만원</p>
           </S.ModalMinMaxPayBox>
@@ -350,11 +320,8 @@ const AddProjectModal = ({
                   payInputOff ? "상의 후 결정" : e.target.value
                 )
               }
-              border={`1.5px solid ${
-                isMaxPayValid === true || isMaxPayValid === null
-                  ? "var(--main-blue)"
-                  : "red"
-              }`}
+              borderColor={isMaxPayValid === false ? "red" : "var(--main-blue)"}
+              className={isMaxPayValid === false ? "shake" : ""}
             />
             <p>만원</p>
           </S.ModalMinMaxPayBox>

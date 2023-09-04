@@ -1,15 +1,13 @@
-import useFreelancersQueries from "src/hooks/useFreelancersQueries";
 import { Project } from "../../../Types";
 import S from "./ProjectListStyles";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getFreelancer } from "src/api/User";
-import { BiPhoneCall } from "react-icons/bi";
-import { AiOutlineMail } from "react-icons/ai";
+import ProjectCommittedFreelancerProfile from "./ProjectCommittedFreelancerProfile";
 
-interface ProjectDetailModalProps {
+export interface ProjectDetailModalProps {
   project: Project;
 }
-interface FreelancerInfo {
+export interface FreelancerInfo {
   name: string;
   contact: {
     email: string;
@@ -25,20 +23,26 @@ interface FreelancerInfo {
 }
 
 const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
-  const [volunteeredFreelancer, setVolunteeredFreelancer] =
+  const [committedFreelancer, setCommittedFreelancer] =
     useState<FreelancerInfo | null>(null);
 
+  const fetchCommittedFreelancer = async () => {
+    const userId = project.freelancerId!;
+    const freelancer = await getFreelancer(userId);
+    setCommittedFreelancer(freelancer);
+  };
   useEffect(() => {
-    const fetchVolunteeredFreelancer = async () => {
-      if (project.volunteer && project.volunteer[0]) {
-        const userId = project.volunteer[0];
-        const freelancer = await getFreelancer(userId);
-        setVolunteeredFreelancer(freelancer);
-      }
-    };
+    fetchCommittedFreelancer();
+  }, [project]);
 
-    fetchVolunteeredFreelancer();
-  }, [project.volunteer]);
+  const payUnitConversion = (pay: number | string) => {
+    if (pay === "상의 후 결정") {
+      return pay;
+    } else {
+      const convertedPay = (pay as number) * 10000;
+      return convertedPay.toLocaleString("ko-KR") + "₩";
+    }
+  };
 
   return (
     <S.DetailModalContainer>
@@ -98,7 +102,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           담당자
         </S.ModalDetail>
         <S.ModalDetail color="var(--main-blue)">
-          {project.category}팀 {project.manager.name}
+          {project.manager.team}팀 {project.manager.name}
         </S.ModalDetail>
 
         <S.ModalDetail marginTop="10px" marginBottom="2px">
@@ -121,7 +125,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
             marginRight="15px"
             marginLeft="15px"
           >
-            {project.pay.min},000₩
+            {payUnitConversion(project.pay.min as number)}
           </S.ModalDetail>
           <p
             style={{
@@ -138,60 +142,25 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
             marginRight="15px"
             marginLeft="15px"
           >
-            {project.pay.max},000₩
+            {payUnitConversion(project.pay.max as number)}
           </S.ModalDetail>
         </S.ModalInfoFlexBox>
       </S.ModalInfoColumnBox>
-      <S.ModalLine />
       {/* --------------------------------------------------------- */}
-      <S.ModalTitle marginBottom="10px">
-        <label htmlFor="volunteeredFreelancer">투입한 프리랜서</label>
-      </S.ModalTitle>
-      <S.ModalInfoFlexBox>
-        <div>
-          {project.volunteer && project.volunteer.length > 0 ? (
-            <S.ModalInfoFlexBox>
-              <img
-                src={volunteeredFreelancer?.photoURL}
-                width="160px"
-                height="160px"
-                alt="img"
-              />
-              <S.ModalInfoColumnBox>
-                <S.ModalDetail marginBottom="3px">
-                  {volunteeredFreelancer?.name}
-                </S.ModalDetail>
-                <S.ModalDetail marginBottom="3px">
-                  {volunteeredFreelancer?.workField.workSmallField}
-                </S.ModalDetail>
-                <S.ModalDetail marginBottom="3px">
-                  {volunteeredFreelancer?.resumeProfileIntro}
-                </S.ModalDetail>
-                <S.ModalDetail
-                  marginBottom="3px"
-                  style={{ display: "flex", alignItems: "center" }}
-                >
-                  <BiPhoneCall />
-                  {volunteeredFreelancer?.contact.phone}
-                </S.ModalDetail>
-                <S.ModalDetail
-                  marginBottom="3px"
-                  style={{ display: "flex", alignItems: "center" }}
-                >
-                  <AiOutlineMail />
-                  {volunteeredFreelancer?.contact.email}
-                </S.ModalDetail>
-              </S.ModalInfoColumnBox>
-            </S.ModalInfoFlexBox>
-          ) : (
-            <p>모집중</p>
-          )}
-        </div>
-        <div>
-          <div>계약기간</div>
-          <div></div>
-        </div>
-      </S.ModalInfoFlexBox>
+
+      {committedFreelancer && (
+        <>
+          <S.ModalLine />
+          <S.ModalTitle marginBottom="10px">
+            <label htmlFor="volunteeredFreelancer">투입한 프리랜서</label>
+          </S.ModalTitle>
+
+          <ProjectCommittedFreelancerProfile
+            committedFreelancer={committedFreelancer}
+            project={project}
+          />
+        </>
+      )}
     </S.DetailModalContainer>
   );
 };

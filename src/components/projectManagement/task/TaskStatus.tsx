@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import S from "./TaskStyles";
 import { Task } from "../../../Types";
 import useTasksQueries from "../../../hooks/useTasksQueries";
@@ -10,6 +10,7 @@ interface TaskStatusProps {
 
 const TaskStatus = ({ task, userRole }: TaskStatusProps) => {
   const [statusOptionOn, setStatusOptionOn] = useState(false);
+  const [backgroundColor, setBackgroundColor] = useState("");
 
   const statusDivOnClickHandler = () => {
     if (userRole === "freelancer") setStatusOptionOn(!statusOptionOn);
@@ -32,27 +33,54 @@ const TaskStatus = ({ task, userRole }: TaskStatusProps) => {
     });
     setStatusOptionOn(false);
   };
-  return (
-    <>
-      <div>
-        <S.TaskDetailBox width={150} onClick={statusDivOnClickHandler}>
-          {task.status}
-        </S.TaskDetailBox>
 
-        {statusOptionOn
-          ? statusOptionArray.map((status) => {
-              return (
-                <S.TaskDetailBox
-                  width={150}
-                  onClick={() => statusOptionOnClickHandler(status)}
-                >
-                  {status}
-                </S.TaskDetailBox>
-              );
-            })
-          : null}
-      </div>
-    </>
+  const getStatusBackgroundColor = (status: string): string => {
+    switch (status) {
+      case "Before working":
+        return "#FD3F78";
+      case "Working on it":
+        return "#FDAB3F";
+      case "Check":
+        return "#4252E3";
+      case "Done":
+        return "#16C671";
+      case "Stuck":
+        return "#E3425F";
+      default:
+        return "#d3d3d3";
+    }
+  };
+
+  useEffect(() => {
+    const backgroundColor = getStatusBackgroundColor(task.status);
+    setBackgroundColor(backgroundColor);
+  }, [task.status]);
+
+  return (
+    <S.TaskDetailBoxWrapper width="19%">
+      <S.TaskDetailBox
+        onClick={statusDivOnClickHandler}
+        backgroundColor={backgroundColor}
+      >
+        {task.status}
+      </S.TaskDetailBox>
+
+      {statusOptionOn
+        ? statusOptionArray.map((status) => {
+            const backgroundColor = getStatusBackgroundColor(status);
+
+            return (
+              <S.TaskDetailBox
+                key={status} /**key 추가했습니다 */
+                backgroundColor={backgroundColor}
+                onClick={() => statusOptionOnClickHandler(status)}
+              >
+                {status}
+              </S.TaskDetailBox>
+            );
+          })
+        : null}
+    </S.TaskDetailBoxWrapper>
   );
 };
 

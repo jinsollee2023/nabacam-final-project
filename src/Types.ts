@@ -91,7 +91,6 @@ export interface Review {
 }
 
 export interface IProjectWithFreelancer extends Project {
-  freelancerPromise: Promise<User>;
   freelancer: User;
   volunteerUser?: Promise<User[]>;
   pendingFreelancerUser?: Promise<User[]>;

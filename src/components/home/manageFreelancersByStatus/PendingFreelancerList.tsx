@@ -60,84 +60,90 @@ const PendingFreelancerList = () => {
     setIsModalOpen(false);
   };
 
+  if (!pendingFreelancers || pendingFreelancers.length === 0) {
+    return <S.DataStatus>보류한 프리랜서가 없습니다.</S.DataStatus>;
+  }
+
   return (
     <>
       <S.ListContainer>
         <S.Title>보류했던 프리랜서들을 다시 확인해보세요.</S.Title>
-        {Number(
-          pendingFreelancers
-            ?.map((project) => project.pendingFreelancerUser.length)
-            .reduce((acc, cur) => acc + cur)
-        ) === 0 ? (
-          <S.DataStatus>보류한 프리랜서가 없습니다.</S.DataStatus>
-        ) : (
-          pendingFreelancers?.map((project) =>
-            project.pendingFreelancerUser?.map((freelancer) => (
-              <S.List key={`${project.projectId}-${freelancer.userId}`}>
-                <S.ListContents>
-                  {project.freelancerId ? <div>모집완료</div> : <div>모집중</div>}
-                  <S.FreelancerName>{freelancer.name}</S.FreelancerName>
-                  <span>{freelancer.workField?.workField}</span>
-                  <S.WorkFieldAndWorkExp>
-                    {freelancer.workField?.workSmallField}
-                  </S.WorkFieldAndWorkExp>
-                  <S.WorkFieldAndWorkExp>{freelancer.workExp}년차</S.WorkFieldAndWorkExp>
-                </S.ListContents>
-                <S.ProjectContents>
-                  <div key={project.projectId}>
-                    <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
-                  </div>
+        {pendingFreelancers.map((project) =>
+          project.pendingFreelancerUser?.map((freelancer) => (
+            <S.List key={`${project.projectId}-${freelancer.userId}`}>
+              <S.ListContents>
+                {project.freelancerId ? (
+                  <S.RecruitmentCompleted>모집완료</S.RecruitmentCompleted>
+                ) : (
+                  <S.Recruiting>모집중</S.Recruiting>
+                )}
+                <S.FreelancerName>{freelancer.name}</S.FreelancerName>
+                <span>{freelancer.workField?.workField}</span>
+                <S.WorkFieldAndWorkExp>
+                  {freelancer.workField?.workSmallField}
+                </S.WorkFieldAndWorkExp>
+                <S.WorkFieldAndWorkExp>{freelancer.workExp}년차</S.WorkFieldAndWorkExp>
+              </S.ListContents>
+              <S.ProjectContents>
+                <div key={project.projectId}>
+                  <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
+                </div>
 
-                  <S.CheckingBtn
-                    onClick={() => {
-                      setSelectedFreelancer(freelancer);
-                      setIsModalOpen(!isModalOpen);
-                    }}
-                  >
-                    확인하기
-                  </S.CheckingBtn>
-                  {isModalOpen &&
-                    selectedFreelancer &&
-                    selectedFreelancer.userId === freelancer.userId && (
-                      <Modal
-                        setIsModalOpen={setIsModalOpen}
-                        buttons={
-                          <>
-                            <S.ContractBtn
-                              onClick={() =>
-                                updateFreelancer(
-                                  freelancer.userId,
-                                  project.projectId ?? "",
-                                  project.date?.endDate as string,
-                                  freelancer.projectId || [],
-                                  project.volunteer || [],
-                                  project.pendingFreelancer || []
-                                )
-                              }
-                            >
-                              계약하기
-                            </S.ContractBtn>
-                            <S.PendingBtn
-                              onClick={() =>
-                                deletePendingFreelancer(
-                                  project.projectId || "",
-                                  freelancer.userId,
-                                  project.pendingFreelancer || []
-                                )
-                              }
-                            >
-                              삭제하기
-                            </S.PendingBtn>
-                          </>
-                        }
-                      >
-                        <PendingFreelancerInfoModal user={freelancer} project={project} />
-                      </Modal>
-                    )}
-                </S.ProjectContents>
-              </S.List>
-            ))
-          )
+                <S.CheckingBtn
+                  onClick={() => {
+                    setSelectedFreelancer(freelancer);
+                    setIsModalOpen(!isModalOpen);
+                  }}
+                >
+                  확인하기
+                </S.CheckingBtn>
+                {isModalOpen &&
+                  selectedFreelancer &&
+                  selectedFreelancer.userId === freelancer.userId && (
+                    <Modal
+                      setIsModalOpen={setIsModalOpen}
+                      buttons={
+                        <>
+                          {project.freelancerId ? (
+                            <S.DisabledBtn disabled>모집이 완료된 프로젝트입니다.</S.DisabledBtn>
+                          ) : (
+                            <>
+                              <S.ContractBtn
+                                onClick={() =>
+                                  updateFreelancer(
+                                    freelancer.userId,
+                                    project.projectId ?? "",
+                                    project.date?.endDate as string,
+                                    freelancer.projectId || [],
+                                    project.volunteer || [],
+                                    project.pendingFreelancer || []
+                                  )
+                                }
+                              >
+                                계약하기
+                              </S.ContractBtn>
+                              <S.PendingBtn
+                                onClick={() =>
+                                  deletePendingFreelancer(
+                                    project.projectId || "",
+                                    freelancer.userId,
+                                    project.pendingFreelancer || []
+                                  )
+                                }
+                              >
+                                삭제하기
+                              </S.PendingBtn>
+                            </>
+                          )}
+                        </>
+                      }
+                    >
+                      <PendingFreelancerInfoModal user={freelancer} project={project} />
+                    </Modal>
+                  )}
+              </S.ProjectContents>
+            </S.List>
+          ))
         )}
       </S.ListContainer>
     </>

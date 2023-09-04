@@ -14,12 +14,13 @@ import {
   uploadThumbnail,
 } from "../../../../api/Portfolio";
 import { getPortfolioFileURL } from "../../../../api/User";
+import { BsPlusCircleDotted } from "react-icons/bs";
 
 const PortfolioTab = () => {
-  const { userId } = useUserStore();
+  const { user } = useUserStore();
+  console.log(user);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const {
     selectedPortfolio,
     setSelectedPortfolio,
@@ -32,12 +33,11 @@ const PortfolioTab = () => {
     updatePortfolioMutation,
     portfolios,
   } = usePortfolioInfoQueries({
-    userId,
+    userId: user.userId,
     pfId: newPortfolio.portfolioId,
   });
-
+  console.log("portfolios==>", portfolios);
   const handleOpenAddModalButtonClick = () => {
-    setErrorMessage("");
     setIsAddModalOpen(true);
     setIsDetailModalOpen(false);
   };
@@ -60,23 +60,16 @@ const PortfolioTab = () => {
 
   const handleAddPortfolioButtonClick = async () => {
     // 유효성 검사 변경될 수 있음
-    // if (newPortfolio.title === "" && newPortfolio.desc === "") {
-    //   return setErrorMessage("포트폴리오 제목과 내용을 입력해주세요.");
-    // } else if (newPortfolio.title === "") {
-    //   return setErrorMessage("포트폴리오 제목을 입력해주세요.");
-    // } else if (newPortfolio.desc === "") {
-    //   return setErrorMessage("포트폴리오 내용을 입력해주세요.");
-    // } else if (newPortfolio.thumbNailURL instanceof String) {
-    //   const isConfirmed = window.confirm(
-    //     "썸네일 이미지는 클라이언트에게 포트폴리오를 소개하는 중요한 요소일 수 있습니다.\n 등록없이 진행하시겠습니까?"
-    //   );
-    //   if (!isConfirmed) {
-    //     return setErrorMessage("썸네일 이미지를 등록해주세요.");
-    //   }
-    // }
+    if (newPortfolio.title === "" && newPortfolio.desc === "") {
+    } else if (newPortfolio.title === "") {
+    } else if (newPortfolio.desc === "") {
+    } else if (newPortfolio.thumbNailURL instanceof String) {
+    }
+
+    // --------------------
 
     const pdfFilePath = await uploadPDF({
-      userId,
+      userId: user.userId,
       file: newPortfolio.pdfFileURL as File,
       pfId: newPortfolio.portfolioId,
     });
@@ -86,14 +79,14 @@ const PortfolioTab = () => {
       portfolioId: newPortfolio.portfolioId,
       title: newPortfolio.title,
       desc: newPortfolio.desc,
-      freelancerId: userId,
+      freelancerId: user.userId,
       linkURL: newPortfolio.linkURL,
       pdfFileURL: `${pdfURL}?updated=${new Date().getTime()}`,
     };
 
     if (newPortfolio.thumbNailURL instanceof File) {
       const thumbnailFilePath = await uploadThumbnail({
-        userId,
+        userId: user.userId,
         file: newPortfolio.thumbNailURL as File,
         pfId: newPortfolio.portfolioId,
       });
@@ -104,7 +97,7 @@ const PortfolioTab = () => {
           ...newPortfolioExceptThumbnail,
           thumbNailURL: `${thumbNailURL}?updated=${new Date().getTime()}`,
         },
-        userId,
+        userId: user.userId,
         pfId: newPortfolio.portfolioId,
       });
     } else {
@@ -113,7 +106,7 @@ const PortfolioTab = () => {
           ...newPortfolioExceptThumbnail,
           thumbNailURL: newPortfolio.thumbNailURL,
         },
-        userId,
+        userId: user.userId,
         pfId: newPortfolio.portfolioId,
       });
     }
@@ -127,7 +120,7 @@ const PortfolioTab = () => {
       portfolioId: "",
       title: "",
       desc: "",
-      freelancerId: userId,
+      freelancerId: user.userId,
       linkURL: "",
       thumbNailURL:
         "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg",
@@ -138,7 +131,7 @@ const PortfolioTab = () => {
 
   const handleEditPortfolioButtonClick = async () => {
     const pdfFilePath = await updatePortfolioFile(
-      userId,
+      user.userId,
       newPortfolio.portfolioId,
       "pdf",
       newPortfolio.pdfFileURL as File
@@ -149,12 +142,12 @@ const PortfolioTab = () => {
         selectedPortfolio?.thumbNailURL
       ).includes("default")
         ? uploadThumbnail({
-            userId,
+            userId: user.userId,
             file: newPortfolio?.thumbNailURL as File,
             pfId: newPortfolio?.portfolioId,
           })
         : updatePortfolioFile(
-            userId,
+            user.userId,
             newPortfolio?.portfolioId as string,
             "thumbnail",
             newPortfolio.thumbNailURL as File
@@ -226,7 +219,7 @@ const PortfolioTab = () => {
             setIsDetailModalOpen={handleAddModalClose}
             isAddModalOpen={!isAddModalOpen}
             setIsAddModalOpen={setIsAddModalOpen}
-            userId={userId}
+            userId={user.userId}
           />
         </Modal>
       )}
@@ -260,18 +253,18 @@ const PortfolioTab = () => {
                   </Button>
                 </>
               ) : (
-                <Button
+                <S.Button
                   type="primary"
                   block
                   onClick={handleAddPortfolioButtonClick}
                 >
                   추가하기
-                </Button>
+                </S.Button>
               )}
             </>
           }
         >
-          <PortfolioAddModal errorMessage={errorMessage} />
+          <PortfolioAddModal />
         </Modal>
       )}
 
@@ -286,18 +279,27 @@ const PortfolioTab = () => {
                     handleOpenDetailModalButtonClick(portfolio);
                   }}
                 >
-                  <img src={portfolio.thumbNailURL} alt="썸네일 이미지" />
+                  <img
+                    style={{ borderRadius: "20px" }}
+                    src={portfolio.thumbNailURL}
+                    alt="썸네일 이미지"
+                  />
+
+                  <S.PortfolioTitle>{portfolio.title}</S.PortfolioTitle>
                 </S.PortfolioList>
               );
             })}
 
-          <S.PortfolioList onClick={modalOpenHandler}>
-            <button>
+          <S.PortfolioAdd onClick={modalOpenHandler}>
+            <S.PortfolioAddButton>
+              <BsPlusCircleDotted />
+              <br />
+              <br />
               포트폴리오
               <br />
               첨부하기
-            </button>
-          </S.PortfolioList>
+            </S.PortfolioAddButton>
+          </S.PortfolioAdd>
         </S.PortfolioListWrapper>
       </S.PortfolioListContainer>
     </>

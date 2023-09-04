@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { styled } from "styled-components";
-import { useUserStore } from "../../../zustand/useUserStore";
 import Account from "../myProfile/Account";
 import ResumeTab from "../tabs/resumeTab/ResumeTab";
 import PortfolioTab from "../tabs/portfolioTab/PortfolioTab";
-import ContractInfoTab from "../tabs/ContractInfoTab";
+import ContractInfoTab from "../tabs/contractInfoTab/ContractInfoTab";
 import FeedbackTab from "../tabs/FeedbackTab";
 import MenuTabBarComp from "../../../components/common/MenuTabBarComp";
 import React from "react";
 
 const FreelancerMyPageComp = () => {
   const [activeTab, setActiveTab] = useState("이력서");
-  const { userId } = useUserStore();
 
   const myPageMenu = ["마이페이지"];
 
@@ -65,7 +63,7 @@ const FreelancerMyPageComp = () => {
                 계약정보
               </S.Tab>
 
-              <S.Tab
+              {/* <S.Tab
                 onClick={() => handleTabClick("피드백 관리")}
                 style={{
                   borderBottom:
@@ -75,13 +73,13 @@ const FreelancerMyPageComp = () => {
                 }}
               >
                 피드백 관리
-              </S.Tab>
+              </S.Tab> */}
             </S.TabBarContainer>
             {/* ----- */}
             {activeTab === "이력서" && <ResumeTab />}
             {activeTab === "포트폴리오" && <PortfolioTab />}
             {activeTab === "계약정보" && <ContractInfoTab />}
-            {activeTab === "피드백 관리" && <FeedbackTab />}
+            {/* {activeTab === "피드백 관리" && <FeedbackTab />} */}
           </S.TabsContainerInner>
         </S.TabsContainer>
       </S.Container>
@@ -105,7 +103,7 @@ const S = {
     width: 100%;
   `,
   TabBarContainer: styled.div`
-    border-bottom: solid #d9d9d9 4px;
+    border-bottom: solid #d9d9d9 1px;
     display: flex;
     width: 100%;
   `,

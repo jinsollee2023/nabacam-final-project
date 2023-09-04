@@ -12,9 +12,10 @@ import React from "react";
 interface TaskCardProps {
   task: Task;
   userRole: string;
+  month: string;
 }
 
-const TaskCard = ({ task, userRole }: TaskCardProps) => {
+const TaskCard = ({ task, userRole, month }: TaskCardProps) => {
   const { deleteTaskMutation } = useTasksQueries(task.projectId);
 
   const deleteTaskButtonHandler = () => {
@@ -23,13 +24,13 @@ const TaskCard = ({ task, userRole }: TaskCardProps) => {
 
   return (
     <S.TaskCardBox>
-      <TaskMonth task={task as Task} userRole={userRole} />
+      <TaskMonth task={task as Task} userRole={userRole} month={month} />
       <TaskTitle task={task as Task} userRole={userRole} />
       <TaskStatus task={task as Task} userRole={userRole} />
       <TaskDeadLine task={task as Task} userRole={userRole} />
       <TaskImportance task={task as Task} userRole={userRole} />
       <div>
-        {userRole === " freelancer" ? (
+        {userRole === "freelancer" ? (
           <S.TaskDeleteButton onClick={deleteTaskButtonHandler}>
             <BsTrash3Fill />
           </S.TaskDeleteButton>

@@ -23,8 +23,13 @@ const SortProjects = ({ handleSort }: SortProjectsProps) => {
         style={{ width: 200 }}
         onChange={handleChange}
         options={[
+          {
+            value: "전체보기",
+            label: "전체보기",
+            className: "progress-option",
+          },
           { value: "진행 전", label: "진행 전", className: "progress-option" },
-          { value: "진행 중 ", label: "진행 중", className: "progress-option" },
+          { value: "진행 중", label: "진행 중", className: "progress-option" },
           {
             value: "진행 완료",
             label: "진행 완료",
@@ -32,7 +37,6 @@ const SortProjects = ({ handleSort }: SortProjectsProps) => {
           },
         ]}
       />
-      <BsArrowDownUp />
     </S.SortContainer>
   );
 };

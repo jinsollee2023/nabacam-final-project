@@ -10,6 +10,23 @@ export const S = {
     align-items: center;
     justify-content: center;
   `,
+  ClientInfo: styled.div`
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  `,
+  ProfileImgBox: styled.div`
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 15%;
+  `,
+  ProfileImg: styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  `,
   ModalTitle: styled.span`
     font-size: 20px;
     line-height: 50px;

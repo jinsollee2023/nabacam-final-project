@@ -1,4 +1,3 @@
-import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { Project } from "src/Types";
 import Modal from "src/components/modal/Modal";
@@ -11,6 +10,8 @@ import {
   getDayOfWeek,
 } from "src/components/common/commonFunc";
 import { queryClient } from "src/App";
+import { FiUsers } from "react-icons/fi";
+import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
 
 interface ProjectCardProps {
   projectItem: Project;
@@ -35,19 +36,24 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
   const daysAgo = calculateDaysAgo(targetDate);
 
   const handleProjectApplyButtonClick = () => {
-    const updatedProject = {
-      ...projectItem,
-      volunteer: [...(projectItem.volunteer || []), userId],
-    };
+    const isConfirmed = window.confirm(
+      `${projectItem.title}에 지원하시겠습니까?`
+    );
+    if (isConfirmed) {
+      const updatedProject = {
+        ...projectItem,
+        volunteer: [...(projectItem.volunteer || []), userId],
+      };
 
-    try {
-      updateProjectMutation.mutate({
-        projectId: projectItem.projectId as string,
-        newProject: updatedProject,
-      });
-      setIsDetailModalOpen(false);
-    } catch (error) {
-      console.error("프로젝트 지원 중 오류가 발생하였습니다.\n", error);
+      try {
+        updateProjectMutation.mutate({
+          projectId: projectItem.projectId as string,
+          newProject: updatedProject,
+        });
+        setIsDetailModalOpen(false);
+      } catch (error) {
+        console.error("프로젝트 지원 중 오류가 발생하였습니다.\n", error);
+      }
     }
   };
 
@@ -58,57 +64,77 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
           setIsModalOpen={setIsDetailModalOpen}
           buttons={
             <>
-              {projectItem.volunteer?.includes(userId) ||
-              projectItem.pendingFreelancer?.includes(userId) ? (
-                <Button type="primary" block disabled>
+              {projectItem.freelancerId ? (
+                <S.Button type="primary" block disabled>
+                  모집이 완료된 프로젝트입니다.
+                </S.Button>
+              ) : projectItem.volunteer?.includes(userId) ||
+                projectItem.pendingFreelancer?.includes(userId) ? (
+                <S.Button type="primary" block disabled>
                   이미 지원한 프로젝트입니다.
-                </Button>
+                </S.Button>
               ) : projectItem.SuggestedFreelancers!.includes(userId) ? (
-                <Button type="primary" block disabled>
+                <S.Button type="primary" block disabled>
                   이미 제안 받은 프로젝트입니다.
-                </Button>
+                </S.Button>
               ) : (
-                <Button
+                <S.Button
                   type="primary"
                   block
                   onClick={handleProjectApplyButtonClick}
                 >
                   프로젝트 지원하기
-                </Button>
+                </S.Button>
               )}
             </>
           }
         >
-          <ApplyForProjectModal
-            projectItem={projectItem}
-            clientName={client?.name!}
-          />
+          <ProjectDetailModal project={projectItem} />
         </Modal>
       )}
       <S.ProejctCardContainer>
-        <div id="clientName">{client?.name}</div>
-        <div>
-          <span>
-            {projectItem.title} · {projectItem.category}
-          </span>
-          {projectItem.qualification > 0 ? (
-            <span>{projectItem.qualification}년차 이상</span>
-          ) : (
-            <span>신입 가능</span>
-          )}
-        </div>
-        <div id="buttonAndDeadLineAndCreatAt">
-          <button onClick={() => setIsDetailModalOpen(true)}>
-            자세히 보기
-          </button>
-          <span>{projectItem.volunteer?.length}명 지원 중</span>
+        <S.ProejctContentLeftWrapper>
+          <S.ProjectStatus
+            recruitmentCompleted={projectItem.status === "진행 전"}
+          >
+            {projectItem.status === "진행 중" ||
+            projectItem.status === "진행 완료"
+              ? "모집 완료"
+              : "모집 중"}
+          </S.ProjectStatus>
+          <S.ClientName>{client?.name}</S.ClientName>
           <div>
-            <span>
-              ~{projectItem.expectedStartDate?.slice(5, 7)}/
-              {projectItem.expectedStartDate?.slice(8, 10)} ({dayOfWeek})
-            </span>
-            <span>{daysAgo} 등록</span>
+            <S.ProjectName>
+              {projectItem.title} · {projectItem.category}
+            </S.ProjectName>
+            {projectItem.qualification > 0 ? (
+              <span>{projectItem.qualification}년차 이상</span>
+            ) : (
+              <span>신입 가능</span>
+            )}
           </div>
+          <S.AppliedFreelancersCountBox>
+            <FiUsers />
+            <span>{projectItem.volunteer?.length}명 지원 중</span>
+          </S.AppliedFreelancersCountBox>
+        </S.ProejctContentLeftWrapper>
+
+        <div>
+          <S.ProejctContentRightWrapper>
+            <S.DetailModalOpenButton onClick={() => setIsDetailModalOpen(true)}>
+              자세히 보기
+            </S.DetailModalOpenButton>
+
+            <S.ProejctContentRightTextWrapper>
+              <span>
+                ~{projectItem.date?.endDate.slice(5, 7)}/
+                {projectItem.date?.endDate.slice(8, 10)} ({dayOfWeek})
+              </span>
+              <S.ProjectRegistrationDate>
+                {daysAgo} 등록
+              </S.ProjectRegistrationDate>
+            </S.ProejctContentRightTextWrapper>
+          </S.ProejctContentRightWrapper>
         </div>
       </S.ProejctCardContainer>
     </>

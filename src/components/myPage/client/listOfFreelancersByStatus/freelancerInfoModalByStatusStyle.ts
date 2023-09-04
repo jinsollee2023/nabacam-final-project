@@ -6,6 +6,31 @@ export const S = {
     font-weight: bold;
     margin-bottom: 20px;
   `,
+  ProjectTitleContents: styled.p`
+    margin: 20px 0;
+    font-size: 16px;
+    font-weight: bold;
+  `,
+  ProjectWarp: styled.div`
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+  `,
+  ProjectBox: styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `,
+  ProjectTitle: styled.span`
+    font-size: 14px;
+  `,
+  ProjectDate: styled.span`
+    font-size: 12px;
+  `,
+  DateInnerText: styled.span`
+    color: #595959;
+    font-size: 10px;
+  `,
   ProfileInfo: styled.div`
     gap: 10px;
     display: flex;
@@ -31,14 +56,15 @@ export const S = {
   `,
   Contact: styled.div`
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-    justify-content: center;
-  `,
-  Contacts: styled.div`
-    display: flex;
     flex-direction: row;
     gap: 5px;
+  `,
+  Contacts: styled.div`
+    gap: 5px;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    cursor: pointer;
   `,
   ProjectInfo: styled.div`
     display: flex;
@@ -52,19 +78,23 @@ export const S = {
     align-items: center;
     gap: 5px;
   `,
+  OngoingProjectTitle: styled.span`
+    font-size: 14px;
+  `,
+  OngoingProjectDate: styled.span`
+    font-size: 12px;
+  `,
   ContentTitle: styled.span`
-    font-size: 15px;
+    font-size: 16px;
     font-weight: bold;
   `,
   WorkField: styled.span`
-    color: gray;
+    color: #595959;
+    font-size: 14px;
     font-weight: bold;
   `,
   WorkExp: styled.span`
-    color: gray;
-  `,
-  DateInnerText: styled.span`
-    color: gray;
-    font-size: 12px;
+    color: #595959;
+    font-size: 14px;
   `,
 };

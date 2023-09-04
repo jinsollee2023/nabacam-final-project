@@ -55,37 +55,34 @@ export const S = {
 
   ResumeContent: styled.p`
     margin: 20px 0;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
   `,
   ProfileIntro: styled.div`
     width: 100%;
-    font-size: 16px;
+    font-size: 14px;
     word-break: break-all;
   `,
   ContactBox: styled.div`
     gap: 5px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
   `,
   Contacts: styled.span`
+    gap: 5px;
     display: flex;
-    width: 200px;
+    flex-direction: row;
     font-size: 14px;
-  `,
-  PortfolioBox: styled.div`
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
+    cursor: pointer;
   `,
 
-  ImgBox: styled.div`
+  PortfolioImgBox: styled.div`
     width: 100px;
     height: 100px;
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
+    margin: 0 auto;
     background-color: rgba(0, 0, 0, 0.1);
   `,
   PortfolioImg: styled.img`
@@ -95,7 +92,8 @@ export const S = {
   `,
   PortfolioCmt: styled.p`
     margin-top: 5px;
-    font-size: 14px;
+    font-size: 12px;
+    text-align: center;
   `,
   DataNullBox: styled.div`
     background-color: rgba(0, 0, 0, 0.1);
@@ -105,7 +103,7 @@ export const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 15px;
+    font-size: 14px;
   `,
   BtnBox: styled.div`
     display: flex;
@@ -134,12 +132,12 @@ export const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 15px;
+    font-size: 14px;
     word-break: break-all;
     gap: 5px;
   `,
   PastWorkPlace: styled.span`
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
   `,
   PastWorkInfo: styled.span`

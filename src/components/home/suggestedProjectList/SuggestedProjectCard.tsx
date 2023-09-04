@@ -5,21 +5,23 @@ import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { S } from "./suggestedProjectList.styles";
 import Modal from "../../../components/modal/Modal";
 import { Button } from "antd";
-import ApplyForProjectModal from "../projectNavigation/projectList/applyForProjectModal/ApplyForProjectModal";
 import {
   calculateDaysAgo,
   getDayOfWeek,
 } from "../../../components/common/commonFunc";
-import React from "react";
+import { FiUsers } from "react-icons/fi";
+import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
 
 interface SuggestedProjectCardProps {
   projectItem: Project;
   userId: string;
+  userName: string;
 }
 
 const SuggestedProjectCard = ({
   projectItem,
   userId,
+  userName,
 }: SuggestedProjectCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
@@ -35,7 +37,9 @@ const SuggestedProjectCard = ({
 
   const handleButtonClick = (action: string) => {
     if (action === "reject") {
-      const isRejectConfirmed = window.confirm("제안을 거절하시겠습니까?");
+      const isRejectConfirmed = window.confirm(
+        `${projectItem.title}에 대한 제안을 거절하시겠습니까?`
+      );
       if (isRejectConfirmed) {
         const updatedProject = {
           ...projectItem,
@@ -56,17 +60,15 @@ const SuggestedProjectCard = ({
           );
         }
       }
-      setIsDetailModalOpen(false);
     } else if (action === "accept") {
-      const isAcceptConfirmed = window.confirm("제안을 수락하시겠습니까?");
+      const isAcceptConfirmed = window.confirm(
+        `${projectItem.title}에 대한 제안을 수락하시겠습니까?`
+      );
       if (isAcceptConfirmed) {
         const updatedProject = {
           ...projectItem,
           freelancerId: userId,
           status: "진행 중",
-          volunteer: [],
-          pendingFreelancer: [],
-          SuggestedFreelancers: [],
           date: {
             ...projectItem.date,
             startDate: new Date().toISOString().split("T")[0],
@@ -86,7 +88,6 @@ const SuggestedProjectCard = ({
           );
         }
       }
-      setIsDetailModalOpen(false);
     }
   };
 
@@ -96,56 +97,83 @@ const SuggestedProjectCard = ({
         <Modal
           setIsModalOpen={setIsDetailModalOpen}
           buttons={
-            <>
-              <Button
-                type="primary"
-                block
-                onClick={() => handleButtonClick("reject")}
-              >
-                거절하기
-              </Button>
-              <Button
-                type="primary"
-                block
-                onClick={() => handleButtonClick("accept")}
-              >
-                수락하기
-              </Button>
-            </>
+            projectItem.status === "진행 전" ? (
+              <>
+                <S.DeclineButton
+                  type="primary"
+                  block
+                  onClick={() => handleButtonClick("reject")}
+                >
+                  거절하기
+                </S.DeclineButton>
+                <S.AcceptButton
+                  type="primary"
+                  block
+                  onClick={() => handleButtonClick("accept")}
+                >
+                  수락하기
+                </S.AcceptButton>
+              </>
+            ) : (
+              <>
+                {projectItem.freelancerId === userId ? (
+                  <Button type="primary" block disabled>
+                    {userName}님이 수락한 프로젝트입니다.
+                  </Button>
+                ) : (
+                  <Button type="primary" block disabled>
+                    모집 완료 된 프로젝트입니다.
+                  </Button>
+                )}
+              </>
+            )
           }
         >
-          <ApplyForProjectModal
-            projectItem={projectItem}
-            clientName={client?.name!}
-          />
+          <ProjectDetailModal project={projectItem} />
         </Modal>
       )}
 
       <S.CardContainer>
-        <div id="clientName">{client?.name}</div>
-        <div>
-          <span>
-            {projectItem.title} · {projectItem.category}
-          </span>
-          {projectItem.qualification > 0 ? (
-            <span>{projectItem.qualification}년차 이상</span>
-          ) : (
-            <span>신입 가능</span>
-          )}
-        </div>
-        <div id="buttonAndDeadLineAndCreatAt">
-          <button onClick={() => setIsDetailModalOpen(true)}>
-            자세히 보기
-          </button>
-          <span>{projectItem.volunteer?.length}명 지원 중</span>
+        <S.ProejctContentLeftWrapper>
+          <S.ProjectStatus
+            recruitmentCompleted={projectItem.status === "진행 전"}
+          >
+            {projectItem.status === "진행 중" ||
+            projectItem.status === "진행 완료"
+              ? "모집 완료"
+              : "모집 중"}
+          </S.ProjectStatus>
+          <S.ClientName>{client?.name}</S.ClientName>
           <div>
+            <S.ProjectName>
+              {projectItem.title} · {projectItem.category}
+            </S.ProjectName>
+            {projectItem.qualification > 0 ? (
+              <span>{projectItem.qualification}년차 이상</span>
+            ) : (
+              <span>신입 가능</span>
+            )}
+          </div>
+          <S.AppliedFreelancersCountBox>
+            <FiUsers />
+            <span>{projectItem.volunteer?.length}명 지원 중</span>
+          </S.AppliedFreelancersCountBox>
+        </S.ProejctContentLeftWrapper>
+        <S.ProejctContentRightWrapper>
+          <S.DetailModalOpenButton onClick={() => setIsDetailModalOpen(true)}>
+            자세히 보기
+          </S.DetailModalOpenButton>
+
+          <S.ProejctContentRightTextWrapper>
             <span>
               ~{projectItem.expectedStartDate.slice(5, 7)}/
               {projectItem.expectedStartDate.slice(8, 10)} ({dayOfWeek})
             </span>
-            <span>{daysAgo} 등록</span>
-          </div>
-        </div>
+            <S.ProjectRegistrationDate>
+              {daysAgo} 등록
+            </S.ProjectRegistrationDate>
+          </S.ProejctContentRightTextWrapper>
+        </S.ProejctContentRightWrapper>
       </S.CardContainer>
     </>
   );

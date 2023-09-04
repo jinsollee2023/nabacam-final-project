@@ -9,12 +9,13 @@ import {
   getSuggestedFreelancers,
   getProjectOfFreelancerBySort,
   getProjects,
-  getOngoingProjects,
   getTerminationedProjects,
   updateApprovalFreelancer,
   deleteVolunteerAndPendingFreelancer,
   deletePendingFreelancer,
   getTerminationedProjectsWithFreelancer,
+  getOngoingProjectsOfFreelancer,
+  getOngoingProjectsOfClient,
 } from "../api/Project";
 import { IProjectWithFreelancer, Project } from "../Types";
 import { addProjectIdToUser, getUser } from "../api/User";
@@ -33,7 +34,7 @@ const useProjectsQueries = ({
   freelancerId,
   selectedProject,
 }: useProjectsQueriesProps) => {
-  const { data: projects } = useQuery(
+  const { data: projectsOfClient } = useQuery(
     ["projects", sortLabel],
     async () => {
       const projectsData = await getProjectOfClientBySort(
@@ -42,6 +43,28 @@ const useProjectsQueries = ({
       );
 
       return projectsData;
+    },
+    {
+      enabled: !!currentUserId,
+    }
+  );
+
+  const { data: ongoingProjectsOfFreelancer } = useQuery(
+    ["projects"],
+    async () => {
+      const projectsData = await getOngoingProjectsOfFreelancer(currentUserId as string);
+      return projectsData;
+    },
+    {
+      enabled: !!currentUserId,
+    }
+  );
+
+  const { data: ongoingProjectsOfClient } = useQuery(
+    ["ongoingProjectsOfClient"],
+    async () => {
+      const ongoingProjectsOfClientData = await getOngoingProjectsOfClient(currentUserId as string);
+      return ongoingProjectsOfClientData;
     },
     {
       enabled: !!currentUserId,
@@ -116,13 +139,32 @@ const useProjectsQueries = ({
   });
 
   const updateProjectMutation = useMutation(
-    ({ projectId, newProject }: { projectId: string; newProject: Project }) =>
-      updateProject(projectId, newProject),
+    ({
+      projectId,
+      newProject,
+    }: {
+      projectId: string;
+      newProject: {
+        title?: string;
+        desc?: string;
+        clientId?: string;
+        expectedStartDate?: string;
+        pay?: {
+          min: number | string;
+          max: number | string;
+        };
+        volunteer?: string[];
+        status?: string;
+        SuggestedFreelancers?: string[];
+        qualification?: number;
+      };
+    }) => updateProject(projectId, newProject),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["projects"]);
         queryClient.invalidateQueries(["projectsListBySort"]);
         queryClient.invalidateQueries(["projectList"]);
+        queryClient.invalidateQueries(["ongoingProjectsOfClient"]);
       },
     }
   );
@@ -170,6 +212,7 @@ const useProjectsQueries = ({
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["suggestedFreelancersData"]);
+        queryClient.invalidateQueries(["currentClientprojectLists"]);
       },
     }
   );
@@ -186,6 +229,7 @@ const useProjectsQueries = ({
   const { data: applicantFreelancers } = useQuery(
     ["applicantFreelancers"],
     async () => {
+      //클라이언트의 모든 프로젝트
       const applicantFreelancersData = await getProjectOfClientBySort(
         currentUserId as string,
         "최신순"
@@ -252,6 +296,7 @@ const useProjectsQueries = ({
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["applicantFreelancers"]);
+        queryClient.invalidateQueries(["applicantFreelancers"]);
       },
     }
   );
@@ -314,7 +359,7 @@ const useProjectsQueries = ({
   const { data: ongoingProjectsWithFreelancers } = useQuery<IProjectWithFreelancer[]>(
     ["ongoingProjectsWithFreelancers"],
     async () => {
-      const ongoingProjectsData = await getOngoingProjects(currentUserId as string);
+      const ongoingProjectsData = await getOngoingProjectsOfClient(currentUserId as string);
       const ongoingProjectsWithPromise = ongoingProjectsData.map((info) => ({
         ...info,
         freelancerPromise: getUser(info.freelancerId as string),
@@ -329,7 +374,7 @@ const useProjectsQueries = ({
       return ongoingProjectsWithFreelancers;
     },
     {
-      enabled: !!currentUserId,
+      enabled: !!currentUserId && !!freelancerId,
     }
   );
 
@@ -337,20 +382,19 @@ const useProjectsQueries = ({
     ["terminationedProjectsWithFreelancers"],
     async () => {
       const terminationedProjectsData = await getTerminationedProjects(currentUserId as string);
-      const terminationedProjectsWithPromise = terminationedProjectsData.map((info) => ({
-        ...info,
-        freelancerPromise: getUser(info.freelancerId as string),
-      }));
-      const terminationedProjectsWithFreelancers = await Promise.all(
-        terminationedProjectsWithPromise.map(async (project) => ({
-          ...project,
-          freelancer: await project.freelancerPromise,
-        }))
-      );
-      return terminationedProjectsWithFreelancers;
+      const terminationedProjectsArray = [];
+
+      for (const info of terminationedProjectsData) {
+        terminationedProjectsArray.push({
+          ...info,
+          freelancer: await getUser(info.freelancerId as string),
+        });
+      }
+
+      return terminationedProjectsArray.filter((info) => info.freelancer !== null);
     },
     {
-      enabled: !!currentUserId,
+      enabled: !!currentUserId && !!freelancerId,
     }
   );
 
@@ -367,12 +411,14 @@ const useProjectsQueries = ({
       return terminationedProjects;
     },
     {
-      enabled: !!currentUserId,
+      enabled: !!currentUserId && !!freelancerId,
     }
   );
 
   return {
-    projects,
+    projectsOfClient,
+    ongoingProjectsOfClient,
+    ongoingProjectsOfFreelancer,
     appliedProjectList,
     appliedProjectListIsError,
     appliedProjectListIsLoading,

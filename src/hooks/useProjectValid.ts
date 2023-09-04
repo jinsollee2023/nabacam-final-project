@@ -23,23 +23,54 @@ const useProjectValid = () => {
     boolean | null
   >(values.expectedStartDate ? true : null);
   const [isManagerValid, setIsManagerValid] = useState<boolean | null>(
-    values.manager ? true : null
+    values.manager.name ? true : null
   );
   const [isMaxPayValid, setIsMaxPayValid] = useState<boolean | null>(
     values.maxPay ? true : null
   );
 
-  // console.log(
-  //   "밸리드",
-  //   values
-  //   isTitleValid,
-  //   isDescValid,
-  //   isCategoryValid,
-  //   isQualificationValid,
-  //   isDeadLineValid,
-  //   isManagerValid,
-  //   isMaxPayValid
-  // );
+  useEffect(() => {
+    if (isTitleValid === false || isTitleValid === true) {
+      values.title && setIsTitleValid(true);
+      !values.title && setIsTitleValid(false);
+    }
+    if (isDescValid === false || isDescValid === true) {
+      values.desc && setIsDescValid(true);
+      !values.desc && setIsDescValid(false);
+    }
+    if (isCategoryValid === false || isCategoryValid === true) {
+      values.category && setIsCategoryValid(true);
+      !values.category && setIsCategoryValid(false);
+    }
+    if (isQualificationValid === false || isQualificationValid === true) {
+      values.qualification && setIsQualificationValid(true);
+      !values.qualification && setIsQualificationValid(false);
+    }
+    if (
+      isExpectedStartDateValid === false ||
+      isExpectedStartDateValid === true
+    ) {
+      values.expectedStartDate && setIsExpectedStartDateValid(true);
+      !values.expectedStartDate && setIsExpectedStartDateValid(false);
+    }
+
+    if (isManagerValid === false || isManagerValid === true) {
+      values.manager.name && setIsManagerValid(true);
+      !values.manager.name && setIsManagerValid(false);
+    }
+
+    if (isMaxPayValid === false || isMaxPayValid === true) {
+      if (
+        !(values.minPay == "상의 후 결정") &&
+        !(values.maxPay == "상의 후 결정")
+      ) {
+        values.maxPay > values.minPay && setIsMaxPayValid(true);
+        !(values.maxPay > values.minPay) && setIsMaxPayValid(false);
+      } else {
+        setIsMaxPayValid(true);
+      }
+    }
+  }, [values]);
 
   const checkValidation = (values: Values) => {
     values.title && setIsTitleValid(true);

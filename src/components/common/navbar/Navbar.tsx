@@ -2,10 +2,17 @@ import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../zustand/useUserStore";
 import React from "react";
+import { logOut } from "src/api/auth";
+import { FiLogOut } from "react-icons/fi";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
+
+  const logOutButtonHandler = async () => {
+    await logOut(navigate);
+  };
+
   if (window.location.pathname === `/register`) {
     return null;
   }
@@ -19,8 +26,13 @@ const Navbar = () => {
     <S.SidebarWrapper>
       <S.ProfileWrapper>
         <S.ProfileImage src={user.photoURL} alt="img" />
-        <S.Name>{user.name}</S.Name>
-        <S.Role>{user.role}</S.Role>
+        <div>
+          <S.Name>{user.name}</S.Name>
+          <S.Role>{user.role}</S.Role>
+        </div>
+        <S.LogOutButton onClick={logOutButtonHandler}>
+          <FiLogOut size="20" />
+        </S.LogOutButton>
       </S.ProfileWrapper>
       <S.UpperNavLinks>
         <S.NavLinkItem onClick={() => navigate("/")}>
@@ -53,32 +65,32 @@ const S = {
     position: sticky;
     display: flex;
     flex-direction: column;
-    background-color: #333333f7;
-    color: white;
+    border-right: 2px solid var(--hover-blue);
     width: 17vw;
+    max-width: 280px;
     min-width: 210px;
-    padding: 20px;
-    z-index: 999;
+    padding: 20px 0 0 20px;
     height: 100vh;
   `,
   ProfileWrapper: styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-around;
     margin-bottom: 30px;
   `,
   ProfileImage: styled.img`
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    margin-right: 5px;
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    margin-right: 10px;
   `,
   Name: styled.div`
     font-size: 18px;
     font-weight: bold;
   `,
   Role: styled.div`
-    margin-left: 7px;
-    font-size: 5px;
+    margin-top: 7px;
+    font-size: 12px;
   `,
   UpperNavLinks: styled.ul`
     list-style: none;
@@ -87,8 +99,9 @@ const S = {
   Divider: styled.hr`
     margin: 20px 0;
     border: none;
-    height: 1px;
-    background-color: white;
+    height: 2px;
+    box-shadow: 0px 2px 4px #f2f2f2;
+    background-color: #bfbfbf;
   `,
   LowerNavLinks: styled.ul`
     list-style: none;
@@ -100,7 +113,11 @@ const S = {
     transition: 0.2s ease-in-out;
 
     &:hover {
-      background-color: gray;
+      background-color: var(--hover-blue);
     }
+  `,
+  LogOutButton: styled.button`
+    background-color: transparent;
+    border: none;
   `,
 };

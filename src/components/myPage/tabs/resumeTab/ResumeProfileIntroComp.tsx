@@ -17,11 +17,10 @@ const ResumeProfileIntroComp = () => {
     resumeProfileIntroObject,
     updateProfileIntroMutation,
   } = useResumeProfileIntroQueries(userId);
-
+  const intro = resumeProfileIntroObject?.resumeProfileIntro;
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const { newProfileIntroInput } = useResumeProfileIntroStore();
 
-  // add
   const addProfileIntroHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -35,7 +34,6 @@ const ResumeProfileIntroComp = () => {
     setIsAddModalOpen(false);
   };
 
-  // update
   const updateProfileIntroHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -49,14 +47,10 @@ const ResumeProfileIntroComp = () => {
 
   return (
     <>
-      {/* FIX */}
       <S.ProfileContainer>
         <S.JustifyBox>
           <S.ProfileTitle>프로필</S.ProfileTitle>
-          {resumeProfileIntroObject &&
-          resumeProfileIntroObject !== null &&
-          resumeProfileIntroObject.resumeProfileIntro !== null &&
-          resumeProfileIntroObject.resumeProfileIntro.length > 0 ? (
+          {intro?.length > 0 ? (
             <S.ProfileBtn onClick={() => setIsAddModalOpen(true)}>
               <IoMdSettings style={{ marginRight: "2px" }} />
               수정하기
@@ -74,12 +68,7 @@ const ResumeProfileIntroComp = () => {
         </S.JustifyBox>
 
         <S.ProfileInputBox>
-          <div>
-            {resumeProfileIntroObject
-              ? resumeProfileIntroObject.resumeProfileIntro ||
-                "등록된 소개가 없습니다."
-              : "등록된 소개가 없습니다."}
-          </div>
+          <div>{intro?.length > 0 ? intro : "등록된 소개가 없습니다."}</div>
         </S.ProfileInputBox>
       </S.ProfileContainer>
 
@@ -88,7 +77,7 @@ const ResumeProfileIntroComp = () => {
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              {newProfileIntroInput.length > 0 ? (
+              {intro?.length > 0 ? (
                 <S.Btn width="100%" onClick={updateProfileIntroHandler}>
                   수정하기
                 </S.Btn>
@@ -100,12 +89,7 @@ const ResumeProfileIntroComp = () => {
             </>
           }
         >
-          <AddResumeProfileIntroModal
-            profileIntro={
-              resumeProfileIntroObject &&
-              resumeProfileIntroObject.resumeProfileIntro
-            }
-          />
+          <AddResumeProfileIntroModal profileIntro={intro} />
         </Modal>
       )}
     </>

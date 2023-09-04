@@ -10,14 +10,16 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
   return (
     <>
       <S.ResumeContent>프로필</S.ResumeContent>
-      <S.ProfileIntro>{user.resumeProfileIntro}</S.ProfileIntro>
+      {user.resumeProfileIntro ? (
+        <S.ProfileIntro>{user.resumeProfileIntro}</S.ProfileIntro>
+      ) : (
+        <S.DataNullBox>등록된 프로필이 없습니다.</S.DataNullBox>
+      )}
+
       <S.ResumeContent>경력사항</S.ResumeContent>
       <S.ExperienceWarp>
         {user.resumeExperience && user.resumeExperience.length > 0 ? (
           user.resumeExperience.map((experience, index) => {
-            const startDate = new Date(experience.pastWorkDuration.pastWorkStartDate);
-            const endDate = new Date(experience.pastWorkDuration.pastWorkEndDate);
-
             return (
               <S.ExperienceBox key={`${experience.experienceId}-${index}`}>
                 <S.PastWorkPlace>{experience.pastWorkPlace}</S.PastWorkPlace>
@@ -26,7 +28,15 @@ const FreelancerResume = ({ user }: FreelancerResumeProps) => {
                   {experience.pastWorkPosition}
                 </S.PastWorkInfo>
                 <S.PastWorkDate>
-                  {startDate.toISOString().split("T")[0]}-{endDate.toISOString().split("T")[0]}
+                  {experience.pastWorkDuration.pastWorkStartDate &&
+                    new Date(experience.pastWorkDuration.pastWorkStartDate)
+                      .toISOString()
+                      .split("T")[0]}
+                  -
+                  {experience.pastWorkDuration.pastWorkEndDate &&
+                    new Date(experience.pastWorkDuration.pastWorkEndDate)
+                      .toISOString()
+                      .split("T")[0]}
                 </S.PastWorkDate>
               </S.ExperienceBox>
             );

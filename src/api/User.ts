@@ -9,11 +9,12 @@ export const getUser = async (userId: string): Promise<User> => {
       .eq("userId", userId)
       .maybeSingle();
     if (error) {
-      alert(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      console.log(`사용자 정보를 가져오는 중 오류가 발생했습니다.???\n ${error.message}`);
     }
     return data as User;
   } catch (error) {
-    throw new Error(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error();
+    // `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
   }
 };
 
@@ -21,11 +22,12 @@ export const getFreelancers = async (): Promise<User[]> => {
   try {
     const { data, error } = await supabase.from("users").select("*").eq("role", "freelancer");
     if (error) {
-      alert(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      // alert(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
     return data as User[];
   } catch (error) {
-    throw new Error(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error();
+    // `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`;
   }
 };
 
@@ -34,11 +36,12 @@ export const getClients = async (): Promise<User[]> => {
     const { data, error } = await supabase.from("users").select("*").eq("role", "client");
 
     if (error) {
-      alert(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      // alert(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
     return data as User[];
   } catch (error) {
-    throw new Error(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error();
+    // `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`;
   }
 };
 
@@ -52,11 +55,12 @@ export const getClientByProject = async (id: string): Promise<User> => {
       .maybeSingle();
 
     if (error) {
-      alert(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      console.log(`사용자 정보를 가져오는 중 오류가 발생했습니다????.\n ${error.message}`);
     }
     return data as User;
   } catch (error) {
-    throw new Error(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error();
+    // `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`;
   }
 };
 
@@ -168,9 +172,7 @@ export const getPhotoURL = async (filePath: { path: string }): Promise<string> =
   return data.publicUrl;
 };
 
-export const getPortfolioFileURL = async (filePath: {
-  path: string;
-}): Promise<string> => {
+export const getPortfolioFileURL = async (filePath: { path: string }): Promise<string> => {
   const { data } = await supabase.storage
     .from("portfolios") // 사용한 버킷 이름
     .getPublicUrl(filePath.path);

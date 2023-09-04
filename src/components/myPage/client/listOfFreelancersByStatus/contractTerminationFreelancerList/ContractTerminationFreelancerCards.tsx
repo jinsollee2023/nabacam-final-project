@@ -21,11 +21,8 @@ const ContractTerminationFreelancerCards = ({
   project,
 }: ContractTerminationFreelancerCardsProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] =
-    useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
-    null
-  );
+  const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] = useState(false);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
   const { userId } = useUserStore();
   const { selectedProject, setSelectedProject } = useProjectStore();
   const {
@@ -52,12 +49,8 @@ const ContractTerminationFreelancerCards = ({
   };
 
   const handleProjectSuggestingBtnClick = () => {
-    const suggestedFreelancers =
-      suggestedFreelancersData?.SuggestedFreelancers || [];
-    const updatedSuggestedFreelancers = [
-      ...(suggestedFreelancers as string[]),
-      user.userId,
-    ];
+    const suggestedFreelancers = suggestedFreelancersData?.SuggestedFreelancers || [];
+    const updatedSuggestedFreelancers = [...(suggestedFreelancers as string[]), user.userId];
     updateSuggestedFreelancersDataMutation.mutate({
       projectId: selectedProject?.projectId as string,
       updatedSuggestedFreelancers,
@@ -80,6 +73,15 @@ const ContractTerminationFreelancerCards = ({
     }
   });
 
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("클립보드에 복사되었습니다.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <S.Profile>
@@ -101,12 +103,14 @@ const ContractTerminationFreelancerCards = ({
                         </S.WorkSmallFieldAndWorkExp>
                       </S.ProfileContents>
                       <S.ContactBox>
-                        <FiPhoneCall size={20} />
-                        <S.Contact>{user.contact.phone}</S.Contact>
+                        <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
+                          <FiPhoneCall size={20} /> {user.contact.phone}
+                        </S.Contact>
                       </S.ContactBox>
                       <S.ContactBox>
-                        <FiMail size={20} />
-                        <S.Contact>{user.contact.email}</S.Contact>
+                        <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
+                          <FiMail size={20} /> {user.contact.email}
+                        </S.Contact>
                       </S.ContactBox>
                     </div>
                   </S.ContentContainer>
@@ -136,16 +140,13 @@ const ContractTerminationFreelancerCards = ({
                       setIsModalOpen={setIsDetailModalOpen}
                       buttons={
                         <>
-                          <S.DetailBtn onClick={handleSuggestingAgainBtnClick}>
+                          <S.ModalInnerBtn onClick={handleSuggestingAgainBtnClick}>
                             프로젝트 다시 제안하기
-                          </S.DetailBtn>
+                          </S.ModalInnerBtn>
                         </>
                       }
                     >
-                      <ContractTerminationInfoModal
-                        user={user}
-                        project={project}
-                      />
+                      <ContractTerminationInfoModal user={user} project={project} />
                     </Modal>
                   ) : null}
                   {isSuggestingAgainModalOpen &&
@@ -155,25 +156,19 @@ const ContractTerminationFreelancerCards = ({
                       setIsModalOpen={setIsSuggestingAgainModalOpen}
                       buttons={
                         <>
-                          <S.DetailBtn
+                          <S.ModalInnerBtn
                             onClick={handleProjectSuggestingBtnClick}
                             disabled={
                               !selectedProject?.title ||
-                              !(
-                                projectDataForSuggestions &&
-                                projectDataForSuggestions.length > 0
-                              )
+                              !(projectDataForSuggestions && projectDataForSuggestions.length > 0)
                             }
                           >
                             {selectedProject?.title} 제안하기
-                          </S.DetailBtn>
+                          </S.ModalInnerBtn>
                         </>
                       }
                     >
-                      <OneTouchModal
-                        user={user}
-                        projectLists={projectDataForSuggestions!}
-                      />
+                      <OneTouchModal user={user} projectLists={projectDataForSuggestions!} />
                     </Modal>
                   ) : null}
                 </>
