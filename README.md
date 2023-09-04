@@ -14,7 +14,7 @@
 
 ## 🎬 구현 사이트
 
-- 배포 링크 : work-wave-sage.vercel.app
+- 배포 링크 : work-wave-sage.vercel.app/
   
 ## ⏰ 개발 기간
 
