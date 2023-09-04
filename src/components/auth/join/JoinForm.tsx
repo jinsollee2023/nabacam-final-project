@@ -11,7 +11,6 @@ import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
 interface JoinFormProps {
-  // freelancerOpen: boolean;
   role: string;
 }
 
@@ -19,31 +18,33 @@ interface JoinFormProps {
 const JoinForm = ({ role }: JoinFormProps) => {
   // useinput
 
-  const initialValues: any = {
+  const initialValues: {
+    email: string;
+    password: string;
+    passwordConfirmCurrent: string;
+    name: string;
+    workExp: number;
+    phone: string;
+    category: string;
+    workField: string;
+    photoFile: File | null;
+  } = {
     email: "",
+    password: "",
+    passwordConfirmCurrent: "",
     name: "",
     workExp: 0,
     phone: "",
+    category: "",
+    workField: "",
+    photoFile: null,
   };
 
   const navigate = useNavigate();
-  const [photoFile, setPhotoFile] = useState<File>();
   const [values, setValues] = useState(initialValues);
-  const [openClientJoin, setOpenClientJoin] = useState(true);
   const [errors, setErrors] = useState<any>({});
   const [showPswd, setShowPswd] = useState<boolean>(false);
-  const [workSelect, setWorkSelect] = useState("");
-  const [modal, setModal] = useState(false);
   const { setUser } = useUserStore(); // 추가
-  const check =
-    errors.email &&
-    errors.password &&
-    errors.passwordConfirmCurrent &&
-    errors.name &&
-    errors.phone;
-  const onChange = (value: string) => {
-    setWorkSelect(value);
-  };
 
   // 회원가입 api
 
@@ -59,30 +60,21 @@ const JoinForm = ({ role }: JoinFormProps) => {
     ) {
       await clientSignupHandler(
         values,
-        photoFile,
         uploadUserImage,
         role,
-        workSelect,
         setUser,
-
         navigate
       );
     }
   };
 
   //  순수 useState handler
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setValues({ ...values, [name]: value });
-  };
-  const openModalHandler = () => {
-    setModal(!modal);
+  const handleChange = (key: string, value: string | number) => {
+    setValues({ ...values, [key]: value });
   };
   // 미리보기 핸들러
   const handlePhotoURLOnChange = (file: File) => {
-    setPhotoFile(file);
+    setValues({ ...values, photoFile: file });
   };
   // 비밀번호 표시
   const showPasswordHandler = () => {
@@ -97,176 +89,178 @@ const JoinForm = ({ role }: JoinFormProps) => {
   return (
     <>
       <S.JoinFormContainer>
-        <S.JoinForm>
-          {openClientJoin && (
-            <form onSubmit={(e) => signUP(e)}>
-              <PreviewImage
-                handlePhotoURLOnChange={handlePhotoURLOnChange}
-                defaultImage={JoinDefaultImage}
-              />
-              <S.InputWrapper>
+        <S.JoinForm onSubmit={(e) => signUP(e)}>
+          <PreviewImage
+            handlePhotoURLOnChange={handlePhotoURLOnChange}
+            defaultImage={JoinDefaultImage}
+          />
+          <S.InputWrapper>
+            <label htmlFor="emailInput" style={{ color: "var(--darker-gray)" }}>
+              * 이메일
+            </label>
+            <S.JoinInput
+              id="emailInput"
+              type="email"
+              name="email"
+              value={values.email}
+              onChange={(e) => handleChange("email", e.target.value)}
+            />
+            <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
+
+            <label
+              htmlFor="passwordInput"
+              style={{ color: "var(--darker-gray)" }}
+            >
+              * 비밀번호
+            </label>
+            <S.JoinInput
+              id="passwordInput"
+              type={showPswd ? "text" : "password"}
+              name="password"
+              value={values.password}
+              onChange={(e) => handleChange("password", e.target.value)}
+            />
+            <S.errordiv>
+              {errors.password && <p>{errors.password}</p>}
+            </S.errordiv>
+
+            <label
+              htmlFor="checkPasswordInput"
+              style={{ color: "var(--darker-gray)" }}
+            >
+              * 비밀번호 확인
+            </label>
+
+            <S.JoinInput
+              id="checkPasswordInput"
+              type={showPswd ? "text" : "password"}
+              name="passwordConfirmCurrent"
+              value={values.passwordConfirmCurrent}
+              onChange={(e) =>
+                handleChange("passwordConfirmCurrent", e.target.value)
+              }
+            />
+
+            <S.errordiv>
+              {errors.passwordConfirmCurrent && (
+                <p>{errors.passwordConfirmCurrent}</p>
+              )}
+            </S.errordiv>
+
+            <label htmlFor="nameInput" style={{ color: "var(--darker-gray)" }}>
+              * 이름
+            </label>
+
+            <S.JoinInput
+              id="nameInput"
+              type="text"
+              name="name"
+              value={values.name}
+              onChange={(e) => handleChange("name", e.target.value)}
+            />
+            <div>{errors.name && <p>{errors.name}</p>}</div>
+
+            {role === "freelancer" && (
+              <>
                 <label
-                  htmlFor="emailInput"
-                  style={{ color: "var(--darker-gray)" }}
+                  htmlFor="workFieldInput"
+                  style={{
+                    color: "var(--darker-gray)",
+                    marginBottom: "10px",
+                  }}
                 >
-                  * 이메일
+                  * 작업영역
                 </label>
-                <S.JoinInput
-                  id="emailInput"
-                  type="email"
-                  name="email"
-                  value={values.email}
-                  onChange={handleChange}
+                <Select
+                  id="workFieldInput"
+                  placeholder="Select a person"
+                  optionFilterProp="children"
+                  onChange={(selectedValue) =>
+                    handleChange("category", selectedValue)
+                  }
+                  options={[
+                    {
+                      value: "개발",
+                      label: "개발",
+                    },
+                    {
+                      value: "디자인",
+                      label: "디자인",
+                    },
+                    {
+                      value: "운영",
+                      label: "운영",
+                    },
+                    {
+                      value: "기획",
+                      label: "기획",
+                    },
+                    {
+                      value: "기타",
+                      label: "기타",
+                    },
+                    {
+                      value: "마케팅",
+                      label: "마케팅",
+                    },
+                    {
+                      value: "기타",
+                      label: "기타",
+                    },
+                  ]}
                 />
-                <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
-
                 <label
-                  htmlFor="passwordInput"
+                  htmlFor="workSmallFieldInput"
                   style={{ color: "var(--darker-gray)" }}
                 >
-                  * 비밀번호
-                </label>
-                <S.JoinInput
-                  id="passwordInput"
-                  type={showPswd ? "text" : "password"}
-                  name="password"
-                  value={values.password}
-                  onChange={handleChange}
-                />
-                <S.errordiv>
-                  {errors.password && <p>{errors.password}</p>}
-                </S.errordiv>
-
-                <label
-                  htmlFor="checkPasswordInput"
-                  style={{ color: "var(--darker-gray)" }}
-                >
-                  * 비밀번호 확인
+                  * 작업 영역 (상세)
                 </label>
 
                 <S.JoinInput
-                  id="checkPasswordInput"
-                  type={showPswd ? "text" : "password"}
-                  name="passwordConfirmCurrent"
-                  value={values.passwordConfirmCurrent}
-                  onChange={handleChange}
-                />
-
-                <S.errordiv>
-                  {errors.passwordConfirmCurrent && (
-                    <p>{errors.passwordConfirmCurrent}</p>
-                  )}
-                </S.errordiv>
-
-                <label
-                  htmlFor="nameInput"
-                  style={{ color: "var(--darker-gray)" }}
-                >
-                  * 이름
-                </label>
-
-                <S.JoinInput
-                  id="nameInput"
+                  id="workSmallFieldInput"
                   type="text"
-                  name="name"
-                  value={values.name}
-                  onChange={handleChange}
+                  name="workField"
+                  value={values.workField}
+                  onChange={(e) => handleChange("workField", e.target.value)}
                 />
-                <div>{errors.name && <p>{errors.name}</p>}</div>
-
-                {role === "freelancer" && (
-                  <>
-                    <label
-                      htmlFor="workFieldInput"
-                      style={{
-                        color: "var(--darker-gray)",
-                        marginBottom: "10px",
-                      }}
-                    >
-                      * 작업영역
-                    </label>
-                    <Select
-                      id="workFieldInput"
-                      placeholder="Select a person"
-                      optionFilterProp="children"
-                      onChange={onChange}
-                      options={[
-                        {
-                          value: "개발",
-                          label: "개발",
-                        },
-                        {
-                          value: "디자인",
-                          label: "디자인",
-                        },
-                        {
-                          value: "운영",
-                          label: "운영",
-                        },
-                        {
-                          value: "기획",
-                          label: "기획",
-                        },
-                        {
-                          value: "기타",
-                          label: "기타",
-                        },
-                      ]}
-                    />
-                    <label
-                      htmlFor="workSmallFieldInput"
-                      style={{ color: "var(--darker-gray)" }}
-                    >
-                      * 작업 영역 (상세)
-                    </label>
-
-                    <S.JoinInput
-                      id="workSmallFieldInput"
-                      type="text"
-                      name="workField"
-                      value={values.workField}
-                      onChange={handleChange}
-                    />
-                    <label
-                      htmlFor="workExpInput"
-                      style={{ color: "var(--darker-gray)" }}
-                    >
-                      * 경험/연차 (숫자만 입력 가능합니다.)
-                    </label>
-                    <S.JoinInput
-                      id="workExpInput"
-                      type="number"
-                      name="workExp"
-                      value={values.workExp}
-                      onChange={handleChange}
-                    />
-                  </>
-                )}
-
                 <label
-                  htmlFor="phoneNumberInput"
+                  htmlFor="workExpInput"
                   style={{ color: "var(--darker-gray)" }}
                 >
-                  * 전화번호
+                  * 경험/연차 (숫자만 입력 가능합니다.)
                 </label>
                 <S.JoinInput
-                  id="phoneNumberInput"
-                  type="text"
-                  name="phone"
-                  value={values.phone}
-                  onChange={handleChange}
+                  id="workExpInput"
+                  type="number"
+                  name="workExp"
+                  value={values.workExp}
+                  onChange={(e) => handleChange("workExp", e.target.value)}
                 />
-                <div>{errors.phone && <p>{errors.phone}</p>}</div>
-                <br />
-              </S.InputWrapper>
+              </>
+            )}
 
-              <S.JoinButton>
-                {role !== "freelancer"
-                  ? "클라이언트 회원가입"
-                  : "프리랜서 회원가입"}
-              </S.JoinButton>
-            </form>
-          )}
+            <label
+              htmlFor="phoneNumberInput"
+              style={{ color: "var(--darker-gray)" }}
+            >
+              * 전화번호
+            </label>
+            <S.JoinInput
+              id="phoneNumberInput"
+              type="text"
+              name="phone"
+              value={values.phone}
+              onChange={(e) => handleChange("phone", e.target.value)}
+            />
+            <div>{errors.phone && <p>{errors.phone}</p>}</div>
+            <br />
+          </S.InputWrapper>
+
+          <S.JoinButton>
+            {role !== "freelancer"
+              ? "클라이언트 회원가입"
+              : "프리랜서 회원가입"}
+          </S.JoinButton>
           <S.passwordView onClick={showPasswordHandler}>
             {showPswd ? (
               <EyeOutlined onClick={showPasswordHandler} />
@@ -274,14 +268,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
               <EyeInvisibleOutlined />
             )}
           </S.passwordView>
-
-          <br />
-          <div>
-            <S.passwordFindButton onClick={openModalHandler}>
-              비밀번호찾기
-            </S.passwordFindButton>
-            {modal && <EmailCheck openModal={openModalHandler} />}
-          </div>
+          <button type="button" onClick={() => navigate("/login")}>
+            로그인하러 가기
+          </button>
         </S.JoinForm>
       </S.JoinFormContainer>
     </>
@@ -328,17 +317,10 @@ const S = {
     cursor: pointer;
     color: white;
   `,
-  passwordFindButton: styled.button`
-    width: 417px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    background-color: transparent;
-  `,
   passwordView: styled.button`
-    position: fixed;
-    top: 21%;
-    left: 53.5%;
+    position: relative;
+    top: -90%;
+    left: 59%;
     width: 2%;
     height: 2%;
     background-color: transparent;

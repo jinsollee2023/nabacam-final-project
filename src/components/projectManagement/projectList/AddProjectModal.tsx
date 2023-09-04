@@ -111,27 +111,6 @@ const AddProjectModal = ({
         });
   }, [payInputOff]);
 
-  // const {
-  //   setIsTitleValid,
-  //   setIsDescValid,
-  //   setIsCategoryValid,
-  //   setIsQualificationValid,
-  //   setIsExpectedStartDateValid,
-  //   setIsManagerValid,
-  //   setIsMaxPayValid,
-  //   allValid,
-  // } = useProjectValid();
-
-  // console.log(
-  //   values.title,
-  //   isTitleValid,
-  //   isDescValid,
-  //   isCategoryValid,
-  //   isQualificationValid,
-  //   isDeadLineValid,
-  //   isManagerValid,
-  //   isMaxPayValid
-  // );
   return (
     <div>
       <S.ModalTitle>어떤 프로젝트를 게시하시나요?</S.ModalTitle>

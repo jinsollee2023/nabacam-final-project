@@ -23,7 +23,7 @@ const ContractInfoTab = () => {
     currentUserId: userId,
     sortLabel: selectedSortLabel,
   });
-  console.log("allProjectList==>", allProjectList);
+
   const freelancerProjects = allProjectList?.filter((freelancer) => {
     return freelancer.freelancerId === userId;
   });

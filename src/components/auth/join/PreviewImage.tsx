@@ -41,18 +41,9 @@ const PreviewImage = ({
           이미지 등록
         </S.PreviewImageLabel>
       ) : (
-        <label
-          htmlFor="addImage"
-          onClick={handleLabelClick}
-          style={{
-            fontWeight: "bold",
-            textAlign: "center",
-            width: "200px",
-            color: "gray",
-          }}
-        >
+        <S.PreviewImageLabel htmlFor="addImage" onClick={handleLabelClick}>
           이미지 변경
-        </label>
+        </S.PreviewImageLabel>
       )}
 
       <input
@@ -91,8 +82,9 @@ const S = {
     }
   `,
   PreviewImageLabel: styled.label`
-    font-weight: bold;
     text-align: center;
     width: 200px;
+    color: gray;
+    margin-top: 10px;
   `,
 };

@@ -5,13 +5,8 @@ export const S = {
   JoinCompContainer: styled.div`
     width: 90vw;
     height: 100vh;
-    /* background-color: beige; */
-
-    /* position: relative; */
   `,
   tabsContainer: styled.div`
-    /* background-color: aqua; */
-    /* position: absolute; */
     top: 50%;
     display: flex;
     align-items: center;
@@ -24,7 +19,6 @@ export const S = {
   `,
   Tabs: styled(Tabs)`
     position: relative;
-    /* background-color: aliceblue; */
     height: 90vh;
   `,
   TabsBack: styled.div`
@@ -32,7 +26,6 @@ export const S = {
     width: 70%;
     display: flex;
     align-items: center;
-    /* background-color: aliceblue; */
     position: absolute;
     border: none;
     top: 50%;

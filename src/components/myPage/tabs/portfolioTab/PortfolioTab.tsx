@@ -14,6 +14,7 @@ import {
   uploadThumbnail,
 } from "../../../../api/Portfolio";
 import { getPortfolioFileURL } from "../../../../api/User";
+import { BsPlusCircleDotted } from "react-icons/bs";
 
 const PortfolioTab = () => {
   const { userId } = useUserStore();
@@ -34,7 +35,7 @@ const PortfolioTab = () => {
     userId,
     pfId: newPortfolio.portfolioId,
   });
-
+  console.log("portfolios==>", portfolios);
   const handleOpenAddModalButtonClick = () => {
     setIsAddModalOpen(true);
     setIsDetailModalOpen(false);
@@ -193,19 +194,6 @@ const PortfolioTab = () => {
     setIsDetailModalOpen(!isDetailModalOpen);
   };
 
-  //----------------------
-  // const [titleMessage, setTitleMessage] = useState<string>("");
-  // const [descMessage, setDescMessage] = useState<string>("");
-  // const [thumbNailMessage, setThumbnailMessage] = useState<string>("");
-  // const [pdfMessage, setPdfMessage] = useState<string>("");
-  // const [linkMessage, setLinkMessage] = useState<string>("");
-
-  // const [isTitle, setIsTitle] = useState<boolean>(false);
-  // const [isDesc, setIsDesc] = useState<boolean>(false);
-  // const [isThumbnail, setIsThumbnail] = useState<boolean>(false);
-  // const [isPdf, setIsPdf] = useState<boolean>(false);
-  // const [isLink, setIsLink] = useState<boolean>(false);
-
   return (
     <>
       {isDetailModalOpen && (
@@ -264,14 +252,13 @@ const PortfolioTab = () => {
                   </Button>
                 </>
               ) : (
-                <Button
+                <S.Button
                   type="primary"
                   block
-                  // disabled={!(isTitle && isDesc)}
                   onClick={handleAddPortfolioButtonClick}
                 >
                   추가하기
-                </Button>
+                </S.Button>
               )}
             </>
           }
@@ -291,18 +278,27 @@ const PortfolioTab = () => {
                     handleOpenDetailModalButtonClick(portfolio);
                   }}
                 >
-                  <img src={portfolio.thumbNailURL} alt="썸네일 이미지" />
+                  <img
+                    style={{ borderRadius: "20px" }}
+                    src={portfolio.thumbNailURL}
+                    alt="썸네일 이미지"
+                  />
+
+                  <S.PortfolioTitle>{portfolio.title}</S.PortfolioTitle>
                 </S.PortfolioList>
               );
             })}
 
-          <S.PortfolioList onClick={modalOpenHandler}>
-            <button>
+          <S.PortfolioAdd onClick={modalOpenHandler}>
+            <S.PortfolioAddButton>
+              <BsPlusCircleDotted />
+              <br />
+              <br />
               포트폴리오
               <br />
               첨부하기
-            </button>
-          </S.PortfolioList>
+            </S.PortfolioAddButton>
+          </S.PortfolioAdd>
         </S.PortfolioListWrapper>
       </S.PortfolioListContainer>
     </>
