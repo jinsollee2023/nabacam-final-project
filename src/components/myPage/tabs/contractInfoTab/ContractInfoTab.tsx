@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import useProjectsQueries from "../../../hooks/useProjectsQueries";
-import { useUserStore } from "../../../zustand/useUserStore";
-import { styled } from "styled-components";
+import useProjectsQueries from "../../../../hooks/useProjectsQueries";
+import { useUserStore } from "../../../../zustand/useUserStore";
 import { Select } from "antd";
+import { S } from "./ContractInfoTab.styles";
 
-import supabase from "../../../config/supabaseClient";
-import { Project } from "../../../Types";
-import { getProjects } from "../../../api/Project";
+import supabase from "../../../../config/supabaseClient";
+import { Project } from "../../../../Types";
+import { getProjects } from "../../../../api/Project";
+import { CommonS } from "src/components/common/button/commonButton";
 
 const ContractInfoTab = () => {
   // 프로젝트 진행중
@@ -27,29 +28,38 @@ const ContractInfoTab = () => {
   const freelancerProjects = allProjectList?.filter((freelancer) => {
     return freelancer.freelancerId === userId;
   });
+  console.log("32", freelancerProjects);
 
   return (
     <S.ContractInfoContainer>
-      <span>프리랜서 이력</span>
-      <Select
-        value={selectedLabel}
-        style={{ width: 200 }}
-        onChange={handleChange}
-        options={[
-          { value: "전체 보기", label: "전체 보기" },
-          { value: "진행 중", label: "진행 중" },
-          { value: "진행 완료", label: "진행 완료" },
-        ]}
-      />
+      <S.Title>계약 이력</S.Title>
 
-      <>
+      <CommonS.RightEndBox>
+        <Select
+          value={selectedLabel}
+          style={{
+            width: 200,
+            border: "solid 1.4px var(--main-blue)",
+            borderRadius: "8px",
+          }}
+          onChange={handleChange}
+          options={[
+            { value: "전체 보기", label: "전체 보기" },
+            { value: "진행 중", label: "진행 중" },
+            { value: "진행 완료", label: "진행 완료" },
+          ]}
+        />
+      </CommonS.RightEndBox>
+
+      {/* 진행전 */}
+      <S.ContractListBox>
         {freelancerProjects
           ?.filter((Proceeding) => {
             return Proceeding.status !== "진행 전";
           })
           .map<any>((freelancerProject) => {
             return (
-              <>
+              <S.FilteredListsContainer>
                 <>
                   {selectedLabel === "전체 보기" &&
                     freelancerProject.status === "진행 중" && (
@@ -61,33 +71,37 @@ const ContractInfoTab = () => {
                 <>
                   {selectedLabel === "전체 보기" &&
                     freelancerProject.status === "진행 완료" && (
-                      <S.ContractInfoGrayBox
+                      <div
                         key={freelancerProject.projectId}
-                      >{`${freelancerProject.title}/${freelancerProject.date?.startDate}~${freelancerProject.date?.endDate}`}</S.ContractInfoGrayBox>
+                      >{`${freelancerProject.title}/${freelancerProject.date?.startDate}~${freelancerProject.date?.endDate}`}</div>
                     )}
                 </>
-              </>
+              </S.FilteredListsContainer>
             );
           })}
-      </>
-      <>
+      </S.ContractListBox>
+      {/* 진행중 */}
+      <S.ContractListBox>
         {freelancerProjects
           ?.filter((Proceeding) => {
             return Proceeding.status === "진행 중";
           })
           .map<any>((freelancerProject) => {
             return (
-              <>
+              <S.FilteredListsContainer>
                 {selectedLabel === "진행 중" && (
-                  <S.ContractInfoBox
-                    key={freelancerProject.projectId}
-                  >{`${freelancerProject.title}/${freelancerProject.date?.startDate}~${freelancerProject.date?.endDate}`}</S.ContractInfoBox>
+                  <S.ContractInfoBox key={freelancerProject.projectId}>
+                    <S.Title>{freelancerProject.title}</S.Title>
+                    <br />
+                    <S.Detail marginTop="40px">{`${freelancerProject.date?.startDate}~${freelancerProject.date?.endDate}`}</S.Detail>
+                  </S.ContractInfoBox>
                 )}
-              </>
+              </S.FilteredListsContainer>
             );
           })}
-      </>
-      <>
+      </S.ContractListBox>
+      {/* 진행완료 */}
+      <S.ContractListBox>
         {freelancerProjects
           ?.filter((Proceeding) => {
             return Proceeding.status === "진행 완료";
@@ -96,33 +110,16 @@ const ContractInfoTab = () => {
             return (
               <>
                 {selectedLabel === "진행 완료" && (
-                  <S.ContractInfoGrayBox
+                  <div
                     key={freelancerProject.projectId}
-                  >{`${freelancerProject.title}/${freelancerProject.date?.startDate}~${freelancerProject.date?.endDate}`}</S.ContractInfoGrayBox>
+                  >{`${freelancerProject.title}/${freelancerProject.date?.startDate}~${freelancerProject.date?.endDate}`}</div>
                 )}
               </>
             );
           })}
-      </>
+      </S.ContractListBox>
     </S.ContractInfoContainer>
   );
 };
 
 export default ContractInfoTab;
-
-const S = {
-  ContractInfoContainer: styled.section`
-    width: 100%;
-    padding: 10px;
-  `,
-  ContractInfoBox: styled.div`
-    background-color: #8080803d;
-    padding: 10px;
-    margin-top: 5px;
-  `,
-  ContractInfoGrayBox: styled.div`
-    background-color: #29292944;
-    padding: 10px;
-    margin-top: 5px;
-  `,
-};

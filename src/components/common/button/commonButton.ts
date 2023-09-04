@@ -74,4 +74,8 @@ export const CommonS = {
     display: flex;
     margin-left: auto;
   `,
+  RightEndBox: styled.div`
+    display: flex;
+    justify-content: flex-end;
+  `,
 };
