@@ -14,6 +14,7 @@ import {
   uploadThumbnail,
 } from "../../../../api/Portfolio";
 import { getPortfolioFileURL } from "../../../../api/User";
+import { BsPlusCircleDotted } from "react-icons/bs";
 
 const PortfolioTab = () => {
   const { user } = useUserStore();
@@ -194,19 +195,6 @@ const PortfolioTab = () => {
     setIsDetailModalOpen(!isDetailModalOpen);
   };
 
-  //----------------------
-  // const [titleMessage, setTitleMessage] = useState<string>("");
-  // const [descMessage, setDescMessage] = useState<string>("");
-  // const [thumbNailMessage, setThumbnailMessage] = useState<string>("");
-  // const [pdfMessage, setPdfMessage] = useState<string>("");
-  // const [linkMessage, setLinkMessage] = useState<string>("");
-
-  // const [isTitle, setIsTitle] = useState<boolean>(false);
-  // const [isDesc, setIsDesc] = useState<boolean>(false);
-  // const [isThumbnail, setIsThumbnail] = useState<boolean>(false);
-  // const [isPdf, setIsPdf] = useState<boolean>(false);
-  // const [isLink, setIsLink] = useState<boolean>(false);
-
   return (
     <>
       {isDetailModalOpen && (
@@ -265,14 +253,13 @@ const PortfolioTab = () => {
                   </Button>
                 </>
               ) : (
-                <Button
+                <S.Button
                   type="primary"
                   block
-                  // disabled={!(isTitle && isDesc)}
                   onClick={handleAddPortfolioButtonClick}
                 >
                   추가하기
-                </Button>
+                </S.Button>
               )}
             </>
           }
@@ -304,11 +291,14 @@ const PortfolioTab = () => {
             })}
 
           <S.PortfolioAdd onClick={modalOpenHandler}>
-            <button>
+            <S.PortfolioAddButton>
+              <BsPlusCircleDotted />
+              <br />
+              <br />
               포트폴리오
               <br />
               첨부하기
-            </button>
+            </S.PortfolioAddButton>
           </S.PortfolioAdd>
         </S.PortfolioListWrapper>
       </S.PortfolioListContainer>

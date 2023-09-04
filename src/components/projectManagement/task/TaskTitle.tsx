@@ -20,11 +20,10 @@ const TaskTitle = ({ task, userRole }: TaskTitleProps) => {
     setTitle(e.target.value);
   };
 
-  const handleKeyDown = (e: { key: string }) => {
-    if (e.key === "Enter") {
-      updateTaskTitleMutation.mutate({ taskId: task.taskId, title });
-      setIsTitleEditable(false);
-    }
+  const handleKeyDown = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    updateTaskTitleMutation.mutate({ taskId: task.taskId, title });
+    setIsTitleEditable(false);
   };
 
   const { updateTaskTitleMutation } = useTasksQueries(task.projectId);
@@ -33,12 +32,13 @@ const TaskTitle = ({ task, userRole }: TaskTitleProps) => {
     <S.TaskDetailBoxWrapper width="24%">
       <S.TaskDetailBox onDoubleClick={handleTitleDoubleClick}>
         {isTitleEditable ? (
-          <S.TaskTitleInput
-            type="text"
-            value={title}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
+          <form onSubmit={handleKeyDown}>
+            <S.TaskTitleInput
+              type="text"
+              value={title}
+              onChange={handleChange}
+            />
+          </form>
         ) : (
           <p>{task.title}</p>
         )}

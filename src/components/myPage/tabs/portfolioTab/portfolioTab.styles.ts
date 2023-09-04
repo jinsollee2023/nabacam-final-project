@@ -1,11 +1,10 @@
+import { Button } from "antd";
 import { styled } from "styled-components";
 
 export const S = {
   PortfolioListContainer: styled.section`
     width: 100%;
     padding: 10px;
-
-    /* border: 1px solid gray; */
   `,
   PortfolioListImg: styled.div`
     background-color: #8080803d;
@@ -43,5 +42,16 @@ export const S = {
       height: 320px;
       object-fit: cover;
     }
+  `,
+  Button: styled(Button)`
+    background-color: var(--main-blue);
+  `,
+  PortfolioAddButton: styled.button`
+    border: none;
+    background-color: transparent;
+    border-radius: 15px;
+    width: 320px;
+    height: 320px;
+    font-size: 20px;
   `,
 };
