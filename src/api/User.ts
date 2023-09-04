@@ -9,54 +9,39 @@ export const getUser = async (userId: string): Promise<User> => {
       .eq("userId", userId)
       .maybeSingle();
     if (error) {
-      console.log(
-        `사용자 정보를 가져오는 중 오류가 발생했습니다.???\n ${error.message}`
-      );
+      console.log(`사용자 정보를 가져오는 중 오류가 발생했습니다.???\n ${error.message}`);
     }
     return data as User;
   } catch (error) {
-    throw new Error(
-      `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
-    );
+    throw new Error();
+    // `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
   }
 };
 
 export const getFreelancers = async (): Promise<User[]> => {
   try {
-    const { data, error } = await supabase
-      .from("users")
-      .select("*")
-      .eq("role", "freelancer");
+    const { data, error } = await supabase.from("users").select("*").eq("role", "freelancer");
     if (error) {
-      alert(
-        `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
-      );
+      // alert(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
     return data as User[];
   } catch (error) {
-    throw new Error(
-      `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
-    );
+    throw new Error();
+    // `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`;
   }
 };
 
 export const getClients = async (): Promise<User[]> => {
   try {
-    const { data, error } = await supabase
-      .from("users")
-      .select("*")
-      .eq("role", "client");
+    const { data, error } = await supabase.from("users").select("*").eq("role", "client");
 
     if (error) {
-      alert(
-        `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
-      );
+      // alert(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
     return data as User[];
   } catch (error) {
-    throw new Error(
-      `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
-    );
+    throw new Error();
+    // `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`;
   }
 };
 
@@ -70,15 +55,12 @@ export const getClientByProject = async (id: string): Promise<User> => {
       .maybeSingle();
 
     if (error) {
-      alert(
-        `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
-      );
+      console.log(`사용자 정보를 가져오는 중 오류가 발생했습니다????.\n ${error.message}`);
     }
     return data as User;
   } catch (error) {
-    throw new Error(
-      `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
-    );
+    throw new Error();
+    // `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`;
   }
 };
 
@@ -124,15 +106,11 @@ export const getFreelancersBySort = async (sortLabel: string) => {
       .eq("role", "freelancer")
       .order(orderByField, { ascending });
     if (error) {
-      alert(
-        `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
-      );
+      alert(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
     return data;
   } catch (error) {
-    throw new Error(
-      `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
-    );
+    throw new Error(`사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`);
   }
 };
 
@@ -178,11 +156,7 @@ export const updateUser = async ({
   setUser: (user: User) => void;
 }) => {
   try {
-    const { data } = await supabase
-      .from("users")
-      .update(updatedData)
-      .eq("userId", userId)
-      .select();
+    const { data } = await supabase.from("users").update(updatedData).eq("userId", userId).select();
     if (data && data.length > 0) {
       setUser(data[0]);
     }
@@ -191,18 +165,14 @@ export const updateUser = async ({
   }
 };
 
-export const getPhotoURL = async (filePath: {
-  path: string;
-}): Promise<string> => {
+export const getPhotoURL = async (filePath: { path: string }): Promise<string> => {
   const { data } = await supabase.storage
     .from("users") // 사용한 버킷 이름
     .getPublicUrl(filePath.path);
   return data.publicUrl;
 };
 
-export const getPortfolioFileURL = async (filePath: {
-  path: string;
-}): Promise<string> => {
+export const getPortfolioFileURL = async (filePath: { path: string }): Promise<string> => {
   const { data } = await supabase.storage
     .from("portfolios") // 사용한 버킷 이름
     .getPublicUrl(filePath.path);
@@ -248,12 +218,6 @@ export const updateClientMembers = async ({
     .select();
 };
 
-export const addProjectIdToUser = async (
-  userId: string,
-  projectIds: string[]
-) => {
-  return await supabase
-    .from("users")
-    .update({ projectId: projectIds })
-    .eq("userId", userId);
+export const addProjectIdToUser = async (userId: string, projectIds: string[]) => {
+  return await supabase.from("users").update({ projectId: projectIds }).eq("userId", userId);
 };

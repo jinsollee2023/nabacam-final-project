@@ -23,8 +23,7 @@ const ContractTerminationFreelancers = () => {
 
   return (
     <>
-      {terminationedProjectsWithFreelancers &&
-      terminationedProjectsWithFreelancers?.length > 0 ? (
+      {terminationedProjectsWithFreelancers && terminationedProjectsWithFreelancers?.length > 0 ? (
         <>
           <S.SearchBox>
             <SearchItemBar />

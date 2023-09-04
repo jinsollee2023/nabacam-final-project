@@ -34,12 +34,16 @@ export const resign = async (
 export const userJoinData = async (
   newUserData: any,
   setUser: any,
+  setUserId: any,
+  setUserRole: any,
   navigate: any
 ) => {
   try {
     const { data } = await supabase.from("users").insert(newUserData).select();
     if (data) {
       setUser(data[0]);
+      setUserId(data[0].userId);
+      setUserRole(data[0].role);
       navigate("/");
     }
   } catch (error) {
@@ -64,6 +68,8 @@ export const clientSignupHandler = async (
   uploadUserImage: any,
   role: string,
   setUser: any,
+  setUserId: any,
+  setUserRole: any,
   navigate: any
 ) => {
   try {
@@ -94,7 +100,7 @@ export const clientSignupHandler = async (
       workExp: values.workExp,
       contact: { email: user?.email, phone: values.phone },
     };
-    await userJoinData(newUserData, setUser, navigate);
+    await userJoinData(newUserData, setUser, setUserId, setUserRole, navigate);
     alert("회원가입이 완료되었습니다.");
   } catch (error) {
     console.error(error);

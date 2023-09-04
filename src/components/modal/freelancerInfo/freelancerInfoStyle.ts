@@ -67,27 +67,22 @@ export const S = {
     gap: 5px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
   `,
   Contacts: styled.span`
+    gap: 5px;
     display: flex;
-    width: 200px;
+    flex-direction: row;
     font-size: 14px;
     cursor: pointer;
   `,
-  PortfolioBox: styled.div`
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-  `,
 
-  ImgBox: styled.div`
+  PortfolioImgBox: styled.div`
     width: 100px;
     height: 100px;
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
+    margin: 0 auto;
     background-color: rgba(0, 0, 0, 0.1);
   `,
   PortfolioImg: styled.img`
