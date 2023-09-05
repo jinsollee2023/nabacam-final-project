@@ -10,10 +10,10 @@ import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
-import type { ResumeExperience } from "../../../../Types";
-import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
+import type { ResumeExperience } from "../../../../../Types";
+import { useResumeExperienceStore } from "../../../../../zustand/useResumeExperienceStore";
 import dayjs from "dayjs";
-import { S } from "./Resume.styles";
+import { S } from "../Resume.styles";
 
 interface ExperienceProps {
   experience?: ResumeExperience;
@@ -69,7 +69,6 @@ const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
     pastWorkPlace: pastWorkPlace,
     pastWorkPosition: pastWorkPosition,
   };
-  // console.log(newExperience);
 
   useEffect(() => {
     changeNewExperience(newExperience);
