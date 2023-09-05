@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Modal from "../../../../components/modal/Modal";
-import useResumeExperienceQueries from "../../../../hooks/useResumeExperienceQueries";
-import { useUserStore } from "../../../../zustand/useUserStore";
-import type { ResumeExperience } from "../../../../Types";
-import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
+import Modal from "../../../../../components/modal/Modal";
+import useResumeExperienceQueries from "../../../../../hooks/useResumeExperienceQueries";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import type { ResumeExperience } from "../../../../../Types";
+import { useResumeExperienceStore } from "../../../../../zustand/useResumeExperienceStore";
 import EditResumeExperienceModal from "./EditResumeExperienceModal";
-import { S } from "./Resume.styles";
+import { S } from "../Resume.styles";
 import { CommonS } from "src/components/common/button/commonButton";
 
 interface ExperienceProps {
