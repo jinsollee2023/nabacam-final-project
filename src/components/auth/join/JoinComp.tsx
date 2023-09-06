@@ -3,10 +3,8 @@ import { useState } from "react";
 import { useUserStore } from "../../../zustand/useUserStore";
 import JoinForm from "./JoinForm";
 import { S } from "./joinComp.styles";
-type TabPosition = "left" | "right" | "top" | "bottom";
 
 const JoinComp = () => {
-  // const [tabPosition, setTabPosition] = useState<TabPosition>("left");
   const { userRole, setUserRole } = useUserStore();
 
   return (

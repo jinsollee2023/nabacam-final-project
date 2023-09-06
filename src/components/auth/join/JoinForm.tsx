@@ -304,9 +304,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
               : "프리랜서 회원가입"}
           </S.JoinButton>
 
-          <button type="button" onClick={() => navigate("/login")}>
+          <S.LoginButton type="button" onClick={() => navigate("/login")}>
             로그인하러 가기
-          </button>
+          </S.LoginButton>
         </S.JoinForm>
       </S.JoinFormContainer>
     </>
