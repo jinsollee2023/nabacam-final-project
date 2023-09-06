@@ -9,6 +9,7 @@ import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { IProjectWithFreelancer } from "src/Types";
 
 const ContractTerminationFreelancers = () => {
+  // 최신순/오래된 순 필터버튼 상태관리
   const [isLastFirst, setIsLastFirst] = useState(true);
   const [selectedWorkField, setSelectedWorkField] = useState("전체보기");
 
@@ -17,6 +18,7 @@ const ContractTerminationFreelancers = () => {
     currentUserId: userId,
   });
 
+  // 필터 버튼 토글
   const handleSortToggle = () => {
     setIsLastFirst(!isLastFirst);
   };

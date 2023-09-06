@@ -43,11 +43,13 @@ const ContractTerminationFreelancerCards = ({
     }
   }, [isSuggestingAgainModalOpen, setSelectedProject]);
 
+  // 계약이 끝난 프리랜서 -> 상세 모달 -> 프로젝트 다시 제안하기 모달 버튼
   const handleSuggestingAgainBtnClick = () => {
     setIsDetailModalOpen(false);
     setIsSuggestingAgainModalOpen(true);
   };
 
+  // 계약이 끝난 프리랜서 -> 상세 모달 -> 프로젝트 다시 제안하기 -> 제안하기 모달 버튼
   const handleProjectSuggestingBtnClick = () => {
     const suggestedFreelancers = suggestedFreelancersData?.SuggestedFreelancers || [];
     const updatedSuggestedFreelancers = [...(suggestedFreelancers as string[]), user.userId];
@@ -60,7 +62,7 @@ const ContractTerminationFreelancerCards = ({
     alert("프로젝트 제안이 완료 되었습니다.");
   };
 
-  // 프리랜서 아이디별 개수를 세기 위한 객체
+  // 프리랜서 아이디별 진행 완료된 프로젝트 개수를 세기 위한 객체
   const freelancerCounts: Record<string, number> = {};
 
   freelancersWithTerminatedProjects?.forEach((project) => {

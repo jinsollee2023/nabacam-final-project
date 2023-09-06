@@ -16,7 +16,6 @@ const ContractTerminationFreelancerList = ({
   freelancersWithTerminatedProjects,
 }: ContractTerminationFreelancerListProps) => {
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
-
   const [filteredFreelancers, setFilteredFreelancers] = useState<IProjectWithFreelancer[]>(
     freelancersWithTerminatedProjects!
   );
