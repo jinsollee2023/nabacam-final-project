@@ -11,7 +11,7 @@ export const S = {
     font-size: 16px;
     font-weight: bold;
   `,
-  ModalTitle: styled.div`
+  ModalTitle: styled.p`
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 20px;
@@ -58,7 +58,7 @@ export const S = {
     font-size: 16px;
     font-weight: bold;
   `,
-  ProfileIntro: styled.div`
+  ProfileIntro: styled.span`
     width: 100%;
     font-size: 14px;
     word-break: break-all;
