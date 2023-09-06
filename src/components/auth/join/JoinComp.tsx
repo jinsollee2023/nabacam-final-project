@@ -8,6 +8,7 @@ const JoinComp = () => {
   const { userRole, setUserRole } = useUserStore();
 
   return (
+    // ant design 사용 삼항연산자로 탭 클릭시 변경
     <>
       <S.JoinCompContainer>
         <S.TabsBack>
