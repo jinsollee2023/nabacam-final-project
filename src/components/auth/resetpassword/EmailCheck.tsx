@@ -6,6 +6,7 @@ interface openModal {
   openModal: () => void;
 }
 
+// supabase 에서 email 확인해주는 로직
 const EmailCheck = ({ openModal }: openModal) => {
   const [email, setEmail] = useState("");
 

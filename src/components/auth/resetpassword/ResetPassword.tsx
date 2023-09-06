@@ -13,6 +13,8 @@ interface initialErrorsForm {
   phone: string;
 }
 
+// 패스워드 변경 로직
+
 const ResetPassword = () => {
   // validation check의 erros form 과 맞추기 위해 넣었음
   const initialValues: initialErrorsForm = {
@@ -27,9 +29,13 @@ const ResetPassword = () => {
   const [errors, setErrors] = useState<initialErrorsForm>(initialValues);
   const [showPswd, setShowPswd] = useState<boolean>(false);
 
+  // errors 바로확인하고 validation 체크 후 진행하게해주기위해 useEffect 사용
+
   useEffect(() => {
     setErrors(Validation(values));
   }, [values]);
+
+  //  password 업데이트 하는 로직
   const updatePasswordHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors(Validation(values));
