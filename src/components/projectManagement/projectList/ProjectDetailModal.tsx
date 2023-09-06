@@ -3,6 +3,7 @@ import S from "./ProjectListStyles";
 import { useEffect, useState } from "react";
 import { getFreelancer } from "src/api/User";
 import ProjectCommittedFreelancerProfile from "./ProjectCommittedFreelancerProfile";
+import { useUserStore } from "src/zustand/useUserStore";
 
 export interface ProjectDetailModalProps {
   project: Project;
@@ -25,6 +26,8 @@ export interface FreelancerInfo {
 const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
   const [committedFreelancer, setCommittedFreelancer] =
     useState<FreelancerInfo | null>(null);
+
+  const { userRole } = useUserStore();
 
   const fetchCommittedFreelancer = async () => {
     const userId = project.freelancerId!;
@@ -148,7 +151,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
       </S.ModalInfoColumnBox>
       {/* --------------------------------------------------------- */}
 
-      {committedFreelancer && (
+      {committedFreelancer && userRole === "client" && (
         <>
           <S.ModalLine />
           <S.ModalTitle marginBottom="10px">
