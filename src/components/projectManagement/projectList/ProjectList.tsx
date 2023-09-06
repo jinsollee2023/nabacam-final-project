@@ -169,15 +169,11 @@ const ProjectList = () => {
         {projectsOfClient && renderProjects()}
       </S.ProjectContainer>
 
-      <S.ProjectCardBox
-        onClick={addProjectModalOpenHandler}
-        justifyContent="center"
-        marginBottom={0}
-        backgroundColor="var(--main-blue)"
-      >
-        <RiAddBoxLine size="23" color="white" />
-        <S.ProjectSpanBtn>프로젝트 게시하기</S.ProjectSpanBtn>
-      </S.ProjectCardBox>
+      <S.ProjectSpanBtn onClick={addProjectModalOpenHandler}>
+        <RiAddBoxLine size="23" color="white" style={{ marginRight: "10px" }} />
+        프로젝트 게시하기
+      </S.ProjectSpanBtn>
+
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}

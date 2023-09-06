@@ -58,6 +58,7 @@ const S = {
     width: 100%;
     height: 65vh;
     margin-top: 20px;
+    position: relative;
   `,
   ProjectCardBox: styled.div<ProjectCardBoxProps>`
     border: 1.5px solid var(--lighter-gray);
@@ -73,9 +74,22 @@ const S = {
     align-items: center;
     background-color: ${(props) => props.backgroundColor};
   `,
-  ProjectSpanBtn: styled.span`
-    cursor: pointer;
+  ProjectSpanBtn: styled.button`
+    background-color: var(--main-blue);
     color: white;
+    border: none;
+    border-radius: 15px;
+    width: 500px;
+    font-size: 16px;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    z-index: 1;
+    transform: translateX(-25%);
   `,
   ProjcetTitleBox: styled.div`
     margin: auto 0;

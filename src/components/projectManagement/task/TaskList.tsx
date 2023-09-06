@@ -131,7 +131,11 @@ const TaskList = () => {
           ? projectId && (
               <S.TaskAddButton onClick={addTaskButtonHandler}>
                 <S.TaskAddSpan>
-                  <RiAddBoxLine size="17" color="white" />
+                  <RiAddBoxLine
+                    size="17"
+                    color="white"
+                    style={{ marginRight: "5px" }}
+                  />
                   타임라인 추가하기
                 </S.TaskAddSpan>
               </S.TaskAddButton>
