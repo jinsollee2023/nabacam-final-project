@@ -10,6 +10,8 @@ const PendingFreelancerList = () => {
     currentUserId: userId,
   });
 
+  // reduce 초기값 설정
+  // 보류한한 프리랜서가 없을 시 문구 노출 위해 생성
   const totalPendingFreelancers = PendingFreelancersToTheProjects
     ? PendingFreelancersToTheProjects.map((project) => project.pendingFreelancerUser.length).reduce(
         (acc, cur) => acc + cur,

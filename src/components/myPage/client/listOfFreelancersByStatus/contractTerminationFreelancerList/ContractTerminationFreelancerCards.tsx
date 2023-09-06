@@ -73,6 +73,7 @@ const ContractTerminationFreelancerCards = ({
     }
   });
 
+  // 클릭 시 텍스트 클립보드에 복사하기 위해 생성
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
