@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { S } from "../listOfFreelancersByStatusStyle";
+import { S } from "../listOfFreelancersByStatus.style";
 import Modal from "../../../../../components/modal/Modal";
 import OngoingFreelancerInfoModal from "./OngoingFreelancerInfoModal";
 import dayjs from "dayjs";

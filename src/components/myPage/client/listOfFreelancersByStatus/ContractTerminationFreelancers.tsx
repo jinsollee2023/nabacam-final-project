@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { S } from "./listOfFreelancersByStatusStyle";
+import { S } from "./listOfFreelancersByStatus.style";
 import SearchItemBar from "../../../../components/common/searchItemBar/SearchItemBar";
 import { LuArrowUpDown } from "react-icons/lu";
 import WorkFieldCategory from "../../../../components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";

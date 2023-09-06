@@ -1,5 +1,5 @@
 import React from "react";
-import { S } from "./manageFreelancersByStatusStyle";
+import { S } from "./manageFreelancersByStatus.style";
 import { useUserStore } from "../../../zustand/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";

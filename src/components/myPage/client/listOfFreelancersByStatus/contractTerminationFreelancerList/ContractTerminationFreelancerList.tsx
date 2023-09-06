@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { S } from "../listOfFreelancersByStatusStyle";
+import { S } from "../listOfFreelancersByStatus.style";
 import { IProjectWithFreelancer } from "../../../../../Types";
 import { useSearchKeywordStore } from "../../../../../zustand/useSearchKeywordStore";
 import ContractTerminationFreelancerCards from "./ContractTerminationFreelancerCards";

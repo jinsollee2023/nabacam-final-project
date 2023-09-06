@@ -2,7 +2,7 @@ import React from "react";
 import useClientsQueries from "../../../../../hooks/useClientsQueries";
 import { useUserStore } from "../../../../../zustand/useUserStore";
 import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
-import { S } from "../listOfFreelancersByStatusStyle";
+import { S } from "../listOfFreelancersByStatus.style";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
 
 const OngoingFreelancerList = () => {
