@@ -44,7 +44,7 @@ export const userJoinData = async (
       setUser(data[0]);
       setUserId(data[0].userId);
       setUserRole(data[0].role);
-      navigate("/");
+      navigate("/home");
     }
   } catch (error) {
     console.log(error);

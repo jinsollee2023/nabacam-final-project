@@ -1,5 +1,5 @@
 import { Radio } from "antd";
-import React, { ChangeEvent, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useUserStore } from "../../../../../zustand/useUserStore";
 import { usePortfolioStore } from "../../../../../zustand/usePortfolioStore";
 import { v4 as uuidv4 } from "uuid";
@@ -31,11 +31,7 @@ const PortfolioAddModal = () => {
   const [linkURL, setLinkURL] = useState(selectedPortfolio?.linkURL || "");
 
   const { userId } = useUserStore();
-
   const allOnChange = (name: string, value: string | File) => {
-    // const {
-    //   target: { files, name, value },
-    // } = e;
     if (name === "title") {
       setTitle(value as string);
     }
@@ -46,7 +42,7 @@ const PortfolioAddModal = () => {
       setThumbNailFile(value as File);
     }
     if (name === "pdf") {
-      setPdfFile(value as File);
+      setPdfFile(value);
     }
     if (name === "link") {
       setLinkURL(value as string);
@@ -110,7 +106,6 @@ const PortfolioAddModal = () => {
           {/* attachmentType에 따라서 pdf파일이거나 링크이거나 */}
           {attachmentType === "file" ? (
             <>
-              {/* {setLinkURL("")} */}
               <S.PdfInputLabel htmlFor="fileInputPDF">
                 PDF 파일 첨부
               </S.PdfInputLabel>
@@ -138,7 +133,9 @@ const PortfolioAddModal = () => {
             style={{ display: "none" }}
             name="pdf"
             accept="application/pdf, .doc, .docx, .ppt, .pptx"
-            onChange={(e) => allOnChange("pdf", e.target.value)}
+            onChange={(e) => {
+              allOnChange("pdf", e.target.files![0]);
+            }}
           />
           <span>{pdfFile && attachmentType === "file" && <FcOk />}</span>
         </S.PdfInputWrapper>

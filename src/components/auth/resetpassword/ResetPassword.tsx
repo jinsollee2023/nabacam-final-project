@@ -26,7 +26,7 @@ const ResetPassword = () => {
         if (data) {
           alert("비밀번호가 성공적으로 바뀌었습니다.");
           setValues("");
-          navigate("/");
+          navigate("/home");
         }
       } catch (error) {
         alert("비밀번호 변경에 오류가 생겼습니다");
