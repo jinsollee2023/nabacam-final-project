@@ -52,7 +52,7 @@ const LoginComp = () => {
           setUserId(user.userId as string);
           setUserRole(user.role as string);
           setUser(user);
-          navigate("/");
+          navigate("/home");
         }
       } catch (error) {
         console.error(error);

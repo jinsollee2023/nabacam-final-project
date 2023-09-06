@@ -37,17 +37,17 @@ const TaskStatus = ({ task, userRole }: TaskStatusProps) => {
   const getStatusBackgroundColor = (status: string): string => {
     switch (status) {
       case "Before working":
-        return "#FD3F78";
+        return "#E3E3E3";
       case "Working on it":
-        return "#FDAB3F";
+        return "#FFC579";
       case "Check":
-        return "#4252E3";
+        return "#83B4FE";
       case "Done":
-        return "#16C671";
+        return "#7AD4A9";
       case "Stuck":
-        return "#E3425F";
+        return "#FD9DAE";
       default:
-        return "#d3d3d3";
+        return "#E3E3E3";
     }
   };
 
@@ -61,6 +61,7 @@ const TaskStatus = ({ task, userRole }: TaskStatusProps) => {
       <S.TaskDetailBox
         onClick={statusDivOnClickHandler}
         backgroundColor={backgroundColor}
+        cursor={userRole === "freelancer" ? "pointer" : null}
       >
         {task.status}
       </S.TaskDetailBox>

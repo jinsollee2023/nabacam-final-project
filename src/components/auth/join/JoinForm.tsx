@@ -9,6 +9,7 @@ import Validation from "./Validation";
 import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { S } from "./joinComp.styles";
 
 interface JoinFormProps {
   role: string;
@@ -95,13 +96,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const handleChange = (key: string, value: string | number) => {
     setValues({ ...values, [key]: value });
   };
-
-  const openFindPasswordModalButtonHandler = () => {
-    setFindPasswordModalOpen(!findPasswordModalOpen);
-  };
   // 미리보기 핸들러
   const handlePhotoURLOnChange = (file: File) => {
-    setValues({ ...values, ["photoFile"]: file });
+    setValues({ ...values, photoFile: file });
   };
   // 비밀번호 표시
   const showPasswordHandler = () => {
@@ -115,11 +112,18 @@ const JoinForm = ({ role }: JoinFormProps) => {
 
   return (
     <>
-      <S.JoinForm>
-        <form onSubmit={(e) => signUP(e)}>
-          <h1>이메일</h1>
-          <div>
+      <S.JoinFormContainer>
+        <S.JoinForm onSubmit={(e) => signUP(e)}>
+          <PreviewImage
+            handlePhotoURLOnChange={handlePhotoURLOnChange}
+            defaultImage={JoinDefaultImage}
+          />
+          <S.InputWrapper>
+            <label htmlFor="emailInput" style={{ color: "var(--darker-gray)" }}>
+              * 이메일
+            </label>
             <S.JoinInput
+              id="emailInput"
               type="email"
               placeholder="ex ) email@google.com"
               value={values.email}
@@ -127,8 +131,14 @@ const JoinForm = ({ role }: JoinFormProps) => {
             />
             <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
 
-            <h1>비밀번호</h1>
+            <label
+              htmlFor="passwordInput"
+              style={{ color: "var(--darker-gray)" }}
+            >
+              * 비밀번호
+            </label>
             <S.JoinInput
+              id="passwordInput"
               type={showPswd ? "text" : "password"}
               placeholder="비밀번호"
               value={values.password}
@@ -138,12 +148,17 @@ const JoinForm = ({ role }: JoinFormProps) => {
               {errors.password && <p>{errors.password}</p>}
             </S.errordiv>
 
-            <h1>비밀번호 확인</h1>
+            <label
+              htmlFor="checkPasswordInput"
+              style={{ color: "var(--darker-gray)" }}
+            >
+              * 비밀번호 확인
+            </label>
 
             <S.JoinInput
+              id="checkPasswordInput"
               type={showPswd ? "text" : "password"}
               name="passwordConfirmCurrent"
-              placeholder="비밀번호 확인"
               value={values.passwordConfirmCurrent}
               onChange={(e) =>
                 handleChange("passwordConfirmCurrent", e.target.value)
@@ -156,28 +171,33 @@ const JoinForm = ({ role }: JoinFormProps) => {
               )}
             </S.errordiv>
 
-            <h1>이름</h1>
+            <label htmlFor="nameInput" style={{ color: "var(--darker-gray)" }}>
+              * 이름
+            </label>
 
             <S.JoinInput
+              id="nameInput"
               type="text"
               name="name"
-              placeholder="ex) 홍길동"
               value={values.name}
               onChange={(e) => handleChange("name", e.target.value)}
             />
             <div>{errors.name && <p>{errors.name}</p>}</div>
-            <br />
-
-            <PreviewImage
-              handlePhotoURLOnChange={handlePhotoURLOnChange}
-              defaultImage={JoinDefaultImage}
-            />
-            <br />
 
             {role === "freelancer" && (
               <>
+                <label
+                  htmlFor="workFieldInput"
+                  style={{
+                    color: "var(--darker-gray)",
+                    marginBottom: "10px",
+                  }}
+                >
+                  * 작업영역
+                </label>
                 <Select
-                  placeholder="Select a work field"
+                  id="workFieldInput"
+                  placeholder="Select a person"
                   optionFilterProp="children"
                   onChange={(selectedValue) =>
                     handleChange("category", selectedValue)
@@ -200,6 +220,10 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       label: "기획",
                     },
                     {
+                      value: "기타",
+                      label: "기타",
+                    },
+                    {
                       value: "마케팅",
                       label: "마케팅",
                     },
@@ -209,33 +233,44 @@ const JoinForm = ({ role }: JoinFormProps) => {
                     },
                   ]}
                 />
-                <br />
-
-                <h1>작업영역</h1>
+                <label
+                  htmlFor="workSmallFieldInput"
+                  style={{ color: "var(--darker-gray)" }}
+                >
+                  * 작업 영역 (상세)
+                </label>
 
                 <S.JoinInput
+                  id="workSmallFieldInput"
                   type="text"
                   name="workField"
                   value={values.workField}
                   onChange={(e) => handleChange("workField", e.target.value)}
-                  placeholder="ex) 프론트엔드, 콘텐츠 마케터, UX/UI"
                 />
-                <br />
-
-                <h1>경험</h1>
+                <label
+                  htmlFor="workExpInput"
+                  style={{ color: "var(--darker-gray)" }}
+                >
+                  * 경험/연차 (숫자만 입력 가능합니다.)
+                </label>
                 <S.JoinInput
-                  type="text"
+                  id="workExpInput"
+                  type="number"
                   name="workExp"
                   value={values.workExp}
                   onChange={(e) => handleChange("workExp", e.target.value)}
-                  placeholder="ex) 1"
                 />
-                <br />
               </>
             )}
-            <h1>전화번호</h1>
 
+            <label
+              htmlFor="phoneNumberInput"
+              style={{ color: "var(--darker-gray)" }}
+            >
+              * 전화번호
+            </label>
             <S.JoinInput
+              id="phoneNumberInput"
               type="text"
               name="phone"
               value={values.phone}
@@ -244,83 +279,27 @@ const JoinForm = ({ role }: JoinFormProps) => {
             />
             <div>{errors.phone && <p>{errors.phone}</p>}</div>
             <br />
+          </S.InputWrapper>
 
-            <S.JoinButton>
-              {role !== "freelancer"
-                ? "클라이언트 회원가입"
-                : "프리랜서 회원가입"}
-            </S.JoinButton>
-          </div>
-        </form>
-
-        <S.passwordView onClick={showPasswordHandler}>
-          {showPswd ? (
-            <EyeOutlined onClick={showPasswordHandler} />
-          ) : (
-            <EyeInvisibleOutlined />
-          )}
-        </S.passwordView>
-        <br />
-        <div>
-          <S.passwordFindButton onClick={openFindPasswordModalButtonHandler}>
-            비밀번호찾기
-          </S.passwordFindButton>
-          {findPasswordModalOpen && (
-            <EmailCheck openModal={openFindPasswordModalButtonHandler} />
-          )}
-        </div>
-      </S.JoinForm>
+          <S.JoinButton>
+            {role !== "freelancer"
+              ? "클라이언트 회원가입"
+              : "프리랜서 회원가입"}
+          </S.JoinButton>
+          <S.passwordView onClick={showPasswordHandler}>
+            {showPswd ? (
+              <EyeOutlined onClick={showPasswordHandler} />
+            ) : (
+              <EyeInvisibleOutlined />
+            )}
+          </S.passwordView>
+          <button type="button" onClick={() => navigate("/login")}>
+            로그인하러 가기
+          </button>
+        </S.JoinForm>
+      </S.JoinFormContainer>
     </>
   );
 };
 
 export default JoinForm;
-
-const S = {
-  JoinForm: styled.div`
-    position: relative;
-    top: 5px;
-    left: 300px;
-    bottom: 100px;
-  `,
-  JoinInput: styled.input`
-    border: 1px solid black;
-    left: 10%;
-    width: 416px;
-    height: 43px;
-    border-radius: 10px;
-  `,
-  JoinButton: styled.button`
-    width: 417px;
-    height: 43px;
-    border-radius: 10px;
-    border: 1px solid;
-    background-color: white;
-    cursor: pointer;
-  `,
-  passwordFindButton: styled.button`
-    width: 417px;
-    height: 43px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    background-color: white;
-  `,
-  passwordView: styled.button`
-    position: relative;
-    top: -90%;
-    left: 59%;
-    width: 2%;
-    height: 2%;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    border-radius: 10px;
-  `,
-  errordiv: styled.div`
-    height: 20px;
-  `,
-  errorsp: styled.p`
-    color: red;
-  `,
-};

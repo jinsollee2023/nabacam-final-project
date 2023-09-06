@@ -1,12 +1,12 @@
 import { styled } from "styled-components";
 import React, { useState } from "react";
-import { useUserStore } from "../../../../zustand/useUserStore";
-import useResumeProfileIntroQueries from "../../../../hooks/useResumeProfileIntroQueries";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import useResumeProfileIntroQueries from "../../../../../hooks/useResumeProfileIntroQueries";
 import { MdAddCircle } from "react-icons/md";
-import Modal from "../../../../components/modal/Modal";
+import Modal from "../../../../../components/modal/Modal";
 import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
-import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
-import { S } from "./Resume.styles";
+import { useResumeProfileIntroStore } from "../../../../../zustand/useResumeProfileIntroStore";
+import { S } from "../Resume.styles";
 import { IoMdSettings } from "react-icons/io";
 
 const ResumeProfileIntroComp = () => {
@@ -21,7 +21,6 @@ const ResumeProfileIntroComp = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const { newProfileIntroInput } = useResumeProfileIntroStore();
 
-  // add
   const addProfileIntroHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -35,7 +34,6 @@ const ResumeProfileIntroComp = () => {
     setIsAddModalOpen(false);
   };
 
-  // update
   const updateProfileIntroHandler = async (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {

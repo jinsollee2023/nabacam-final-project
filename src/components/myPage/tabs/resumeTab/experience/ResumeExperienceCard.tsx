@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Modal from "../../../../components/modal/Modal";
-import useResumeExperienceQueries from "../../../../hooks/useResumeExperienceQueries";
-import { useUserStore } from "../../../../zustand/useUserStore";
-import type { ResumeExperience } from "../../../../Types";
-import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
+import Modal from "../../../../../components/modal/Modal";
+import useResumeExperienceQueries from "../../../../../hooks/useResumeExperienceQueries";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import type { ResumeExperience } from "../../../../../Types";
+import { useResumeExperienceStore } from "../../../../../zustand/useResumeExperienceStore";
 import EditResumeExperienceModal from "./EditResumeExperienceModal";
-import { S } from "./Resume.styles";
+import { S } from "../Resume.styles";
 import { CommonS } from "src/components/common/button/commonButton";
 
 interface ExperienceProps {
@@ -44,10 +44,14 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
             <S.PastWorkField>{experience.pastWorkField}</S.PastWorkField>
           </CommonS.CenterizeBox>
 
-          <CommonS.CenterizeBox marginTop="5px">
+          <CommonS.CenterizeBox marginTop="2px">
             <S.PastWorkDetail>
-              {experience.pastWorkPlace}/{experience.pastEmploymentType}/
-              {experience.pastWorkPosition}
+              <CommonS.CenterizeBox marginBottom="5px">
+                {experience.pastWorkPlace}
+              </CommonS.CenterizeBox>
+              <CommonS.CenterizeBox>
+                {experience.pastEmploymentType}/{experience.pastWorkPosition}
+              </CommonS.CenterizeBox>
             </S.PastWorkDetail>
           </CommonS.CenterizeBox>
 
