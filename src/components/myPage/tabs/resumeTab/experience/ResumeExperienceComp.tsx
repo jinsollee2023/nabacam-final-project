@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useUserStore } from "../../../../zustand/useUserStore";
-import useResumeExperienceQueries from "../../../../hooks/useResumeExperienceQueries";
-import Modal from "../../../modal/Modal";
-import type { ResumeExperience } from "../../../../Types";
-import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import useResumeExperienceQueries from "../../../../../hooks/useResumeExperienceQueries";
+import Modal from "../../../../modal/Modal";
+import type { ResumeExperience } from "../../../../../Types";
+import { useResumeExperienceStore } from "../../../../../zustand/useResumeExperienceStore";
 import ResumeExperienceCard from "./ResumeExperienceCard";
 import { BsPlusSquareDotted } from "react-icons/bs";
-import { S } from "./Resume.styles";
+import { S } from "../Resume.styles";
 import EditResumeExperienceModal from "./EditResumeExperienceModal";
 
 const ResumeExperienceComp = () => {
