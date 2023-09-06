@@ -11,7 +11,7 @@ export const S = {
     padding: 20px 10px 10px 10px;
   `,
   Title: styled.span<TitleProps>`
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin-top: ${(props) => props.marginTop || "10px"};
     margin-bottom: ${(props) => props.marginBottom};

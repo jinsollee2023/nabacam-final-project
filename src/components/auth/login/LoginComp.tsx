@@ -9,6 +9,7 @@ import { Tabs } from "antd";
 import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { CommonS } from "src/components/common/button/commonButton";
 
 type TabPosition = "left" | "right" | "top" | "bottom";
 
@@ -61,6 +62,7 @@ const LoginComp = () => {
 
     setValues({ ...values, [name]: value });
   };
+
   const showPasswordHandler = () => {
     setShowPswd(!showPswd);
   };
@@ -83,13 +85,20 @@ const LoginComp = () => {
               onChange={handleChange}
             />
             <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
+            <S.PasswordInputWrapper>
+              <S.PasswordInput
+                type={showPswd ? "text" : "password"}
+                name="password"
+                value={values.password}
+                onChange={handleChange}
+              />
+              <S.CenterizeBox>
+                <S.EyeBtn onClick={showPasswordHandler}>
+                  {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                </S.EyeBtn>
+              </S.CenterizeBox>
+            </S.PasswordInputWrapper>
 
-            <S.LoginInput
-              type={showPswd ? "text" : "password"}
-              name="password"
-              value={values.password}
-              onChange={handleChange}
-            />
             <div>{errors.password && <p>{errors.password}</p>}</div>
           </S.LoginBack>
 
@@ -102,13 +111,6 @@ const LoginComp = () => {
           회원가입 하기
         </S.passwordFindButton>
         {findPassword && <EmailCheck openModal={findPasswordModalHandler} />}
-        <S.passwordView onClick={showPasswordHandler}>
-          {showPswd ? (
-            <EyeOutlined onClick={showPasswordHandler} />
-          ) : (
-            <EyeInvisibleOutlined />
-          )}
-        </S.passwordView>
       </S.LoginBG>
     </>
   );
@@ -160,17 +162,32 @@ const S = {
     height: 50%;
     border-radius: 10px;
   `,
-  passwordView: styled.button`
-    position: relative;
-    top: -41.5%;
-    left: 94%;
-    width: 5%;
-    height: 5%;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    border-radius: 10px;
+  PasswordInputWrapper: styled.div`
+    display: flex;
+    height: 40%;
   `,
+  PasswordInput: styled.input`
+    border: none;
+    width: 93%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background-color: #dbcfcf;
+  `,
+  CenterizeBox: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 7%;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #dbcfcf;
+  `,
+  EyeBtn: styled.button`
+    border: none;
+    background-color: transparent;
+  `,
+
   errordiv: styled.div`
     height: 20px;
   `,
