@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../zustand/useUserStore";
-import React from "react";
 import { logOut } from "src/api/auth";
 import { FiLogOut } from "react-icons/fi";
 
@@ -24,6 +23,14 @@ const Navbar = () => {
   }
   return (
     <S.SidebarWrapper>
+      <S.LogoWrapper>
+        <img
+          src="https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/workwave/workwave.png"
+          alt="logo"
+          onClick={() => navigate("/")}
+        />
+      </S.LogoWrapper>
+      <S.Divider />
       <S.ProfileWrapper>
         <S.ProfileImage src={user.photoURL} alt="img" />
         <div>
@@ -34,6 +41,7 @@ const Navbar = () => {
           <FiLogOut size="20" />
         </S.LogOutButton>
       </S.ProfileWrapper>
+      <S.Divider />
       <S.UpperNavLinks>
         <S.NavLinkItem onClick={() => navigate("/home")}>
           {user.role === "client" ? "프리랜서 구인" : "프로젝트 탐색"}
@@ -43,8 +51,6 @@ const Navbar = () => {
           프로젝트 관리 도구
         </S.NavLinkItem>
       </S.UpperNavLinks>
-
-      <S.Divider />
 
       <S.LowerNavLinks>
         <S.NavLinkItem onClick={() => navigate("/my-page")}>
@@ -72,11 +78,22 @@ const S = {
     padding: 20px 0 0 20px;
     height: 100vh;
   `,
+  LogoWrapper: styled.div`
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 90%;
+      cursor: pointer;
+    }
+  `,
   ProfileWrapper: styled.div`
     display: flex;
     align-items: center;
     justify-content: space-around;
-    margin-bottom: 30px;
+    height: 70px;
   `,
   ProfileImage: styled.img`
     width: 45px;
@@ -101,7 +118,7 @@ const S = {
     border: none;
     height: 2px;
     box-shadow: 0px 2px 4px #f2f2f2;
-    background-color: #bfbfbf;
+    background-color: var(--lighter-gray);
   `,
   LowerNavLinks: styled.ul`
     list-style: none;
@@ -109,7 +126,7 @@ const S = {
   `,
   NavLinkItem: styled.li`
     cursor: pointer;
-    padding: 10px 5px;
+    padding: 15px 5px;
     transition: 0.2s ease-in-out;
 
     &:hover {

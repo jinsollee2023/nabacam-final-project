@@ -5,7 +5,6 @@ import usePortfolioInfoQueries from "../../../../hooks/usePortfolioInfoQueries";
 import { useUserStore } from "../../../../zustand/useUserStore";
 import { usePortfolioStore } from "../../../../zustand/usePortfolioStore";
 import PortfolioDetailModal from "./portfolioDetailModal/PortfolioDetailModal";
-import { Button } from "antd";
 import Modal from "../../../modal/Modal";
 import { Portfolio } from "../../../../Types";
 import {
@@ -18,7 +17,6 @@ import { BsPlusCircleDotted } from "react-icons/bs";
 
 const PortfolioTab = () => {
   const { user } = useUserStore();
-  console.log(user);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const {
@@ -36,7 +34,6 @@ const PortfolioTab = () => {
     userId: user.userId,
     pfId: newPortfolio.portfolioId,
   });
-  console.log("portfolios==>", portfolios);
   const handleOpenAddModalButtonClick = () => {
     setIsAddModalOpen(true);
     setIsDetailModalOpen(false);
@@ -187,12 +184,16 @@ const PortfolioTab = () => {
 
   // 삭제
   const handleDeleteButtonClick = () => {
-    // db에서 지우기
-    deletePortfolioMutation.mutate({
-      portfolioId: selectedPortfolio?.portfolioId!,
-      freelancerId: selectedPortfolio?.freelancerId!,
-    });
-    setIsDetailModalOpen(!isDetailModalOpen);
+    const isConfirmed = window.confirm("해당 포트폴리오를 삭제하시겠습니까?");
+
+    if (isConfirmed) {
+      // db에서 지우기
+      deletePortfolioMutation.mutate({
+        portfolioId: selectedPortfolio?.portfolioId!,
+        freelancerId: selectedPortfolio?.freelancerId!,
+      });
+      setIsDetailModalOpen(!isDetailModalOpen);
+    }
   };
 
   return (
@@ -202,16 +203,16 @@ const PortfolioTab = () => {
           setIsModalOpen={handleDetailModalClose}
           buttons={
             <>
-              <Button
+              <S.Button type="primary" block onClick={handleDeleteButtonClick}>
+                삭제하기
+              </S.Button>
+              <S.Button
                 type="primary"
                 block
                 onClick={handleOpenAddModalButtonClick}
               >
                 수정하기
-              </Button>
-              <Button type="primary" block onClick={handleDeleteButtonClick}>
-                삭제하기
-              </Button>
+              </S.Button>
             </>
           }
         >
@@ -234,7 +235,7 @@ const PortfolioTab = () => {
             <>
               {selectedPortfolio ? (
                 <>
-                  <Button
+                  <S.Button
                     type="primary"
                     block
                     onClick={() => {
@@ -243,14 +244,14 @@ const PortfolioTab = () => {
                     }}
                   >
                     취소하기
-                  </Button>
-                  <Button
+                  </S.Button>
+                  <S.Button
                     type="primary"
                     block
                     onClick={handleEditPortfolioButtonClick}
                   >
                     수정하기
-                  </Button>
+                  </S.Button>
                 </>
               ) : (
                 <S.Button
@@ -289,19 +290,12 @@ const PortfolioTab = () => {
                 </S.PortfolioList>
               );
             })}
-
-          <S.PortfolioAdd onClick={modalOpenHandler}>
-            <S.PortfolioAddButton>
-              <BsPlusCircleDotted />
-              <br />
-              <br />
-              포트폴리오
-              <br />
-              첨부하기
-            </S.PortfolioAddButton>
-          </S.PortfolioAdd>
         </S.PortfolioListWrapper>
       </S.PortfolioListContainer>
+      <S.PortfolioAddButton onClick={modalOpenHandler}>
+        <BsPlusCircleDotted style={{ marginRight: "10px" }} /> 포트폴리오
+        첨부하기
+      </S.PortfolioAddButton>
     </>
   );
 };
