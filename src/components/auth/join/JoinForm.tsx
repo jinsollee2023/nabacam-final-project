@@ -9,26 +9,34 @@ import Validation from "./Validation";
 import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { S } from "./joinComp.styles";
 
 interface JoinFormProps {
   role: string;
 }
-
+interface initialValuesForm {
+  email: string;
+  password: string;
+  passwordConfirmCurrent: string;
+  name: string;
+  workExp: number;
+  phone: string;
+  category: string;
+  workField: string;
+  photoFile: File | null;
+}
+interface initialErrorsForm {
+  email: string | null;
+  password: string | null;
+  passwordConfirmCurrent: string | null;
+  name: string | null;
+  phone: string | null;
+}
 // 회원가입
 const JoinForm = ({ role }: JoinFormProps) => {
   // useinput
 
-  const initialValues: {
-    email: string;
-    password: string;
-    passwordConfirmCurrent: string;
-    name: string;
-    workExp: number;
-    phone: string;
-    category: string;
-    workField: string;
-    photoFile: File | null;
-  } = {
+  const initialValues: initialValuesForm = {
     email: "",
     password: "",
     passwordConfirmCurrent: "",
@@ -40,20 +48,32 @@ const JoinForm = ({ role }: JoinFormProps) => {
     photoFile: null,
   };
 
+  const initialErrors: initialErrorsForm = {
+    email: null,
+    password: null,
+    passwordConfirmCurrent: null,
+    name: null,
+    phone: null,
+  };
+
   const navigate = useNavigate();
-  const [values, setValues] = useState(initialValues);
-  const [errors, setErrors] = useState<any>({});
+  const [values, setValues] = useState<initialValuesForm>(initialValues);
+  const [errors, setErrors] = useState<initialErrorsForm>(initialErrors);
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [showConfirmPswd, setShowConfirmPswd] = useState<boolean>(false);
   const [findPasswordModalOpen, setFindPasswordModalOpen] = useState(false);
+
   const { setUser, setUserId, setUserRole } = useUserStore(); // 추가
 
   // 회원가입 api
+  useEffect(() => {
+    setErrors(Validation(values));
+  }, [values]);
 
   const signUP = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(values);
     e.preventDefault();
     setErrors(Validation(values));
+
     if (
       !errors.email &&
       !errors.password &&
@@ -109,7 +129,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
             <S.JoinInput
               id="emailInput"
               type="email"
-              name="email"
+              placeholder="ex ) email@google.com"
               value={values.email}
               onChange={(e) => handleChange("email", e.target.value)}
             />
@@ -272,6 +292,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
               name="phone"
               value={values.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
+              placeholder="ex) - 빼고 입력해주세요 "
             />
             <div>{errors.phone && <p>{errors.phone}</p>}</div>
             <br />
@@ -368,3 +389,4 @@ const S = {
     flex-direction: column;
   `,
 };
+

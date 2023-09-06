@@ -16,7 +16,7 @@ const OngoingFreelancerList = () => {
   // console.log("현재 로그인된 클라이언트의 진행중인 프로젝트 정보", ongoingProjectsWithFreelancers);
 
   if (!ongoingProjectsWithFreelancers || ongoingProjectsWithFreelancers.length === 0) {
-    return <div>진행 중인 프리랜서가 없습니다.</div>;
+    return <span>진행 중인 프리랜서가 없습니다.</span>;
   }
 
   return (
