@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import S from "./TaskStyles";
 import { Task } from "../../../Types";
 import useTasksQueries from "../../../hooks/useTasksQueries";
@@ -11,6 +11,13 @@ interface TaskTitleProps {
 const TaskTitle = ({ task, userRole }: TaskTitleProps) => {
   const [title, setTitle] = useState(task.title);
   const [isTitleEditable, setIsTitleEditable] = useState(false);
+  const titleInput = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (titleInput.current) {
+      titleInput.current.focus();
+    }
+  }, [isTitleEditable]);
 
   const handleTitleDoubleClick = () => {
     if (userRole === "freelancer") setIsTitleEditable(true);
@@ -20,7 +27,7 @@ const TaskTitle = ({ task, userRole }: TaskTitleProps) => {
     setTitle(e.target.value);
   };
 
-  const handleKeyDown = (e: { preventDefault: () => void }) => {
+  const titleSubmitHandler = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     updateTaskTitleMutation.mutate({ taskId: task.taskId, title });
     setIsTitleEditable(false);
@@ -32,11 +39,13 @@ const TaskTitle = ({ task, userRole }: TaskTitleProps) => {
     <S.TaskDetailBoxWrapper width="24%">
       <S.TaskDetailBox onDoubleClick={handleTitleDoubleClick}>
         {isTitleEditable ? (
-          <form onSubmit={handleKeyDown}>
+          <form onSubmit={titleSubmitHandler}>
             <S.TaskTitleInput
+              ref={titleInput}
               type="text"
               value={title}
               onChange={handleChange}
+              onBlur={titleSubmitHandler}
             />
           </form>
         ) : (
