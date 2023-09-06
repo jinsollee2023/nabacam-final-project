@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useTasksQueries from "../../../hooks/useTasksQueries";
 import { format } from "date-fns";
+import { styled } from "styled-components";
 
 interface TaskMonthProps {
   task: Task;
@@ -66,22 +67,47 @@ const TaskMonth = ({ task, userRole, month }: TaskMonthProps) => {
   }, [month]);
 
   return (
-    <S.TaskDetailBoxWrapper width="1.2%">
-      <S.TaskDetailBox
-        backgroundColor={monthColor}
-        onClick={monthOptionOnclickHandler}
-        style={{ marginRight: "5px", borderRadius: "0" }}
-      ></S.TaskDetailBox>
-      {monthOptionOn && (
-        <DatePicker
-          selected={new Date(task.taskDate)}
-          showMonthYearPicker
-          dateFormat="yyyy-MM-dd HH:mm:ss"
-          onChange={handleChange}
-          inline
-        />
-      )}
-    </S.TaskDetailBoxWrapper>
+    <>
+      <S.TaskDetailBoxWrapper width="1.2%">
+        <S.TaskDetailBox
+          backgroundColor={monthColor}
+          onClick={monthOptionOnclickHandler}
+          style={{ marginRight: "5px", borderRadius: "3px" }}
+        ></S.TaskDetailBox>
+        {monthOptionOn && (
+          <DatePicker
+            selected={new Date(task.taskDate)}
+            showMonthYearPicker
+            dateFormat="yyyy-MM-dd HH:mm:ss"
+            onChange={handleChange}
+            inline
+          />
+        )}
+      </S.TaskDetailBoxWrapper>
+      {/* <>
+        {monthOptionOn && (
+          <>
+            <S.CustomDatePicker>
+              <S.CustomDatePickerBox onClick={() => alert("1click!")}>
+                <span>o</span> 1월
+              </S.CustomDatePickerBox>
+              <S.CustomDatePickerBox onClick={() => alert("2click!")}>
+                <span>o</span> 2월
+              </S.CustomDatePickerBox>
+              <S.CustomDatePickerBox onClick={() => alert("3click!")}>
+                <span>o</span> 3월
+              </S.CustomDatePickerBox>
+              <S.CustomDatePickerBox>
+                <span>o</span> 4월
+              </S.CustomDatePickerBox>
+              <S.CustomDatePickerBox>
+                <span>o</span> 5월
+              </S.CustomDatePickerBox>
+            </S.CustomDatePicker>
+          </>
+        )}
+      </> */}
+    </>
   );
 };
 

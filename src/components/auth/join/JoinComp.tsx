@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Tabs } from "antd";
+import { useState } from "react";
 
 import { useUserStore } from "../../../zustand/useUserStore";
 import JoinForm from "./JoinForm";

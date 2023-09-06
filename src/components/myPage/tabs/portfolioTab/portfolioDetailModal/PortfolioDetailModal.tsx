@@ -19,8 +19,7 @@ const PortfolioDetailModal = ({ userId }: PortfolioDetailModalProps) => {
         <img
           className="portfolioThumbnail"
           src={selectedPortfolio?.thumbNailURL as string}
-          alt="등록된 이미지가 없습니다."
-          style={{ marginLeft: "10px", width: "50%" }}
+          alt="썸네일 이미지"
         />
       </S.PFThumbnailContainer>
       <S.PFDetailWrapper>
@@ -35,11 +34,9 @@ const PortfolioDetailModal = ({ userId }: PortfolioDetailModalProps) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            pdf 확인 및 다운로드
+            PDF 확인 및 다운로드
           </a>
-        ) : (
-          "첨부된 pdf 없음"
-        )}
+        ) : null}
       </S.PFPDFContainer>
       <S.PFLinkContainer>
         {selectedPortfolio?.linkURL ? (
@@ -50,9 +47,7 @@ const PortfolioDetailModal = ({ userId }: PortfolioDetailModalProps) => {
           >
             링크 주소 바로가기
           </a>
-        ) : (
-          "첨부된 링크 주소 없음"
-        )}
+        ) : null}
       </S.PFLinkContainer>
     </>
   );
