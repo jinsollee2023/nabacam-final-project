@@ -1,47 +1,96 @@
-# Getting Started with Create React App
+# React,TS 팀 프로젝트 "Work Wave"
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🖥️ 프로젝트 소개
 
-## Available Scripts
+#### - 프리랜서와 클라이언트 매칭 플랫폼입니다.
 
-In the project directory, you can run:
+    1. 프리랜서모드/클라이언트모드로 각각 로그인하여 접속한다.
+    2. 프리랜서모드에서는 본인의 프로필, 포트폴리오(pdf, 링크)를 게시한다.
+    3. 클라이언트모드에서는 기업 구성원을 추가하고, 프로젝트를 게시한다.
+    4. 클라이언트가 게시한 프로젝트에 프리랜서가 지원하고 클라이언트가 수락을 누르면, 프리랜서 - 클라이언트가 매칭된다.
+    5. 프로젝트관리도구탭에서 프리랜서와 클라이언트가 프로젝트 진행상황을 공유할 수 있다.
 
-### `yarn start`
+## 📜 [S.A(Starting Assignments)](https://www.notion.so/86dbcf1f59274d9eaf2c5247cb73644a?pvs=4)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🎬 구현 사이트
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- 배포 링크 : work-wave-sage.vercel.app
+  
+## ⏰ 개발 기간
 
-### `yarn test`
+- 2023/08/16 ~ 2023/09/18
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🧑‍🤝‍🧑 맴버 구성 및 역할 분담
 
-### `yarn build`
+|이름||역할|
+|------|---|---|
+|이진솔|팀장|update|
+|이한별|팀장|update|
+|박제이|팀원|update|
+|이안진|팀원|update|
+|정승하|팀원|update|
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🖨️ 개발 프로세스 가이드
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1.  CRA 프로젝트 셋업
+2.  .prettierrc 파일 만들기
+3.  Firebase 셋업 (서버 및 DB 셋업)
+4.  환경변수(.env) 셋업
+5.  git 브렌치 관리 권장사항
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## 🛠️ 화면 구성
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 프리랜서
+> 프로젝트 탐색
+- 프로젝트 탐색
+- 지원한 프로젝트
+- 제안받은 프로젝트
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> 프로젝트 관리 도구
+- 프로젝트 진행 상태
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+> 마이페이지
+- 개인정보
+- 이력서
+- 포트폴리오
+- 계약정보
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+### 클라이언트
+> 프리랜서 구인 페이지
+- 프리랜서 마켓
+- 지원한 프리랜서 확인
+- 보류한 프리랜서
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+> 프로젝트 관리도구 Page
+- 프로젝트 목록
+- 프로젝트 진행상태
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-# nabacam-final-project
+> 마이페이지
+- 개인정보
+- 우리 기업 구성원
+- 진행 중인 프리랜서
+- 계약이 끝난 프리랜서
+
+
+## ⚙️ 개발 환경 / 기술스택
+
+- TS
+- React
+- Zustand
+- Supabase
+  - storage
+  - auth
+- Styled-components
+- JavaScript
+- HTML
+
+## ⚔️ Trouble Shooting
+
+> Main page
+  - update
+> Detail page
+  - update
+> My page
+  - update
