@@ -47,13 +47,13 @@ const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) 
                     </S.WorkSmallFieldAndWorkExp>
                   </S.ProfileContents>
                   <S.ContactBox>
-                    <FiPhoneCall size={20} />
+                    <FiPhoneCall size={18} />
                     <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
                       {user.contact.phone}
                     </S.Contact>
                   </S.ContactBox>
                   <S.ContactBox>
-                    <FiMail size={20} />
+                    <FiMail size={18} />
                     <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
                       {user.contact.email}
                     </S.Contact>

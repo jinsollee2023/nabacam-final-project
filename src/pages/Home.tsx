@@ -7,7 +7,7 @@ const Home = () => {
   console.log(user, userId);
   const freelancerOfferMenu = [
     "프리랜서 마켓",
-    "지원한 프리랜서 확인",
+    "지원한 프리랜서",
     "보류한 프리랜서",
   ];
 

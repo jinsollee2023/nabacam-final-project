@@ -96,7 +96,7 @@ export const S = {
     margin-top: 8px;
     cursor: pointer;
   `,
-  ModalTitle: styled.div`
+  ModalTitle: styled.p`
     font-size: 30px;
     font-weight: bold;
     text-align: center;
