@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../zustand/useUserStore";
 import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
-import { styled } from "styled-components";
+
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./joinComp.styles";
@@ -60,6 +60,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const [values, setValues] = useState<initialValuesForm>(initialValues);
   const [errors, setErrors] = useState<initialErrorsForm>(initialErrors);
   const [showPswd, setShowPswd] = useState<boolean>(false);
+  const [showConfirmPswd, setShowConfirmPswd] = useState<boolean>(false);
   const [findPasswordModalOpen, setFindPasswordModalOpen] =
     useState<boolean>(false);
   const { setUser, setUserId, setUserRole } = useUserStore(); // 추가
@@ -104,6 +105,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const showPasswordHandler = () => {
     setShowPswd(!showPswd);
   };
+  const showConfirmPasswordHandler = () => {
+    setShowConfirmPswd(!showConfirmPswd);
+  };
 
   // 모달
 
@@ -137,13 +141,20 @@ const JoinForm = ({ role }: JoinFormProps) => {
             >
               * 비밀번호
             </label>
-            <S.JoinInput
-              id="passwordInput"
-              type={showPswd ? "text" : "password"}
-              placeholder="비밀번호"
-              value={values.password}
-              onChange={(e) => handleChange("password", e.target.value)}
-            />
+            <S.PasswordInputWrapper>
+              <S.PasswordInput
+                id="passwordInput"
+                type={showPswd ? "text" : "password"}
+                name="password"
+                value={values.password}
+                onChange={(e) => handleChange("password", e.target.value)}
+              />
+              <S.CenterizeBox>
+                <S.EyeBtn onClick={showPasswordHandler} type="button">
+                  {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                </S.EyeBtn>
+              </S.CenterizeBox>
+            </S.PasswordInputWrapper>
             <S.errordiv>
               {errors.password && <p>{errors.password}</p>}
             </S.errordiv>
@@ -154,16 +165,22 @@ const JoinForm = ({ role }: JoinFormProps) => {
             >
               * 비밀번호 확인
             </label>
-
-            <S.JoinInput
-              id="checkPasswordInput"
-              type={showPswd ? "text" : "password"}
-              name="passwordConfirmCurrent"
-              value={values.passwordConfirmCurrent}
-              onChange={(e) =>
-                handleChange("passwordConfirmCurrent", e.target.value)
-              }
-            />
+            <S.PasswordInputWrapper>
+              <S.PasswordInput
+                id="checkPasswordInput"
+                type={showConfirmPswd ? "text" : "password"}
+                name="passwordConfirmCurrent"
+                value={values.passwordConfirmCurrent}
+                onChange={(e) =>
+                  handleChange("passwordConfirmCurrent", e.target.value)
+                }
+              />
+              <S.CenterizeBox>
+                <S.EyeBtn onClick={showConfirmPasswordHandler} type="button">
+                  {showConfirmPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                </S.EyeBtn>
+              </S.CenterizeBox>
+            </S.PasswordInputWrapper>
 
             <S.errordiv>
               {errors.passwordConfirmCurrent && (
@@ -286,13 +303,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
               ? "클라이언트 회원가입"
               : "프리랜서 회원가입"}
           </S.JoinButton>
-          <S.passwordView onClick={showPasswordHandler}>
-            {showPswd ? (
-              <EyeOutlined onClick={showPasswordHandler} />
-            ) : (
-              <EyeInvisibleOutlined />
-            )}
-          </S.passwordView>
+
           <button type="button" onClick={() => navigate("/login")}>
             로그인하러 가기
           </button>
