@@ -8,17 +8,18 @@ import ApplicantFreelancerCard from "./ApplicantFreelancerCard";
 const ApplicantFreelancerList = () => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { applicantFreelancers } = useProjectsQueries({
+  const { FreelancersAppliedToTheProjects } = useProjectsQueries({
     currentUserId: userId,
   });
 
-  const totalVolunteers = applicantFreelancers
-    ? applicantFreelancers
-        .map((project) => project.volunteerUser.length)
-        .reduce((acc, cur) => acc + cur, 0)
+  const totalVolunteers = FreelancersAppliedToTheProjects
+    ? FreelancersAppliedToTheProjects.map((project) => project.volunteerUser.length).reduce(
+        (acc, cur) => acc + cur,
+        0
+      )
     : 0;
 
-  if (!applicantFreelancers || totalVolunteers === 0) {
+  if (!FreelancersAppliedToTheProjects || totalVolunteers === 0) {
     return <S.DataStatus>지원한 프리랜서가 없습니다.</S.DataStatus>;
   }
 
@@ -26,7 +27,7 @@ const ApplicantFreelancerList = () => {
     <>
       <S.ListContainer>
         <S.Title>지원한 프리랜서들을 확인해보세요.</S.Title>
-        {applicantFreelancers.map((project) =>
+        {FreelancersAppliedToTheProjects.map((project) =>
           project.volunteerUser?.map((freelancer) => (
             <ApplicantFreelancerCard
               key={`${freelancer.userId}-${project.projectId}`}

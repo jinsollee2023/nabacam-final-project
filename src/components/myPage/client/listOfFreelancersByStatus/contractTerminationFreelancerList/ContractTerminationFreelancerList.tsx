@@ -7,54 +7,46 @@ import ContractTerminationFreelancerCards from "./ContractTerminationFreelancerC
 interface ContractTerminationFreelancerListProps {
   selectedWorkField: string;
   isLastFirst: boolean;
-  terminationedProjectsWithFreelancers: IProjectWithFreelancer[];
+  freelancersWithTerminatedProjects: IProjectWithFreelancer[];
 }
 
 const ContractTerminationFreelancerList = ({
   selectedWorkField,
   isLastFirst,
-  terminationedProjectsWithFreelancers,
+  freelancersWithTerminatedProjects,
 }: ContractTerminationFreelancerListProps) => {
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
 
-  const [filteredFreelancers, setFilteredFreelancers] = useState<
-    IProjectWithFreelancer[]
-  >(terminationedProjectsWithFreelancers!);
+  const [filteredFreelancers, setFilteredFreelancers] = useState<IProjectWithFreelancer[]>(
+    freelancersWithTerminatedProjects!
+  );
   useEffect(() => {
     changeSearchKeyword("");
   }, []);
 
   useEffect(() => {
-    if (terminationedProjectsWithFreelancers) {
-      const filteredfreelancerLists =
-        terminationedProjectsWithFreelancers?.filter((project) => {
-          const lowerCaseSearch = String(searchKeyword).toLowerCase();
-          const workExp = String(project.freelancer.workExp);
-          return (
-            project.freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
-            project.freelancer?.workField?.workField
-              ?.toLowerCase()
-              .includes(lowerCaseSearch) ||
-            project.freelancer?.workField?.workSmallField
-              ?.toLowerCase()
-              .includes(lowerCaseSearch) ||
-            project.title.toLowerCase().includes(lowerCaseSearch) ||
-            workExp === searchKeyword
-          );
-        });
+    if (freelancersWithTerminatedProjects) {
+      const filteredfreelancerLists = freelancersWithTerminatedProjects?.filter((project) => {
+        const lowerCaseSearch = String(searchKeyword).toLowerCase();
+        const workExp = String(project.freelancer.workExp);
+        return (
+          project.freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
+          project.freelancer?.workField?.workField?.toLowerCase().includes(lowerCaseSearch) ||
+          project.freelancer?.workField?.workSmallField?.toLowerCase().includes(lowerCaseSearch) ||
+          project.title.toLowerCase().includes(lowerCaseSearch) ||
+          workExp === searchKeyword
+        );
+      });
       setFilteredFreelancers(filteredfreelancerLists);
     }
-  }, [terminationedProjectsWithFreelancers, searchKeyword]);
+  }, [freelancersWithTerminatedProjects, searchKeyword]);
 
   return (
     <>
       <S.listContainer>
         {[
           ...new Map(
-            filteredFreelancers.map((project) => [
-              project.freelancerId,
-              project,
-            ])
+            filteredFreelancers.map((project) => [project.freelancerId, project])
           ).values(),
         ]
           .sort((a, b) =>
@@ -70,9 +62,7 @@ const ContractTerminationFreelancerList = ({
               project.freelancer.workField?.workField === selectedWorkField
           )
           .map((project) => (
-            <S.ListsBox
-              key={`${project.freelancer?.userId}-${project.projectId}`}
-            >
+            <S.ListsBox key={`${project.freelancer?.userId}-${project.projectId}`}>
               <ContractTerminationFreelancerCards
                 key={`${project.freelancer?.userId}-${project.projectId}`}
                 user={project.freelancer}

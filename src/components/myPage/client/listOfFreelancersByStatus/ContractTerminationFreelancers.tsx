@@ -13,7 +13,7 @@ const ContractTerminationFreelancers = () => {
   const [selectedWorkField, setSelectedWorkField] = useState("전체보기");
 
   const { userId } = useUserStore();
-  const { terminationedProjectsWithFreelancers } = useProjectsQueries({
+  const { freelancersWithTerminatedProjects } = useProjectsQueries({
     currentUserId: userId,
   });
 
@@ -23,7 +23,7 @@ const ContractTerminationFreelancers = () => {
 
   return (
     <>
-      {terminationedProjectsWithFreelancers && terminationedProjectsWithFreelancers?.length > 0 ? (
+      {freelancersWithTerminatedProjects && freelancersWithTerminatedProjects?.length > 0 ? (
         <>
           <S.SearchBox>
             <SearchItemBar />
@@ -38,8 +38,8 @@ const ContractTerminationFreelancers = () => {
           <ContractTerminationFreelancerList
             selectedWorkField={selectedWorkField}
             isLastFirst={isLastFirst}
-            terminationedProjectsWithFreelancers={
-              terminationedProjectsWithFreelancers as IProjectWithFreelancer[]
+            freelancersWithTerminatedProjects={
+              freelancersWithTerminatedProjects as IProjectWithFreelancer[]
             }
           />
         </>

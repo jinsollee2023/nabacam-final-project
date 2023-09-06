@@ -30,7 +30,7 @@ const ContractTerminationFreelancerCards = ({
     suggestedFreelancersData,
     updateSuggestedFreelancersDataMutation,
     refetchprojectDataForSuggestions,
-    terminationedProjectsWithFreelancers,
+    freelancersWithTerminatedProjects,
   } = useProjectsQueries({
     currentUserId: userId,
     selectedProject,
@@ -63,7 +63,7 @@ const ContractTerminationFreelancerCards = ({
   // 프리랜서 아이디별 개수를 세기 위한 객체
   const freelancerCounts: Record<string, number> = {};
 
-  terminationedProjectsWithFreelancers?.forEach((project) => {
+  freelancersWithTerminatedProjects?.forEach((project) => {
     const freelancerId = project.freelancerId as string;
 
     if (!freelancerCounts[freelancerId]) {

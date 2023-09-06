@@ -8,23 +8,18 @@ import OngoingFreelancerCards from "./OngoingFreelancerCards";
 const OngoingFreelancerList = () => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { ongoingProjectsWithFreelancers } = useProjectsQueries({
+  const { FreelancersWithOngoingProjects } = useProjectsQueries({
     currentUserId: userId,
   });
 
-  console.log(ongoingProjectsWithFreelancers);
-
-  // console.log("현재 로그인된 클라이언트 정보", client);
-  // console.log("현재 로그인된 클라이언트의 진행중인 프로젝트 정보", ongoingProjectsWithFreelancers);
-
-  if (!ongoingProjectsWithFreelancers || ongoingProjectsWithFreelancers.length === 0) {
+  if (!FreelancersWithOngoingProjects || FreelancersWithOngoingProjects.length === 0) {
     return <span>진행 중인 프리랜서가 없습니다.</span>;
   }
 
   return (
     <>
       <S.OngoingFreelancerlistContainer>
-        {ongoingProjectsWithFreelancers?.map((project) => (
+        {FreelancersWithOngoingProjects?.map((project) => (
           <S.ListsBox key={`${project.projectId}-${project.freelancer.userId}`}>
             <OngoingFreelancerCards
               key={`${project.projectId}-${project.freelancer.userId}`}

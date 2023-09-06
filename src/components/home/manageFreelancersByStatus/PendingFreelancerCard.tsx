@@ -17,7 +17,7 @@ const PendingFreelancerCard = ({ project, freelancer, userId }: PendingFreelance
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
-    pendingFreelancers,
+    PendingFreelancersToTheProjects,
     updateFreelancerApprovalMutation,
     deleteVolunteerAndPendingFreelancerMutation,
     deletePendingFreelancerMutation,
@@ -63,7 +63,7 @@ const PendingFreelancerCard = ({ project, freelancer, userId }: PendingFreelance
     setIsModalOpen(false);
   };
 
-  if (!pendingFreelancers || pendingFreelancers.length === 0) {
+  if (!PendingFreelancersToTheProjects || PendingFreelancersToTheProjects.length === 0) {
     return <S.DataStatus>보류한 프리랜서가 없습니다.</S.DataStatus>;
   }
 
