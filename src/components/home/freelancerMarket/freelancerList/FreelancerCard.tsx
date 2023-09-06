@@ -144,7 +144,7 @@ const FreelancerCard = ({
       )}
       <S.FreelancerList>
         {portfoliosData && (
-          <S.PortfolioList>
+          <>
             {portfoliosData
               .filter(
                 (portfolioItem) =>
@@ -214,7 +214,7 @@ const FreelancerCard = ({
                 </S.PortfolioTitleBox>
               </li>
             )}
-          </S.PortfolioList>
+          </>
         )}
         <S.MiniProfileBox>
           <S.FreelancerContentBox
