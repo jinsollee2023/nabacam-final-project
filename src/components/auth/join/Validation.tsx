@@ -1,6 +1,14 @@
 import React from "react";
 
-const Validation = (values: any) => {
+interface initialErrorsForm {
+  email: string;
+  password: string;
+  passwordConfirmCurrent: string;
+  name: string;
+  phone: string;
+}
+
+const Validation = (values: initialErrorsForm) => {
   const errors = {
     email: "",
     password: "",

@@ -1,16 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
 import { getUser } from "src/api/User";
 
 import LoginValidation from "./LoginValidation";
-import { Tabs } from "antd";
 import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-
-type TabPosition = "left" | "right" | "top" | "bottom";
 
 interface LoginForm {
   email: string;
@@ -22,17 +19,23 @@ const LoginComp = () => {
     email: "",
     password: "",
   };
+  const initialErrors: LoginForm = {
+    email: "",
+    password: "",
+  };
 
-  // const { email, setUserEmail } = useUserStore();
-  const [values, setValues] = useState<any>(initialValues);
-  const [findPassword, setFindPassword] = useState(false);
+  const [values, setValues] = useState<LoginForm>(initialValues);
+  const [findPassword, setFindPassword] = useState<boolean>(false);
   const [showPswd, setShowPswd] = useState<boolean>(false);
-  const [errors, setErrors] = useState<any>("");
+  const [errors, setErrors] = useState<LoginForm>(initialErrors);
   const { setUserId, setUserRole, setUser } = useUserStore();
+  useEffect(() => {
+    setErrors(LoginValidation(values));
+  }, [values]);
 
   const navigate = useNavigate();
 
-  const loginHandler = async (e: any) => {
+  const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors(LoginValidation(values));
     if (!errors.email && !errors.password) {
@@ -43,6 +46,7 @@ const LoginComp = () => {
         });
         if (error) {
           console.error(error);
+          alert("로그인 정보가 일치하지 않습니다.");
         } else if (data) {
           const user = await getUser(data.user.id as string);
           setUserId(user.userId as string);

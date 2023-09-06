@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 
 interface PreviewImageProps {
-  handlePhotoURLOnChange: (url: any) => void;
+  handlePhotoURLOnChange: (url: File) => void;
   defaultImage: string;
 }
 
@@ -17,7 +17,7 @@ const PreviewImage = ({
     if (imageFile) {
       const imageUrl = URL.createObjectURL(imageFile);
       setSelectedImage(imageUrl);
-      handlePhotoURLOnChange(e.target.files?.[0]);
+      handlePhotoURLOnChange(imageFile);
     }
   };
 
