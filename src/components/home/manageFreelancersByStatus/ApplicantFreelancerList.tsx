@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { S } from "./manageFreelancersByStatusStyle";
-import { IUser } from "../../../Types";
 import { useUserStore } from "../../../zustand/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
