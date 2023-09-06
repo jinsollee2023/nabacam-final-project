@@ -28,6 +28,7 @@ interface useProjectsQueriesProps {
   selectedProject?: Project | null;
 }
 
+// 선택한 sortLabel을 기준으로 프로젝트 리스트 불러오기
 const useProjectsQueries = ({
   currentUserId,
   sortLabel,
@@ -41,7 +42,6 @@ const useProjectsQueries = ({
         currentUserId as string,
         sortLabel as string
       );
-
       return projectsData;
     },
     {
@@ -75,7 +75,7 @@ const useProjectsQueries = ({
     }
   );
 
-  // 지원한 프로젝트 확인에 사용
+  // 현재 로그인한 유저가 지원한 프로젝트 확인에 사용
   const {
     data: appliedProjectList,
     isError: appliedProjectListIsError,
@@ -182,6 +182,10 @@ const useProjectsQueries = ({
     }
   );
 
+  // 현재 로그인한 클라이언트의 프로젝트 중에서
+  // 상태가 진행 전인 프로젝트들을 불러온 후
+  // 해당 프로젝트들의 SuggestedFreelancers값에
+  // 프리랜서 마켓에서 선택한 프리랜서의 id가 없는 프로젝트만 가져오기
   const {
     data: projectDataForSuggestions,
     isLoading: projectDataForSuggestionsIsLoading,

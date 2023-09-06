@@ -66,7 +66,7 @@ const FreelancerCard = ({
     );
   }
   if (projectDataForSuggestionsIsError) {
-    return <span>freelancers Error..</span>;
+    return <span>project loading Error..</span>;
   }
   if (portfoliosIsLoading) {
     return (
@@ -95,6 +95,8 @@ const FreelancerCard = ({
     }
     const suggestedFreelancers =
       suggestedFreelancersData?.SuggestedFreelancers || [];
+
+    // 새롭게 제안한 프리랜서 추가
     const updatedSuggestedFreelancers = [
       ...(suggestedFreelancers as string[]),
       freelancerItem.userId,
