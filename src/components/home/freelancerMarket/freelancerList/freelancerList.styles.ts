@@ -20,15 +20,16 @@ interface PortfolioItemProps {
 
 export const S = {
   FreelancerListContainer: styled.div`
-    width: 100%;
+    max-width: 100%;
+    min-width: 740px;
     height: 72.5vh;
     overflow-y: scroll;
     margin-top: 20px;
 
     display: grid;
-    grid-template-columns: 420px 420px 420px;
+    grid-template-columns: 32% 32% 32%;
     grid-template-rows: 350px 350px 350px;
-    gap: 20px;
+    gap: 1.5%;
 
     &::-webkit-scrollbar {
       width: 12px;
@@ -46,17 +47,18 @@ export const S = {
   `,
 
   FreelancerList: styled.ul`
-    width: 420px;
+    width: 100%;
   `,
 
   PortfolioItem: styled.div<PortfolioItemProps>`
+    width: 100%;
     position: relative;
     display: ${(props) => (props.isselected ? "block" : "none")};
   `,
 
   PortfoliothumbNailImageBox: styled.div`
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-    width: 420px;
+    width: 100%;
     height: 250px;
     border-radius: 15px;
     background-color: black;
@@ -71,7 +73,8 @@ export const S = {
   `,
 
   PortfolioTitleBox: styled.div`
-    width: 420px;
+    max-width: 100%;
+    min-width: 240px;
     display: flex;
     justify-content: center;
     padding: 20px 0;
@@ -83,20 +86,13 @@ export const S = {
 
   MiniProfileBox: styled.li`
     background-color: #f1f1f1;
-    /* border: 1px solid var(--main-blue); */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 5px 10px;
     border-radius: 15px;
-    width: 420px;
-  `,
-
-  PortfolioList: styled.ul`
-    display: flex;
-    width: 420px;
-    overflow: hidden;
+    width: 100%;
   `,
 
   indicatorWrapper: styled.div`
