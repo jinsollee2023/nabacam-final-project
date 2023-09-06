@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import Modal from "../../../../components/modal/Modal";
-import useResumeExperienceQueries from "../../../../hooks/useResumeExperienceQueries";
-import { useUserStore } from "../../../../zustand/useUserStore";
-import type { ResumeExperience } from "../../../../Types";
-import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
-import EditResumeExperienceModal from "./EditResumeExperienceModal";
-import { S } from "./Resume.styles";
+import Modal from "../../../../../components/modal/Modal";
+import useResumeExperienceQueries from "../../../../../hooks/useResumeExperienceQueries";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import type { ResumeExperience } from "../../../../../Types";
+import { useResumeExperienceStore } from "../../../../../zustand/useResumeExperienceStore";
+import AddResumeExperienceModal from "./AddResumeExperienceModal";
+import { S } from "../Resume.styles";
 import { CommonS } from "src/components/common/button/commonButton";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ExperienceProps {
   experience: ResumeExperience;
@@ -24,15 +26,34 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const deleteExperienceHandler = () => {
-    deleteExperienceMutation.mutate({ userId, experienceId });
+    const confirmDelete = window.confirm("삭제하시겠습니까?");
+    if (confirmDelete) {
+      try {
+        deleteExperienceMutation.mutate({ userId, experienceId });
+        toast.success("삭제되었습니다.");
+      } catch (error) {
+        toast.error("오류가 발생했습니다.");
+      }
+    }
   };
 
   const updateExperienceHandler = () => {
-    updateExperienceMutation.mutate({
-      userId,
-      experienceId,
-      newExperience,
-    });
+    if (!newExperience) {
+      toast.error("경력사항을 입력해주세요.");
+      return;
+    }
+
+    try {
+      updateExperienceMutation.mutate({
+        userId,
+        experienceId,
+        newExperience,
+      });
+      toast.success("수정되었습니다.");
+    } catch (error) {
+      toast.error("오류가 발생했습니다.");
+    }
+
     setIsUpdateModalOpen(false);
   };
 
@@ -91,7 +112,7 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
             </>
           }
         >
-          <EditResumeExperienceModal experience={experience} />
+          <AddResumeExperienceModal experience={experience} />
         </Modal>
       )}
     </>

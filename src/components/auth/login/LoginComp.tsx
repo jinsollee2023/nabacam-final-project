@@ -1,40 +1,47 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
 import { getUser } from "src/api/User";
-
 import LoginValidation from "./LoginValidation";
-import { Tabs } from "antd";
-import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-
-type TabPosition = "left" | "right" | "top" | "bottom";
+import { S } from "./LoginComp.styles";
 
 interface LoginForm {
   email: string;
   password: string;
 }
 
+// values와 erros 초기값 설정
 const LoginComp = () => {
   const initialValues: LoginForm = {
     email: "",
     password: "",
   };
+  const initialErrors: LoginForm = {
+    email: "",
+    password: "",
+  };
 
-  // const { email, setUserEmail } = useUserStore();
-  const [values, setValues] = useState<any>(initialValues);
-  const [findPassword, setFindPassword] = useState(false);
+  const [values, setValues] = useState<LoginForm>(initialValues);
+  const [findPassword, setFindPassword] = useState<boolean>(false);
   const [showPswd, setShowPswd] = useState<boolean>(false);
-  const [errors, setErrors] = useState<any>("");
+  const [errors, setErrors] = useState<LoginForm>(initialErrors);
   const { setUserId, setUserRole, setUser } = useUserStore();
+
+  // errors의 초기에도 확인할수있도록 작동하는 useEffect
+  useEffect(() => {
+    setErrors(LoginValidation(values));
+  }, [values]);
 
   const navigate = useNavigate();
 
-  const loginHandler = async (e: any) => {
+  const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors(LoginValidation(values));
+
+    // errors 글자가 없을때만 통신해라 라는 조건문
     if (!errors.email && !errors.password) {
       try {
         const { data, error } = await supabase.auth.signInWithPassword({
@@ -43,12 +50,13 @@ const LoginComp = () => {
         });
         if (error) {
           console.error(error);
+          alert("로그인 정보가 일치하지 않습니다.");
         } else if (data) {
           const user = await getUser(data.user.id as string);
           setUserId(user.userId as string);
           setUserRole(user.role as string);
           setUser(user);
-          navigate("/");
+          navigate("/home");
         }
       } catch (error) {
         console.error(error);
@@ -74,22 +82,29 @@ const LoginComp = () => {
         <S.Loginfont>로그인</S.Loginfont>
         <form onSubmit={loginHandler}>
           <S.LoginBack>
-            <span>이메일</span>
             <S.LoginInput
               type="email"
               name="email"
-              placeholder="gmali@naver.com"
+              placeholder="이메일을 입력해주세요."
               value={values.email}
               onChange={handleChange}
             />
             <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
+            <S.PasswordInputWrapper>
+              <S.PasswordInput
+                type={showPswd ? "text" : "password"}
+                name="password"
+                value={values.password}
+                onChange={handleChange}
+                placeholder="비밀번호를 입력해주세요."
+              />
+              <S.CenterizeBox>
+                <S.EyeBtn type="button" onClick={showPasswordHandler}>
+                  {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                </S.EyeBtn>
+              </S.CenterizeBox>
+            </S.PasswordInputWrapper>
 
-            <S.LoginInput
-              type={showPswd ? "text" : "password"}
-              name="password"
-              value={values.password}
-              onChange={handleChange}
-            />
             <div>{errors.password && <p>{errors.password}</p>}</div>
           </S.LoginBack>
 
@@ -102,84 +117,9 @@ const LoginComp = () => {
           회원가입 하기
         </S.passwordFindButton>
         {findPassword && <EmailCheck openModal={findPasswordModalHandler} />}
-        <S.passwordView onClick={showPasswordHandler}>
-          {showPswd ? (
-            <EyeOutlined onClick={showPasswordHandler} />
-          ) : (
-            <EyeInvisibleOutlined />
-          )}
-        </S.passwordView>
       </S.LoginBG>
     </>
   );
 };
 
 export default LoginComp;
-
-const S = {
-  LoginInput: styled.input`
-    align-items: center;
-    width: 100%;
-    height: 40%;
-    border-radius: 10px;
-    background-color: #dbcfcf;
-  `,
-  LoginBack: styled.div`
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 120px;
-  `,
-  Loginfont: styled.h1`
-    width: 100%;
-    height: 48px;
-    margin-bottom: 5%;
-    text-align: center;
-    font-weight: 284px;
-    font-size: 48px;
-  `,
-  LoginButton: styled.button`
-    width: 80%;
-    height: 50px;
-    margin-left: 10%;
-    margin-top: 15%;
-    border-radius: 10px;
-    font-weight: 62px;
-    font-size: 28px;
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    box-shadow: 2px 2px 2px gray;
-  `,
-  LoginBG: styled.div`
-    position: relative;
-    top: 20%;
-    left: 45%;
-
-    width: 40%;
-    height: 50%;
-    border-radius: 10px;
-  `,
-  passwordView: styled.button`
-    position: relative;
-    top: -41.5%;
-    left: 94%;
-    width: 5%;
-    height: 5%;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    border-radius: 10px;
-  `,
-  errordiv: styled.div`
-    height: 20px;
-  `,
-  passwordFindButton: styled.button`
-    width: 100%;
-    height: 43px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    background-color: white;
-  `,
-};

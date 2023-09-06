@@ -5,10 +5,10 @@ export const getExperience = async (userId: string) => {
   let { data, error } = await supabase
     .from("users")
     .select("resumeExperience")
-    .eq("userId", userId);
+    .eq("userId", userId)
+    .maybeSingle(); // {resumeExperience: array[8]}
 
-  // data 내에서 resumeExperience 필드 배열만 추출
-  const resumeExperienceArray = data?.[0]?.resumeExperience || [];
+  const resumeExperienceArray = data?.resumeExperience || []; // resumeExperience배열만 추출
 
   return resumeExperienceArray;
 };

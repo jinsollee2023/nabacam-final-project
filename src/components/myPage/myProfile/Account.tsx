@@ -28,7 +28,7 @@ const Account = () => {
     queryClient.invalidateQueries([user]);
   }, [user, setUser]);
 
-  const updateProfileInfoButtonHandler = async (e: any) => {
+  const updateProfileInfoButtonHandler = async () => {
     const file = newProfileInfo.photo;
 
     const updatedDataExceptPhotoURL = {

@@ -1,21 +1,19 @@
-import React, { useState } from "react";
-import { Tabs } from "antd";
+import { useState } from "react";
 
 import { useUserStore } from "../../../zustand/useUserStore";
 import JoinForm from "./JoinForm";
 import { S } from "./joinComp.styles";
-type TabPosition = "left" | "right" | "top" | "bottom";
 
 const JoinComp = () => {
-  const [tabPosition, setTabPosition] = useState<TabPosition>("left");
   const { userRole, setUserRole } = useUserStore();
 
   return (
+    // ant design 사용 삼항연산자로 탭 클릭시 변경
     <>
       <S.JoinCompContainer>
         <S.TabsBack>
           <S.Tabs
-            tabPosition={tabPosition}
+            tabPosition="left"
             items={new Array(2).fill(null).map((_, i) => {
               const id = String(i + 1);
               return {

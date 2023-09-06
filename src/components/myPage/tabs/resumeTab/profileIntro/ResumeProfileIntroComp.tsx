@@ -1,13 +1,14 @@
-import { styled } from "styled-components";
 import React, { useState } from "react";
-import { useUserStore } from "../../../../zustand/useUserStore";
-import useResumeProfileIntroQueries from "../../../../hooks/useResumeProfileIntroQueries";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import useResumeProfileIntroQueries from "../../../../../hooks/useResumeProfileIntroQueries";
 import { MdAddCircle } from "react-icons/md";
-import Modal from "../../../../components/modal/Modal";
+import Modal from "../../../../../components/modal/Modal";
 import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
-import { useResumeProfileIntroStore } from "../../../../zustand/useResumeProfileIntroStore";
-import { S } from "./Resume.styles";
+import { useResumeProfileIntroStore } from "../../../../../zustand/useResumeProfileIntroStore";
+import { S } from "../Resume.styles";
 import { IoMdSettings } from "react-icons/io";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ResumeProfileIntroComp = () => {
   const { user } = useUserStore();
@@ -26,10 +27,20 @@ const ResumeProfileIntroComp = () => {
   ) => {
     e.preventDefault();
 
-    addProfileIntroMutation.mutate({
-      newProfileIntroInput,
-      userId,
-    });
+    if (!newProfileIntroInput) {
+      toast.error("프로필 소개를 입력해주세요.");
+      return;
+    }
+
+    try {
+      await addProfileIntroMutation.mutateAsync({
+        newProfileIntroInput,
+        userId,
+      });
+      toast.success("프로필 소개가 성공적으로 등록되었습니다.");
+    } catch (error) {
+      toast.error("오류가 발생했습니다.");
+    }
 
     setIsAddModalOpen(false);
   };

@@ -1,20 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
 import Validation from "../join/Validation";
-import { validate } from "uuid";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
+interface initialErrorsForm {
+  email: string;
+  password: string;
+  passwordConfirmCurrent: string;
+  name: string;
+  phone: string;
+}
+
+// 패스워드 변경 로직
+
 const ResetPassword = () => {
-  const initialValues: any = {
+  // validation check의 erros form 과 맞추기 위해 넣었음
+  const initialValues: initialErrorsForm = {
+    email: "",
     password: "",
+    passwordConfirmCurrent: "",
+    name: "",
+    phone: "",
   };
   const navigate = useNavigate();
-  const [values, setValues] = useState<any>(initialValues);
-  const [errors, setErrors] = useState<any>({});
+  const [values, setValues] = useState<initialErrorsForm>(initialValues);
+  const [errors, setErrors] = useState<initialErrorsForm>(initialValues);
   const [showPswd, setShowPswd] = useState<boolean>(false);
 
+  // errors 바로확인하고 validation 체크 후 진행하게해주기위해 useEffect 사용
+
+  useEffect(() => {
+    setErrors(Validation(values));
+  }, [values]);
+
+  //  password 업데이트 하는 로직
   const updatePasswordHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors(Validation(values));
@@ -25,7 +46,7 @@ const ResetPassword = () => {
         });
         if (data) {
           alert("비밀번호가 성공적으로 바뀌었습니다.");
-          setValues("");
+
           navigate("/");
         }
       } catch (error) {

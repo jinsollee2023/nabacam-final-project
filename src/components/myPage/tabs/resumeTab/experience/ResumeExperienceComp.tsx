@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useUserStore } from "../../../../zustand/useUserStore";
-import useResumeExperienceQueries from "../../../../hooks/useResumeExperienceQueries";
-import Modal from "../../../modal/Modal";
-import type { ResumeExperience } from "../../../../Types";
-import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
+import { useUserStore } from "../../../../../zustand/useUserStore";
+import useResumeExperienceQueries from "../../../../../hooks/useResumeExperienceQueries";
+import Modal from "../../../../modal/Modal";
+import type { ResumeExperience } from "../../../../../Types";
+import { useResumeExperienceStore } from "../../../../../zustand/useResumeExperienceStore";
 import ResumeExperienceCard from "./ResumeExperienceCard";
 import { BsPlusSquareDotted } from "react-icons/bs";
-import { S } from "./Resume.styles";
-import EditResumeExperienceModal from "./EditResumeExperienceModal";
+import { S } from "../Resume.styles";
+import AddResumeExperienceModal from "./AddResumeExperienceModal";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ResumeExperienceComp = () => {
   const { user } = useUserStore();
@@ -29,10 +31,16 @@ const ResumeExperienceComp = () => {
   ) => {
     e.preventDefault();
 
-    addExperienceMutation.mutate({
-      newExperience,
-      userId,
-    });
+    try {
+      addExperienceMutation.mutate({
+        newExperience,
+        userId,
+      });
+      toast.success("경력사항이 성공적으로 등록되었습니다.");
+    } catch (error) {
+      toast.error("오류가 발생했습니다.");
+    }
+
     setIsAddModalOpen(false);
   };
 
@@ -70,7 +78,7 @@ const ResumeExperienceComp = () => {
             </>
           }
         >
-          <EditResumeExperienceModal />
+          <AddResumeExperienceModal />
         </Modal>
       )}
     </>

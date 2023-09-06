@@ -1,6 +1,16 @@
 import React from "react";
 
-const Validation = (values: any) => {
+interface initialErrorsForm {
+  email: string;
+  password: string;
+  passwordConfirmCurrent: string;
+  name: string;
+  phone: string;
+}
+
+// validation 함수 erros의 초기값 설정
+
+const Validation = (values: initialErrorsForm) => {
   const errors = {
     email: "",
     password: "",

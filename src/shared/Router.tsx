@@ -1,4 +1,11 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Link,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import Layout from "../components/common/Layout";
 import GlobalStyles from "../GlobalStyles";
 import Home from "../pages/Home";
@@ -20,12 +27,13 @@ const Router = () => {
       <Layout>
         <Routes>
           <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/my-page" element={<MyPage />} />
             <Route path="/project-management" element={<ProjectManagement />} />
             <Route path="/review" element={<Review />} />
           </Route>
+          <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<LoginComp />} />
           <Route path="/resetpassword" element={<ResetPassword />} />

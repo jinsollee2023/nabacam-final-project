@@ -1,6 +1,12 @@
 import React from "react";
 
-const LoginValidation = (values: any) => {
+interface LoginForm {
+  email: string;
+  password: string;
+}
+// loginValidation 함수
+
+const LoginValidation = (values: LoginForm) => {
   const errors = {
     email: "",
     password: "",

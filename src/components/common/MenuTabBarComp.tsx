@@ -42,7 +42,7 @@ const MenuTabBarComp = ({ menu, children }: MenuTabBarCompProps) => {
         {currentTab === "프로젝트 탐색" && <ProjectNavigation />}
         {currentTab === "지원한 프로젝트" && <AppliedProjectList />}
         {currentTab === "제안받은 프로젝트" && <SuggestedProjectList />}
-        {currentTab === "지원한 프리랜서 확인" && <ApplicantFreelancerList />}
+        {currentTab === "지원한 프리랜서" && <ApplicantFreelancerList />}
         {currentTab === "보류한 프리랜서" && <PendingFreelancerList />}
         {currentTab === "우리 기업 구성원" && <MemberList />}
         {currentTab === "진행 중인 프리랜서" && <OngoingFreelancerList />}
@@ -65,7 +65,6 @@ const S = {
     width: 100%;
     height: 70px;
     border-bottom: 1px solid grey;
-    box-shadow: 0px 3px 4px #f2f2f2;
 
     display: flex;
     align-items: center;
@@ -79,6 +78,6 @@ const S = {
     cursor: pointer;
   `,
   CompContainer: styled.div`
-    padding: 30px;
+    padding: 30px 30px 0px 30px;
   `,
 };

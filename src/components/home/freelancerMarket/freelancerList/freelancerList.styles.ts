@@ -20,15 +20,18 @@ interface PortfolioItemProps {
 
 export const S = {
   FreelancerListContainer: styled.div`
-    width: 100%;
+    max-width: 100%;
+    min-width: 740px;
     height: 72.5vh;
     overflow-y: scroll;
     margin-top: 20px;
+    padding: 5px 0 5px 5px;
 
     display: grid;
-    grid-template-columns: 475px 475px 475px;
+    grid-template-columns: 31% 31% 31%;
     grid-template-rows: 350px 350px 350px;
-    gap: 20px;
+    grid-column-gap: 2%;
+    grid-row-gap: 7%;
 
     &::-webkit-scrollbar {
       width: 12px;
@@ -46,19 +49,26 @@ export const S = {
   `,
 
   FreelancerList: styled.ul`
-    width: 455px;
+    width: 100%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+    padding: 10px;
   `,
 
   PortfolioItem: styled.div<PortfolioItemProps>`
+    width: 100%;
     position: relative;
     display: ${(props) => (props.isselected ? "block" : "none")};
   `,
 
   PortfoliothumbNailImageBox: styled.div`
-    width: 455px;
+    box-shadow: 1px 1px 3px 1px #dadce0;
+    width: 100%;
     height: 250px;
     border-radius: 15px;
-    background-color: #403e3e;
     overflow: hidden;
     animation: ${fadeIn} 0.2s ease-in-out;
 
@@ -70,10 +80,12 @@ export const S = {
   `,
 
   PortfolioTitleBox: styled.div`
-    width: 455px;
+    max-width: 100%;
+    min-width: 240px;
     display: flex;
     justify-content: center;
     padding: 20px 0;
+    border-bottom: 1px solid #f0f0f0;
   `,
 
   PortfolioTitle: styled.h6`
@@ -81,20 +93,14 @@ export const S = {
   `,
 
   MiniProfileBox: styled.li`
-    background-color: rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 5px 10px;
     border-radius: 15px;
-    width: 455px;
-  `,
-
-  PortfolioList: styled.ul`
-    display: flex;
-    width: 455px;
-    overflow: hidden;
+    width: 100%;
+    background-color: white;
   `,
 
   indicatorWrapper: styled.div`
@@ -106,14 +112,15 @@ export const S = {
   `,
 
   Indicator: styled.span<IndicatorProps>`
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     display: inline-block;
     border-radius: 50%;
     margin: 0 5px;
     cursor: pointer;
     transition: 0.5s;
-    background-color: ${(props) => (props.selected ? "black" : "gray")};
+    background-color: ${(props) =>
+      props.selected ? "var(--main-blue)" : "var(--lighter-gray)"};
   `,
 
   SuggestButton: styled.button`
@@ -142,7 +149,7 @@ export const S = {
 
   FreelancerName: styled.span`
     font-weight: bold;
-    color: #045fb4;
+    color: var(--main-blue);
     font-size: 18px;
     margin-right: 5px;
   `,

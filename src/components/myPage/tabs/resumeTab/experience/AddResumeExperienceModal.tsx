@@ -1,24 +1,16 @@
-import {
-  DatePickerProps,
-  Modal,
-  Select,
-  SelectProps,
-  Space,
-  DatePicker,
-} from "antd";
+import { DatePickerProps, Select, Space, DatePicker } from "antd";
 import React, { useEffect, useState } from "react";
-import { styled } from "styled-components";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
-import type { ResumeExperience } from "../../../../Types";
-import { useResumeExperienceStore } from "../../../../zustand/useResumeExperienceStore";
+import type { ResumeExperience } from "../../../../../Types";
+import { useResumeExperienceStore } from "../../../../../zustand/useResumeExperienceStore";
 import dayjs from "dayjs";
-import { S } from "./Resume.styles";
+import { S } from "../Resume.styles";
 
 interface ExperienceProps {
   experience?: ResumeExperience;
 }
-const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
+const AddResumeExperienceModal = ({ experience }: ExperienceProps) => {
   const { changeNewExperience } = useResumeExperienceStore();
 
   const [pastWorkPlace, setPastWorkPlace] = useState(
@@ -69,7 +61,6 @@ const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
     pastWorkPlace: pastWorkPlace,
     pastWorkPosition: pastWorkPosition,
   };
-  // console.log(newExperience);
 
   useEffect(() => {
     changeNewExperience(newExperience);
@@ -88,6 +79,7 @@ const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
         <S.Label>근무분야</S.Label>
         <Space wrap style={{ marginTop: "15px" }}>
           <Select
+            className="pastWorkField"
             defaultValue={selectedPastWorkField}
             style={{ width: 460 }}
             onChange={(value) => setSelectedPastWorkField(value)}
@@ -107,6 +99,7 @@ const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
         <S.Label>근무형태 </S.Label>
         <Space wrap style={{ marginTop: "15px" }}>
           <Select
+            className="pastEmploymentType"
             defaultValue={selectedPastEmploymentType}
             style={{ width: 460 }}
             onChange={(value) => setSelectedPastEmploymentType(value)}
@@ -122,6 +115,7 @@ const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
         <br />
         <S.Label>근무지</S.Label>
         <S.Input
+          name="pastWorkPlace"
           type="text"
           value={pastWorkPlace}
           onChange={(e) => onChangePastWorkPlaceHandler(e.target.value)}
@@ -131,6 +125,7 @@ const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
         <br />
         <S.Label>직책 </S.Label>
         <S.Input
+          name="pastWorkPosition"
           type="text"
           value={pastWorkPosition}
           onChange={(e) => onChangePastWorkPositionHandler(e.target.value)}
@@ -141,6 +136,7 @@ const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
         <S.Label>근무 일자</S.Label>
         <S.subText>입사일을 선택해주세요.</S.subText>
         <DatePicker
+          name="pastWorkStartDate"
           onChange={onChangePastWorkStartDateHandler}
           defaultValue={
             pastWorkStartDate ? dayjs(pastWorkStartDate) : undefined
@@ -159,4 +155,4 @@ const EditResumeExperienceModal = ({ experience }: ExperienceProps) => {
   );
 };
 
-export default EditResumeExperienceModal;
+export default AddResumeExperienceModal;

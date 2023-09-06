@@ -104,12 +104,12 @@ const ContractTerminationFreelancerCards = ({
                       </S.ProfileContents>
                       <S.ContactBox>
                         <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
-                          <FiPhoneCall size={20} /> {user.contact.phone}
+                          <FiPhoneCall size={18} /> {user.contact.phone}
                         </S.Contact>
                       </S.ContactBox>
                       <S.ContactBox>
                         <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
-                          <FiMail size={20} /> {user.contact.email}
+                          <FiMail size={18} /> {user.contact.email}
                         </S.Contact>
                       </S.ContactBox>
                     </div>

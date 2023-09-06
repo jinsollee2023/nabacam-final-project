@@ -25,12 +25,12 @@ const TaskImportance = ({ task, userRole }: TaskImportanceProps) => {
 
   return (
     <S.TaskDetailBoxWrapper width="25%">
-      <S.TaskDetailBox>
+      <S.TaskDetailBox cursor={userRole === "freelancer" ? "pointer" : null}>
         {Array.from({ length: yellowStars }, (_, index) => {
           return (
             <span
               key={index}
-              style={{ color: "yellow" }}
+              style={{ color: "#FFD336" }}
               onClick={() => importanceIconOnClickHandler(index + 1)}
             >
               <AiFillStar />
@@ -41,7 +41,7 @@ const TaskImportance = ({ task, userRole }: TaskImportanceProps) => {
           return (
             <span
               key={index}
-              style={{ color: "grey" }}
+              style={{ color: "var(--darker-gray)" }}
               onClick={() =>
                 importanceIconOnClickHandler(yellowStars + index + 1)
               }
