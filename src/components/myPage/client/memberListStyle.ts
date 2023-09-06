@@ -13,7 +13,7 @@ export const S = {
   `,
   MemberListContainer: styled.div`
     width: 100%;
-    height: 61vh;
+    height: 58vh;
     overflow: auto;
   `,
   MemberList: styled.div`

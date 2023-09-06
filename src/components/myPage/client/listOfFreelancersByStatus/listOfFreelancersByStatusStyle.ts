@@ -25,7 +25,14 @@ export const S = {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
-    height: 61vh;
+    height: 48vh;
+    overflow: auto;
+  `,
+  OngoingFreelancerlistContainer: styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    height: 64vh;
     overflow: auto;
   `,
   ListsBox: styled.div`

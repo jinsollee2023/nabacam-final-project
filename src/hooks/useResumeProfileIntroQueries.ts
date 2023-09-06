@@ -7,6 +7,7 @@ import {
   updateFreelancerResumeProfileIntro,
 } from "../api/ResumeProfileIntro";
 
+/** 마이페이지 이력서 프로필 소개글 : C, R, U*/
 const useResumeProfileIntroQueries = (userId: string) => {
   const addProfileIntroMutation = useMutation(addFreelancerResumeProfileIntro, {
     onSuccess: () => {
