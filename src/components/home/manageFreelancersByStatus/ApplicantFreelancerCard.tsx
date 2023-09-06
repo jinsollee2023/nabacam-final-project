@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { S } from "./manageFreelancersByStatusStyle";
+import { S } from "./manageFreelancersByStatus.style";
 import Modal from "../../modal/Modal";
 import { IUser, Project } from "../../../Types";
 import ApplicantFreelancerInfoModal from "./ApplicantFreelancerInfoModal";

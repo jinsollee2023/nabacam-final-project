@@ -26,8 +26,6 @@ export const S = {
     flex-wrap: wrap;
     gap: 30px;
     height: 48vh;
-<<<<<<< HEAD
-=======
     overflow: auto;
   `,
   OngoingFreelancerlistContainer: styled.div`
@@ -35,7 +33,6 @@ export const S = {
     flex-wrap: wrap;
     gap: 30px;
     height: 64vh;
->>>>>>> 288887971bb54a4585b0baa2348251d4a580984f
     overflow: auto;
   `,
   ListsBox: styled.div`

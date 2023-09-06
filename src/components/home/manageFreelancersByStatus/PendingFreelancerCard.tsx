@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { S } from "./manageFreelancersByStatusStyle";
+import { S } from "./manageFreelancersByStatus.style";
 import { Project, User } from "src/Types";
 import Modal from "../../modal/Modal";
 import { IUser } from "../../../Types";

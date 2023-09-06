@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IUser, Portfolio } from "../../../Types";
 import { useQuery } from "@tanstack/react-query";
 import { getPortfolio } from "../../../api/Portfolio";
-import { S } from "./freelancerInfoStyle";
+import { S } from "./freelancerInfo.style";
 import { useUserStore } from "../../../zustand/useUserStore";
 import PortfolioDetailModal from "../../myPage/tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
 import Modal from "../Modal";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { S } from "../listOfFreelancersByStatusStyle";
+import { S } from "../listOfFreelancersByStatus.style";
 import { IUser, Project, User } from "../../../../../Types";
 import dayjs from "dayjs";
 import { FiPhoneCall } from "react-icons/fi";
