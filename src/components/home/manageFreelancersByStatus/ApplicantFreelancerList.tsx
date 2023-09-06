@@ -12,12 +12,13 @@ const ApplicantFreelancerList = () => {
     currentUserId: userId,
   });
 
-  if (
-    !applicantFreelancers ||
-    applicantFreelancers
-      .map((project) => project.volunteerUser.length)
-      .reduce((acc, cur) => acc + cur) === 0
-  ) {
+  const totalVolunteers = applicantFreelancers
+    ? applicantFreelancers
+        .map((project) => project.volunteerUser.length)
+        .reduce((acc, cur) => acc + cur, 0)
+    : 0;
+
+  if (!applicantFreelancers || totalVolunteers === 0) {
     return <S.DataStatus>지원한 프리랜서가 없습니다.</S.DataStatus>;
   }
 
