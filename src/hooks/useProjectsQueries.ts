@@ -306,8 +306,12 @@ const useProjectsQueries = ({
       updateApprovalFreelancer(userId, projectId, endDate),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["applicantFreelancers"]);
-        queryClient.invalidateQueries(["pendingFreelancers"]);
+        return Promise.all([
+          queryClient.invalidateQueries(["applicantFreelancers"]),
+          queryClient.invalidateQueries(["pendingFreelancers"]),
+          queryClient.fetchInfiniteQuery(["ongoingProjectsWithFreelancers"]),
+          queryClient.fetchInfiniteQuery(["terminationedProjectsWithFreelancers"]),
+        ]);
       },
     }
   );
@@ -317,8 +321,12 @@ const useProjectsQueries = ({
       addProjectIdToUser(userId, projectIds),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["applicantFreelancers"]);
-        queryClient.invalidateQueries(["pendingFreelancers"]);
+        return Promise.all([
+          queryClient.invalidateQueries(["applicantFreelancers"]),
+          queryClient.invalidateQueries(["pendingFreelancers"]),
+          queryClient.fetchInfiniteQuery(["ongoingProjectsWithFreelancers"]),
+          queryClient.fetchInfiniteQuery(["terminationedProjectsWithFreelancers"]),
+        ]);
       },
     }
   );
@@ -350,8 +358,12 @@ const useProjectsQueries = ({
     }) => deleteVolunteerAndPendingFreelancer(projectId, updateVolunteer, updatePendingFreelancer),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["applicantFreelancers"]);
-        queryClient.invalidateQueries(["pendingFreelancers"]);
+        return Promise.all([
+          queryClient.invalidateQueries(["applicantFreelancers"]),
+          queryClient.invalidateQueries(["pendingFreelancers"]),
+          queryClient.fetchInfiniteQuery(["ongoingProjectsWithFreelancers"]),
+          queryClient.fetchInfiniteQuery(["terminationedProjectsWithFreelancers"]),
+        ]);
       },
     }
   );

@@ -47,7 +47,7 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
       updatePendingFreelancer: pendingFreelancer,
     });
     addProjectIdToUserMutation.mutate({ userId, projectIds: customProjectIds });
-    alert("승인이 완료되었습니다.");
+    alert("계약이 완료되었습니다.");
     setIsModalOpen(false);
   };
 
