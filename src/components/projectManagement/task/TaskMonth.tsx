@@ -4,8 +4,6 @@ import S from "./TaskStyles";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useTasksQueries from "../../../hooks/useTasksQueries";
-import { format } from "date-fns";
-import { styled } from "styled-components";
 
 interface TaskMonthProps {
   task: Task;
@@ -72,6 +70,7 @@ const TaskMonth = ({ task, userRole, month }: TaskMonthProps) => {
         <S.TaskDetailBox
           backgroundColor={monthColor}
           onClick={monthOptionOnclickHandler}
+          cursor={userRole === "freelancer" ? "pointer" : null}
           style={{ marginRight: "5px", borderRadius: "3px" }}
         ></S.TaskDetailBox>
         {monthOptionOn && (

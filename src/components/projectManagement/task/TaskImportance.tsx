@@ -25,7 +25,7 @@ const TaskImportance = ({ task, userRole }: TaskImportanceProps) => {
 
   return (
     <S.TaskDetailBoxWrapper width="25%">
-      <S.TaskDetailBox>
+      <S.TaskDetailBox cursor={userRole === "freelancer" ? "pointer" : null}>
         {Array.from({ length: yellowStars }, (_, index) => {
           return (
             <span
