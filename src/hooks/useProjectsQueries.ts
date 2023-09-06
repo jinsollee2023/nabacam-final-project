@@ -52,7 +52,9 @@ const useProjectsQueries = ({
   const { data: ongoingProjectsOfFreelancer } = useQuery(
     ["projects"],
     async () => {
-      const projectsData = await getOngoingProjectsOfFreelancer(currentUserId as string);
+      const projectsData = await getOngoingProjectsOfFreelancer(
+        currentUserId as string
+      );
       return projectsData;
     },
     {
@@ -63,7 +65,9 @@ const useProjectsQueries = ({
   const { data: ongoingProjectsOfClient } = useQuery(
     ["ongoingProjectsOfClient"],
     async () => {
-      const ongoingProjectsOfClientData = await getOngoingProjectsOfClient(currentUserId as string);
+      const ongoingProjectsOfClientData = await getOngoingProjectsOfClient(
+        currentUserId as string
+      );
       return ongoingProjectsOfClientData;
     },
     {
@@ -122,21 +126,29 @@ const useProjectsQueries = ({
     {
       enabled: !!currentUserId,
       select: (allProjectList) =>
-        allProjectList?.filter((project) => project.SuggestedFreelancers?.includes(currentUserId)),
+        allProjectList?.filter((project) =>
+          project.SuggestedFreelancers?.includes(currentUserId)
+        ),
     }
   );
 
-  const addProjectMutation = useMutation((newProject: Project) => addProject(newProject), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
-    },
-  });
+  const addProjectMutation = useMutation(
+    (newProject: Project) => addProject(newProject),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["projects"]);
+      },
+    }
+  );
 
-  const deleteProjectMutation = useMutation((projectId: string) => deleteProject(projectId), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
-    },
-  });
+  const deleteProjectMutation = useMutation(
+    (projectId: string) => deleteProject(projectId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["projects"]);
+      },
+    }
+  );
 
   const updateProjectMutation = useMutation(
     ({
@@ -181,7 +193,8 @@ const useProjectsQueries = ({
       enabled: !!currentUserId,
       select: (projectLists) =>
         projectLists?.filter(
-          (projectList) => !projectList.SuggestedFreelancers?.includes(freelancerId as string)
+          (projectList) =>
+            !projectList.SuggestedFreelancers?.includes(freelancerId as string)
         ),
     }
   );
@@ -292,7 +305,8 @@ const useProjectsQueries = ({
       projectId: string;
       updateVolunteer: string[];
       pendingFreelancer: string[];
-    }) => updatePendingFreelancer(projectId, updateVolunteer, pendingFreelancer),
+    }) =>
+      updatePendingFreelancer(projectId, updateVolunteer, pendingFreelancer),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["applicantFreelancers"]);
@@ -302,15 +316,25 @@ const useProjectsQueries = ({
   );
 
   const updateFreelancerApprovalMutation = useMutation(
-    ({ userId, projectId, endDate }: { userId: string; projectId: string; endDate: string }) =>
-      updateApprovalFreelancer(userId, projectId, endDate),
+    ({
+      userId,
+      projectId,
+      endDate,
+    }: {
+      userId: string;
+      projectId: string;
+      endDate: string;
+    }) => updateApprovalFreelancer(userId, projectId, endDate),
     {
       onSuccess: () => {
         return Promise.all([
           queryClient.invalidateQueries(["applicantFreelancers"]),
           queryClient.invalidateQueries(["pendingFreelancers"]),
           queryClient.fetchInfiniteQuery(["ongoingProjectsWithFreelancers"]),
-          queryClient.fetchInfiniteQuery(["terminationedProjectsWithFreelancers"]),
+          queryClient.fetchInfiniteQuery([
+            "terminationedProjectsWithFreelancers",
+          ]),
+          queryClient.invalidateQueries(["projects"]),
         ]);
       },
     }
@@ -325,7 +349,9 @@ const useProjectsQueries = ({
           queryClient.invalidateQueries(["applicantFreelancers"]),
           queryClient.invalidateQueries(["pendingFreelancers"]),
           queryClient.fetchInfiniteQuery(["ongoingProjectsWithFreelancers"]),
-          queryClient.fetchInfiniteQuery(["terminationedProjectsWithFreelancers"]),
+          queryClient.fetchInfiniteQuery([
+            "terminationedProjectsWithFreelancers",
+          ]),
         ]);
       },
     }
@@ -355,23 +381,34 @@ const useProjectsQueries = ({
       projectId: string;
       updateVolunteer: string[];
       updatePendingFreelancer: string[];
-    }) => deleteVolunteerAndPendingFreelancer(projectId, updateVolunteer, updatePendingFreelancer),
+    }) =>
+      deleteVolunteerAndPendingFreelancer(
+        projectId,
+        updateVolunteer,
+        updatePendingFreelancer
+      ),
     {
       onSuccess: () => {
         return Promise.all([
           queryClient.invalidateQueries(["applicantFreelancers"]),
           queryClient.invalidateQueries(["pendingFreelancers"]),
           queryClient.fetchInfiniteQuery(["ongoingProjectsWithFreelancers"]),
-          queryClient.fetchInfiniteQuery(["terminationedProjectsWithFreelancers"]),
+          queryClient.fetchInfiniteQuery([
+            "terminationedProjectsWithFreelancers",
+          ]),
         ]);
       },
     }
   );
 
-  const { data: ongoingProjectsWithFreelancers } = useQuery<IProjectWithFreelancer[]>(
+  const { data: ongoingProjectsWithFreelancers } = useQuery<
+    IProjectWithFreelancer[]
+  >(
     ["ongoingProjectsWithFreelancers"],
     async () => {
-      const ongoingProjectsData = await getOngoingProjectsOfClient(currentUserId as string);
+      const ongoingProjectsData = await getOngoingProjectsOfClient(
+        currentUserId as string
+      );
       const ongoingProjectsWithPromise = ongoingProjectsData.map((info) => ({
         ...info,
         freelancerPromise: getUser(info.freelancerId as string),
@@ -390,10 +427,14 @@ const useProjectsQueries = ({
     }
   );
 
-  const { data: terminationedProjectsWithFreelancers } = useQuery<IProjectWithFreelancer[]>(
+  const { data: terminationedProjectsWithFreelancers } = useQuery<
+    IProjectWithFreelancer[]
+  >(
     ["terminationedProjectsWithFreelancers"],
     async () => {
-      const terminationedProjectsData = await getTerminationedProjects(currentUserId as string);
+      const terminationedProjectsData = await getTerminationedProjects(
+        currentUserId as string
+      );
       const terminationedProjectsArray = [];
 
       for (const info of terminationedProjectsData) {
@@ -403,7 +444,9 @@ const useProjectsQueries = ({
         });
       }
 
-      return terminationedProjectsArray.filter((info) => info.freelancer !== null);
+      return terminationedProjectsArray.filter(
+        (info) => info.freelancer !== null
+      );
     },
     {
       enabled: !!currentUserId && !!freelancerId,
@@ -413,10 +456,11 @@ const useProjectsQueries = ({
   const { data: matchingCompletedProjectsData } = useQuery(
     ["matchingCompletedProjectsData"],
     async () => {
-      const terminationedProjects = await getTerminationedProjectsWithFreelancer(
-        currentUserId as string,
-        freelancerId as string
-      );
+      const terminationedProjects =
+        await getTerminationedProjectsWithFreelancer(
+          currentUserId as string,
+          freelancerId as string
+        );
       if (!terminationedProjects) {
         return [];
       }
