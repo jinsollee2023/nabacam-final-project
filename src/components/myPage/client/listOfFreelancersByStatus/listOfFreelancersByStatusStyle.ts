@@ -25,7 +25,7 @@ export const S = {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
-    height: 61vh;
+    height: 48vh;
     overflow: auto;
   `,
   ListsBox: styled.div`

@@ -28,7 +28,9 @@ const ClientMyPageComp = () => {
                 onClick={() => handleTabClick("우리 기업 구성원")}
                 style={{
                   borderBottom:
-                    activeTab === "우리 기업 구성원" ? "4px solid var(--main-blue)" : "transparent",
+                    activeTab === "우리 기업 구성원"
+                      ? "4px solid var(--main-blue)"
+                      : "transparent",
                 }}
               >
                 우리 기업 구성원
@@ -58,7 +60,9 @@ const ClientMyPageComp = () => {
             </S.TabBarContainer>
             {activeTab === "우리 기업 구성원" && <MemberList />}
             {activeTab === "진행 중인 프리랜서" && <OngoingFreelancerList />}
-            {activeTab === "계약이 끝난 프리랜서" && <ContractTerminationFreelancers />}
+            {activeTab === "계약이 끝난 프리랜서" && (
+              <ContractTerminationFreelancers />
+            )}
           </S.TabsContainerInner>
         </S.TabsContainer>
       </S.Container>
