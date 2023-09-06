@@ -32,4 +32,63 @@ export const S = {
     left: 50%;
     transform: translate(-50%, -50%);
   `,
+
+  JoinFormContainer: styled.div`
+    width: 54vw;
+    position: relative;
+  `,
+  JoinForm: styled.form`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `,
+  JoinInput: styled.input`
+    border: none;
+    border-bottom: 1px solid var(--lighter-gray);
+    left: 10%;
+    width: 400px;
+    padding: 10px;
+    outline: none;
+    font-size: 12px;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  `,
+  JoinButton: styled.button`
+    width: 417px;
+    height: 43px;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--main-blue);
+    cursor: pointer;
+    color: white;
+  `,
+  passwordView: styled.button`
+    position: relative;
+    top: -90%;
+    left: 59%;
+    width: 2%;
+    height: 2%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+  `,
+  errordiv: styled.div`
+    height: 20px;
+  `,
+  errorsp: styled.p`
+    color: red;
+  `,
+  InputWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
 };

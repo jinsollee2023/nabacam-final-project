@@ -1,6 +1,11 @@
 import React from "react";
 
-const LoginValidation = (values: any) => {
+interface LoginForm {
+  email: string;
+  password: string;
+}
+
+const LoginValidation = (values: LoginForm) => {
   const errors = {
     email: "",
     password: "",
