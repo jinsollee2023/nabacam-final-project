@@ -79,11 +79,10 @@ const LoginComp = () => {
         <S.Loginfont>로그인</S.Loginfont>
         <form onSubmit={loginHandler}>
           <S.LoginBack>
-            <span>이메일</span>
             <S.LoginInput
               type="email"
               name="email"
-              placeholder="gmali@naver.com"
+              placeholder="이메일을 입력해주세요."
               value={values.email}
               onChange={handleChange}
             />
@@ -94,6 +93,7 @@ const LoginComp = () => {
                 name="password"
                 value={values.password}
                 onChange={handleChange}
+                placeholder="비밀번호를 입력해주세요."
               />
               <S.CenterizeBox>
                 <S.EyeBtn type="button" onClick={showPasswordHandler}>

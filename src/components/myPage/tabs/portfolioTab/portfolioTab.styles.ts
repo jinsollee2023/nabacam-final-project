@@ -73,6 +73,5 @@ export const S = {
     left: 50%;
     z-index: 1;
     transform: translateX(-25%);
-    transition: transform 0.2s ease-in-out;
   `,
 };
