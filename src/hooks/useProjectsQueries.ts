@@ -165,6 +165,7 @@ const useProjectsQueries = ({
         queryClient.invalidateQueries(["projectsListBySort"]);
         queryClient.invalidateQueries(["projectList"]);
         queryClient.invalidateQueries(["ongoingProjectsOfClient"]);
+        queryClient.fetchInfiniteQuery(["terminationedProjectsWithFreelancers"]);
       },
     }
   );
