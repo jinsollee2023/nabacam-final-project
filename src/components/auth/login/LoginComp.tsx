@@ -88,6 +88,7 @@ const LoginComp = () => {
               placeholder="이메일을 입력해주세요."
               value={values.email}
               onChange={handleChange}
+              autoComplete="on"
             />
             <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
             <S.PasswordInputWrapper>
@@ -97,6 +98,7 @@ const LoginComp = () => {
                 value={values.password}
                 onChange={handleChange}
                 placeholder="비밀번호를 입력해주세요."
+                autoComplete="on"
               />
               <S.CenterizeBox>
                 <S.EyeBtn type="button" onClick={showPasswordHandler}>

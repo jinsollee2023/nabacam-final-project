@@ -9,21 +9,23 @@ import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { IProjectWithFreelancer } from "src/Types";
 
 const ContractTerminationFreelancers = () => {
+  // 최신순/오래된 순 필터버튼 상태관리
   const [isLastFirst, setIsLastFirst] = useState(true);
   const [selectedWorkField, setSelectedWorkField] = useState("전체보기");
 
   const { userId } = useUserStore();
-  const { terminationedProjectsWithFreelancers } = useProjectsQueries({
+  const { freelancersWithTerminatedProjects } = useProjectsQueries({
     currentUserId: userId,
   });
 
+  // 필터 버튼 토글
   const handleSortToggle = () => {
     setIsLastFirst(!isLastFirst);
   };
 
   return (
     <>
-      {terminationedProjectsWithFreelancers && terminationedProjectsWithFreelancers?.length > 0 ? (
+      {freelancersWithTerminatedProjects && freelancersWithTerminatedProjects?.length > 0 ? (
         <>
           <S.SearchBox>
             <SearchItemBar />
@@ -38,8 +40,8 @@ const ContractTerminationFreelancers = () => {
           <ContractTerminationFreelancerList
             selectedWorkField={selectedWorkField}
             isLastFirst={isLastFirst}
-            terminationedProjectsWithFreelancers={
-              terminationedProjectsWithFreelancers as IProjectWithFreelancer[]
+            freelancersWithTerminatedProjects={
+              freelancersWithTerminatedProjects as IProjectWithFreelancer[]
             }
           />
         </>
