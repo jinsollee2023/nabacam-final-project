@@ -1,6 +1,6 @@
 import { BiPhoneCall } from "react-icons/bi";
 import { AiOutlineMail } from "react-icons/ai";
-import S from "./ProjectListStyles";
+import S from "./ProjectList.styles";
 import { FreelancerInfo } from "./ProjectDetailModal";
 import { Project } from "src/Types";
 

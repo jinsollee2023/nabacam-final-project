@@ -54,19 +54,19 @@ const ResumeExperienceComp = () => {
           ))}
         </S.WorkExperienceListWrapper>
       </S.WorkExperienceContainer>
-      <S.Btn
-        marginTop="30px"
-        width="100%"
-        height="40px"
-        onClick={() => {
-          setIsAddModalOpen(true);
-        }}
-      >
-        <S.CenterizeBox>
-          <BsPlusSquareDotted size="15" style={{ marginRight: "5px" }} />
-          <span>경력 추가하기</span>
-        </S.CenterizeBox>
-      </S.Btn>
+      <S.CenterizeBox>
+        <S.PostBtn
+          onClick={() => {
+            setIsAddModalOpen(true);
+          }}
+        >
+          <S.CenterizeBox>
+            <BsPlusSquareDotted size="15" style={{ marginRight: "5px" }} />
+            <span>경력 추가하기</span>
+          </S.CenterizeBox>
+        </S.PostBtn>
+      </S.CenterizeBox>
+
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}

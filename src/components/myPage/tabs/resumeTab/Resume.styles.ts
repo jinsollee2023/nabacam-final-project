@@ -151,6 +151,19 @@ export const S = {
     height: ${(props) => props.height};
     padding: ${(props) => props.padding || "7px"};
   `,
+  PostBtn: styled.button`
+    margin-top: 30px;
+    background-color: var(--main-blue);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    width: 500px;
+    font-size: 16px;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
   RightEndBtnBox: styled.div`
     display: flex;
     margin-left: auto;

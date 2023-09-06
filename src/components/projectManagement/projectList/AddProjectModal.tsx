@@ -1,7 +1,7 @@
 import { Checkbox, DatePicker, Select } from "antd";
 import { useEffect, useState } from "react";
 import { useProjectStore } from "../../../zustand/useProjectStore";
-import S from "./ProjectListStyles";
+import S from "./ProjectList.styles";
 import dayjs from "dayjs";
 import { useUserStore } from "../../../zustand/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";

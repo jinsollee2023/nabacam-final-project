@@ -4,7 +4,7 @@ import { RiAddBoxLine } from "react-icons/ri";
 import Modal from "../../modal/Modal";
 import AddProjectModal from "./AddProjectModal";
 import { useProjectStore } from "../../../zustand/useProjectStore";
-import S from "./ProjectListStyles";
+import S from "./ProjectList.styles";
 import { useEffect, useState } from "react";
 import { useUserStore } from "../../../zustand/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
