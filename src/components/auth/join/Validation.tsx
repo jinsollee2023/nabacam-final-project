@@ -8,6 +8,8 @@ interface initialErrorsForm {
   phone: string;
 }
 
+// validation 함수 erros의 초기값 설정
+
 const Validation = (values: initialErrorsForm) => {
   const errors = {
     email: "",

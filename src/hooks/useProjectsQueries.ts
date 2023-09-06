@@ -177,6 +177,7 @@ const useProjectsQueries = ({
         queryClient.invalidateQueries(["projectsListBySort"]);
         queryClient.invalidateQueries(["projectList"]);
         queryClient.invalidateQueries(["ongoingProjectsOfClient"]);
+        queryClient.fetchInfiniteQuery(["terminationedProjectsWithFreelancers"]);
       },
     }
   );
@@ -331,8 +332,15 @@ const useProjectsQueries = ({
     }) => updateApprovalFreelancer(userId, projectId, endDate),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["applicantFreelancers"]);
-        queryClient.invalidateQueries(["pendingFreelancers"]);
+        return Promise.all([
+          queryClient.invalidateQueries(["applicantFreelancers"]),
+          queryClient.invalidateQueries(["pendingFreelancers"]),
+          queryClient.fetchInfiniteQuery(["ongoingProjectsWithFreelancers"]),
+          queryClient.fetchInfiniteQuery([
+            "terminationedProjectsWithFreelancers",
+          ]),
+          queryClient.invalidateQueries(["projects"]),
+        ]);
       },
     }
   );
@@ -342,8 +350,14 @@ const useProjectsQueries = ({
       addProjectIdToUser(userId, projectIds),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["applicantFreelancers"]);
-        queryClient.invalidateQueries(["pendingFreelancers"]);
+        return Promise.all([
+          queryClient.invalidateQueries(["applicantFreelancers"]),
+          queryClient.invalidateQueries(["pendingFreelancers"]),
+          queryClient.fetchInfiniteQuery(["ongoingProjectsWithFreelancers"]),
+          queryClient.fetchInfiniteQuery([
+            "terminationedProjectsWithFreelancers",
+          ]),
+        ]);
       },
     }
   );
@@ -380,8 +394,14 @@ const useProjectsQueries = ({
       ),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["applicantFreelancers"]);
-        queryClient.invalidateQueries(["pendingFreelancers"]);
+        return Promise.all([
+          queryClient.invalidateQueries(["applicantFreelancers"]),
+          queryClient.invalidateQueries(["pendingFreelancers"]),
+          queryClient.fetchInfiniteQuery(["ongoingProjectsWithFreelancers"]),
+          queryClient.fetchInfiniteQuery([
+            "terminationedProjectsWithFreelancers",
+          ]),
+        ]);
       },
     }
   );

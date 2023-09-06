@@ -14,7 +14,11 @@ export const S = {
   MemberListContainer: styled.div`
     width: 100%;
     height: 58vh;
+<<<<<<< HEAD
     overflow-y: auto;
+=======
+    overflow: auto;
+>>>>>>> 288887971bb54a4585b0baa2348251d4a580984f
   `,
   MemberList: styled.div`
     height: 70px;

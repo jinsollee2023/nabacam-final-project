@@ -6,7 +6,6 @@ import type { ResumeExperience } from "../../../../../Types";
 import { useResumeExperienceStore } from "../../../../../zustand/useResumeExperienceStore";
 import dayjs from "dayjs";
 import { S } from "../Resume.styles";
-import { useForm } from "react-hook-form";
 
 interface ExperienceProps {
   experience?: ResumeExperience;
@@ -73,8 +72,6 @@ const AddResumeExperienceModal = ({ experience }: ExperienceProps) => {
     pastWorkPlace,
     pastWorkPosition,
   ]);
-
-  const { register, watch } = useForm();
 
   return (
     <>
