@@ -65,10 +65,13 @@ const JoinForm = ({ role }: JoinFormProps) => {
     useState<boolean>(false);
   const { setUser, setUserId, setUserRole } = useUserStore(); // 추가
 
-  // 회원가입 api
+  // erros 변경사항 바로확인하기 위한 useEffect
+
   useEffect(() => {
     setErrors(Validation(values));
   }, [values]);
+
+  // 회원가입 api
 
   const signUP = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -105,6 +108,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const showPasswordHandler = () => {
     setShowPswd(!showPswd);
   };
+  // 비밀번호 확인
   const showConfirmPasswordHandler = () => {
     setShowConfirmPswd(!showConfirmPswd);
   };
@@ -117,6 +121,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   return (
     <>
       <S.JoinFormContainer>
+        {/* 폼 안에 있는건 전부 input */}
         <S.JoinForm onSubmit={(e) => signUP(e)}>
           <PreviewImage
             handlePhotoURLOnChange={handlePhotoURLOnChange}
@@ -145,7 +150,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
               <S.PasswordInput
                 id="passwordInput"
                 type={showPswd ? "text" : "password"}
-                name="password"
                 value={values.password}
                 onChange={(e) => handleChange("password", e.target.value)}
               />
@@ -169,7 +173,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
               <S.PasswordInput
                 id="checkPasswordInput"
                 type={showConfirmPswd ? "text" : "password"}
-                name="passwordConfirmCurrent"
                 value={values.passwordConfirmCurrent}
                 onChange={(e) =>
                   handleChange("passwordConfirmCurrent", e.target.value)
@@ -195,7 +198,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
             <S.JoinInput
               id="nameInput"
               type="text"
-              name="name"
               value={values.name}
               onChange={(e) => handleChange("name", e.target.value)}
             />
@@ -260,7 +262,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 <S.JoinInput
                   id="workSmallFieldInput"
                   type="text"
-                  name="workField"
                   value={values.workField}
                   onChange={(e) => handleChange("workField", e.target.value)}
                 />
@@ -273,7 +274,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 <S.JoinInput
                   id="workExpInput"
                   type="number"
-                  name="workExp"
                   value={values.workExp}
                   onChange={(e) => handleChange("workExp", e.target.value)}
                 />
@@ -289,7 +289,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
             <S.JoinInput
               id="phoneNumberInput"
               type="text"
-              name="phone"
               value={values.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
               placeholder="ex) - 빼고 입력해주세요 "

@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
 import { getUser } from "src/api/User";
-
 import LoginValidation from "./LoginValidation";
-import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./LoginComp.styles";
@@ -15,6 +13,7 @@ interface LoginForm {
   password: string;
 }
 
+// values와 erros 초기값 설정
 const LoginComp = () => {
   const initialValues: LoginForm = {
     email: "",
@@ -30,6 +29,8 @@ const LoginComp = () => {
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [errors, setErrors] = useState<LoginForm>(initialErrors);
   const { setUserId, setUserRole, setUser } = useUserStore();
+
+  // errors의 초기에도 확인할수있도록 작동하는 useEffect
   useEffect(() => {
     setErrors(LoginValidation(values));
   }, [values]);
@@ -39,6 +40,8 @@ const LoginComp = () => {
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors(LoginValidation(values));
+
+    // errors 글자가 없을때만 통신해라 라는 조건문
     if (!errors.email && !errors.password) {
       try {
         const { data, error } = await supabase.auth.signInWithPassword({
