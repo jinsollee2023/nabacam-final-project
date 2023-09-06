@@ -44,6 +44,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState<any>({});
   const [showPswd, setShowPswd] = useState<boolean>(false);
+  const [showConfirmPswd, setShowConfirmPswd] = useState<boolean>(false);
   const [findPasswordModalOpen, setFindPasswordModalOpen] = useState(false);
   const { setUser, setUserId, setUserRole } = useUserStore(); // 추가
 
@@ -84,6 +85,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const showPasswordHandler = () => {
     setShowPswd(!showPswd);
   };
+  const showConfirmPasswordHandler = () => {
+    setShowConfirmPswd(!showConfirmPswd);
+  };
 
   // 모달
 
@@ -117,13 +121,20 @@ const JoinForm = ({ role }: JoinFormProps) => {
             >
               * 비밀번호
             </label>
-            <S.JoinInput
-              id="passwordInput"
-              type={showPswd ? "text" : "password"}
-              name="password"
-              value={values.password}
-              onChange={(e) => handleChange("password", e.target.value)}
-            />
+            <S.PasswordInputWrapper>
+              <S.PasswordInput
+                id="passwordInput"
+                type={showPswd ? "text" : "password"}
+                name="password"
+                value={values.password}
+                onChange={(e) => handleChange("password", e.target.value)}
+              />
+              <S.CenterizeBox>
+                <S.EyeBtn onClick={showPasswordHandler}>
+                  {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                </S.EyeBtn>
+              </S.CenterizeBox>
+            </S.PasswordInputWrapper>
             <S.errordiv>
               {errors.password && <p>{errors.password}</p>}
             </S.errordiv>
@@ -134,16 +145,22 @@ const JoinForm = ({ role }: JoinFormProps) => {
             >
               * 비밀번호 확인
             </label>
-
-            <S.JoinInput
-              id="checkPasswordInput"
-              type={showPswd ? "text" : "password"}
-              name="passwordConfirmCurrent"
-              value={values.passwordConfirmCurrent}
-              onChange={(e) =>
-                handleChange("passwordConfirmCurrent", e.target.value)
-              }
-            />
+            <S.PasswordInputWrapper>
+              <S.PasswordInput
+                id="checkPasswordInput"
+                type={showConfirmPswd ? "text" : "password"}
+                name="passwordConfirmCurrent"
+                value={values.passwordConfirmCurrent}
+                onChange={(e) =>
+                  handleChange("passwordConfirmCurrent", e.target.value)
+                }
+              />
+              <S.CenterizeBox>
+                <S.EyeBtn onClick={showConfirmPasswordHandler}>
+                  {showConfirmPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                </S.EyeBtn>
+              </S.CenterizeBox>
+            </S.PasswordInputWrapper>
 
             <S.errordiv>
               {errors.passwordConfirmCurrent && (
@@ -265,13 +282,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
               ? "클라이언트 회원가입"
               : "프리랜서 회원가입"}
           </S.JoinButton>
-          <S.passwordView onClick={showPasswordHandler}>
-            {showPswd ? (
-              <EyeOutlined onClick={showPasswordHandler} />
-            ) : (
-              <EyeInvisibleOutlined />
-            )}
-          </S.passwordView>
+
           <button type="button" onClick={() => navigate("/login")}>
             로그인하러 가기
           </button>
@@ -321,17 +332,34 @@ const S = {
     cursor: pointer;
     color: white;
   `,
-  passwordView: styled.button`
-    position: relative;
-    top: -90%;
-    left: 59%;
-    width: 2%;
-    height: 2%;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    border-radius: 10px;
+  PasswordInputWrapper: styled.div`
+    display: flex;
+    height: 40%;
+    left: 10%;
+    width: 400px;
   `,
+  PasswordInput: styled.input`
+    border: none;
+    border-bottom: 1px solid var(--lighter-gray);
+    padding: 10px;
+    outline: none;
+    font-size: 12px;
+
+    width: 93%;
+  `,
+  CenterizeBox: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 7%;
+    border-bottom: 1px solid var(--lighter-gray);
+  `,
+  EyeBtn: styled.button`
+    border: none;
+    background-color: transparent;
+  `,
+
   errordiv: styled.div`
     height: 20px;
   `,
