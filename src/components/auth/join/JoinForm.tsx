@@ -130,7 +130,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 onChange={(e) => handleChange("password", e.target.value)}
               />
               <S.CenterizeBox>
-                <S.EyeBtn onClick={showPasswordHandler}>
+                <S.EyeBtn onClick={showPasswordHandler} type="button">
                   {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                 </S.EyeBtn>
               </S.CenterizeBox>
@@ -156,7 +156,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 }
               />
               <S.CenterizeBox>
-                <S.EyeBtn onClick={showConfirmPasswordHandler}>
+                <S.EyeBtn onClick={showConfirmPasswordHandler} type="button">
                   {showConfirmPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                 </S.EyeBtn>
               </S.CenterizeBox>
