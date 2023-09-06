@@ -6,7 +6,7 @@ import { S } from "./joinComp.styles";
 type TabPosition = "left" | "right" | "top" | "bottom";
 
 const JoinComp = () => {
-  const [tabPosition, setTabPosition] = useState<TabPosition>("left");
+  // const [tabPosition, setTabPosition] = useState<TabPosition>("left");
   const { userRole, setUserRole } = useUserStore();
 
   return (
@@ -14,7 +14,7 @@ const JoinComp = () => {
       <S.JoinCompContainer>
         <S.TabsBack>
           <S.Tabs
-            tabPosition={tabPosition}
+            tabPosition="left"
             items={new Array(2).fill(null).map((_, i) => {
               const id = String(i + 1);
               return {

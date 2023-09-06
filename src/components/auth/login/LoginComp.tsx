@@ -93,7 +93,7 @@ const LoginComp = () => {
                 placeholder="비밀번호를 입력해주세요."
               />
               <S.CenterizeBox>
-                <S.EyeBtn onClick={showPasswordHandler}>
+                <S.EyeBtn type="button" onClick={showPasswordHandler}>
                   {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                 </S.EyeBtn>
               </S.CenterizeBox>
