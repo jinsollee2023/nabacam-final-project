@@ -8,6 +8,7 @@ import { S } from "./appliedProjectList.styles";
 const AppliedProjectList = () => {
   const { userId } = useUserStore();
 
+  // 현재 로그인한 유저가 지원한 프로젝트만 불러오기
   const {
     appliedProjectList,
     appliedProjectListIsError,

@@ -25,11 +25,13 @@ export const S = {
     height: 72.5vh;
     overflow-y: scroll;
     margin-top: 20px;
+    padding: 5px 0 5px 5px;
 
     display: grid;
-    grid-template-columns: 32% 32% 32%;
+    grid-template-columns: 31% 31% 31%;
     grid-template-rows: 350px 350px 350px;
-    gap: 1.5%;
+    grid-column-gap: 2%;
+    grid-row-gap: 7%;
 
     &::-webkit-scrollbar {
       width: 12px;
@@ -48,6 +50,12 @@ export const S = {
 
   FreelancerList: styled.ul`
     width: 100%;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+    padding: 10px;
   `,
 
   PortfolioItem: styled.div<PortfolioItemProps>`
@@ -57,11 +65,10 @@ export const S = {
   `,
 
   PortfoliothumbNailImageBox: styled.div`
-    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 3px 1px #dadce0;
     width: 100%;
     height: 250px;
     border-radius: 15px;
-    background-color: black;
     overflow: hidden;
     animation: ${fadeIn} 0.2s ease-in-out;
 
@@ -78,6 +85,7 @@ export const S = {
     display: flex;
     justify-content: center;
     padding: 20px 0;
+    border-bottom: 1px solid #f0f0f0;
   `,
 
   PortfolioTitle: styled.h6`
@@ -85,7 +93,6 @@ export const S = {
   `,
 
   MiniProfileBox: styled.li`
-    background-color: #f1f1f1;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -93,6 +100,7 @@ export const S = {
     padding: 5px 10px;
     border-radius: 15px;
     width: 100%;
+    background-color: white;
   `,
 
   indicatorWrapper: styled.div`

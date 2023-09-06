@@ -2,6 +2,7 @@ import { Project } from "../Types";
 import supabase from "../config/supabaseClient";
 import dayjs from "dayjs";
 
+// 프로젝트의 전체 항목 생성일 순으로 가져온다.
 export const getProjects = async (id: string): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
@@ -47,6 +48,8 @@ export const getProjectOfClientBySort = async (
   return projects as Project[];
 };
 
+// 현재 로그인한 클라이언트의 프로젝트 중에서
+// 상태가 진행 전인 프로젝트 리스트 불러오기
 export const getProjectByClientWithBeforeProgress = async (
   clientId: string
 ): Promise<Project[]> => {
@@ -106,6 +109,7 @@ export const updateProject = async (
     .select();
 };
 
+// 선택한 프로젝트에 제안했던 프리랜서 리스트 가져오기
 export const getSuggestedFreelancers = async (
   selectedProject: Project
 ): Promise<{ SuggestedFreelancers: string[] }> => {
