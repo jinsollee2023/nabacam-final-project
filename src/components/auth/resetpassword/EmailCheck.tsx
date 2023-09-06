@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
 
-const EmailCheck = ({ openModal }: any) => {
+interface openModal {
+  openModal: () => void;
+}
+
+const EmailCheck = ({ openModal }: openModal) => {
   const [email, setEmail] = useState("");
 
   const EmailCheck = async (e: React.FormEvent<HTMLFormElement>) => {
