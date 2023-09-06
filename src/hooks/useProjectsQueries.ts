@@ -165,6 +165,7 @@ const useProjectsQueries = ({
         queryClient.invalidateQueries(["projectsListBySort"]);
         queryClient.invalidateQueries(["projectList"]);
         queryClient.invalidateQueries(["ongoingProjectsOfClient"]);
+        queryClient.fetchInfiniteQuery(["freelancersWithOngoingProjects"]);
         queryClient.fetchInfiniteQuery(["freelancersWithTerminatedProjects"]);
       },
     }
@@ -232,10 +233,10 @@ const useProjectsQueries = ({
   });
 
   // 현재 로그인한 클라이언트의 프로젝트에 지원한 프리랜서 목록
-  const { data: FreelancersAppliedToTheProjects } = useQuery(
-    ["FreelancersAppliedToTheProjects"],
+  const { data: freelancersAppliedToTheProjects } = useQuery(
+    ["freelancersAppliedToTheProjects"],
     async () => {
-      const FreelancersAppliedToTheProjectsData = await getProjectOfClientBySort(
+      const freelancersAppliedToTheProjectsData = await getProjectOfClientBySort(
         currentUserId as string,
         "최신순"
       );
@@ -243,7 +244,7 @@ const useProjectsQueries = ({
       let resultData = [];
       let volunteerUser = [];
 
-      for (const info of FreelancersAppliedToTheProjectsData) {
+      for (const info of freelancersAppliedToTheProjectsData) {
         volunteerUser = [];
         if (!info.volunteer) info.volunteer = [];
         for (const data of info.volunteer) {
@@ -261,10 +262,10 @@ const useProjectsQueries = ({
   );
 
   // 현재 로그인한 클라이언트의 프로젝트에 지원했으나 보류한 프리랜서 목록
-  const { data: PendingFreelancersToTheProjects } = useQuery(
-    ["PendingFreelancersToTheProjects"],
+  const { data: pendingFreelancersToTheProjects } = useQuery(
+    ["pendingFreelancersToTheProjects"],
     async () => {
-      const FreelancersAppliedToTheProjectsData = await getProjectOfClientBySort(
+      const freelancersAppliedToTheProjectsData = await getProjectOfClientBySort(
         currentUserId as string,
         "최신순"
       );
@@ -272,7 +273,7 @@ const useProjectsQueries = ({
       let resultData = [];
       let pendingFreelancerUser = [];
 
-      for (const info of FreelancersAppliedToTheProjectsData) {
+      for (const info of freelancersAppliedToTheProjectsData) {
         pendingFreelancerUser = [];
         if (!info.pendingFreelancer) info.pendingFreelancer = [];
         for (const data of info.pendingFreelancer) {
@@ -302,8 +303,8 @@ const useProjectsQueries = ({
     }) => updatePendingFreelancer(projectId, updateVolunteer, pendingFreelancer),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["FreelancersAppliedToTheProjects"]);
-        queryClient.invalidateQueries(["PendingFreelancersToTheProjects"]);
+        queryClient.invalidateQueries(["freelancersAppliedToTheProjects"]);
+        queryClient.invalidateQueries(["pendingFreelancersToTheProjects"]);
       },
     }
   );
@@ -315,9 +316,9 @@ const useProjectsQueries = ({
     {
       onSuccess: () => {
         return Promise.all([
-          queryClient.invalidateQueries(["FreelancersAppliedToTheProjects"]),
-          queryClient.invalidateQueries(["PendingFreelancersToTheProjects"]),
-          queryClient.fetchInfiniteQuery(["FreelancersWithOngoingProjects"]),
+          queryClient.invalidateQueries(["freelancersAppliedToTheProjects"]),
+          queryClient.invalidateQueries(["pendingFreelancersToTheProjects"]),
+          queryClient.fetchInfiniteQuery(["freelancersWithOngoingProjects"]),
           queryClient.fetchInfiniteQuery(["freelancersWithTerminatedProjects"]),
           queryClient.invalidateQueries(["projects"]),
         ]);
@@ -332,9 +333,9 @@ const useProjectsQueries = ({
     {
       onSuccess: () => {
         return Promise.all([
-          queryClient.invalidateQueries(["FreelancersAppliedToTheProjects"]),
-          queryClient.invalidateQueries(["PendingFreelancersToTheProjects"]),
-          queryClient.fetchInfiniteQuery(["FreelancersWithOngoingProjects"]),
+          queryClient.invalidateQueries(["freelancersAppliedToTheProjects"]),
+          queryClient.invalidateQueries(["pendingFreelancersToTheProjects"]),
+          queryClient.fetchInfiniteQuery(["freelancersWithOngoingProjects"]),
           queryClient.fetchInfiniteQuery(["freelancersWithTerminatedProjects"]),
         ]);
       },
@@ -352,7 +353,7 @@ const useProjectsQueries = ({
     }) => deletePendingFreelancer(projectId, updatePendingFreelancer),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["PendingFreelancersToTheProjects"]);
+        queryClient.invalidateQueries(["pendingFreelancersToTheProjects"]);
       },
     }
   );
@@ -371,9 +372,9 @@ const useProjectsQueries = ({
     {
       onSuccess: () => {
         return Promise.all([
-          queryClient.invalidateQueries(["FreelancersAppliedToTheProjects"]),
-          queryClient.invalidateQueries(["PendingFreelancersToTheProjects"]),
-          queryClient.fetchInfiniteQuery(["FreelancersWithOngoingProjects"]),
+          queryClient.invalidateQueries(["freelancersAppliedToTheProjects"]),
+          queryClient.invalidateQueries(["pendingFreelancersToTheProjects"]),
+          queryClient.fetchInfiniteQuery(["freelancersWithOngoingProjects"]),
           queryClient.fetchInfiniteQuery(["freelancersWithTerminatedProjects"]),
         ]);
       },
@@ -381,7 +382,7 @@ const useProjectsQueries = ({
   );
 
   // 진행중인 프리랜서 목록
-  const { data: FreelancersWithOngoingProjects } = useQuery<IProjectWithFreelancer[]>(
+  const { data: freelancersWithOngoingProjects } = useQuery<IProjectWithFreelancer[]>(
     ["FreelancersWithOngoingProjects"],
     async () => {
       const ongoingProjectsData = await getOngoingProjectsOfClient(currentUserId as string);
@@ -389,13 +390,13 @@ const useProjectsQueries = ({
         ...info,
         freelancerPromise: getUser(info.freelancerId as string),
       }));
-      const FreelancersWithOngoingProjects = await Promise.all(
+      const freelancersWithOngoingProjects = await Promise.all(
         ongoingProjectsWithPromise.map(async (project) => ({
           ...project,
           freelancer: await project.freelancerPromise,
         }))
       );
-      return FreelancersWithOngoingProjects;
+      return freelancersWithOngoingProjects;
     },
     {
       enabled: !!currentUserId && !!freelancerId,
@@ -423,6 +424,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 계약이 끝난 프로젝트 중 프리랜서 아이디가 동일한 데이터 목록
   const { data: matchingCompletedProjectsData } = useQuery(
     ["matchingCompletedProjectsData"],
     async () => {
@@ -464,11 +466,11 @@ const useProjectsQueries = ({
     projectsListBySort,
     projectListIsError,
     projectListIsLoading,
-    FreelancersAppliedToTheProjects,
+    freelancersAppliedToTheProjects,
     updateFreelancerApprovalMutation,
     deleteVolunteerAndPendingFreelancerMutation,
-    PendingFreelancersToTheProjects,
-    FreelancersWithOngoingProjects,
+    pendingFreelancersToTheProjects,
+    freelancersWithOngoingProjects,
     freelancersWithTerminatedProjects,
     updatePendingFreelancerMutation,
     deletePendingFreelancerMutation,

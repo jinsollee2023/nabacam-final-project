@@ -8,18 +8,18 @@ import OngoingFreelancerCards from "./OngoingFreelancerCards";
 const OngoingFreelancerList = () => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { FreelancersWithOngoingProjects } = useProjectsQueries({
+  const { freelancersWithOngoingProjects } = useProjectsQueries({
     currentUserId: userId,
   });
 
-  if (!FreelancersWithOngoingProjects || FreelancersWithOngoingProjects.length === 0) {
+  if (!freelancersWithOngoingProjects || freelancersWithOngoingProjects.length === 0) {
     return <span>진행 중인 프리랜서가 없습니다.</span>;
   }
 
   return (
     <>
       <S.OngoingFreelancerlistContainer>
-        {FreelancersWithOngoingProjects?.map((project) => (
+        {freelancersWithOngoingProjects?.map((project) => (
           <S.ListsBox key={`${project.projectId}-${project.freelancer.userId}`}>
             <OngoingFreelancerCards
               key={`${project.projectId}-${project.freelancer.userId}`}

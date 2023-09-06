@@ -17,7 +17,6 @@ const PendingFreelancerCard = ({ project, freelancer, userId }: PendingFreelance
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
-    PendingFreelancersToTheProjects,
     updateFreelancerApprovalMutation,
     deleteVolunteerAndPendingFreelancerMutation,
     deletePendingFreelancerMutation,
