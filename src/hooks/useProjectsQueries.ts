@@ -135,6 +135,8 @@ const useProjectsQueries = ({
   const deleteProjectMutation = useMutation((projectId: string) => deleteProject(projectId), {
     onSuccess: () => {
       queryClient.invalidateQueries(["projects"]);
+      queryClient.fetchInfiniteQuery(["freelancersWithOngoingProjects"]);
+      queryClient.fetchInfiniteQuery(["freelancersWithTerminatedProjects"]);
     },
   });
 
@@ -383,7 +385,7 @@ const useProjectsQueries = ({
 
   // 진행중인 프리랜서 목록
   const { data: freelancersWithOngoingProjects } = useQuery<IProjectWithFreelancer[]>(
-    ["FreelancersWithOngoingProjects"],
+    ["freelancersWithOngoingProjects"],
     async () => {
       const ongoingProjectsData = await getOngoingProjectsOfClient(currentUserId as string);
       const ongoingProjectsWithPromise = ongoingProjectsData.map((info) => ({
