@@ -74,8 +74,8 @@ const S = {
     font-weight: bold;
   `,
   TaskTitleInput: styled.input`
-    height: 50px;
-    width: 200px;
+    height: 40px;
+    width: 100%;
     text-align: center;
   `,
 };
