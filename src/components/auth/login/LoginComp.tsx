@@ -1,17 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "src/zustand/useUserStore";
 import { getUser } from "src/api/User";
 
 import LoginValidation from "./LoginValidation";
-import { Tabs } from "antd";
 import { styled } from "styled-components";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { CommonS } from "src/components/common/button/commonButton";
-
-type TabPosition = "left" | "right" | "top" | "bottom";
+import { S } from "./LoginComp.styles";
 
 interface LoginForm {
   email: string;
@@ -23,17 +20,23 @@ const LoginComp = () => {
     email: "",
     password: "",
   };
+  const initialErrors: LoginForm = {
+    email: "",
+    password: "",
+  };
 
-  // const { email, setUserEmail } = useUserStore();
-  const [values, setValues] = useState<any>(initialValues);
-  const [findPassword, setFindPassword] = useState(false);
+  const [values, setValues] = useState<LoginForm>(initialValues);
+  const [findPassword, setFindPassword] = useState<boolean>(false);
   const [showPswd, setShowPswd] = useState<boolean>(false);
-  const [errors, setErrors] = useState<any>("");
+  const [errors, setErrors] = useState<LoginForm>(initialErrors);
   const { setUserId, setUserRole, setUser } = useUserStore();
+  useEffect(() => {
+    setErrors(LoginValidation(values));
+  }, [values]);
 
   const navigate = useNavigate();
 
-  const loginHandler = async (e: any) => {
+  const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors(LoginValidation(values));
     if (!errors.email && !errors.password) {
@@ -44,6 +47,7 @@ const LoginComp = () => {
         });
         if (error) {
           console.error(error);
+          alert("로그인 정보가 일치하지 않습니다.");
         } else if (data) {
           const user = await getUser(data.user.id as string);
           setUserId(user.userId as string);
@@ -62,7 +66,6 @@ const LoginComp = () => {
 
     setValues({ ...values, [name]: value });
   };
-
   const showPasswordHandler = () => {
     setShowPswd(!showPswd);
   };
@@ -117,88 +120,3 @@ const LoginComp = () => {
 };
 
 export default LoginComp;
-
-const S = {
-  LoginInput: styled.input`
-    align-items: center;
-    width: 100%;
-    height: 40%;
-    border-radius: 10px;
-    background-color: #f0f0f0;
-    padding: 0 10px;
-    outline: none;
-    border: none;
-  `,
-  LoginBack: styled.div`
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 120px;
-  `,
-  Loginfont: styled.h1`
-    width: 100%;
-    margin-bottom: 5%;
-    text-align: center;
-    font-weight: 284px;
-    font-size: 40px;
-  `,
-  LoginButton: styled.button`
-    width: 100%;
-    height: 50px;
-    margin-top: 10%;
-    border-radius: 10px;
-    font-weight: 62px;
-    font-size: 20px;
-    background-color: var(--main-blue);
-    border: none;
-    color: white;
-    cursor: pointer;
-  `,
-  LoginBG: styled.div`
-    position: relative;
-    top: 20%;
-    left: 45%;
-    width: 40%;
-    height: 50%;
-    border-radius: 10px;
-  `,
-  PasswordInputWrapper: styled.div`
-    display: flex;
-    height: 40%;
-  `,
-  PasswordInput: styled.input`
-    border: none;
-    width: 93%;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    background-color: #f0f0f0;
-    padding: 0 10px;
-    outline: none;
-  `,
-  CenterizeBox: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 7%;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    background-color: #f0f0f0;
-  `,
-  EyeBtn: styled.button`
-    border: none;
-    background-color: transparent;
-  `,
-
-  errordiv: styled.div`
-    height: 20px;
-  `,
-  passwordFindButton: styled.button`
-    width: 100%;
-    height: 43px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    background-color: white;
-  `,
-};

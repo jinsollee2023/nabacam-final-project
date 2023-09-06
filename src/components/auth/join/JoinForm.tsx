@@ -6,29 +6,37 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../zustand/useUserStore";
 import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
-import { styled } from "styled-components";
+
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { S } from "./joinComp.styles";
 
 interface JoinFormProps {
   role: string;
 }
-
+interface initialValuesForm {
+  email: string;
+  password: string;
+  passwordConfirmCurrent: string;
+  name: string;
+  workExp: number;
+  phone: string;
+  category: string;
+  workField: string;
+  photoFile: File | null;
+}
+interface initialErrorsForm {
+  email: string | null;
+  password: string | null;
+  passwordConfirmCurrent: string | null;
+  name: string | null;
+  phone: string | null;
+}
 // 회원가입
 const JoinForm = ({ role }: JoinFormProps) => {
   // useinput
 
-  const initialValues: {
-    email: string;
-    password: string;
-    passwordConfirmCurrent: string;
-    name: string;
-    workExp: number;
-    phone: string;
-    category: string;
-    workField: string;
-    photoFile: File | null;
-  } = {
+  const initialValues: initialValuesForm = {
     email: "",
     password: "",
     passwordConfirmCurrent: "",
@@ -40,20 +48,32 @@ const JoinForm = ({ role }: JoinFormProps) => {
     photoFile: null,
   };
 
+  const initialErrors: initialErrorsForm = {
+    email: null,
+    password: null,
+    passwordConfirmCurrent: null,
+    name: null,
+    phone: null,
+  };
+
   const navigate = useNavigate();
-  const [values, setValues] = useState(initialValues);
-  const [errors, setErrors] = useState<any>({});
+  const [values, setValues] = useState<initialValuesForm>(initialValues);
+  const [errors, setErrors] = useState<initialErrorsForm>(initialErrors);
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [showConfirmPswd, setShowConfirmPswd] = useState<boolean>(false);
-  const [findPasswordModalOpen, setFindPasswordModalOpen] = useState(false);
+  const [findPasswordModalOpen, setFindPasswordModalOpen] =
+    useState<boolean>(false);
   const { setUser, setUserId, setUserRole } = useUserStore(); // 추가
 
   // 회원가입 api
+  useEffect(() => {
+    setErrors(Validation(values));
+  }, [values]);
 
   const signUP = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(values);
     e.preventDefault();
     setErrors(Validation(values));
+
     if (
       !errors.email &&
       !errors.password &&
@@ -109,7 +129,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
             <S.JoinInput
               id="emailInput"
               type="email"
-              name="email"
+              placeholder="ex ) email@google.com"
               value={values.email}
               onChange={(e) => handleChange("email", e.target.value)}
             />
@@ -272,6 +292,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
               name="phone"
               value={values.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
+              placeholder="ex) - 빼고 입력해주세요 "
             />
             <div>{errors.phone && <p>{errors.phone}</p>}</div>
             <br />
@@ -293,78 +314,3 @@ const JoinForm = ({ role }: JoinFormProps) => {
 };
 
 export default JoinForm;
-
-const S = {
-  JoinFormContainer: styled.div`
-    width: 54vw;
-    position: relative;
-  `,
-  JoinForm: styled.form`
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  `,
-  JoinInput: styled.input`
-    border: none;
-    border-bottom: 1px solid var(--lighter-gray);
-    left: 10%;
-    width: 400px;
-    padding: 10px;
-    outline: none;
-    font-size: 12px;
-
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  `,
-  JoinButton: styled.button`
-    width: 417px;
-    height: 43px;
-    border-radius: 10px;
-    border: none;
-    background-color: var(--main-blue);
-    cursor: pointer;
-    color: white;
-  `,
-  PasswordInputWrapper: styled.div`
-    display: flex;
-    height: 40%;
-    left: 10%;
-    width: 400px;
-  `,
-  PasswordInput: styled.input`
-    border: none;
-    border-bottom: 1px solid var(--lighter-gray);
-    padding: 10px;
-    outline: none;
-    font-size: 12px;
-
-    width: 93%;
-  `,
-  CenterizeBox: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 7%;
-    border-bottom: 1px solid var(--lighter-gray);
-  `,
-  EyeBtn: styled.button`
-    border: none;
-    background-color: transparent;
-  `,
-
-  errordiv: styled.div`
-    height: 20px;
-  `,
-  InputWrapper: styled.div`
-    display: flex;
-    flex-direction: column;
-  `,
-};
