@@ -25,11 +25,11 @@ export const S = {
     height: 72.5vh;
     overflow-y: scroll;
     margin-top: 20px;
-    padding: 5px 0 0 5px;
+    padding: 5px 0 5px 5px;
 
     display: grid;
-    grid-template-columns: 23% 23% 23% 23%;
-    grid-template-rows: 350px 350px;
+    grid-template-columns: 31% 31% 31%;
+    grid-template-rows: 350px 350px 350px;
     grid-column-gap: 2%;
     grid-row-gap: 7%;
 

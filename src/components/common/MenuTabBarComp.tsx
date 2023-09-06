@@ -65,7 +65,6 @@ const S = {
     width: 100%;
     height: 70px;
     border-bottom: 1px solid grey;
-    box-shadow: 0px 3px 4px #f2f2f2;
 
     display: flex;
     align-items: center;
