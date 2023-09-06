@@ -61,6 +61,7 @@ const TaskStatus = ({ task, userRole }: TaskStatusProps) => {
       <S.TaskDetailBox
         onClick={statusDivOnClickHandler}
         backgroundColor={backgroundColor}
+        cursor={userRole === "freelancer" ? "pointer" : null}
       >
         {task.status}
       </S.TaskDetailBox>
