@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 
 interface TaskDetailBoxProps {
   backgroundColor?: string;
+  cursor?: string | null;
 }
 interface TaskDetailBoxWrapperProps {
   width?: string;
@@ -21,7 +22,7 @@ const S = {
     width: ${(props) => props.width};
   `,
   TaskDetailBox: styled.div<TaskDetailBoxProps>`
-    cursor: pointer;
+    cursor: ${(props) => (props.cursor ? props.cursor : null)};
     background-color: ${(props) =>
       props.backgroundColor ? props.backgroundColor : "#ffffff"};
     height: 40px;

@@ -37,7 +37,10 @@ const TaskTitle = ({ task, userRole }: TaskTitleProps) => {
 
   return (
     <S.TaskDetailBoxWrapper width="24%">
-      <S.TaskDetailBox onDoubleClick={handleTitleDoubleClick}>
+      <S.TaskDetailBox
+        onDoubleClick={handleTitleDoubleClick}
+        cursor={userRole === "freelancer" ? "pointer" : null}
+      >
         {isTitleEditable ? (
           <form onSubmit={titleSubmitHandler}>
             <S.TaskTitleInput
