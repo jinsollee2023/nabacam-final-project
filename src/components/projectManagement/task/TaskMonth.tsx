@@ -70,6 +70,7 @@ const TaskMonth = ({ task, userRole, month }: TaskMonthProps) => {
       <S.TaskDetailBox
         backgroundColor={monthColor}
         onClick={monthOptionOnclickHandler}
+        cursor={userRole === "freelancer" ? "pointer" : null}
         style={{ marginRight: "5px", borderRadius: "0" }}
       ></S.TaskDetailBox>
       {monthOptionOn && (
