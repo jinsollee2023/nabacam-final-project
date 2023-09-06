@@ -10,6 +10,15 @@ const PendingFreelancerList = () => {
     currentUserId: userId,
   });
 
+  if (
+    !pendingFreelancers ||
+    pendingFreelancers
+      .map((project) => project.pendingFreelancerUser.length)
+      .reduce((acc, cur) => acc + cur) === 0
+  ) {
+    return <S.DataStatus>보류한 프리랜서가 없습니다.</S.DataStatus>;
+  }
+
   return (
     <S.ListContainer>
       <S.Title>보류했던 프리랜서들을 다시 확인해보세요.</S.Title>
