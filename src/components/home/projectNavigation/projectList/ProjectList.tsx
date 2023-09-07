@@ -19,6 +19,7 @@ const ProjectList = ({
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const { userId } = useUserStore();
 
+  // 프로젝트 탐색에서 선택한 sortLabel을 기준으로 프로젝트 리스트 불러오기..
   const { projectsListBySort, projectListIsError, projectListIsLoading } =
     useProjectsQueries({
       currentUserId: userId,
@@ -33,6 +34,7 @@ const ProjectList = ({
     changeSearchKeyword("");
   }, []);
 
+  // 정렬되어 가져온 프로젝트 리스트 검색..!
   useEffect(() => {
     if (projectsListBySort) {
       const filteredProjectLists = projectsListBySort?.filter((project) => {
@@ -71,15 +73,6 @@ const ProjectList = ({
     <>
       {filteredProjects && (
         <S.ProjectListContainer>
-          {/* <span>
-            모집 중인 {selectedWorkField} 분야의 프로젝트는 총{" "}
-            {selectedWorkField === "전체보기"
-              ? filteredProjects.length
-              : filteredProjects.filter(
-                  (project) => project.category === selectedWorkField
-                ).length}
-            개입니다.
-          </span> */}
           {filteredProjects
             ?.filter(
               (project) =>

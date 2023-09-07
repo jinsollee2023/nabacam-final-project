@@ -4,7 +4,6 @@ import { styled } from "styled-components";
 import SortProjects from "./sortProjects/SortProjects";
 import WorkFieldCategory from "../freelancerMarket/workFieldCategory/WorkFieldCategory";
 import ProjectList from "./projectList/ProjectList";
-import React from "react";
 
 const ProjectNavigation = () => {
   const [selectedSortLabel, setSelectedSortLabel] = useState("");

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { S } from "./sortFreelancers.styles";
 import { Select, Space } from "antd";
-import React from "react";
 
 interface SortFreelancersProps {
   onSort: (label: string) => void;

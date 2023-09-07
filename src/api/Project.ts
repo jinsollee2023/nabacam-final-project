@@ -12,7 +12,9 @@ export const getProjects = async (id: string): Promise<Project[]> => {
   return projects as Project[];
 };
 
-export const getOngoingProjectsOfFreelancer = async (id: string): Promise<Project[]> => {
+export const getOngoingProjectsOfFreelancer = async (
+  id: string
+): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
@@ -83,6 +85,9 @@ export const deleteProject = async (projectId: string): Promise<void> => {
   await supabase.from("projects").delete().eq("projectId", projectId);
 };
 
+// 프로젝트 값 수정될 경우 clomn값 업데이트를 위해 사용..
+// 한별 : 프리랜서의 프로젝트 지원 취소 후 프로젝트 volunteer 업데이트를 위해 사용..
+// 한별2 : 새롭게 제안한 프리랜서가 추가될 경우 업데이트를 위해 사용..
 export const updateProject = async (
   projectId: string,
   column: {
@@ -100,7 +105,11 @@ export const updateProject = async (
     qualification?: number;
   }
 ): Promise<void> => {
-  await supabase.from("projects").update(column).eq("projectId", projectId).select();
+  await supabase
+    .from("projects")
+    .update(column)
+    .eq("projectId", projectId)
+    .select();
 };
 
 // 선택한 프로젝트에 제안했던 프리랜서 리스트 가져오기
@@ -119,10 +128,13 @@ export const getSuggestedFreelancers = async (
     }
     return data as { SuggestedFreelancers: string[] };
   } catch (error) {
-    throw new Error(`제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error(
+      `제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
   }
 };
 
+// 프리랜서로 로그인시 프로젝트 탐색에서 선택한 sortLabel을 기준으로 프로젝트 리스트를 불러온다..
 export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
   try {
     let orderByField = "";
@@ -171,13 +183,16 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
       .from("projects")
       .select("*")
       .order(orderByField, { ascending });
-    // .eq("status", "진행 전");
     if (error) {
-      alert(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      console.log(
+        `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`
+      );
     }
     return data;
   } catch (error) {
-    throw new Error(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error(
+      `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
   }
 };
 
@@ -195,7 +210,9 @@ export const getPendingFreelancers = async (
   return projects as Project[];
 };
 
-export const getOngoingProjectsOfClient = async (clientId: string): Promise<Project[]> => {
+export const getOngoingProjectsOfClient = async (
+  clientId: string
+): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
@@ -207,7 +224,9 @@ export const getOngoingProjectsOfClient = async (clientId: string): Promise<Proj
 };
 
 // 진행 완료된 프로젝트 가져오기
-export const getTerminationedProjects = async (clientId: string): Promise<Project[]> => {
+export const getTerminationedProjects = async (
+  clientId: string
+): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
