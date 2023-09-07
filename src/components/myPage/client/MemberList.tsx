@@ -25,12 +25,15 @@ const MemberList = () => {
   const addMemberButtonHandler = () => {
     const addedMembers = [...(client?.members || []), updateMemberData];
     // 업데이트
-    clientMembersMutation.mutate({
-      updatedData: { members: addedMembers },
-      userId,
-      setUser,
-    });
-    setIsAddModalOpen(false);
+    const shouldAddMember = window.confirm("추가하시겟습니까?");
+    if (shouldAddMember) {
+      clientMembersMutation.mutate({
+        updatedData: { members: addedMembers },
+        userId,
+        setUser,
+      });
+      setIsAddModalOpen(false);
+    }
   };
 
   const updateButtonHandler = (updateMember: Member) => {
@@ -39,25 +42,29 @@ const MemberList = () => {
   };
 
   const updateMemberButtonHandler = () => {
-    const updateMembers = client?.members?.map((member) => {
-      return member === currentMemberData
-        ? {
-            name: updateMemberData?.name,
-            team: updateMemberData?.team,
-            contact: {
-              email: updateMemberData?.contact.email,
-              phone: updateMemberData?.contact.phone,
-            },
-          }
-        : member;
-    });
-    // 업데이트
-    clientMembersMutation.mutate({
-      updatedData: { members: updateMembers },
-      userId,
-      setUser,
-    });
-    setIsAddModalOpen(false);
+    const shouldUpdateMamber = window.confirm("수정하시겟습니까?");
+    if (shouldUpdateMamber) {
+      const updateMembers = client?.members?.map((member) => {
+        return member === currentMemberData
+          ? {
+              name: updateMemberData?.name,
+              team: updateMemberData?.team,
+              contact: {
+                email: updateMemberData?.contact.email,
+                phone: updateMemberData?.contact.phone,
+              },
+            }
+          : member;
+      });
+      // 업데이트
+
+      clientMembersMutation.mutate({
+        updatedData: { members: updateMembers },
+        userId,
+        setUser,
+      });
+      setIsAddModalOpen(false);
+    }
   };
 
   const deleteMemberButtonHandler = (deleteMember: Member) => {
@@ -65,11 +72,16 @@ const MemberList = () => {
       (member) => member !== deleteMember
     );
     // 업데이트
-    clientMembersMutation.mutate({
-      updatedData: { members: deletedMember },
-      userId,
-      setUser,
-    });
+    const shouldDeleteMember = window.confirm("삭제하시겟습니까?");
+
+    if (shouldDeleteMember) {
+      clientMembersMutation.mutate({
+        updatedData: { members: deletedMember },
+        userId,
+        setUser,
+      });
+    }
+
     setIsAddModalOpen(false);
   };
 

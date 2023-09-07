@@ -93,6 +93,8 @@ const JoinForm = ({ role }: JoinFormProps) => {
         setUserRole,
         navigate
       );
+    } else {
+      alert("필수입력칸이 비워져있습니다.");
     }
   };
 

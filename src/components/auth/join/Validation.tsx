@@ -27,6 +27,8 @@ const Validation = (values: initialErrorsForm) => {
   //   앞자리 010 중간 자리 0~9 숫자로 3~4글자  0~9 4글자
   const phoneReg = /^(010{1})[0-9]{3,4}[0-9]{4}$/;
 
+  const nameReg = /^[가-힣]{2,8}$/;
+
   if (values.email === "") {
     errors.email = "이메일을 입력해주세요.";
   } else if (!emailRegEx.test(values.email)) {
@@ -50,8 +52,9 @@ const Validation = (values: initialErrorsForm) => {
 
   if (values.name === "") {
     errors.name = "이름을 입력해주세요";
+  } else if (!nameReg.test(values.name)) {
+    errors.name = "한글로된 2자에서 8자사이의 성함을 작성해주세요";
   }
-
   return errors;
 };
 

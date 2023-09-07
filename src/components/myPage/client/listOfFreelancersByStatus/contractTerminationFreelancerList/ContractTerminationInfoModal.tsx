@@ -3,7 +3,7 @@ import { Project, User } from "../../../../../Types";
 import FreelancerProfile from "../../../../../components/modal/freelancerInfo/FreelancerProfile";
 import FreelancerResume from "../../../../../components/modal/freelancerInfo/FreelancerResume";
 import FreelancerPortfolio from "../../../../../components/modal/freelancerInfo/FreelancerPortfolio";
-import { S } from "../freelancerInfoModalByStatusStyle";
+import { S } from "../freelancerInfoModalByStatus.style";
 import dayjs from "dayjs";
 import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { useUserStore } from "../../../../../zustand/useUserStore";

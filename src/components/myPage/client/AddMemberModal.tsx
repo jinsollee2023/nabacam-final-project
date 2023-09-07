@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Member } from "src/Types";
-import { S } from "./addMemberModalStyle";
+import { S } from "./addMemberModal.style";
 import { useUserStore } from "src/zustand/useUserStore";
 
 interface AddMemberModalProps {
@@ -8,22 +8,11 @@ interface AddMemberModalProps {
   setUpdateMemberData: (updatdMemberData: Member) => void;
 }
 
-const AddMemberModal = ({
-  currentMemberData,
-  setUpdateMemberData,
-}: AddMemberModalProps) => {
-  const [name, setName] = useState(
-    currentMemberData ? currentMemberData.name : ""
-  );
-  const [team, setTeam] = useState(
-    currentMemberData ? currentMemberData.team : ""
-  );
-  const [email, setEmail] = useState(
-    currentMemberData ? currentMemberData.contact.email : ""
-  );
-  const [phone, setPhone] = useState(
-    currentMemberData ? currentMemberData.contact.phone : ""
-  );
+const AddMemberModal = ({ currentMemberData, setUpdateMemberData }: AddMemberModalProps) => {
+  const [name, setName] = useState(currentMemberData ? currentMemberData.name : "");
+  const [team, setTeam] = useState(currentMemberData ? currentMemberData.team : "");
+  const [email, setEmail] = useState(currentMemberData ? currentMemberData.contact.email : "");
+  const [phone, setPhone] = useState(currentMemberData ? currentMemberData.contact.phone : "");
   const { user } = useUserStore();
 
   useEffect(() => {
@@ -47,35 +36,19 @@ const AddMemberModal = ({
       </S.ClientInfo>
       <S.WriteBox>
         <S.Label htmlFor="memberName">이름</S.Label>
-        <S.Input
-          id="memberName"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <S.Input id="memberName" value={name} onChange={(e) => setName(e.target.value)} />
       </S.WriteBox>
       <S.WriteBox>
         <S.Label htmlFor="memberPhone">전화번호</S.Label>
-        <S.Input
-          id="memberPhone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
+        <S.Input id="memberPhone" value={phone} onChange={(e) => setPhone(e.target.value)} />
       </S.WriteBox>
       <S.WriteBox>
         <S.Label htmlFor="memberEmail">이메일</S.Label>
-        <S.Input
-          id="memberEmail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <S.Input id="memberEmail" value={email} onChange={(e) => setEmail(e.target.value)} />
       </S.WriteBox>
       <S.WriteBox>
         <S.Label htmlFor="memberTeam">담당 부서</S.Label>
-        <S.Input
-          id="memberTeam"
-          value={team}
-          onChange={(e) => setTeam(e.target.value)}
-        />
+        <S.Input id="memberTeam" value={team} onChange={(e) => setTeam(e.target.value)} />
       </S.WriteBox>
     </S.AddMemberBox>
   );

@@ -15,35 +15,51 @@ interface FreelancerListProps {
   selectedWorkField: string;
 }
 
-const FreelancerList = ({ selectedSortLabel, selectedWorkField }: FreelancerListProps) => {
-  const [selectedPortfolioIndex, setSelectedPortfolioIndex] = useState<PortfolioIndexMap>({});
+const FreelancerList = ({
+  selectedSortLabel,
+  selectedWorkField,
+}: FreelancerListProps) => {
+  const [selectedPortfolioIndex, setSelectedPortfolioIndex] =
+    useState<PortfolioIndexMap>({});
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
 
+  // 선택한 SortLabel를 기준으로 정렬된 프리랜서 데이터 불러오기
   const { freelancersDataBySort, freelancersError, freelancersIsLoading } =
     useFreelancersQueries(selectedSortLabel);
 
-  const [filteredFreelancers, setFilteredFreelancers] = useState<User[]>(freelancersDataBySort!);
+  const [filteredFreelancers, setFilteredFreelancers] = useState<User[]>(
+    freelancersDataBySort!
+  );
 
+  // 검색 키워드 초기화..
   useEffect(() => {
     changeSearchKeyword("");
   }, []);
 
+  // 정렬된 프리랜서 데이터가 들어오면 검색 실행..
   useEffect(() => {
     if (freelancersDataBySort) {
-      const filteredfreelancerLists = freelancersDataBySort?.filter((freelancer) => {
-        const lowerCaseSearch = String(searchKeyword).toLowerCase();
-        const workExp = String(freelancer.workExp);
-        return (
-          freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
-          freelancer?.workField?.workField?.toLowerCase().includes(lowerCaseSearch) ||
-          freelancer?.workField?.workSmallField?.toLowerCase().includes(lowerCaseSearch) ||
-          workExp === searchKeyword
-        );
-      });
+      const filteredfreelancerLists = freelancersDataBySort?.filter(
+        (freelancer) => {
+          const lowerCaseSearch = String(searchKeyword).toLowerCase();
+          const workExp = String(freelancer.workExp);
+          return (
+            freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
+            freelancer?.workField?.workField
+              ?.toLowerCase()
+              .includes(lowerCaseSearch) ||
+            freelancer?.workField?.workSmallField
+              ?.toLowerCase()
+              .includes(lowerCaseSearch) ||
+            workExp === searchKeyword
+          );
+        }
+      );
       setFilteredFreelancers(filteredfreelancerLists);
     }
   }, [freelancersDataBySort, searchKeyword]);
 
+  // sortLable로 불러오는 값이 달라질 때마다 인디케이터(포트폴리오 동그라미)값을 무조건 첫번째로 초기화
   useEffect(() => {
     if (freelancersDataBySort) {
       const initialSelectedIndex: PortfolioIndexMap = {};

@@ -1,4 +1,3 @@
-import React from "react";
 import { S } from "./suggestedProjectList.styles";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { Spin } from "antd";
@@ -8,6 +7,7 @@ import SuggestedProjectCard from "./SuggestedProjectCard";
 const SuggestedProjectList = () => {
   const { userId, user } = useUserStore();
 
+  // 현재 로그인한 유저 값을 넘겨서 제안받은 프로젝트 리스트 불러오기
   const {
     suggestedProjectList,
     suggestedProjectListIsError,

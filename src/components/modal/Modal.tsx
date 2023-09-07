@@ -1,5 +1,5 @@
 import React from "react";
-import { S } from "./ModalStyle";
+import { S } from "./modal.style";
 interface ModalProps {
   setIsModalOpen: (isModalOpen: boolean) => void;
   children: React.ReactNode;
