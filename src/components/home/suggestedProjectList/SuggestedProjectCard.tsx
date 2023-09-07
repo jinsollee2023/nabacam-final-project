@@ -26,12 +26,16 @@ const SuggestedProjectCard = ({
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   const { client } = useClientsQueries({ userId: projectItem.clientId });
+
+  // 프리랜서가 제안받은 프로젝트를 수락하거나 거절할 시 해당 프로젝트를 업데이트 해주기 위해..
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
   });
 
+  // 마감 날짜 구하기.. (이거는 진행 완료인 애들만 띄워주던가 없애던가 해야할듯 합니다요!)
   const dayOfWeek = getDayOfWeek(new Date(projectItem.expectedStartDate));
 
+  // 프로젝트 등록일이 오늘로부터 몇 일 전인지..
   const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
   const daysAgo = calculateDaysAgo(targetDate);
 
@@ -48,6 +52,7 @@ const SuggestedProjectCard = ({
           ),
         };
 
+        // 프로젝트 제안 거절시 현재 로그인한 프리랜서의 아이디를 해당 프로젝트의 제안한 프리랜서 배열에서 제거
         try {
           updateProjectMutation.mutate({
             projectId: projectItem.projectId as string,
@@ -65,6 +70,7 @@ const SuggestedProjectCard = ({
         `${projectItem.title}에 대한 제안을 수락하시겠습니까?`
       );
       if (isAcceptConfirmed) {
+        // 프로젝트 제안 수락 시 현재 로그인한 프리랜서 아이디를 프로젝트의 freelancerId값으로 추가
         const updatedProject = {
           ...projectItem,
           freelancerId: userId,
@@ -76,6 +82,7 @@ const SuggestedProjectCard = ({
           },
         };
 
+        // 프로젝트 수락 후 바뀐 프로젝트 값(updatedProject)을 업데이트..
         try {
           updateProjectMutation.mutate({
             projectId: projectItem.projectId as string,

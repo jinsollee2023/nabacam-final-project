@@ -1,17 +1,18 @@
 import supabase, { supabaseService } from "../config/supabaseClient";
 
 export const getPortfolios = async () => {
+  // 프리랜서 마켓에서 뿌려주기 위해 전체 포트폴리오 가져오기
   try {
     const { data, error } = await supabase.from("portfolios").select("*");
     if (error) {
-      alert(
-        `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
+      console.log(
+        `전체 포트폴리오를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
       );
     }
     return data;
   } catch (error) {
     throw new Error(
-      `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
+      `전체 포트폴리오를 가져오는 중 오류가 발생했습니다.\n ${error}`
     );
   }
 };

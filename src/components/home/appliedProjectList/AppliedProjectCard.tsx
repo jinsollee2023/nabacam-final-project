@@ -12,7 +12,10 @@ const AppliedProjectCard = ({
   projectItem,
   userId,
 }: AppliedProjectCardProps) => {
+  // 프로젝트의 클라이언트 아이디 값을 보내서 클라이언트 name을 사용하기 위해 client를 불러온다.
   const { client } = useClientsQueries({ userId: projectItem.clientId });
+
+  // 아래서 적어놓은 것과 같이.. 지원 취소 시 업데이트를 위해 미리 불러온다..
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
   });
@@ -27,6 +30,7 @@ const AppliedProjectCard = ({
         volunteer: projectItem.volunteer?.filter((item) => item !== userId),
       };
 
+      // 프리랜서가 지원을 취소하면 해당 프리랜서를 제외한 프로젝트 정보를 업데이트 해준다.
       try {
         updateProjectMutation.mutate({
           projectId: projectItem.projectId as string,

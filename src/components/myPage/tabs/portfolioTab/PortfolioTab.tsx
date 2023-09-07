@@ -25,6 +25,7 @@ const PortfolioTab = () => {
     newPortfolio,
     changeNewPortfolio,
   } = usePortfolioStore();
+
   const {
     addPortfolioMutation,
     deletePortfolioMutation,
