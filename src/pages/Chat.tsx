@@ -32,18 +32,23 @@ const Chat = () => {
       </head>
 
       <main className="flex h-full w-full flex-1 flex-col items-stretch bg-blue-400 py-10 px-20 text-gray-800">
+        {/* 제목 */}
         <h1 className="bg-green-200 px-4 py-2 text-4xl">
           <a>WorkWave Chat</a>
           <button className="ml-4 rounded border bg-red-200 p-2 text-xs">
             New room
           </button>
         </h1>
-        <div className="bg-red-200 p-2">
-          <Messages />
-          <form onSubmit={handleSubmit}>
-            <input type="text" name="message" />
-          </form>
-        </div>
+        {/* 본문 */}
+        <Messages />
+        {/* 창 */}
+        <form onSubmit={handleSubmit} className="w-full bg-gray-100 p-1">
+          <input
+            type="text"
+            name="message"
+            className="w-full border-none bg-neutral-500"
+          />
+        </form>
 
         {/* <div className="flex-1 bg-pink-200 p-4">
           {rooms.map((room) => (
