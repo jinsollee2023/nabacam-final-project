@@ -95,6 +95,7 @@ const FreelancerCard = ({
       );
       return;
     }
+    alert("제안이 전달되었습니다.");
     const suggestedFreelancers =
       suggestedFreelancersData?.SuggestedFreelancers || [];
 

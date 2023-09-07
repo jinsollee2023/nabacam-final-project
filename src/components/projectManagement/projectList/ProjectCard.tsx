@@ -37,7 +37,10 @@ const ProjectCard = ({ project }: projectCardProps) => {
   } = useProjectValid();
 
   const deleteProjectButtonHandler = () => {
-    deleteProjectMutation.mutate(project.projectId!);
+    const shouldDelete = window.confirm("프로젝트를 삭제하시겟습니까?");
+    if (shouldDelete) {
+      deleteProjectMutation.mutate(project.projectId!);
+    }
   };
 
   useEffect(() => {
@@ -55,7 +58,10 @@ const ProjectCard = ({ project }: projectCardProps) => {
 
   const updateProjectButtonHandler = () => {
     checkValidation(values);
-    allValid && setUpdateSubmitButtonClicked(true);
+    const shouldUpdate = window.confirm("프로젝트를 수정하시겟습니까?");
+    if (shouldUpdate) {
+      allValid && setUpdateSubmitButtonClicked(true);
+    }
   };
 
   const updateProjectModalOpenHandler = () => {

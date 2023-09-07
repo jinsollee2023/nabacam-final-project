@@ -57,6 +57,7 @@ const LoginComp = () => {
           setUserRole(user.role as string);
           setUser(user);
           navigate("/home");
+          alert("로그인 성공하였습니다.");
         }
       } catch (error) {
         console.error(error);

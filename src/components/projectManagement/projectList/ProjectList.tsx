@@ -84,8 +84,14 @@ const ProjectList = () => {
   };
 
   const addProjectButtonHandler = () => {
-    checkValidation(values);
-    setAddSubmitButtonClicked(true);
+    const shouldAddProject = window.confirm("프로젝트를 게시하시겟습니까?");
+    if (shouldAddProject) {
+      checkValidation(values);
+      setAddSubmitButtonClicked(true);
+      alert("프로젝트가 게시되었습니다.");
+    } else {
+      alert("필수사항을 입력해주세요");
+    }
   };
 
   const beforeProgressProjects = filteredProjects?.filter(
