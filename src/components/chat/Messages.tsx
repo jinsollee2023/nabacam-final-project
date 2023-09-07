@@ -7,18 +7,8 @@ interface Message {
   messageId: string;
   content: string;
   userId: string;
-}
-
-interface Payload {
-  schema: string;
-  table: string;
-  commit_timestamp: string;
-  eventType: string;
-  new: {
-    content: string;
-    created_at: string;
-    messageId: string;
-    userId: string;
+  messageUser: {
+    name: string /**타입 재정의 */;
   };
 }
 
@@ -28,7 +18,9 @@ const Messages = () => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const getData = async () => {
-    const { data } = await supabase.from("messages").select("*");
+    const { data } = await supabase
+      .from("messages")
+      .select("*, messageUser: users(name)"); /** users테이블도 같이 */
     if (!data) {
       toast.error("no data");
       return;
@@ -49,7 +41,8 @@ const Messages = () => {
           schema: "public",
           table: "messages",
         },
-        (payload: any) => {
+        () => {
+          /**payload */
           getData();
         }
       )
@@ -59,6 +52,8 @@ const Messages = () => {
       supabase.removeChannel(channel);
     };
   }, []);
+
+  console.log({ messages });
 
   return (
     /** 부모요소에 스크롤 있어야 */
@@ -73,7 +68,10 @@ const Messages = () => {
                 : "self-end rounded bg-gray-100 p-1.5 text-gray-600"
             }
           >
-            {message.content}
+            <span className="block text-xs text-gray-500">
+              {message.messageUser.name}
+            </span>
+            <span className="">{message.content}</span>
           </li>
         ))}
       </ul>
