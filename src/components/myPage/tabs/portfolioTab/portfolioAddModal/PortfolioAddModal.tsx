@@ -49,6 +49,7 @@ const PortfolioAddModal = () => {
     }
   };
 
+  // portfolioTab에서 사용하기 위해 newPortfolio가 담긴 changeNewPortfolio를 zustand로 보내는..
   const { changeNewPortfolio } = usePortfolioStore();
   const newPortfolio: Portfolio = {
     portfolioId: pfId,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Select, Space } from "antd";
 import { S } from "../../freelancerMarket/sortFreelancers/sortFreelancers.styles";
 
