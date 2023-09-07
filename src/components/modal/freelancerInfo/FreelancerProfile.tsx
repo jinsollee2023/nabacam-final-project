@@ -1,7 +1,7 @@
 import React from "react";
 import { FiPhoneCall } from "react-icons/fi";
 import { FiMail } from "react-icons/fi";
-import { S } from "./freelancerInfoStyle";
+import { S } from "./freelancerInfo.style";
 import { IUser } from "../../../Types";
 
 interface FreelancerProfileProps {
@@ -9,6 +9,7 @@ interface FreelancerProfileProps {
 }
 
 const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
+  // 클릭 시 텍스트 클립보드에 복사하기 위해 생성
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);

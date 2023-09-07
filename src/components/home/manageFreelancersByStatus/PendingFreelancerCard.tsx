@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { S } from "./manageFreelancersByStatusStyle";
+import { S } from "./manageFreelancersByStatus.style";
 import { Project, User } from "src/Types";
 import Modal from "../../modal/Modal";
 import { IUser } from "../../../Types";
@@ -17,7 +17,6 @@ const PendingFreelancerCard = ({ project, freelancer, userId }: PendingFreelance
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
-    pendingFreelancers,
     updateFreelancerApprovalMutation,
     deleteVolunteerAndPendingFreelancerMutation,
     deletePendingFreelancerMutation,
@@ -26,7 +25,9 @@ const PendingFreelancerCard = ({ project, freelancer, userId }: PendingFreelance
     currentUserId: userId,
   });
 
-  const updateFreelancer = (
+  // 보류한 프리랜서 목록 업데이트
+  // 보류한 프리랜서 목록 -> 상세 모달 -> 계약 버튼 클릭 시
+  const updatePendingFreelancers = (
     userId: string,
     projectId: string,
     endDate: string,
@@ -34,7 +35,9 @@ const PendingFreelancerCard = ({ project, freelancer, userId }: PendingFreelance
     volunteer: string[],
     pendingFreelancer: string[]
   ) => {
+    // 계약 시 프로젝트 아이디를 넣어주기 위해 생성
     const customProjectIds = projectIds.concat(projectId);
+    // 계약 시 계약된 프리랜서는 목록에서 지워주기 위해 생성
     const customPendingFreelancers = pendingFreelancer.filter((v) => v !== userId);
     updateFreelancerApprovalMutation.mutate({ userId, projectId, endDate });
     deleteVolunteerAndPendingFreelancerMutation.mutate({
@@ -47,11 +50,14 @@ const PendingFreelancerCard = ({ project, freelancer, userId }: PendingFreelance
     setIsModalOpen(false);
   };
 
+  // 거절한 프리랜서 설정(삭제)
+  // 보류한 프리랜서 목록 -> 상세 모달 -> 거절 버튼 클릭 시
   const deletePendingFreelancer = (
     projectId: string,
     freelancerId: string,
     pendingFreelancer: string[]
   ) => {
+    // 거절 시 보류한 프리랜서 목록에서 지워주기 위해 생성
     const updatePendingFreelancerData = pendingFreelancer.filter(
       (freelancer) => freelancer !== freelancerId
     );
@@ -62,10 +68,6 @@ const PendingFreelancerCard = ({ project, freelancer, userId }: PendingFreelance
     alert("프리랜서 거절이 완료되었습니다.");
     setIsModalOpen(false);
   };
-
-  if (!pendingFreelancers || pendingFreelancers.length === 0) {
-    return <S.DataStatus>보류한 프리랜서가 없습니다.</S.DataStatus>;
-  }
 
   return (
     <>
@@ -107,7 +109,7 @@ const PendingFreelancerCard = ({ project, freelancer, userId }: PendingFreelance
                 <>
                   <S.ContractBtn
                     onClick={() =>
-                      updateFreelancer(
+                      updatePendingFreelancers(
                         freelancer.userId,
                         project.projectId ?? "",
                         project.date?.endDate as string,
