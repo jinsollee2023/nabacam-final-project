@@ -1,5 +1,5 @@
 import { User } from "../../../../../Types";
-import { S } from "../../../../../components/modal/freelancerInfo/freelancerInfoStyle";
+import { S } from "../../../../modal/freelancerInfo/freelancerInfo.style";
 import FreelancerPortfolio from "../../../../../components/modal/freelancerInfo/FreelancerPortfolio";
 import FreelancerProfile from "../../../../../components/modal/freelancerInfo/FreelancerProfile";
 import FreelancerResume from "../../../../../components/modal/freelancerInfo/FreelancerResume";

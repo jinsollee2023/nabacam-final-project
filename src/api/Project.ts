@@ -196,6 +196,7 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
   }
 };
 
+// 해당 프로젝트에 지원했으나 보류된 프리랜서 가져오기
 export const getPendingFreelancers = async (
   clientId: string,
   pendingFreelancer: string | null | string[]
@@ -222,6 +223,7 @@ export const getOngoingProjectsOfClient = async (
   return projects as Project[];
 };
 
+// 진행 완료된 프로젝트 가져오기
 export const getTerminationedProjects = async (
   clientId: string
 ): Promise<Project[]> => {
@@ -234,6 +236,7 @@ export const getTerminationedProjects = async (
   return projects as Project[];
 };
 
+// 종료된 프로젝트와 진행했던 프리랜서 가져오기
 export const getTerminationedProjectsWithFreelancer = async (
   clientId: string,
   freelancerId: string
@@ -248,7 +251,7 @@ export const getTerminationedProjectsWithFreelancer = async (
   return projects as Project[];
 };
 
-/* 프리랜서 승인 API */
+// 프리랜서 승인
 export const updateApprovalFreelancer = async (
   userId: string,
   projectId: string,
@@ -264,7 +267,7 @@ export const updateApprovalFreelancer = async (
     .match({ projectId });
 };
 
-/* 지원한 프리랜서&보류한 프리랜서 탭에서 계약된 프리랜서 목록 삭제 API */
+// 지원한 프리랜서&보류한 프리랜서 탭에서 계약된 프리랜서 목록 삭제
 export const deleteVolunteerAndPendingFreelancer = async (
   projectId: string,
   updateVolunteer: string[],
@@ -279,7 +282,7 @@ export const deleteVolunteerAndPendingFreelancer = async (
     .match({ projectId });
 };
 
-/* 프리랜서 보류 */
+// 프리랜서 보류
 export const updatePendingFreelancer = async (
   projectId: string,
   updateVolunteer: string[],
@@ -291,7 +294,7 @@ export const updatePendingFreelancer = async (
     .match({ projectId });
 };
 
-/* 보류된 프리렌서 거절 */
+// 보류된 프리렌서 거절(삭제)
 export const deletePendingFreelancer = async (
   projectId: string,
   updatePendingFreelancer: string[]

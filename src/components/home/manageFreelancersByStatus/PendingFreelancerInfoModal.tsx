@@ -1,6 +1,6 @@
 import React from "react";
 import { Project, User } from "../../../Types";
-import { S } from "./freelancersByStatusInfoModalStyle";
+import { S } from "./freelancersByStatusInfoModal.style";
 import FreelancerProfile from "../../../components/modal/freelancerInfo/FreelancerProfile";
 import FreelancerResume from "../../../components/modal/freelancerInfo/FreelancerResume";
 import FreelancerPortfolio from "../../../components/modal/freelancerInfo/FreelancerPortfolio";
