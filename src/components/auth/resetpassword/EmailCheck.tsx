@@ -26,7 +26,7 @@ const EmailCheck = ({ openModal }: openModal) => {
     }
   };
 
-  const emailOnChange = (e: any) => {
+  const emailOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
