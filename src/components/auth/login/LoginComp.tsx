@@ -62,6 +62,8 @@ const LoginComp = () => {
       } catch (error) {
         console.error(error);
       }
+    } else {
+      alert("필수입력에 내용에맞게 입력해주세요");
     }
   };
 
