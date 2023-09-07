@@ -8,6 +8,7 @@ import PortfolioDetailModal from "../../myPage/tabs/portfolioTab/portfolioDetail
 import Modal from "../Modal";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import { usePortfolioStore } from "src/zustand/usePortfolioStore";
 
 interface FreelancerPortfolioProps {
   user: IUser;
@@ -15,8 +16,8 @@ interface FreelancerPortfolioProps {
 
 const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
   const { userId } = useUserStore();
+  const { selectedPortfolio, setSelectedPortfolio } = usePortfolioStore();
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedPortfolio, setSelectedPortfolio] = useState<Portfolio | undefined>(undefined);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const {
