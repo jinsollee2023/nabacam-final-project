@@ -112,7 +112,7 @@ const useProjectsQueries = ({
     }
   );
 
-  // 제안 받은 프로젝트 확인에 사용
+  // 제안 받은 프로젝트 리스트 불러오기에 사용
   const {
     data: suggestedProjectList,
     isError: suggestedProjectListIsError,
@@ -150,6 +150,11 @@ const useProjectsQueries = ({
     }
   );
 
+  // 프로젝트에 대한 변경사항이 있을 시 업데이트해준다..
+  // 한별 : 프리랜서의 프로젝트 지원 취소 후 프로젝트 volunteer 업데이트를 위해 사용..
+  // 한별2 : 프리랜서가 프로젝트 지원할 경우 프로젝트 volunteer 업데이트를 위해 사용..
+  // 한별3 : 프리랜서가 제안받은 프로젝트 수락 및 거절 시 SuggestedFreelancers 값에서 삭제하고
+  //         추가로 수락 시에는 freelancerId에 해당 프리랜서 id를 넣어주기 위해 사용..
   const updateProjectMutation = useMutation(
     ({
       projectId,
@@ -177,7 +182,9 @@ const useProjectsQueries = ({
         queryClient.invalidateQueries(["projectsListBySort"]);
         queryClient.invalidateQueries(["projectList"]);
         queryClient.invalidateQueries(["ongoingProjectsOfClient"]);
-        queryClient.fetchInfiniteQuery(["terminationedProjectsWithFreelancers"]);
+        queryClient.fetchInfiniteQuery([
+          "terminationedProjectsWithFreelancers",
+        ]);
       },
     }
   );
@@ -216,6 +223,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 새롭게 제안한 프리랜서를 해당 프로젝트에 업데이트 해주기..
   const updateSuggestedFreelancersDataMutation = useMutation(
     ({
       projectId,
@@ -235,6 +243,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 프리랜서로 로그인시 프로젝트 탐색에서 선택한 sortLabel을 기준으로 프로젝트 리스트를 불러온다..
   const {
     data: projectsListBySort,
     error: projectListIsError,

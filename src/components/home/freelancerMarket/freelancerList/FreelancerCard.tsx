@@ -47,6 +47,8 @@ const FreelancerCard = ({
       setSelectedProject(null);
     }
   }, [isDetailModalOpen, setSelectedProject]);
+
+  // 프리랜서 마켓에 들어가는 포트폴리오 목록 가져오기
   const { portfoliosData, portfoliosError, portfoliosIsLoading } =
     usePortfoliosQueries(freelancerItem);
 
@@ -101,6 +103,8 @@ const FreelancerCard = ({
       ...(suggestedFreelancers as string[]),
       freelancerItem.userId,
     ];
+
+    // 새롭게 제안한 프리랜서 추가 후 업데이트를 위한 코드
     updateSuggestedFreelancersDataMutation.mutate({
       projectId: selectedProject?.projectId as string,
       updatedSuggestedFreelancers,

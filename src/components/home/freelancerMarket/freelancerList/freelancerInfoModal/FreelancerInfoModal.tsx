@@ -1,4 +1,3 @@
-import React from "react";
 import { User } from "../../../../../Types";
 import { S } from "../../../../../components/modal/freelancerInfo/freelancerInfoStyle";
 import FreelancerPortfolio from "../../../../../components/modal/freelancerInfo/FreelancerPortfolio";
