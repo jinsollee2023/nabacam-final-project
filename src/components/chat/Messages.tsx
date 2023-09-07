@@ -26,15 +26,16 @@ const Messages = () => {
   const { user } = useUserStore();
   const userId = user.userId;
   const [messages, setMessages] = useState<Message[]>([]);
+
+  const getData = async () => {
+    const { data } = await supabase.from("messages").select("*");
+    if (!data) {
+      toast.error("no data");
+      return;
+    }
+    setMessages(data);
+  };
   useEffect(() => {
-    const getData = async () => {
-      const { data } = await supabase.from("messages").select("*");
-      if (!data) {
-        toast.error("no data");
-        return;
-      }
-      setMessages(data);
-    };
     getData();
   }, []);
 
@@ -49,8 +50,7 @@ const Messages = () => {
           table: "messages",
         },
         (payload: any) => {
-          console.log(payload);
-          setMessages((current) => [...current, payload.new]);
+          getData();
         }
       )
       .subscribe();
