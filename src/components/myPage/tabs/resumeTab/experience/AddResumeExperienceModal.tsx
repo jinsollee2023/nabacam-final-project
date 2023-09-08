@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
 import type { ResumeExperience } from "../../../../../Types";
-import { useResumeExperienceStore } from "../../../../../zustand/useResumeExperienceStore";
+import { useResumeExperienceStore } from "../../../../../store/useResumeExperienceStore";
 import dayjs from "dayjs";
 import { S } from "../Resume.styles";
 

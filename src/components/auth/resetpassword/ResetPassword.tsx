@@ -33,13 +33,13 @@ const ResetPassword = () => {
   // errors 바로확인하고 validation 체크 후 진행하게해주기위해 useEffect 사용
 
   useEffect(() => {
-    setErrors(Validation(values));
+    // setErrors(Validation(values));
   }, [values]);
 
   //  password 업데이트 하는 로직
   const updatePasswordHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setErrors(Validation(values));
+    // setErrors(Validation(values));
     if (!errors.password && !errors.passwordConfirmCurrent) {
       try {
         const { data, error } = await supabase.auth.updateUser({
@@ -60,7 +60,7 @@ const ResetPassword = () => {
     const { name, value } = event.target;
 
     setValues({ ...values, [name]: value });
-    setErrors(Validation(values));
+    // setErrors(Validation(values));
   };
   const showPasswordHandler = () => {
     setShowPswd(!showPswd);

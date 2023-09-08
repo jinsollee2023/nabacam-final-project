@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Select } from "antd";
 import PreviewImage from "./PreviewImage";
 import { uploadUserImage } from "../../../api/User";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
-
-import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./joinComp.styles";
 import { toast } from "react-toastify";
@@ -18,19 +16,22 @@ interface JoinFormProps {
 interface initialValuesForm {
   email: string;
   password: string;
-  passwordConfirmCurrent: string;
+  passwordConfirm: string;
   name: string;
-  workExp: number;
+  workExp: number | null;
   phone: string;
-  category: string;
   workField: string;
+  workSmallField: string;
   photoFile: File | null;
 }
 interface initialErrorsForm {
   email: string | null;
   password: string | null;
-  passwordConfirmCurrent: string | null;
+  passwordConfirm: string | null;
   name: string | null;
+  workField: string | null;
+  workSmallField: string | null;
+  workExp: string | null;
   phone: string | null;
 }
 // 회원가입
@@ -40,20 +41,23 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const initialValues: initialValuesForm = {
     email: "",
     password: "",
-    passwordConfirmCurrent: "",
+    passwordConfirm: "",
     name: "",
-    workExp: 0,
+    workExp: null,
     phone: "",
-    category: "",
     workField: "",
+    workSmallField: "",
     photoFile: null,
   };
 
   const initialErrors: initialErrorsForm = {
     email: null,
     password: null,
-    passwordConfirmCurrent: null,
+    passwordConfirm: null,
     name: null,
+    workField: null,
+    workSmallField: null,
+    workExp: null,
     phone: null,
   };
 
@@ -62,29 +66,31 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const [errors, setErrors] = useState<initialErrorsForm>(initialErrors);
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [showConfirmPswd, setShowConfirmPswd] = useState<boolean>(false);
-  const [findPasswordModalOpen, setFindPasswordModalOpen] =
-    useState<boolean>(false);
+  const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
+
   const { setUser, setUserId, setUserRole } = useUserStore(); // 추가
+  const {
+    validateEmail,
+    validatePassword,
+    validatePasswordConfirm,
+    validateName,
+    validateWorkField,
+    validateWorkSmallField,
+    validateWorkExp,
+    validatePhone,
+  } = Validation();
 
-  // erros 변경사항 바로확인하기 위한 useEffect
-
+  const emailInput = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
-    setErrors(Validation(values));
-  }, [values]);
+    if (emailInput.current) {
+      emailInput.current.focus();
+    }
+  }, []);
 
   // 회원가입 api
 
-  const signUP = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setErrors(Validation(values));
-
-    if (
-      !errors.email &&
-      !errors.password &&
-      !errors.passwordConfirmCurrent &&
-      !errors.name &&
-      !errors.phone
-    ) {
+  const signUp = async () => {
+    try {
       await clientSignupHandler(
         values,
         uploadUserImage,
@@ -92,11 +98,57 @@ const JoinForm = ({ role }: JoinFormProps) => {
         setUser,
         setUserId,
         setUserRole,
-        navigate
+        navigate,
+        setSubmitButtonClicked
       );
-    } else {
-      toast.error("필수입력칸이 비워져있습니다.");
+    } catch (error) {
+      setSubmitButtonClicked(false);
     }
+  };
+
+  useEffect(() => {
+    if (
+      role === "client" &&
+      submitButtonClicked &&
+      errors.email === "" &&
+      errors.password === "" &&
+      errors.passwordConfirm === "" &&
+      errors.name === "" &&
+      errors.phone === ""
+    ) {
+      signUp();
+    }
+  }, [submitButtonClicked, errors]);
+
+  const validateRegister = () => {
+    const emailError = validateEmail(values.email);
+    const passwordError = validatePassword(values.password);
+    const passwordConfirmError = validatePasswordConfirm(
+      values.password,
+      values.passwordConfirm
+    );
+    const nameError = validateName(values.name);
+    const workFieldError = validateWorkField(values.workField);
+    const workSmallFieldError = validateWorkSmallField(values.workSmallField);
+    const workExpError = validateWorkExp(values.workExp);
+    const phoneError = validatePhone(values.phone);
+
+    setErrors({
+      email: emailError,
+      password: passwordError,
+      passwordConfirm: passwordConfirmError,
+      name: nameError,
+      workField: workFieldError,
+      workSmallField: workSmallFieldError,
+      workExp: workExpError,
+      phone: phoneError,
+    });
+  };
+
+  const signUpButtonHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    validateRegister();
+    setSubmitButtonClicked(true);
   };
 
   //  순수 useState handler
@@ -107,6 +159,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const handlePhotoURLOnChange = (file: File) => {
     setValues({ ...values, photoFile: file });
   };
+
   // 비밀번호 표시
   const showPasswordHandler = () => {
     setShowPswd(!showPswd);
@@ -125,7 +178,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
     <>
       <S.JoinFormContainer>
         {/* 폼 안에 있는건 전부 input */}
-        <S.JoinForm onSubmit={(e) => signUP(e)}>
+        <S.JoinForm onSubmit={signUpButtonHandler}>
           <PreviewImage
             handlePhotoURLOnChange={handlePhotoURLOnChange}
             defaultImage={JoinDefaultImage}
@@ -136,10 +189,15 @@ const JoinForm = ({ role }: JoinFormProps) => {
             </label>
             <S.JoinInput
               id="emailInput"
+              ref={emailInput}
               type="email"
               placeholder="ex ) email@google.com"
               value={values.email}
               onChange={(e) => handleChange("email", e.target.value)}
+              onBlur={(e) => {
+                const emailError = validateEmail(e.target.value);
+                setErrors({ ...errors, email: emailError });
+              }}
             />
             <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
 
@@ -155,6 +213,10 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 type={showPswd ? "text" : "password"}
                 value={values.password}
                 onChange={(e) => handleChange("password", e.target.value)}
+                onBlur={(e) => {
+                  const passwordError = validatePassword(e.target.value);
+                  setErrors({ ...errors, password: passwordError });
+                }}
               />
               <S.CenterizeBox>
                 <S.EyeBtn onClick={showPasswordHandler} type="button">
@@ -176,10 +238,20 @@ const JoinForm = ({ role }: JoinFormProps) => {
               <S.PasswordInput
                 id="checkPasswordInput"
                 type={showConfirmPswd ? "text" : "password"}
-                value={values.passwordConfirmCurrent}
+                value={values.passwordConfirm}
                 onChange={(e) =>
-                  handleChange("passwordConfirmCurrent", e.target.value)
+                  handleChange("passwordConfirm", e.target.value)
                 }
+                onBlur={(e) => {
+                  const passwordComfirmError = validatePasswordConfirm(
+                    values.password,
+                    e.target.value
+                  );
+                  setErrors({
+                    ...errors,
+                    passwordConfirm: passwordComfirmError,
+                  });
+                }}
               />
               <S.CenterizeBox>
                 <S.EyeBtn onClick={showConfirmPasswordHandler} type="button">
@@ -189,9 +261,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
             </S.PasswordInputWrapper>
 
             <S.errordiv>
-              {errors.passwordConfirmCurrent && (
-                <p>{errors.passwordConfirmCurrent}</p>
-              )}
+              {errors.passwordConfirm && <p>{errors.passwordConfirm}</p>}
             </S.errordiv>
 
             <label htmlFor="nameInput" style={{ color: "var(--darker-gray)" }}>
@@ -203,6 +273,10 @@ const JoinForm = ({ role }: JoinFormProps) => {
               type="text"
               value={values.name}
               onChange={(e) => handleChange("name", e.target.value)}
+              onBlur={(e) => {
+                const nameError = validateName(e.target.value);
+                setErrors({ ...errors, name: nameError });
+              }}
             />
             <div>{errors.name && <p>{errors.name}</p>}</div>
 
@@ -222,7 +296,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                   placeholder="Select a person"
                   optionFilterProp="children"
                   onChange={(selectedValue) =>
-                    handleChange("category", selectedValue)
+                    handleChange("workSmallField", selectedValue)
                   }
                   options={[
                     {
@@ -242,10 +316,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       label: "기획",
                     },
                     {
-                      value: "기타",
-                      label: "기타",
-                    },
-                    {
                       value: "마케팅",
                       label: "마케팅",
                     },
@@ -255,6 +325,8 @@ const JoinForm = ({ role }: JoinFormProps) => {
                     },
                   ]}
                 />
+                <div>{errors.workField && <p>{errors.workField}</p>}</div>
+
                 <label
                   htmlFor="workSmallFieldInput"
                   style={{ color: "var(--darker-gray)" }}
@@ -267,7 +339,24 @@ const JoinForm = ({ role }: JoinFormProps) => {
                   type="text"
                   value={values.workField}
                   onChange={(e) => handleChange("workField", e.target.value)}
+                  onFocus={() => {
+                    const workFieldError = validateWorkField(values.workField);
+                    setErrors({ ...errors, workField: workFieldError });
+                  }}
+                  onBlur={(e) => {
+                    const workSmallFieldError = validateWorkSmallField(
+                      e.target.value
+                    );
+                    setErrors({
+                      ...errors,
+                      workSmallField: workSmallFieldError,
+                    });
+                  }}
                 />
+                <div>
+                  {errors.workSmallField && <p>{errors.workSmallField}</p>}
+                </div>
+
                 <label
                   htmlFor="workExpInput"
                   style={{ color: "var(--darker-gray)" }}
@@ -277,9 +366,17 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 <S.JoinInput
                   id="workExpInput"
                   type="number"
-                  value={values.workExp}
+                  value={values.workExp as number}
                   onChange={(e) => handleChange("workExp", e.target.value)}
+                  onBlur={(e) => {
+                    const workExpError = validateWorkExp(
+                      Number(e.target.value)
+                    );
+                    setErrors({ ...errors, workExp: workExpError });
+                  }}
+                  onWheel={(e) => e.preventDefault()}
                 />
+                <div>{errors.workExp && <p>{errors.workExp}</p>}</div>
               </>
             )}
 
@@ -294,6 +391,10 @@ const JoinForm = ({ role }: JoinFormProps) => {
               type="text"
               value={values.phone}
               onChange={(e) => handleChange("phone", e.target.value)}
+              onBlur={(e) => {
+                const phoneError = validatePhone(e.target.value);
+                setErrors({ ...errors, phone: phoneError });
+              }}
               placeholder="ex) - 빼고 입력해주세요 "
             />
             <div>{errors.phone && <p>{errors.phone}</p>}</div>
@@ -301,9 +402,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
           </S.InputWrapper>
 
           <S.JoinButton>
-            {role !== "freelancer"
-              ? "클라이언트 회원가입"
-              : "프리랜서 회원가입"}
+            {role === "client" ? "클라이언트 회원가입" : "프리랜서 회원가입"}
           </S.JoinButton>
 
           <S.LoginButton type="button" onClick={() => navigate("/login")}>

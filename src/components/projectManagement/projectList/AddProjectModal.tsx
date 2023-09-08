@@ -1,13 +1,13 @@
 import { Checkbox, DatePicker, Select } from "antd";
 import { useEffect, useState } from "react";
-import { useProjectStore } from "../../../zustand/useProjectStore";
+import { useProjectStore } from "../../../store/useProjectStore";
 import S from "./ProjectListStyles";
 import dayjs from "dayjs";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
+import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import useProjectValid from "src/hooks/useProjectValid";
 import { toast } from "react-toastify";
 

@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Values,
-  useProjectValuesStore,
-} from "../../src/zustand/useProjectValuesStore";
+import { Values, useProjectValuesStore } from "../store/useProjectValuesStore";
 
 const useProjectValid = () => {
   const { values } = useProjectValuesStore();

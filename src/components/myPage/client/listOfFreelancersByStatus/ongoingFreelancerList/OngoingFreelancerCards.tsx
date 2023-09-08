@@ -5,7 +5,7 @@ import OngoingFreelancerInfoModal from "./OngoingFreelancerInfoModal";
 import dayjs from "dayjs";
 import { FiPhoneCall } from "react-icons/fi";
 import { FiMail } from "react-icons/fi";
-import { useUserStore } from "../../../../../zustand/useUserStore";
+import { useUserStore } from "../../../../../store/useUserStore";
 import { IUser, Project, User } from "../../../../../Types";
 import { toast } from "react-toastify";
 
