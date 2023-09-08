@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
 import supabase, { supabaseService } from "../config/supabaseClient";
 import { getPhotoURL } from "./User";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // 회원탈퇴
 
