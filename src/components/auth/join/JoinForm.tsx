@@ -10,6 +10,7 @@ import Validation from "./Validation";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./joinComp.styles";
+import { formatPhoneNumber } from "src/components/common/commonFunc";
 
 interface JoinFormProps {
   role: string;
@@ -35,7 +36,6 @@ interface initialErrorsForm {
 // 회원가입
 const JoinForm = ({ role }: JoinFormProps) => {
   // useinput
-
   const initialValues: initialValuesForm = {
     email: "",
     password: "",
@@ -100,6 +100,24 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const handleChange = (key: string, value: string | number) => {
     setValues({ ...values, [key]: value });
   };
+
+  // 핸드폰 번호는 숫자만 입력되어야 하고 동시에 -으로 나누어져서 보여야 하기 때문에
+  // onChange 함수 분리
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, phone: formatPhoneNumber(e.target.value) });
+  };
+
+  // 경력/연차 작성 시 화면에는 콤마(,)가 찍히게 하고 값이 저장될 때는 콤마(,)를 제외한 숫자 타입으로 저장
+  // numericValue → 숫자만 작성 + 2자리까지만 작성 가능
+  // onChange 함수 분리
+  const handleWorkExpChange =
+    (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValues({
+        ...values,
+        [key]: e.target.value.replace(/\D/g, "").slice(0, 2),
+      });
+    };
+
   // 미리보기 핸들러
   const handlePhotoURLOnChange = (file: File) => {
     setValues({ ...values, photoFile: file });
@@ -112,8 +130,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const showConfirmPasswordHandler = () => {
     setShowConfirmPswd(!showConfirmPswd);
   };
-
-  // 모달
 
   const JoinDefaultImage =
     "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMyAg/MDAxNjA0MjI5NDA4NDMy.5zGHwAo_UtaQFX8Hd7zrDi1WiV5KrDsPHcRzu3e6b8Eg.IlkR3QN__c3o7Qe9z5_xYyCyr2vcx7L_W1arNFgwAJwg.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%8C%8C%EC%8A%A4%ED%85%94.jpg?type=w800";
@@ -269,13 +285,13 @@ const JoinForm = ({ role }: JoinFormProps) => {
                   htmlFor="workExpInput"
                   style={{ color: "var(--darker-gray)" }}
                 >
-                  * 경험/연차 (숫자만 입력 가능합니다.)
+                  * 경력 / 연차
                 </label>
                 <S.JoinInput
                   id="workExpInput"
-                  type="number"
+                  type="text"
                   value={values.workExp}
-                  onChange={(e) => handleChange("workExp", e.target.value)}
+                  onChange={handleWorkExpChange("workExp")}
                 />
               </>
             )}
@@ -290,8 +306,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
               id="phoneNumberInput"
               type="text"
               value={values.phone}
-              onChange={(e) => handleChange("phone", e.target.value)}
-              placeholder="ex) - 빼고 입력해주세요 "
+              onChange={handlePhoneNumberChange}
             />
             <div>{errors.phone && <p>{errors.phone}</p>}</div>
             <br />

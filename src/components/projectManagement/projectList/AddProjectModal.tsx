@@ -45,7 +45,7 @@ const AddProjectModal = ({
     if (value === client!.name) {
       changeValues({
         ...values,
-        ["manager"]: {
+        manager: {
           name: client!.name,
           team: "",
           contact: {
@@ -101,15 +101,19 @@ const AddProjectModal = ({
     payInputOff
       ? changeValues({
           ...values,
-          ["minPay"]: "상의 후 결정",
-          ["maxPay"]: "상의 후 결정",
+          minPay: "상의 후 결정",
+          maxPay: "상의 후 결정",
         })
       : changeValues({
           ...values,
-          ["minPay"]: "",
-          ["maxPay"]: "",
+          minPay: "",
+          maxPay: "",
         });
   }, [payInputOff]);
+
+  useEffect(() => {
+    console.log("values : ", values);
+  }, []);
 
   return (
     <div>
@@ -167,7 +171,7 @@ const AddProjectModal = ({
             />
           </S.ModalMainInfoInnerBox>
           <S.ModalMainInfoInnerBox>
-            <S.ModalSubTitle>경력</S.ModalSubTitle>
+            <S.ModalSubTitle>경력 / 연차</S.ModalSubTitle>
             <S.ModalTitleInput
               id="qualification"
               type="number"

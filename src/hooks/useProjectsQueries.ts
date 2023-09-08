@@ -35,6 +35,7 @@ const useProjectsQueries = ({
   freelancerId,
   selectedProject,
 }: useProjectsQueriesProps) => {
+  // 1번 사용 : ProjectList.tsx
   const { data: projectsOfClient } = useQuery(
     ["projects", sortLabel],
     async () => {
@@ -49,6 +50,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : TaskList.tsx
   const { data: ongoingProjectsOfFreelancer } = useQuery(
     ["projects"],
     async () => {
@@ -62,6 +64,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : TaskList.tsx
   const { data: ongoingProjectsOfClient } = useQuery(
     ["ongoingProjectsOfClient"],
     async () => {
@@ -75,6 +78,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : AppliedProjectList.tsx
   // 현재 로그인한 유저가 지원한 프로젝트 확인에 사용
   const {
     data: appliedProjectList,
@@ -97,6 +101,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : ContractInfoTab.tsx
   const {
     data: allProjectList,
     isError: allProjectListIsError,
@@ -112,6 +117,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : SuggestedProjectList.tsx
   // 제안 받은 프로젝트 리스트 불러오기에 사용
   const {
     data: suggestedProjectList,
@@ -132,6 +138,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : ProjectList.tsx
   const addProjectMutation = useMutation(
     (newProject: Project) => addProject(newProject),
     {
@@ -141,6 +148,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : ProjectCard.tsx
   const deleteProjectMutation = useMutation(
     (projectId: string) => deleteProject(projectId),
     {
@@ -152,6 +160,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 5번 사용 : AppliedProjectCard.tsx, ProjectCard.tsx, SuggestedProjectCard.tsx, ProjectCard.tsx, TaskList.tsx
   // 프로젝트에 대한 변경사항이 있을 시 업데이트해준다..
   // 한별 : 프리랜서의 프로젝트 지원 취소 후 프로젝트 volunteer 업데이트를 위해 사용..
   // 한별2 : 프리랜서가 프로젝트 지원할 경우 프로젝트 volunteer 업데이트를 위해 사용..
@@ -190,8 +199,8 @@ const useProjectsQueries = ({
     }
   );
 
-  // 현재 로그인한 클라이언트의 프로젝트 중에서
-  // 상태가 진행 전인 프로젝트들을 불러온 후
+  // 2번 사용 : FreelancerCard.tsx, ContractTerminationFreelancerCard.tsx
+  // 현재 로그인한 클라이언트의 프로젝트 중에서 상태가 진행 전인 프로젝트들을 불러온 후
   // 해당 프로젝트들의 SuggestedFreelancers값에
   // 프리랜서 마켓에서 선택한 프리랜서의 id가 없는 프로젝트만 가져오기
   const {
@@ -212,6 +221,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 2번 사용 :  FreelancerCard.tsx, ContractTerminationFreelancerCard.tsx
   const {
     data: suggestedFreelancersData,
     isLoading: suggestedFreelancersDataIsLoading,
@@ -224,6 +234,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 2번 사용 :  FreelancerCard.tsx, ContractTerminationFreelancerCard.tsx
   // 새롭게 제안한 프리랜서를 해당 프로젝트에 업데이트 해주기..
   const updateSuggestedFreelancersDataMutation = useMutation(
     ({
@@ -244,6 +255,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : ProjectList.tsx
   // 프리랜서로 로그인시 프로젝트 탐색에서 선택한 sortLabel을 기준으로 프로젝트 리스트를 불러온다..
   const {
     data: projectsListBySort,
@@ -254,6 +266,7 @@ const useProjectsQueries = ({
     return projectList;
   });
 
+  // 1번 사용 : ApplicantFreelancerList.tsx
   // 현재 로그인한 클라이언트의 프로젝트에 지원한 프리랜서 목록
   const { data: freelancersAppliedToTheProjects } = useQuery(
     ["freelancersAppliedToTheProjects"],
@@ -281,6 +294,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : PendingFreelancerList.tsx
   // 현재 로그인한 클라이언트의 프로젝트에 지원했으나 보류한 프리랜서 목록
   const { data: pendingFreelancersToTheProjects } = useQuery(
     ["pendingFreelancersToTheProjects"],
@@ -308,6 +322,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : ApplicantFreelancerCard.tsx
   // 보류한 프리랜서 목록 업데이트
   const updatePendingFreelancerMutation = useMutation(
     ({
@@ -328,6 +343,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 2번 사용 : ApplicantFreelancerCard.tsx, PendingFreelancerCard.tsx
   // 프리랜서 계약 시 업데이트
   const updateFreelancerApprovalMutation = useMutation(
     ({
@@ -352,6 +368,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 2번 사용 : ApplicantFreelancerCard.tsx, PendingFreelancerCard.tsx
   // 프리랜서 계약 시 users 테이블에 projectId 추가
   const addProjectIdToUserMutation = useMutation(
     ({ userId, projectIds }: { userId: string; projectIds: string[] }) =>
@@ -368,6 +385,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : PendingFreelancerCard.tsx
   // 보류한 프리랜서 삭제
   const deletePendingFreelancerMutation = useMutation(
     ({
@@ -384,6 +402,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 2번 사용 : ApplicantFreelancerCard.tsx, PendingFreelancerCard.tsx
   // 계약된 프리랜서 지원한/보류한 프리랜서 목록에서 삭제
   const deleteVolunteerAndPendingFreelancerMutation = useMutation(
     ({
@@ -412,6 +431,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 사용 : OngoingFreelancerList.tsx
   // 진행중인 프리랜서 목록
   const { data: freelancersWithOngoingProjects } = useQuery<
     IProjectWithFreelancer[]
@@ -438,6 +458,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 3번 사용 : ContractTerminationFreelancers.tsx, ContractTerminationFreelancerCards.tsx, ContractTerminationFreelancerList.tsx
   // 계약이 끝난 프리랜서 목록
   const { data: freelancersWithTerminatedProjects } = useQuery<
     IProjectWithFreelancer[]
@@ -465,6 +486,7 @@ const useProjectsQueries = ({
     }
   );
 
+  // 1번 : ContractTermanationInfoModal.tsx
   // 계약이 끝난 프로젝트 중 프리랜서 아이디가 동일한 데이터 목록
   const { data: matchingCompletedProjectsData } = useQuery(
     ["matchingCompletedProjectsData"],

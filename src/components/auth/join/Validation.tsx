@@ -25,7 +25,7 @@ const Validation = (values: initialErrorsForm) => {
   const passwordReg = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
 
   //   앞자리 010 중간 자리 0~9 숫자로 3~4글자  0~9 4글자
-  const phoneReg = /^(010{1})[0-9]{3,4}[0-9]{4}$/;
+  const phoneReg = /^(\d{3}-\d{4}-\d{4}|\d{3}-\d{3}-\d{4})$/;
 
   if (values.email === "") {
     errors.email = "이메일을 입력해주세요.";
