@@ -36,6 +36,7 @@ const LoginComp = () => {
   const [errors, setErrors] = useState<LoginErrorForm>(initialErrors);
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
   const { setUserId, setUserRole, setUser } = useUserStore();
+  window.history.forward();
   const { validateEmail, validatePassword } = Validation();
 
   // errors의 초기에도 확인할수있도록 작동하는 useEffect

@@ -9,26 +9,21 @@ export const resign = async (
   userId: string,
   navigate: (path: string) => void
 ) => {
-  const isConfirmed = window.confirm(
-    "회원 탈퇴시 모든 정보가 삭제되며, 삭제된 정보는 복구가 불가능합니다. \n회원 탈퇴하시겠습니까?"
-  );
+  try {
+    const { error } = await supabaseService.auth.admin.deleteUser(userId);
+    window.localStorage.clear();
+    if (error) {
+      toast.error("회원 탈퇴 중 오류가 발생했습니다.");
+    } else {
+      await supabase.auth.signOut();
 
-  if (isConfirmed && userId !== undefined) {
-    try {
-      const { error } = await supabaseService.auth.admin.deleteUser(userId);
-      if (error) {
-        toast.error("회원 탈퇴 중 오류가 발생했습니다.");
-      } else {
-        await supabase.auth.signOut();
-
-        toast.success("탈퇴 되었습니다. 로그인 페이지로 이동합니다.");
-        navigate("/login");
-      }
-    } catch (error) {
-      toast.error(
-        "회원 탈퇴 중 오류가 발생했습니다. 고객센터에 문의해주세요. error: info."
-      );
+      toast.success("탈퇴 되었습니다. 로그인 페이지로 이동합니다.");
+      navigate("/login");
     }
+  } catch (error) {
+    toast.error(
+      "회원 탈퇴 중 오류가 발생했습니다. 고객센터에 문의해주세요. error: info."
+    );
   }
 };
 
@@ -124,14 +119,13 @@ export const clientSignupHandler = async (
 
 // 로그아웃
 export const logOut = async (navigate: (path: string) => void) => {
-  const isConfirmed = window.confirm("정말로 로그아웃 하시겠습니까?");
-  if (isConfirmed) {
-    try {
-      await supabase.auth.signOut();
-      toast.success("로그아웃 되었습니다. 로그인 페이지로 이동합니다.");
-      navigate("/login");
-    } catch (error) {
-      toast.error("로그아웃이 실패했습니다.");
-    }
+  try {
+    await supabase.auth.signOut();
+    window.localStorage.clear();
+
+    toast.success("로그아웃 되었습니다. 로그인 페이지로 이동합니다.");
+    navigate("/login");
+  } catch (error) {
+    toast.error("로그아웃이 실패했습니다.");
   }
 };
