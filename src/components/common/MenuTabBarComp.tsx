@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import TaskList from "../projectManagement/task/TaskList";
 import FreelancerMarket from "../home/freelancerMarket/FreelancerMarket";
@@ -12,6 +12,7 @@ import SuggestedProjectList from "../home/suggestedProjectList/SuggestedProjectL
 import OngoingFreelancerList from "../myPage/client/listOfFreelancersByStatus/ongoingFreelancerList/OngoingFreelancerList";
 import ContractTerminationFreelancers from "../myPage/client/listOfFreelancersByStatus/ContractTerminationFreelancers";
 import React from "react";
+import { useTutorialStore } from "src/store/useTutorialStore";
 
 interface MenuTabBarCompProps {
   menu: string[];
@@ -20,6 +21,14 @@ interface MenuTabBarCompProps {
 
 const MenuTabBarComp = ({ menu, children }: MenuTabBarCompProps) => {
   const [currentTab, setCurrentTab] = useState(menu[0]);
+  // const { tutorialModalOpen, changeTutorialModalOpen, tab, changeTab } =
+  //   useTutorialStore();
+
+  // useEffect(() => {
+  //   if (tutorialModalOpen) {
+  //     setCurrentTab(tab);
+  //   }
+  // }, [tutorialModalOpen, tab]);
 
   return (
     <>

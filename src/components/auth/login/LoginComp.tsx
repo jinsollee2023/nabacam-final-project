@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
 import { getUser } from "src/api/User";
 import LoginValidation from "./LoginValidation";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./LoginComp.styles";
+import { toast } from "react-toastify";
 
 interface LoginForm {
   email: string;
@@ -50,17 +51,20 @@ const LoginComp = () => {
         });
         if (error) {
           console.error(error);
-          alert("로그인 정보가 일치하지 않습니다.");
+          toast.error("로그인 정보가 일치하지 않습니다.");
         } else if (data) {
           const user = await getUser(data.user.id as string);
           setUserId(user.userId as string);
           setUserRole(user.role as string);
           setUser(user);
           navigate("/home");
+          toast.success("로그인 성공하셧습니다.");
         }
       } catch (error) {
         console.error(error);
       }
+    } else {
+      toast.error("필수입력에 내용에맞게 입력해주세요");
     }
   };
 

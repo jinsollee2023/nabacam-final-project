@@ -1,4 +1,4 @@
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
 import MenuTabBarComp from "../../../../components/common/MenuTabBarComp";
 import Account from "../../myProfile/Account";
 import React, { useState } from "react";

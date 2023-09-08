@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import Modal from "../../../components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
-import { useProjectStore } from "../../../zustand/useProjectStore";
+import { useProjectStore } from "../../../store/useProjectStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import React from "react";
-import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
+import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import useProjectValid from "src/hooks/useProjectValid";
+import { toast } from "react-toastify";
 
 interface projectCardProps {
   project: Project;
@@ -55,6 +56,7 @@ const ProjectCard = ({ project }: projectCardProps) => {
 
   const updateProjectButtonHandler = () => {
     checkValidation(values);
+
     allValid && setUpdateSubmitButtonClicked(true);
   };
 
@@ -80,6 +82,69 @@ const ProjectCard = ({ project }: projectCardProps) => {
     });
   };
 
+  const handleDeleteConfirm = () => {
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+    deleteProjectButtonHandler();
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleDeleteCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showDeleteConfirmation = () => {
+    toast.info(
+      <div>
+        <p>프로젝트를 삭제하시겠습니까?</p>
+        <button onClick={handleDeleteConfirm}>확인</button>
+        <button onClick={handleDeleteCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+  const handleUpdateConfirm = () => {
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+    updateProjectButtonHandler();
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleUpdateCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showUpdateConfirmation = () => {
+    toast.info(
+      <div>
+        <p>프로젝트를 수정하시겠습니까?</p>
+        <button onClick={handleUpdateConfirm}>확인</button>
+        <button onClick={handleUpdateCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+
   return (
     <>
       {/* FIX */}
@@ -91,7 +156,7 @@ const ProjectCard = ({ project }: projectCardProps) => {
               <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>
                 수정하기
               </S.ModalPostBtn>
-              <S.ModalPostBtn onClick={deleteProjectButtonHandler}>
+              <S.ModalPostBtn onClick={showDeleteConfirmation}>
                 삭제하기
               </S.ModalPostBtn>
             </>
@@ -105,10 +170,10 @@ const ProjectCard = ({ project }: projectCardProps) => {
           setIsModalOpen={setIsUpadateModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={updateProjectButtonHandler}>
+              <S.ModalPostBtn onClick={showUpdateConfirmation}>
                 수정하기
               </S.ModalPostBtn>
-              <S.ModalPostBtn onClick={deleteProjectButtonHandler}>
+              <S.ModalPostBtn onClick={showDeleteConfirmation}>
                 삭제하기
               </S.ModalPostBtn>
             </>
@@ -138,7 +203,7 @@ const ProjectCard = ({ project }: projectCardProps) => {
             >
               수정
             </S.SubmitBtn>
-            <S.SubmitBtn onClick={deleteProjectButtonHandler}>삭제</S.SubmitBtn>
+            <S.SubmitBtn onClick={showDeleteConfirmation}>삭제</S.SubmitBtn>
           </S.ProjectCardButtonBox>
           <div>
             <p>

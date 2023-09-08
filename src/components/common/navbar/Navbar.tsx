@@ -1,8 +1,9 @@
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import { logOut } from "src/api/auth";
 import { FiLogOut } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -21,6 +22,40 @@ const Navbar = () => {
   if (window.location.pathname === `/resetpassword`) {
     return null;
   }
+
+  const handleConfirm = () => {
+    logOutButtonHandler();
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showConfirmation = () => {
+    toast.info(
+      <div>
+        <p>로그아웃 하시겟습니까??</p>
+        <button onClick={handleConfirm}>확인</button>
+        <button onClick={handleCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+
   return (
     <S.SidebarWrapper>
       <S.LogoWrapper>
@@ -37,7 +72,7 @@ const Navbar = () => {
           <S.Name>{user.name}</S.Name>
           <S.Role>{user.role}</S.Role>
         </div>
-        <S.LogOutButton onClick={logOutButtonHandler}>
+        <S.LogOutButton onClick={showConfirmation}>
           <FiLogOut size="20" />
         </S.LogOutButton>
       </S.ProfileWrapper>

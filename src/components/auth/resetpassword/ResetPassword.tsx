@@ -4,6 +4,7 @@ import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
 import Validation from "../join/Validation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 interface initialErrorsForm {
   email: string;
@@ -32,25 +33,25 @@ const ResetPassword = () => {
   // errors 바로확인하고 validation 체크 후 진행하게해주기위해 useEffect 사용
 
   useEffect(() => {
-    setErrors(Validation(values));
+    // setErrors(Validation(values));
   }, [values]);
 
   //  password 업데이트 하는 로직
   const updatePasswordHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setErrors(Validation(values));
+    // setErrors(Validation(values));
     if (!errors.password && !errors.passwordConfirmCurrent) {
       try {
         const { data, error } = await supabase.auth.updateUser({
           password: values.password,
         });
         if (data) {
-          alert("비밀번호가 성공적으로 바뀌었습니다.");
+          toast.success("비밀번호가 성공적으로 바뀌었습니다.");
 
           navigate("/");
         }
       } catch (error) {
-        alert("비밀번호 변경에 오류가 생겼습니다");
+        toast.error("비밀번호 변경에 오류가 생겼습니다");
       }
     }
   };
@@ -59,7 +60,7 @@ const ResetPassword = () => {
     const { name, value } = event.target;
 
     setValues({ ...values, [name]: value });
-    setErrors(Validation(values));
+    // setErrors(Validation(values));
   };
   const showPasswordHandler = () => {
     setShowPswd(!showPswd);

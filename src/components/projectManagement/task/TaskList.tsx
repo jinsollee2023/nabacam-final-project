@@ -5,11 +5,12 @@ import { useEffect, useState } from "react";
 import { Select } from "antd";
 import { MdAddCircle } from "react-icons/md";
 import { Task } from "../../../Types";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { CommonS } from "src/components/common/button/commonButton";
 import React from "react";
 import { RiAddBoxLine } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 const TaskList = () => {
   const { userId, userRole } = useUserStore();
@@ -49,16 +50,11 @@ const TaskList = () => {
   };
 
   const terminateProjectButtonHandler = () => {
-    const isConfirmed = window.confirm(
-      "프로젝트가 종료되면 진행 상태를 확인할 수 없습니다. \n프로젝트를 종료하시겠습니까?"
-    );
-    if (isConfirmed) {
-      updateProjectMutation.mutate({
-        projectId,
-        newProject: { status: "진행 완료" },
-      });
-      setProjectId("");
-    }
+    updateProjectMutation.mutate({
+      projectId,
+      newProject: { status: "진행 완료" },
+    });
+    setProjectId("");
   };
 
   const monthlyTaskData: Map<string, Task[]> = new Map();
@@ -70,6 +66,41 @@ const TaskList = () => {
     }
     monthlyTaskData.get(month)?.push(task);
   });
+
+  const handleTerminateConfirm = () => {
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+    terminateProjectButtonHandler();
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleTerminateCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showTerminateConfirmation = () => {
+    toast.info(
+      <div>
+        <p>
+          "프로젝트가 종료되면 진행 상태를 확인할 수 없습니다. 프로젝트를
+          종료하시겠습니까?"
+        </p>
+        <button onClick={handleTerminateConfirm}>확인</button>
+        <button onClick={handleTerminateCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
 
   return (
     <>
@@ -141,7 +172,7 @@ const TaskList = () => {
               </S.TaskAddButton>
             )
           : projectId && (
-              <S.TaskAddButton onClick={terminateProjectButtonHandler}>
+              <S.TaskAddButton onClick={showTerminateConfirmation}>
                 <S.TaskAddSpan>프로젝트 종료하기</S.TaskAddSpan>
               </S.TaskAddButton>
             )}

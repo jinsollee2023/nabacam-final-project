@@ -1,4 +1,5 @@
 import React from "react";
+
 // interface initialErrorsForm {
 //   email: string;
 //   password: string;
@@ -6,16 +7,21 @@ import React from "react";
 //   name: string;
 //   phone: string;
 // }
+
 // validation 함수 erros의 초기값 설정
+
 const Validation = () => {
   //   첫글자 영어 소대문자 숫자 두번째부터 -_. 들어갈수있고 @ 있어야하고 앞이랑 똑같이 @ 뒤에 붙게되며  .이 한개는 들어가게되면서 .com 같이 2~3글자 자리가있다
   const emailRegEx =
     /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
   //   영문 숫자 포함 8자 ~25
   const passwordReg = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;
+
   //   앞자리 010 중간 자리 0~9 숫자로 3~4글자  0~9 4글자
-  const phoneReg = /^(\d{3}-\d{4}-\d{4}|\d{3}-\d{3}-\d{4})$/;
+  const phoneReg = /^(010{1})[0-9]{3,4}[0-9]{4}$/;
+
   const nameReg = /^[가-힣]{2,8}$/;
+
   const validateEmail = (email: string) => {
     if (email === "") {
       return "이메일을 입력해주세요.";
@@ -24,6 +30,7 @@ const Validation = () => {
     }
     return "";
   };
+
   const validatePassword = (password: string) => {
     if (password === "") {
       return "비밀번호를 입력해주세요.";
@@ -32,6 +39,7 @@ const Validation = () => {
     }
     return "";
   };
+
   const validatePasswordConfirm = (
     password: string,
     passwordConfirm: string
@@ -43,6 +51,7 @@ const Validation = () => {
     }
     return "";
   };
+
   const validateName = (name: string) => {
     if (name === "") {
       return "이름을 입력해주세요.";
@@ -51,26 +60,29 @@ const Validation = () => {
     }
     return "";
   };
+
   const validateWorkField = (workField: string) => {
     if (workField === "") {
       return "작업 영역을 선택해주세요.";
     }
     return "";
   };
+
   const validateWorkSmallField = (workSmallField: string) => {
     if (workSmallField === "") {
       return "상세 작업 영역을 입력해주세요";
     }
     return "";
   };
-  const validateWorkExp = (workExp: number) => {
-    if (workExp === null) {
+
+  const validateWorkExp = (workExp: number | null) => {
+    if (!workExp) {
       return "경험/연차를 입력해주세요.";
     }
     return "";
   };
+
   const validatePhone = (phone: string) => {
-    console.log("phone", phone);
     if (phone === "") {
       return "전화번호를 입력해주세요.";
     } else if (!phoneReg.test(phone)) {
@@ -78,6 +90,7 @@ const Validation = () => {
     }
     return "";
   };
+
   return {
     validateEmail,
     validatePassword,
@@ -89,4 +102,5 @@ const Validation = () => {
     validatePhone,
   };
 };
+
 export default Validation;

@@ -2,7 +2,7 @@ import { Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { User } from "../../../Types";
 import PreviewImage from "../../../components/auth/join/PreviewImage";
-import { useProfileInfoStore } from "../../../zustand/useProfileInfoStore";
+import { useProfileInfoStore } from "../../../store/useProfileInfoStore";
 import { S } from "./myProfile.styles";
 
 interface EditFormProps {

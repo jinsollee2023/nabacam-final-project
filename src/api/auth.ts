@@ -1,5 +1,7 @@
+import { toast } from "react-toastify";
 import supabase, { supabaseService } from "../config/supabaseClient";
 import { getPhotoURL } from "./User";
+import "react-toastify/dist/ReactToastify.css";
 // 회원탈퇴
 
 export const resign = async (
@@ -14,15 +16,15 @@ export const resign = async (
     try {
       const { error } = await supabaseService.auth.admin.deleteUser(userId);
       if (error) {
-        alert("회원 탈퇴 중 오류가 발생했습니다.");
+        toast.error("회원 탈퇴 중 오류가 발생했습니다.");
       } else {
         await supabase.auth.signOut();
 
-        alert("탈퇴 되었습니다. 로그인 페이지로 이동합니다.");
+        toast.success("탈퇴 되었습니다. 로그인 페이지로 이동합니다.");
         navigate("/login");
       }
     } catch (error) {
-      alert(
+      toast.error(
         "회원 탈퇴 중 오류가 발생했습니다. 고객센터에 문의해주세요. error: info."
       );
     }
@@ -57,12 +59,12 @@ export const clientSignupHandler = async (
   values: {
     email: string;
     password: string;
-    passwordConfirmCurrent: string;
+    passwordConfirm: string;
     name: string;
-    workExp: number;
+    workExp: number | null;
     phone: string;
-    category: string;
     workField: string;
+    workSmallField: string;
     photoFile: File | null;
   },
   uploadUserImage: any,
@@ -70,14 +72,14 @@ export const clientSignupHandler = async (
   setUser: any,
   setUserId: any,
   setUserRole: any,
-  navigate: any
+  navigate: any,
+  setSubmitButtonClicked: (submitButtonClicked: boolean) => void
 ) => {
-  try {
-    await supabase.auth.signUp({
-      email: values.email,
-      password: values.password,
-    });
-
+  const { error } = await supabase.auth.signUp({
+    email: values.email,
+    password: values.password,
+  });
+  if (!error) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -94,16 +96,23 @@ export const clientSignupHandler = async (
         ? `${photoURL}?updated=${new Date().getTime()}`
         : "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/users/defaultProfileImage/defaultProfileImage.jpeg",
       workField: {
-        workField: values.category,
-        workSmallField: values.workField,
+        workField: values.workField,
+        workSmallField: values.workSmallField,
       },
       workExp: values.workExp,
       contact: { email: user?.email, phone: values.phone },
     };
     await userJoinData(newUserData, setUser, setUserId, setUserRole, navigate);
-    alert("회원가입이 완료되었습니다.");
-  } catch (error) {
-    console.error(error);
+    toast.success("회원가입이 완료되었습니다.");
+  }
+  if (error) {
+    if (error.message === "User already registered") {
+      toast.error("이미 가입된 이메일입니다.");
+      setSubmitButtonClicked(false);
+    } else {
+      toast.error("회원가입에 실패하였습니다.");
+      setSubmitButtonClicked(false);
+    }
   }
 };
 
@@ -113,10 +122,10 @@ export const logOut = async (navigate: (path: string) => void) => {
   if (isConfirmed) {
     try {
       await supabase.auth.signOut();
-      alert("로그아웃 되었습니다. 로그인 페이지로 이동합니다.");
+      toast.success("로그아웃 되었습니다. 로그인 페이지로 이동합니다.");
       navigate("/login");
     } catch (error) {
-      alert(error);
+      toast.error("로그아웃이 실패했습니다.");
     }
   }
 };

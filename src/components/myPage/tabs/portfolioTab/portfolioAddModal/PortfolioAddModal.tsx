@@ -1,7 +1,7 @@
 import { Radio } from "antd";
 import { useState, useEffect } from "react";
-import { useUserStore } from "../../../../../zustand/useUserStore";
-import { usePortfolioStore } from "../../../../../zustand/usePortfolioStore";
+import { useUserStore } from "../../../../../store/useUserStore";
+import { usePortfolioStore } from "../../../../../store/usePortfolioStore";
 import { v4 as uuidv4 } from "uuid";
 import { Portfolio } from "../../../../../Types";
 import PreviewImage from "../../../../../components/auth/join/PreviewImage";

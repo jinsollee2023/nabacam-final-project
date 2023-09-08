@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Member } from "src/Types";
 import { S } from "./addMemberModal.style";
-import { useUserStore } from "src/zustand/useUserStore";
 import { formatPhoneNumber } from "src/components/common/commonFunc";
+import { useUserStore } from "src/store/useUserStore";
 
 interface AddMemberModalProps {
   currentMemberData?: Member;

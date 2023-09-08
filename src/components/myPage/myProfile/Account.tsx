@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import {
   getPhotoURL,
   updateUserImage,
@@ -9,7 +9,7 @@ import useClientsQueries from "../../../hooks/useClientsQueries";
 import { queryClient } from "../../../App";
 import EditForm from "./EditForm";
 import Modal from "../../../components/modal/Modal";
-import { useProfileInfoStore } from "../../../zustand/useProfileInfoStore";
+import { useProfileInfoStore } from "../../../store/useProfileInfoStore";
 import React from "react";
 import { S } from "./myProfile.styles";
 import { IoMdSettings } from "react-icons/io";

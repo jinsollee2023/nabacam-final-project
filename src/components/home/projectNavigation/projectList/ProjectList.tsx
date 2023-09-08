@@ -2,8 +2,8 @@ import { Spin } from "antd";
 import { useEffect, useState } from "react";
 import { Project } from "src/Types";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useSearchKeywordStore } from "src/store/useSearchKeywordStore";
+import { useUserStore } from "src/store/useUserStore";
 import ProjectCard from "./ProjectCard";
 import { S } from "./projectList.styles";
 

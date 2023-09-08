@@ -3,18 +3,19 @@ import ProjectCard from "./ProjectCard";
 import { RiAddBoxLine } from "react-icons/ri";
 import Modal from "../../modal/Modal";
 import AddProjectModal from "./AddProjectModal";
-import { useProjectStore } from "../../../zustand/useProjectStore";
+import { useProjectStore } from "../../../store/useProjectStore";
 import S from "./ProjectListStyles";
 import { useEffect, useState } from "react";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import SearchItemBar from "../../../components/common/searchItemBar/SearchItemBar";
 import SortProjects from "./SortProjects";
 import { queryClient } from "../../../App";
-import { useSearchKeywordStore } from "../../../zustand/useSearchKeywordStore";
+import { useSearchKeywordStore } from "../../../store/useSearchKeywordStore";
 import { Project } from "../../../Types";
-import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
+import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import useProjectValid from "src/hooks/useProjectValid";
+import { toast } from "react-toastify";
 
 const ProjectList = () => {
   const { userId } = useUserStore();
@@ -83,9 +84,42 @@ const ProjectList = () => {
     setSelectedselectOption(label);
   };
 
+  const handleConfirm = () => {
+    console.log("확인 버튼이 클릭되었습니다.");
+    addProjectButtonHandler();
+
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showConfirmation = () => {
+    toast.info(
+      <div>
+        <p>프로젝트 게시하시겟습니까?</p>
+        <button onClick={handleConfirm}>확인</button>
+        <button onClick={handleCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+
   const addProjectButtonHandler = () => {
     checkValidation(values);
     setAddSubmitButtonClicked(true);
+    toast.success("프로젝트가 게시되었습니다.");
   };
 
   const beforeProgressProjects = filteredProjects?.filter(
@@ -111,6 +145,7 @@ const ProjectList = () => {
     } else if (selectedselectOption === "진행 완료") {
       projectsToRender = DoneProjects;
     }
+
     return (
       <>
         {projectsToRender?.map((project) => (
@@ -179,7 +214,7 @@ const ProjectList = () => {
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={addProjectButtonHandler}>
+              <S.ModalPostBtn onClick={showConfirmation}>
                 프로젝트 게시하기
               </S.ModalPostBtn>
             </>
