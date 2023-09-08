@@ -8,7 +8,6 @@ import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./joinComp.styles";
-import { toast } from "react-toastify";
 
 interface JoinFormProps {
   role: string;
@@ -130,7 +129,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
     const nameError = validateName(values.name);
     const workFieldError = validateWorkField(values.workField);
     const workSmallFieldError = validateWorkSmallField(values.workSmallField);
-    const workExpError = validateWorkExp(values.workExp);
+    const workExpError = validateWorkExp(values.workExp as number);
     const phoneError = validatePhone(values.phone);
 
     setErrors({
@@ -367,7 +366,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
                   id="workExpInput"
                   type="number"
                   value={values.workExp as number}
-                  onChange={(e) => handleChange("workExp", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("workExp", Number(e.target.value))
+                  }
                   onBlur={(e) => {
                     const workExpError = validateWorkExp(
                       Number(e.target.value)

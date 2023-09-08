@@ -75,14 +75,15 @@ const Validation = () => {
     return "";
   };
 
-  const validateWorkExp = (workExp: number | null) => {
-    if (!workExp) {
+  const validateWorkExp = (workExp: number) => {
+    if (workExp === null) {
       return "경험/연차를 입력해주세요.";
     }
     return "";
   };
 
   const validatePhone = (phone: string) => {
+    console.log(phone);
     if (phone === "") {
       return "전화번호를 입력해주세요.";
     } else if (!phoneReg.test(phone)) {
