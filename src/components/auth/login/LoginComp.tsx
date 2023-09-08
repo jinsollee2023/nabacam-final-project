@@ -30,7 +30,7 @@ const LoginComp = () => {
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [errors, setErrors] = useState<LoginForm>(initialErrors);
   const { setUserId, setUserRole, setUser } = useUserStore();
-
+  window.history.forward();
   // errors의 초기에도 확인할수있도록 작동하는 useEffect
   useEffect(() => {
     setErrors(LoginValidation(values));
