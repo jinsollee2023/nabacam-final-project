@@ -26,7 +26,8 @@ const Chat = () => {
   };
 
   // 개별 방 (dm)
-  // is_room_participant("roomId", auth.uid()) help f 사용 -> rooms에 insert되면, 자동으로 room_participants에 roomId 들어감
+  // is_room_participant("roomId", auth.uid()) help f 사용
+  // rooms에 insert되면, 자동으로 room_participants에 roomId 들어감
   const handleCreateRoom = async () => {
     await supabase.from("rooms").insert({}); // {returning: 'minimal'}
 

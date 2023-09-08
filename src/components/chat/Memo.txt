@@ -30,3 +30,15 @@ x 1:41:28
 on_room_created 트리거를 disabled로 변경 x
 1:46:14 
 **
+
+#4
+57:50 시작
+
+#5
+1:33:22
+1:41:12
+create or replace view messages_with_user as
+  select messages.*, upper(users.name) as name
+  from messages
+  join users
+  on users."userId" = messages."userId"
