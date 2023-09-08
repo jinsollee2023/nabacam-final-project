@@ -14,6 +14,7 @@ import {
 } from "../../../../api/Portfolio";
 import { getPortfolioFileURL } from "../../../../api/User";
 import { BsPlusCircleDotted } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 const PortfolioTab = () => {
   const { user } = useUserStore();
@@ -185,16 +186,74 @@ const PortfolioTab = () => {
 
   // 삭제
   const handleDeleteButtonClick = () => {
-    const isConfirmed = window.confirm("해당 포트폴리오를 삭제하시겠습니까?");
+    // db에서 지우기
+    deletePortfolioMutation.mutate({
+      portfolioId: selectedPortfolio?.portfolioId!,
+      freelancerId: selectedPortfolio?.freelancerId!,
+    });
+    setIsDetailModalOpen(!isDetailModalOpen);
+  };
 
-    if (isConfirmed) {
-      // db에서 지우기
-      deletePortfolioMutation.mutate({
-        portfolioId: selectedPortfolio?.portfolioId!,
-        freelancerId: selectedPortfolio?.freelancerId!,
-      });
-      setIsDetailModalOpen(!isDetailModalOpen);
-    }
+  const handleDeleteConfirm = () => {
+    handleDeleteButtonClick();
+
+    // 여기에서 실제로 할 일을 수행하세요.
+
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleDeleteCancel = () => {
+    toast.dismiss();
+  };
+
+  const showDeleteConfirmation = () => {
+    toast.info(
+      <div>
+        <p>해당 포트폴리오를 하시겠습니까?</p>
+        <button onClick={handleDeleteConfirm}>확인</button>
+        <button onClick={handleDeleteCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+
+  const handleEditConfirm = () => {
+    handleEditPortfolioButtonClick();
+
+    // 여기에서 실제로 할 일을 수행하세요.
+
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleEditCancel = () => {
+    toast.dismiss();
+  };
+
+  const showEditConfirmation = () => {
+    toast.info(
+      <div>
+        <p>해당 포트폴리오를 삭제하시겠습니까?</p>
+        <button onClick={handleEditConfirm}>확인</button>
+        <button onClick={handleEditCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
   };
 
   return (
@@ -204,7 +263,7 @@ const PortfolioTab = () => {
           setIsModalOpen={handleDetailModalClose}
           buttons={
             <>
-              <S.Button type="primary" block onClick={handleDeleteButtonClick}>
+              <S.Button type="primary" block onClick={showDeleteConfirmation}>
                 삭제하기
               </S.Button>
               <S.Button
@@ -246,11 +305,7 @@ const PortfolioTab = () => {
                   >
                     취소하기
                   </S.Button>
-                  <S.Button
-                    type="primary"
-                    block
-                    onClick={handleEditPortfolioButtonClick}
-                  >
+                  <S.Button type="primary" block onClick={showEditConfirmation}>
                     수정하기
                   </S.Button>
                 </>

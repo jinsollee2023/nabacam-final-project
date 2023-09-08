@@ -5,6 +5,7 @@ import { useUserStore } from "src/zustand/useUserStore";
 import AddMemberModal from "./AddMemberModal";
 import { Member } from "src/Types";
 import { S } from "./memberListStyle";
+import { toast } from "react-toastify";
 
 const MemberList = () => {
   const { userId, setUser } = useUserStore();
@@ -42,29 +43,26 @@ const MemberList = () => {
   };
 
   const updateMemberButtonHandler = () => {
-    const shouldUpdateMamber = window.confirm("수정하시겟습니까?");
-    if (shouldUpdateMamber) {
-      const updateMembers = client?.members?.map((member) => {
-        return member === currentMemberData
-          ? {
-              name: updateMemberData?.name,
-              team: updateMemberData?.team,
-              contact: {
-                email: updateMemberData?.contact.email,
-                phone: updateMemberData?.contact.phone,
-              },
-            }
-          : member;
-      });
-      // 업데이트
+    const updateMembers = client?.members?.map((member) => {
+      return member === currentMemberData
+        ? {
+            name: updateMemberData?.name,
+            team: updateMemberData?.team,
+            contact: {
+              email: updateMemberData?.contact.email,
+              phone: updateMemberData?.contact.phone,
+            },
+          }
+        : member;
+    });
+    // 업데이트
 
-      clientMembersMutation.mutate({
-        updatedData: { members: updateMembers },
-        userId,
-        setUser,
-      });
-      setIsAddModalOpen(false);
-    }
+    clientMembersMutation.mutate({
+      updatedData: { members: updateMembers },
+      userId,
+      setUser,
+    });
+    setIsAddModalOpen(false);
   };
 
   const deleteMemberButtonHandler = (deleteMember: Member) => {
@@ -83,6 +81,39 @@ const MemberList = () => {
     }
 
     setIsAddModalOpen(false);
+  };
+
+  const handleConfirm = () => {
+    updateMemberButtonHandler();
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showConfirmation = () => {
+    toast.info(
+      <div>
+        <p>작업을 수행하시겠습니까?</p>
+        <button onClick={handleConfirm}>확인</button>
+        <button onClick={handleCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
   };
 
   return (
@@ -105,7 +136,7 @@ const MemberList = () => {
                   구성원 추가하기
                 </S.ModalInnerAddBtn>
               ) : (
-                <S.ModalInnerAddBtn onClick={updateMemberButtonHandler}>
+                <S.ModalInnerAddBtn onClick={showConfirmation}>
                   구성원 수정하기
                 </S.ModalInnerAddBtn>
               )}

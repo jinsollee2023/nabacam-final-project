@@ -11,6 +11,7 @@ import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
 import { useProjectStore } from "src/zustand/useProjectStore";
 import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
+import { toast } from "react-toastify";
 
 interface FreelancerCardProps {
   freelancerItem: User;
@@ -95,7 +96,8 @@ const FreelancerCard = ({
       );
       return;
     }
-    alert("제안이 전달되었습니다.");
+    toast.success("제안이 전달되었습니다.");
+
     const suggestedFreelancers =
       suggestedFreelancersData?.SuggestedFreelancers || [];
 
