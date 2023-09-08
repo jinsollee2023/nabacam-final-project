@@ -1,5 +1,7 @@
 import supabase, { supabaseService } from "../config/supabaseClient";
 import { getPhotoURL } from "./User";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // 회원탈퇴
 
 export const resign = async (
@@ -105,10 +107,10 @@ export const clientSignupHandler = async (
   }
   if (error) {
     if (error.message === "User already registered") {
-      alert("이미 가입된 이메일입니다.");
+      toast.error("이미 가입된 이메일입니다.");
       setSubmitButtonClicked(false);
     } else {
-      alert("회원가입에 실패하였습니다.");
+      toast.error("회원가입에 실패하였습니다.");
       setSubmitButtonClicked(false);
     }
   }
