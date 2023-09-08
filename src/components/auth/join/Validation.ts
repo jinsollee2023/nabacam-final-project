@@ -44,7 +44,7 @@ const Validation = () => {
     passwordConfirm: string
   ) => {
     if (passwordConfirm === "") {
-      return "비밀번호를 입력해주세요.";
+      return "비밀번호 확인을 입력해주세요.";
     } else if (passwordConfirm !== password) {
       return "입력하신 비밀번호와 다릅니다. 다시 확인해주세요.";
     }

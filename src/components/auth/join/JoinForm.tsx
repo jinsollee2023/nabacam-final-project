@@ -8,7 +8,6 @@ import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./joinComp.styles";
-import { toast } from "react-toastify";
 import { formatPhoneNumber } from "src/components/common/commonFunc";
 
 interface JoinFormProps {
@@ -117,7 +116,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
       errors.phone === ""
     ) {
       signUp();
-    }
+    } else setSubmitButtonClicked(false);
   }, [submitButtonClicked, errors]);
 
   const validateRegister = () => {
