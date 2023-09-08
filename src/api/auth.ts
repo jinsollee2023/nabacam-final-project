@@ -1,6 +1,8 @@
 import { toast } from "react-toastify";
 import supabase, { supabaseService } from "../config/supabaseClient";
 import { getPhotoURL } from "./User";
+import "react-toastify/dist/ReactToastify.css";
+import { User } from "src/Types";
 // 회원탈퇴
 
 export const resign = async (
@@ -28,7 +30,7 @@ export const resign = async (
 // 유저 데이터 테이블 추가
 
 export const userJoinData = async (
-  newUserData: any,
+  newUserData: User,
   setUser: any,
   setUserId: any,
   setUserRole: any,
@@ -37,6 +39,7 @@ export const userJoinData = async (
   try {
     const { data } = await supabase.from("users").insert(newUserData).select();
     if (data) {
+      toast.success("회원가입이 완료되었습니다.");
       setUser(data[0]);
       setUserId(data[0].userId);
       setUserRole(data[0].role);
@@ -44,6 +47,7 @@ export const userJoinData = async (
     }
   } catch (error) {
     console.log(error);
+    toast.error("회원가입에 실패하였습니다.");
   }
 };
 
@@ -53,12 +57,12 @@ export const clientSignupHandler = async (
   values: {
     email: string;
     password: string;
-    passwordConfirmCurrent: string;
+    passwordConfirm: string;
     name: string;
-    workExp: number;
+    workExp: number | null;
     phone: string;
-    category: string;
     workField: string;
+    workSmallField: string;
     photoFile: File | null;
   },
   uploadUserImage: any,
@@ -66,40 +70,50 @@ export const clientSignupHandler = async (
   setUser: any,
   setUserId: any,
   setUserRole: any,
-  navigate: any
+  navigate: any,
+  setSubmitButtonClicked: (submitButtonClicked: boolean) => void
 ) => {
-  try {
-    await supabase.auth.signUp({
-      email: values.email,
-      password: values.password,
-    });
-
+  const { error } = await supabase.auth.signUp({
+    email: values.email,
+    password: values.password,
+  });
+  if (!error) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
     // 사진을 스토리지에 업로드
-    const filePath = await uploadUserImage(user?.id, values.photoFile);
-    const photoURL = await getPhotoURL(filePath);
+    const filePath =
+      values.photoFile && (await uploadUserImage(user?.id, values.photoFile));
+    const photoURL = filePath && (await getPhotoURL(filePath));
 
-    const newUserData = {
-      userId: user?.id,
+    const newUserData: User = {
+      userId: user?.id as string,
       name: values.name,
       role: role === "" ? "client" : role,
       photoURL: values.photoFile
         ? `${photoURL}?updated=${new Date().getTime()}`
         : "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/users/defaultProfileImage/defaultProfileImage.jpeg",
       workField: {
-        workField: values.category,
-        workSmallField: values.workField,
+        workField: values.workField,
+        workSmallField: values.workSmallField,
       },
-      workExp: values.workExp,
-      contact: { email: user?.email, phone: values.phone },
+      workExp: values.workExp as number,
+      contact: { email: user?.email as string, phone: values.phone },
+      signUpDate: new Date(),
+      portfolioCount: 0,
     };
     await userJoinData(newUserData, setUser, setUserId, setUserRole, navigate);
-    toast.success("회원가입이 완료되었습니다.");
-  } catch (error) {
-    toast.error("회원가입이 실패했습니다.");
+  }
+  if (error) {
+    if (error.message === "User already registered") {
+      toast.error("이미 가입된 이메일입니다.");
+      setSubmitButtonClicked(false);
+    } else {
+      toast.error("회원가입에 실패하였습니다.");
+      setSubmitButtonClicked(false);
+      console.log(error);
+    }
   }
 };
 

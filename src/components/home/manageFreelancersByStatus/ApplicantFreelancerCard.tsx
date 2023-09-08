@@ -4,7 +4,7 @@ import Modal from "../../modal/Modal";
 import { IUser, Project } from "../../../Types";
 import ApplicantFreelancerInfoModal from "./ApplicantFreelancerInfoModal";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
 import useClientsQueries from "src/hooks/useClientsQueries";
 import { toast } from "react-toastify";
 

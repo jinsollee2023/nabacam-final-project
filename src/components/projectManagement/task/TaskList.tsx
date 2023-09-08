@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Select } from "antd";
 import { MdAddCircle } from "react-icons/md";
 import { Task } from "../../../Types";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { CommonS } from "src/components/common/button/commonButton";
 import React from "react";

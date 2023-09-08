@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import JoinForm from "./JoinForm";
 import { S } from "./joinComp.styles";
 

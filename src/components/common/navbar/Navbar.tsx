@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import { logOut } from "src/api/auth";
 import { FiLogOut } from "react-icons/fi";
 import { toast } from "react-toastify";
