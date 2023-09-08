@@ -11,6 +11,7 @@ import {
 } from "../../../components/common/commonFunc";
 import { FiUsers } from "react-icons/fi";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
+import { toast } from "react-toastify";
 
 interface SuggestedProjectCardProps {
   projectItem: Project;
@@ -41,61 +42,116 @@ const SuggestedProjectCard = ({
 
   const handleButtonClick = (action: string) => {
     if (action === "reject") {
-      const isRejectConfirmed = window.confirm(
-        `${projectItem.title}에 대한 제안을 거절하시겠습니까?`
-      );
-      if (isRejectConfirmed) {
-        const updatedProject = {
-          ...projectItem,
-          SuggestedFreelancers: projectItem.SuggestedFreelancers?.filter(
-            (item) => item !== userId
-          ),
-        };
+      const updatedProject = {
+        ...projectItem,
+        SuggestedFreelancers: projectItem.SuggestedFreelancers?.filter(
+          (item) => item !== userId
+        ),
+      };
 
-        // 프로젝트 제안 거절시 현재 로그인한 프리랜서의 아이디를 해당 프로젝트의 제안한 프리랜서 배열에서 제거
-        try {
-          updateProjectMutation.mutate({
-            projectId: projectItem.projectId as string,
-            newProject: updatedProject,
-          });
-        } catch (error) {
-          console.error(
-            "거절에 대한 처리를 진행하던 중 오류가 발생하였습니다.\n",
-            error
-          );
-        }
+      // 프로젝트 제안 거절시 현재 로그인한 프리랜서의 아이디를 해당 프로젝트의 제안한 프리랜서 배열에서 제거
+      try {
+        updateProjectMutation.mutate({
+          projectId: projectItem.projectId as string,
+          newProject: updatedProject,
+        });
+      } catch (error) {
+        console.error(
+          "거절에 대한 처리를 진행하던 중 오류가 발생하였습니다.\n",
+          error
+        );
       }
     } else if (action === "accept") {
-      const isAcceptConfirmed = window.confirm(
-        `${projectItem.title}에 대한 제안을 수락하시겠습니까?`
-      );
-      if (isAcceptConfirmed) {
-        // 프로젝트 제안 수락 시 현재 로그인한 프리랜서 아이디를 프로젝트의 freelancerId값으로 추가
-        const updatedProject = {
-          ...projectItem,
-          freelancerId: userId,
-          status: "진행 중",
-          date: {
-            ...projectItem.date,
-            startDate: new Date().toISOString().split("T")[0],
-            endDate: "",
-          },
-        };
+      // 프로젝트 제안 수락 시 현재 로그인한 프리랜서 아이디를 프로젝트의 freelancerId값으로 추가
+      const updatedProject = {
+        ...projectItem,
+        freelancerId: userId,
+        status: "진행 중",
+        date: {
+          ...projectItem.date,
+          startDate: new Date().toISOString().split("T")[0],
+          endDate: "",
+        },
+      };
 
-        // 프로젝트 수락 후 바뀐 프로젝트 값(updatedProject)을 업데이트..
-        try {
-          updateProjectMutation.mutate({
-            projectId: projectItem.projectId as string,
-            newProject: updatedProject,
-          });
-        } catch (error) {
-          console.error(
-            "수락에 대한 처리를 진행하던 중 오류가 발생하였습니다.\n",
-            error
-          );
-        }
+      // 프로젝트 수락 후 바뀐 프로젝트 값(updatedProject)을 업데이트..
+      try {
+        updateProjectMutation.mutate({
+          projectId: projectItem.projectId as string,
+          newProject: updatedProject,
+        });
+      } catch (error) {
+        console.error(
+          "수락에 대한 처리를 진행하던 중 오류가 발생하였습니다.\n",
+          error
+        );
       }
     }
+  };
+
+  const handleAcceptConfirm = () => {
+    handleButtonClick("accept");
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleAcceptCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showAcceptConfirmation = () => {
+    toast.info(
+      <div>
+        <p>{`${projectItem.title}에 대한 제안을 수락하시겠습니까?`}</p>
+        <button onClick={handleAcceptConfirm}>확인</button>
+        <button onClick={handleAcceptCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+
+  const handleRejectConfirm = () => {
+    handleButtonClick("reject");
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleRejectCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+  const showRejectConfirmation = () => {
+    toast.info(
+      <div>
+        <p>{`${projectItem.title}에 대한 제안을 거절하시겠습니까?`}</p>
+        <button onClick={handleRejectConfirm}>확인</button>
+        <button onClick={handleRejectCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
   };
 
   return (
@@ -109,14 +165,14 @@ const SuggestedProjectCard = ({
                 <S.DeclineButton
                   type="primary"
                   block
-                  onClick={() => handleButtonClick("reject")}
+                  onClick={showRejectConfirmation}
                 >
                   거절하기
                 </S.DeclineButton>
                 <S.AcceptButton
                   type="primary"
                   block
-                  onClick={() => handleButtonClick("accept")}
+                  onClick={showAcceptConfirmation}
                 >
                   수락하기
                 </S.AcceptButton>

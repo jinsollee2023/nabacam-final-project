@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import React from "react";
 import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import useProjectValid from "src/hooks/useProjectValid";
+import { toast } from "react-toastify";
 
 interface AddProjectModal {
   isTitleValid?: boolean | null;

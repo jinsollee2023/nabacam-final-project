@@ -4,6 +4,7 @@ import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
 import Validation from "../join/Validation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 interface initialErrorsForm {
   email: string;
@@ -45,12 +46,12 @@ const ResetPassword = () => {
           password: values.password,
         });
         if (data) {
-          alert("비밀번호가 성공적으로 바뀌었습니다.");
+          toast.success("비밀번호가 성공적으로 바뀌었습니다.");
 
           navigate("/");
         }
       } catch (error) {
-        alert("비밀번호 변경에 오류가 생겼습니다");
+        toast.error("비밀번호 변경에 오류가 생겼습니다");
       }
     }
   };

@@ -26,14 +26,11 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const deleteExperienceHandler = () => {
-    const confirmDelete = window.confirm("삭제하시겠습니까?");
-    if (confirmDelete) {
-      try {
-        deleteExperienceMutation.mutate({ userId, experienceId });
-        toast.success("삭제되었습니다.");
-      } catch (error) {
-        toast.error("오류가 발생했습니다.");
-      }
+    try {
+      deleteExperienceMutation.mutate({ userId, experienceId });
+      toast.success("삭제되었습니다.");
+    } catch (error) {
+      toast.error("오류가 발생했습니다.");
     }
   };
 
@@ -55,6 +52,70 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
     }
 
     setIsUpdateModalOpen(false);
+  };
+
+  const handleDeleteConfirm = () => {
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+    deleteExperienceHandler();
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleDeleteCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showDeleteConfirmation = () => {
+    toast.info(
+      <div>
+        <p>삭제하시겠습니까?</p>
+        <button onClick={handleDeleteConfirm}>확인</button>
+        <button onClick={handleDeleteCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+
+  const handleUpdateConfirm = () => {
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+    updateExperienceHandler();
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleUpdateCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showUpdateConfirmation = () => {
+    toast.info(
+      <div>
+        <p>수정하시겠습니까?</p>
+        <button onClick={handleUpdateConfirm}>확인</button>
+        <button onClick={handleUpdateCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
   };
 
   return (
@@ -92,7 +153,7 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
         </S.TextArea>
         <CommonS.FlexBox marginTop="15px">
           <S.Btn onClick={() => setIsUpdateModalOpen(true)}>수정</S.Btn>
-          <S.Btn marginLeft="5px" onClick={deleteExperienceHandler}>
+          <S.Btn marginLeft="5px" onClick={showDeleteConfirmation}>
             삭제
           </S.Btn>
         </CommonS.FlexBox>
@@ -104,8 +165,8 @@ const ResumeExperienceCard = ({ experience }: ExperienceProps) => {
           buttons={
             <>
               <CommonS.RightEndBtnBox>
-                <S.Btn onClick={updateExperienceHandler}>수정하기</S.Btn>
-                <S.Btn marginLeft="10px" onClick={deleteExperienceHandler}>
+                <S.Btn onClick={showUpdateConfirmation}>수정하기</S.Btn>
+                <S.Btn marginLeft="10px" onClick={showDeleteConfirmation}>
                   삭제하기
                 </S.Btn>
               </CommonS.RightEndBtnBox>

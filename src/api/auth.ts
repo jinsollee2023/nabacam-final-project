@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import supabase, { supabaseService } from "../config/supabaseClient";
 import { getPhotoURL } from "./User";
 import { toast } from "react-toastify";
@@ -16,15 +17,15 @@ export const resign = async (
     try {
       const { error } = await supabaseService.auth.admin.deleteUser(userId);
       if (error) {
-        alert("회원 탈퇴 중 오류가 발생했습니다.");
+        toast.error("회원 탈퇴 중 오류가 발생했습니다.");
       } else {
         await supabase.auth.signOut();
 
-        alert("탈퇴 되었습니다. 로그인 페이지로 이동합니다.");
+        toast.success("탈퇴 되었습니다. 로그인 페이지로 이동합니다.");
         navigate("/login");
       }
     } catch (error) {
-      alert(
+      toast.error(
         "회원 탈퇴 중 오류가 발생했습니다. 고객센터에 문의해주세요. error: info."
       );
     }
@@ -103,7 +104,7 @@ export const clientSignupHandler = async (
       contact: { email: user?.email, phone: values.phone },
     };
     await userJoinData(newUserData, setUser, setUserId, setUserRole, navigate);
-    alert("회원가입이 완료되었습니다.");
+    toast.success("회원가입이 완료되었습니다.");
   }
   if (error) {
     if (error.message === "User already registered") {
@@ -122,10 +123,10 @@ export const logOut = async (navigate: (path: string) => void) => {
   if (isConfirmed) {
     try {
       await supabase.auth.signOut();
-      alert("로그아웃 되었습니다. 로그인 페이지로 이동합니다.");
+      toast.success("로그아웃 되었습니다. 로그인 페이지로 이동합니다.");
       navigate("/login");
     } catch (error) {
-      alert(error);
+      toast.error("로그아웃이 실패했습니다.");
     }
   }
 };

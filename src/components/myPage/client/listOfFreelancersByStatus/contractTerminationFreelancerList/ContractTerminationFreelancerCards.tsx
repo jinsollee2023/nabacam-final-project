@@ -10,6 +10,7 @@ import { useProjectStore } from "../../../../../store/useProjectStore";
 import Modal from "../../../../../components/modal/Modal";
 import ContractTerminationInfoModal from "./ContractTerminationInfoModal";
 import OneTouchModal from "../../../../../components/home/freelancerMarket/freelancerList/oneTouchModal/OneTouchModal";
+import { toast } from "react-toastify";
 
 interface ContractTerminationFreelancerCardsProps {
   user: User;
@@ -66,7 +67,7 @@ const ContractTerminationFreelancerCards = ({
     });
     refetchprojectDataForSuggestions();
     setIsSuggestingAgainModalOpen(false);
-    alert("프로젝트 제안이 완료 되었습니다.");
+    toast.success("프로젝트 제안이 완료 되었습니다.");
   };
 
   // 프리랜서 아이디별 진행 완료된 프로젝트 개수를 세기 위한 객체
@@ -86,7 +87,7 @@ const ContractTerminationFreelancerCards = ({
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      alert("클립보드에 복사되었습니다.");
+      toast.success("클립보드에 복사되었습니다.");
     } catch (err) {
       console.log(err);
     }

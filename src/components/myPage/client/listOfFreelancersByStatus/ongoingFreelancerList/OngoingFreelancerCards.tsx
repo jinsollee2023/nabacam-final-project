@@ -7,6 +7,7 @@ import { FiPhoneCall } from "react-icons/fi";
 import { FiMail } from "react-icons/fi";
 import { useUserStore } from "../../../../../store/useUserStore";
 import { IUser, Project, User } from "../../../../../Types";
+import { toast } from "react-toastify";
 
 interface OngoingFreelancerCardsProps {
   user: User;
@@ -27,7 +28,7 @@ const OngoingFreelancerCards = ({
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      alert("클립보드에 복사되었습니다.");
+      toast.success("클립보드에 복사되었습니다.");
     } catch (err) {
       console.log(err);
     }

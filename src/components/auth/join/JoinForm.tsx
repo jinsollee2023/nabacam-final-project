@@ -8,6 +8,7 @@ import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./joinComp.styles";
+import { toast } from "react-toastify";
 
 interface JoinFormProps {
   role: string;
