@@ -24,6 +24,20 @@ const Chat = () => {
       if (error) toast.error(error.message);
     }
   };
+
+  // 개별 방 (dm)
+  // is_room_participant("roomId", auth.uid()) help f 사용 -> rooms에 insert되면, 자동으로 room_participants에 roomId 들어감
+  const handleCreateRoom = async () => {
+    await supabase.from("rooms").insert({}); // {returning: 'minimal'}
+
+    const { data } = await supabase
+      .from("rooms")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+    console.log({ data });
+  };
   return (
     <div className="flex h-screen flex-col items-center justify-center">
       <head>
@@ -35,7 +49,10 @@ const Chat = () => {
         {/* 제목 */}
         <h1 className="bg-green-200 px-4 py-2 text-4xl">
           <a>WorkWave Chat</a>
-          <button className="ml-4 rounded border bg-red-200 p-2 text-xs">
+          <button
+            className="ml-4 rounded border bg-red-200 p-2 text-xs"
+            onClick={handleCreateRoom}
+          >
             New room
           </button>
         </h1>

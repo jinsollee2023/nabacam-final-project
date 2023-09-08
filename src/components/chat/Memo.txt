@@ -2,8 +2,31 @@
 1. profiles
 
 2. messages
+#2
 37:02 policy insert
 1:00:00 get
 1:44:55
 1:49:00
 1:50 꿀팁
+
+#3
+12:30 무한스크롤
+-scroll top속성 = container height
+14:45 에러해결
+30:00 private room (=dm)
+-room_participants: intersection table
+~1:00:15
+select exists (
+  select 1
+  from room_participants rp
+  where rp.roomId = is_room_participant.roomId
+  and rp.userId = is_room_participant.userId
+)
+**
+x 1:38:32
+rooms policy -> 
+auth.role() = 'authenticated' x
+x 1:41:28
+on_room_created 트리거를 disabled로 변경 x
+1:46:14 
+**

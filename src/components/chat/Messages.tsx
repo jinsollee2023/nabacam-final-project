@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
 import supabase from "../../config/supabaseClient";
 import { useUserStore } from "../../zustand/useUserStore";
@@ -16,16 +16,21 @@ const Messages = () => {
   const { user } = useUserStore();
   const userId = user.userId;
   const [messages, setMessages] = useState<Message[]>([]);
+  const messagesRef = useRef<HTMLDivElement>(null);
 
   const getData = async () => {
     const { data } = await supabase
       .from("messages")
-      .select("*, messageUser: users(name)"); /** users테이블도 같이 */
+      .select("*, messageUser: users(name)");
     if (!data) {
       toast.error("no data");
       return;
     }
     setMessages(data);
+    // 스크롤이 밑으로 따라오도록
+    if (messagesRef.current) {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
   };
   useEffect(() => {
     getData();
@@ -53,11 +58,11 @@ const Messages = () => {
     };
   }, []);
 
-  console.log({ messages });
+  // console.log({ messages });
 
   return (
-    /** 부모요소에 스크롤 있어야 */
-    <div className="overflow-y-scroll flex-1 bg-red-200 p-2">
+    /** 부모요소에 스크롤 있어야. flex컨테이너에 스크롤 못줌(?) */
+    <div className="overflow-y-scroll flex-1 bg-red-200 p-2" ref={messagesRef}>
       <ul className="flex flex-1 flex-col justify-end p-4 space-y-1.5">
         {messages?.map((message) => (
           <li
