@@ -10,6 +10,7 @@ import Validation from "./Validation";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./joinComp.styles";
+import { toast } from "react-toastify";
 
 interface JoinFormProps {
   role: string;
@@ -93,6 +94,8 @@ const JoinForm = ({ role }: JoinFormProps) => {
         setUserRole,
         navigate
       );
+    } else {
+      toast.error("필수입력칸이 비워져있습니다.");
     }
   };
 

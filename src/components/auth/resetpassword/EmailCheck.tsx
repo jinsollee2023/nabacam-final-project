@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
+import { toast } from "react-toastify";
 
 interface openModal {
   openModal: () => void;
@@ -18,7 +19,7 @@ const EmailCheck = ({ openModal }: openModal) => {
       });
       console.log(data);
       if (!error) {
-        alert("입력한 이메일을 확인해주세요");
+        toast.error("입력한 이메일을 확인해주세요");
         setEmail("");
       }
     } catch (error) {
@@ -26,7 +27,7 @@ const EmailCheck = ({ openModal }: openModal) => {
     }
   };
 
-  const emailOnChange = (e: any) => {
+  const emailOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 

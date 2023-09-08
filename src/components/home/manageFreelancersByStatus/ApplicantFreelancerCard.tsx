@@ -6,6 +6,7 @@ import ApplicantFreelancerInfoModal from "./ApplicantFreelancerInfoModal";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { useUserStore } from "src/zustand/useUserStore";
 import useClientsQueries from "src/hooks/useClientsQueries";
+import { toast } from "react-toastify";
 
 interface ApplicantFreelancerCardProps {
   project: Project;
@@ -52,7 +53,7 @@ const ApplicantFreelancerCard = ({
       updatePendingFreelancer: pendingFreelancer,
     });
     addProjectIdToUserMutation.mutate({ userId, projectIds: customProjectIds });
-    alert("계약이 완료되었습니다.");
+    toast.success("계약이 완료되었습니다.");
     setIsModalOpen(false);
   };
 
@@ -75,7 +76,7 @@ const ApplicantFreelancerCard = ({
       updateVolunteer: updateVolunteerData,
       pendingFreelancer: updatePendingFreelancerData,
     });
-    alert("보류 처리가 완료되었습니다.");
+    toast.success("보류 처리가 완료되었습니다.");
     setIsModalOpen(false);
   };
 

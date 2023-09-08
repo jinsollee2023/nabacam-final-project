@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { Project } from "../../../Types";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
@@ -21,25 +22,53 @@ const AppliedProjectCard = ({
   });
 
   const handleCancelApplyButtonClick = () => {
-    const isConfirmed = window.confirm(
-      `${projectItem.title}에 대한 지원을 취소하시겠습니까?`
-    );
-    if (isConfirmed) {
-      const updatedProject = {
-        ...projectItem,
-        volunteer: projectItem.volunteer?.filter((item) => item !== userId),
-      };
+    const updatedProject = {
+      ...projectItem,
+      volunteer: projectItem.volunteer?.filter((item) => item !== userId),
+    };
 
-      // 프리랜서가 지원을 취소하면 해당 프리랜서를 제외한 프로젝트 정보를 업데이트 해준다.
-      try {
-        updateProjectMutation.mutate({
-          projectId: projectItem.projectId as string,
-          newProject: updatedProject,
-        });
-      } catch (error) {
-        console.error("지원을 취소하던 중 오류가 발생하였습니다.\n", error);
-      }
+    // 프리랜서가 지원을 취소하면 해당 프리랜서를 제외한 프로젝트 정보를 업데이트 해준다.
+    try {
+      updateProjectMutation.mutate({
+        projectId: projectItem.projectId as string,
+        newProject: updatedProject,
+      });
+    } catch (error) {
+      toast.error("지원을 취소하던 중 오류가 발생하였습니다.");
     }
+  };
+
+  const handleConfirm = () => {
+    handleCancelApplyButtonClick();
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showConfirmation = () => {
+    toast.info(
+      <div>
+        <p>{`${projectItem.title}에 대한 지원을 취소하시겠습니까?`}</p>
+        <button onClick={handleConfirm}>확인</button>
+        <button onClick={handleCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
   };
 
   return (
@@ -68,7 +97,7 @@ const AppliedProjectCard = ({
             {projectItem.volunteer?.includes(userId) ? (
               <>
                 {projectItem.status === "진행 전" ? (
-                  <S.AppliedCancleButton onClick={handleCancelApplyButtonClick}>
+                  <S.AppliedCancleButton onClick={showConfirmation}>
                     지원 취소
                   </S.AppliedCancleButton>
                 ) : null}
@@ -77,7 +106,7 @@ const AppliedProjectCard = ({
             ) : (
               <>
                 {projectItem.status === "진행 전" ? (
-                  <S.AppliedCancleButton onClick={handleCancelApplyButtonClick}>
+                  <S.AppliedCancleButton onClick={showConfirmation}>
                     지원 취소
                   </S.AppliedCancleButton>
                 ) : null}
