@@ -3,7 +3,7 @@ import S from "./ProjectListStyles";
 import { useEffect, useState } from "react";
 import { getFreelancer } from "src/api/User";
 import ProjectCommittedFreelancerProfile from "./ProjectCommittedFreelancerProfile";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
 
 export interface ProjectDetailModalProps {
   project: Project;

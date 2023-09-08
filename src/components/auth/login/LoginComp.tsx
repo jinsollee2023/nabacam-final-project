@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
 import { getUser } from "src/api/User";
 import LoginValidation from "./LoginValidation";
 import EmailCheck from "../resetpassword/EmailCheck";

@@ -6,9 +6,9 @@ import { PortfolioIndexMap } from "./FreelancerList";
 import { Button, Spin } from "antd";
 import Modal from "src/components/modal/Modal";
 import OneTouchModal from "./oneTouchModal/OneTouchModal";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
 import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
-import { useProjectStore } from "src/zustand/useProjectStore";
+import { useProjectStore } from "src/store/useProjectStore";
 import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 

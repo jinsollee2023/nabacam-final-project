@@ -6,14 +6,17 @@ import FreelancerPortfolio from "../../../../../components/modal/freelancerInfo/
 import { S } from "../freelancerInfoModalByStatus.style";
 import dayjs from "dayjs";
 import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
-import { useUserStore } from "../../../../../zustand/useUserStore";
+import { useUserStore } from "../../../../../store/useUserStore";
 
 interface ContractTerminationInfoModalProps {
   user: User;
   project: Project;
 }
 
-const ContractTerminationInfoModal = ({ user, project }: ContractTerminationInfoModalProps) => {
+const ContractTerminationInfoModal = ({
+  user,
+  project,
+}: ContractTerminationInfoModalProps) => {
   const { userId } = useUserStore();
   const { matchingCompletedProjectsData } = useProjectsQueries({
     currentUserId: userId,
@@ -22,7 +25,9 @@ const ContractTerminationInfoModal = ({ user, project }: ContractTerminationInfo
 
   return (
     <>
-      <S.ModalTitle>이전에 함께 작업했던 {user.name}님의 프로필이에요.</S.ModalTitle>
+      <S.ModalTitle>
+        이전에 함께 작업했던 {user.name}님의 프로필이에요.
+      </S.ModalTitle>
       <FreelancerProfile user={user} />
       <S.ProjectTitleContents>진행했던 프로젝트</S.ProjectTitleContents>
       <S.ProjectWarp>

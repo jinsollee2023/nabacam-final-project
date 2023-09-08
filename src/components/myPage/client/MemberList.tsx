@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "src/components/modal/Modal";
 import useClientsQueries from "src/hooks/useClientsQueries";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
 import AddMemberModal from "./AddMemberModal";
 import { Member } from "src/Types";
 import { S } from "./memberListStyle";

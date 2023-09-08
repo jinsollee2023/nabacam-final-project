@@ -3,7 +3,7 @@ import { Select } from "antd";
 import PreviewImage from "./PreviewImage";
 import { uploadUserImage } from "../../../api/User";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import { clientSignupHandler } from "../../../api/auth";
 import Validation from "./Validation";
 
