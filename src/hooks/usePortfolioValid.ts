@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Values,
   usePortfolioValuesStore,
-} from "../zustand/usePortfolioValuesStore";
+} from "../store/usePortfolioValuesStore";
 
 // 포트폴리오 추가, 수정 시 유효성 검사를 위해 임시로 만들어놓은 파일..
 const usePortfolioValid = () => {

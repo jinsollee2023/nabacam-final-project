@@ -3,17 +3,17 @@ import ProjectCard from "./ProjectCard";
 import { RiAddBoxLine } from "react-icons/ri";
 import Modal from "../../modal/Modal";
 import AddProjectModal from "./AddProjectModal";
-import { useProjectStore } from "../../../zustand/useProjectStore";
+import { useProjectStore } from "../../../store/useProjectStore";
 import S from "./ProjectListStyles";
 import { useEffect, useState } from "react";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import SearchItemBar from "../../../components/common/searchItemBar/SearchItemBar";
 import SortProjects from "./SortProjects";
 import { queryClient } from "../../../App";
-import { useSearchKeywordStore } from "../../../zustand/useSearchKeywordStore";
+import { useSearchKeywordStore } from "../../../store/useSearchKeywordStore";
 import { Project } from "../../../Types";
-import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
+import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import useProjectValid from "src/hooks/useProjectValid";
 
 const ProjectList = () => {

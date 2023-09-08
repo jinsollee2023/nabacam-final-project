@@ -1,6 +1,6 @@
 import { Spin } from "antd";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import AppliedProjectCard from "./AppliedProjectCard";
 import { S } from "./appliedProjectList.styles";
 

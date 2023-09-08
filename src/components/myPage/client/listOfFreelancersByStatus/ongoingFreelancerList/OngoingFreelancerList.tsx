@@ -1,6 +1,6 @@
 import React from "react";
 import useClientsQueries from "../../../../../hooks/useClientsQueries";
-import { useUserStore } from "../../../../../zustand/useUserStore";
+import { useUserStore } from "../../../../../store/useUserStore";
 import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { S } from "../listOfFreelancersByStatus.style";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
@@ -12,7 +12,10 @@ const OngoingFreelancerList = () => {
     currentUserId: userId,
   });
 
-  if (!freelancersWithOngoingProjects || freelancersWithOngoingProjects.length === 0) {
+  if (
+    !freelancersWithOngoingProjects ||
+    freelancersWithOngoingProjects.length === 0
+  ) {
     return <span>진행 중인 프리랜서가 없습니다.</span>;
   }
 

@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import Modal from "../../../components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
-import { useProjectStore } from "../../../zustand/useProjectStore";
+import { useProjectStore } from "../../../store/useProjectStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import React from "react";
-import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
+import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import useProjectValid from "src/hooks/useProjectValid";
 
 interface projectCardProps {

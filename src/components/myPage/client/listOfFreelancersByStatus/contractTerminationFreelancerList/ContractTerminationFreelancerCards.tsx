@@ -5,8 +5,8 @@ import dayjs from "dayjs";
 import { FiPhoneCall } from "react-icons/fi";
 import { FiMail } from "react-icons/fi";
 import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
-import { useUserStore } from "../../../../../zustand/useUserStore";
-import { useProjectStore } from "../../../../../zustand/useProjectStore";
+import { useUserStore } from "../../../../../store/useUserStore";
+import { useProjectStore } from "../../../../../store/useProjectStore";
 import Modal from "../../../../../components/modal/Modal";
 import ContractTerminationInfoModal from "./ContractTerminationInfoModal";
 import OneTouchModal from "../../../../../components/home/freelancerMarket/freelancerList/oneTouchModal/OneTouchModal";
@@ -21,8 +21,11 @@ const ContractTerminationFreelancerCards = ({
   project,
 }: ContractTerminationFreelancerCardsProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] =
+    useState(false);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
   const { userId } = useUserStore();
   const { selectedProject, setSelectedProject } = useProjectStore();
   const {
@@ -51,8 +54,12 @@ const ContractTerminationFreelancerCards = ({
 
   // 계약이 끝난 프리랜서 -> 상세 모달 -> 프로젝트 다시 제안하기 -> 제안하기 모달 버튼
   const handleProjectSuggestingBtnClick = () => {
-    const suggestedFreelancers = suggestedFreelancersData?.SuggestedFreelancers || [];
-    const updatedSuggestedFreelancers = [...(suggestedFreelancers as string[]), user.userId];
+    const suggestedFreelancers =
+      suggestedFreelancersData?.SuggestedFreelancers || [];
+    const updatedSuggestedFreelancers = [
+      ...(suggestedFreelancers as string[]),
+      user.userId,
+    ];
     updateSuggestedFreelancersDataMutation.mutate({
       projectId: selectedProject?.projectId as string,
       updatedSuggestedFreelancers,
@@ -102,12 +109,20 @@ const ContractTerminationFreelancerCards = ({
                     </S.WorkSmallFieldAndWorkExp>
                   </S.ProfileContents>
                   <S.ContactBox>
-                    <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
+                    <S.Contact
+                      onClick={() =>
+                        handleCopyClipBoard(`${user.contact.phone}`)
+                      }
+                    >
                       <FiPhoneCall size={18} /> {user.contact.phone}
                     </S.Contact>
                   </S.ContactBox>
                   <S.ContactBox>
-                    <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
+                    <S.Contact
+                      onClick={() =>
+                        handleCopyClipBoard(`${user.contact.email}`)
+                      }
+                    >
                       <FiMail size={18} /> {user.contact.email}
                     </S.Contact>
                   </S.ContactBox>
@@ -159,7 +174,10 @@ const ContractTerminationFreelancerCards = ({
                         onClick={handleProjectSuggestingBtnClick}
                         disabled={
                           !selectedProject?.title ||
-                          !(projectDataForSuggestions && projectDataForSuggestions.length > 0)
+                          !(
+                            projectDataForSuggestions &&
+                            projectDataForSuggestions.length > 0
+                          )
                         }
                       >
                         {selectedProject?.title} 제안하기
@@ -167,7 +185,10 @@ const ContractTerminationFreelancerCards = ({
                     </>
                   }
                 >
-                  <OneTouchModal user={user} projectLists={projectDataForSuggestions!} />
+                  <OneTouchModal
+                    user={user}
+                    projectLists={projectDataForSuggestions!}
+                  />
                 </Modal>
               ) : null}
             </>
