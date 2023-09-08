@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Member } from "src/Types";
 import { S } from "./addMemberModal.style";
+import { formatPhoneNumber } from "src/components/common/commonFunc";
 import { useUserStore } from "src/store/useUserStore";
 
 interface AddMemberModalProps {
@@ -58,7 +59,7 @@ const AddMemberModal = ({
         <S.Input
           id="memberPhone"
           value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
         />
       </S.WriteBox>
       <S.WriteBox>
