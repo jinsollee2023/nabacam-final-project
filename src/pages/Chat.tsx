@@ -17,10 +17,17 @@ const Chat = () => {
 
     if (typeof message === "string" && message.trim().length !== 0) {
       form.reset();
-      const { data, error } = await supabase
+      await supabase
         .from("messages")
         .insert({ content: message, user_id: userId });
 
+      const { data, error } = await supabase
+        .from("rooms")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+      console.log({ data });
       if (error) toast.error(error.message);
     }
   };
