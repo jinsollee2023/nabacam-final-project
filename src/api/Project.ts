@@ -12,9 +12,7 @@ export const getProjects = async (id: string): Promise<Project[]> => {
   return projects as Project[];
 };
 
-export const getOngoingProjectsOfFreelancer = async (
-  id: string
-): Promise<Project[]> => {
+export const getOngoingProjectsOfFreelancer = async (id: string): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
@@ -105,11 +103,7 @@ export const updateProject = async (
     qualification?: number;
   }
 ): Promise<void> => {
-  await supabase
-    .from("projects")
-    .update(column)
-    .eq("projectId", projectId)
-    .select();
+  await supabase.from("projects").update(column).eq("projectId", projectId).select();
 };
 
 // 선택한 프로젝트에 제안했던 프리랜서 리스트 가져오기
@@ -128,9 +122,7 @@ export const getSuggestedFreelancers = async (
     }
     return data as { SuggestedFreelancers: string[] };
   } catch (error) {
-    throw new Error(
-      `제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
-    );
+    throw new Error(`제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
   }
 };
 
@@ -184,15 +176,11 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
       .select("*")
       .order(orderByField, { ascending });
     if (error) {
-      console.log(
-        `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`
-      );
+      console.log(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
     return data;
   } catch (error) {
-    throw new Error(
-      `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
-    );
+    throw new Error(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
   }
 };
 
@@ -212,21 +200,22 @@ export const getPendingFreelancers = async (
 
 export const getOngoingProjectsOfClient = async (
   clientId: string
+  // page: number
 ): Promise<Project[]> => {
+  // console.log(page);
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
     .eq("clientId", clientId)
     .eq("status", "진행 중")
     .order("created_at", { ascending: true });
+  // .range(page * 8 - 8, page * 8 - 1);
 
   return projects as Project[];
 };
 
 // 진행 완료된 프로젝트 가져오기
-export const getTerminationedProjects = async (
-  clientId: string
-): Promise<Project[]> => {
+export const getTerminationedProjects = async (clientId: string): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")

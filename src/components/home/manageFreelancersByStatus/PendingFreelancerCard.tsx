@@ -6,6 +6,7 @@ import { IUser } from "../../../Types";
 import PendingFreelancerInfoModal from "./PendingFreelancerInfoModal";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { toast } from "react-toastify";
+import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
 
 interface PendingFreelancerCardProps {
   project: Project;
@@ -28,7 +29,7 @@ const PendingFreelancerCard = ({
     deleteVolunteerAndPendingFreelancerMutation,
     deletePendingFreelancerMutation,
     addProjectIdToUserMutation,
-  } = useProjectsQueries({
+  } = useProjectOfClientBySortQueries({
     currentUserId: userId,
   });
 

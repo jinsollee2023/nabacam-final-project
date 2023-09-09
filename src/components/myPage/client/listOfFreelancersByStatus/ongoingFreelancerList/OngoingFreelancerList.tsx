@@ -1,16 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useClientsQueries from "../../../../../hooks/useClientsQueries";
 import { useUserStore } from "../../../../../store/useUserStore";
 import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { S } from "../listOfFreelancersByStatus.style";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
+import useOngoingProjectOfClientQueries from "src/hooks/queries/useOngoingProjectOfClientQueries";
+import useClientsQueries from "src/hooks/useClientsQueries";
 
 const OngoingFreelancerList = () => {
+  // const [page, setPage] = useState(1);
+
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { freelancersWithOngoingProjects } = useProjectsQueries({
+  const { freelancersWithOngoingProjects } = useOngoingProjectOfClientQueries({
     currentUserId: userId,
+    // page,
   });
+  // console.log(freelancersWithOngoingProjects);
+
+  // const target = React.useRef() as React.MutableRefObject<HTMLDivElement>;
+
+  // useEffect(() => {
+  //   if (!target.current) return;
+  //   observer.observe(target.current);
+  // }, []);
+
+  // const options = {
+  //   threshold: 1.0,
+  // };
+
+  // const callback = () => {
+  //   setPage(page + 1);
+  // };
+
+  // const observer = new IntersectionObserver(callback, options);
 
   if (
     !freelancersWithOngoingProjects ||
@@ -31,6 +54,7 @@ const OngoingFreelancerList = () => {
             />
           </S.ListsBox>
         ))}
+        {/* <div ref={target}></div> */}
       </S.OngoingFreelancerlistContainer>
     </>
   );

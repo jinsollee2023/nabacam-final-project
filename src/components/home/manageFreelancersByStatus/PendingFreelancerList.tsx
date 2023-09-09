@@ -3,10 +3,11 @@ import { S } from "./manageFreelancersByStatus.style";
 import { useUserStore } from "../../../store/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import PendingFreelancerCard from "./PendingFreelancerCard";
+import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
 
 const PendingFreelancerList = () => {
   const { userId } = useUserStore();
-  const { pendingFreelancersToTheProjects } = useProjectsQueries({
+  const { pendingFreelancersToTheProjects } = useProjectOfClientBySortQueries({
     currentUserId: userId,
   });
 
