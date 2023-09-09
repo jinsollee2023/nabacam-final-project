@@ -12,6 +12,7 @@ const Messages = ({ room_id }: MessagesProps) => {
   const { user } = useUserStore();
   const userId = user.userId;
   const [messages, setMessages] = useState<Message[]>([]);
+  const messagesRef = useRef<HTMLDivElement>(null);
 
   const getData = async () => {
     try {
@@ -27,6 +28,10 @@ const Messages = ({ room_id }: MessagesProps) => {
       }
       console.log(data);
       setMessages(data);
+      // 스크롤 밑으로 오도록
+      if (messagesRef.current) {
+        messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error("Error fetching data");
@@ -61,7 +66,7 @@ const Messages = ({ room_id }: MessagesProps) => {
 
   return (
     /** 부모요소에 스크롤 있어야 */
-    <div className="overflow-y-scroll flex-1 bg-red-200 p-2">
+    <div className="overflow-y-scroll flex-1 bg-red-200 p-2" ref={messagesRef}>
       <ul className="flex flex-1 flex-col justify-end p-4 space-y-1.5">
         {messages?.map((message) => (
           <li
