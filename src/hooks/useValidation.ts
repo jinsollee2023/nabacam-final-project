@@ -50,13 +50,6 @@ const useValidation = () => {
     return "";
   };
 
-  const validateWorkField = (workField: string) => {
-    if (workField === "") {
-      return "작업 영역을 선택해주세요.";
-    }
-    return "";
-  };
-
   const validateWorkSmallField = (workSmallField: string) => {
     if (workSmallField === "") {
       return "상세 작업 영역을 입력해주세요";
@@ -66,7 +59,7 @@ const useValidation = () => {
 
   const validateWorkExp = (workExp: number) => {
     if (workExp === null) {
-      return "경험/연차를 입력해주세요.";
+      return "경력/연차를 입력해주세요.";
     }
     return "";
   };
@@ -89,16 +82,53 @@ const useValidation = () => {
     return "";
   };
 
+  const validateInput = (key: string, value: string) => {
+    if (!value) {
+      return `${key}을/를 입력해주세요.`;
+    }
+    return "";
+  };
+
+  const validateSelect = (key: string, value: string) => {
+    if (value === "") {
+      return `${key}을/를 선택해주세요.`;
+    }
+    return "";
+  };
+
+  const validateDate = (key: string, value: string) => {
+    if (!value) {
+      return `${key}을/를 선택해주세요.`;
+    }
+    return "";
+  };
+
+  const validatePay = (min: number | string, max: number | string) => {
+    if (!min || !max) {
+      return "급여를 입력해주세요.";
+    } else if (
+      min !== "상의 후 결정" &&
+      max !== "상의 후 결정" &&
+      Number(min) > Number(max)
+    ) {
+      return "최대 급여는 최소 급여보다 낮을 수 없습니다.";
+    }
+    return "";
+  };
+
   return {
     validateEmail,
     validatePassword,
     validatePasswordConfirm,
     validateName,
-    validateWorkField,
     validateWorkSmallField,
     validateWorkExp,
     validatePhone,
     validateTeam,
+    validateInput,
+    validateSelect,
+    validateDate,
+    validatePay,
   };
 };
 

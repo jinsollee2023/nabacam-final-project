@@ -73,7 +73,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
     validatePassword,
     validatePasswordConfirm,
     validateName,
-    validateWorkField,
+    validateSelect,
     validateWorkSmallField,
     validateWorkExp,
     validatePhone,
@@ -127,7 +127,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
       values.passwordConfirm
     );
     const nameError = validateName(values.name);
-    const workFieldError = validateWorkField(values.workField);
+    const workFieldError = validateSelect("작업 영역", values.workField);
     const workSmallFieldError = validateWorkSmallField(values.workSmallField);
     const workExpError = validateWorkExp(values.workExp as number);
     const phoneError = validatePhone(values.phone);
@@ -338,7 +338,10 @@ const JoinForm = ({ role }: JoinFormProps) => {
                   value={values.workField}
                   onChange={(e) => handleChange("workField", e.target.value)}
                   onFocus={() => {
-                    const workFieldError = validateWorkField(values.workField);
+                    const workFieldError = validateSelect(
+                      "작업 영역",
+                      values.workField
+                    );
                     setErrors({ ...errors, workField: workFieldError });
                   }}
                   onBlur={(e) => {
