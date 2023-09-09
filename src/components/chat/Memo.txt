@@ -18,9 +18,26 @@ begin
   return new;
 end;
 
+3. create_room (rpc 함수: 2번이랑 트리거 대신)
+
+
 //----------------------------------------------------------------------------------------//
 # Queries
 1. Check if a user is a participant in a room
+2. rpc용 쿼리
+
+  declare
+    v_room rooms;
+  begin
+    insert into rooms(roomname)
+    values(create_room.roomname)
+    returning * into v_room;
+
+    insert into room_participants(room_id, user_id)
+    values(v_room.room_id, auth.uid());
+
+    return v_room;
+  end;
 
 
 //----------------------------------------------------------------------------------------//
@@ -33,4 +50,5 @@ end;
 1. rooms 테이블 -> room_participants 테이블 세팅 -> help function -> 쿼리로 f 테스트 -> rooms policy, room_participants policy
 2. trigger f 생성 (room_participants 테이블에 room_id, user_id 삽입) -> trigger 생성 (on_room_created) : 실행 순서는 트리거 먼저
 
+3. 2번 지우고 -> 새로운 rpc 함수 생성(쿼리 대체?) -> 쿼리로 확인 -> rooms policy에 insert 삭제 (함수로만 가능하도록)
 

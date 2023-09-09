@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const Chat = () => {
   const { user } = useUserStore();
   const userId = user.userId; // users테이블의 userId를 user_id컬럼에 삽입
-
+  console.log("12", userId);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -17,24 +17,29 @@ const Chat = () => {
 
     if (typeof message === "string" && message.trim().length !== 0) {
       form.reset();
-      await supabase
-        .from("messages")
-        .insert({ content: message, user_id: userId });
-
       const { data, error } = await supabase
-        .from("rooms")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(1)
-        .single();
+        .from("messages")
+        .insert({ content: message, user_id: userId })
+        .select();
       console.log({ data });
       if (error) toast.error(error.message);
+
+      // rooms 테이블에 real-time 설정 안해주면 이 코드 적용해야 실시간반영됨
+      // const { data, error } = await supabase
+      //   .from("rooms")
+      //   .select("*")
+      //   .order("created_at", { ascending: false })
+      //   .limit(1)
+      //   .single();
     }
   };
 
   const handleCreateRoom = async () => {
-    const { data, error } = await supabase.from("rooms").insert({});
-    console.log({ data }); // 1:51:00
+    const { data, error } = await supabase.rpc("create_room", {
+      roomname: "test name",
+      user_id: userId,
+    });
+    console.log("34", data);
 
     if (error) {
       toast.error(error.message);
