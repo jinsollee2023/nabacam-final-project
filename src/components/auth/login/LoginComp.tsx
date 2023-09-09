@@ -7,7 +7,7 @@ import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./LoginComp.styles";
 import { toast } from "react-toastify";
-import Validation from "../join/Validation";
+import useValidation from "../../../hooks/useValidation";
 
 interface LoginForm {
   email: string;
@@ -36,8 +36,8 @@ const LoginComp = () => {
   const [errors, setErrors] = useState<LoginErrorForm>(initialErrors);
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
   const { setUserId, setUserRole, setUser } = useUserStore();
+  const { validateEmail, validatePassword } = useValidation();
   window.history.forward();
-  const { validateEmail, validatePassword } = Validation();
 
   // errors의 초기에도 확인할수있도록 작동하는 useEffect
 

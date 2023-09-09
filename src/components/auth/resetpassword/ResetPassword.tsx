@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
-import Validation from "../join/Validation";
+import useValidation from "../../../hooks/useValidation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 
@@ -35,7 +35,7 @@ const ResetPassword = () => {
   const [errors, setErrors] = useState<initialErrorsForm>(initialErrors);
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
-  const { validatePassword, validatePasswordConfirm } = Validation();
+  const { validatePassword, validatePasswordConfirm } = useValidation();
   // errors 바로확인하고 validation 체크 후 진행하게해주기위해 useEffect 사용
 
   useEffect(() => {

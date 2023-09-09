@@ -5,7 +5,7 @@ import { uploadUserImage } from "../../../api/User";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../store/useUserStore";
 import { clientSignupHandler } from "../../../api/auth";
-import Validation from "./Validation";
+import useValidation from "../../../hooks/useValidation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./joinComp.styles";
 import { formatPhoneNumber } from "src/components/common/commonFunc";
@@ -77,7 +77,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
     validateWorkSmallField,
     validateWorkExp,
     validatePhone,
-  } = Validation();
+  } = useValidation();
 
   const emailInput = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
