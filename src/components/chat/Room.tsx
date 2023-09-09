@@ -17,9 +17,9 @@ interface Message {
 const Room = () => {
   const { user } = useUserStore();
   const userId = user.userId;
-  const { roomId } = useParams();
+  const { room_id } = useParams();
 
-  console.log({ roomId });
+  console.log({ room_id });
   const [messages, setMessages] = useState<Message[]>([]); // 메시지 상태 추가
   const messagesRef = useRef<HTMLDivElement>(null);
 
@@ -28,7 +28,7 @@ const Room = () => {
       const { data } = await supabase
         .from("messages")
         .select("*, messageUser: users(name)")
-        .match({ roomId: roomId })
+        .match({ room_id: room_id })
         .order("created_at");
 
       if (!data) {
@@ -60,7 +60,7 @@ const Room = () => {
           event: "INSERT",
           schema: "public",
           table: "messages",
-          filter: "roomId=eq.roomId",
+          filter: "room_id=eq.room_id",
         },
         () => {
           /**payload */
@@ -83,7 +83,7 @@ const Room = () => {
       form.reset();
       const { data, error } = await supabase
         .from("messages")
-        .insert({ content: message, roomId: roomId, userId: userId });
+        .insert({ content: message, room_id: room_id, userId: userId });
       console.log("here", data);
 
       if (error) toast.error(error.message);
@@ -96,7 +96,7 @@ const Room = () => {
         {/* 제목 */}
         <h1 className="bg-yellow-100 px-4 py-2 text-4xl">00 Room</h1>
         {/* 본문 */}
-        {/* {roomId && <Messages roomId={roomId} messages={messages} />} */}
+        {/* {room_id && <Messages room_id={room_id} messages={messages} />} */}
         {/* 창 */}
         <form onSubmit={handleSubmit} className="w-full bg-gray-100 p-1">
           <input

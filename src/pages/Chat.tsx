@@ -1,15 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Messages from "../components/chat/Messages";
 import supabase from "../config/supabaseClient";
 import { useUserStore } from "../zustand/useUserStore";
 import { styled } from "styled-components";
 import { toast } from "react-toastify";
 
+interface Room {
+  room_id: string;
+  created_at: string;
+  roomname: string | null;
+}
+
 const Chat = () => {
   const { user } = useUserStore();
-  const userId = user.userId; // users테이블의 userId를 user_id컬럼에 삽입
-  console.log("12", userId);
+  const userId = user.userId; // users테이블의 userId를 user_id컬럼에 삽입, rpc에도 삽입
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -21,7 +28,6 @@ const Chat = () => {
         .from("messages")
         .insert({ content: message, user_id: userId })
         .select();
-      console.log({ data });
       if (error) toast.error(error.message);
 
       // rooms 테이블에 real-time 설정 안해주면 이 코드 적용해야 실시간반영됨
@@ -39,11 +45,13 @@ const Chat = () => {
       roomname: "test name",
       user_id: userId,
     });
-    console.log("34", data);
-
     if (error) {
       toast.error(error.message);
       return;
+    }
+    if (data) {
+      const room_id = data.room_id;
+      navigate(`/chat/${room_id}`);
     }
   };
   return (

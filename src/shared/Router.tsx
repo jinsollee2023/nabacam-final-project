@@ -30,7 +30,7 @@ const Router = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
             <Route path="/chat" element={<Chat />} />
-            <Route path="/chat/:roomId" element={<Room />} />
+            <Route path="/chat/:room_id" element={<Room />} />
             <Route path="/my-page" element={<MyPage />} />
             <Route path="/project-management" element={<ProjectManagement />} />
             <Route path="/review" element={<Review />} />

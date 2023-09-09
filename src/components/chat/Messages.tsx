@@ -12,7 +12,11 @@ interface Message {
   };
 }
 
-const Messages = () => {
+interface MessagesProps {
+  room_id: string;
+}
+
+const Messages = ({ room_id }: MessagesProps) => {
   const { user } = useUserStore();
   const userId = user.userId;
   const [messages, setMessages] = useState<Message[]>([]);
@@ -20,7 +24,8 @@ const Messages = () => {
   const getData = async () => {
     const { data } = await supabase
       .from("messages")
-      .select("*, messageUser: users(name)"); /** users테이블도 같이 */
+      .select("*, messageUser: users(name)") /** users테이블도 같이 */
+      .match({ room_id: room_id });
     if (!data) {
       toast.error("no data");
       return;

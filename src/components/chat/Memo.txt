@@ -47,8 +47,12 @@ end;
 
 //----------------------------------------------------------------------------------------//
 #순서
+(1) 페이지 분리 전
 1. rooms 테이블 -> room_participants 테이블 세팅 -> help function -> 쿼리로 f 테스트 -> rooms policy, room_participants policy
 2. trigger f 생성 (room_participants 테이블에 room_id, user_id 삽입) -> trigger 생성 (on_room_created) : 실행 순서는 트리거 먼저
 
 3. 2번 지우고 -> 새로운 rpc 함수 생성(쿼리 대체?) -> 쿼리로 확인 -> rooms policy에 insert 삭제 (함수로만 가능하도록)
 
+(2) 페이지 분리 후
+1. messages 테이블에 room_id 컬럼 생성
+2. messages 테이블 room_id notnull로 설정 -> policy 변경
