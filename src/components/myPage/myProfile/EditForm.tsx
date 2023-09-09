@@ -4,6 +4,7 @@ import { User } from "../../../Types";
 import PreviewImage from "../../../components/auth/join/PreviewImage";
 import { useProfileInfoStore } from "../../../store/useProfileInfoStore";
 import { S } from "./myProfile.styles";
+import { formatPhoneNumber } from "src/components/common/commonFunc";
 
 interface EditFormProps {
   user: User;
@@ -36,6 +37,10 @@ const EditForm = ({ user }: EditFormProps) => {
 
   const selectOnChange = (value: string) => {
     setWorkField(value);
+  };
+
+  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, phone: formatPhoneNumber(e.target.value) });
   };
 
   useEffect(() => {
@@ -112,7 +117,7 @@ const EditForm = ({ user }: EditFormProps) => {
           id="phone"
           type="text"
           value={values.phone}
-          onChange={handleChange}
+          onChange={handlePhoneNumberChange}
         />
       </form>
     </>

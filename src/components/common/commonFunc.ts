@@ -25,17 +25,20 @@ export const formatPhoneNumber = (phoneNumber: string) => {
   // 전화번호 형식 설정 (최대 11자리까지)
   let phoneNumberFormat = digitsOnly.slice(0, 11).replace(/-/g, "");
 
-  // 11자리일 때는 3-4-4 형식으로 포맷팅
+  // 11자리일 때는 3-4-4 형식
   if (phoneNumberFormat.length === 11) {
     phoneNumberFormat = phoneNumberFormat.replace(
       /(\d{3})(\d{4})(\d{4})/,
       "$1-$2-$3"
     );
-  }
-  // 그 외에는 3-3-4 형식으로 포맷팅
-  else if (phoneNumberFormat.length >= 10) {
+  } else if (phoneNumberFormat.length >= 10) {
     phoneNumberFormat = phoneNumberFormat.replace(
       /(\d{3})(\d{3})(\d{4})/,
+      "$1-$2-$3"
+    );
+  } else if (phoneNumberFormat.length >= 7) {
+    phoneNumberFormat = phoneNumberFormat.replace(
+      /(\d{3})(\d{3})(\d{1,4})/,
       "$1-$2-$3"
     );
   }
