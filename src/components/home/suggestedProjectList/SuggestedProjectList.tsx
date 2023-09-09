@@ -1,7 +1,7 @@
 import { S } from "./suggestedProjectList.styles";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { Spin } from "antd";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import SuggestedProjectCard from "./SuggestedProjectCard";
 
 const SuggestedProjectList = () => {

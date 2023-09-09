@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useUserStore } from "../../../../../zustand/useUserStore";
+import useClientsQueries from "../../../../../hooks/useClientsQueries";
+import { useUserStore } from "../../../../../store/useUserStore";
+import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { S } from "../listOfFreelancersByStatus.style";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
 import useOngoingProjectOfClientQueries from "src/hooks/queries/useOngoingProjectOfClientQueries";
@@ -33,7 +35,10 @@ const OngoingFreelancerList = () => {
 
   // const observer = new IntersectionObserver(callback, options);
 
-  if (!freelancersWithOngoingProjects || freelancersWithOngoingProjects.length === 0) {
+  if (
+    !freelancersWithOngoingProjects ||
+    freelancersWithOngoingProjects.length === 0
+  ) {
     return <span>진행 중인 프리랜서가 없습니다.</span>;
   }
 

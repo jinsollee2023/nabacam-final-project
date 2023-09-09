@@ -55,6 +55,7 @@ const useProjectsQueries = ({ currentUserId, sortLabel }: useProjectsQueriesProp
   //   }
   // );
 
+  // 1번 사용 : AppliedProjectList.tsx
   // 현재 로그인한 유저가 지원한 프로젝트 확인에 사용
   const {
     data: appliedProjectList,
@@ -77,6 +78,7 @@ const useProjectsQueries = ({ currentUserId, sortLabel }: useProjectsQueriesProp
     }
   );
 
+  // 1번 사용 : ContractInfoTab.tsx
   const {
     data: allProjectList,
     isError: allProjectListIsError,
@@ -92,6 +94,7 @@ const useProjectsQueries = ({ currentUserId, sortLabel }: useProjectsQueriesProp
     }
   );
 
+  // 1번 사용 : SuggestedProjectList.tsx
   // 제안 받은 프로젝트 리스트 불러오기에 사용
   const {
     data: suggestedProjectList,
@@ -124,6 +127,7 @@ const useProjectsQueries = ({ currentUserId, sortLabel }: useProjectsQueriesProp
     },
   });
 
+  // 5번 사용 : AppliedProjectCard.tsx, ProjectCard.tsx, SuggestedProjectCard.tsx, ProjectCard.tsx, TaskList.tsx
   // 프로젝트에 대한 변경사항이 있을 시 업데이트해준다..
   // 한별 : 프리랜서의 프로젝트 지원 취소 후 프로젝트 volunteer 업데이트를 위해 사용..
   // 한별2 : 프리랜서가 프로젝트 지원할 경우 프로젝트 volunteer 업데이트를 위해 사용..

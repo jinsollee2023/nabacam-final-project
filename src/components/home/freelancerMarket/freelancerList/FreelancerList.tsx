@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { S } from "./freelancerList.styles";
 import { User } from "../../../../Types";
 import FreelancerCard from "./FreelancerCard";
-import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
+import { useSearchKeywordStore } from "src/store/useSearchKeywordStore";
 import { Spin } from "antd";
 import useFreelancersQueries from "src/hooks/useFreelancersQueries";
 

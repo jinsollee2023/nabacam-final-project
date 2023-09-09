@@ -1,14 +1,15 @@
 import { Checkbox, DatePicker, Select } from "antd";
 import { useEffect, useState } from "react";
-import { useProjectStore } from "../../../zustand/useProjectStore";
+import { useProjectStore } from "../../../store/useProjectStore";
 import S from "./ProjectListStyles";
 import dayjs from "dayjs";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
+import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import useProjectValid from "src/hooks/useProjectValid";
+import { toast } from "react-toastify";
 
 interface AddProjectModal {
   isTitleValid?: boolean | null;
@@ -41,11 +42,18 @@ const AddProjectModal = ({
     changeValues({ ...values, [key]: value });
   };
 
+  const addCommas = (value: number) => {
+    return value
+      .toString()
+      .replace(/[^0-9]/g, "")
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const managerOnChange = (value: string) => {
     if (value === client!.name) {
       changeValues({
         ...values,
-        ["manager"]: {
+        manager: {
           name: client!.name,
           team: "",
           contact: {
@@ -101,15 +109,19 @@ const AddProjectModal = ({
     payInputOff
       ? changeValues({
           ...values,
-          ["minPay"]: "상의 후 결정",
-          ["maxPay"]: "상의 후 결정",
+          minPay: "상의 후 결정",
+          maxPay: "상의 후 결정",
         })
       : changeValues({
           ...values,
-          ["minPay"]: "",
-          ["maxPay"]: "",
+          minPay: "",
+          maxPay: "",
         });
   }, [payInputOff]);
+
+  useEffect(() => {
+    console.log("values : ", values);
+  }, []);
 
   return (
     <div>
@@ -167,12 +179,17 @@ const AddProjectModal = ({
             />
           </S.ModalMainInfoInnerBox>
           <S.ModalMainInfoInnerBox>
-            <S.ModalSubTitle>경력</S.ModalSubTitle>
+            <S.ModalSubTitle>경력 / 연차</S.ModalSubTitle>
             <S.ModalTitleInput
               id="qualification"
-              type="number"
+              type="text"
               value={values.qualification as number}
-              onChange={(e) => handleChange("qualification", e.target.value)}
+              onChange={(e) =>
+                handleChange(
+                  "qualification",
+                  e.target.value.replace(/\D/g, "").slice(0, 2)
+                )
+              }
               borderColor={
                 isQualificationValid === false ? "red" : "var(--main-blue)"
               }
@@ -293,13 +310,15 @@ const AddProjectModal = ({
             <S.ModalContentsLabel htmlFor="minPay">최소</S.ModalContentsLabel>
             <S.ModalTitleInput
               id="minPay"
-              type="number"
-              value={values.minPay}
+              type="text"
+              value={addCommas(values.minPay as number)}
               disabled={payInputOff ? true : false}
               onChange={(e) =>
                 handleChange(
                   "minPay",
-                  payInputOff ? "상의 후 결정" : e.target.value
+                  payInputOff
+                    ? "상의 후 결정"
+                    : e.target.value.replace(/,/g, "")
                 )
               }
               borderColor={isMaxPayValid === false ? "red" : "var(--main-blue)"}
@@ -311,13 +330,15 @@ const AddProjectModal = ({
             <S.ModalContentsLabel htmlFor="maxPay">최대</S.ModalContentsLabel>
             <S.ModalTitleInput
               id="maxPay"
-              type="number"
-              value={values.maxPay}
+              type="text"
+              value={addCommas(values.maxPay as number)}
               disabled={payInputOff ? true : false}
               onChange={(e) =>
                 handleChange(
                   "maxPay",
-                  payInputOff ? "상의 후 결정" : e.target.value
+                  payInputOff
+                    ? "상의 후 결정"
+                    : e.target.value.replace(/,/g, "")
                 )
               }
               borderColor={isMaxPayValid === false ? "red" : "var(--main-blue)"}

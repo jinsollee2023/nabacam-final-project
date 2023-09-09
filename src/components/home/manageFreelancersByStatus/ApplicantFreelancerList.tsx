@@ -1,6 +1,6 @@
 import React from "react";
 import { S } from "./manageFreelancersByStatus.style";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import ApplicantFreelancerCard from "./ApplicantFreelancerCard";
 import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";

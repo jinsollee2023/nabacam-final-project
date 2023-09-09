@@ -5,25 +5,31 @@ import OngoingFreelancerInfoModal from "./OngoingFreelancerInfoModal";
 import dayjs from "dayjs";
 import { FiPhoneCall } from "react-icons/fi";
 import { FiMail } from "react-icons/fi";
-import { useUserStore } from "../../../../../zustand/useUserStore";
+import { useUserStore } from "../../../../../store/useUserStore";
 import { IUser, Project, User } from "../../../../../Types";
+import { toast } from "react-toastify";
 
 interface OngoingFreelancerCardsProps {
   user: User;
   project: Project;
 }
 
-const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) => {
+const OngoingFreelancerCards = ({
+  user,
+  project,
+}: OngoingFreelancerCardsProps) => {
   const { userId } = useUserStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
 
   // 클릭 시 텍스트 클립보드에 복사하기 위해 생성
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      alert("클립보드에 복사되었습니다.");
+      toast.success("클립보드에 복사되었습니다.");
     } catch (err) {
       console.log(err);
     }
@@ -46,13 +52,17 @@ const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) 
               </S.ProfileContents>
               <S.ContactBox>
                 <FiPhoneCall size={18} />
-                <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
+                <S.Contact
+                  onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
+                >
                   {user.contact.phone}
                 </S.Contact>
               </S.ContactBox>
               <S.ContactBox>
                 <FiMail size={18} />
-                <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
+                <S.Contact
+                  onClick={() => handleCopyClipBoard(`${user.contact.email}`)}
+                >
                   {user.contact.email}
                 </S.Contact>
               </S.ContactBox>
@@ -63,7 +73,8 @@ const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) 
           <S.ProjectSubTitle>{project.title}</S.ProjectSubTitle>
           <S.ProjectDate>
             {dayjs(project.date?.startDate).format("YYMMDD")}{" "}
-            <S.DateInnerText>부터</S.DateInnerText> {dayjs(project.date?.endDate).format("YYMMDD")}
+            <S.DateInnerText>부터</S.DateInnerText>{" "}
+            {dayjs(project.date?.endDate).format("YYMMDD")}
           </S.ProjectDate>
           <S.DetailBtn
             onClick={() => {
@@ -73,7 +84,9 @@ const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) 
           >
             자세히 보기
           </S.DetailBtn>
-          {isModalOpen && selectedFreelancer && selectedFreelancer.userId === user.userId ? (
+          {isModalOpen &&
+          selectedFreelancer &&
+          selectedFreelancer.userId === user.userId ? (
             <Modal setIsModalOpen={setIsModalOpen}>
               <OngoingFreelancerInfoModal user={user} project={project} />
             </Modal>

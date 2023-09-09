@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import {
   getPhotoURL,
   updateUserImage,
@@ -9,13 +9,14 @@ import useClientsQueries from "../../../hooks/useClientsQueries";
 import { queryClient } from "../../../App";
 import EditForm from "./EditForm";
 import Modal from "../../../components/modal/Modal";
-import { useProfileInfoStore } from "../../../zustand/useProfileInfoStore";
+import { useProfileInfoStore } from "../../../store/useProfileInfoStore";
 import React from "react";
 import { S } from "./myProfile.styles";
 import { IoMdSettings } from "react-icons/io";
 import { FaSignOutAlt } from "react-icons/fa";
 import { resign } from "src/api/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Account = () => {
   const { userId, user, setUser } = useUserStore();
@@ -74,6 +75,42 @@ const Account = () => {
     resign(userId, navigate);
   };
 
+  const handleConfirm = () => {
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+    signOutButtonHandler();
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showConfirmation = () => {
+    toast.info(
+      <div>
+        <p>
+          {
+            "회원 탈퇴시 모든 정보가 삭제되며, 삭제된 정보는 복구가 불가능합니다. \n회원 탈퇴하시겠습니까?"
+          }
+        </p>
+        <button onClick={handleConfirm}>확인</button>
+        <button onClick={handleCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+
   return (
     <>
       <S.AccountContainer>
@@ -108,7 +145,7 @@ const Account = () => {
           <S.SettingBtn onClick={() => setIsModalOpen(true)}>
             <IoMdSettings />
           </S.SettingBtn>
-          <S.SettingBtn onClick={signOutButtonHandler}>
+          <S.SettingBtn onClick={showConfirmation}>
             <FaSignOutAlt />
             <S.SettingSpan>탈퇴하기</S.SettingSpan>
           </S.SettingBtn>

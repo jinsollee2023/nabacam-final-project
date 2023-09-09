@@ -6,10 +6,12 @@ import { PortfolioIndexMap } from "./FreelancerList";
 import { Button, Spin } from "antd";
 import Modal from "src/components/modal/Modal";
 import OneTouchModal from "./oneTouchModal/OneTouchModal";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
 import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
-import { useProjectStore } from "src/zustand/useProjectStore";
+import { useProjectStore } from "src/store/useProjectStore";
 import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
+import useProjectsQueries from "src/hooks/useProjectsQueries";
+import { toast } from "react-toastify";
 import useProjectByClientWithBeforeProgressQueries from "src/hooks/queries/useProjectByClientWithBeforeProgressQueries";
 import useSuggestedFreelancersQueries from "src/hooks/queries/useSuggestedFreelancersQueries";
 
@@ -90,7 +92,11 @@ const FreelancerCard = ({
       console.error("프로젝트 정보 가져오기 오류:", suggestedFreelancersDataIsError);
       return;
     }
-    const suggestedFreelancers = suggestedFreelancersData?.SuggestedFreelancers || [];
+
+    toast.success("제안이 전달되었습니다.");
+
+    const suggestedFreelancers =
+      suggestedFreelancersData?.SuggestedFreelancers || [];
 
     // 새롭게 제안한 프리랜서 추가
     const updatedSuggestedFreelancers = [

@@ -1,4 +1,4 @@
-import { useUserStore } from "../zustand/useUserStore";
+import { useUserStore } from "../store/useUserStore";
 import MenuTabBarComp from "../components/common/MenuTabBarComp";
 import React from "react";
 

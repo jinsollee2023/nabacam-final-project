@@ -4,7 +4,8 @@ import SearchItemBar from "../../../../components/common/searchItemBar/SearchIte
 import { LuArrowUpDown } from "react-icons/lu";
 import WorkFieldCategory from "../../../../components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";
 import ContractTerminationFreelancerList from "./contractTerminationFreelancerList/ContractTerminationFreelancerList";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
+import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { IProjectWithFreelancer } from "src/Types";
 import useTerminationedProjectsQueries from "src/hooks/queries/useTerminationedProjectsQueries";
 import useClientsQueries from "src/hooks/useClientsQueries";
@@ -28,7 +29,8 @@ const ContractTerminationFreelancers = () => {
 
   return (
     <>
-      {freelancersWithTerminatedProjects && freelancersWithTerminatedProjects?.length > 0 ? (
+      {freelancersWithTerminatedProjects &&
+      freelancersWithTerminatedProjects?.length > 0 ? (
         <>
           <S.SearchBox>
             <SearchItemBar />

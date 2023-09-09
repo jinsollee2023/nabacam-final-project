@@ -5,7 +5,8 @@ import FreelancerResume from "../../../../../components/modal/freelancerInfo/Fre
 import FreelancerPortfolio from "../../../../../components/modal/freelancerInfo/FreelancerPortfolio";
 import { S } from "../freelancerInfoModalByStatus.style";
 import dayjs from "dayjs";
-import { useUserStore } from "../../../../../zustand/useUserStore";
+import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
+import { useUserStore } from "../../../../../store/useUserStore";
 import useTerminationedProjectsWithFreelancerQueries from "src/hooks/queries/useTerminationedProjectsWithFreelancerQueries";
 import useClientsQueries from "src/hooks/useClientsQueries";
 
@@ -14,7 +15,10 @@ interface ContractTerminationInfoModalProps {
   project: Project;
 }
 
-const ContractTerminationInfoModal = ({ user, project }: ContractTerminationInfoModalProps) => {
+const ContractTerminationInfoModal = ({
+  user,
+  project,
+}: ContractTerminationInfoModalProps) => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
   const { matchingCompletedProjectsData } = useTerminationedProjectsWithFreelancerQueries({
@@ -24,7 +28,9 @@ const ContractTerminationInfoModal = ({ user, project }: ContractTerminationInfo
 
   return (
     <>
-      <S.ModalTitle>이전에 함께 작업했던 {user.name}님의 프로필이에요.</S.ModalTitle>
+      <S.ModalTitle>
+        이전에 함께 작업했던 {user.name}님의 프로필이에요.
+      </S.ModalTitle>
       <FreelancerProfile user={user} />
       <S.ProjectTitleContents>진행했던 프로젝트</S.ProjectTitleContents>
       <S.ProjectWarp>

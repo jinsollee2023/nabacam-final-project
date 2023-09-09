@@ -23,7 +23,7 @@ export const useUserStore = create(
         name: "",
         photoURL: "",
         contact: { email: "", phone: "" },
-        singUpDate: new Date(),
+        signUpDate: new Date(),
         portfolioCount: 0,
       },
       userId: "",
