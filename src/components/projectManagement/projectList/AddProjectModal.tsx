@@ -8,34 +8,28 @@ import useClientsQueries from "../../../hooks/useClientsQueries";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { useProjectValuesStore } from "src/store/useProjectValuesStore";
-import useProjectValid from "src/hooks/useProjectValid";
-import { toast } from "react-toastify";
+import useValidation from "src/hooks/useValidation";
+import { Errors } from "./ProjectList";
 
 interface AddProjectModal {
-  isTitleValid?: boolean | null;
-  isDescValid?: boolean | null;
-  isCategoryValid?: boolean | null;
-  isQualificationValid?: boolean | null;
-  isDeadLineValid?: boolean | null;
-  isManagerValid?: boolean | null;
-  isMaxPayValid?: boolean | null;
+  errors: Errors;
+  setErrors: (errors: Errors) => void;
 }
 
-const AddProjectModal = ({
-  isTitleValid,
-  isDescValid,
-  isCategoryValid,
-  isQualificationValid,
-  isDeadLineValid,
-  isManagerValid,
-  isMaxPayValid,
-}: AddProjectModal) => {
+const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
   const { values, changeValues } = useProjectValuesStore();
   const [payInputOff, setPayInputOff] = useState(
     values.maxPay === "상의 후 결정" ? true : false
   );
+  const {
+    validateDate,
+    validateSelect,
+    validatePay,
+    validateWorkExp,
+    validateInput,
+  } = useValidation();
   const navigate = useNavigate();
 
   const handleChange = (key: string, value: string | number) => {
@@ -47,6 +41,10 @@ const AddProjectModal = ({
       .toString()
       .replace(/[^0-9]/g, "")
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const exceptCommas = (value: string) => {
+    return value.replace(",", "");
   };
 
   const managerOnChange = (value: string) => {
@@ -105,23 +103,31 @@ const AddProjectModal = ({
     });
   }, [values, payInputOff]);
 
-  useEffect(() => {
-    payInputOff
-      ? changeValues({
-          ...values,
-          minPay: "상의 후 결정",
-          maxPay: "상의 후 결정",
-        })
-      : changeValues({
-          ...values,
-          minPay: "",
-          maxPay: "",
-        });
-  }, [payInputOff]);
+  const handlePayChange = (minPay: string, maxPay: string) => {
+    const payError = validatePay(exceptCommas(minPay), exceptCommas(maxPay));
+    setErrors({ ...errors, pay: payError });
+  };
 
-  useEffect(() => {
-    console.log("values : ", values);
-  }, []);
+  const handleCheckBoxChange = (e: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
+    setPayInputOff(e.target.checked);
+    if (e.target.checked) {
+      changeValues({
+        ...values,
+        minPay: "상의 후 결정",
+        maxPay: "상의 후 결정",
+      });
+      handlePayChange("상의 후 결정", "상의 후 결정");
+    } else {
+      changeValues({
+        ...values,
+        minPay: "",
+        maxPay: "",
+      });
+      handlePayChange("", "");
+    }
+  };
 
   return (
     <div>
@@ -134,9 +140,13 @@ const AddProjectModal = ({
           id="title"
           value={values.title}
           onChange={(e) => handleChange("title", e.target.value)}
-          className={isTitleValid === false ? "shake" : ""}
-          borderColor={isTitleValid === false ? "red" : "var(--main-blue)"}
+          borderColor="var(--main-blue)"
+          onBlur={(e) => {
+            const titleError = validateInput("프로젝트 제목", e.target.value);
+            setErrors({ ...errors, title: titleError });
+          }}
         />
+        <p>{errors.title}</p>
         <S.ModalContentsLabel htmlFor="desc">
           프로젝트 설명
         </S.ModalContentsLabel>
@@ -144,8 +154,14 @@ const AddProjectModal = ({
           id="desc"
           value={values.desc}
           onChange={(e) => handleChange("desc", e.target.value)}
-          borderColor={isDescValid === false ? "red" : "var(--main-blue)"}
+          borderColor="var(--main-blue)"
+          onBlur={(e) => {
+            const descError = validateInput("프로젝트 설명", e.target.value);
+            setErrors({ ...errors, desc: descError });
+          }}
         />
+        <p>{errors.desc}</p>
+
         <S.ModalContentsLabel htmlFor="qualification">
           모집조건
         </S.ModalContentsLabel>
@@ -158,6 +174,13 @@ const AddProjectModal = ({
               onChange={(selectedValue) =>
                 handleChange("category", selectedValue)
               }
+              onBlur={() => {
+                const categoryError = validateSelect(
+                  "프로젝트 설명",
+                  values.category as string
+                );
+                setErrors({ ...errors, category: categoryError });
+              }}
               options={[
                 { value: "개발", label: "개발" },
                 { value: "디자인", label: "디자인" },
@@ -169,14 +192,11 @@ const AddProjectModal = ({
               style={{
                 width: "97%",
                 marginRight: "3%",
-                border: `1px solid ${
-                  isCategoryValid === true || isCategoryValid === null
-                    ? "var(--main-blue)"
-                    : "red"
-                }`,
+                border: "1px solid  var(--main-blue)",
                 borderRadius: "8px",
               }}
             />
+            <p>{errors.category}</p>
           </S.ModalMainInfoInnerBox>
           <S.ModalMainInfoInnerBox>
             <S.ModalSubTitle>경력 / 연차</S.ModalSubTitle>
@@ -190,10 +210,13 @@ const AddProjectModal = ({
                   e.target.value.replace(/\D/g, "").slice(0, 2)
                 )
               }
-              borderColor={
-                isQualificationValid === false ? "red" : "var(--main-blue)"
-              }
-              className={isQualificationValid === false ? "shake" : ""}
+              onBlur={(e) => {
+                const qualificationError = validateWorkExp(
+                  Number(e.target.value)
+                );
+                setErrors({ ...errors, qualification: qualificationError });
+              }}
+              borderColor="var(--main-blue)"
               style={{
                 width: "97%",
                 height: "35px",
@@ -201,6 +224,7 @@ const AddProjectModal = ({
                 borderRadius: "4px",
               }}
             />
+            <p>{errors.qualification}</p>
           </S.ModalMainInfoInnerBox>
         </S.ModalMainInfoInnerBoxWrapper>
       </S.ModalMainInfoBox>
@@ -222,12 +246,18 @@ const AddProjectModal = ({
               marginTop: "5px",
               width: "97%",
               marginRight: "3%",
-              border: `1px solid ${
-                isDeadLineValid === true || isDeadLineValid === null
-                  ? "var(--main-blue)"
-                  : "red"
-              }`,
+              border: "1px solid  var(--main-blue)",
               borderRadius: "4px",
+            }}
+            onBlur={() => {
+              const expectedStartDateError = validateDate(
+                "시작예정일",
+                values.expectedStartDate
+              );
+              setErrors({
+                ...errors,
+                expectedStartDate: expectedStartDateError,
+              });
             }}
             defaultValue={
               values.expectedStartDate
@@ -235,6 +265,7 @@ const AddProjectModal = ({
                 : undefined
             }
           />
+          <p>{errors.expectedStartDate}</p>
         </S.ModalSubInfoInnerBox>
         <S.ModalSubInfoInnerBox>
           <S.ModalContentsLabel htmlFor="projectManager">
@@ -245,8 +276,15 @@ const AddProjectModal = ({
             showSearch
             placeholder="Select a person"
             optionFilterProp="children"
-            onChange={managerOnChange}
             value={values.manager.name}
+            onChange={managerOnChange}
+            onBlur={() => {
+              const managerError = validateSelect(
+                "담당자",
+                values.manager.name
+              );
+              setErrors({ ...errors, manager: managerError });
+            }}
             filterOption={(input, option) =>
               (String(option?.label) ?? "")
                 .toLowerCase()
@@ -279,14 +317,11 @@ const AddProjectModal = ({
               marginTop: "5px",
               width: "97%",
               marginLeft: "3%",
-              border: `1px solid ${
-                isManagerValid === true || isManagerValid === null
-                  ? "var(--main-blue)"
-                  : "red"
-              }`,
+              border: "1px solid var(--main-blue)",
               borderRadius: "8px",
             }}
           />
+          <p>{errors.manager}</p>
         </S.ModalSubInfoInnerBox>
       </S.ModalSubInfoBox>
 
@@ -294,7 +329,7 @@ const AddProjectModal = ({
       <Checkbox
         defaultChecked={values.maxPay === "상의 후 결정" ? true : false}
         checked={payInputOff}
-        onChange={(e) => setPayInputOff(e.target.checked)}
+        onChange={handleCheckBoxChange}
         style={{
           width: "25%",
           display: "flex",
@@ -321,10 +356,9 @@ const AddProjectModal = ({
                     : e.target.value.replace(/,/g, "")
                 )
               }
-              borderColor={isMaxPayValid === false ? "red" : "var(--main-blue)"}
-              className={isMaxPayValid === false ? "shake" : ""}
+              borderColor="var(--main-blue)"
             />
-            <p>만원</p>
+            <p>원</p>
           </S.ModalMinMaxPayBox>
           <S.ModalMinMaxPayBox>
             <S.ModalContentsLabel htmlFor="maxPay">최대</S.ModalContentsLabel>
@@ -341,18 +375,20 @@ const AddProjectModal = ({
                     : e.target.value.replace(/,/g, "")
                 )
               }
-              borderColor={isMaxPayValid === false ? "red" : "var(--main-blue)"}
-              className={isMaxPayValid === false ? "shake" : ""}
+              onBlur={(e) => {
+                const payError = validatePay(
+                  exceptCommas(values.minPay as string),
+                  exceptCommas(e.target.value as string)
+                );
+                setErrors({ ...errors, pay: payError });
+              }}
+              borderColor="var(--main-blue)"
             />
-            <p>만원</p>
+            <p>원</p>
           </S.ModalMinMaxPayBox>
         </S.ModalPayBox>
       </S.ModalPayInfoBox>
-      <p>
-        {isMaxPayValid === false
-          ? "최대 급여는 최소 급여보다 높아야합니다."
-          : null}
-      </p>
+      <p>{errors.pay}</p>
     </div>
   );
 };
