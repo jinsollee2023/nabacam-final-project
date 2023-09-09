@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import supabase from "../../config/supabaseClient";
 import { useUserStore } from "../../zustand/useUserStore";
-
-interface Message {
-  message_id: string;
-  content: string;
-  user_id: string;
-  messageUser: {
-    name: string; // 받아오는 데이터에만 messageUser
-  };
-}
+import { Message } from "./Room";
 
 interface MessagesProps {
   room_id: string;
@@ -22,16 +14,25 @@ const Messages = ({ room_id }: MessagesProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
 
   const getData = async () => {
-    const { data } = await supabase
-      .from("messages")
-      .select("*, messageUser: users(name)") /** users테이블도 같이 */
-      .match({ room_id: room_id });
-    if (!data) {
-      toast.error("no data");
-      return;
+    try {
+      const { data } = await supabase
+        .from("messages")
+        .select("*, messageUser: users(name)")
+        .match({ room_id: room_id })
+        .order("created_at");
+
+      if (!data) {
+        toast.error("no data");
+        return;
+      }
+      console.log(data);
+      setMessages(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error("Error fetching data");
     }
-    setMessages(data);
   };
+
   useEffect(() => {
     getData();
   }, []);
@@ -44,7 +45,7 @@ const Messages = ({ room_id }: MessagesProps) => {
         {
           event: "INSERT",
           schema: "public",
-          table: "messages",
+          table: "messages", // 내가 있는 방만
         },
         () => {
           /**payload */
@@ -57,8 +58,6 @@ const Messages = ({ room_id }: MessagesProps) => {
       supabase.removeChannel(channel);
     };
   }, []);
-
-  console.log({ messages });
 
   return (
     /** 부모요소에 스크롤 있어야 */
