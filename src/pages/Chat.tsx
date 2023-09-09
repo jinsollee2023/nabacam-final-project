@@ -30,12 +30,21 @@ const Chat = () => {
       <div className="flex h-full w-full flex-1 flex-col items-stretch bg-blue-400 py-10 px-20 text-gray-800">
         {/* 제목 */}
         <h1 className="bg-green-200 px-4 py-2 text-4xl">
-          <a>WorkWave Chat</a>
+          Work Wave Chat
           <button
             onClick={handleCreateRoom}
             className="ml-4 rounded border bg-red-200 p-2 text-xs"
           >
             New room
+          </button>
+          {/*  */}
+          <button
+            className="ml-4 rounded border bg-red-200 p-2 text-xs"
+            onClick={() =>
+              navigate("/chat/96c2540e-1f84-4819-8a18-9e895f24114a")
+            }
+          >
+            Open Chat
           </button>
         </h1>
       </div>

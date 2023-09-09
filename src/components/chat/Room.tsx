@@ -5,17 +5,6 @@ import { useUserStore } from "../../zustand/useUserStore";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-export interface Message {
-  message_id: string;
-  content: string;
-  user_id: string;
-  room_id: string;
-  // other table
-  messageUser: {
-    name: string;
-  };
-}
-
 interface Room {
   room_id: string;
   created_at: string;
@@ -37,7 +26,6 @@ const Room = () => {
       const { data, error } = await supabase
         .from("messages")
         .insert({ content: message, room_id: room_id, user_id: userId });
-      console.log("here", data);
 
       if (error) toast.error(error.message);
     }

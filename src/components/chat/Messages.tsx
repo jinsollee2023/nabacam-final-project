@@ -2,11 +2,24 @@ import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import supabase from "../../config/supabaseClient";
 import { useUserStore } from "../../zustand/useUserStore";
-import { Message } from "./Room";
 
 interface MessagesProps {
   room_id: string;
 }
+
+export interface Message {
+  message_id: string;
+  content: string;
+  user_id: string;
+  room_id: string;
+  // other table
+  messageUserProfile: {
+    name: string;
+    userId: string;
+  };
+}
+
+// let profileCache: { [key: string]: any } = {};
 
 const Messages = ({ room_id }: MessagesProps) => {
   const { user } = useUserStore();
@@ -18,7 +31,7 @@ const Messages = ({ room_id }: MessagesProps) => {
     try {
       const { data } = await supabase
         .from("messages")
-        .select("*, messageUser: users(name)")
+        .select("*, messageUserProfile: users(userId, name)")
         .match({ room_id: room_id })
         .order("created_at");
 
@@ -26,7 +39,13 @@ const Messages = ({ room_id }: MessagesProps) => {
         toast.error("no data");
         return;
       }
-      console.log(data);
+
+      // data
+      //   .map((message) => message.messageUserProfile)
+      //   .forEach((profile) => {
+      //     profileCache[profile.userId] = profile;
+      //   });
+
       setMessages(data);
       // 스크롤 밑으로 오도록
       if (messagesRef.current) {
@@ -53,8 +72,8 @@ const Messages = ({ room_id }: MessagesProps) => {
           table: "messages", // 내가 있는 방만
         },
         () => {
-          /**payload */
           getData();
+          // setMessages((current) => [...current, {...payload.new, messageUserProfile: profileCache[payload.new.userId]}])
         }
       )
       .subscribe();
@@ -78,7 +97,7 @@ const Messages = ({ room_id }: MessagesProps) => {
             }
           >
             <span className="block text-xs text-gray-500">
-              {message.messageUser.name}
+              {message.messageUserProfile.name}
             </span>
             <span className="">{message.content}</span>
           </li>
