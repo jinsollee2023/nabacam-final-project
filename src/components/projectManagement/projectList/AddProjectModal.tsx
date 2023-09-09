@@ -42,6 +42,13 @@ const AddProjectModal = ({
     changeValues({ ...values, [key]: value });
   };
 
+  const addCommas = (value: number) => {
+    return value
+      .toString()
+      .replace(/[^0-9]/g, "")
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   const managerOnChange = (value: string) => {
     if (value === client!.name) {
       changeValues({
@@ -175,9 +182,14 @@ const AddProjectModal = ({
             <S.ModalSubTitle>경력 / 연차</S.ModalSubTitle>
             <S.ModalTitleInput
               id="qualification"
-              type="number"
+              type="text"
               value={values.qualification as number}
-              onChange={(e) => handleChange("qualification", e.target.value)}
+              onChange={(e) =>
+                handleChange(
+                  "qualification",
+                  e.target.value.replace(/\D/g, "").slice(0, 2)
+                )
+              }
               borderColor={
                 isQualificationValid === false ? "red" : "var(--main-blue)"
               }
@@ -298,13 +310,15 @@ const AddProjectModal = ({
             <S.ModalContentsLabel htmlFor="minPay">최소</S.ModalContentsLabel>
             <S.ModalTitleInput
               id="minPay"
-              type="number"
-              value={values.minPay}
+              type="text"
+              value={addCommas(values.minPay as number)}
               disabled={payInputOff ? true : false}
               onChange={(e) =>
                 handleChange(
                   "minPay",
-                  payInputOff ? "상의 후 결정" : e.target.value
+                  payInputOff
+                    ? "상의 후 결정"
+                    : e.target.value.replace(/,/g, "")
                 )
               }
               borderColor={isMaxPayValid === false ? "red" : "var(--main-blue)"}
@@ -316,13 +330,15 @@ const AddProjectModal = ({
             <S.ModalContentsLabel htmlFor="maxPay">최대</S.ModalContentsLabel>
             <S.ModalTitleInput
               id="maxPay"
-              type="number"
-              value={values.maxPay}
+              type="text"
+              value={addCommas(values.maxPay as number)}
               disabled={payInputOff ? true : false}
               onChange={(e) =>
                 handleChange(
                   "maxPay",
-                  payInputOff ? "상의 후 결정" : e.target.value
+                  payInputOff
+                    ? "상의 후 결정"
+                    : e.target.value.replace(/,/g, "")
                 )
               }
               borderColor={isMaxPayValid === false ? "red" : "var(--main-blue)"}

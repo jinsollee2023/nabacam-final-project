@@ -155,23 +155,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
     setValues({ ...values, [key]: value });
   };
 
-  // 핸드폰 번호는 숫자만 입력되어야 하고 동시에 -으로 나누어져서 보여야 하기 때문에
-  // onChange 함수 분리
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, phone: formatPhoneNumber(e.target.value) });
-  };
-
-  // 경력/연차 작성 시 화면에는 콤마(,)가 찍히게 하고 값이 저장될 때는 콤마(,)를 제외한 숫자 타입으로 저장
-  // numericValue → 숫자만 작성 + 2자리까지만 작성 가능
-  // onChange 함수 분리
-  const handleWorkExpChange =
-    (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setValues({
-        ...values,
-        [key]: e.target.value.replace(/\D/g, "").slice(0, 2),
-      });
-    };
-
   // 미리보기 핸들러
   const handlePhotoURLOnChange = (file: File) => {
     setValues({ ...values, photoFile: file });
@@ -382,7 +365,12 @@ const JoinForm = ({ role }: JoinFormProps) => {
                   id="workExpInput"
                   type="text"
                   value={values.workExp as number}
-                  onChange={(e) => handleWorkExpChange("workExp")}
+                  onChange={(e) =>
+                    handleChange(
+                      "workExp",
+                      e.target.value.replace(/\D/g, "").slice(0, 2)
+                    )
+                  }
                   onBlur={(e) => {
                     const workExpError = validateWorkExp(
                       Number(e.target.value)
@@ -405,7 +393,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
               id="phoneNumberInput"
               type="text"
               value={values.phone}
-              onChange={handlePhoneNumberChange}
+              onChange={(e) =>
+                handleChange("phone", formatPhoneNumber(e.target.value))
+              }
               onBlur={(e) => {
                 const phoneError = validatePhone(e.target.value);
                 setErrors({ ...errors, phone: phoneError });
