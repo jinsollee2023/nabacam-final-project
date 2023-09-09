@@ -17,19 +17,63 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { resign } from "src/api/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useValidation from "src/hooks/useValidation";
+import WorkFieldCategory from "src/components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";
+
+export interface Errors {
+  name: null | string;
+  workField: null | string;
+  workSmallField: null | string;
+  phone: null | string;
+}
 
 const Account = () => {
   const { userId, user, setUser } = useUserStore();
   const { updateUserMutation } = useClientsQueries({ userId });
   const [isModlaopen, setIsModalOpen] = useState(false);
   const { newProfileInfo } = useProfileInfoStore();
+  const initialErrors: Errors = {
+    name: null,
+    workField: null,
+    workSmallField: null,
+    phone: null,
+  };
+  const [errors, setErrors] = useState(initialErrors);
+  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] =
+    useState(false);
+  const { validateName, validateSelect, validateInput, validatePhone } =
+    useValidation();
+
   const navigate = useNavigate();
 
   useEffect(() => {
     queryClient.invalidateQueries([user]);
   }, [user, setUser]);
 
-  const updateProfileInfoButtonHandler = async () => {
+  useEffect(() => {
+    if (
+      user.role === "client" &&
+      updateSubmitButtonClicked &&
+      errors.name === "" &&
+      errors.phone === ""
+    ) {
+      updateProfileInfo();
+      setUpdateSubmitButtonClicked(false);
+    } else if (
+      user.role === "freelancer" &&
+      updateSubmitButtonClicked &&
+      errors.name === "" &&
+      errors.workField === "" &&
+      errors.workSmallField === "" &&
+      errors.phone === ""
+    ) {
+      updateProfileInfo();
+      toast.success("프로필이 수정되었습니다.");
+      setUpdateSubmitButtonClicked(false);
+    } else setUpdateSubmitButtonClicked(false);
+  }, [errors, updateSubmitButtonClicked]);
+
+  const updateProfileInfo = async () => {
     const file = newProfileInfo.photo;
 
     const updatedDataExceptPhotoURL = {
@@ -69,6 +113,26 @@ const Account = () => {
       });
     }
     setIsModalOpen(false);
+  };
+
+  const updateProfileInfoButtonHandler = async () => {
+    setUpdateSubmitButtonClicked(true);
+    const nameError = validateName(newProfileInfo.name);
+    const workFieldError = validateSelect(
+      "직무 분야",
+      newProfileInfo.workField
+    );
+    const workSmallFieldError = validateInput(
+      "세부 분야",
+      newProfileInfo.workSmallField
+    );
+    const phoneError = validatePhone(newProfileInfo.phone);
+    setErrors({
+      name: nameError,
+      workField: workFieldError,
+      workSmallField: workSmallFieldError,
+      phone: phoneError,
+    });
   };
 
   const signOutButtonHandler = () => {
@@ -160,7 +224,7 @@ const Account = () => {
               </S.Btn>
             }
           >
-            <EditForm user={user} />
+            <EditForm user={user} errors={errors} setErrors={setErrors} />
           </Modal>
         ) : null}
       </S.AccountContainer>

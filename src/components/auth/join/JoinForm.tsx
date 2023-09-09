@@ -106,17 +106,32 @@ const JoinForm = ({ role }: JoinFormProps) => {
   };
 
   useEffect(() => {
-    if (
+    const isClientValid =
       role === "client" &&
       submitButtonClicked &&
       errors.email === "" &&
       errors.password === "" &&
       errors.passwordConfirm === "" &&
       errors.name === "" &&
-      errors.phone === ""
-    ) {
+      errors.phone === "";
+
+    const isFreelancerValid =
+      role === "freelancer" &&
+      submitButtonClicked &&
+      errors.email === "" &&
+      errors.password === "" &&
+      errors.passwordConfirm === "" &&
+      errors.name === "" &&
+      errors.workField === "" &&
+      errors.workSmallField === "" &&
+      errors.workExp === "" &&
+      errors.phone === "";
+
+    if (isClientValid || isFreelancerValid) {
       signUp();
-    } else setSubmitButtonClicked(false);
+      setSubmitButtonClicked(false);
+    }
+    setSubmitButtonClicked(false);
   }, [submitButtonClicked, errors]);
 
   const validateRegister = () => {
