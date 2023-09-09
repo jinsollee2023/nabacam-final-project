@@ -19,6 +19,7 @@ import { PrivateRoute } from "../components/auth/login/PrivateRoute";
 import LoginComp from "../components/auth/login/LoginComp";
 import ResetPassword from "../components/auth/resetpassword/ResetPassword";
 import React from "react";
+import Room from "../components/chat/Room";
 
 const Router = () => {
   return (
@@ -29,6 +30,7 @@ const Router = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/chat/:roomId" element={<Room />} />
             <Route path="/my-page" element={<MyPage />} />
             <Route path="/project-management" element={<ProjectManagement />} />
             <Route path="/review" element={<Review />} />

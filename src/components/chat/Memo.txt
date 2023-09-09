@@ -1,3 +1,6 @@
+//커뮤니케이션 플랫폼: 프리랜서와 클라이언트 간의 메시지, 미팅, 파일 공유를 지원
+
+
 <테이블 구성>
 1. profiles
 
@@ -31,8 +34,12 @@ on_room_created 트리거를 disabled로 변경 x
 1:46:14 
 **
 
+
+
 #4
 57:50 시작
+1:37:41
+1:38:36
 
 #5
 1:33:22
@@ -42,3 +49,6 @@ create or replace view messages_with_user as
   from messages
   join users
   on users."userId" = messages."userId"
+
+// 9.9 //
+1. rooms 테이블 -> room_participants 테이블 세팅 -> help function -> 테이블 테스트 -> 쿼리
