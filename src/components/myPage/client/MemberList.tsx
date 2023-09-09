@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "src/components/modal/Modal";
 import useClientsQueries from "src/hooks/useClientsQueries";
 import { useUserStore } from "src/store/useUserStore";
@@ -6,6 +6,14 @@ import AddMemberModal from "./AddMemberModal";
 import { Member } from "src/Types";
 import { S } from "./memberListStyle";
 import { toast } from "react-toastify";
+import useValidation from "src/hooks/useValidation";
+
+export interface Errors {
+  name: string | null;
+  team: string | null;
+  email: string | null;
+  phone: string | null;
+}
 
 const MemberList = () => {
   const { userId, setUser } = useUserStore();
@@ -13,36 +21,90 @@ const MemberList = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [updateMemberData, setUpdateMemberData] = useState<Member>();
   const [currentMemberData, setCurrentMemberData] = useState<Member>();
+  const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
+  const initialErrors: Errors = {
+    name: null,
+    team: null,
+    email: null,
+    phone: null,
+  };
+  const [errors, setErrors] = useState(initialErrors);
+  const { validateName, validateTeam, validateEmail, validatePhone } =
+    useValidation();
 
+  // 구성원 추가하기 버튼 클릭시 실행되는 함수
   const openModalButtonHandler = () => {
     setCurrentMemberData({
       name: "",
       team: "",
       contact: { email: "", phone: "" },
     });
+    setErrors({
+      name: null,
+      email: null,
+      phone: null,
+      team: null,
+    });
     setIsAddModalOpen(true);
-  };
-
-  const addMemberButtonHandler = () => {
-    const addedMembers = [...(client?.members || []), updateMemberData];
-    // 업데이트
-    const shouldAddMember = window.confirm("추가하시겟습니까?");
-    if (shouldAddMember) {
-      clientMembersMutation.mutate({
-        updatedData: { members: addedMembers },
-        userId,
-        setUser,
-      });
-      setIsAddModalOpen(false);
-    }
   };
 
   const updateButtonHandler = (updateMember: Member) => {
     setCurrentMemberData(updateMember);
+    setErrors({
+      name: null,
+      email: null,
+      phone: null,
+      team: null,
+    });
     setIsAddModalOpen(true);
   };
 
-  const updateMemberButtonHandler = () => {
+  useEffect(() => {
+    const canSubmit =
+      submitButtonClicked &&
+      errors.email === "" &&
+      errors.phone === "" &&
+      errors.name === "" &&
+      errors.team === "";
+
+    if (currentMemberData?.name === "" && canSubmit) {
+      addMember();
+      toast.success("구성원이 추가되었습니다.");
+      setIsAddModalOpen(false);
+    } else if (currentMemberData?.name !== "" && canSubmit) {
+      updateMember();
+      toast.success("구성원이 수정되었습니다.");
+      setIsAddModalOpen(false);
+    } else if (!canSubmit) {
+      setSubmitButtonClicked(false);
+    }
+  }, [currentMemberData, submitButtonClicked, errors]);
+
+  const submitButtonHandler = () => {
+    const nameError = validateName(updateMemberData?.name as string);
+    const emailError = validateEmail(updateMemberData?.contact.email as string);
+    const phoneError = validatePhone(updateMemberData?.contact.phone as string);
+    const teamError = validateTeam(updateMemberData?.team as string);
+    setErrors({
+      name: nameError,
+      email: emailError,
+      phone: phoneError,
+      team: teamError,
+    });
+    setSubmitButtonClicked(true);
+  };
+
+  //구성원 추가 함수
+  const addMember = () => {
+    const addedMembers = [...(client?.members || []), updateMemberData];
+    clientMembersMutation.mutate({
+      updatedData: { members: addedMembers },
+      userId,
+      setUser,
+    });
+  };
+
+  const updateMember = () => {
     const updateMembers = client?.members?.map((member) => {
       return member === currentMemberData
         ? {
@@ -55,14 +117,12 @@ const MemberList = () => {
           }
         : member;
     });
-    // 업데이트
 
     clientMembersMutation.mutate({
       updatedData: { members: updateMembers },
       userId,
       setUser,
     });
-    setIsAddModalOpen(false);
   };
 
   const deleteMemberButtonHandler = (deleteMember: Member) => {
@@ -70,7 +130,7 @@ const MemberList = () => {
       (member) => member !== deleteMember
     );
     // 업데이트
-    const shouldDeleteMember = window.confirm("삭제하시겟습니까?");
+    const shouldDeleteMember = window.confirm("삭제하시겠습니까?");
 
     if (shouldDeleteMember) {
       clientMembersMutation.mutate({
@@ -78,42 +138,8 @@ const MemberList = () => {
         userId,
         setUser,
       });
+      toast.success("구성원이 삭제되었습니다.");
     }
-
-    setIsAddModalOpen(false);
-  };
-
-  const handleConfirm = () => {
-    updateMemberButtonHandler();
-    console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
-
-    // Toastify를 닫습니다.
-    toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
-  };
-
-  const handleCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
-    toast.dismiss();
-  };
-
-  const showConfirmation = () => {
-    toast.info(
-      <div>
-        <p>작업을 수행하시겠습니까?</p>
-        <button onClick={handleConfirm}>확인</button>
-        <button onClick={handleCancel}>취소</button>
-      </div>,
-      {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: false,
-        closeButton: false,
-        draggable: false,
-      }
-    );
   };
 
   return (
@@ -132,11 +158,11 @@ const MemberList = () => {
           buttons={
             <>
               {currentMemberData?.name === "" ? (
-                <S.ModalInnerAddBtn onClick={addMemberButtonHandler}>
+                <S.ModalInnerAddBtn onClick={submitButtonHandler}>
                   구성원 추가하기
                 </S.ModalInnerAddBtn>
               ) : (
-                <S.ModalInnerAddBtn onClick={showConfirmation}>
+                <S.ModalInnerAddBtn onClick={submitButtonHandler}>
                   구성원 수정하기
                 </S.ModalInnerAddBtn>
               )}
@@ -146,6 +172,8 @@ const MemberList = () => {
           <AddMemberModal
             currentMemberData={currentMemberData as Member}
             setUpdateMemberData={setUpdateMemberData}
+            errors={errors}
+            setErrors={setErrors}
           />
         </Modal>
       )}

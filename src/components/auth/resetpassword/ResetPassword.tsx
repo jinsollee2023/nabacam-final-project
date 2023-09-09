@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
-import Validation from "../join/Validation";
+import useValidation from "../../../hooks/useValidation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 
@@ -35,7 +35,7 @@ const ResetPassword = () => {
   const [errors, setErrors] = useState<initialErrorsForm>(initialErrors);
   const [showPswd, setShowPswd] = useState<boolean>(false);
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
-  const { validatePassword, validatePasswordConfirm } = Validation();
+  const { validatePassword, validatePasswordConfirm } = useValidation();
   // errors 바로확인하고 validation 체크 후 진행하게해주기위해 useEffect 사용
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const ResetPassword = () => {
       errors.passwordConfirm === ""
     ) {
       updatePassword();
-    }
+    } else setSubmitButtonClicked(false);
   }, [errors, submitButtonClicked]);
 
   //  password 업데이트 하는 로직
@@ -54,12 +54,14 @@ const ResetPassword = () => {
       const { data, error } = await supabase.auth.updateUser({
         password: values.password as string,
       });
-      if (data) {
+      if (!error) {
         toast.success("비밀번호가 성공적으로 바뀌었습니다.");
         navigate("/");
       }
       if (error) {
-        toast.error("비밀번호 변경에 오류가 생겼습니다.");
+        error.message ===
+          "New password should be different from the old password." &&
+          toast.error("이전 비밀번호와 다른 비밀번호로 입력해주세요.");
         setSubmitButtonClicked(false);
       }
     } catch (error) {
@@ -72,7 +74,6 @@ const ResetPassword = () => {
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-    // setErrors(Validation(values));
     const passwordError = validatePassword(values.password);
     const passwordConfirmError = validatePasswordConfirm(
       values.password,
@@ -111,7 +112,7 @@ const ResetPassword = () => {
           />
           <S.errordiv>{errors.password && <p>{errors.password}</p>}</S.errordiv>
           <S.PasswordInput
-            name="passwordConfirmCurrent"
+            name="passwordConfirm"
             type={showPswd ? "text" : "password"}
             placeholder="비밀번호확인"
             value={values.passwordConfirm}

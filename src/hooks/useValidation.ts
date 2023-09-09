@@ -1,16 +1,6 @@
 import React from "react";
 
-// interface initialErrorsForm {
-//   email: string;
-//   password: string;
-//   passwordConfirmCurrent: string;
-//   name: string;
-//   phone: string;
-// }
-
-// validation 함수 erros의 초기값 설정
-
-const Validation = () => {
+const useValidation = () => {
   //   첫글자 영어 소대문자 숫자 두번째부터 -_. 들어갈수있고 @ 있어야하고 앞이랑 똑같이 @ 뒤에 붙게되며  .이 한개는 들어가게되면서 .com 같이 2~3글자 자리가있다
   const emailRegEx =
     /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
@@ -44,7 +34,7 @@ const Validation = () => {
     passwordConfirm: string
   ) => {
     if (passwordConfirm === "") {
-      return "비밀번호를 입력해주세요.";
+      return "비밀번호 확인을 입력해주세요.";
     } else if (passwordConfirm !== password) {
       return "입력하신 비밀번호와 다릅니다. 다시 확인해주세요.";
     }
@@ -82,11 +72,19 @@ const Validation = () => {
   };
 
   const validatePhone = (phone: string) => {
-    console.log(phone);
     if (phone === "") {
       return "전화번호를 입력해주세요.";
     } else if (!phoneReg.test(phone)) {
       return "전화번호 10자리~ 11자리로 입력해주세요.";
+    }
+    return "";
+  };
+
+  const validateTeam = (team: string) => {
+    if (team === "") {
+      return "소속된 팀을 입력해주세요.";
+    } else if (team.length > 15) {
+      return "15자 이내로 입력해주세요.";
     }
     return "";
   };
@@ -100,7 +98,8 @@ const Validation = () => {
     validateWorkSmallField,
     validateWorkExp,
     validatePhone,
+    validateTeam,
   };
 };
 
-export default Validation;
+export default useValidation;
