@@ -24,13 +24,26 @@ const Chat = () => {
       if (error) toast.error(error.message);
     }
   };
+
+  const handleCreateRoom = async () => {
+    const { data, error } = await supabase.from("rooms").insert({});
+    console.log({ data }); // 1:51:00
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+  };
   return (
     <div className="flex h-screen flex-col items-center justify-center">
       <div className="flex h-full w-full flex-1 flex-col items-stretch bg-blue-400 py-10 px-20 text-gray-800">
         {/* 제목 */}
         <h1 className="bg-green-200 px-4 py-2 text-4xl">
           <a>WorkWave Chat</a>
-          <button className="ml-4 rounded border bg-red-200 p-2 text-xs">
+          <button
+            onClick={handleCreateRoom}
+            className="ml-4 rounded border bg-red-200 p-2 text-xs"
+          >
             New room
           </button>
         </h1>
