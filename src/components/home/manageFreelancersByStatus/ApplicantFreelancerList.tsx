@@ -8,9 +8,21 @@ import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClien
 const ApplicantFreelancerList = () => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { freelancersAppliedToTheProjects } = useProjectOfClientBySortQueries({
+  const {
+    freelancersAppliedToTheProjects,
+    freelancersAppliedToTheProjectsIsLoading,
+    freelancersAppliedToTheProjectsIsError,
+  } = useProjectOfClientBySortQueries({
     currentUserId: userId,
   });
+
+  if (freelancersAppliedToTheProjectsIsLoading) {
+    <S.DataStatus>Loading...</S.DataStatus>;
+  }
+
+  if (freelancersAppliedToTheProjectsIsError) {
+    <S.DataStatus>fetch applicant freelancer list Error..</S.DataStatus>;
+  }
 
   // reduce 초기값 설정
   // 지원한 프리랜서가 없을 시 문구 노출 위해 생성

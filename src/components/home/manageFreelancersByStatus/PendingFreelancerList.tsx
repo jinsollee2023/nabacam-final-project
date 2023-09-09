@@ -1,15 +1,26 @@
 import React from "react";
 import { S } from "./manageFreelancersByStatus.style";
 import { useUserStore } from "../../../store/useUserStore";
-import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import PendingFreelancerCard from "./PendingFreelancerCard";
 import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
 
 const PendingFreelancerList = () => {
   const { userId } = useUserStore();
-  const { pendingFreelancersToTheProjects } = useProjectOfClientBySortQueries({
+  const {
+    pendingFreelancersToTheProjects,
+    pendingFreelancersToTheProjectsIsLoading,
+    pendingFreelancersToTheProjectsIsError,
+  } = useProjectOfClientBySortQueries({
     currentUserId: userId,
   });
+
+  if (pendingFreelancersToTheProjectsIsLoading) {
+    <S.DataStatus>...Loading</S.DataStatus>;
+  }
+
+  if (pendingFreelancersToTheProjectsIsError) {
+    <S.DataStatus>fetch pending freelancer list Error..</S.DataStatus>;
+  }
 
   // reduce 초기값 설정
   // 보류한한 프리랜서가 없을 시 문구 노출 위해 생성

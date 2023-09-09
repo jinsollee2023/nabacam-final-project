@@ -17,7 +17,11 @@ const useProjectOfClientBySortQueries = ({
   currentUserId,
 }: useProjectOfClientBySortQueriesProps) => {
   // 현재 로그인한 클라이언트의 프로젝트에 지원한 프리랜서 목록
-  const { data: freelancersAppliedToTheProjects } = useQuery(
+  const {
+    data: freelancersAppliedToTheProjects,
+    isLoading: freelancersAppliedToTheProjectsIsLoading,
+    isError: freelancersAppliedToTheProjectsIsError,
+  } = useQuery(
     ["freelancersAppliedToTheProjects"],
     async () => {
       const freelancersAppliedToTheProjectsData = await getProjectOfClientBySort(
@@ -46,7 +50,11 @@ const useProjectOfClientBySortQueries = ({
   );
 
   // 현재 로그인한 클라이언트의 프로젝트에 지원했으나 보류한 프리랜서 목록
-  const { data: pendingFreelancersToTheProjects } = useQuery(
+  const {
+    data: pendingFreelancersToTheProjects,
+    isLoading: pendingFreelancersToTheProjectsIsLoading,
+    isError: pendingFreelancersToTheProjectsIsError,
+  } = useQuery(
     ["pendingFreelancersToTheProjects"],
     async () => {
       const freelancersAppliedToTheProjectsData = await getProjectOfClientBySort(
@@ -166,7 +174,11 @@ const useProjectOfClientBySortQueries = ({
   );
   return {
     freelancersAppliedToTheProjects,
+    freelancersAppliedToTheProjectsIsLoading,
+    freelancersAppliedToTheProjectsIsError,
     pendingFreelancersToTheProjects,
+    pendingFreelancersToTheProjectsIsLoading,
+    pendingFreelancersToTheProjectsIsError,
     updatePendingFreelancerMutation,
     updateFreelancerApprovalMutation,
     addProjectIdToUserMutation,

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useClientsQueries from "../../../../../hooks/useClientsQueries";
 import { useUserStore } from "../../../../../store/useUserStore";
-import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { S } from "../listOfFreelancersByStatus.style";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
 import useOngoingProjectOfClientQueries from "src/hooks/queries/useOngoingProjectOfClientQueries";
@@ -11,11 +10,22 @@ const OngoingFreelancerList = () => {
 
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { freelancersWithOngoingProjects } = useOngoingProjectOfClientQueries({
+  const {
+    freelancersWithOngoingProjects,
+    freelancersWithOngoingProjectsIsLoading,
+    freelancersWithOngoingProjectsIsError,
+  } = useOngoingProjectOfClientQueries({
     currentUserId: userId,
     // page,
   });
-  // console.log(freelancersWithOngoingProjects);
+
+  if (freelancersWithOngoingProjectsIsLoading) {
+    <span>Loading...</span>;
+  }
+
+  if (freelancersWithOngoingProjectsIsError) {
+    <span>fetch ongoing freelancer list Error..</span>;
+  }
 
   // const target = React.useRef() as React.MutableRefObject<HTMLDivElement>;
 

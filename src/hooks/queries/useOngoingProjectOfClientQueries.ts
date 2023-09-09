@@ -29,7 +29,11 @@ useOngoingProjectsOfClientProps) => {
   );
 
   // 진행중인 프리랜서 목록
-  const { data: freelancersWithOngoingProjects } = useQuery<IProjectWithFreelancer[]>(
+  const {
+    data: freelancersWithOngoingProjects,
+    isLoading: freelancersWithOngoingProjectsIsLoading,
+    isError: freelancersWithOngoingProjectsIsError,
+  } = useQuery<IProjectWithFreelancer[]>(
     ["freelancersWithOngoingProjects"],
     async () => {
       const ongoingProjectsData = await getOngoingProjectsOfClient(
@@ -57,6 +61,8 @@ useOngoingProjectsOfClientProps) => {
   return {
     ongoingProjectsOfClient,
     freelancersWithOngoingProjects,
+    freelancersWithOngoingProjectsIsLoading,
+    freelancersWithOngoingProjectsIsError,
   };
 };
 

@@ -12,7 +12,11 @@ const useTerminationedProjectsQueries = ({
   freelancerId,
 }: useTerminationedProjectsQueriesProps) => {
   // 계약이 끝난 프리랜서 목록
-  const { data: freelancersWithTerminatedProjects } = useQuery(
+  const {
+    data: freelancersWithTerminatedProjects,
+    isLoading: freelancersWithTerminatedProjectsIsLoading,
+    isError: freelancersWithTerminatedProjectsIsError,
+  } = useQuery(
     ["freelancersWithTerminatedProjects"],
     async () => {
       const terminationedProjectsData = await getTerminationedProjects(currentUserId as string);
@@ -31,7 +35,11 @@ const useTerminationedProjectsQueries = ({
       refetchOnWindowFocus: false,
     }
   );
-  return { freelancersWithTerminatedProjects };
+  return {
+    freelancersWithTerminatedProjects,
+    freelancersWithTerminatedProjectsIsLoading,
+    freelancersWithTerminatedProjectsIsError,
+  };
 };
 
 export default useTerminationedProjectsQueries;
