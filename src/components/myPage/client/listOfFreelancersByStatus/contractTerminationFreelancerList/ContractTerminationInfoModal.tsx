@@ -5,8 +5,9 @@ import FreelancerResume from "../../../../../components/modal/freelancerInfo/Fre
 import FreelancerPortfolio from "../../../../../components/modal/freelancerInfo/FreelancerPortfolio";
 import { S } from "../freelancerInfoModalByStatus.style";
 import dayjs from "dayjs";
-import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { useUserStore } from "../../../../../zustand/useUserStore";
+import useTerminationedProjectsWithFreelancerQueries from "src/hooks/queries/useTerminationedProjectsWithFreelancerQueries";
+import useClientsQueries from "src/hooks/useClientsQueries";
 
 interface ContractTerminationInfoModalProps {
   user: User;
@@ -15,7 +16,8 @@ interface ContractTerminationInfoModalProps {
 
 const ContractTerminationInfoModal = ({ user, project }: ContractTerminationInfoModalProps) => {
   const { userId } = useUserStore();
-  const { matchingCompletedProjectsData } = useProjectsQueries({
+  const { client } = useClientsQueries({ userId });
+  const { matchingCompletedProjectsData } = useTerminationedProjectsWithFreelancerQueries({
     currentUserId: userId,
     freelancerId: user.userId,
   });

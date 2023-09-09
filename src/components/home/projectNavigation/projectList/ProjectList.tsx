@@ -1,34 +1,29 @@
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
 import { Project } from "src/Types";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
 import { useUserStore } from "src/zustand/useUserStore";
 import ProjectCard from "./ProjectCard";
 import { S } from "./projectList.styles";
+import useProjectOfFreelancerBySortQueries from "src/hooks/queries/useProjectOfFreelancerBySortQueries";
 
 interface ProjectListProps {
   selectedSortLabel: string;
   selectedWorkField: string;
 }
 
-const ProjectList = ({
-  selectedSortLabel,
-  selectedWorkField,
-}: ProjectListProps) => {
+const ProjectList = ({ selectedSortLabel, selectedWorkField }: ProjectListProps) => {
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const { userId } = useUserStore();
 
   // 프로젝트 탐색에서 선택한 sortLabel을 기준으로 프로젝트 리스트 불러오기..
   const { projectsListBySort, projectListIsError, projectListIsLoading } =
-    useProjectsQueries({
+    useProjectOfFreelancerBySortQueries({
       currentUserId: userId,
       sortLabel: selectedSortLabel,
     });
 
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(
-    projectsListBySort!
-  );
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(projectsListBySort!);
 
   useEffect(() => {
     changeSearchKeyword("");
@@ -76,8 +71,7 @@ const ProjectList = ({
           {filteredProjects
             ?.filter(
               (project) =>
-                selectedWorkField === "전체보기" ||
-                project.category === selectedWorkField
+                selectedWorkField === "전체보기" || project.category === selectedWorkField
             )
             .map((projectItem) => {
               return (

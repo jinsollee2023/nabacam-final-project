@@ -14,24 +14,23 @@ import { Portfolio } from "src/Types";
 const usePortfolioInfoQueries = ({
   userId,
   pfId,
-}: {
+}: // page,
+{
   userId: string;
   pfId?: string;
+  // page?: number;
 }) => {
   // 썸네일 - 스토리지
   const uploadThumbnailMutation = useMutation(
-    ({ file, pfId }: { file: File; pfId: string }) =>
-      uploadThumbnail({ userId, file, pfId }),
+    ({ file, pfId }: { file: File; pfId: string }) => uploadThumbnail({ userId, file, pfId }),
     {
-      onSuccess: () =>
-        queryClient.invalidateQueries(["PortfolioThumbnail", userId]),
+      onSuccess: () => queryClient.invalidateQueries(["PortfolioThumbnail", userId]),
     }
   );
 
   // PDF - 스토리지
   const uploadPDFMutation = useMutation(
-    ({ file, pfId }: { file: File; pfId: string }) =>
-      uploadPDF({ userId, file, pfId }),
+    ({ file, pfId }: { file: File; pfId: string }) => uploadPDF({ userId, file, pfId }),
     {
       onSuccess: () => queryClient.invalidateQueries(["PortfolioPDF", userId]),
     }
@@ -40,15 +39,8 @@ const usePortfolioInfoQueries = ({
   //-------------------------------------------------------------------------
   // 전체 포트폴리오 - dB
   const addPortfolioMutation = useMutation(
-    ({
-      newPortfolio,
-      pfId,
-      userId,
-    }: {
-      newPortfolio: Portfolio;
-      pfId: string;
-      userId: string;
-    }) => addPortfolio({ newPortfolio, pfId, userId }),
+    ({ newPortfolio, pfId, userId }: { newPortfolio: Portfolio; pfId: string; userId: string }) =>
+      addPortfolio({ newPortfolio, pfId, userId }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["portfolios", userId]);
@@ -68,13 +60,8 @@ const usePortfolioInfoQueries = ({
   );
 
   const deletePortfolioMutation = useMutation(
-    ({
-      portfolioId,
-      freelancerId,
-    }: {
-      portfolioId: string;
-      freelancerId: string;
-    }) => deletePortfolio(portfolioId, freelancerId),
+    ({ portfolioId, freelancerId }: { portfolioId: string; freelancerId: string }) =>
+      deletePortfolio(portfolioId, freelancerId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["portfolios", userId]);

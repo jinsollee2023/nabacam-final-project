@@ -2,13 +2,13 @@ import React from "react";
 import { S } from "./manageFreelancersByStatus.style";
 import { useUserStore } from "../../../zustand/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
-import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import ApplicantFreelancerCard from "./ApplicantFreelancerCard";
+import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
 
 const ApplicantFreelancerList = () => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { freelancersAppliedToTheProjects } = useProjectsQueries({
+  const { freelancersAppliedToTheProjects } = useProjectOfClientBySortQueries({
     currentUserId: userId,
   });
 

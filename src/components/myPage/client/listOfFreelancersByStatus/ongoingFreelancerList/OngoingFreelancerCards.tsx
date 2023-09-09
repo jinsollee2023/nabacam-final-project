@@ -15,6 +15,7 @@ interface OngoingFreelancerCardsProps {
 
 const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) => {
   const { userId } = useUserStore();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
 

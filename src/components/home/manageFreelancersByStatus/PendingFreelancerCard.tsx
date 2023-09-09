@@ -4,7 +4,7 @@ import { Project, User } from "src/Types";
 import Modal from "../../modal/Modal";
 import { IUser } from "../../../Types";
 import PendingFreelancerInfoModal from "./PendingFreelancerInfoModal";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
+import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
 
 interface PendingFreelancerCardProps {
   project: Project;
@@ -21,7 +21,7 @@ const PendingFreelancerCard = ({ project, freelancer, userId }: PendingFreelance
     deleteVolunteerAndPendingFreelancerMutation,
     deletePendingFreelancerMutation,
     addProjectIdToUserMutation,
-  } = useProjectsQueries({
+  } = useProjectOfClientBySortQueries({
     currentUserId: userId,
   });
 

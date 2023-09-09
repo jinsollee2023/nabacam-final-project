@@ -4,12 +4,15 @@ import { IUser, Project, User } from "../../../../../Types";
 import dayjs from "dayjs";
 import { FiPhoneCall } from "react-icons/fi";
 import { FiMail } from "react-icons/fi";
-import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { useUserStore } from "../../../../../zustand/useUserStore";
 import { useProjectStore } from "../../../../../zustand/useProjectStore";
 import Modal from "../../../../../components/modal/Modal";
 import ContractTerminationInfoModal from "./ContractTerminationInfoModal";
 import OneTouchModal from "../../../../../components/home/freelancerMarket/freelancerList/oneTouchModal/OneTouchModal";
+import useTerminationedProjectsQueries from "src/hooks/queries/useTerminationedProjectsQueries";
+import useProjectByClientWithBeforeProgressQueries from "src/hooks/queries/useProjectByClientWithBeforeProgressQueries";
+import useSuggestedFreelancersQueries from "src/hooks/queries/useSuggestedFreelancersQueries";
+import useClientsQueries from "src/hooks/useClientsQueries";
 
 interface ContractTerminationFreelancerCardsProps {
   user: User;
@@ -24,16 +27,24 @@ const ContractTerminationFreelancerCards = ({
   const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
   const { userId } = useUserStore();
+  const { client } = useClientsQueries({ userId });
   const { selectedProject, setSelectedProject } = useProjectStore();
-  const {
-    projectDataForSuggestions,
-    suggestedFreelancersData,
-    updateSuggestedFreelancersDataMutation,
-    refetchprojectDataForSuggestions,
-    freelancersWithTerminatedProjects,
-  } = useProjectsQueries({
+  const { suggestedFreelancersData, updateSuggestedFreelancersDataMutation } =
+    useSuggestedFreelancersQueries({
+      currentUserId: userId,
+      selectedProject,
+      freelancerId: project.freelancerId,
+    });
+
+  const { projectDataForSuggestions, refetchprojectDataForSuggestions } =
+    useProjectByClientWithBeforeProgressQueries({
+      currentUserId: userId,
+      selectedProject,
+      freelancerId: project.freelancerId as string,
+    });
+
+  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries({
     currentUserId: userId,
-    selectedProject,
     freelancerId: project.freelancerId,
   });
 
