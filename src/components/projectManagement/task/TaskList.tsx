@@ -87,10 +87,7 @@ const TaskList = () => {
   const showTerminateConfirmation = () => {
     toast.info(
       <div>
-        <p>
-          "프로젝트가 종료되면 진행 상태를 확인할 수 없습니다. 프로젝트를
-          종료하시겠습니까?"
-        </p>
+        <p>"프로젝트가 종료되면 진행 상태를 확인할 수 없습니다. 프로젝트를 종료하시겠습니까?"</p>
         <button onClick={handleTerminateConfirm}>확인</button>
         <button onClick={handleTerminateCancel}>취소</button>
       </div>,
@@ -137,7 +134,7 @@ const TaskList = () => {
                       };
                     })
                   : ongoingProjectsOfFreelancer &&
-                    ongoingProjectsOfFreelancer.map((project: Project) => {
+                    ongoingProjectsOfFreelancer.map((project) => {
                       return {
                         value: project.projectId,
                         label: project.title,

@@ -5,7 +5,6 @@ import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { S } from "../listOfFreelancersByStatus.style";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
 import useOngoingProjectOfClientQueries from "src/hooks/queries/useOngoingProjectOfClientQueries";
-import useClientsQueries from "src/hooks/useClientsQueries";
 
 const OngoingFreelancerList = () => {
   // const [page, setPage] = useState(1);
@@ -35,10 +34,7 @@ const OngoingFreelancerList = () => {
 
   // const observer = new IntersectionObserver(callback, options);
 
-  if (
-    !freelancersWithOngoingProjects ||
-    freelancersWithOngoingProjects.length === 0
-  ) {
+  if (!freelancersWithOngoingProjects || freelancersWithOngoingProjects.length === 0) {
     return <span>진행 중인 프리랜서가 없습니다.</span>;
   }
 

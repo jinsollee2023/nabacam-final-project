@@ -3,10 +3,8 @@ import { S } from "./manageFreelancersByStatus.style";
 import Modal from "../../modal/Modal";
 import { IUser, Project } from "../../../Types";
 import ApplicantFreelancerInfoModal from "./ApplicantFreelancerInfoModal";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { useUserStore } from "src/store/useUserStore";
 import { toast } from "react-toastify";
-import { useUserStore } from "src/zustand/useUserStore";
 import useClientsQueries from "src/hooks/useClientsQueries";
 import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
 
