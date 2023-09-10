@@ -4,7 +4,7 @@ import { PiCameraRotate } from "react-icons/pi";
 import { createShorthandPropertyAssignment } from "typescript";
 
 interface PreviewImageProps {
-  handlePhotoURLOnChange: (url: File) => void;
+  handlePhotoURLOnChange: (url: File | null) => void;
   defaultImage: string;
 }
 
@@ -34,6 +34,7 @@ const PreviewImage = ({
   // 기본 이미지로 수정
   const handleChangeDefaultImageButtonClick = () => {
     setSelectedImage(defaultImage);
+    handlePhotoURLOnChange(null);
   };
 
   // 회원가입할때 한번더 올린다 .

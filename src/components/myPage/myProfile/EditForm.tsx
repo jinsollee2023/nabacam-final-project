@@ -23,7 +23,7 @@ const EditForm = ({ user, errors, setErrors }: EditFormProps) => {
   };
 
   const [values, setValues] = useState(initialValues);
-  const [photoFile, setPhotoFile] = useState<File>();
+  const [photoFile, setPhotoFile] = useState<File | null>();
   const { changeNewProfileInfo } = useProfileInfoStore();
   const { validateName, validateSelect, validateInput, validatePhone } =
     useValidation();

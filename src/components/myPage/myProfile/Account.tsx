@@ -89,9 +89,9 @@ const Account = () => {
     };
 
     if (newProfileInfo.photo instanceof File) {
-      const filePath = await (user.photoURL.includes("defaultProfileImage")
-        ? uploadUserImage(userId, file as File)
-        : updateUserImage(userId, file as File));
+      const filePath = user.photoURL.includes("defaultProfileImage")
+        ? await uploadUserImage(userId, file as File)
+        : await updateUserImage(userId, file as File);
       const photoURL = await getPhotoURL(filePath);
 
       updateUserMutation.mutate({
@@ -140,18 +140,11 @@ const Account = () => {
   };
 
   const handleConfirm = () => {
-    console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
     signOutButtonHandler();
-    // Toastify를 닫습니다.
     toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
   };
 
   const handleCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 

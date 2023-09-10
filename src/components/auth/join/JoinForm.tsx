@@ -171,7 +171,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   };
 
   // 미리보기 핸들러
-  const handlePhotoURLOnChange = (file: File) => {
+  const handlePhotoURLOnChange = (file: File | null) => {
     setValues({ ...values, photoFile: file });
   };
 
