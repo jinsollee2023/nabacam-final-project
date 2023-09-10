@@ -5,62 +5,67 @@ import PreviewImage from "../../../components/auth/join/PreviewImage";
 import { useProfileInfoStore } from "../../../store/useProfileInfoStore";
 import { S } from "./myProfile.styles";
 import { formatPhoneNumber } from "src/components/common/commonFunc";
+import { Errors } from "./Account";
+import useValidation from "src/hooks/useValidation";
 
 interface EditFormProps {
   user: User;
+  errors: Errors;
+  setErrors: (errors: Errors) => void;
 }
-const EditForm = ({ user }: EditFormProps) => {
+const EditForm = ({ user, errors, setErrors }: EditFormProps) => {
   const initialValues = {
     name: user.name,
+    workField: user.workField?.workField,
     workSmallField: user.workField?.workSmallField as string,
     phone: user.contact.phone,
     photo: user.photoURL,
   };
-
+  console.log(user.userId);
   const [values, setValues] = useState(initialValues);
-  const [workField, setWorkField] = useState(user.workField?.workField);
-  const [photoFile, setPhotoFile] = useState<File>();
+  const [photoFile, setPhotoFile] = useState<File | null | string>();
   const { changeNewProfileInfo } = useProfileInfoStore();
+  const { validateName, validateSelect, validateInput, validatePhone } =
+    useValidation();
+  const JoinDefaultImage =
+    "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDFfMyAg/MDAxNjA0MjI5NDA4NDMy.5zGHwAo_UtaQFX8Hd7zrDi1WiV5KrDsPHcRzu3e6b8Eg.IlkR3QN__c3o7Qe9z5_xYyCyr2vcx7L_W1arNFgwAJwg.JPEG.gambasg/%EC%9C%A0%ED%8A%9C%EB%B8%8C_%EA%B8%B0%EB%B3%B8%ED%94%84%EB%A1%9C%ED%95%84_%ED%8C%8C%EC%8A%A4%ED%85%94.jpg?type=w800";
 
   const newProfileInfo = {
     name: values.name,
-    workField: workField as string,
+    workField: values.workField as string,
     workSmallField: values.workSmallField,
     phone: values.phone,
-    photo: photoFile ? (photoFile as File) : user.photoURL,
+    photo: photoFile ? photoFile : user.photoURL,
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = event.target;
-    setValues({ ...values, [id]: value });
-  };
-
-  const selectOnChange = (value: string) => {
-    setWorkField(value);
-  };
-
-  const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, phone: formatPhoneNumber(e.target.value) });
+  const handleChange = (key: string, value: string) => {
+    setValues({ ...values, [key]: value });
   };
 
   useEffect(() => {
     changeNewProfileInfo(newProfileInfo);
-  }, [values, photoFile, workField]);
+  }, [values, photoFile]);
 
   return (
     <>
       <form>
         <PreviewImage
           handlePhotoURLOnChange={setPhotoFile}
-          defaultImage={user.photoURL}
+          defaultImage={JoinDefaultImage}
+          previewImage={user.photoURL}
         />
         <S.Label>이름 </S.Label>
         <S.Input
           id="name"
           type="text"
           value={values.name}
-          onChange={handleChange}
+          onChange={(e) => handleChange("name", e.target.value)}
+          onBlur={(e) => {
+            const nameError = validateName(e.target.value);
+            setErrors({ ...errors, name: nameError });
+          }}
         />
+        <p>{errors.name}</p>
 
         {user.role === "freelancer" && (
           <>
@@ -70,8 +75,17 @@ const EditForm = ({ user }: EditFormProps) => {
               id="workField"
               placeholder="Select a person"
               optionFilterProp="children"
-              onChange={selectOnChange}
-              value={workField}
+              onChange={(selectedValue) =>
+                handleChange("workField", selectedValue)
+              }
+              onBlur={() => {
+                const workFieldError = validateSelect(
+                  "직무 분야",
+                  values.workField as string
+                );
+                setErrors({ ...errors, workField: workFieldError });
+              }}
+              value={values.workField}
               options={[
                 {
                   value: "개발",
@@ -100,6 +114,8 @@ const EditForm = ({ user }: EditFormProps) => {
               ]}
               style={{ marginTop: "15px", width: "100%" }}
             />
+            <p>{errors.workField}</p>
+
             <br />
             <br />
             <S.Label>세부 분야</S.Label>
@@ -107,8 +123,16 @@ const EditForm = ({ user }: EditFormProps) => {
               id="workSmallField"
               type="text"
               value={values.workSmallField}
-              onChange={handleChange}
+              onChange={(e) => handleChange("workSmallField", e.target.value)}
+              onBlur={(e) => {
+                const workSmallFieldError = validateInput(
+                  "세부 분야",
+                  e.target.value
+                );
+                setErrors({ ...errors, workSmallField: workSmallFieldError });
+              }}
             />
+            <p>{errors.workSmallField}</p>
           </>
         )}
 
@@ -117,8 +141,15 @@ const EditForm = ({ user }: EditFormProps) => {
           id="phone"
           type="text"
           value={values.phone}
-          onChange={handlePhoneNumberChange}
+          onChange={(e) =>
+            handleChange("phone", formatPhoneNumber(e.target.value))
+          }
+          onBlur={(e) => {
+            const phoneError = validatePhone(e.target.value);
+            setErrors({ ...errors, phone: phoneError });
+          }}
         />
+        <p>{errors.phone}</p>
       </form>
     </>
   );

@@ -4,10 +4,12 @@ import { useUserStore } from "../../../store/useUserStore";
 import { logOut } from "src/api/auth";
 import { FiLogOut } from "react-icons/fi";
 import { toast } from "react-toastify";
+import { useTabStore } from "src/store/useTabStore";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
+  const { setCurrentTab } = useTabStore();
   const token = localStorage.getItem("sb-iwbhucydhgtpozsnqeec-auth-token");
   if (window.location.pathname === `/register`) {
     return null;
@@ -58,13 +60,23 @@ const Navbar = () => {
     );
   };
 
+  const handleLogoClick = () => {
+    if (user.role === "freelancer") {
+      navigate("/home");
+      setCurrentTab("프로젝트 탐색");
+    } else {
+      navigate("/home");
+      setCurrentTab("프리랜서 마켓");
+    }
+  };
+
   return (
     <S.SidebarWrapper>
       <S.LogoWrapper>
         <img
           src="https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/workwave/workwave.png"
           alt="logo"
-          onClick={() => navigate("/")}
+          onClick={handleLogoClick}
         />
       </S.LogoWrapper>
       <S.Divider />

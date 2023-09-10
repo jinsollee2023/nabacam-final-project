@@ -27,6 +27,7 @@ export const S = {
     }
   `,
   ProejctCardContainer: styled.div`
+    min-width: 1020px;
     width: 100%;
     height: 70px;
     border: 1px solid #d6d6d6;
@@ -39,9 +40,10 @@ export const S = {
   ProejctContentLeftWrapper: styled.div`
     display: flex;
     align-items: center;
-    width: 80%;
+    min-width: 770px;
   `,
   ProejctContentRightWrapper: styled.div`
+    min-width: 200px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -85,6 +87,9 @@ export const S = {
   ClientName: styled.span`
     width: 130px;
     text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   `,
 
   ProjectName: styled.span`
@@ -95,14 +100,14 @@ export const S = {
   ProejctContentRightTextWrapper: styled.div`
     display: flex;
     justify-content: space-between;
-    width: 155px;
     font-size: 14px;
     color: gray;
     margin-top: 3px;
+    width: 100%;
   `,
   ProjectRegistrationDate: styled.span`
     width: 80px;
-    text-align: left;
+    text-align: center;
   `,
   Button: styled(Button)`
     background-color: var(--main-blue);

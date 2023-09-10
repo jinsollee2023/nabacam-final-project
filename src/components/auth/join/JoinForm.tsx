@@ -22,7 +22,7 @@ interface initialValuesForm {
   phone: string;
   workField: string;
   workSmallField: string;
-  photoFile: File | null;
+  photoFile: File | null | string;
 }
 interface initialErrorsForm {
   email: string | null;
@@ -73,7 +73,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
     validatePassword,
     validatePasswordConfirm,
     validateName,
-    validateWorkField,
+    validateSelect,
     validateWorkSmallField,
     validateWorkExp,
     validatePhone,
@@ -106,17 +106,32 @@ const JoinForm = ({ role }: JoinFormProps) => {
   };
 
   useEffect(() => {
-    if (
+    const isClientValid =
       role === "client" &&
       submitButtonClicked &&
       errors.email === "" &&
       errors.password === "" &&
       errors.passwordConfirm === "" &&
       errors.name === "" &&
-      errors.phone === ""
-    ) {
+      errors.phone === "";
+
+    const isFreelancerValid =
+      role === "freelancer" &&
+      submitButtonClicked &&
+      errors.email === "" &&
+      errors.password === "" &&
+      errors.passwordConfirm === "" &&
+      errors.name === "" &&
+      errors.workField === "" &&
+      errors.workSmallField === "" &&
+      errors.workExp === "" &&
+      errors.phone === "";
+
+    if (isClientValid || isFreelancerValid) {
       signUp();
-    } else setSubmitButtonClicked(false);
+      setSubmitButtonClicked(false);
+    }
+    setSubmitButtonClicked(false);
   }, [submitButtonClicked, errors]);
 
   const validateRegister = () => {
@@ -127,7 +142,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
       values.passwordConfirm
     );
     const nameError = validateName(values.name);
-    const workFieldError = validateWorkField(values.workField);
+    const workFieldError = validateSelect("작업 영역", values.workField);
     const workSmallFieldError = validateWorkSmallField(values.workSmallField);
     const workExpError = validateWorkExp(values.workExp as number);
     const phoneError = validatePhone(values.phone);
@@ -156,7 +171,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   };
 
   // 미리보기 핸들러
-  const handlePhotoURLOnChange = (file: File) => {
+  const handlePhotoURLOnChange = (file: File | string | null) => {
     setValues({ ...values, photoFile: file });
   };
 
@@ -338,7 +353,10 @@ const JoinForm = ({ role }: JoinFormProps) => {
                   value={values.workField}
                   onChange={(e) => handleChange("workField", e.target.value)}
                   onFocus={() => {
-                    const workFieldError = validateWorkField(values.workField);
+                    const workFieldError = validateSelect(
+                      "작업 영역",
+                      values.workField
+                    );
                     setErrors({ ...errors, workField: workFieldError });
                   }}
                   onBlur={(e) => {

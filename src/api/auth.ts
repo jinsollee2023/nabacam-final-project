@@ -64,7 +64,7 @@ export const clientSignupHandler = async (
     phone: string;
     workField: string;
     workSmallField: string;
-    photoFile: File | null;
+    photoFile: File | null | string;
   },
   uploadUserImage: (
     userId: string | undefined,
@@ -90,7 +90,8 @@ export const clientSignupHandler = async (
 
     // 사진을 스토리지에 업로드
     const filePath =
-      values.photoFile && (await uploadUserImage(user?.id, values.photoFile));
+      values.photoFile &&
+      (await uploadUserImage(user?.id, values.photoFile as File));
     const photoURL = filePath && (await getPhotoURL(filePath));
 
     const newUserData: User = {

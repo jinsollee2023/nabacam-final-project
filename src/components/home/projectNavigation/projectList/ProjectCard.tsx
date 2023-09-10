@@ -34,9 +34,6 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
     queryClient.invalidateQueries([client]);
   }, [projectItem]);
 
-  // 마감 날짜 구하기.. (이거는 진행 완료인 애들만 띄워주던가 없애던가 해야할듯 합니다요!)
-  const dayOfWeek = getDayOfWeek(new Date(projectItem.expectedStartDate));
-
   // 프로젝트 등록일이 오늘로부터 몇 일 전인지..
   const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
   const daysAgo = calculateDaysAgo(targetDate);
@@ -61,18 +58,10 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
 
   const handleConfirm = () => {
     handleProjectApplyButtonClick();
-    console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
-
-    // Toastify를 닫습니다.
     toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
   };
 
   const handleCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 
@@ -148,6 +137,7 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
             <FiUsers />
             <span>{projectItem.volunteer?.length}명 지원 중</span>
           </S.AppliedFreelancersCountBox>
+          <S.ProjectRegistrationDate>{daysAgo} 등록</S.ProjectRegistrationDate>
         </S.ProejctContentLeftWrapper>
 
         <div>
@@ -157,13 +147,8 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
             </S.DetailModalOpenButton>
 
             <S.ProejctContentRightTextWrapper>
-              <span>
-                ~{projectItem.date?.endDate.slice(5, 7)}/
-                {projectItem.date?.endDate.slice(8, 10)} ({dayOfWeek})
-              </span>
-              <S.ProjectRegistrationDate>
-                {daysAgo} 등록
-              </S.ProjectRegistrationDate>
+              <span>프로젝트 시작 예정일 </span>
+              <span>{projectItem.expectedStartDate}</span>
             </S.ProejctContentRightTextWrapper>
           </S.ProejctContentRightWrapper>
         </div>
