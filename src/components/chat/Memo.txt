@@ -56,3 +56,8 @@ end;
 (2) 페이지 분리 후
 1. messages 테이블에 room_id 컬럼 생성
 2. messages 테이블 room_id notnull로 설정 -> policy 변경
+44:00
+
+(3) 새로운 유저 초대
+1:53:00
+(4) 방 분리
