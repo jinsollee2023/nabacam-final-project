@@ -210,7 +210,12 @@ export const getPortfolioFileURL = async (filePath: {
   return data.publicUrl;
 };
 
-export const uploadUserImage = async (userId: string, file: File) => {
+export const uploadUserImage: (
+  userId: string | undefined,
+  file: File
+) => Promise<{
+  path: string;
+}> = async (userId: string | undefined, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
     .upload(`${userId}/profileImage`, file);

@@ -8,20 +8,22 @@ import { toast } from "react-toastify";
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
-
-  const logOutButtonHandler = async () => {
-    await logOut(navigate);
-  };
-
+  const token = localStorage.getItem("sb-iwbhucydhgtpozsnqeec-auth-token");
   if (window.location.pathname === `/register`) {
     return null;
   }
   if (window.location.pathname === `/login`) {
     return null;
   }
-  if (window.location.pathname === `/resetpassword`) {
+  if (window.location.pathname === "/resetpassword") {
     return null;
   }
+  if (!token) {
+    return null;
+  }
+  const logOutButtonHandler = async () => {
+    await logOut(navigate);
+  };
 
   const handleConfirm = () => {
     logOutButtonHandler();
@@ -67,7 +69,11 @@ const Navbar = () => {
       </S.LogoWrapper>
       <S.Divider />
       <S.ProfileWrapper>
-        <S.ProfileImage src={user.photoURL} alt="img" />
+        <S.ProfileImage
+          src={user.photoURL}
+          alt="img"
+          onClick={() => navigate("my-page")}
+        />
         <div>
           <S.Name>{user.name}</S.Name>
           <S.Role>{user.role}</S.Role>
@@ -135,6 +141,7 @@ const S = {
     height: 45px;
     border-radius: 10px;
     margin-right: 10px;
+    cursor: pointer;
   `,
   Name: styled.div`
     font-size: 18px;
