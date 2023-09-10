@@ -82,7 +82,7 @@ const useValidation = () => {
     return "";
   };
 
-  const validateInput = (key: string, value: string) => {
+  const validateInput = (key: string, value: string | File) => {
     if (!value) {
       return `${key}을/를 입력해주세요.`;
     }
@@ -99,6 +99,17 @@ const useValidation = () => {
   const validateDate = (key: string, value: string) => {
     if (!value) {
       return `${key}을/를 선택해주세요.`;
+    }
+    return "";
+  };
+
+  const validateWorkDuration = (startDate: string, endDate: string) => {
+    const hireDate = new Date(startDate);
+    const quitDate = new Date(endDate);
+    if (!startDate || !endDate) {
+      return "근무 기간을 입력해주세요.";
+    } else if (quitDate < hireDate) {
+      return "퇴사일은 입사일보다 이후여야 합니다.";
     }
     return "";
   };
@@ -129,6 +140,7 @@ const useValidation = () => {
     validateSelect,
     validateDate,
     validatePay,
+    validateWorkDuration,
   };
 };
 

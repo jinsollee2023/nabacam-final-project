@@ -356,6 +356,13 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
                     : e.target.value.replace(/,/g, "")
                 )
               }
+              onBlur={(e) => {
+                const payError = validatePay(
+                  exceptCommas(e.target.value as string),
+                  exceptCommas(values.maxPay as string)
+                );
+                setErrors({ ...errors, pay: payError });
+              }}
               borderColor="var(--main-blue)"
             />
             <p>원</p>
