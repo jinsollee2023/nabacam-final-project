@@ -77,7 +77,7 @@ export interface Portfolio {
   freelancerId: string;
   title: string;
   desc: string;
-  thumbNailURL: string | File;
+  thumbNailURL: string | File | null;
   pdfFileURL?: string | File;
   linkURL?: string;
 }

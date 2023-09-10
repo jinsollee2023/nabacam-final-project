@@ -25,7 +25,7 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
       ? "link"
       : "file"
   );
-  const [thumbNailFile, setThumbNailFile] = useState<File | string>(
+  const [thumbNailFile, setThumbNailFile] = useState<File | string | null>(
     selectedPortfolio
       ? selectedPortfolio.thumbNailURL
       : "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg"
@@ -44,7 +44,6 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
     setValues({ ...values, [name]: value });
   };
 
-  console.log(selectedPortfolio?.pdfFileURL);
   // portfolioTab에서 사용하기 위해 newPortfolio가 담긴 changeNewPortfolio를 zustand로 보내는..
   const { changeNewPortfolio } = usePortfolioStore();
   const newPortfolio: Portfolio = {
