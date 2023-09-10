@@ -17,19 +17,63 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { resign } from "src/api/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useValidation from "src/hooks/useValidation";
+import WorkFieldCategory from "src/components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";
+
+export interface Errors {
+  name: null | string;
+  workField: null | string;
+  workSmallField: null | string;
+  phone: null | string;
+}
 
 const Account = () => {
   const { userId, user, setUser } = useUserStore();
   const { updateUserMutation } = useClientsQueries({ userId });
   const [isModlaopen, setIsModalOpen] = useState(false);
   const { newProfileInfo } = useProfileInfoStore();
+  const initialErrors: Errors = {
+    name: null,
+    workField: null,
+    workSmallField: null,
+    phone: null,
+  };
+  const [errors, setErrors] = useState(initialErrors);
+  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] =
+    useState(false);
+  const { validateName, validateSelect, validateInput, validatePhone } =
+    useValidation();
+
   const navigate = useNavigate();
 
   useEffect(() => {
     queryClient.invalidateQueries([user]);
   }, [user, setUser]);
 
-  const updateProfileInfoButtonHandler = async () => {
+  useEffect(() => {
+    if (
+      user.role === "client" &&
+      updateSubmitButtonClicked &&
+      errors.name === "" &&
+      errors.phone === ""
+    ) {
+      updateProfileInfo();
+      setUpdateSubmitButtonClicked(false);
+    } else if (
+      user.role === "freelancer" &&
+      updateSubmitButtonClicked &&
+      errors.name === "" &&
+      errors.workField === "" &&
+      errors.workSmallField === "" &&
+      errors.phone === ""
+    ) {
+      updateProfileInfo();
+      toast.success("프로필이 수정되었습니다.");
+      setUpdateSubmitButtonClicked(false);
+    } else setUpdateSubmitButtonClicked(false);
+  }, [errors, updateSubmitButtonClicked]);
+
+  const updateProfileInfo = async () => {
     const file = newProfileInfo.photo;
 
     const updatedDataExceptPhotoURL = {
@@ -44,9 +88,9 @@ const Account = () => {
       },
     };
     if (newProfileInfo.photo instanceof File) {
-      const filePath = await (user.photoURL.includes("defaultProfileImage")
-        ? uploadUserImage(userId, file as File)
-        : updateUserImage(userId, file as File));
+      const filePath = user.photoURL.includes("defaultProfileImage")
+        ? await uploadUserImage(userId, file as File)
+        : await updateUserImage(userId, file as File);
       const photoURL = await getPhotoURL(filePath);
 
       updateUserMutation.mutate({
@@ -70,23 +114,36 @@ const Account = () => {
     setIsModalOpen(false);
   };
 
+  const updateProfileInfoButtonHandler = async () => {
+    setUpdateSubmitButtonClicked(true);
+    const nameError = validateName(newProfileInfo.name);
+    const workFieldError = validateSelect(
+      "직무 분야",
+      newProfileInfo.workField
+    );
+    const workSmallFieldError = validateInput(
+      "세부 분야",
+      newProfileInfo.workSmallField
+    );
+    const phoneError = validatePhone(newProfileInfo.phone);
+    setErrors({
+      name: nameError,
+      workField: workFieldError,
+      workSmallField: workSmallFieldError,
+      phone: phoneError,
+    });
+  };
+
   const signOutButtonHandler = () => {
     resign(userId, navigate);
   };
 
   const handleConfirm = () => {
-    console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
     signOutButtonHandler();
-    // Toastify를 닫습니다.
     toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
   };
 
   const handleCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 
@@ -159,7 +216,7 @@ const Account = () => {
               </S.Btn>
             }
           >
-            <EditForm user={user} />
+            <EditForm user={user} errors={errors} setErrors={setErrors} />
           </Modal>
         ) : null}
       </S.AccountContainer>

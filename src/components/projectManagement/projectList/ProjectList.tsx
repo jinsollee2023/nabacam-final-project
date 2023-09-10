@@ -14,8 +14,18 @@ import { queryClient } from "../../../App";
 import { useSearchKeywordStore } from "../../../store/useSearchKeywordStore";
 import { Project } from "../../../Types";
 import { useProjectValuesStore } from "src/store/useProjectValuesStore";
-import useProjectValid from "src/hooks/useProjectValid";
 import { toast } from "react-toastify";
+import useValidation from "src/hooks/useValidation";
+
+export interface Errors {
+  title: null | string;
+  desc: null | string;
+  category: null | string;
+  qualification: null | string;
+  expectedStartDate: null | string;
+  manager: null | string;
+  pay: null | string;
+}
 
 const ProjectList = () => {
   const { userId } = useUserStore();
@@ -34,23 +44,71 @@ const ProjectList = () => {
   const [addSubmitButtonClicked, setAddSubmitButtonClicked] = useState(false);
   const { values, changeValues } = useProjectValuesStore();
   const {
-    checkValidation,
-    isTitleValid,
-    isDescValid,
-    isCategoryValid,
-    isQualificationValid,
-    isExpectedStartDateValid,
-    isManagerValid,
-    isMaxPayValid,
-    setIsTitleValid,
-    setIsDescValid,
-    setIsCategoryValid,
-    setIsQualificationValid,
-    setIsExpectedStartDateValid,
-    setIsManagerValid,
-    setIsMaxPayValid,
-    allValid,
-  } = useProjectValid();
+    validateDate,
+    validateSelect,
+    validatePay,
+    validateWorkExp,
+    validateInput,
+  } = useValidation();
+  console.log();
+  const initialErrors: Errors = {
+    title: null,
+    desc: null,
+    category: null,
+    qualification: null,
+    expectedStartDate: null,
+    manager: null,
+    pay: null,
+  };
+  const [errors, setErrors] = useState(initialErrors);
+
+  const validateAddProject = () => {
+    const titleError = validateInput("프로젝트 제목", newProject.title);
+    const descError = validateInput("프로젝트 설명", newProject.desc);
+    const categoryError = validateSelect(
+      "프로젝트 설명",
+      values.category as string
+    );
+    const qualificationError = validateWorkExp(newProject.qualification);
+    const expectedStartDateError = validateDate(
+      "시작예정일",
+      newProject.expectedStartDate
+    );
+    const managerError = validateSelect("담당자", newProject.manager.name);
+    const payError = validatePay(newProject.pay.min, newProject.pay.max);
+    setErrors({
+      title: titleError,
+      desc: descError,
+      category: categoryError,
+      qualification: qualificationError,
+      expectedStartDate: expectedStartDateError,
+      manager: managerError,
+      pay: payError,
+    });
+  };
+
+  const projectAllValid =
+    errors.title === "" &&
+    errors.desc === "" &&
+    errors.category === "" &&
+    errors.qualification === "" &&
+    errors.expectedStartDate === "" &&
+    errors.manager === "" &&
+    errors.pay === "";
+
+  useEffect(() => {
+    if (projectAllValid && addSubmitButtonClicked) {
+      addProjectMutation.mutate(newProject);
+      setIsAddModalOpen(false);
+      setAddSubmitButtonClicked(false);
+      toast.success("프로젝트가 게시되었습니다.");
+    } else setAddSubmitButtonClicked(false);
+  }, [errors, addSubmitButtonClicked]);
+
+  const addProjectButtonHandler = () => {
+    validateAddProject();
+    setAddSubmitButtonClicked(true);
+  };
 
   useEffect(() => {
     if (projectsOfClient) {
@@ -63,16 +121,6 @@ const ProjectList = () => {
   }, [projectsOfClient, searchKeyword]);
 
   useEffect(() => {
-    if (allValid && addSubmitButtonClicked) {
-      addProjectMutation.mutate(newProject);
-      setAddSubmitButtonClicked(false);
-      setIsAddModalOpen(false);
-    } else if (!allValid) {
-      setAddSubmitButtonClicked(false);
-    }
-  }, [allValid, addSubmitButtonClicked]);
-
-  useEffect(() => {
     queryClient.invalidateQueries(["projectList", selectedSortLabel]);
   }, [selectedSortLabel]);
 
@@ -82,44 +130,6 @@ const ProjectList = () => {
 
   const handleSort = (label: string) => {
     setSelectedselectOption(label);
-  };
-
-  const handleConfirm = () => {
-    console.log("확인 버튼이 클릭되었습니다.");
-    addProjectButtonHandler();
-
-    // Toastify를 닫습니다.
-    toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
-  };
-
-  const handleCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
-    toast.dismiss();
-  };
-
-  const showConfirmation = () => {
-    toast.info(
-      <div>
-        <p>프로젝트 게시하시겟습니까?</p>
-        <button onClick={handleConfirm}>확인</button>
-        <button onClick={handleCancel}>취소</button>
-      </div>,
-      {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: false,
-        closeButton: false,
-        draggable: false,
-      }
-    );
-  };
-
-  const addProjectButtonHandler = () => {
-    checkValidation(values);
-    setAddSubmitButtonClicked(true);
-    toast.success("프로젝트가 게시되었습니다.");
   };
 
   const beforeProgressProjects = filteredProjects?.filter(
@@ -149,7 +159,12 @@ const ProjectList = () => {
     return (
       <>
         {projectsToRender?.map((project) => (
-          <ProjectCard key={project.projectId} project={project} />
+          <ProjectCard
+            key={project.projectId}
+            project={project}
+            errors={errors}
+            setErrors={setErrors}
+          />
         ))}
       </>
     );
@@ -157,14 +172,6 @@ const ProjectList = () => {
 
   const addProjectModalOpenHandler = () => {
     setIsAddModalOpen(true);
-    setAddSubmitButtonClicked(false);
-    setIsTitleValid(null);
-    setIsDescValid(null);
-    setIsCategoryValid(null);
-    setIsQualificationValid(null);
-    setIsExpectedStartDateValid(null);
-    setIsManagerValid(null);
-    setIsMaxPayValid(null);
     changeValues({
       title: "",
       desc: "",
@@ -174,6 +181,15 @@ const ProjectList = () => {
       manager: { name: "", team: "", contact: { email: "", phone: "" } },
       minPay: "",
       maxPay: "",
+    });
+    setErrors({
+      title: null,
+      desc: null,
+      category: null,
+      qualification: null,
+      expectedStartDate: null,
+      manager: null,
+      pay: null,
     });
   };
 
@@ -214,21 +230,13 @@ const ProjectList = () => {
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={showConfirmation}>
+              <S.ModalPostBtn onClick={addProjectButtonHandler}>
                 프로젝트 게시하기
               </S.ModalPostBtn>
             </>
           }
         >
-          <AddProjectModal
-            isTitleValid={isTitleValid}
-            isDescValid={isDescValid}
-            isCategoryValid={isCategoryValid}
-            isQualificationValid={isQualificationValid}
-            isDeadLineValid={isExpectedStartDateValid}
-            isManagerValid={isManagerValid}
-            isMaxPayValid={isMaxPayValid}
-          />
+          <AddProjectModal errors={errors} setErrors={setErrors} />
         </Modal>
       )}
     </>

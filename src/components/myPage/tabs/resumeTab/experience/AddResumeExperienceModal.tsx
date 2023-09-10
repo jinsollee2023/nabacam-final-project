@@ -1,4 +1,4 @@
-import { DatePickerProps, Select, Space, DatePicker } from "antd";
+import { Select, Space, DatePicker } from "antd";
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
@@ -6,73 +6,64 @@ import type { ResumeExperience } from "../../../../../Types";
 import { useResumeExperienceStore } from "../../../../../store/useResumeExperienceStore";
 import dayjs from "dayjs";
 import { S } from "../Resume.styles";
+import { Errors } from "./ResumeExperienceComp";
+import useValidation from "src/hooks/useValidation";
 
 interface ExperienceProps {
   experience?: ResumeExperience;
+  errors: Errors;
+  setErrors: (errors: Errors) => void;
 }
-const AddResumeExperienceModal = ({ experience }: ExperienceProps) => {
+const AddResumeExperienceModal = ({
+  experience,
+  errors,
+  setErrors,
+}: ExperienceProps) => {
   const { changeNewExperience } = useResumeExperienceStore();
+  const { validateWorkDuration, validateInput, validateSelect } =
+    useValidation();
 
-  const [pastWorkPlace, setPastWorkPlace] = useState(
-    experience ? experience.pastWorkPlace : ""
-  );
-  const [pastWorkPosition, setPastWorkPosition] = useState(
-    experience ? experience.pastWorkPosition : ""
-  );
-  const [pastWorkStartDate, setPastWorkStartDate] = useState(
-    experience ? experience.pastWorkDuration.pastWorkStartDate : ""
-  );
-  const [pastWorkEndDate, setPastWorkEndDate] = useState(
-    experience ? experience.pastWorkDuration.pastWorkEndDate : ""
-  );
-  const [selectedPastWorkField, setSelectedPastWorkField] = useState(
-    experience ? experience.pastWorkField : "전체"
-  );
-  const [selectedPastEmploymentType, setSelectedPastEmploymentType] = useState(
-    experience ? experience.pastEmploymentType : "전체"
-  );
+  const initialValues = {
+    pastWorkPlace: experience ? experience.pastWorkPlace : "",
+    pastWorkPosition: experience ? experience.pastWorkPosition : "",
+    pastWorkStartDate: experience
+      ? experience.pastWorkDuration.pastWorkStartDate
+      : "",
+    pastWorkEndDate: experience
+      ? experience.pastWorkDuration.pastWorkEndDate
+      : "",
+    pastWorkField: experience ? experience.pastWorkField : "전체",
+    pastEmploymentType: experience ? experience.pastEmploymentType : "전체",
+  };
+  const [values, setValues] = useState(initialValues);
 
-  const onChangePastWorkStartDateHandler: DatePickerProps["onChange"] = (
-    dateString
-  ) => {
-    setPastWorkStartDate(dateString?.toISOString().split("T")[0] as string);
-  };
-  const onChangePastWorkEndDateHandler: DatePickerProps["onChange"] = (
-    datestring
-  ) => {
-    setPastWorkEndDate(datestring?.toISOString().split("T")[0] as string);
-  };
-  const onChangePastWorkPlaceHandler = (value: string) => {
-    setPastWorkPlace(value);
-  };
-  const onChangePastWorkPositionHandler = (value: string) => {
-    setPastWorkPosition(value);
+  const handleChange = (key: string, value: string) => {
+    setValues({ ...values, [key]: value });
   };
 
   const experienceId = uuidv4();
   const newExperience: ResumeExperience = {
     experienceId,
-    pastWorkField: selectedPastWorkField,
-    pastEmploymentType: selectedPastEmploymentType,
+    pastWorkField: values.pastWorkField,
+    pastEmploymentType: values.pastEmploymentType,
     pastWorkDuration: {
-      pastWorkEndDate: pastWorkEndDate,
-      pastWorkStartDate: pastWorkStartDate,
+      pastWorkEndDate: values.pastWorkEndDate,
+      pastWorkStartDate: values.pastWorkStartDate,
     },
-    pastWorkPlace: pastWorkPlace,
-    pastWorkPosition: pastWorkPosition,
+    pastWorkPlace: values.pastWorkPlace,
+    pastWorkPosition: values.pastWorkPosition,
   };
 
   useEffect(() => {
     changeNewExperience(newExperience);
   }, [
-    selectedPastWorkField,
-    selectedPastEmploymentType,
-    pastWorkEndDate,
-    pastWorkStartDate,
-    pastWorkPlace,
-    pastWorkPosition,
+    values.pastWorkField,
+    values.pastEmploymentType,
+    values.pastWorkEndDate,
+    values.pastWorkStartDate,
+    values.pastWorkPlace,
+    values.pastWorkPosition,
   ]);
-
   return (
     <>
       <form>
@@ -80,9 +71,16 @@ const AddResumeExperienceModal = ({ experience }: ExperienceProps) => {
         <Space wrap style={{ marginTop: "15px" }}>
           <Select
             className="pastWorkField"
-            defaultValue={selectedPastWorkField}
+            defaultValue={values.pastWorkField}
             style={{ width: 460 }}
-            onChange={(value) => setSelectedPastWorkField(value)}
+            onChange={(value) => handleChange("pastWorkField", value)}
+            onBlur={() => {
+              const pastWorkFieldError = validateSelect(
+                "근무 분야",
+                values.pastWorkField
+              );
+              setErrors({ ...errors, pastWorkField: pastWorkFieldError });
+            }}
             options={[
               { value: "전체", label: "전체" },
               { value: "개발", label: "개발" },
@@ -93,6 +91,7 @@ const AddResumeExperienceModal = ({ experience }: ExperienceProps) => {
               { value: "기타", label: "기타" },
             ]}
           />
+          <p>{errors.pastWorkField}</p>
         </Space>
         <br />
         <br />
@@ -100,9 +99,19 @@ const AddResumeExperienceModal = ({ experience }: ExperienceProps) => {
         <Space wrap style={{ marginTop: "15px" }}>
           <Select
             className="pastEmploymentType"
-            defaultValue={selectedPastEmploymentType}
+            defaultValue={values.pastEmploymentType}
             style={{ width: 460 }}
-            onChange={(value) => setSelectedPastEmploymentType(value)}
+            onChange={(value) => handleChange("pastEmploymentType", value)}
+            onBlur={() => {
+              const pastEmploymentTypeError = validateSelect(
+                "근무 형태",
+                values.pastEmploymentType
+              );
+              setErrors({
+                ...errors,
+                pastEmploymentType: pastEmploymentTypeError,
+              });
+            }}
             options={[
               { value: "전체", label: "전체" },
               { value: "정규직", label: "정규직" },
@@ -110,6 +119,7 @@ const AddResumeExperienceModal = ({ experience }: ExperienceProps) => {
               { value: "프리랜서", label: "프리랜서" },
             ]}
           />
+          <p>{errors.pastEmploymentType}</p>
         </Space>
         <br />
         <br />
@@ -117,40 +127,88 @@ const AddResumeExperienceModal = ({ experience }: ExperienceProps) => {
         <S.Input
           name="pastWorkPlace"
           type="text"
-          value={pastWorkPlace}
-          onChange={(e) => onChangePastWorkPlaceHandler(e.target.value)}
+          value={values.pastWorkPlace}
+          onChange={(e) => handleChange("pastWorkPlace", e.target.value)}
+          onBlur={(e) => {
+            const pastWorkPlaceError = validateInput("근무지", e.target.value);
+            setErrors({ ...errors, pastWorkPlace: pastWorkPlaceError });
+          }}
           placeholder="입력해주세요."
         />
+        <p>{errors.pastWorkPlace}</p>
+
         <br />
         <br />
         <S.Label>직책 </S.Label>
         <S.Input
           name="pastWorkPosition"
           type="text"
-          value={pastWorkPosition}
-          onChange={(e) => onChangePastWorkPositionHandler(e.target.value)}
+          value={values.pastWorkPosition}
+          onChange={(e) => handleChange("pastWorkPosition", e.target.value)}
+          onBlur={(e) => {
+            const pastWorkPositionError = validateInput("직책", e.target.value);
+            setErrors({ ...errors, pastWorkPosition: pastWorkPositionError });
+          }}
           placeholder="입력해주세요."
         />
+        <p>{errors.pastWorkPosition}</p>
+
         <br />
         <br />
         <S.Label>근무 일자</S.Label>
-        <S.subText>입사일을 선택해주세요.</S.subText>
+        <S.subText>입사일</S.subText>
         <DatePicker
           name="pastWorkStartDate"
-          onChange={onChangePastWorkStartDateHandler}
+          onChange={(dateString) =>
+            handleChange(
+              "pastWorkStartDate",
+              dateString?.toISOString().split("T")[0] as string
+            )
+          }
+          onBlur={() => {
+            const pastWorkDurationError = validateWorkDuration(
+              values.pastWorkStartDate,
+              values.pastWorkEndDate
+            );
+            setErrors({
+              ...errors,
+              pastWorkDuration: pastWorkDurationError,
+            });
+          }}
           defaultValue={
-            pastWorkStartDate ? dayjs(pastWorkStartDate) : undefined
+            values.pastWorkStartDate
+              ? dayjs(values.pastWorkStartDate)
+              : undefined
           }
           style={{ width: 460 }}
         />
+
         <br />
-        <S.subText>퇴사일을 선택해주세요.</S.subText>
+        <S.subText>퇴사일</S.subText>
         <DatePicker
-          onChange={onChangePastWorkEndDateHandler}
-          defaultValue={pastWorkEndDate ? dayjs(pastWorkEndDate) : undefined}
+          onChange={(datestring) =>
+            handleChange(
+              "pastWorkEndDate",
+              datestring?.toISOString().split("T")[0] as string
+            )
+          }
+          onBlur={() => {
+            const pastWorkDurationError = validateWorkDuration(
+              values.pastWorkStartDate,
+              values.pastWorkEndDate
+            );
+            setErrors({
+              ...errors,
+              pastWorkDuration: pastWorkDurationError,
+            });
+          }}
+          defaultValue={
+            values.pastWorkEndDate ? dayjs(values.pastWorkEndDate) : undefined
+          }
           style={{ width: 460 }}
         />
       </form>
+      <p>{errors.pastWorkDuration}</p>
     </>
   );
 };
