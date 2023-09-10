@@ -1,17 +1,28 @@
-import React, { useState } from "react";
-import { S } from "./toggleButton.styles";
+import { Switch } from "antd";
+import styled from "styled-components";
 
-const ToggleButton = () => {
-  const [isChecked, setIsChecked] = useState(false);
+interface ToggleButtonProps {
+  onToggle: (checked: boolean) => void;
+}
 
-  const handleToggle = () => {
-    setIsChecked((prevChecked) => !prevChecked);
+const ToggleButton = ({ onToggle }: ToggleButtonProps) => {
+  const onChange = (checked: boolean) => {
+    onToggle(checked);
   };
   return (
-    <div>
-      <S.CheckBox type="checkbox" left={"yes"} right={"no"} />
-    </div>
+    <>
+      <Switch onChange={onChange} />
+      <S.ToggleText>모집 중인 프로젝트만 보기</S.ToggleText>
+    </>
   );
 };
 
 export default ToggleButton;
+
+const S = {
+  ToggleText: styled.span`
+    margin-left: 10px;
+    color: var(--darker-gray);
+    font-size: 14px;
+  `,
+};
