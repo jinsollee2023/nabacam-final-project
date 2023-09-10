@@ -24,6 +24,7 @@ export const PrivateRouteLogin = (): React.ReactElement => {
     if (token === null) {
       return true;
     } else {
+      toast.error("로그인 상태입니다.");
       return false;
     }
   };

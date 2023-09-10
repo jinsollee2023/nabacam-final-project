@@ -9,6 +9,15 @@ interface LayoutProps {
 }
 const Layout = ({ children }: LayoutProps) => {
   const { tutorialModalOpen } = useTutorialStore();
+  if (window.location.pathname === `/register`) {
+    return null;
+  }
+  if (window.location.pathname === `/login`) {
+    return null;
+  }
+  if (window.location.pathname === "/resetpassword") {
+    return null;
+  }
   return (
     <S.LayoutContainer>
       <Navbar />
