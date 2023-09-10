@@ -30,6 +30,8 @@ const FreelancerCard = ({
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const { userId } = useUserStore();
   const { selectedProject, setSelectedProject } = useProjectStore();
+  const [userSelectedPortfolioIndex, setUserSelectedPortfolioIndex] =
+    useState(0);
   const {
     updateSuggestedFreelancersDataMutation,
     suggestedFreelancersData,
@@ -131,13 +133,16 @@ const FreelancerCard = ({
   };
 
   const handleSuggestButtonClick = () => {
-    console.log("projectDataForSuggestions : ", projectDataForSuggestions);
     if (projectDataForSuggestions?.length! >= 1) {
       setIsDetailModalOpen(true);
     } else if (projectDataForSuggestions?.length! === 0) {
       toast.error("해당 프리랜서에게 제안할 수 있는 프로젝트가 없습니다.");
     }
   };
+
+  const numberOfPortfolios = portfoliosData?.filter(
+    (portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId
+  ).length;
 
   return (
     <>
@@ -203,19 +208,59 @@ const FreelancerCard = ({
                               selectedPortfolioIndex[freelancerItem.userId] ===
                               index
                             }
-                            onClick={() =>
-                              setSelectedPortfolioIndex((prevSelected) => ({
-                                ...prevSelected,
-                                [freelancerItem.userId]: index,
-                              }))
-                            }
                           />
                         ))}
                     </S.indicatorWrapper>
                   </S.PortfoliothumbNailImageBox>
                   <S.PortfolioTitleBox>
                     <S.PortfolioTitle>
+                      {userSelectedPortfolioIndex !== 0 && (
+                        <button
+                          onClick={() => {
+                            setUserSelectedPortfolioIndex(
+                              userSelectedPortfolioIndex - 1
+                            );
+                            setSelectedPortfolioIndex((prevSelected) => {
+                              const userSelectedPortfolioIndex = {
+                                ...prevSelected,
+                              };
+                              userSelectedPortfolioIndex[
+                                freelancerItem.userId
+                              ] = userSelectedPortfolioIndex[
+                                freelancerItem.userId
+                              ] -= 1;
+                              return userSelectedPortfolioIndex;
+                            });
+                          }}
+                        >
+                          이전
+                        </button>
+                      )}
+
                       {filteredPortfolio.title}
+                      {userSelectedPortfolioIndex !==
+                        numberOfPortfolios! - 1 && (
+                        <button
+                          onClick={() => {
+                            setUserSelectedPortfolioIndex(
+                              userSelectedPortfolioIndex + 1
+                            );
+                            setSelectedPortfolioIndex((prevSelected) => {
+                              const userSelectedPortfolioIndex = {
+                                ...prevSelected,
+                              };
+                              userSelectedPortfolioIndex[
+                                freelancerItem.userId
+                              ] = userSelectedPortfolioIndex[
+                                freelancerItem.userId
+                              ] += 1;
+                              return userSelectedPortfolioIndex;
+                            });
+                          }}
+                        >
+                          다음
+                        </button>
+                      )}
                     </S.PortfolioTitle>
                   </S.PortfolioTitleBox>
                 </S.PortfolioItem>
