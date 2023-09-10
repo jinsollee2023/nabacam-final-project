@@ -1,23 +1,25 @@
-import React, { useState, ChangeEvent, useRef } from "react";
+import React, { useState, ChangeEvent, useRef, useEffect } from "react";
 import { styled } from "styled-components";
 import { PiCameraRotate } from "react-icons/pi";
-import { createShorthandPropertyAssignment } from "typescript";
 
 interface PreviewImageProps {
-  handlePhotoURLOnChange: (url: File) => void;
-  defaultImage: string;
+  handlePhotoURLOnChange: (file: File | string | null) => void;
+  defaultImage?: string;
+  previewImage?: string;
 }
 
 const PreviewImage = ({
   handlePhotoURLOnChange,
+  previewImage,
   defaultImage,
 }: PreviewImageProps) => {
-  const [selectedImage, setSelectedImage] = useState(defaultImage);
+  const [selectedImage, setSelectedImage] = useState(
+    previewImage || defaultImage
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const imageFile = e.target.files?.[0];
-
     if (imageFile) {
       const imageUrl = URL.createObjectURL(imageFile);
       setSelectedImage(imageUrl);
@@ -31,17 +33,20 @@ const PreviewImage = ({
     }
   };
 
-  // 기본 이미지로 수정
   const handleChangeDefaultImageButtonClick = () => {
     setSelectedImage(defaultImage);
+    handlePhotoURLOnChange(defaultImage as string);
   };
 
-  // 회원가입할때 한번더 올린다 .
-  // 유저아이디를 유저
+  useEffect(() => {
+    // 이미지가 변경될 때 selectedImage를 업데이트
+    setSelectedImage(previewImage || defaultImage);
+  }, [previewImage, defaultImage]);
+
   return (
     <S.PreviewImageContainer>
       <S.PreviewImageBox>
-        <img src={selectedImage} alt="Selected" />
+        <img src={selectedImage} alt="selectedImage" />
         <S.PreviewImageLabel htmlFor="addImage" onClick={handleLabelClick}>
           <PiCameraRotate size="25" color="var(--main-blue)" />
         </S.PreviewImageLabel>

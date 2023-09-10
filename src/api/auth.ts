@@ -63,7 +63,7 @@ export const clientSignupHandler = async (
     phone: string;
     workField: string;
     workSmallField: string;
-    photoFile: File | null;
+    photoFile: File | null | string;
   },
   uploadUserImage: any,
   role: string,

@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import { styled } from "styled-components";
 
 interface ProjectStatusProps {
@@ -25,6 +26,7 @@ export const S = {
   ProjectCardContainer: styled.div`
     border: 1px solid #d6d6d6;
     border-radius: 10px;
+    min-width: 1020px;
     width: 100%;
     height: 70px;
     padding: 10px;
@@ -36,11 +38,12 @@ export const S = {
   ProejctContentLeftWrapper: styled.div`
     display: flex;
     align-items: center;
-    width: 80%;
+    min-width: 770px;
   `,
   ProejctContentRightWrapper: styled.div`
+    min-width: 200px;
     display: flex;
-    align-items: end;
+    align-items: center;
     flex-direction: column;
   `,
 
@@ -56,13 +59,13 @@ export const S = {
     ${(props) =>
       props.recruitmentCompleted
         ? `
-  background-color: aliceblue;
-  color: #0086d0;
-`
+      background-color: aliceblue;
+      color: #0086d0;
+    `
         : `
-  background-color: #f6f6f6;
-  color: #A1a1a1;
-`}
+      background-color: #f6f6f6;
+      color: #A1a1a1;
+    `}
   `,
   AppliedCancleButton: styled.button`
     border: 1px solid #d32828;
@@ -90,5 +93,35 @@ export const S = {
     font-size: 14px;
     color: gray;
     margin-top: 3px;
+  `,
+
+  Button: styled(Button)`
+    background-color: var(--main-blue);
+
+    &:hover {
+      background-color: var(--hover-blue);
+    }
+  `,
+
+  DetailModalOpenButton: styled.button`
+    background-color: var(--main-blue);
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+  `,
+
+  AppliedFreelancersCountBox: styled.div`
+    margin-left: 10px;
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+    color: gray;
+  `,
+
+  ProjectRegistrationDate: styled.span`
+    width: 80px;
+    text-align: center;
   `,
 };

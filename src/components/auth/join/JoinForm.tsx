@@ -22,7 +22,7 @@ interface initialValuesForm {
   phone: string;
   workField: string;
   workSmallField: string;
-  photoFile: File | null;
+  photoFile: File | null | string;
 }
 interface initialErrorsForm {
   email: string | null;
@@ -156,7 +156,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   };
 
   // 미리보기 핸들러
-  const handlePhotoURLOnChange = (file: File) => {
+  const handlePhotoURLOnChange = (file: File | string | null) => {
     setValues({ ...values, photoFile: file });
   };
 

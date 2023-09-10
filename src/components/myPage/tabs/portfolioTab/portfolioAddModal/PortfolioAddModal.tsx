@@ -9,6 +9,8 @@ import { FcOk } from "react-icons/fc";
 import { S } from "./portfolioAddModal.styles";
 
 const PortfolioAddModal = () => {
+  const portfolioDefaultImage =
+    "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg";
   const [attachmentType, setAttachmentType] = useState<string>("file");
   const { selectedPortfolio, setSelectedPortfolio } = usePortfolioStore();
   const [pfId, setPfId] = useState(
@@ -20,10 +22,8 @@ const PortfolioAddModal = () => {
   const [desc, setDesc] = useState(
     selectedPortfolio ? selectedPortfolio?.desc : ""
   );
-  const [thumbNailFile, setThumbNailFile] = useState<File | string>(
-    selectedPortfolio
-      ? selectedPortfolio.thumbNailURL
-      : "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg"
+  const [thumbNailFile, setThumbNailFile] = useState<File | string | null>(
+    selectedPortfolio ? selectedPortfolio.thumbNailURL : portfolioDefaultImage
   );
   const [pdfFile, setPdfFile] = useState<File | string>(
     selectedPortfolio ? selectedPortfolio.pdfFileURL || "" : ""
@@ -84,7 +84,8 @@ const PortfolioAddModal = () => {
       <S.ModalForm>
         <PreviewImage
           handlePhotoURLOnChange={setThumbNailFile}
-          defaultImage={newPortfolio.thumbNailURL as string}
+          defaultImage={portfolioDefaultImage}
+          previewImage={selectedPortfolio?.thumbNailURL as string}
         />
         <S.InputText
           type="text"

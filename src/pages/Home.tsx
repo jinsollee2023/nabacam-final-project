@@ -1,10 +1,9 @@
 import { useUserStore } from "../store/useUserStore";
 import MenuTabBarComp from "../components/common/MenuTabBarComp";
-import React from "react";
 
 const Home = () => {
-  const { user, userId } = useUserStore();
-  console.log(user, userId);
+  const { user } = useUserStore();
+
   const freelancerOfferMenu = [
     "프리랜서 마켓",
     "지원한 프리랜서",

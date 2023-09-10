@@ -43,7 +43,6 @@ const Account = () => {
         phone: newProfileInfo.phone,
       },
     };
-
     if (newProfileInfo.photo instanceof File) {
       const filePath = await (user.photoURL.includes("defaultProfileImage")
         ? uploadUserImage(userId, file as File)
