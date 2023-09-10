@@ -38,7 +38,7 @@ const Modal = ({ setIsModalOpen, children, buttons }: ModalProps) => {
       showConfirmation();
     }
   };
-  console.log("values==>", values);
+  console.log("buttons==>", buttons);
   const handleConfirm = () => {
     console.log("확인 버튼이 클릭되었습니다.");
     // 여기에서 실제로 할 일을 수행하세요.
