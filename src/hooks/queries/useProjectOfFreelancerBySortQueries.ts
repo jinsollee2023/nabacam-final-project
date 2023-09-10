@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Project } from "src/Types";
 import { getProjectOfFreelancerBySort } from "src/api/Project";
 
 interface useProjectOfFreelancerBySortQueriesProps {
@@ -15,10 +16,15 @@ const useProjectOfFreelancerBySortQueries = ({
     data: projectsListBySort,
     error: projectListIsError,
     isLoading: projectListIsLoading,
-  } = useQuery(["projectsListBySort", sortLabel], async () => {
-    const projectList = await getProjectOfFreelancerBySort(sortLabel as string);
-    return projectList;
-  });
+  } = useQuery<Project[] | null, Error>(
+    ["projectsListBySort", sortLabel],
+    async () => {
+      const projectList = await getProjectOfFreelancerBySort(
+        sortLabel as string
+      );
+      return projectList;
+    }
+  );
 
   return {
     projectsListBySort,

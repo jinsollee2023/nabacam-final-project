@@ -1,7 +1,6 @@
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
 import { Project } from "src/Types";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { useSearchKeywordStore } from "src/store/useSearchKeywordStore";
 import { useUserStore } from "src/store/useUserStore";
 import ProjectCard from "./ProjectCard";
@@ -11,9 +10,14 @@ import useProjectOfFreelancerBySortQueries from "src/hooks/queries/useProjectOfF
 interface ProjectListProps {
   selectedSortLabel: string;
   selectedWorkField: string;
+  currentToggleStatus: boolean;
 }
 
-const ProjectList = ({ selectedSortLabel, selectedWorkField }: ProjectListProps) => {
+const ProjectList = ({
+  selectedSortLabel,
+  selectedWorkField,
+  currentToggleStatus,
+}: ProjectListProps) => {
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const { userId } = useUserStore();
 
@@ -24,7 +28,9 @@ const ProjectList = ({ selectedSortLabel, selectedWorkField }: ProjectListProps)
       sortLabel: selectedSortLabel,
     });
 
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(projectsListBySort!);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(
+    projectsListBySort!
+  );
 
   useEffect(() => {
     changeSearchKeyword("");
@@ -45,9 +51,17 @@ const ProjectList = ({ selectedSortLabel, selectedWorkField }: ProjectListProps)
           yearsOfEligibility === searchKeyword
         );
       });
-      setFilteredProjects(filteredProjectLists);
+
+      if (currentToggleStatus) {
+        const openProject = filteredProjectLists.filter((project) => {
+          return project.status === "진행 전";
+        });
+        setFilteredProjects(openProject);
+      } else {
+        setFilteredProjects(filteredProjectLists);
+      }
     }
-  }, [projectsListBySort, searchKeyword]);
+  }, [projectsListBySort, searchKeyword, currentToggleStatus]);
 
   if (projectListIsLoading) {
     return (
@@ -72,7 +86,8 @@ const ProjectList = ({ selectedSortLabel, selectedWorkField }: ProjectListProps)
           {filteredProjects
             ?.filter(
               (project) =>
-                selectedWorkField === "전체보기" || project.category === selectedWorkField
+                selectedWorkField === "전체보기" ||
+                project.category === selectedWorkField
             )
             .map((projectItem) => {
               return (
