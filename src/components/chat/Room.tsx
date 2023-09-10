@@ -47,6 +47,11 @@ const Room = () => {
       const { error } = await supabase
         .from("room_participants")
         .insert({ user_id: data.userId, room_id: room_id }); // policy
+
+      //   .upsert({ user_id: data.userId }) // policy
+      //   .eq("roomd_id", room_id)
+      //   .select();
+      // console.log(room_participants_data);
       if (error) return toast.error(error.message);
 
       target.value = "";

@@ -6,32 +6,89 @@ import { useUserStore } from "../../zustand/useUserStore";
 interface MessagesProps {
   room_id: string;
 }
-
+//
+interface UsersProfile {
+  userId: string;
+  name: string;
+}
 export interface Message {
   message_id: string;
   content: string;
   user_id: string;
   room_id: string;
   // other table
-  messageUserProfile: {
-    name: string;
-    userId: string;
-  };
+  // usersProfileCache for user +) new user
+  usersProfile: UsersProfile;
 }
 
-// let profileCache: { [key: string]: any } = {};
+interface UsersProfileCache {
+  [userId: string]: UsersProfile;
+}
 
-const Messages = ({ room_id }: MessagesProps) => {
+//===============================================================================================//
+const Message = ({
+  message,
+  usersProfile,
+  setUsersProfileCache,
+}: {
+  message: Message;
+  usersProfile?: UsersProfile;
+  setUsersProfileCache: React.Dispatch<React.SetStateAction<UsersProfileCache>>;
+}) => {
   const { user } = useUserStore();
   const userId = user.userId;
+
+  // usersProfile 없을시 확인후 fetch
+  useEffect(() => {
+    const fetchUsersProfile = async () => {
+      const { data } = await supabase
+        .from("users")
+        .select("userId, name")
+        .match({ userId: message.user_id })
+        .single();
+
+      if (data) {
+        setUsersProfileCache((current) => ({
+          ...current,
+          [data.userId]: data,
+        }));
+      }
+    };
+    if (!usersProfile) fetchUsersProfile();
+  }, [usersProfile, message.user_id]);
+
+  console.log("message", { message, usersProfile });
+
+  return (
+    <li
+      key={message.message_id}
+      className={
+        message.user_id === userId
+          ? "self-start rounded bg-blue-400 p-1.5 text-gray-600"
+          : "self-end rounded bg-gray-100 p-1.5 text-gray-600"
+      }
+    >
+      <span className="block text-xs text-gray-500">
+        {usersProfile?.name ?? "Loading..."}
+      </span>
+      <span className="">{message.content}</span>
+    </li>
+  );
+};
+//===============================================================================================//
+
+const Messages = ({ room_id }: MessagesProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const messagesRef = useRef<HTMLDivElement>(null);
+  const [usersProfileCache, setUsersProfileCache] = useState<UsersProfileCache>(
+    {}
+  );
 
   const getData = async () => {
     try {
       const { data } = await supabase
         .from("messages")
-        .select("*, messageUserProfile: users(userId, name)")
+        .select("*, usersProfile: users(userId, name)") // 이제부터 data(messages)에 users테이블의 usersProfile 끼어서 들어오게 됨
         .match({ room_id: room_id })
         .order("created_at");
 
@@ -40,10 +97,23 @@ const Messages = ({ room_id }: MessagesProps) => {
         return;
       }
 
+      // 복수
+      const newUsersProfiles = Object.fromEntries(
+        data
+          .map((message) => message.usersProfile)
+          .filter(Boolean)
+          .map((profile) => [profile!.userId, profile!])
+      );
+
+      setUsersProfileCache((current) => ({
+        ...current,
+        ...newUsersProfiles,
+      }));
+
       // data
-      //   .map((message) => message.messageUserProfile)
+      //   .map((message) => message.usersProfile)
       //   .forEach((profile) => {
-      //     profileCache[profile.userId] = profile;
+      //     usersProfileCache[profile.userId] = profile;
       //   });
 
       setMessages(data);
@@ -57,10 +127,12 @@ const Messages = ({ room_id }: MessagesProps) => {
     }
   };
 
+  // 1.initial fetch
   useEffect(() => {
     getData();
   }, []);
 
+  // 2.realtime initial stream
   useEffect(() => {
     const channel = supabase
       .channel("schema-db-changes")
@@ -69,11 +141,13 @@ const Messages = ({ room_id }: MessagesProps) => {
         {
           event: "INSERT",
           schema: "public",
-          table: "messages", // 내가 있는 방만
+          table: "messages",
+          filter: `room_id=eq.${room_id}`, // 내가 있는 방만
         },
-        () => {
-          getData();
-          // setMessages((current) => [...current, {...payload.new, messageUserProfile: profileCache[payload.new.userId]}])
+        (payload) => {
+          console.log("payload", payload);
+          // getData();
+          setMessages((current) => [...current, payload.new as Message]);
         }
       )
       .subscribe();
@@ -88,19 +162,11 @@ const Messages = ({ room_id }: MessagesProps) => {
     <div className="overflow-y-scroll flex-1 bg-red-200 p-2" ref={messagesRef}>
       <ul className="flex flex-1 flex-col justify-end p-4 space-y-1.5">
         {messages?.map((message) => (
-          <li
-            key={message.message_id}
-            className={
-              message.user_id === userId
-                ? "self-start rounded bg-blue-400 p-1.5 text-gray-600"
-                : "self-end rounded bg-gray-100 p-1.5 text-gray-600"
-            }
-          >
-            <span className="block text-xs text-gray-500">
-              {message.messageUserProfile.name}
-            </span>
-            <span className="">{message.content}</span>
-          </li>
+          <Message
+            message={message}
+            usersProfile={usersProfileCache[message.user_id]}
+            setUsersProfileCache={setUsersProfileCache}
+          />
         ))}
       </ul>
     </div>
@@ -108,5 +174,3 @@ const Messages = ({ room_id }: MessagesProps) => {
 };
 
 export default Messages;
-
-// 커밋용

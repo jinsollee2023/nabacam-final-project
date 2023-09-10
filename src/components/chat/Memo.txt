@@ -61,3 +61,6 @@ end;
 (3) 새로운 유저 초대
 1:53:00
 (4) 방 분리
+
+
+is_room_participant(room_id, auth.uid())
