@@ -3,6 +3,7 @@ import supabase, { supabaseService } from "../config/supabaseClient";
 import { getPhotoURL } from "./User";
 import "react-toastify/dist/ReactToastify.css";
 import { User } from "src/Types";
+import { NavigateFunction } from "react-router-dom";
 // 회원탈퇴
 
 export const resign = async (
@@ -31,10 +32,10 @@ export const resign = async (
 
 export const userJoinData = async (
   newUserData: User,
-  setUser: any,
-  setUserId: any,
-  setUserRole: any,
-  navigate: any
+  setUser: (user: User) => void,
+  setUserId: (id: string) => void,
+  setUserRole: (role: string) => void,
+  navigate: NavigateFunction
 ) => {
   try {
     const { data } = await supabase.from("users").insert(newUserData).select();
@@ -65,12 +66,17 @@ export const clientSignupHandler = async (
     workSmallField: string;
     photoFile: File | null | string;
   },
-  uploadUserImage: any,
+  uploadUserImage: (
+    userId: string | undefined,
+    file: File
+  ) => Promise<{
+    path: string;
+  }>,
   role: string,
-  setUser: any,
-  setUserId: any,
-  setUserRole: any,
-  navigate: any,
+  setUser: (user: User) => void,
+  setUserId: (id: string) => void,
+  setUserRole: (role: string) => void,
+  navigate: NavigateFunction,
   setSubmitButtonClicked: (submitButtonClicked: boolean) => void
 ) => {
   const { error } = await supabase.auth.signUp({
@@ -84,7 +90,8 @@ export const clientSignupHandler = async (
 
     // 사진을 스토리지에 업로드
     const filePath =
-      values.photoFile && (await uploadUserImage(user?.id, values.photoFile));
+      values.photoFile &&
+      (await uploadUserImage(user?.id, values.photoFile as File));
     const photoURL = filePath && (await getPhotoURL(filePath));
 
     const newUserData: User = {
