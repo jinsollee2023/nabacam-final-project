@@ -32,10 +32,6 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
   } = useValidation();
   const navigate = useNavigate();
 
-  const handleChange = (key: string, value: string | number) => {
-    changeValues({ ...values, [key]: value });
-  };
-
   const addCommas = (value: number) => {
     return value
       .toString()
@@ -45,6 +41,10 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
 
   const exceptCommas = (value: string) => {
     return value.replace(",", "");
+  };
+
+  const handleChange = (key: string, value: string | number) => {
+    changeValues({ ...values, [key]: value });
   };
 
   const managerOnChange = (value: string) => {
@@ -84,25 +84,6 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
     }
   };
 
-  const { changeNewProject } = useProjectStore();
-
-  useEffect(() => {
-    changeNewProject({
-      title: values.title,
-      desc: values.desc,
-      clientId: userId,
-      manager: values.manager,
-      expectedStartDate: values.expectedStartDate,
-      pay: {
-        min: values.minPay,
-        max: values.maxPay,
-      },
-      status: "진행 전",
-      category: values.category,
-      qualification: values.qualification as number,
-    });
-  }, [values, payInputOff]);
-
   const handlePayChange = (minPay: string, maxPay: string) => {
     const payError = validatePay(exceptCommas(minPay), exceptCommas(maxPay));
     setErrors({ ...errors, pay: payError });
@@ -128,6 +109,25 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
       handlePayChange("", "");
     }
   };
+
+  const { changeNewProject } = useProjectStore();
+
+  useEffect(() => {
+    changeNewProject({
+      title: values.title,
+      desc: values.desc,
+      clientId: userId,
+      manager: values.manager,
+      expectedStartDate: values.expectedStartDate,
+      pay: {
+        min: values.minPay,
+        max: values.maxPay,
+      },
+      status: "진행 전",
+      category: values.category,
+      qualification: values.qualification as number,
+    });
+  }, [values, payInputOff]);
 
   return (
     <div>
