@@ -103,6 +103,17 @@ const useValidation = () => {
     return "";
   };
 
+  const validateWorkDuration = (startDate: string, endDate: string) => {
+    const hireDate = new Date(startDate);
+    const quitDate = new Date(endDate);
+    if (!startDate || !endDate) {
+      return "근무 기간을 입력해주세요.";
+    } else if (quitDate < hireDate) {
+      return "퇴사일은 입사일보다 이후여야 합니다.";
+    }
+    return "";
+  };
+
   const validatePay = (min: number | string, max: number | string) => {
     if (!min || !max) {
       return "급여를 입력해주세요.";
@@ -129,6 +140,7 @@ const useValidation = () => {
     validateSelect,
     validateDate,
     validatePay,
+    validateWorkDuration,
   };
 };
 
