@@ -12,7 +12,9 @@ export const getProjects = async (id: string): Promise<Project[]> => {
   return projects as Project[];
 };
 
-export const getOngoingProjectsOfFreelancer = async (id: string): Promise<Project[]> => {
+export const getOngoingProjectsOfFreelancer = async (
+  id: string
+): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
@@ -103,7 +105,11 @@ export const updateProject = async (
     qualification?: number;
   }
 ): Promise<void> => {
-  await supabase.from("projects").update(column).eq("projectId", projectId).select();
+  await supabase
+    .from("projects")
+    .update(column)
+    .eq("projectId", projectId)
+    .select();
 };
 
 // 선택한 프로젝트에 제안했던 프리랜서 리스트 가져오기
@@ -122,7 +128,9 @@ export const getSuggestedFreelancers = async (
     }
     return data as { SuggestedFreelancers: string[] };
   } catch (error) {
-    throw new Error(`제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error(
+      `제안한 프리랜서 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
   }
 };
 
@@ -137,33 +145,13 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
         orderByField = "created_at";
         ascending = false;
         break;
-      case "오래된 등록 순":
-        orderByField = "created_at";
-        ascending = true;
-        break;
-      case "시작 예정일 빠른 순":
+      case "시작 예정일 순":
         orderByField = "expectedStartDate";
         ascending = true;
-        break;
-      case "시작 예정일 느린 순":
-        orderByField = "expectedStartDate";
-        ascending = false;
         break;
       case "지원자 많은 순":
         orderByField = "volunteer";
         ascending = false;
-        break;
-      case "지원자 적은 순":
-        orderByField = "volunteer";
-        ascending = true;
-        break;
-      case "자격 연차 높은 순":
-        orderByField = "qualification";
-        ascending = false;
-        break;
-      case "자격 연차 낮은 순":
-        orderByField = "qualification";
-        ascending = true;
         break;
       default:
         orderByField = "created_at";
@@ -176,11 +164,15 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
       .select("*")
       .order(orderByField, { ascending });
     if (error) {
-      console.log(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      console.log(
+        `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`
+      );
     }
     return data;
   } catch (error) {
-    throw new Error(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error(
+      `프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
   }
 };
 
@@ -215,7 +207,9 @@ export const getOngoingProjectsOfClient = async (
 };
 
 // 진행 완료된 프로젝트 가져오기
-export const getTerminationedProjects = async (clientId: string): Promise<Project[]> => {
+export const getTerminationedProjects = async (
+  clientId: string
+): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")

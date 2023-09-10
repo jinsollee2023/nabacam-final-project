@@ -11,7 +11,7 @@ const fadeIn = keyframes`
 
 interface IndicatorProps {
   selected: boolean;
-  onClick: () => void;
+  // onClick: () => void;
 }
 
 interface PortfolioItemProps {
@@ -117,7 +117,7 @@ export const S = {
     display: inline-block;
     border-radius: 50%;
     margin: 0 5px;
-    cursor: pointer;
+    /* cursor: pointer; */
     transition: 0.5s;
     background-color: ${(props) =>
       props.selected ? "var(--main-blue)" : "var(--lighter-gray)"};

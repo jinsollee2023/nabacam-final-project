@@ -97,22 +97,6 @@ export const getFreelancersBySort = async (sortLabel: string) => {
         orderByField = "workExp";
         ascending = true;
         break;
-      case "최근 가입 순":
-        orderByField = "signUpDate";
-        ascending = false;
-        break;
-      case "오래된 가입 순":
-        orderByField = "signUpDate";
-        ascending = true;
-        break;
-      case "포트폴리오 많은 순":
-        orderByField = "portfolioCount";
-        ascending = false;
-        break;
-      case "포트폴리오 적은 순":
-        orderByField = "portfolioCount";
-        ascending = true;
-        break;
       default:
         orderByField = "workExp";
         ascending = false;
