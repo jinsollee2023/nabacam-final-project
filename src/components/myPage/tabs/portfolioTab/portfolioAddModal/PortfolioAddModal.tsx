@@ -15,6 +15,8 @@ interface PortfolioAddModalProps {
   setErrors: (errors: Errors) => void;
 }
 const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
+  const portfolioDefaultImage =
+    "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg";
   const { userId } = useUserStore();
   const { selectedPortfolio } = usePortfolioStore();
 
@@ -26,9 +28,7 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
       : "file"
   );
   const [thumbNailFile, setThumbNailFile] = useState<File | string | null>(
-    selectedPortfolio
-      ? selectedPortfolio.thumbNailURL
-      : "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg"
+    selectedPortfolio ? selectedPortfolio.thumbNailURL : portfolioDefaultImage
   );
 
   const initialValues = {
@@ -91,7 +91,8 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
       <S.ModalForm>
         <PreviewImage
           handlePhotoURLOnChange={setThumbNailFile}
-          defaultImage={newPortfolio.thumbNailURL as string}
+          defaultImage={portfolioDefaultImage}
+          previewImage={selectedPortfolio?.thumbNailURL as string}
         />
         <S.InputText
           type="text"

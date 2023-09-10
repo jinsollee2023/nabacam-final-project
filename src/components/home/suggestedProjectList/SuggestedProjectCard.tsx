@@ -92,12 +92,9 @@ const SuggestedProjectCard = ({
   const handleAcceptConfirm = () => {
     handleButtonClick("accept");
     console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
 
     // Toastify를 닫습니다.
     toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
   };
 
   const handleAcceptCancel = () => {
@@ -125,12 +122,9 @@ const SuggestedProjectCard = ({
   const handleRejectConfirm = () => {
     handleButtonClick("reject");
     console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
 
     // Toastify를 닫습니다.
     toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
   };
 
   const handleRejectCancel = () => {
@@ -221,6 +215,7 @@ const SuggestedProjectCard = ({
             <FiUsers />
             <span>{projectItem.volunteer?.length}명 지원 중</span>
           </S.AppliedFreelancersCountBox>
+          <S.ProjectRegistrationDate>{daysAgo} 등록</S.ProjectRegistrationDate>
         </S.ProejctContentLeftWrapper>
         <S.ProejctContentRightWrapper>
           <S.DetailModalOpenButton onClick={() => setIsDetailModalOpen(true)}>
@@ -228,13 +223,8 @@ const SuggestedProjectCard = ({
           </S.DetailModalOpenButton>
 
           <S.ProejctContentRightTextWrapper>
-            <span>
-              ~{projectItem.expectedStartDate.slice(5, 7)}/
-              {projectItem.expectedStartDate.slice(8, 10)} ({dayOfWeek})
-            </span>
-            <S.ProjectRegistrationDate>
-              {daysAgo} 등록
-            </S.ProjectRegistrationDate>
+            <span>프로젝트 시작 예정일 </span>
+            <span>{projectItem.expectedStartDate}</span>
           </S.ProejctContentRightTextWrapper>
         </S.ProejctContentRightWrapper>
       </S.CardContainer>
