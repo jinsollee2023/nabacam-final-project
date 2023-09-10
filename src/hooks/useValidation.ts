@@ -82,7 +82,7 @@ const useValidation = () => {
     return "";
   };
 
-  const validateInput = (key: string, value: string) => {
+  const validateInput = (key: string, value: string | File) => {
     if (!value) {
       return `${key}을/를 입력해주세요.`;
     }
