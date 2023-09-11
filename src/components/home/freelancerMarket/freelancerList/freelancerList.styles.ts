@@ -70,6 +70,7 @@ export const S = {
     border-radius: 15px;
     overflow: hidden;
     animation: ${fadeIn} 0.2s ease-in-out;
+    cursor: pointer;
 
     img {
       width: 100%;
