@@ -28,7 +28,7 @@ const Router = () => {
             <Route path="/" element={<Welcome />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LoginComp />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
           </Route>
         </Routes>
       </Layout>
