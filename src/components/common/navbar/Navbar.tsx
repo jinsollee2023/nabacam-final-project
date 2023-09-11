@@ -11,10 +11,10 @@ const Navbar = () => {
   const { user } = useUserStore();
   const { setCurrentTab } = useTabStore();
   const token = localStorage.getItem("sb-iwbhucydhgtpozsnqeec-auth-token");
-  if (window.location.pathname === `/register`) {
+  if (window.location.pathname === "/register") {
     return null;
   }
-  if (window.location.pathname === `/login`) {
+  if (window.location.pathname === "/login") {
     return null;
   }
   if (window.location.pathname === "/resetpassword") {
