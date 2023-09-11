@@ -4,7 +4,7 @@ import { useUserStore } from "../../../../../store/useUserStore";
 import { usePortfolioStore } from "../../../../../store/usePortfolioStore";
 import { v4 as uuidv4 } from "uuid";
 import { Portfolio } from "../../../../../Types";
-import PreviewImage from "../../../../../components/auth/join/PreviewImage";
+import PreviewImage from "../../../../common/PreviewImage";
 import { FcOk } from "react-icons/fc";
 import { S } from "./portfolioAddModal.styles";
 import { Errors } from "../PortfolioTab";

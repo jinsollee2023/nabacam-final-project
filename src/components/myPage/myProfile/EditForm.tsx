@@ -1,7 +1,7 @@
 import { Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { User } from "../../../Types";
-import PreviewImage from "../../../components/auth/join/PreviewImage";
+import PreviewImage from "../../common/PreviewImage";
 import { useProfileInfoStore } from "../../../store/useProfileInfoStore";
 import { S } from "./myProfile.styles";
 import { formatPhoneNumber } from "src/components/common/commonFunc";
