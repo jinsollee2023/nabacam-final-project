@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import supabase from "../../config/supabaseClient";
-import { useUserStore } from "../../zustand/useUserStore";
+import { useUserStore } from "../../store/useUserStore";
 
 interface MessagesProps {
   room_id: string;

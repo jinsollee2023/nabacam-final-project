@@ -1,5 +1,5 @@
 import React from "react";
-import { S } from "./freelancerInfoStyle";
+import { S } from "./freelancerInfo.style";
 import { IUser } from "../../../Types";
 
 interface FreelancerResumeProps {

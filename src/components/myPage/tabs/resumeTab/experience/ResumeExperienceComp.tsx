@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useUserStore } from "../../../../../zustand/useUserStore";
+import { useUserStore } from "../../../../../store/useUserStore";
 import useResumeExperienceQueries from "../../../../../hooks/useResumeExperienceQueries";
 import Modal from "../../../../modal/Modal";
 import type { ResumeExperience } from "../../../../../Types";
-import { useResumeExperienceStore } from "../../../../../zustand/useResumeExperienceStore";
+import { useResumeExperienceStore } from "../../../../../store/useResumeExperienceStore";
 import ResumeExperienceCard from "./ResumeExperienceCard";
 import { BsPlusSquareDotted } from "react-icons/bs";
 import { S } from "../Resume.styles";
 import AddResumeExperienceModal from "./AddResumeExperienceModal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useValidation from "src/hooks/useValidation";
+
+export interface Errors {
+  pastWorkPlace: null | string;
+  pastWorkPosition: null | string;
+  pastWorkDuration: null | string;
+  pastWorkField: null | string;
+  pastEmploymentType: null | string;
+}
 
 const ResumeExperienceComp = () => {
   const { user } = useUserStore();
@@ -21,22 +30,88 @@ const ResumeExperienceComp = () => {
     ResumeExperience[]
   >([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const initialErrors: Errors = {
+    pastWorkPlace: null,
+    pastWorkPosition: null,
+    pastWorkDuration: null,
+    pastWorkField: null,
+    pastEmploymentType: null,
+  };
+  const [errors, setErrors] = useState(initialErrors);
+  const { validateWorkDuration, validateInput, validateSelect } =
+    useValidation();
+  const [
+    addExperienceSubmitButtonClicked,
+    setAddExperienceSubmitButtonClicked,
+  ] = useState(false);
 
   useEffect(() => {
-    if (resumeExperienceArray) setResumeExperienceArr(resumeExperienceArray);
-  }, [resumeExperienceArray]);
+    if (
+      addExperienceSubmitButtonClicked &&
+      errors.pastWorkPlace === "" &&
+      errors.pastWorkPosition === "" &&
+      errors.pastWorkDuration === "" &&
+      errors.pastWorkField === "" &&
+      errors.pastEmploymentType === ""
+    ) {
+      addExperience();
+      setAddExperienceSubmitButtonClicked(false);
+    } else setAddExperienceSubmitButtonClicked(false);
+  }, [errors, addExperienceSubmitButtonClicked]);
 
-  const addExperienceHandler = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    e.preventDefault();
+  const validateAddExperience = () => {
+    const pastWorkPlaceError = validateInput(
+      "근무지",
+      newExperience.pastWorkPlace
+    );
+    const pastWorkPositionError = validateInput(
+      "직책",
+      newExperience.pastWorkPosition
+    );
 
+    const pastWorkDurationError = validateWorkDuration(
+      newExperience.pastWorkDuration.pastWorkStartDate,
+      newExperience.pastWorkDuration.pastWorkEndDate
+    );
+    const pastWorkFieldError = validateSelect(
+      "근무 분야",
+      newExperience.pastWorkField
+    );
+    const pastEmploymentTypeError = validateSelect(
+      "근무 형태",
+      newExperience.pastEmploymentType
+    );
+    setErrors({
+      pastWorkPlace: pastWorkPlaceError,
+      pastWorkPosition: pastWorkPositionError,
+      pastWorkDuration: pastWorkDurationError,
+      pastWorkField: pastWorkFieldError,
+      pastEmploymentType: pastEmploymentTypeError,
+    });
+  };
+  const addModalOpenButtonHandler = () => {
+    setIsAddModalOpen(true);
+    setErrors({
+      pastWorkPlace: null,
+      pastWorkPosition: null,
+      pastWorkDuration: null,
+      pastWorkField: null,
+      pastEmploymentType: null,
+    });
+  };
+
+  const addExperienceHandler = () => {
+    setAddExperienceSubmitButtonClicked(true);
+    validateAddExperience();
+  };
+
+  const addExperience = () => {
     try {
       addExperienceMutation.mutate({
         newExperience,
         userId,
       });
-      toast.success("경력사항이 성공적으로 등록되었습니다.");
+      toast.success("경력사항이 등록되었습니다.");
     } catch (error) {
       toast.error("오류가 발생했습니다.");
     }
@@ -44,29 +119,36 @@ const ResumeExperienceComp = () => {
     setIsAddModalOpen(false);
   };
 
+  useEffect(() => {
+    if (resumeExperienceArray) setResumeExperienceArr(resumeExperienceArray);
+  }, [resumeExperienceArray]);
+
   return (
     <>
       <S.WorkExperienceContainer>
         <S.WorkExperienceTitle>경력사항</S.WorkExperienceTitle>
         <S.WorkExperienceListWrapper>
           {resumeExperienceArr?.map((item: ResumeExperience) => (
-            <ResumeExperienceCard key={item.experienceId} experience={item} />
+            <ResumeExperienceCard
+              key={item.experienceId}
+              experience={item}
+              errors={errors}
+              setErrors={setErrors}
+            />
           ))}
         </S.WorkExperienceListWrapper>
       </S.WorkExperienceContainer>
-      <S.CenterizeBox>
-        <S.PostBtn
-          onClick={() => {
-            setIsAddModalOpen(true);
-          }}
-        >
-          <S.CenterizeBox>
-            <BsPlusSquareDotted size="15" style={{ marginRight: "5px" }} />
-            <span>경력 추가하기</span>
-          </S.CenterizeBox>
-        </S.PostBtn>
-      </S.CenterizeBox>
-
+      <S.Btn
+        marginTop="30px"
+        width="100%"
+        height="40px"
+        onClick={addModalOpenButtonHandler}
+      >
+        <S.CenterizeBox>
+          <BsPlusSquareDotted size="15" style={{ marginRight: "5px" }} />
+          <span>경력 추가하기</span>
+        </S.CenterizeBox>
+      </S.Btn>
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}
@@ -78,7 +160,7 @@ const ResumeExperienceComp = () => {
             </>
           }
         >
-          <AddResumeExperienceModal />
+          <AddResumeExperienceModal errors={errors} setErrors={setErrors} />
         </Modal>
       )}
     </>

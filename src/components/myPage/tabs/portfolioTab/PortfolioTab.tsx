@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { S } from "./portfolioTab.styles";
 import PortfolioAddModal from "./portfolioAddModal/PortfolioAddModal";
 import usePortfolioInfoQueries from "../../../../hooks/usePortfolioInfoQueries";
-import { useUserStore } from "../../../../zustand/useUserStore";
-import { usePortfolioStore } from "../../../../zustand/usePortfolioStore";
+import { useUserStore } from "../../../../store/useUserStore";
+import { usePortfolioStore } from "../../../../store/usePortfolioStore";
 import PortfolioDetailModal from "./portfolioDetailModal/PortfolioDetailModal";
 import Modal from "../../../modal/Modal";
 import { Portfolio } from "../../../../Types";
@@ -14,6 +14,15 @@ import {
 } from "../../../../api/Portfolio";
 import { getPortfolioFileURL } from "../../../../api/User";
 import { BsPlusCircleDotted } from "react-icons/bs";
+import { toast } from "react-toastify";
+import useValidation from "src/hooks/useValidation";
+
+export interface Errors {
+  title: null | string;
+  desc: null | string;
+  pdf: null | string;
+  link: null | string;
+}
 
 const PortfolioTab = () => {
   const { user } = useUserStore();
@@ -25,6 +34,7 @@ const PortfolioTab = () => {
     newPortfolio,
     changeNewPortfolio,
   } = usePortfolioStore();
+
   const {
     addPortfolioMutation,
     deletePortfolioMutation,
@@ -34,10 +44,19 @@ const PortfolioTab = () => {
     userId: user.userId,
     pfId: newPortfolio.portfolioId,
   });
-  const handleOpenAddModalButtonClick = () => {
-    setIsAddModalOpen(true);
-    setIsDetailModalOpen(false);
+
+  const initialErrors: Errors = {
+    title: null,
+    desc: null,
+    pdf: null,
+    link: null,
   };
+  const [errors, setErrors] = useState(initialErrors);
+  const { validateInput } = useValidation();
+  const [addPortfolioButtonClicked, setAddPortfolioButtonClicked] =
+    useState(false);
+  const [updateProtfolioButtonClicked, setUpdatePortfolioButtonClicked] =
+    useState(false);
 
   const handleOpenDetailModalButtonClick = (portfolio: Portfolio) => {
     setSelectedPortfolio(portfolio);
@@ -55,22 +74,61 @@ const PortfolioTab = () => {
     setSelectedPortfolio(null);
   };
 
-  const handleAddPortfolioButtonClick = async () => {
-    // 유효성 검사 변경될 수 있음
-    if (newPortfolio.title === "" && newPortfolio.desc === "") {
-    } else if (newPortfolio.title === "") {
-    } else if (newPortfolio.desc === "") {
-    } else if (newPortfolio.thumbNailURL instanceof String) {
+  useEffect(() => {
+    const validatePdfPortfolio =
+      newPortfolio.pdfFileURL && !errors.title && !errors.desc && !errors.pdf;
+    const validateLinkPortfolio =
+      newPortfolio.linkURL && !errors.title && !errors.desc && !errors.link;
+
+    if (
+      updateProtfolioButtonClicked &&
+      (validatePdfPortfolio || validateLinkPortfolio)
+    ) {
+      updatePortfolio();
+      handleAddModalClose();
+      setUpdatePortfolioButtonClicked(false);
+    } else if (
+      addPortfolioButtonClicked &&
+      (validatePdfPortfolio || validateLinkPortfolio)
+    ) {
+      addPortfolio();
+      handleAddModalClose();
+      setAddPortfolioButtonClicked(false);
     }
+    setUpdatePortfolioButtonClicked(false);
+    setAddPortfolioButtonClicked(false);
+  }, [
+    addPortfolioButtonClicked,
+    updateProtfolioButtonClicked,
+    errors,
+    selectedPortfolio,
+  ]);
 
-    // --------------------
-
-    const pdfFilePath = await uploadPDF({
-      userId: user.userId,
-      file: newPortfolio.pdfFileURL as File,
-      pfId: newPortfolio.portfolioId,
+  const handlePortfolioSubmitButtonHandler = () => {
+    const titleError = validateInput("제목", newPortfolio.title);
+    const descError = validateInput("내용", newPortfolio.desc);
+    const linkError = validateInput("링크", newPortfolio.linkURL as string);
+    const pdfError = validateInput("PDF", newPortfolio.pdfFileURL as File);
+    setErrors({
+      title: titleError,
+      desc: descError,
+      link: linkError,
+      pdf: pdfError,
     });
-    const pdfURL = await getPortfolioFileURL(pdfFilePath);
+    selectedPortfolio
+      ? setUpdatePortfolioButtonClicked(true)
+      : setAddPortfolioButtonClicked(true);
+  };
+
+  const addPortfolio = async () => {
+    const pdfFilePath =
+      newPortfolio.pdfFileURL &&
+      (await uploadPDF({
+        userId: user.userId,
+        file: newPortfolio.pdfFileURL as File,
+        pfId: newPortfolio.portfolioId,
+      }));
+    const pdfURL = pdfFilePath && (await getPortfolioFileURL(pdfFilePath));
 
     const newPortfolioExceptThumbnail = {
       portfolioId: newPortfolio.portfolioId,
@@ -78,7 +136,9 @@ const PortfolioTab = () => {
       desc: newPortfolio.desc,
       freelancerId: user.userId,
       linkURL: newPortfolio.linkURL,
-      pdfFileURL: `${pdfURL}?updated=${new Date().getTime()}`,
+      pdfFileURL: pdfURL
+        ? `${pdfURL}?updated=${new Date().getTime()}`
+        : undefined,
     };
 
     if (newPortfolio.thumbNailURL instanceof File) {
@@ -107,26 +167,8 @@ const PortfolioTab = () => {
         pfId: newPortfolio.portfolioId,
       });
     }
-
-    setSelectedPortfolio(null);
-    setIsAddModalOpen(!isAddModalOpen);
   };
-
-  const modalOpenHandler = () => {
-    changeNewPortfolio({
-      portfolioId: "",
-      title: "",
-      desc: "",
-      freelancerId: user.userId,
-      linkURL: "",
-      thumbNailURL:
-        "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg",
-      pdfFileURL: "",
-    });
-    setIsAddModalOpen(!isAddModalOpen);
-  };
-
-  const handleEditPortfolioButtonClick = async () => {
+  const updatePortfolio = async () => {
     const pdfFilePath = await updatePortfolioFile(
       user.userId,
       newPortfolio.portfolioId,
@@ -178,22 +220,65 @@ const PortfolioTab = () => {
         pfId: newPortfolio.portfolioId,
       });
     }
+  };
 
-    handleAddModalClose();
+  // const addModalOpenHandler = () => {
+  //   setIsDetailModalOpen(false);
+  // };
+
+  const addModalOpenHandler = () => {
+    setIsAddModalOpen(true);
+    setErrors({ title: null, desc: null, pdf: null, link: null });
+
+    if (selectedPortfolio) {
+      setIsDetailModalOpen(false);
+    } else {
+      setSelectedPortfolio(null);
+      changeNewPortfolio({
+        portfolioId: "",
+        title: "",
+        desc: "",
+        freelancerId: user.userId,
+        linkURL: "",
+        thumbNailURL:
+          "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg",
+        pdfFileURL: "",
+      });
+    }
   };
 
   // 삭제
   const handleDeleteButtonClick = () => {
-    const isConfirmed = window.confirm("해당 포트폴리오를 삭제하시겠습니까?");
+    deletePortfolioMutation.mutate({
+      portfolioId: selectedPortfolio?.portfolioId!,
+      freelancerId: selectedPortfolio?.freelancerId!,
+    });
+    setIsDetailModalOpen(!isDetailModalOpen);
+  };
 
-    if (isConfirmed) {
-      // db에서 지우기
-      deletePortfolioMutation.mutate({
-        portfolioId: selectedPortfolio?.portfolioId!,
-        freelancerId: selectedPortfolio?.freelancerId!,
-      });
-      setIsDetailModalOpen(!isDetailModalOpen);
-    }
+  const handleDeleteConfirm = () => {
+    handleDeleteButtonClick();
+    toast.dismiss();
+  };
+
+  const handleDeleteCancel = () => {
+    toast.dismiss();
+  };
+
+  const showDeleteConfirmation = () => {
+    toast.info(
+      <div>
+        <p>해당 포트폴리오를 삭제하시겠습니까?</p>
+        <button onClick={handleDeleteConfirm}>확인</button>
+        <button onClick={handleDeleteCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
   };
 
   return (
@@ -203,14 +288,10 @@ const PortfolioTab = () => {
           setIsModalOpen={handleDetailModalClose}
           buttons={
             <>
-              <S.Button type="primary" block onClick={handleDeleteButtonClick}>
+              <S.Button type="primary" block onClick={showDeleteConfirmation}>
                 삭제하기
               </S.Button>
-              <S.Button
-                type="primary"
-                block
-                onClick={handleOpenAddModalButtonClick}
-              >
+              <S.Button type="primary" block onClick={addModalOpenHandler}>
                 수정하기
               </S.Button>
             </>
@@ -248,7 +329,7 @@ const PortfolioTab = () => {
                   <S.Button
                     type="primary"
                     block
-                    onClick={handleEditPortfolioButtonClick}
+                    onClick={handlePortfolioSubmitButtonHandler}
                   >
                     수정하기
                   </S.Button>
@@ -257,7 +338,7 @@ const PortfolioTab = () => {
                 <S.Button
                   type="primary"
                   block
-                  onClick={handleAddPortfolioButtonClick}
+                  onClick={handlePortfolioSubmitButtonHandler}
                 >
                   추가하기
                 </S.Button>
@@ -265,7 +346,7 @@ const PortfolioTab = () => {
             </>
           }
         >
-          <PortfolioAddModal />
+          <PortfolioAddModal errors={errors} setErrors={setErrors} />
         </Modal>
       )}
 
@@ -292,7 +373,7 @@ const PortfolioTab = () => {
             })}
         </S.PortfolioListWrapper>
       </S.PortfolioListContainer>
-      <S.PortfolioAddButton onClick={modalOpenHandler}>
+      <S.PortfolioAddButton onClick={addModalOpenHandler}>
         <BsPlusCircleDotted style={{ marginRight: "10px" }} /> 포트폴리오
         첨부하기
       </S.PortfolioAddButton>

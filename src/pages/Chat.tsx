@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Messages from "../components/chat/Messages";
 import supabase from "../config/supabaseClient";
-import { useUserStore } from "../zustand/useUserStore";
+import { useUserStore } from "../store/useUserStore";
 import { styled } from "styled-components";
 import { toast } from "react-toastify";
 import { Room } from "src/components/chat/Room";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Messages from "../chat/Messages";
 import supabase from "../../config/supabaseClient";
-import { useUserStore } from "../../zustand/useUserStore";
+import { useUserStore } from "../../store/useUserStore";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";

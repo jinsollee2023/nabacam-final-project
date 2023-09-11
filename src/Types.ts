@@ -5,9 +5,9 @@ export interface User {
   photoURL: string;
   projectId?: string[];
   workField?: { workField: string; workSmallField: string };
-  workExp?: string;
+  workExp?: number;
   contact: { email: string; phone: string };
-  singUpDate: Date;
+  signUpDate: Date;
   portfolioCount: number;
   resumeProfileIntro?: string;
   resumeExperience?: ResumeExperience[];
@@ -77,7 +77,7 @@ export interface Portfolio {
   freelancerId: string;
   title: string;
   desc: string;
-  thumbNailURL: string | File;
+  thumbNailURL: string | File | null;
   pdfFileURL?: string | File;
   linkURL?: string;
 }

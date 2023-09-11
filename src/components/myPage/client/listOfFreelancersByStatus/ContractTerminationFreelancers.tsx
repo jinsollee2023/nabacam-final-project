@@ -1,29 +1,36 @@
 import React, { useState } from "react";
-import { S } from "./listOfFreelancersByStatusStyle";
+import { S } from "./listOfFreelancersByStatus.style";
 import SearchItemBar from "../../../../components/common/searchItemBar/SearchItemBar";
 import { LuArrowUpDown } from "react-icons/lu";
 import WorkFieldCategory from "../../../../components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";
 import ContractTerminationFreelancerList from "./contractTerminationFreelancerList/ContractTerminationFreelancerList";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { IProjectWithFreelancer } from "src/Types";
+import useTerminationedProjectsQueries from "src/hooks/queries/useTerminationedProjectsQueries";
+import useClientsQueries from "src/hooks/useClientsQueries";
 
 const ContractTerminationFreelancers = () => {
+  // 최신순/오래된 순 필터버튼 상태관리
   const [isLastFirst, setIsLastFirst] = useState(true);
   const [selectedWorkField, setSelectedWorkField] = useState("전체보기");
 
   const { userId } = useUserStore();
-  const { terminationedProjectsWithFreelancers } = useProjectsQueries({
+  const { client } = useClientsQueries({ userId });
+  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries({
     currentUserId: userId,
   });
+  // console.log(freelancersWithTerminatedProjects);
 
+  // 필터 버튼 토글
   const handleSortToggle = () => {
     setIsLastFirst(!isLastFirst);
   };
 
   return (
     <>
-      {terminationedProjectsWithFreelancers && terminationedProjectsWithFreelancers?.length > 0 ? (
+      {freelancersWithTerminatedProjects &&
+      freelancersWithTerminatedProjects?.length > 0 ? (
         <>
           <S.SearchBox>
             <SearchItemBar />
@@ -38,8 +45,8 @@ const ContractTerminationFreelancers = () => {
           <ContractTerminationFreelancerList
             selectedWorkField={selectedWorkField}
             isLastFirst={isLastFirst}
-            terminationedProjectsWithFreelancers={
-              terminationedProjectsWithFreelancers as IProjectWithFreelancer[]
+            freelancersWithTerminatedProjects={
+              freelancersWithTerminatedProjects as IProjectWithFreelancer[]
             }
           />
         </>

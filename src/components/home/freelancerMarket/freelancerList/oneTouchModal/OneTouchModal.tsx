@@ -1,8 +1,7 @@
 import { Project, User } from "../../../../../Types";
 import FreelancerProfile from "../../../../../components/modal/freelancerInfo/FreelancerProfile";
 import { S } from "./oneTouchModal.styles";
-import { useProjectStore } from "../../../../../zustand/useProjectStore";
-import React from "react";
+import { useProjectStore } from "../../../../../store/useProjectStore";
 
 interface OneTouchModalProps {
   user: User;

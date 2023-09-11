@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import supabase from "../../../config/supabaseClient";
 import { styled } from "styled-components";
+import { toast } from "react-toastify";
 
 interface openModal {
   openModal: () => void;
@@ -16,9 +17,8 @@ const EmailCheck = ({ openModal }: openModal) => {
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: "http://localhost:3000/resetPassword",
       });
-      console.log(data);
       if (!error) {
-        alert("입력한 이메일을 확인해주세요");
+        toast.success("입력하신 이메일로 비밀번호 변경 링크를 보내드렸습니다.");
         setEmail("");
       }
     } catch (error) {
@@ -26,7 +26,7 @@ const EmailCheck = ({ openModal }: openModal) => {
     }
   };
 
-  const emailOnChange = (e: any) => {
+  const emailOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 

@@ -1,26 +1,29 @@
 import { Spin } from "antd";
 import { useEffect, useState } from "react";
 import { Project } from "src/Types";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { useSearchKeywordStore } from "src/zustand/useSearchKeywordStore";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useSearchKeywordStore } from "src/store/useSearchKeywordStore";
+import { useUserStore } from "src/store/useUserStore";
 import ProjectCard from "./ProjectCard";
 import { S } from "./projectList.styles";
+import useProjectOfFreelancerBySortQueries from "src/hooks/queries/useProjectOfFreelancerBySortQueries";
 
 interface ProjectListProps {
   selectedSortLabel: string;
   selectedWorkField: string;
+  currentToggleStatus: boolean;
 }
 
 const ProjectList = ({
   selectedSortLabel,
   selectedWorkField,
+  currentToggleStatus,
 }: ProjectListProps) => {
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const { userId } = useUserStore();
 
+  // 프로젝트 탐색에서 선택한 sortLabel을 기준으로 프로젝트 리스트 불러오기..
   const { projectsListBySort, projectListIsError, projectListIsLoading } =
-    useProjectsQueries({
+    useProjectOfFreelancerBySortQueries({
       currentUserId: userId,
       sortLabel: selectedSortLabel,
     });
@@ -33,6 +36,7 @@ const ProjectList = ({
     changeSearchKeyword("");
   }, []);
 
+  // 정렬되어 가져온 프로젝트 리스트 검색..!
   useEffect(() => {
     if (projectsListBySort) {
       const filteredProjectLists = projectsListBySort?.filter((project) => {
@@ -47,9 +51,17 @@ const ProjectList = ({
           yearsOfEligibility === searchKeyword
         );
       });
-      setFilteredProjects(filteredProjectLists);
+
+      if (currentToggleStatus) {
+        const openProject = filteredProjectLists.filter((project) => {
+          return project.status === "진행 전";
+        });
+        setFilteredProjects(openProject);
+      } else {
+        setFilteredProjects(filteredProjectLists);
+      }
     }
-  }, [projectsListBySort, searchKeyword]);
+  }, [projectsListBySort, searchKeyword, currentToggleStatus]);
 
   if (projectListIsLoading) {
     return (
@@ -71,15 +83,6 @@ const ProjectList = ({
     <>
       {filteredProjects && (
         <S.ProjectListContainer>
-          {/* <span>
-            모집 중인 {selectedWorkField} 분야의 프로젝트는 총{" "}
-            {selectedWorkField === "전체보기"
-              ? filteredProjects.length
-              : filteredProjects.filter(
-                  (project) => project.category === selectedWorkField
-                ).length}
-            개입니다.
-          </span> */}
           {filteredProjects
             ?.filter(
               (project) =>

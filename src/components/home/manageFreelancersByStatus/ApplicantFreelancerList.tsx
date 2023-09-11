@@ -1,24 +1,26 @@
 import React from "react";
-import { S } from "./manageFreelancersByStatusStyle";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { S } from "./manageFreelancersByStatus.style";
+import { useUserStore } from "../../../store/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
-import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import ApplicantFreelancerCard from "./ApplicantFreelancerCard";
+import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
 
 const ApplicantFreelancerList = () => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { applicantFreelancers } = useProjectsQueries({
+  const { freelancersAppliedToTheProjects } = useProjectOfClientBySortQueries({
     currentUserId: userId,
   });
 
-  const totalVolunteers = applicantFreelancers
-    ? applicantFreelancers
+  // reduce 초기값 설정
+  // 지원한 프리랜서가 없을 시 문구 노출 위해 생성
+  const totalVolunteers = freelancersAppliedToTheProjects
+    ? freelancersAppliedToTheProjects
         .map((project) => project.volunteerUser.length)
         .reduce((acc, cur) => acc + cur, 0)
     : 0;
 
-  if (!applicantFreelancers || totalVolunteers === 0) {
+  if (!freelancersAppliedToTheProjects || totalVolunteers === 0) {
     return <S.DataStatus>지원한 프리랜서가 없습니다.</S.DataStatus>;
   }
 
@@ -26,7 +28,7 @@ const ApplicantFreelancerList = () => {
     <>
       <S.ListContainer>
         <S.Title>지원한 프리랜서들을 확인해보세요.</S.Title>
-        {applicantFreelancers.map((project) =>
+        {freelancersAppliedToTheProjects.map((project) =>
           project.volunteerUser?.map((freelancer) => (
             <ApplicantFreelancerCard
               key={`${freelancer.userId}-${project.projectId}`}

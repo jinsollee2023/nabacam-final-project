@@ -1,28 +1,22 @@
 import supabase, { supabaseService } from "../config/supabaseClient";
 
 export const getPortfolios = async () => {
+  // 프리랜서 마켓에서 뿌려주기 위해 전체 포트폴리오 가져오기
   try {
     const { data, error } = await supabase.from("portfolios").select("*");
     if (error) {
-      alert(
-        `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
-      );
+      console.log(`전체 포트폴리오를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
     return data;
   } catch (error) {
-    throw new Error(
-      `사용자 정보를 가져오는 중 오류가 발생했습니다.\n ${error}`
-    );
+    throw new Error(`전체 포트폴리오를 가져오는 중 오류가 발생했습니다.\n ${error}`);
   }
 };
 
 // 8/26 수정
 export const getPortfolio = async (id: string) => {
   try {
-    const { data } = await supabase
-      .from("portfolios")
-      .select("*")
-      .eq("freelancerId", id);
+    const { data } = await supabase.from("portfolios").select("*").eq("freelancerId", id);
 
     return data;
   } catch (error) {
@@ -104,17 +98,11 @@ export const addPortfolio = async ({
     .select();
 };
 
-export const deletePortfolio = async (
-  portfolioId: string,
-  freelancerId: string
-): Promise<void> => {
+export const deletePortfolio = async (portfolioId: string, freelancerId: string): Promise<void> => {
   await supabase.from("portfolios").delete().eq("portfolioId", portfolioId);
   await supabase.storage
     .from("portfolios")
-    .remove([
-      `${freelancerId}/${portfolioId}/pdf`,
-      `${freelancerId}/${portfolioId}/thumbnail`,
-    ]);
+    .remove([`${freelancerId}/${portfolioId}/pdf`, `${freelancerId}/${portfolioId}/thumbnail`]);
 };
 
 export const updatePortfolioFile = async (
@@ -150,11 +138,7 @@ export const updatePortfolio = async ({
   pfId: string;
 }) => {
   try {
-    await supabase
-      .from("portfolios")
-      .update(updatedData)
-      .eq("portfolioId", pfId)
-      .select();
+    await supabase.from("portfolios").update(updatedData).eq("portfolioId", pfId).select();
   } catch (error) {
     console.error("Error updating portfolio:", error);
   }

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { S } from "./searchItemBar.styles";
 import { MdPersonSearch } from "react-icons/md";
-import { useSearchKeywordStore } from "../../../zustand/useSearchKeywordStore";
+import { useSearchKeywordStore } from "../../../store/useSearchKeywordStore";
 import useInput from "../../../hooks/useInput";
 
 const SearchItemBar = () => {

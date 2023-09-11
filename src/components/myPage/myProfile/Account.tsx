@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import {
   getPhotoURL,
   updateUserImage,
@@ -9,26 +9,71 @@ import useClientsQueries from "../../../hooks/useClientsQueries";
 import { queryClient } from "../../../App";
 import EditForm from "./EditForm";
 import Modal from "../../../components/modal/Modal";
-import { useProfileInfoStore } from "../../../zustand/useProfileInfoStore";
+import { useProfileInfoStore } from "../../../store/useProfileInfoStore";
 import React from "react";
 import { S } from "./myProfile.styles";
 import { IoMdSettings } from "react-icons/io";
 import { FaSignOutAlt } from "react-icons/fa";
 import { resign } from "src/api/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import useValidation from "src/hooks/useValidation";
+import WorkFieldCategory from "src/components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";
+
+export interface Errors {
+  name: null | string;
+  workField: null | string;
+  workSmallField: null | string;
+  phone: null | string;
+}
 
 const Account = () => {
   const { userId, user, setUser } = useUserStore();
   const { updateUserMutation } = useClientsQueries({ userId });
   const [isModlaopen, setIsModalOpen] = useState(false);
   const { newProfileInfo } = useProfileInfoStore();
+  const initialErrors: Errors = {
+    name: null,
+    workField: null,
+    workSmallField: null,
+    phone: null,
+  };
+  const [errors, setErrors] = useState(initialErrors);
+  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] =
+    useState(false);
+  const { validateName, validateSelect, validateInput, validatePhone } =
+    useValidation();
+
   const navigate = useNavigate();
 
   useEffect(() => {
     queryClient.invalidateQueries([user]);
   }, [user, setUser]);
 
-  const updateProfileInfoButtonHandler = async () => {
+  useEffect(() => {
+    if (
+      user.role === "client" &&
+      updateSubmitButtonClicked &&
+      errors.name === "" &&
+      errors.phone === ""
+    ) {
+      updateProfileInfo();
+      setUpdateSubmitButtonClicked(false);
+    } else if (
+      user.role === "freelancer" &&
+      updateSubmitButtonClicked &&
+      errors.name === "" &&
+      errors.workField === "" &&
+      errors.workSmallField === "" &&
+      errors.phone === ""
+    ) {
+      updateProfileInfo();
+      toast.success("프로필이 수정되었습니다.");
+      setUpdateSubmitButtonClicked(false);
+    } else setUpdateSubmitButtonClicked(false);
+  }, [errors, updateSubmitButtonClicked]);
+
+  const updateProfileInfo = async () => {
     const file = newProfileInfo.photo;
 
     const updatedDataExceptPhotoURL = {
@@ -42,11 +87,10 @@ const Account = () => {
         phone: newProfileInfo.phone,
       },
     };
-
     if (newProfileInfo.photo instanceof File) {
-      const filePath = await (user.photoURL.includes("defaultProfileImage")
-        ? uploadUserImage(userId, file as File)
-        : updateUserImage(userId, file as File));
+      const filePath = user.photoURL.includes("defaultProfileImage")
+        ? await uploadUserImage(userId, file as File)
+        : await updateUserImage(userId, file as File);
       const photoURL = await getPhotoURL(filePath);
 
       updateUserMutation.mutate({
@@ -70,8 +114,57 @@ const Account = () => {
     setIsModalOpen(false);
   };
 
+  const updateProfileInfoButtonHandler = async () => {
+    setUpdateSubmitButtonClicked(true);
+    const nameError = validateName(newProfileInfo.name);
+    const workFieldError = validateSelect(
+      "직무 분야",
+      newProfileInfo.workField
+    );
+    const workSmallFieldError = validateInput(
+      "세부 분야",
+      newProfileInfo.workSmallField
+    );
+    const phoneError = validatePhone(newProfileInfo.phone);
+    setErrors({
+      name: nameError,
+      workField: workFieldError,
+      workSmallField: workSmallFieldError,
+      phone: phoneError,
+    });
+  };
+
   const signOutButtonHandler = () => {
     resign(userId, navigate);
+  };
+
+  const handleConfirm = () => {
+    signOutButtonHandler();
+    toast.dismiss();
+  };
+
+  const handleCancel = () => {
+    toast.dismiss();
+  };
+
+  const showConfirmation = () => {
+    toast.info(
+      <div>
+        <p>
+          {
+            "회원 탈퇴시 모든 정보가 삭제되며, 삭제된 정보는 복구가 불가능합니다. \n회원 탈퇴하시겠습니까?"
+          }
+        </p>
+        <button onClick={handleConfirm}>확인</button>
+        <button onClick={handleCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
   };
 
   return (
@@ -108,7 +201,7 @@ const Account = () => {
           <S.SettingBtn onClick={() => setIsModalOpen(true)}>
             <IoMdSettings />
           </S.SettingBtn>
-          <S.SettingBtn onClick={signOutButtonHandler}>
+          <S.SettingBtn onClick={showConfirmation}>
             <FaSignOutAlt />
             <S.SettingSpan>탈퇴하기</S.SettingSpan>
           </S.SettingBtn>
@@ -123,7 +216,7 @@ const Account = () => {
               </S.Btn>
             }
           >
-            <EditForm user={user} />
+            <EditForm user={user} errors={errors} setErrors={setErrors} />
           </Modal>
         ) : null}
       </S.AccountContainer>

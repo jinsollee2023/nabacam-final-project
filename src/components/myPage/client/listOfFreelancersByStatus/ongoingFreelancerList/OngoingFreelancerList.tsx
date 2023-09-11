@@ -1,30 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useClientsQueries from "../../../../../hooks/useClientsQueries";
-import { useUserStore } from "../../../../../zustand/useUserStore";
+import { useUserStore } from "../../../../../store/useUserStore";
 import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
-import { S } from "../listOfFreelancersByStatusStyle";
+import { S } from "../listOfFreelancersByStatus.style";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
+import useOngoingProjectOfClientQueries from "src/hooks/queries/useOngoingProjectOfClientQueries";
 
 const OngoingFreelancerList = () => {
+  // const [page, setPage] = useState(1);
+
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { ongoingProjectsWithFreelancers } = useProjectsQueries({
+  const { freelancersWithOngoingProjects } = useOngoingProjectOfClientQueries({
     currentUserId: userId,
+    // page,
   });
+  // console.log(freelancersWithOngoingProjects);
 
-  console.log(ongoingProjectsWithFreelancers);
+  // const target = React.useRef() as React.MutableRefObject<HTMLDivElement>;
 
-  // console.log("현재 로그인된 클라이언트 정보", client);
-  // console.log("현재 로그인된 클라이언트의 진행중인 프로젝트 정보", ongoingProjectsWithFreelancers);
+  // useEffect(() => {
+  //   if (!target.current) return;
+  //   observer.observe(target.current);
+  // }, []);
 
-  if (!ongoingProjectsWithFreelancers || ongoingProjectsWithFreelancers.length === 0) {
+  // const options = {
+  //   threshold: 1.0,
+  // };
+
+  // const callback = () => {
+  //   setPage(page + 1);
+  // };
+
+  // const observer = new IntersectionObserver(callback, options);
+
+  if (!freelancersWithOngoingProjects || freelancersWithOngoingProjects.length === 0) {
     return <span>진행 중인 프리랜서가 없습니다.</span>;
   }
 
   return (
     <>
       <S.OngoingFreelancerlistContainer>
-        {ongoingProjectsWithFreelancers?.map((project) => (
+        {freelancersWithOngoingProjects?.map((project) => (
           <S.ListsBox key={`${project.projectId}-${project.freelancer.userId}`}>
             <OngoingFreelancerCards
               key={`${project.projectId}-${project.freelancer.userId}`}
@@ -33,6 +50,7 @@ const OngoingFreelancerList = () => {
             />
           </S.ListsBox>
         ))}
+        {/* <div ref={target}></div> */}
       </S.OngoingFreelancerlistContainer>
     </>
   );

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { S } from "./manageFreelancersByStatusStyle";
+import { S } from "./manageFreelancersByStatus.style";
 import Modal from "../../modal/Modal";
 import { IUser, Project } from "../../../Types";
 import ApplicantFreelancerInfoModal from "./ApplicantFreelancerInfoModal";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
+import { toast } from "react-toastify";
 import useClientsQueries from "src/hooks/useClientsQueries";
+import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
 
 interface ApplicantFreelancerCardProps {
   project: Project;
@@ -22,11 +23,13 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
     deleteVolunteerAndPendingFreelancerMutation,
     addProjectIdToUserMutation,
     updatePendingFreelancerMutation,
-  } = useProjectsQueries({
+  } = useProjectOfClientBySortQueries({
     currentUserId: userId,
   });
 
-  const updateFreelancer = (
+  // 지원한 프리랜서 목록 업데이트
+  // 지원한 프리랜서 목록 -> 상세 모달 -> 계약 버튼 클릭 시
+  const updateApplicantFreelancers = (
     userId: string,
     projectId: string,
     endDate: string,
@@ -34,37 +37,39 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
     volunteer: string[],
     pendingFreelancer: string[]
   ) => {
+    // 계약 시 프로젝트 아이디를 넣어주기 위해 생성
     const customProjectIds = projectIds.concat(projectId);
+    // 계약 시 계약된 프리랜서는 목록에서 지워주기 위해 생성
     const customVolunteers = volunteer.filter((v) => v !== userId);
-    updateFreelancerApprovalMutation.mutate({
-      userId,
-      projectId,
-      endDate,
-    });
+    updateFreelancerApprovalMutation.mutate({ userId, projectId, endDate });
     deleteVolunteerAndPendingFreelancerMutation.mutate({
       projectId,
       updateVolunteer: customVolunteers,
       updatePendingFreelancer: pendingFreelancer,
     });
     addProjectIdToUserMutation.mutate({ userId, projectIds: customProjectIds });
-    alert("계약이 완료되었습니다.");
+    toast.success("계약이 완료되었습니다.");
     setIsModalOpen(false);
   };
 
+  // 보류한 프리랜서 목록 업데이트
+  // 지원한 프리랜서 목록 -> 상세 모달 -> 보류 버튼 클릭 시
   const updatePendingFreelancer = (
     projectId: string,
     volunteer: string[],
     pendingFreelancer: string[],
     freelancerId: string
   ) => {
+    // 보류 시 지원한 프리랜서 목록에서 지워주기 위해 생성
     const updateVolunteerData = volunteer.filter((user) => user !== freelancerId);
+    // 보류한 목록 데이터 업데이트 위해 생성
     const updatePendingFreelancerData = pendingFreelancer.concat(freelancerId);
     updatePendingFreelancerMutation.mutate({
       projectId,
       updateVolunteer: updateVolunteerData,
       pendingFreelancer: updatePendingFreelancerData,
     });
-    alert("보류 처리가 완료되었습니다.");
+    toast.success("보류 처리가 완료되었습니다.");
     setIsModalOpen(false);
   };
 
@@ -105,7 +110,7 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
                   <>
                     <S.ContractBtn
                       onClick={() =>
-                        updateFreelancer(
+                        updateApplicantFreelancers(
                           freelancer.userId,
                           project.projectId ?? "",
                           project.date?.endDate as string,

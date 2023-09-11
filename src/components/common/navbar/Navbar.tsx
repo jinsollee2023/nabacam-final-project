@@ -1,43 +1,96 @@
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import { logOut } from "src/api/auth";
 import { FiLogOut } from "react-icons/fi";
+import { toast } from "react-toastify";
+import { useTabStore } from "src/store/useTabStore";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
-
-  const logOutButtonHandler = async () => {
-    await logOut(navigate);
-  };
-
+  const { setCurrentTab } = useTabStore();
+  const token = localStorage.getItem("sb-iwbhucydhgtpozsnqeec-auth-token");
   if (window.location.pathname === `/register`) {
     return null;
   }
   if (window.location.pathname === `/login`) {
     return null;
   }
-  if (window.location.pathname === `/resetpassword`) {
+  if (window.location.pathname === "/resetpassword") {
     return null;
   }
+  if (!token) {
+    return null;
+  }
+  const logOutButtonHandler = async () => {
+    await logOut(navigate);
+  };
+
+  const handleConfirm = () => {
+    logOutButtonHandler();
+    console.log("확인 버튼이 클릭되었습니다.");
+    // 여기에서 실제로 할 일을 수행하세요.
+
+    // Toastify를 닫습니다.
+    toast.dismiss();
+
+    // 추가로 다른 작업을 수행할 수 있습니다.
+  };
+
+  const handleCancel = () => {
+    console.log("취소 버튼이 클릭되었습니다.");
+
+    toast.dismiss();
+  };
+
+  const showConfirmation = () => {
+    toast.info(
+      <div>
+        <p>로그아웃 하시겟습니까??</p>
+        <button onClick={handleConfirm}>확인</button>
+        <button onClick={handleCancel}>취소</button>
+      </div>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+
+  const handleLogoClick = () => {
+    if (user.role === "freelancer") {
+      navigate("/home");
+      setCurrentTab("프로젝트 탐색");
+    } else {
+      navigate("/home");
+      setCurrentTab("프리랜서 마켓");
+    }
+  };
+
   return (
     <S.SidebarWrapper>
       <S.LogoWrapper>
         <img
           src="https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/workwave/workwave.png"
           alt="logo"
-          onClick={() => navigate("/")}
+          onClick={handleLogoClick}
         />
       </S.LogoWrapper>
       <S.Divider />
       <S.ProfileWrapper>
-        <S.ProfileImage src={user.photoURL} alt="img" />
+        <S.ProfileImage
+          src={user.photoURL}
+          alt="img"
+          onClick={() => navigate("my-page")}
+        />
         <div>
           <S.Name>{user.name}</S.Name>
           <S.Role>{user.role}</S.Role>
         </div>
-        <S.LogOutButton onClick={logOutButtonHandler}>
+        <S.LogOutButton onClick={showConfirmation}>
           <FiLogOut size="20" />
         </S.LogOutButton>
       </S.ProfileWrapper>
@@ -100,6 +153,7 @@ const S = {
     height: 45px;
     border-radius: 10px;
     margin-right: 10px;
+    cursor: pointer;
   `,
   Name: styled.div`
     font-size: 18px;
