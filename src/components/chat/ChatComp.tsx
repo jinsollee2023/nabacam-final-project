@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { Room } from "src/components/chat/Room";
 import { useUserStore } from "../../store/useUserStore";
 import MenuTabBarComp from "../common/MenuTabBarComp";
+import { styled } from "styled-components";
+import { CommonS } from "../common/button/commonButton";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
@@ -42,54 +44,62 @@ const ChatComp = () => {
     }
   };
   return (
-    <section
-      id="whole-page"
-      className="flex h-screen items-center justify-center"
-    >
-      <MenuTabBarComp menu={communicationMenu} />
-      <main
-        id="container"
-        className="flex h-full w-full flex-1 flex-col items-stretch bg-aliceblue py-10 px-20 text-gray-800"
-      >
-        <h1 className="bg-green-200 px-4 py-2 text-4xl">
-          {/* 1.제목 */}
-          <p>
-            <Link to={"/chat"}>
-              <a>Work Wave Chat</a>
-            </Link>
-          </p>
-          {/* 2.enter individual room */}
-          <button
-            onClick={handleCreateRoom}
-            className="ml-4 rounded border bg-red-200 p-2 text-xs"
-          >
-            New room
-          </button>
-          {/* 3.enter openchat room */}
-          <button
-            className="ml-4 rounded border bg-red-200 p-2 text-xs"
-            onClick={() =>
-              navigate("/chat/96c2540e-1f84-4819-8a18-9e895f24114a")
-            }
-          >
-            Open Chat
-          </button>
-        </h1>
-        {/* room lists */}
-        <div className="flex-1 bg-gray-100 p-4">
-          {rooms.map((room) => (
-            <div key={room.room_id} className="mt-5">
-              <p>
-                <Link to={`/chat/${room.room_id}`}>
-                  <a>{room.roomname ?? "Untitled"}</a>
-                </Link>
-              </p>
-            </div>
-          ))}
-        </div>
-      </main>
-    </section>
+    <MenuTabBarComp menu={communicationMenu}>
+      <S.Container>
+        <S.RoomListContainer>
+          <CommonS.RightEndBox style={{ marginRight: "5px", marginTop: "5px" }}>
+            <S.CreateRoomBtn onClick={handleCreateRoom}>+</S.CreateRoomBtn>
+          </CommonS.RightEndBox>
+          <S.RoomListWrapper>
+            {rooms.map((room) => (
+              <S.RoomBox key={room.room_id} className="mt-5">
+                <p>
+                  <Link to={`/chat/${room.room_id}`}>
+                    <a>{room.roomname ?? "Untitled"}</a>
+                  </Link>
+                </p>
+              </S.RoomBox>
+            ))}
+          </S.RoomListWrapper>
+        </S.RoomListContainer>
+        {/* ============================================================================== */}
+      </S.Container>
+    </MenuTabBarComp>
   );
 };
 
 export default ChatComp;
+
+const S = {
+  Container: styled.div`
+    padding-left: 30px;
+    width: 100%;
+    display: flex;
+    background-color: aliceblue;
+  `,
+  RoomListContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    border-right: solid rgba(0, 0, 0, 0.25);
+  `,
+  RoomListWrapper: styled.div``,
+  RoomBox: styled.div`
+    box-sizing: border-box;
+
+    width: 360px;
+    height: 153px;
+
+    background: #ffffff;
+    border: 1px solid #cacaca;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+
+    margin: 8px 8px 8px 0;
+  `,
+  CreateRoomBtn: styled.button`
+    background-color: var(--main-blue);
+
+    padding: 5px;
+    border-radius: 5px;
+  `,
+};
