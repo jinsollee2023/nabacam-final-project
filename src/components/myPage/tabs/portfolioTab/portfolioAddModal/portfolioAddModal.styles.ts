@@ -5,10 +5,10 @@ export const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0 30px 0;
+    padding: 0 0 10px 0;
   `,
   InputText: styled.input`
-    margin: 10px 0;
+    margin: 0px 0;
     padding: 10px 15px;
     width: 370px;
     outline: none;
@@ -35,5 +35,9 @@ export const S = {
   PdfInputLabel: styled.label`
     margin-right: 5px;
     color: var(--darker-gray);
+  `,
+  errorText: styled.p`
+    height: 20px;
+    margin-top: 5px;
   `,
 };

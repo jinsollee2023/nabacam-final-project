@@ -28,6 +28,7 @@ export const S = {
     position: absolute;
     right: -10px;
     top: -5px;
+    margin-bottom: 10px;
     cursor: pointer;
     background-color: transparent;
     border: none;
