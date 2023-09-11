@@ -1,11 +1,11 @@
 import JoinComp from "../components/auth/join/JoinComp";
-import React from "react";
 
 const Register = () => {
+  console.log("asdf");
   return (
-    <div>
+    <>
       <JoinComp />
-    </div>
+    </>
   );
 };
 

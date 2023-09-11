@@ -19,15 +19,17 @@ export const PrivateRoute = (): React.ReactElement => {
 };
 
 export const PrivateRouteLogin = (): React.ReactElement => {
+  console.log("test");
   const token = localStorage.getItem("sb-iwbhucydhgtpozsnqeec-auth-token");
+
   const tokenCheck = (token: string | null): boolean => {
-    if (token === null) {
+    if (token) {
+      toast.error("로그인 상태입니다.");
       return true;
     } else {
-      toast.error("로그인 상태입니다.");
       return false;
     }
   };
 
-  return tokenCheck(token) ? <Outlet /> : <Navigate to="/home" />;
+  return tokenCheck(token) ? <Navigate to="/home" /> : <Outlet />;
 };
