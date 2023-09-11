@@ -50,7 +50,6 @@ const ProjectList = () => {
     validateWorkExp,
     validateInput,
   } = useValidation();
-  console.log();
   const initialErrors: Errors = {
     title: null,
     desc: null,
@@ -131,6 +130,19 @@ const ProjectList = () => {
   const handleSort = (label: string) => {
     setSelectedselectOption(label);
   };
+
+  const availableClose =
+    values.title === "" &&
+    values.desc === "" &&
+    values.category === "" &&
+    values.minPay === "" &&
+    values.maxPay === "" &&
+    values.expectedStartDate === "" &&
+    values.manager.name === "" &&
+    values.manager.contact.email === "" &&
+    values.manager.contact.phone === "" &&
+    values.manager.team === "" &&
+    values.qualification === null;
 
   const beforeProgressProjects = filteredProjects?.filter(
     (project) => project.status === "진행 전"
@@ -235,6 +247,7 @@ const ProjectList = () => {
               </S.ModalPostBtn>
             </>
           }
+          availableClose={availableClose}
         >
           <AddProjectModal errors={errors} setErrors={setErrors} />
         </Modal>

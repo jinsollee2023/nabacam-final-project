@@ -23,10 +23,6 @@ const SortFreelancers = ({ onSort }: SortFreelancersProps) => {
           options={[
             { value: "경력 높은 순", label: "경력 높은 순" },
             { value: "경력 낮은 순", label: "경력 낮은 순" },
-            { value: "최근 가입 순", label: "최근 가입 순" },
-            { value: "오래된 가입 순", label: "오래된 가입 순" },
-            { value: "포트폴리오 많은 순", label: "포트폴리오 많은 순" },
-            { value: "포트폴리오 적은 순", label: "포트폴리오 적은 순" },
           ]}
         />
       </Space>

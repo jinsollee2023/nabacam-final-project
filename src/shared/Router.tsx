@@ -1,11 +1,4 @@
-import {
-  BrowserRouter,
-  Link,
-  Navigate,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "../components/common/Layout";
 import GlobalStyles from "../GlobalStyles";
 import Home from "../pages/Home";
@@ -15,15 +8,14 @@ import MyPage from "../pages/MyPage";
 import Register from "../pages/Register";
 import Review from "../pages/Review";
 import ProjectManagement from "../pages/ProjectManagement";
-import {
-  PrivateRoute,
-  PrivateRouteLogin,
-} from "../components/auth/login/PrivateRoute";
+import { PrivateRoute } from "../components/auth/login/PrivateRoute";
 import LoginComp from "../components/auth/login/LoginComp";
 import ResetPassword from "../components/auth/resetpassword/ResetPassword";
-import React from "react";
+
+import { PrivateRouteLogin } from "src/components/auth/login/PrivateRouteLogin";
 
 const Router = () => {
+  console.log("test1234");
   return (
     <BrowserRouter>
       <GlobalStyles />
@@ -38,10 +30,10 @@ const Router = () => {
           </Route>
           <Route element={<PrivateRouteLogin />}>
             <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/login" element={<LoginComp />} />{" "}
             <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<LoginComp />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
-          </Route>
+          </Route>{" "}
         </Routes>
       </Layout>
     </BrowserRouter>

@@ -2,43 +2,30 @@ import React from "react";
 import { S } from "./modal.style";
 import { GrFormClose } from "react-icons/gr";
 import { toast } from "react-toastify";
-import { useProjectValuesStore } from "src/store/useProjectValuesStore";
-import useMemberValuesStore from "src/store/useMemberModal";
+import { useProjectStore } from "src/store/useProjectStore";
 
 interface ModalProps {
   setIsModalOpen: (isModalOpen: boolean) => void;
   children: React.ReactNode;
   buttons?: React.ReactNode;
+  availableClose?: boolean;
 }
 
-const Modal = ({ setIsModalOpen, children, buttons }: ModalProps) => {
-  const { values } = useProjectValuesStore();
-  const mamber = useMemberValuesStore();
-
+const Modal = ({
+  setIsModalOpen,
+  children,
+  buttons,
+  availableClose,
+}: ModalProps) => {
+  // const {values} = useProjectStore()
   const toggleModal = () => {
-    if (
-      values.title === "" &&
-      values.desc === "" &&
-      values.category === "" &&
-      values.minPay === "" &&
-      values.maxPay === "" &&
-      values.expectedStartDate === "" &&
-      values.manager.name === "" &&
-      values.manager.contact.email === "" &&
-      values.manager.contact.phone === "" &&
-      values.manager.team === "" &&
-      values.qualification === null &&
-      mamber.values.email === "" &&
-      mamber.values.name === "" &&
-      mamber.values.phone === "" &&
-      mamber.values.team === ""
-    ) {
+    if (availableClose === undefined || availableClose) {
       setIsModalOpen(false);
     } else {
       showConfirmation();
     }
   };
-  console.log("buttons==>", buttons);
+  console.log("availableClose==>", availableClose);
   const handleConfirm = () => {
     console.log("확인 버튼이 클릭되었습니다.");
     // 여기에서 실제로 할 일을 수행하세요.

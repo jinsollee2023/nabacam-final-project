@@ -23,13 +23,8 @@ const SortProjects = ({ onSort }: SortProjectsProps) => {
           onChange={handleChange}
           options={[
             { value: "최근 등록 순", label: "최근 등록 순" },
-            { value: "오래된 등록 순", label: "오래된 등록 순" },
-            { value: "마감기한 빠른 순", label: "마감기한 빠른 순" },
-            { value: "마감기한 느린 순", label: "마감기한 느린 순" },
+            { value: "시작 예정일 순", label: "시작 예정일 순" },
             { value: "지원자 많은 순", label: "지원자 많은 순" },
-            { value: "지원자 적은 순", label: "지원자 적은 순" },
-            { value: "자격 연차 높은 순", label: "자격 연차 높은 순" },
-            { value: "자격 연차 낮은 순", label: "자격 연차 낮은 순" },
           ]}
         />
       </Space>
