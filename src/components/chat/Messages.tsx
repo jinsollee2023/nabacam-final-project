@@ -110,12 +110,6 @@ const Messages = ({ room_id }: MessagesProps) => {
         ...newUsersProfiles,
       }));
 
-      // data
-      //   .map((message) => message.usersProfile)
-      //   .forEach((profile) => {
-      //     usersProfileCache[profile.userId] = profile;
-      //   });
-
       setMessages(data);
       // 스크롤 밑으로 오도록
       if (messagesRef.current) {

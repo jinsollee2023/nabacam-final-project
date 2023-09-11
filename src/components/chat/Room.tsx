@@ -3,7 +3,8 @@ import Messages from "../chat/Messages";
 import supabase from "../../config/supabaseClient";
 import { useUserStore } from "../../zustand/useUserStore";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { IoIosArrowBack } from "react-icons/io";
 
 export interface Room {
   room_id: string;
@@ -15,6 +16,20 @@ const Room = () => {
   const { user } = useUserStore();
   const userId = user.userId;
   const { room_id } = useParams();
+  const [roomName, setRoomName] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getRoomName = async () => {
+      const { data } = await supabase
+        .from("rooms")
+        .select("roomname")
+        .match({ room_id: room_id })
+        .single();
+      setRoomName(data?.roomname ?? "Untitled");
+    };
+    if (room_id) getRoomName();
+  }, [room_id]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,12 +73,35 @@ const Room = () => {
     }
   };
 
+  const handleRoomRename = async () => {
+    const newRoomName = prompt("What would you like to rename to?");
+    const oldName = roomName; // for optimistic update
+    if (!newRoomName) return;
+    setRoomName(newRoomName);
+
+    const { error } = await supabase
+      .from("rooms")
+      .update({ roomname: newRoomName })
+      .match({ room_id: room_id })
+      .select();
+
+    if (error) {
+      setRoomName(oldName); // for optimistic update
+      toast.error(error.message);
+    }
+  };
+
   return (
     <section className="flex h-screen flex-col items-center justify-center">
       <div className="flex h-full w-full flex-1 flex-col items-stretch py-10 px-20 text-gray-800">
         {/* 제목 */}
         <div className="bg-yellow-100 px-4 py-2 flex justify-between">
-          <h1 className="text-4xl">00 Room</h1>
+          <button onClick={() => navigate("/chat")}>
+            <IoIosArrowBack />
+          </button>
+          <button className="text-2xl" onClick={handleRoomRename}>
+            {roomName}
+          </button>
           {/*  */}
           <input type="text" onKeyPress={handleInvite} />
         </div>
