@@ -78,6 +78,7 @@ const Message = ({
 //===============================================================================================//
 
 const Messages = ({ room_id }: MessagesProps) => {
+  console.log("there", room_id);
   const [messages, setMessages] = useState<Message[]>([]);
   const messagesRef = useRef<HTMLDivElement>(null);
   const [usersProfileCache, setUsersProfileCache] = useState<UsersProfileCache>(
@@ -124,7 +125,7 @@ const Messages = ({ room_id }: MessagesProps) => {
   // 1.initial fetch
   useEffect(() => {
     getData();
-  }, []);
+  }, [room_id]);
 
   // 2.realtime initial stream
   useEffect(() => {
@@ -136,7 +137,7 @@ const Messages = ({ room_id }: MessagesProps) => {
           event: "INSERT",
           schema: "public",
           table: "messages",
-          filter: `room_id=eq.${room_id}`, // 내가 있는 방만
+          filter: `room_id=eq.${room_id}`, // 끄면 다른 방에도 메세지가 다 들어가게 됨
         },
         (payload) => {
           console.log("payload", payload);
@@ -149,7 +150,7 @@ const Messages = ({ room_id }: MessagesProps) => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [room_id]); // 수신자 발신자 sync
 
   return (
     /** 부모요소에 스크롤 있어야 */

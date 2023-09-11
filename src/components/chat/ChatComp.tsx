@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Messages from "../../components/chat/Messages";
 import supabase from "../../config/supabaseClient";
 import { toast } from "react-toastify";
-import { Room } from "src/components/chat/Room";
+import Room, { TRoom } from "src/components/chat/Room";
 import { useUserStore } from "../../store/useUserStore";
 import MenuTabBarComp from "../common/MenuTabBarComp";
 import { styled } from "styled-components";
@@ -15,7 +15,8 @@ const ChatComp = () => {
   const { user } = useUserStore();
   const userId = user.userId; // users테이블의 userId를 user_id컬럼에 삽입, rpc에도 삽입
   const navigate = useNavigate();
-  const [rooms, setRooms] = useState<Room[]>([]);
+  const [rooms, setRooms] = useState<TRoom[]>([]);
+  const [selectedRoom, setSelectedRoom] = useState<TRoom>();
 
   useEffect(() => {
     const getRooms = async () => {
@@ -43,6 +44,10 @@ const ChatComp = () => {
       navigate(`/chat/${room_id}`);
     }
   };
+
+  const handleRoomClick = (room: TRoom) => {
+    setSelectedRoom(room);
+  };
   return (
     <MenuTabBarComp menu={communicationMenu}>
       <S.Container>
@@ -51,18 +56,21 @@ const ChatComp = () => {
             <S.CreateRoomBtn onClick={handleCreateRoom}>+</S.CreateRoomBtn>
           </CommonS.RightEndBox>
           <S.RoomListWrapper>
-            {rooms.map((room) => (
+            {rooms?.map((room) => (
               <S.RoomBox key={room.room_id} className="mt-5">
                 <p>
-                  <Link to={`/chat/${room.room_id}`}>
-                    <a>{room.roomname ?? "Untitled"}</a>
-                  </Link>
+                  <button
+                    onClick={() => handleRoomClick(room)} // 클릭 시 해당 채팅방 정보를 선택
+                  >
+                    {room.roomname ?? "Untitled"}
+                  </button>
                 </p>
               </S.RoomBox>
             ))}
           </S.RoomListWrapper>
         </S.RoomListContainer>
         {/* ============================================================================== */}
+        <div>{selectedRoom && <Room room_id={selectedRoom.room_id} />}</div>
       </S.Container>
     </MenuTabBarComp>
   );

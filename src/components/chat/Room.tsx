@@ -6,16 +6,21 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 
-export interface Room {
+export interface TRoom {
   room_id: string;
   created_at: string;
   roomname: string | null;
 }
 
-const Room = () => {
+interface RoomProps {
+  room_id: string;
+}
+
+const Room = ({ room_id }: RoomProps) => {
   const { user } = useUserStore();
   const userId = user.userId;
-  const { room_id } = useParams();
+  // const {room_id} = useParams();
+
   const [roomName, setRoomName] = useState("");
   const navigate = useNavigate();
 

@@ -24,8 +24,9 @@ const Router = () => {
         <Routes>
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/chat/:room_id" element={<Room />} />
+            <Route path="/chat" element={<Chat />}>
+              {/* <Route path="/chat/:room_id" element={<Room />} /> */}
+            </Route>
             <Route path="/my-page" element={<MyPage />} />
             <Route path="/project-management" element={<ProjectManagement />} />
           </Route>
@@ -34,7 +35,7 @@ const Router = () => {
             <Route path="/login" element={<LoginComp />} />{" "}
             <Route path="/register" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-          </Route>{" "}
+          </Route>
         </Routes>
       </Layout>
     </BrowserRouter>
