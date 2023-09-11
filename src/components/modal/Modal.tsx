@@ -58,7 +58,7 @@ const Modal = ({
         <S.ModalContainer>
           <S.ModalTop>
             <S.CloseBtn onClick={toggleModal}>
-              <GrFormClose size={"25"} color="red" />
+              <GrFormClose size={"25"} />
             </S.CloseBtn>
           </S.ModalTop>
           <S.ModalContents>{children}</S.ModalContents>

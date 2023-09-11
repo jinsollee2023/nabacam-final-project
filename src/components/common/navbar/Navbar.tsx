@@ -1,10 +1,10 @@
-import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../store/useUserStore";
 import { logOut } from "src/api/auth";
 import { FiLogOut } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useTabStore } from "src/store/useTabStore";
+import { S } from "./navBar.styles";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -118,77 +118,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-const S = {
-  SidebarWrapper: styled.div`
-    position: sticky;
-    display: flex;
-    flex-direction: column;
-    border-right: 2px solid var(--hover-blue);
-    width: 17vw;
-    max-width: 280px;
-    min-width: 210px;
-    padding: 20px 0 0 20px;
-    height: 100vh;
-  `,
-  LogoWrapper: styled.div`
-    width: 100%;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    img {
-      width: 90%;
-      cursor: pointer;
-    }
-  `,
-  ProfileWrapper: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 70px;
-  `,
-  ProfileImage: styled.img`
-    width: 45px;
-    height: 45px;
-    border-radius: 10px;
-    margin-right: 10px;
-    cursor: pointer;
-  `,
-  Name: styled.div`
-    font-size: 18px;
-    font-weight: bold;
-  `,
-  Role: styled.div`
-    margin-top: 7px;
-    font-size: 12px;
-  `,
-  UpperNavLinks: styled.ul`
-    list-style: none;
-    padding: 0;
-  `,
-  Divider: styled.hr`
-    margin: 20px 0;
-    border: none;
-    height: 2px;
-    box-shadow: 0px 2px 4px #f2f2f2;
-    background-color: var(--lighter-gray);
-  `,
-  LowerNavLinks: styled.ul`
-    list-style: none;
-    padding: 0;
-  `,
-  NavLinkItem: styled.li`
-    cursor: pointer;
-    padding: 15px 5px;
-    transition: 0.2s ease-in-out;
-
-    &:hover {
-      background-color: var(--hover-blue);
-    }
-  `,
-  LogOutButton: styled.button`
-    background-color: transparent;
-    border: none;
-  `,
-};
