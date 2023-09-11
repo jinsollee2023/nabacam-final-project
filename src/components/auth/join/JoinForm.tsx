@@ -9,6 +9,7 @@ import useValidation from "../../../hooks/useValidation";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./joinComp.styles";
 import { formatPhoneNumber } from "src/components/common/commonFunc";
+import { DefaultOptionType } from "antd/es/select";
 
 interface JoinFormProps {
   role: string;
@@ -37,6 +38,7 @@ interface initialErrorsForm {
 // 회원가입
 const JoinForm = ({ role }: JoinFormProps) => {
   // useinput
+
   const initialValues: initialValuesForm = {
     email: "",
     password: "",
@@ -87,7 +89,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
   }, []);
 
   // 회원가입 api
-
   const signUp = async () => {
     try {
       await clientSignupHandler(
@@ -190,239 +191,226 @@ const JoinForm = ({ role }: JoinFormProps) => {
   return (
     <>
       <S.JoinFormContainer>
-        {/* 폼 안에 있는건 전부 input */}
         <S.JoinForm onSubmit={signUpButtonHandler}>
-          <PreviewImage
-            handlePhotoURLOnChange={handlePhotoURLOnChange}
-            defaultImage={JoinDefaultImage}
-          />
-          <S.InputWrapper>
-            <label htmlFor="emailInput" style={{ color: "var(--darker-gray)" }}>
-              * 이메일
-            </label>
-            <S.JoinInput
-              id="emailInput"
-              ref={emailInput}
-              type="email"
-              placeholder="ex ) email@google.com"
-              value={values.email}
-              onChange={(e) => handleChange("email", e.target.value)}
-              onBlur={(e) => {
-                const emailError = validateEmail(e.target.value);
-                setErrors({ ...errors, email: emailError });
-              }}
-            />
-            <S.errordiv>{errors.email && <p>{errors.email}</p>}</S.errordiv>
-
-            <label
-              htmlFor="passwordInput"
-              style={{ color: "var(--darker-gray)" }}
-            >
-              * 비밀번호
-            </label>
-            <S.PasswordInputWrapper>
-              <S.PasswordInput
-                id="passwordInput"
-                type={showPswd ? "text" : "password"}
-                value={values.password}
-                onChange={(e) => handleChange("password", e.target.value)}
+          <S.JoinFormContentsWrapper>
+            <S.PreviewImageWrapper>
+              <PreviewImage
+                handlePhotoURLOnChange={handlePhotoURLOnChange}
+                defaultImage={JoinDefaultImage}
+              />
+            </S.PreviewImageWrapper>
+            <S.InputWrapper>
+              <S.JoinInput
+                id="emailInput"
+                ref={emailInput}
+                type="email"
+                placeholder="이메일을 입력해주세요."
+                value={values.email}
+                onChange={(e) => handleChange("email", e.target.value)}
                 onBlur={(e) => {
-                  const passwordError = validatePassword(e.target.value);
-                  setErrors({ ...errors, password: passwordError });
+                  const emailError = validateEmail(e.target.value);
+                  setErrors({ ...errors, email: emailError });
                 }}
               />
-              <S.CenterizeBox>
-                <S.EyeBtn onClick={showPasswordHandler} type="button">
-                  {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                </S.EyeBtn>
-              </S.CenterizeBox>
-            </S.PasswordInputWrapper>
-            <S.errordiv>
-              {errors.password && <p>{errors.password}</p>}
-            </S.errordiv>
+              <S.ErrorMessage hasError={!!errors.email}>
+                {errors.email && <p>{errors.email}</p>}
+              </S.ErrorMessage>
+              <S.PasswordBox>
+                <S.PasswordInputWrapper>
+                  <S.PassswordInputAndEyeBtnWrapper>
+                    <S.PasswordInput
+                      id="passwordInput"
+                      type={showPswd ? "text" : "password"}
+                      placeholder="비밀번호를 입력해주세요."
+                      value={values.password}
+                      onChange={(e) => handleChange("password", e.target.value)}
+                      onBlur={(e) => {
+                        const passwordError = validatePassword(e.target.value);
+                        setErrors({ ...errors, password: passwordError });
+                      }}
+                    />
+                    <S.CenterizeBox>
+                      <S.EyeBtn onClick={showPasswordHandler} type="button">
+                        {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                      </S.EyeBtn>
+                    </S.CenterizeBox>
+                  </S.PassswordInputAndEyeBtnWrapper>
+                  <S.ErrorMessage hasError={!!errors.password}>
+                    {errors.password && <p>{errors.password}</p>}
+                  </S.ErrorMessage>
+                </S.PasswordInputWrapper>
+                <S.PasswordInputWrapper>
+                  <S.PassswordInputAndEyeBtnWrapper>
+                    <S.PasswordInput
+                      id="checkPasswordInput"
+                      type={showConfirmPswd ? "text" : "password"}
+                      placeholder="비밀번호를 한 번 더 입력해주세요."
+                      value={values.passwordConfirm}
+                      onChange={(e) =>
+                        handleChange("passwordConfirm", e.target.value)
+                      }
+                      onBlur={(e) => {
+                        const passwordComfirmError = validatePasswordConfirm(
+                          values.password,
+                          e.target.value
+                        );
+                        setErrors({
+                          ...errors,
+                          passwordConfirm: passwordComfirmError,
+                        });
+                      }}
+                    />
+                    <S.CenterizeBox>
+                      <S.EyeBtn
+                        onClick={showConfirmPasswordHandler}
+                        type="button"
+                      >
+                        {showConfirmPswd ? (
+                          <EyeOutlined />
+                        ) : (
+                          <EyeInvisibleOutlined />
+                        )}
+                      </S.EyeBtn>
+                    </S.CenterizeBox>
+                  </S.PassswordInputAndEyeBtnWrapper>
+                  <S.ErrorMessage hasError={!!errors.passwordConfirm}>
+                    {errors.passwordConfirm && <p>{errors.passwordConfirm}</p>}
+                  </S.ErrorMessage>
+                </S.PasswordInputWrapper>
+              </S.PasswordBox>
+              <S.JoinInput
+                id="nameInput"
+                type="text"
+                value={values.name}
+                placeholder="이름을 입력해주세요."
+                onChange={(e) => handleChange("name", e.target.value)}
+                onBlur={(e) => {
+                  const nameError = validateName(e.target.value);
+                  setErrors({ ...errors, name: nameError });
+                }}
+              />
+              <S.ErrorMessage hasError={!!errors.name}>
+                {errors.name && <p>{errors.name}</p>}
+              </S.ErrorMessage>
 
-            <label
-              htmlFor="checkPasswordInput"
-              style={{ color: "var(--darker-gray)" }}
-            >
-              * 비밀번호 확인
-            </label>
-            <S.PasswordInputWrapper>
-              <S.PasswordInput
-                id="checkPasswordInput"
-                type={showConfirmPswd ? "text" : "password"}
-                value={values.passwordConfirm}
+              {role === "freelancer" && (
+                <>
+                  <S.WorkFieldWrapper>
+                    <S.WorkFieldSelectWrapper>
+                      <S.WorkFieldSelect
+                        id="workFieldInput"
+                        placeholder="작업 영역을 선택 해주세요."
+                        optionFilterProp="children"
+                        onChange={(value, _) =>
+                          handleChange("workSmallField", value as string)
+                        }
+                        options={[
+                          {
+                            value: "개발",
+                            label: "개발",
+                          },
+                          {
+                            value: "디자인",
+                            label: "디자인",
+                          },
+                          {
+                            value: "운영",
+                            label: "운영",
+                          },
+                          {
+                            value: "기획",
+                            label: "기획",
+                          },
+                          {
+                            value: "마케팅",
+                            label: "마케팅",
+                          },
+                          {
+                            value: "기타",
+                            label: "기타",
+                          },
+                        ]}
+                      />
+                      <S.ErrorMessage hasError={!!errors.workField}>
+                        {errors.workField && <p>{errors.workField}</p>}
+                      </S.ErrorMessage>
+                    </S.WorkFieldSelectWrapper>
+                    <S.WorkFieldInputWrapper>
+                      <S.JoinInput
+                        id="workSmallFieldInput"
+                        type="text"
+                        value={values.workField}
+                        placeholder="상세한 작업 영역을 입력해주세요."
+                        onChange={(e) =>
+                          handleChange("workField", e.target.value)
+                        }
+                        onFocus={() => {
+                          const workFieldError = validateSelect(
+                            "작업 영역",
+                            values.workField
+                          );
+                          setErrors({ ...errors, workField: workFieldError });
+                        }}
+                        onBlur={(e) => {
+                          const workSmallFieldError = validateWorkSmallField(
+                            e.target.value
+                          );
+                          setErrors({
+                            ...errors,
+                            workSmallField: workSmallFieldError,
+                          });
+                        }}
+                      />
+                      <S.ErrorMessage hasError={!!errors.workSmallField}>
+                        {errors.workSmallField && (
+                          <p>{errors.workSmallField}</p>
+                        )}
+                      </S.ErrorMessage>
+                    </S.WorkFieldInputWrapper>
+                  </S.WorkFieldWrapper>
+                  <S.JoinInput
+                    id="workExpInput"
+                    type="text"
+                    placeholder="경력 / 연차를 입력해주세요."
+                    value={values.workExp as number}
+                    onChange={(e) =>
+                      handleChange(
+                        "workExp",
+                        e.target.value.replace(/\D/g, "").slice(0, 2)
+                      )
+                    }
+                    onBlur={(e) => {
+                      const workExpError = validateWorkExp(
+                        Number(e.target.value)
+                      );
+                      setErrors({ ...errors, workExp: workExpError });
+                    }}
+                    onWheel={(e) => e.preventDefault()}
+                  />
+                  <S.ErrorMessage hasError={!!errors.workExp}>
+                    {errors.workExp && <p>{errors.workExp}</p>}
+                  </S.ErrorMessage>
+                </>
+              )}
+              <S.JoinInput
+                id="phoneNumberInput"
+                type="text"
+                placeholder="전화번호를 입력해주세요."
+                value={values.phone}
                 onChange={(e) =>
-                  handleChange("passwordConfirm", e.target.value)
+                  handleChange("phone", formatPhoneNumber(e.target.value))
                 }
                 onBlur={(e) => {
-                  const passwordComfirmError = validatePasswordConfirm(
-                    values.password,
-                    e.target.value
-                  );
-                  setErrors({
-                    ...errors,
-                    passwordConfirm: passwordComfirmError,
-                  });
+                  const phoneError = validatePhone(e.target.value);
+                  setErrors({ ...errors, phone: phoneError });
                 }}
               />
-              <S.CenterizeBox>
-                <S.EyeBtn onClick={showConfirmPasswordHandler} type="button">
-                  {showConfirmPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                </S.EyeBtn>
-              </S.CenterizeBox>
-            </S.PasswordInputWrapper>
-
-            <S.errordiv>
-              {errors.passwordConfirm && <p>{errors.passwordConfirm}</p>}
-            </S.errordiv>
-
-            <label htmlFor="nameInput" style={{ color: "var(--darker-gray)" }}>
-              * 이름
-            </label>
-
-            <S.JoinInput
-              id="nameInput"
-              type="text"
-              value={values.name}
-              onChange={(e) => handleChange("name", e.target.value)}
-              onBlur={(e) => {
-                const nameError = validateName(e.target.value);
-                setErrors({ ...errors, name: nameError });
-              }}
-            />
-            <div>{errors.name && <p>{errors.name}</p>}</div>
-
-            {role === "freelancer" && (
-              <>
-                <label
-                  htmlFor="workFieldInput"
-                  style={{
-                    color: "var(--darker-gray)",
-                    marginBottom: "10px",
-                  }}
-                >
-                  * 작업영역
-                </label>
-                <Select
-                  id="workFieldInput"
-                  placeholder="Select a person"
-                  optionFilterProp="children"
-                  onChange={(selectedValue) =>
-                    handleChange("workSmallField", selectedValue)
-                  }
-                  options={[
-                    {
-                      value: "개발",
-                      label: "개발",
-                    },
-                    {
-                      value: "디자인",
-                      label: "디자인",
-                    },
-                    {
-                      value: "운영",
-                      label: "운영",
-                    },
-                    {
-                      value: "기획",
-                      label: "기획",
-                    },
-                    {
-                      value: "마케팅",
-                      label: "마케팅",
-                    },
-                    {
-                      value: "기타",
-                      label: "기타",
-                    },
-                  ]}
-                />
-                <div>{errors.workField && <p>{errors.workField}</p>}</div>
-
-                <label
-                  htmlFor="workSmallFieldInput"
-                  style={{ color: "var(--darker-gray)" }}
-                >
-                  * 작업 영역 (상세)
-                </label>
-
-                <S.JoinInput
-                  id="workSmallFieldInput"
-                  type="text"
-                  value={values.workField}
-                  onChange={(e) => handleChange("workField", e.target.value)}
-                  onFocus={() => {
-                    const workFieldError = validateSelect(
-                      "작업 영역",
-                      values.workField
-                    );
-                    setErrors({ ...errors, workField: workFieldError });
-                  }}
-                  onBlur={(e) => {
-                    const workSmallFieldError = validateWorkSmallField(
-                      e.target.value
-                    );
-                    setErrors({
-                      ...errors,
-                      workSmallField: workSmallFieldError,
-                    });
-                  }}
-                />
-                <div>
-                  {errors.workSmallField && <p>{errors.workSmallField}</p>}
-                </div>
-
-                <label
-                  htmlFor="workExpInput"
-                  style={{ color: "var(--darker-gray)" }}
-                >
-                  * 경력 / 연차
-                </label>
-                <S.JoinInput
-                  id="workExpInput"
-                  type="text"
-                  value={values.workExp as number}
-                  onChange={(e) =>
-                    handleChange(
-                      "workExp",
-                      e.target.value.replace(/\D/g, "").slice(0, 2)
-                    )
-                  }
-                  onBlur={(e) => {
-                    const workExpError = validateWorkExp(
-                      Number(e.target.value)
-                    );
-                    setErrors({ ...errors, workExp: workExpError });
-                  }}
-                  onWheel={(e) => e.preventDefault()}
-                />
-                <div>{errors.workExp && <p>{errors.workExp}</p>}</div>
-              </>
-            )}
-
-            <label
-              htmlFor="phoneNumberInput"
-              style={{ color: "var(--darker-gray)" }}
-            >
-              * 전화번호
-            </label>
-            <S.JoinInput
-              id="phoneNumberInput"
-              type="text"
-              value={values.phone}
-              onChange={(e) =>
-                handleChange("phone", formatPhoneNumber(e.target.value))
-              }
-              onBlur={(e) => {
-                const phoneError = validatePhone(e.target.value);
-                setErrors({ ...errors, phone: phoneError });
-              }}
-            />
-            <div>{errors.phone && <p>{errors.phone}</p>}</div>
-            <br />
-          </S.InputWrapper>
-
+              <S.ErrorMessage hasError={!!errors.phone}>
+                {errors.phone && <p>{errors.phone}</p>}
+              </S.ErrorMessage>
+              <br />
+            </S.InputWrapper>
+          </S.JoinFormContentsWrapper>
           <S.JoinButton>
             {role === "client" ? "클라이언트 회원가입" : "프리랜서 회원가입"}
           </S.JoinButton>

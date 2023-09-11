@@ -19,10 +19,11 @@ const Modal = ({
   const toggleModal = () => {
     if (availableClose === undefined || availableClose) {
       setIsModalOpen(false);
-    } else if (!availableClose) {
+    } else {
       showConfirmation();
     }
   };
+  console.log("availableClose==>", availableClose);
   const handleConfirm = () => {
     console.log("확인 버튼이 클릭되었습니다.");
     setIsModalOpen(false);
@@ -57,7 +58,7 @@ const Modal = ({
         <S.ModalContainer>
           <S.ModalTop>
             <S.CloseBtn onClick={toggleModal}>
-              <GrFormClose size={"25"} color="red" />
+              <GrFormClose size={"25"} />
             </S.CloseBtn>
           </S.ModalTop>
           <S.ModalContents>{children}</S.ModalContents>

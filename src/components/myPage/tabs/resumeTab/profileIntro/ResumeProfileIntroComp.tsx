@@ -55,7 +55,7 @@ const ResumeProfileIntroComp = () => {
     });
     setIsAddModalOpen(false);
   };
-
+  const availableClose = newProfileIntroInput === "";
   return (
     <>
       <S.ProfileContainer>
@@ -99,6 +99,7 @@ const ResumeProfileIntroComp = () => {
               )}
             </>
           }
+          availableClose={availableClose}
         >
           <AddResumeProfileIntroModal profileIntro={intro} />
         </Modal>
