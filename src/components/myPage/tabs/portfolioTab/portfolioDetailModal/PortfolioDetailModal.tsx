@@ -3,7 +3,7 @@ import { usePortfolioStore } from "../../../../../store/usePortfolioStore";
 import { S } from "./portfolioDetailModal.styles";
 
 interface PortfolioDetailModalProps {
-  setIsDetailModalOpen: (isOpen: boolean) => void;
+  setIsDetailModalOpen?: (isOpen: boolean) => void;
   isAddModalOpen?: boolean;
   setIsAddModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string;
@@ -11,7 +11,6 @@ interface PortfolioDetailModalProps {
 
 const PortfolioDetailModal = ({ userId }: PortfolioDetailModalProps) => {
   const { selectedPortfolio } = usePortfolioStore();
-
   return (
     <>
       <S.PFTitle>{selectedPortfolio?.title}</S.PFTitle>

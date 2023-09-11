@@ -3,16 +3,15 @@ import Layout from "../components/common/Layout";
 import GlobalStyles from "../GlobalStyles";
 import Home from "../pages/Home";
 import Chat from "../pages/Chat";
-
 import MyPage from "../pages/MyPage";
 import Register from "../pages/Register";
-import Review from "../pages/Review";
 import ProjectManagement from "../pages/ProjectManagement";
-import { PrivateRoute } from "../components/auth/login/PrivateRoute";
+
 import LoginComp from "../components/auth/login/LoginComp";
 import ResetPassword from "../components/auth/resetpassword/ResetPassword";
 
-import { PrivateRouteLogin } from "src/components/auth/login/PrivateRouteLogin";
+import Welcome from "src/pages/Welcome";
+import { PrivateRoute, PrivateRouteLogin } from "./PrivateRoute";
 
 const Router = () => {
   console.log("test1234");
@@ -26,13 +25,12 @@ const Router = () => {
             <Route path="/chat" element={<Chat />} />
             <Route path="/my-page" element={<MyPage />} />
             <Route path="/project-management" element={<ProjectManagement />} />
-            <Route path="/review" element={<Review />} />
           </Route>
           <Route element={<PrivateRouteLogin />}>
-            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/" element={<Welcome />} />
             <Route path="/login" element={<LoginComp />} />{" "}
             <Route path="/register" element={<Register />} />
-            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Route>{" "}
         </Routes>
       </Layout>

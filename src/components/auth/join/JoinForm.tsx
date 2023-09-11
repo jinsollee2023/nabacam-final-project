@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Select } from "antd";
-import PreviewImage from "./PreviewImage";
+import PreviewImage from "../../common/PreviewImage";
 import { uploadUserImage } from "../../../api/User";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../store/useUserStore";

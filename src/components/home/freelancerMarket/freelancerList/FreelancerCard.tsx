@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { S } from "./freelancerList.styles";
 import { FaHandshakeSimple } from "react-icons/fa6";
-import { User } from "../../../../Types";
+import { Portfolio, User } from "../../../../Types";
 import { PortfolioIndexMap } from "./FreelancerList";
 import { Button, Spin } from "antd";
 import Modal from "src/components/modal/Modal";
@@ -13,6 +13,8 @@ import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
 import { toast } from "react-toastify";
 import useProjectByClientWithBeforeProgressQueries from "src/hooks/queries/useProjectByClientWithBeforeProgressQueries";
 import useSuggestedFreelancersQueries from "src/hooks/queries/useSuggestedFreelancersQueries";
+import PortfolioDetailModal from "src/components/myPage/tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
+import { usePortfolioStore } from "src/store/usePortfolioStore";
 
 interface FreelancerCardProps {
   freelancerItem: User;
@@ -27,6 +29,10 @@ const FreelancerCard = ({
   setSelectedPortfolioIndex,
 }: FreelancerCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isPortfolioDetailModalOpen, setIsPortfolioDetailModalOpen] =
+    useState(false);
+  const { selectedPortfolio, setSelectedPortfolio } = usePortfolioStore();
+
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const { userId } = useUserStore();
   const { selectedProject, setSelectedProject } = useProjectStore();
@@ -144,6 +150,11 @@ const FreelancerCard = ({
     (portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId
   ).length;
 
+  const handlePortfolioImageClick = (portfolio: Portfolio) => {
+    setSelectedPortfolio(portfolio);
+    setIsPortfolioDetailModalOpen(true);
+  };
+
   return (
     <>
       {isDetailModalOpen && (
@@ -174,6 +185,12 @@ const FreelancerCard = ({
           />
         </Modal>
       )}
+      {isPortfolioDetailModalOpen && (
+        <Modal setIsModalOpen={setIsPortfolioDetailModalOpen}>
+          <PortfolioDetailModal userId={freelancerItem.userId} />
+        </Modal>
+      )}
+
       <S.FreelancerList>
         {portfoliosData && (
           <>
@@ -190,7 +207,9 @@ const FreelancerCard = ({
                     portfolioIndex
                   }
                 >
-                  <S.PortfoliothumbNailImageBox>
+                  <S.PortfoliothumbNailImageBox
+                    onClick={() => handlePortfolioImageClick(filteredPortfolio)}
+                  >
                     <img
                       src={filteredPortfolio.thumbNailURL}
                       alt="thumbnailImage"
@@ -273,7 +292,10 @@ const FreelancerCard = ({
                 portfolioItem.freelancerId === freelancerItem.userId
             ) && (
               <li>
-                <S.PortfoliothumbNailImageBox>
+                <S.PortfoliothumbNailImageBox
+                  style={{ cursor: "default" }}
+                  onClick={() => toast.error("등록된 포트폴리오가 없습니다.")}
+                >
                   <img
                     src="https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-portfolio-thumbnail/default-portfolio-thumbnail.png"
                     alt="default-thumbnailImage"
