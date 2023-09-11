@@ -6,13 +6,15 @@ import Chat from "../pages/Chat";
 import MyPage from "../pages/MyPage";
 import Register from "../pages/Register";
 import ProjectManagement from "../pages/ProjectManagement";
-import { PrivateRoute, PrivateRouteLogin } from "./PrivateRoute";
+
 import LoginComp from "../components/auth/login/LoginComp";
 import ResetPassword from "../components/auth/resetpassword/ResetPassword";
-import React from "react";
+
 import Welcome from "src/pages/Welcome";
+import { PrivateRoute, PrivateRouteLogin } from "./PrivateRoute";
 
 const Router = () => {
+  console.log("test1234");
   return (
     <BrowserRouter>
       <GlobalStyles />
@@ -26,10 +28,10 @@ const Router = () => {
           </Route>
           <Route element={<PrivateRouteLogin />}>
             <Route path="/" element={<Welcome />} />
+            <Route path="/login" element={<LoginComp />} />{" "}
             <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<LoginComp />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-          </Route>
+          </Route>{" "}
         </Routes>
       </Layout>
     </BrowserRouter>

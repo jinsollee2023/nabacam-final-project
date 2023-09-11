@@ -26,6 +26,7 @@ const ResumeExperienceComp = () => {
   const { addExperienceMutation, resumeExperienceArray } =
     useResumeExperienceQueries({ userId });
   const { newExperience } = useResumeExperienceStore();
+
   const [resumeExperienceArr, setResumeExperienceArr] = useState<
     ResumeExperience[]
   >([]);
@@ -123,6 +124,14 @@ const ResumeExperienceComp = () => {
     if (resumeExperienceArray) setResumeExperienceArr(resumeExperienceArray);
   }, [resumeExperienceArray]);
 
+  const availableClose =
+    newExperience.pastWorkPlace === "" &&
+    newExperience.pastWorkPosition === "" &&
+    newExperience.pastWorkDuration.pastWorkEndDate === "" &&
+    newExperience.pastWorkDuration.pastWorkStartDate === "" &&
+    newExperience.pastWorkField === "전체" &&
+    newExperience.pastEmploymentType === "전체";
+
   return (
     <>
       <S.WorkExperienceContainer>
@@ -159,6 +168,7 @@ const ResumeExperienceComp = () => {
               </S.Btn>
             </>
           }
+          availableClose={availableClose}
         >
           <AddResumeExperienceModal errors={errors} setErrors={setErrors} />
         </Modal>

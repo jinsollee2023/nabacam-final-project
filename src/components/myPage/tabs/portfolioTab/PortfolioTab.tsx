@@ -119,6 +119,7 @@ const PortfolioTab = () => {
       ? setUpdatePortfolioButtonClicked(true)
       : setAddPortfolioButtonClicked(true);
   };
+  console.log("newPortfolio===>", newPortfolio);
 
   const addPortfolio = async () => {
     const pdfFilePath =
@@ -280,6 +281,13 @@ const PortfolioTab = () => {
       }
     );
   };
+  const availableClose =
+    newPortfolio.desc === "" &&
+    newPortfolio.title === "" &&
+    newPortfolio.linkURL === "" &&
+    newPortfolio.pdfFileURL === "" &&
+    newPortfolio.thumbNailURL ===
+      "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg";
 
   return (
     <>
@@ -345,6 +353,7 @@ const PortfolioTab = () => {
               )}
             </>
           }
+          availableClose={availableClose}
         >
           <PortfolioAddModal errors={errors} setErrors={setErrors} />
         </Modal>
