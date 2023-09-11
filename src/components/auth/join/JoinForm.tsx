@@ -38,6 +38,7 @@ interface initialErrorsForm {
 // 회원가입
 const JoinForm = ({ role }: JoinFormProps) => {
   // useinput
+
   const initialValues: initialValuesForm = {
     email: "",
     password: "",

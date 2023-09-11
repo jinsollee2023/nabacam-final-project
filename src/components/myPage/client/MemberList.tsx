@@ -7,6 +7,7 @@ import { Member } from "src/Types";
 import { S } from "./memberListStyle";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
+import useMemberValuesStore from "src/store/useMemberModal";
 
 export interface Errors {
   name: string | null;
@@ -17,6 +18,7 @@ export interface Errors {
 
 const MemberList = () => {
   const { userId, setUser } = useUserStore();
+  const { values, setMamber } = useMemberValuesStore();
   const { client, clientMembersMutation } = useClientsQueries({ userId });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [updateMemberData, setUpdateMemberData] = useState<Member>();
@@ -31,6 +33,12 @@ const MemberList = () => {
   const [errors, setErrors] = useState(initialErrors);
   const { validateName, validateTeam, validateEmail, validatePhone } =
     useValidation();
+
+  const availableClose =
+    values.email === "" &&
+    values.name === "" &&
+    values.phone === "" &&
+    values.team === "";
 
   // 구성원 추가하기 버튼 클릭시 실행되는 함수
   const openModalButtonHandler = () => {
@@ -168,6 +176,7 @@ const MemberList = () => {
               )}
             </>
           }
+          availableClose={availableClose}
         >
           <AddMemberModal
             currentMemberData={currentMemberData as Member}

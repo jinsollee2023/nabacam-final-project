@@ -19,10 +19,11 @@ const Modal = ({
   const toggleModal = () => {
     if (availableClose === undefined || availableClose) {
       setIsModalOpen(false);
-    } else if (!availableClose) {
+    } else {
       showConfirmation();
     }
   };
+  console.log("availableClose==>", availableClose);
   const handleConfirm = () => {
     console.log("확인 버튼이 클릭되었습니다.");
     setIsModalOpen(false);

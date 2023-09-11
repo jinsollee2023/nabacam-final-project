@@ -1,5 +1,5 @@
 // src/store/memberValuesStore.ts
-import create from "zustand";
+import { create } from "zustand";
 
 interface MemberValues {
   name: string;
