@@ -69,7 +69,7 @@ const Chat = () => {
         {/* room lists */}
         <div className="flex-1 bg-gray-100 p-4">
           {rooms.map((room) => (
-            <div key={room.room_id}>
+            <div key={room.room_id} className="mt-5">
               <p>
                 <Link to={`/chat/${room.room_id}`}>
                   <a>{room.roomname ?? "Untitled"}</a>

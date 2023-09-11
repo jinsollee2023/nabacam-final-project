@@ -58,17 +58,18 @@ const Room = () => {
         .single();
       console.log(data);
       if (!data) return toast.error("No User found");
+
       // matching user -> room_participants
       const { error } = await supabase
         .from("room_participants")
-        .insert({ user_id: data.userId, room_id: room_id }); // policy
+        .insert({ user_id: data.userId, room_id: room_id });
 
       //   .upsert({ user_id: data.userId }) // policy
       //   .eq("roomd_id", room_id)
       //   .select();
       // console.log(room_participants_data);
       if (error) return toast.error(error.message);
-
+      toast.success(`${target.value}님이 초대되셨습니다!`);
       target.value = "";
     }
   };

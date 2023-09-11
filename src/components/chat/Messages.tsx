@@ -57,7 +57,7 @@ const Message = ({
     if (!usersProfile) fetchUsersProfile();
   }, [usersProfile, message.user_id]);
 
-  console.log("message", { message, usersProfile });
+  // console.log("message", { message, usersProfile });
 
   return (
     <li
