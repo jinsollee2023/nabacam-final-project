@@ -74,6 +74,7 @@ const S = {
   `,
   ProjectContainer: styled.div`
     overflow: auto;
+
     width: 100%;
     height: 65vh;
     position: relative;
@@ -150,7 +151,7 @@ const S = {
     margin-bottom: ${(props) => props.marginBottom || "10px"};
   `,
   ModalDetail: styled.p<ModalDetailProps>`
-    font-size: ${(props) => props.fontSize || "20px"};
+    font-size: ${(props) => props.fontSize || "16px"};
     margin-top: ${(props) => props.marginTop || "0px"};
     margin-bottom: ${(props) => props.marginBottom || "0px"};
     margin-left: ${(props) => props.marginLeft || "0px"};
@@ -161,24 +162,44 @@ const S = {
     line-height: 1.5;
     text-align: justify;
   `,
+  ModalDetailDesc: styled.p<ModalDetailProps>`
+    font-size: ${(props) => props.fontSize || "16px"};
+    margin-top: ${(props) => props.marginTop || "0px"};
+    margin-bottom: ${(props) => props.marginBottom || "0px"};
+    margin-left: ${(props) => props.marginLeft || "0px"};
+    margin-right: ${(props) => props.marginRight || "0px"};
+    color: ${(props) => props.color};
+    line-height: 1.5;
+    text-align: justify;
+  `,
   ModalMainInfoBox: styled.div`
     display: flex;
     flex-direction: column;
-    margin: 20px 0;
+    margin-top: 20px;
+    width: 100%;
   `,
   ModalMainInfoInnerBox: styled.div`
-    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 49%;
   `,
   ModalMainInfoInnerBoxWrapper: styled.div`
     display: flex;
+    justify-content: space-between;
     width: 100%;
+    margin-top: 10px;
   `,
   ModalSubInfoBox: styled.div`
     display: flex;
+    justify-content: space-between;
+    width: 100%;
     margin-bottom: 10px;
   `,
   ModalSubInfoInnerBox: styled.div`
-    width: 50%;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 49%;
   `,
   ModalInfoColumnBox: styled.div<ModalInfoColumnBoxProps>`
     display: flex;
@@ -188,17 +209,17 @@ const S = {
   ModalInfoFlexBox: styled.div<ModalInfoFlexBoxProps>`
     display: flex;
     margin-top: ${(props) => props.marginTop || "0px"};
-    margin-top: ${(props) => props.marginTop || "0px"};
   `,
 
   ModalContentsLabel: styled.label`
-    margin-bottom: 10px;
+    color: #595959;
   `,
   ModalTitleInput: styled.input<ModalTitleInputProps>`
     height: 30px;
-    margin-bottom: 10px;
+    margin: 5px 0;
     border: 1px solid ${(props) => props.borderColor};
     border-radius: 4px;
+    width: 100%;
 
     &:focus {
       outline: none;
@@ -207,9 +228,10 @@ const S = {
   ModalDescTextarea: styled.textarea<ModalDescTextareaProps>`
     height: 80px;
     resize: none;
-    margin-bottom: 25px;
+    margin: 5px 0;
     border: 1px solid ${(props) => props.borderColor};
     border-radius: 4px;
+    width: 100%;
 
     &:focus {
       outline: none;
@@ -222,8 +244,9 @@ const S = {
     margin-top: 10px;
   `,
   ModalPayBox: styled.div`
-    width: 100%;
+    width: 70%;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
   `,
   ModalMinMaxPayBox: styled.div`
@@ -255,9 +278,7 @@ const S = {
     border: none;
     border-top: 1px solid #ccc;
     width: 100%;
-    margin: 0 auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 15px 0;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   `,
   DetailModalContainer: styled.div`
@@ -299,13 +320,23 @@ const S = {
     }
   `,
   ErrorMessage: styled.div<{ hasError: boolean }>`
-    height: ${(props) => (props.hasError ? "20px" : "0")};
+    height: ${(props) => (props.hasError ? "15px" : "0")};
     margin: 2px 0;
     color: #ef0000;
     font-size: 14px;
     overflow: hidden;
     transition: height 0.3s;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
+  `,
+  WriteBox: styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+  `,
+  PayLabelAndCheckBoxWrapper: styled.div`
+    display: flex;
+    align-items: center;
   `,
 };
 

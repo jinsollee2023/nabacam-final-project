@@ -63,7 +63,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
         <S.ModalTitle marginTop="7px" marginBottom="3px">
           <label htmlFor="projectDesc">프로젝트 설명</label>
         </S.ModalTitle>
-        <S.ModalDetail id="projectDesc">{project.desc}</S.ModalDetail>
+        <S.ModalDetailDesc id="projectDesc">{project.desc}</S.ModalDetailDesc>
       </S.ModalInfoColumnBox>
       <S.ModalLine />
       {/* --------------------------------------------------------- */}
@@ -111,38 +111,29 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
         <S.ModalInfoFlexBox style={{ alignItems: "center" }}>
           <p
             style={{
-              fontSize: "5px",
+              fontSize: "14px",
               color: "var(--darker-gray)",
-              marginRight: "15px",
-              marginLeft: "15px",
             }}
           >
             최소
           </p>
           <S.ModalDetail
             color="var(--main-blue)"
-            marginRight="60px"
-            marginLeft="20px"
-            marginTop="15px"
+            marginRight="30px"
+            marginLeft="15px"
           >
             {payUnitConversion(project.pay.min as number)}
           </S.ModalDetail>
           <p
             style={{
-              fontSize: "5px",
+              fontSize: "14px",
               color: "var(--darker-gray)",
               marginRight: "15px",
-              marginLeft: "15px",
             }}
           >
             최대
           </p>
-          <S.ModalDetail
-            color="var(--main-blue)"
-            marginRight="15px"
-            marginLeft="20px"
-            marginTop="15px"
-          >
+          <S.ModalDetail color="var(--main-blue)">
             {payUnitConversion(project.pay.max as number)}
           </S.ModalDetail>
         </S.ModalInfoFlexBox>

@@ -1,4 +1,4 @@
-import { Select, Space, DatePicker } from "antd";
+import { Select, DatePicker } from "antd";
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
@@ -67,63 +67,59 @@ const AddResumeExperienceModal = ({
   return (
     <>
       <form>
-        <S.Label>근무분야</S.Label>
-        <Space wrap style={{ marginTop: "15px" }}>
-          <Select
-            className="pastWorkField"
-            defaultValue={values.pastWorkField}
-            style={{ width: 460 }}
-            onChange={(value) => handleChange("pastWorkField", value)}
-            onBlur={() => {
-              const pastWorkFieldError = validateSelect(
-                "근무 분야",
-                values.pastWorkField
-              );
-              setErrors({ ...errors, pastWorkField: pastWorkFieldError });
-            }}
-            options={[
-              { value: "전체", label: "전체" },
-              { value: "개발", label: "개발" },
-              { value: "디자인", label: "디자인" },
-              { value: "마케팅", label: "마케팅" },
-              { value: "운영", label: "운영" },
-              { value: "기획", label: "기획" },
-              { value: "기타", label: "기타" },
-            ]}
-          />
-          <S.ErrorMessage hasError={!!errors.pastWorkField}>
-            {errors.pastWorkField && <p>{errors.pastWorkField}</p>}
-          </S.ErrorMessage>
-        </Space>
+        <S.Label>근무 분야</S.Label>
+        <Select
+          className="pastWorkField"
+          defaultValue={values.pastWorkField}
+          style={{ width: 460 }}
+          onChange={(value) => handleChange("pastWorkField", value)}
+          onBlur={() => {
+            const pastWorkFieldError = validateSelect(
+              "근무 분야",
+              values.pastWorkField
+            );
+            setErrors({ ...errors, pastWorkField: pastWorkFieldError });
+          }}
+          options={[
+            { value: "전체", label: "전체" },
+            { value: "개발", label: "개발" },
+            { value: "디자인", label: "디자인" },
+            { value: "마케팅", label: "마케팅" },
+            { value: "운영", label: "운영" },
+            { value: "기획", label: "기획" },
+            { value: "기타", label: "기타" },
+          ]}
+        />
+        <S.ErrorMessage hasError={!!errors.pastWorkField}>
+          {errors.pastWorkField && <p>{errors.pastWorkField}</p>}
+        </S.ErrorMessage>
 
-        <S.Label>근무형태 </S.Label>
-        <Space wrap style={{ marginTop: "15px" }}>
-          <Select
-            className="pastEmploymentType"
-            defaultValue={values.pastEmploymentType}
-            style={{ width: 460 }}
-            onChange={(value) => handleChange("pastEmploymentType", value)}
-            onBlur={() => {
-              const pastEmploymentTypeError = validateSelect(
-                "근무 형태",
-                values.pastEmploymentType
-              );
-              setErrors({
-                ...errors,
-                pastEmploymentType: pastEmploymentTypeError,
-              });
-            }}
-            options={[
-              { value: "전체", label: "전체" },
-              { value: "정규직", label: "정규직" },
-              { value: "계약직", label: "계약직" },
-              { value: "프리랜서", label: "프리랜서" },
-            ]}
-          />
-          <S.ErrorMessage hasError={!!errors.pastEmploymentType}>
-            {errors.pastEmploymentType && <p>{errors.pastEmploymentType}</p>}
-          </S.ErrorMessage>
-        </Space>
+        <S.Label>근무 형태 </S.Label>
+        <Select
+          className="pastEmploymentType"
+          defaultValue={values.pastEmploymentType}
+          style={{ width: 460 }}
+          onChange={(value) => handleChange("pastEmploymentType", value)}
+          onBlur={() => {
+            const pastEmploymentTypeError = validateSelect(
+              "근무 형태",
+              values.pastEmploymentType
+            );
+            setErrors({
+              ...errors,
+              pastEmploymentType: pastEmploymentTypeError,
+            });
+          }}
+          options={[
+            { value: "전체", label: "전체" },
+            { value: "정규직", label: "정규직" },
+            { value: "계약직", label: "계약직" },
+            { value: "프리랜서", label: "프리랜서" },
+          ]}
+        />
+        <S.ErrorMessage hasError={!!errors.pastEmploymentType}>
+          {errors.pastEmploymentType && <p>{errors.pastEmploymentType}</p>}
+        </S.ErrorMessage>
 
         <S.Label>근무지</S.Label>
         <S.Input

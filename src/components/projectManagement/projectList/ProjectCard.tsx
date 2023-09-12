@@ -175,11 +175,11 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           buttons={
             project.status === "진행 전" && (
               <>
-                <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>
-                  수정하기
-                </S.ModalPostBtn>
                 <S.ModalPostBtn onClick={showDeleteConfirmation}>
                   삭제하기
+                </S.ModalPostBtn>
+                <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>
+                  수정하기
                 </S.ModalPostBtn>
               </>
             )
