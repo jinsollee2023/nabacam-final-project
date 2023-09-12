@@ -92,15 +92,12 @@ const SuggestedProjectCard = ({
 
   const handleAcceptConfirm = () => {
     handleButtonClick("accept");
-    console.log("확인 버튼이 클릭되었습니다.");
 
     // Toastify를 닫습니다.
     toast.dismiss();
   };
 
   const handleAcceptCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 
@@ -126,15 +123,12 @@ const SuggestedProjectCard = ({
 
   const handleRejectConfirm = () => {
     handleButtonClick("reject");
-    console.log("확인 버튼이 클릭되었습니다.");
 
     // Toastify를 닫습니다.
     toast.dismiss();
   };
 
   const handleRejectCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
   const showRejectConfirmation = () => {

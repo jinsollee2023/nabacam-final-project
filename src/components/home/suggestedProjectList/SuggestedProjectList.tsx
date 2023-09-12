@@ -14,8 +14,6 @@ const SuggestedProjectList = () => {
     suggestedProjectListIsLoading,
   } = useProjectsQueries({ currentUserId: userId });
 
-  console.log(suggestedProjectList);
-
   if (suggestedProjectListIsLoading) {
     return (
       <Spin

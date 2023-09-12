@@ -24,16 +24,12 @@ const Modal = ({
       showConfirmation();
     }
   };
-  console.log("availableClose==>", availableClose);
   const handleConfirm = () => {
-    console.log("확인 버튼이 클릭되었습니다.");
     setIsModalOpen(false);
     toast.dismiss();
   };
 
   const handleCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 

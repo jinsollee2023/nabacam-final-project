@@ -17,10 +17,11 @@ const ContractTerminationFreelancers = () => {
 
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries({
-    currentUserId: userId,
-  });
-  // console.log(freelancersWithTerminatedProjects);
+  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries(
+    {
+      currentUserId: userId,
+    }
+  );
 
   // 필터 버튼 토글
   const handleSortToggle = () => {
