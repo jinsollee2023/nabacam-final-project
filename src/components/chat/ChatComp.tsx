@@ -6,8 +6,9 @@ import { toast } from "react-toastify";
 import Room, { TRoom } from "src/components/chat/Room";
 import { useUserStore } from "../../store/useUserStore";
 import MenuTabBarComp from "../common/MenuTabBarComp";
-import { styled } from "styled-components";
 import { CommonS } from "../common/button/commonButton";
+import { S } from "./chat.styles";
+import { useRoomStore } from "../../store/useRoomStore";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
@@ -17,6 +18,8 @@ const ChatComp = () => {
   const navigate = useNavigate();
   const [rooms, setRooms] = useState<TRoom[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<TRoom>();
+  const [createdRoomId, setCreatedRoomId] = useState("");
+  const { roomName } = useRoomStore();
 
   useEffect(() => {
     const getRooms = async () => {
@@ -28,11 +31,11 @@ const ChatComp = () => {
       if (data) setRooms(data);
     };
     getRooms();
-  }, []);
+  }, [createdRoomId, roomName]);
 
   const handleCreateRoom = async () => {
     const { data, error } = await supabase.rpc("create_room", {
-      roomname: "test name",
+      roomname: "방이름",
       user_id: userId,
     });
     if (error) {
@@ -40,8 +43,10 @@ const ChatComp = () => {
       return;
     }
     if (data) {
+      console.log("yo", data);
       const room_id = data.room_id;
-      navigate(`/chat/${room_id}`);
+      setCreatedRoomId(room_id);
+      setSelectedRoom(data);
     }
   };
 
@@ -51,63 +56,41 @@ const ChatComp = () => {
   return (
     <MenuTabBarComp menu={communicationMenu}>
       <S.Container>
-        <S.RoomListContainer>
-          <CommonS.RightEndBox style={{ marginRight: "5px", marginTop: "5px" }}>
+        <S.LeftRoomListContainer>
+          <CommonS.RightEndBox
+            style={{
+              marginRight: "5px",
+              height: "16px",
+              padding: "3px",
+            }}
+          >
             <S.CreateRoomBtn onClick={handleCreateRoom}>+</S.CreateRoomBtn>
           </CommonS.RightEndBox>
           <S.RoomListWrapper>
             {rooms?.map((room) => (
-              <S.RoomBox key={room.room_id} className="mt-5">
+              <S.RoomBox key={room.room_id}>
                 <p>
-                  <button
+                  <span
                     onClick={() => handleRoomClick(room)} // 클릭 시 해당 채팅방 정보를 선택
                   >
                     {room.roomname ?? "Untitled"}
-                  </button>
+                  </span>
                 </p>
               </S.RoomBox>
             ))}
           </S.RoomListWrapper>
-        </S.RoomListContainer>
+        </S.LeftRoomListContainer>
         {/* ============================================================================== */}
-        <div>{selectedRoom && <Room room_id={selectedRoom.room_id} />}</div>
+        <>
+          {selectedRoom ? (
+            <Room room_id={selectedRoom.room_id} />
+          ) : (
+            <p>채팅 내역이 없습니다. 채팅을 보내보세요!</p>
+          )}
+        </>
       </S.Container>
     </MenuTabBarComp>
   );
 };
 
 export default ChatComp;
-
-const S = {
-  Container: styled.div`
-    padding-left: 30px;
-    width: 100%;
-    display: flex;
-    background-color: aliceblue;
-  `,
-  RoomListContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    border-right: solid rgba(0, 0, 0, 0.25);
-  `,
-  RoomListWrapper: styled.div``,
-  RoomBox: styled.div`
-    box-sizing: border-box;
-
-    width: 360px;
-    height: 153px;
-
-    background: #ffffff;
-    border: 1px solid #cacaca;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 8px;
-
-    margin: 8px 8px 8px 0;
-  `,
-  CreateRoomBtn: styled.button`
-    background-color: var(--main-blue);
-
-    padding: 5px;
-    border-radius: 5px;
-  `,
-};

@@ -5,6 +5,8 @@ import { useUserStore } from "../../store/useUserStore";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import { S } from "./chat.styles";
+import { useRoomStore } from "../../store/useRoomStore";
 
 export interface TRoom {
   room_id: string;
@@ -19,10 +21,10 @@ interface RoomProps {
 const Room = ({ room_id }: RoomProps) => {
   const { user } = useUserStore();
   const userId = user.userId;
-  // const {room_id} = useParams();
 
-  const [roomName, setRoomName] = useState("");
+  // const [roomName, setRoomName] = useState("");
   const navigate = useNavigate();
+  const { roomName, setRoomName } = useRoomStore();
 
   useEffect(() => {
     const getRoomName = async () => {
@@ -69,16 +71,13 @@ const Room = ({ room_id }: RoomProps) => {
         .from("room_participants")
         .insert({ user_id: data.userId, room_id: room_id });
 
-      //   .upsert({ user_id: data.userId }) // policy
-      //   .eq("roomd_id", room_id)
-      //   .select();
-      // console.log(room_participants_data);
       if (error) return toast.error(error.message);
       toast.success(`${target.value}님이 초대되셨습니다!`);
       target.value = "";
     }
   };
 
+  // 방 이름 수정
   const handleRoomRename = async () => {
     const newRoomName = prompt("What would you like to rename to?");
     const oldName = roomName; // for optimistic update
@@ -98,32 +97,26 @@ const Room = ({ room_id }: RoomProps) => {
   };
 
   return (
-    <section className="flex h-screen flex-col items-center justify-center">
-      <div className="flex h-full w-full flex-1 flex-col items-stretch py-10 px-20 text-gray-800">
+    <S.RightDMRoomContainer>
+      <S.DMWrapper>
         {/* 제목 */}
-        <div className="bg-yellow-100 px-4 py-2 flex justify-between">
+        <S.DMHeader>
           <button onClick={() => navigate("/chat")}>
             <IoIosArrowBack />
           </button>
-          <button className="text-2xl" onClick={handleRoomRename}>
-            {roomName}
-          </button>
-          {/*  */}
-          <input type="text" onKeyPress={handleInvite} />
-        </div>
+          <S.DMRoomName onClick={handleRoomRename}>{roomName}</S.DMRoomName>
+          <S.DMRoomNameInput type="text" onKeyPress={handleInvite} />
+        </S.DMHeader>
 
         {/* 본문 */}
         {room_id && <Messages room_id={room_id} />}
         {/* 창 */}
-        <form onSubmit={handleSubmit} className="w-full bg-gray-100 p-1">
-          <input
-            type="text"
-            name="message"
-            className="w-full border-none bg-neutral-500"
-          />
-        </form>
-      </div>
-    </section>
+        <S.DMForm onSubmit={handleSubmit}>
+          <S.DMInput type="text" name="message" />
+          <S.DMSubmitBtn>전송</S.DMSubmitBtn>
+        </S.DMForm>
+      </S.DMWrapper>
+    </S.RightDMRoomContainer>
   );
 };
 

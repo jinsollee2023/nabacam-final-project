@@ -16,7 +16,6 @@ import Welcome from "src/pages/Welcome";
 import { PrivateRoute, PrivateRouteLogin } from "./PrivateRoute";
 
 const Router = () => {
-  console.log("test1234");
   return (
     <BrowserRouter>
       <GlobalStyles />
@@ -24,9 +23,7 @@ const Router = () => {
         <Routes>
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
-            <Route path="/chat" element={<Chat />}>
-              {/* <Route path="/chat/:room_id" element={<Room />} /> */}
-            </Route>
+            <Route path="/chat" element={<Chat />}></Route>
             <Route path="/my-page" element={<MyPage />} />
             <Route path="/project-management" element={<ProjectManagement />} />
           </Route>
