@@ -44,13 +44,13 @@ const ContractTerminationFreelancers = () => {
       {freelancersWithTerminatedProjects &&
       freelancersWithTerminatedProjects?.length > 0 ? (
         <>
-          <S.SearchBox>
+          <S.SearchItemBarAndFilterBtnWrapper>
             <SearchItemBar />
             <S.FilterBtn onClick={handleSortToggle}>
               {isLastFirst ? "최신순" : "오래된 순"}
-              <LuArrowUpDown />
+              <LuArrowUpDown size="20" color="gray" />
             </S.FilterBtn>
-          </S.SearchBox>
+          </S.SearchItemBarAndFilterBtnWrapper>
           <S.SelectBox>
             <WorkFieldCategory onSelectWorkField={setSelectedWorkField} />
           </S.SelectBox>

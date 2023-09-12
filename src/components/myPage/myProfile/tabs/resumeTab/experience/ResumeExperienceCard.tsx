@@ -200,11 +200,17 @@ const ResumeExperienceCard = ({
             </S.PastWorkDuration>
           </CommonS.CenterizeBox>
         </S.TextArea>
-        <CommonS.FlexBox marginTop="15px">
-          <S.Btn onClick={updateModalOpenButtonHandler}>수정</S.Btn>
-          <S.Btn marginLeft="5px" onClick={showDeleteConfirmation}>
+        <CommonS.FlexBox marginTop="15px" style={{ width: "90%" }}>
+          <S.ResumButton onClick={showDeleteConfirmation} width="50%">
             삭제
-          </S.Btn>
+          </S.ResumButton>
+          <S.ResumButton
+            marginLeft="5px"
+            onClick={updateModalOpenButtonHandler}
+            width="50%"
+          >
+            수정
+          </S.ResumButton>
         </CommonS.FlexBox>
       </S.WorkExperienceList>
       {/* --------------------------------------------------------------- */}

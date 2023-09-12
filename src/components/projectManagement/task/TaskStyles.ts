@@ -16,7 +16,10 @@ interface ColumnLabelProps {
 
 const S = {
   TaskCardBox: styled.div`
+    min-width: 520px;
     display: flex;
+    position: relative;
+    padding-right: 20px;
   `,
   TaskDetailBoxWrapper: styled.div<TaskDetailBoxWrapperProps>`
     width: ${(props) => props.width};
@@ -38,9 +41,11 @@ const S = {
   `,
   TaskDeleteButton: styled.button`
     background-color: transparent;
+    position: absolute;
+    top: 12px;
+    right: 0;
     border: none;
     cursor: pointer;
-    margin-top: 20px;
   `,
   SelectAddButtonContainer: styled.div`
     display: flex;

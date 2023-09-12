@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { S } from "../listOfFreelancersByStatus.style";
 import { IUser, Project, User } from "../../../../../Types";
 import dayjs from "dayjs";
@@ -113,9 +113,10 @@ const ContractTerminationFreelancerCards = ({
               <S.ContentContainer>
                 <div>
                   <S.ProfileContents>
-                    <S.Name>{user.name}</S.Name>
-                    <S.WorkField>{user.workField?.workField}</S.WorkField>
-
+                    <S.NameAndWorkFieldWrapper>
+                      <S.Name>{user.name}</S.Name>
+                      <S.WorkField>{user.workField?.workField}</S.WorkField>
+                    </S.NameAndWorkFieldWrapper>
                     <S.WorkSmallFieldAndWorkExp>
                       {user.workField?.workSmallField} {user.workExp}년차
                     </S.WorkSmallFieldAndWorkExp>

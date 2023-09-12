@@ -131,7 +131,12 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
 
   return (
     <div>
-      <S.ModalTitle>어떤 프로젝트를 게시하시나요?</S.ModalTitle>
+      {values.title === "" ? (
+        <S.ModalTitle>어떤 프로젝트를 게시하시나요?</S.ModalTitle>
+      ) : (
+        <S.ModalTitle>프로젝트 수정</S.ModalTitle>
+      )}
+
       <S.ModalMainInfoBox>
         <S.ModalContentsLabel htmlFor="title">
           프로젝트 이름
@@ -140,13 +145,15 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
           id="title"
           value={values.title}
           onChange={(e) => handleChange("title", e.target.value)}
-          borderColor="var(--main-blue)"
+          borderColor="var(--lighter-gray)"
           onBlur={(e) => {
             const titleError = validateInput("프로젝트 제목", e.target.value);
             setErrors({ ...errors, title: titleError });
           }}
         />
-        <p>{errors.title}</p>
+        <S.ErrorMessage hasError={!!errors.title}>
+          {errors.title && <p>{errors.title}</p>}
+        </S.ErrorMessage>
         <S.ModalContentsLabel htmlFor="desc">
           프로젝트 설명
         </S.ModalContentsLabel>
@@ -154,26 +161,26 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
           id="desc"
           value={values.desc}
           onChange={(e) => handleChange("desc", e.target.value)}
-          borderColor="var(--main-blue)"
+          borderColor="var(--lighter-gray)"
           onBlur={(e) => {
             const descError = validateInput("프로젝트 설명", e.target.value);
             setErrors({ ...errors, desc: descError });
           }}
         />
-        <p>{errors.desc}</p>
+        <S.ErrorMessage hasError={!!errors.desc}>
+          {errors.desc && <p>{errors.desc}</p>}
+        </S.ErrorMessage>
 
         <S.ModalContentsLabel htmlFor="qualification">
-          모집조건
+          모집 조건
         </S.ModalContentsLabel>
         <S.ModalMainInfoInnerBoxWrapper>
           <S.ModalMainInfoInnerBox>
             <S.ModalSubTitle>분야</S.ModalSubTitle>
-            <Select
+            <S.ProjectSelect
               id="category"
               value={values.category}
-              onChange={(selectedValue) =>
-                handleChange("category", selectedValue)
-              }
+              onChange={(value, _) => managerOnChange(value as string)}
               onBlur={() => {
                 const categoryError = validateSelect(
                   "프로젝트 설명",
@@ -190,13 +197,17 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
                 { value: "기타", label: "기타" },
               ]}
               style={{
+                marginBottom: "20px",
+                marginTop: "5px",
                 width: "97%",
-                marginRight: "3%",
-                border: "1px solid  var(--main-blue)",
-                borderRadius: "8px",
+                marginLeft: "3%",
+                borderRadius: "5px",
+                outline: "0px",
               }}
             />
-            <p>{errors.category}</p>
+            <S.ErrorMessage hasError={!!errors.category}>
+              {errors.category && <p>{errors.category}</p>}
+            </S.ErrorMessage>
           </S.ModalMainInfoInnerBox>
           <S.ModalMainInfoInnerBox>
             <S.ModalSubTitle>경력 / 연차</S.ModalSubTitle>
@@ -214,7 +225,7 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
                 const qualificationError = validateWorkExp(e.target.value);
                 setErrors({ ...errors, qualification: qualificationError });
               }}
-              borderColor="var(--main-blue)"
+              borderColor="var(--lighter-gray)"
               style={{
                 width: "97%",
                 height: "35px",
@@ -222,14 +233,16 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
                 borderRadius: "4px",
               }}
             />
-            <p>{errors.qualification}</p>
+            <S.ErrorMessage hasError={!!errors.qualification}>
+              {errors.qualification && <p>{errors.qualification}</p>}
+            </S.ErrorMessage>
           </S.ModalMainInfoInnerBox>
         </S.ModalMainInfoInnerBoxWrapper>
       </S.ModalMainInfoBox>
       <S.ModalSubInfoBox>
         <S.ModalSubInfoInnerBox>
           <S.ModalContentsLabel htmlFor="expectedStartDate">
-            시작예정일
+            시작 예정일
           </S.ModalContentsLabel>
           <DatePicker
             id="expectedStartDate"
@@ -244,7 +257,7 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
               marginTop: "5px",
               width: "97%",
               marginRight: "3%",
-              border: "1px solid  var(--main-blue)",
+              border: "1px solid  var(--lighter-gray)",
               borderRadius: "4px",
             }}
             onBlur={() => {
@@ -263,19 +276,21 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
                 : undefined
             }
           />
-          <p>{errors.expectedStartDate}</p>
+          <S.ErrorMessage hasError={!!errors.expectedStartDate}>
+            {errors.expectedStartDate && <p>{errors.expectedStartDate}</p>}
+          </S.ErrorMessage>
         </S.ModalSubInfoInnerBox>
         <S.ModalSubInfoInnerBox>
           <S.ModalContentsLabel htmlFor="projectManager">
             담당자
           </S.ModalContentsLabel>
-          <Select
+          <S.ProjectSelect
             id="projectManager"
             showSearch
             placeholder="Select a person"
             optionFilterProp="children"
             value={values.manager.name}
-            onChange={managerOnChange}
+            onChange={(value, _) => managerOnChange(value as string)}
             onBlur={() => {
               const managerError = validateSelect(
                 "담당자",
@@ -315,28 +330,30 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
               marginTop: "5px",
               width: "97%",
               marginLeft: "3%",
-              border: "1px solid var(--main-blue)",
-              borderRadius: "8px",
+              borderRadius: "5px",
+              outline: "0px",
             }}
           />
-          <p>{errors.manager}</p>
+          <S.ErrorMessage hasError={!!errors.manager}>
+            {errors.manager && <p>{errors.manager}</p>}
+          </S.ErrorMessage>
         </S.ModalSubInfoInnerBox>
       </S.ModalSubInfoBox>
 
-      <S.ModalContentsLabel htmlFor="payBox">급여</S.ModalContentsLabel>
-      <Checkbox
-        defaultChecked={values.maxPay === "상의 후 결정" ? true : false}
-        checked={payInputOff}
-        onChange={handleCheckBoxChange}
-        style={{
-          width: "25%",
-          display: "flex",
-          alignItems: "center",
-          marginTop: "15px",
-        }}
-      >
-        상의 후 결정
-      </Checkbox>
+      <div>
+        <S.ModalContentsLabel htmlFor="payBox">급여</S.ModalContentsLabel>
+        <Checkbox
+          defaultChecked={values.maxPay === "상의 후 결정" ? true : false}
+          checked={payInputOff}
+          onChange={handleCheckBoxChange}
+          style={{
+            alignItems: "center",
+            marginLeft: "10px",
+          }}
+        >
+          상의 후 결정
+        </Checkbox>
+      </div>
       <S.ModalPayInfoBox id="payBox">
         <S.ModalPayBox>
           <S.ModalMinMaxPayBox>
@@ -361,9 +378,9 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
                 );
                 setErrors({ ...errors, pay: payError });
               }}
-              borderColor="var(--main-blue)"
+              borderColor="var(--lighter-gray)"
             />
-            <S.ModalContentsLabel>원</S.ModalContentsLabel>
+            <p>만원</p>
           </S.ModalMinMaxPayBox>
           <S.ModalMinMaxPayBox>
             <S.ModalContentsLabel htmlFor="maxPay">최대</S.ModalContentsLabel>
@@ -387,13 +404,15 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
                 );
                 setErrors({ ...errors, pay: payError });
               }}
-              borderColor="var(--main-blue)"
+              borderColor="var(--lighter-gray)"
             />
-            <S.ModalContentsLabel>원</S.ModalContentsLabel>
+            <p>만원</p>
           </S.ModalMinMaxPayBox>
         </S.ModalPayBox>
       </S.ModalPayInfoBox>
-      <p>{errors.pay}</p>
+      <S.ErrorMessage hasError={!!errors.pay}>
+        {errors.pay && <p>{errors.pay}</p>}
+      </S.ErrorMessage>
     </div>
   );
 };

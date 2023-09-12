@@ -10,10 +10,9 @@ import { queryClient } from "../../../App";
 import EditForm from "./EditForm";
 import Modal from "../../../components/modal/Modal";
 import { useProfileInfoStore } from "../../../store/useProfileInfoStore";
-import React from "react";
 import { S } from "./myProfile.styles";
 import { IoMdSettings } from "react-icons/io";
-import { FaSignOutAlt } from "react-icons/fa";
+import { FiPhoneCall, FiMail } from "react-icons/fi";
 import { resign } from "src/api/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -176,7 +175,6 @@ const Account = () => {
     <>
       <S.AccountContainer>
         <S.Img className="profileImg" src={user.photoURL} alt="img" />
-        {/* ------------------------------------------------------------ */}
         {user.role === "freelancer" ? (
           // freelancer
           <S.ColumnBox marginLeft="50px">
@@ -186,29 +184,29 @@ const Account = () => {
             </S.FlexBox>
             <S.Detail>{user && user?.workField?.workField}</S.Detail>
             <S.Detail>{user && user?.workField?.workSmallField}</S.Detail>
-            {/* <S.Detail>data here 진행중</S.Detail> */}
           </S.ColumnBox>
         ) : (
           // client
           <S.ColumnBox marginLeft="50px">
             <S.Title>{user && user?.name}</S.Title>
-            <S.Detail marginLeft="7px">{user.role}</S.Detail>
+            <S.Detail>{user.role}</S.Detail>
           </S.ColumnBox>
         )}
         {/* ------------------------------------------------------------ */}
-        <S.ColumnBox marginLeft="200px">
+        <S.ColumnBox marginLeft="7%">
           <S.Title>연락망</S.Title>
-          <S.Detail>전화번호: {user && user?.contact?.phone}</S.Detail>
-          <S.Detail>이메일: {user && user?.contact?.email}</S.Detail>
+          <S.Detail>
+            <FiPhoneCall size={16} style={{ marginRight: "10px" }} />
+            {user && user?.contact?.phone}
+          </S.Detail>
+          <S.Detail>
+            <FiMail size={16} style={{ marginRight: "10px" }} />
+            {user && user?.contact?.email}
+          </S.Detail>
         </S.ColumnBox>
-        {/*  */}
         <S.RightEndBtnBox>
           <S.SettingBtn onClick={() => setIsModalOpen(true)}>
-            <IoMdSettings />
-          </S.SettingBtn>
-          <S.SettingBtn onClick={showConfirmation}>
-            <FaSignOutAlt />
-            <S.SettingSpan>탈퇴하기</S.SettingSpan>
+            <IoMdSettings size={25} color="dimgray" />
           </S.SettingBtn>
         </S.RightEndBtnBox>
 
@@ -216,9 +214,14 @@ const Account = () => {
           <Modal
             setIsModalOpen={setIsModalOpen}
             buttons={
-              <S.Btn width="100%" onClick={updateProfileInfoButtonHandler}>
-                수정하기
-              </S.Btn>
+              <>
+                <S.UnMemberBtn width="50%" onClick={showConfirmation}>
+                  탈퇴하기
+                </S.UnMemberBtn>
+                <S.Btn width="50%" onClick={updateProfileInfoButtonHandler}>
+                  수정하기
+                </S.Btn>
+              </>
             }
           >
             <EditForm user={user} errors={errors} setErrors={setErrors} />

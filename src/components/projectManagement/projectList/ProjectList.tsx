@@ -31,7 +31,7 @@ const ProjectList = () => {
   const { userId } = useUserStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedselectOption, setSelectedselectOption] = useState("전체보기");
-  const [selectedSortLabel, setSelectedSortLabel] = useState("전체보기");
+  const [selectedSortLabel, setSelectedSortLabel] = useState("최신순");
   const { projectsOfClient, addProjectMutation } = useProjectsQueries({
     currentUserId: userId,
     sortLabel: selectedSortLabel,
@@ -215,17 +215,22 @@ const ProjectList = () => {
             <SearchItemBar />
             <SortProjects handleSort={handleSort} />
           </S.SearchSortWrapper>
-          <S.SearchSortBtnBox>
-            <S.SearchSortBtn
-              onClick={() => setSelectedSortLabel("최신순")}
-              style={{ marginRight: "5px" }}
-            >
-              최신순
-            </S.SearchSortBtn>
-            <S.SearchSortBtn onClick={() => setSelectedSortLabel("오래된순")}>
-              오래된순
-            </S.SearchSortBtn>
-          </S.SearchSortBtnBox>
+          <S.SearchSortBtnWrapper>
+            <S.SearchSortBtnBox>
+              <S.SearchSortBtn
+                onClick={() => setSelectedSortLabel("최신순")}
+                className={selectedSortLabel === "최신순" ? "selected" : ""}
+              >
+                최신순
+              </S.SearchSortBtn>
+              <S.SearchSortBtn
+                onClick={() => setSelectedSortLabel("오래된순")}
+                className={selectedSortLabel === "오래된순" ? "selected" : ""}
+              >
+                오래된순
+              </S.SearchSortBtn>
+            </S.SearchSortBtnBox>
+          </S.SearchSortBtnWrapper>
         </>
       ) : (
         <p>등록된 프로젝트가 없습니다.</p>

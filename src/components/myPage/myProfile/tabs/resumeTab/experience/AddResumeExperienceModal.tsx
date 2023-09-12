@@ -91,7 +91,9 @@ const AddResumeExperienceModal = ({
               { value: "기타", label: "기타" },
             ]}
           />
-          <S.errorText>{errors.pastWorkField}</S.errorText>
+          <S.ErrorMessage hasError={!!errors.pastWorkField}>
+            {errors.pastWorkField && <p>{errors.pastWorkField}</p>}
+          </S.ErrorMessage>
         </Space>
 
         <S.Label>근무형태 </S.Label>
@@ -118,7 +120,9 @@ const AddResumeExperienceModal = ({
               { value: "프리랜서", label: "프리랜서" },
             ]}
           />
-          <S.errorText>{errors.pastEmploymentType}</S.errorText>
+          <S.ErrorMessage hasError={!!errors.pastEmploymentType}>
+            {errors.pastEmploymentType && <p>{errors.pastEmploymentType}</p>}
+          </S.ErrorMessage>
         </Space>
 
         <S.Label>근무지</S.Label>
@@ -133,7 +137,9 @@ const AddResumeExperienceModal = ({
           }}
           placeholder="입력해주세요."
         />
-        <S.errorText>{errors.pastWorkPlace}</S.errorText>
+        <S.ErrorMessage hasError={!!errors.pastWorkPlace}>
+          {errors.pastWorkPlace && <p>{errors.pastWorkPlace}</p>}
+        </S.ErrorMessage>
 
         <S.Label>직책 </S.Label>
         <S.Input
@@ -147,7 +153,9 @@ const AddResumeExperienceModal = ({
           }}
           placeholder="입력해주세요."
         />
-        <S.errorText>{errors.pastWorkPosition}</S.errorText>
+        <S.ErrorMessage hasError={!!errors.pastWorkPosition}>
+          {errors.pastWorkPosition && <p>{errors.pastWorkPosition}</p>}
+        </S.ErrorMessage>
 
         <S.Label>근무 일자</S.Label>
         <S.subText>입사일</S.subText>
@@ -201,7 +209,9 @@ const AddResumeExperienceModal = ({
           style={{ width: 460 }}
         />
       </form>
-      <S.errorText>{errors.pastWorkDuration}</S.errorText>
+      <S.ErrorMessage hasError={!!errors.pastWorkDuration}>
+        {errors.pastWorkDuration && <p>{errors.pastWorkDuration}</p>}
+      </S.ErrorMessage>
     </>
   );
 };

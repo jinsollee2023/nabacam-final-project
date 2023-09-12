@@ -6,7 +6,6 @@ import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
 import { useProjectStore } from "../../../store/useProjectStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
-import React from "react";
 import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
@@ -195,11 +194,11 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           availableClose={availableClose}
           buttons={
             <>
+              <S.ModalDeleteBtn onClick={showDeleteConfirmation}>
+                삭제하기
+              </S.ModalDeleteBtn>
               <S.ModalPostBtn onClick={updateProjectButtonHandler}>
                 수정하기
-              </S.ModalPostBtn>
-              <S.ModalPostBtn onClick={showDeleteConfirmation}>
-                삭제하기
               </S.ModalPostBtn>
             </>
           }

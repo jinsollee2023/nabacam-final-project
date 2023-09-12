@@ -229,7 +229,7 @@ const TaskList = () => {
         ) : (ongoingProjectsOfClient && ongoingProjectsOfClient.length > 0) ||
           (ongoingProjectsOfFreelancer &&
             ongoingProjectsOfFreelancer.length > 0) ? (
-          <div>진행중인 업무가 없습니다.</div>
+          <div>진행 중인 업무가 없습니다.</div>
         ) : null}
       </S.TimelineContainer>
     </>

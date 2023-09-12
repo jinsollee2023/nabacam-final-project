@@ -5,7 +5,7 @@ import Modal from "../../../../../modal/Modal";
 import type { ResumeExperience } from "../../../../../../Types";
 import { useResumeExperienceStore } from "../../../../../../store/useResumeExperienceStore";
 import ResumeExperienceCard from "./ResumeExperienceCard";
-import { BsPlusSquareDotted } from "react-icons/bs";
+import { BsPlusCircleDotted } from "react-icons/bs";
 import { S } from "../Resume.styles";
 import AddResumeExperienceModal from "./AddResumeExperienceModal";
 import { toast } from "react-toastify";
@@ -147,17 +147,10 @@ const ResumeExperienceComp = () => {
           ))}
         </S.WorkExperienceListWrapper>
       </S.WorkExperienceContainer>
-      <S.Btn
-        marginTop="30px"
-        width="100%"
-        height="40px"
-        onClick={addModalOpenButtonHandler}
-      >
-        <S.CenterizeBox>
-          <BsPlusSquareDotted size="15" style={{ marginRight: "5px" }} />
-          <span>경력 추가하기</span>
-        </S.CenterizeBox>
-      </S.Btn>
+      <S.WorkExperienceAddButton onClick={addModalOpenButtonHandler}>
+        <BsPlusCircleDotted size="15" style={{ marginRight: "5px" }} />
+        경력 추가하기
+      </S.WorkExperienceAddButton>
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}

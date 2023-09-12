@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { S } from "./freelancerList.styles";
 import { FaHandshakeSimple } from "react-icons/fa6";
+import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { Portfolio, User } from "../../../../Types";
 import { PortfolioIndexMap } from "./FreelancerList";
 import { Button, Spin } from "antd";
@@ -31,7 +32,7 @@ const FreelancerCard = ({
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isPortfolioDetailModalOpen, setIsPortfolioDetailModalOpen] =
     useState(false);
-  const { selectedPortfolio, setSelectedPortfolio } = usePortfolioStore();
+  const { setSelectedPortfolio } = usePortfolioStore();
 
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const { userId } = useUserStore();
@@ -232,60 +233,63 @@ const FreelancerCard = ({
                     </S.indicatorWrapper>
                   </S.PortfoliothumbNailImageBox>
                   <S.PortfolioTitleBox>
-                    <S.PortfolioTitle>
+                    <S.ArrowIconWrapper>
                       {userSelectedPortfolioIndex !== 0 && (
-                        <button
-                          onClick={() => {
-                            setUserSelectedPortfolioIndex(
-                              userSelectedPortfolioIndex - 1
-                            );
-                            setSelectedPortfolioIndex((prevSelected) => {
-                              const userSelectedPortfolioIndex = {
-                                ...prevSelected,
-                              };
-                              userSelectedPortfolioIndex[
-                                freelancerItem.userId
-                              ] = userSelectedPortfolioIndex[
-                                freelancerItem.userId
-                              ] -= 1;
-                              return userSelectedPortfolioIndex;
-                            });
-                          }}
-                        >
-                          이전
-                        </button>
+                        <S.ArrowIconPrevBox>
+                          <GrFormPrevious
+                            size="25"
+                            onClick={() => {
+                              setUserSelectedPortfolioIndex(
+                                userSelectedPortfolioIndex - 1
+                              );
+                              setSelectedPortfolioIndex((prevSelected) => {
+                                const userSelectedPortfolioIndex = {
+                                  ...prevSelected,
+                                };
+                                userSelectedPortfolioIndex[
+                                  freelancerItem.userId
+                                ] = userSelectedPortfolioIndex[
+                                  freelancerItem.userId
+                                ] -= 1;
+                                return userSelectedPortfolioIndex;
+                              });
+                            }}
+                          />
+                        </S.ArrowIconPrevBox>
                       )}
-
-                      {filteredPortfolio.title}
                       {userSelectedPortfolioIndex !==
                         numberOfPortfolios! - 1 && (
-                        <button
-                          onClick={() => {
-                            setUserSelectedPortfolioIndex(
-                              userSelectedPortfolioIndex + 1
-                            );
-                            setSelectedPortfolioIndex((prevSelected) => {
-                              const userSelectedPortfolioIndex = {
-                                ...prevSelected,
-                              };
-                              userSelectedPortfolioIndex[
-                                freelancerItem.userId
-                              ] = userSelectedPortfolioIndex[
-                                freelancerItem.userId
-                              ] += 1;
-                              return userSelectedPortfolioIndex;
-                            });
-                          }}
-                        >
-                          다음
-                        </button>
+                        <S.ArrowIconNextBox>
+                          <GrFormNext
+                            size="25"
+                            onClick={() => {
+                              setUserSelectedPortfolioIndex(
+                                userSelectedPortfolioIndex + 1
+                              );
+                              setSelectedPortfolioIndex((prevSelected) => {
+                                const userSelectedPortfolioIndex = {
+                                  ...prevSelected,
+                                };
+                                userSelectedPortfolioIndex[
+                                  freelancerItem.userId
+                                ] = userSelectedPortfolioIndex[
+                                  freelancerItem.userId
+                                ] += 1;
+                                return userSelectedPortfolioIndex;
+                              });
+                            }}
+                          />
+                        </S.ArrowIconNextBox>
                       )}
+                    </S.ArrowIconWrapper>
+                    <S.PortfolioTitle>
+                      {filteredPortfolio.title}
                     </S.PortfolioTitle>
                   </S.PortfolioTitleBox>
                 </S.PortfolioItem>
               ))}
             {/* 해당 조건을 만족하지 않는 경우에만 jsx 부분 표시 */}
-            {/* some → 주어진 판별 함수를 적오도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는
+            {/* some → 주어진 판별 함수를 적어도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는
                       포트폴리오들의 프리랜서 아이디 중에서 내가 지금 돌고있는 프리랜서의 아이디와 일치하는 것이 없다면 아래 jsx를 보여줌*/}
             {!portfoliosData.some(
               (portfolioItem) =>

@@ -2,25 +2,24 @@ import { styled } from "styled-components";
 
 export const S = {
   AddMemberBox: styled.div`
-    top: 15%;
-    gap: 30px;
     display: flex;
-    position: relative;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
   `,
   ClientInfo: styled.div`
-    gap: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
   `,
   ProfileImgBox: styled.div`
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     overflow: hidden;
-    border-radius: 15%;
+    border-radius: 15px;
+    margin: 20px 0;
   `,
   ProfileImg: styled.img`
     width: 100%;
@@ -29,23 +28,31 @@ export const S = {
   `,
   ModalTitle: styled.span`
     font-size: 20px;
-    line-height: 50px;
   `,
   WriteBox: styled.div`
-    gap: 20px;
+    width: 70%;
     display: flex;
-    flex-direction: row;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    align-items: start;
   `,
   Label: styled.label`
-    width: 5rem;
     color: #595959;
   `,
   Input: styled.input`
-    width: 200px;
-    height: 35px;
-    padding-left: 10px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid var(--lighter-gray);
+    margin: 5px 0 5px 0;
+  `,
+
+  ErrorMessage: styled.div<{ hasError: boolean }>`
+    height: ${(props) => (props.hasError ? "20px" : "0")};
+    margin: 2px 0 5px 0;
+    color: #ef0000;
+    font-size: 14px;
+    overflow: hidden;
+    transition: height 0.3s;
   `,
 };

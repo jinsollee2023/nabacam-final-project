@@ -54,7 +54,7 @@ export const S = {
   `,
 
   ResumeContent: styled.p`
-    margin: 20px 0;
+    margin: 20px 0 10px 0;
     font-size: 16px;
     font-weight: bold;
   `,
@@ -92,11 +92,11 @@ export const S = {
   `,
   PortfolioCmt: styled.p`
     margin-top: 5px;
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
   `,
   DataNullBox: styled.div`
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: #f0f0f0;
     width: 100%;
     height: 50px;
     border-radius: 8px;
@@ -146,5 +146,12 @@ export const S = {
   PastWorkDate: styled.span`
     font-size: 12px;
     color: #595959;
+  `,
+
+  PortfolioWrapper: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
   `,
 };

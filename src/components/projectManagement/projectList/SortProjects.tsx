@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { S } from "../../home/freelancerMarket/sortFreelancers/sortFreelancers.styles";
-import { Select } from "antd";
-import React from "react";
-import { BsArrowDownUp } from "react-icons/bs";
 
 interface SortProjectsProps {
   handleSort: (label: string) => void;
@@ -18,10 +15,9 @@ const SortProjects = ({ handleSort }: SortProjectsProps) => {
 
   return (
     <S.SortContainer>
-      <Select
+      <S.Select
         value={selectedTab}
-        style={{ width: 200 }}
-        onChange={handleChange}
+        onChange={(value, _) => handleChange(value as string)}
         options={[
           {
             value: "전체보기",

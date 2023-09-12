@@ -397,8 +397,8 @@ const PortfolioTab = () => {
         </S.PortfolioListWrapper>
       </S.PortfolioListContainer>
       <S.PortfolioAddButton onClick={addModalOpenHandler}>
-        <BsPlusCircleDotted style={{ marginRight: "10px" }} /> 포트폴리오
-        첨부하기
+        <BsPlusCircleDotted style={{ marginRight: "10px" }} />
+        포트폴리오 첨부하기
       </S.PortfolioAddButton>
     </>
   );
