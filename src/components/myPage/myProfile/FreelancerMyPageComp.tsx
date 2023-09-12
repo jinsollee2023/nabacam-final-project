@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { styled } from "styled-components";
-import Account from "../myProfile/Account";
-import ResumeTab from "../tabs/resumeTab/ResumeTab";
-import PortfolioTab from "../tabs/portfolioTab/PortfolioTab";
-import ContractInfoTab from "../tabs/contractInfoTab/ContractInfoTab";
-import MenuTabBarComp from "../../../components/common/MenuTabBarComp";
-import React from "react";
+import Account from "./Account";
+import ResumeTab from "./tabs/resumeTab/ResumeTab";
+import PortfolioTab from "./tabs/portfolioTab/PortfolioTab";
+import ContractInfoTab from "./tabs/contractInfoTab/ContractInfoTab";
+import MenuTabBarComp from "../../common/MenuTabBarComp";
 
 const FreelancerMyPageComp = () => {
   const [activeTab, setActiveTab] = useState("이력서");

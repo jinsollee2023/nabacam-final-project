@@ -4,6 +4,7 @@ import { getPhotoURL } from "./User";
 import "react-toastify/dist/ReactToastify.css";
 import { User } from "src/Types";
 import { NavigateFunction } from "react-router-dom";
+
 // 회원탈퇴
 
 export const resign = async (

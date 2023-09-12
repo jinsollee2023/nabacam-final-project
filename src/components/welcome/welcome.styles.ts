@@ -4,28 +4,29 @@ interface BoxProps {
   width?: string;
   height?: string;
   margin?: string;
-  backGroundColor?: string;
-  flexDirection?: string;
+  $backGroundColor?: string;
+  $flexDirection?: string;
   padding?: string;
-  alignItems?: string;
-  justifyContent?: string;
+  $alignItems?: string;
+  $justifyContent?: string;
 }
 
 interface PontProps {
-  textAlign?: string;
-  fontWeight?: string;
-  marginBottom?: string;
+  $textAlign?: string;
+  $fontWeight?: string;
+  $marginBottom?: string;
+  color?: string;
 }
 
 interface BallonProps {
   left?: string;
   right?: string;
-  borderLeft: string;
-  borderRight: string;
+  $borderLeft: string;
+  $borderRight: string;
 }
 
 interface SignButtonProps {
-  backGroundColor: string;
+  $backGroundColor: string;
   color: string;
   border: string;
 }
@@ -52,7 +53,7 @@ export const S = {
     margin-left: 1%;
     border: ${(props) => props.border};
     border-radius: 10px;
-    background-color: ${(props) => props.backGroundColor};
+    background-color: ${(props) => props.$backGroundColor};
     color: ${(props) => props.color};
     cursor: pointer;
   `,
@@ -85,19 +86,20 @@ export const S = {
   MenuDesc: styled.p<PontProps>`
     font-size: 18px;
     font-weight: 400;
-    text-align: ${(props) => (props.textAlign ? props.textAlign : null)};
+    text-align: ${(props) => (props.$textAlign ? props.$textAlign : null)};
   `,
   TabTitle: styled.p<PontProps>`
     font-size: 20px;
     font-weight: 600;
-    text-align: ${(props) => (props.textAlign ? props.textAlign : null)};
+    text-align: ${(props) => (props.$textAlign ? props.$textAlign : null)};
   `,
   TabDesc: styled.p<PontProps>`
     font-size: 15px;
-    font-weight: ${(props) => (props.fontWeight ? props.fontWeight : null)};
-    text-align: ${(props) => (props.textAlign ? props.textAlign : null)};
+    font-weight: ${(props) => (props.$fontWeight ? props.$fontWeight : null)};
+    color: ${(props) => (props.color ? props.color : "black")};
+    text-align: ${(props) => (props.$textAlign ? props.$textAlign : null)};
     margin-bottom: ${(props) =>
-      props.marginBottom ? props.marginBottom : null};
+      props.$marginBottom ? props.$marginBottom : null};
   `,
   MenuTitleBox: styled.div<BoxProps>`
     width: ${(props) => (props.width ? props.width : "100%")};
@@ -117,11 +119,16 @@ export const S = {
     padding: ${(props) => (props.padding ? props.padding : "0")};
     display: flex;
     flex-direction: ${(props) =>
-      props.flexDirection ? props.flexDirection : "row"};
-    align-items: ${(props) => (props.alignItems ? props.alignItems : "center")};
+      props.$flexDirection ? props.$flexDirection : "row"};
+    align-items: ${(props) =>
+      props.$alignItems ? props.$alignItems : "center"};
     justify-content: ${(props) =>
-      props.justifyContent ? props.justifyContent : "center"};
-    background: linear-gradient(to right, #cbcbcb, #b5b5b5);
+      props.$justifyContent ? props.$justifyContent : "center"};
+    background: linear-gradient(
+      270deg,
+      rgba(203, 203, 203, 0.45) 0%,
+      rgba(181, 181, 181, 0.17) 103.03%
+    );
     border-radius: 10px;
   `,
   MenuContentsBox: styled.div`
@@ -133,7 +140,7 @@ export const S = {
     height: ${(props) => (props.height ? props.height : "100px")};
     margin: ${(props) => (props.margin ? props.margin : "20px 0")};
     background-color: ${(props) =>
-      props.backGroundColor ? props.backGroundColor : null};
+      props.$backGroundColor ? props.$backGroundColor : null};
   `,
   ProjectTabContentsBox: styled.div<BoxProps>`
     background-color: white;
@@ -168,8 +175,8 @@ export const S = {
     left: ${(props) => (props.left ? props.left : null)};
     width: 0;
     height: 0;
-    border-left: ${(props) => props.borderLeft} solid transparent;
-    border-right: ${(props) => props.borderRight} solid transparent;
+    border-left: ${(props) => props.$borderLeft} solid transparent;
+    border-right: ${(props) => props.$borderRight} solid transparent;
     border-top: 30px solid white;
   `,
   OutroBox: styled.div`

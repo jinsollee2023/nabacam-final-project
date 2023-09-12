@@ -78,4 +78,37 @@ export const CommonS = {
     display: flex;
     justify-content: flex-end;
   `,
+  toastinfo: styled.div`
+    text-align: center;
+    height: 65px;
+  `,
+  toastintoText: styled.p`
+    text-align: center;
+    margin-right: 25px;
+    font-size: 17px;
+  `,
+  toastOkButton: styled.button`
+    height: 30px;
+    width: 100px;
+    border-radius: 15px;
+    border-style: none;
+    margin-right: 5%;
+    display: inline-block;
+    background-color: var(--main-blue);
+    color: white;
+    font-size: 15px;
+  `,
+  toastNoButton: styled.button`
+    margin-top: 6.5%;
+    margin-right: 8%;
+    height: 30px;
+    width: 100px;
+    display: inline-block;
+    border-radius: 15px;
+    border: none;
+    background-color: #ebebeb;
+    color: black;
+    stroke: #ebebeb;
+    font-size: 15px;
+  `,
 };

@@ -27,7 +27,7 @@ const TaskDeadLine = ({ task, userRole }: TaskTitleProps) => {
   };
 
   return (
-    <S.TaskDetailBoxWrapper width="30%">
+    <S.TaskDetailBoxWrapper width="26%">
       <S.TaskDetailBox
         onClick={handleOnClick}
         cursor={userRole === "freelancer" ? "pointer" : null}

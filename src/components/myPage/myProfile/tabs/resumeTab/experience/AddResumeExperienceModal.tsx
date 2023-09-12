@@ -2,8 +2,8 @@ import { Select, Space, DatePicker } from "antd";
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { v4 as uuidv4 } from "uuid";
-import type { ResumeExperience } from "../../../../../Types";
-import { useResumeExperienceStore } from "../../../../../store/useResumeExperienceStore";
+import type { ResumeExperience } from "../../../../../../Types";
+import { useResumeExperienceStore } from "../../../../../../store/useResumeExperienceStore";
 import dayjs from "dayjs";
 import { S } from "../Resume.styles";
 import { Errors } from "./ResumeExperienceComp";
@@ -91,10 +91,11 @@ const AddResumeExperienceModal = ({
               { value: "기타", label: "기타" },
             ]}
           />
-          <p>{errors.pastWorkField}</p>
+          <S.ErrorMessage hasError={!!errors.pastWorkField}>
+            {errors.pastWorkField && <p>{errors.pastWorkField}</p>}
+          </S.ErrorMessage>
         </Space>
-        <br />
-        <br />
+
         <S.Label>근무형태 </S.Label>
         <Space wrap style={{ marginTop: "15px" }}>
           <Select
@@ -119,10 +120,11 @@ const AddResumeExperienceModal = ({
               { value: "프리랜서", label: "프리랜서" },
             ]}
           />
-          <p>{errors.pastEmploymentType}</p>
+          <S.ErrorMessage hasError={!!errors.pastEmploymentType}>
+            {errors.pastEmploymentType && <p>{errors.pastEmploymentType}</p>}
+          </S.ErrorMessage>
         </Space>
-        <br />
-        <br />
+
         <S.Label>근무지</S.Label>
         <S.Input
           name="pastWorkPlace"
@@ -135,10 +137,10 @@ const AddResumeExperienceModal = ({
           }}
           placeholder="입력해주세요."
         />
-        <p>{errors.pastWorkPlace}</p>
+        <S.ErrorMessage hasError={!!errors.pastWorkPlace}>
+          {errors.pastWorkPlace && <p>{errors.pastWorkPlace}</p>}
+        </S.ErrorMessage>
 
-        <br />
-        <br />
         <S.Label>직책 </S.Label>
         <S.Input
           name="pastWorkPosition"
@@ -151,10 +153,10 @@ const AddResumeExperienceModal = ({
           }}
           placeholder="입력해주세요."
         />
-        <p>{errors.pastWorkPosition}</p>
+        <S.ErrorMessage hasError={!!errors.pastWorkPosition}>
+          {errors.pastWorkPosition && <p>{errors.pastWorkPosition}</p>}
+        </S.ErrorMessage>
 
-        <br />
-        <br />
         <S.Label>근무 일자</S.Label>
         <S.subText>입사일</S.subText>
         <DatePicker
@@ -183,7 +185,6 @@ const AddResumeExperienceModal = ({
           style={{ width: 460 }}
         />
 
-        <br />
         <S.subText>퇴사일</S.subText>
         <DatePicker
           onChange={(datestring) =>
@@ -208,7 +209,9 @@ const AddResumeExperienceModal = ({
           style={{ width: 460 }}
         />
       </form>
-      <p>{errors.pastWorkDuration}</p>
+      <S.ErrorMessage hasError={!!errors.pastWorkDuration}>
+        {errors.pastWorkDuration && <p>{errors.pastWorkDuration}</p>}
+      </S.ErrorMessage>
     </>
   );
 };

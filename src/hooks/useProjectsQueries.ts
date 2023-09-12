@@ -15,7 +15,10 @@ interface useProjectsQueriesProps {
 }
 
 // 선택한 sortLabel을 기준으로 프로젝트 리스트 불러오기
-const useProjectsQueries = ({ currentUserId, sortLabel }: useProjectsQueriesProps) => {
+const useProjectsQueries = ({
+  currentUserId,
+  sortLabel,
+}: useProjectsQueriesProps) => {
   const { data: projectsOfClient } = useQuery(
     ["projects", sortLabel],
     async () => {
@@ -29,31 +32,6 @@ const useProjectsQueries = ({ currentUserId, sortLabel }: useProjectsQueriesProp
       enabled: !!currentUserId,
     }
   );
-
-  // const { data: ongoingProjectsOfFreelancer } = useQuery(
-  //   ["projects"],
-  //   async () => {
-  //     const projectsData = await getOngoingProjectsOfFreelancer(currentUserId as string);
-  //     return projectsData;
-  //   },
-  //   {
-  //     enabled: !!currentUserId,
-  //   }
-  // );
-
-  // const { data: ongoingProjectsOfClient } = useQuery(
-  //   ["ongoingProjectsOfClient"],
-  //   async () => {
-  //     const ongoingProjectsOfClientData = await getOngoingProjectsOfClient(
-  //       currentUserId as string,
-  //       page as number
-  //     );
-  //     return ongoingProjectsOfClientData;
-  //   },
-  //   {
-  //     enabled: !!currentUserId,
-  //   }
-  // );
 
   // 1번 사용 : AppliedProjectList.tsx
   // 현재 로그인한 유저가 지원한 프로젝트 확인에 사용
@@ -109,23 +87,31 @@ const useProjectsQueries = ({ currentUserId, sortLabel }: useProjectsQueriesProp
     {
       enabled: !!currentUserId,
       select: (allProjectList) =>
-        allProjectList?.filter((project) => project.SuggestedFreelancers?.includes(currentUserId)),
+        allProjectList?.filter((project) =>
+          project.SuggestedFreelancers?.includes(currentUserId)
+        ),
     }
   );
 
-  const addProjectMutation = useMutation((newProject: Project) => addProject(newProject), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
-    },
-  });
+  const addProjectMutation = useMutation(
+    (newProject: Project) => addProject(newProject),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["projects"]);
+      },
+    }
+  );
 
-  const deleteProjectMutation = useMutation((projectId: string) => deleteProject(projectId), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["projects"]);
-      queryClient.invalidateQueries(["freelancersWithOngoingProjects"]);
-      queryClient.invalidateQueries(["freelancersWithTerminatedProjects"]);
-    },
-  });
+  const deleteProjectMutation = useMutation(
+    (projectId: string) => deleteProject(projectId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["projects"]);
+        queryClient.invalidateQueries(["freelancersWithOngoingProjects"]);
+        queryClient.invalidateQueries(["freelancersWithTerminatedProjects"]);
+      },
+    }
+  );
 
   // 5번 사용 : AppliedProjectCard.tsx, ProjectCard.tsx, SuggestedProjectCard.tsx, ProjectCard.tsx, TaskList.tsx
   // 프로젝트에 대한 변경사항이 있을 시 업데이트해준다..
@@ -148,6 +134,7 @@ const useProjectsQueries = ({ currentUserId, sortLabel }: useProjectsQueriesProp
           min: number | string;
           max: number | string;
         };
+        date?: { startDate: string; endDate: string };
         volunteer?: string[];
         status?: string;
         SuggestedFreelancers?: string[];

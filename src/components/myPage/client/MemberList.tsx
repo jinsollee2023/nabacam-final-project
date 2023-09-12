@@ -7,7 +7,6 @@ import { Member } from "src/Types";
 import { S } from "./memberListStyle";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
-import useMemberValuesStore from "src/store/useMemberModal";
 import { FiPhoneCall, FiMail } from "react-icons/fi";
 import SearchItemBar from "src/components/common/searchItemBar/SearchItemBar";
 import { useSearchKeywordStore } from "src/store/useSearchKeywordStore";
@@ -22,7 +21,6 @@ export interface Errors {
 
 const MemberList = () => {
   const { userId, setUser } = useUserStore();
-  const { values } = useMemberValuesStore();
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const { client, clientDataError, clientDataLoading, clientMembersMutation } =
     useClientsQueries({ userId });
@@ -34,6 +32,7 @@ const MemberList = () => {
   );
 
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
+
   const initialErrors: Errors = {
     name: null,
     team: null,
@@ -44,11 +43,20 @@ const MemberList = () => {
   const { validateName, validateTeam, validateEmail, validatePhone } =
     useValidation();
 
+  const addAvailbleClose =
+    updateMemberData?.contact.email === "" &&
+    updateMemberData?.name === "" &&
+    updateMemberData?.contact.phone === "" &&
+    updateMemberData?.team === "";
+
+  const updateAvailableClose =
+    selectedMemberData?.name === updateMemberData?.name &&
+    selectedMemberData?.team === updateMemberData?.team &&
+    selectedMemberData?.contact.phone === updateMemberData?.contact.phone &&
+    selectedMemberData?.contact.email === updateMemberData?.contact.email;
+
   const availableClose =
-    values.email === "" &&
-    values.name === "" &&
-    values.phone === "" &&
-    values.team === "";
+    selectedMemberData?.name === "" ? addAvailbleClose : updateAvailableClose;
 
   // 구성원 추가하기 버튼 클릭시 실행되는 함수
   const openModalButtonHandler = () => {

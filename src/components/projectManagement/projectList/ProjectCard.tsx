@@ -10,6 +10,7 @@ import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
 import { Errors } from "./ProjectList";
+import { CommonS } from "src/components/common/button/commonButton";
 
 interface projectCardProps {
   project: Project;
@@ -47,7 +48,9 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
       "프로젝트 설명",
       values.category as string
     );
-    const qualificationError = validateWorkExp(newProject.qualification);
+    const qualificationError = validateWorkExp(
+      String(newProject.qualification)
+    );
     const expectedStartDateError = validateDate(
       "시작예정일",
       newProject.expectedStartDate
@@ -132,11 +135,17 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
     const isToastVisible = toast.isActive("deleteConfirmation");
     if (!isToastVisible) {
       toast.info(
-        <div>
-          <p>프로젝트를 삭제하시겠습니까?</p>
-          <button onClick={handleDeleteConfirm}>확인</button>
-          <button onClick={handleDeleteCancel}>취소</button>
-        </div>,
+        <CommonS.toastinfo>
+          <CommonS.toastintoText>
+            프로젝트를 삭제하시겠습니까?
+          </CommonS.toastintoText>
+          <CommonS.toastOkButton onClick={handleDeleteConfirm}>
+            확인
+          </CommonS.toastOkButton>
+          <CommonS.toastNoButton onClick={handleDeleteCancel}>
+            취소
+          </CommonS.toastNoButton>
+        </CommonS.toastinfo>,
         {
           toastId: "deleteConfirmation", // 고유한 ID 부여
           position: toast.POSITION.TOP_CENTER,
@@ -148,21 +157,32 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
     }
   };
 
+  const availableClose =
+    project.title === values.title &&
+    project.desc === values.desc &&
+    project.category === values.category &&
+    project.pay.min === values.minPay &&
+    project.pay.max === values.maxPay &&
+    project.expectedStartDate === values.expectedStartDate &&
+    project.manager.name === values.manager.name &&
+    project.qualification === values.qualification;
+
   return (
     <>
-      {/* FIX */}
       {isDetailModalOpen && (
         <Modal
           setIsModalOpen={setIsDetailModalOpen}
           buttons={
-            <>
-              <S.ModalDeleteBtn onClick={showDeleteConfirmation}>
-                삭제하기
-              </S.ModalDeleteBtn>
-              <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>
-                수정하기
-              </S.ModalPostBtn>
-            </>
+            project.status === "진행 전" && (
+              <>
+                <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>
+                  수정하기
+                </S.ModalPostBtn>
+                <S.ModalPostBtn onClick={showDeleteConfirmation}>
+                  삭제하기
+                </S.ModalPostBtn>
+              </>
+            )
           }
         >
           <ProjectDetailModal project={project} />
@@ -171,6 +191,7 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
       {isUpadateModalOpen && (
         <Modal
           setIsModalOpen={setIsUpadateModalOpen}
+          availableClose={availableClose}
           buttons={
             <>
               <S.ModalDeleteBtn onClick={showDeleteConfirmation}>
@@ -190,28 +211,37 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
         <S.ProjcetTitleBox onClick={() => setIsDetailModalOpen(true)}>
           {project.title}
         </S.ProjcetTitleBox>
-        <S.ProfileCardRightContentWrapper>
-          <S.ProjectCardButtonBox>
-            <S.SubmitBtn onClick={updateProjectModalOpenHandler}>
-              수정
-            </S.SubmitBtn>
-            <S.SubmitBtn onClick={showDeleteConfirmation}>삭제</S.SubmitBtn>
-          </S.ProjectCardButtonBox>
-          <S.ProjectManager>
-            {project.manager.team}팀&nbsp;{project.manager.name}
-          </S.ProjectManager>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <p
-              style={{
-                color: "var(--middle-gray)",
-                fontSize: "13px",
-                marginTop: "5px",
-              }}
-            >
-              {project.expectedStartDate} 시작 예정
+        <div>
+          {project.status === "진행 전" && (
+            <>
+              <S.ProjectCardButtonBox>
+                <S.SubmitBtn
+                  style={{ marginRight: "5px" }}
+                  onClick={updateProjectModalOpenHandler}
+                >
+                  수정
+                </S.SubmitBtn>
+                <S.SubmitBtn onClick={showDeleteConfirmation}>삭제</S.SubmitBtn>
+              </S.ProjectCardButtonBox>
+            </>
+          )}
+          <div>
+            <p>
+              {project.manager.team}팀&nbsp;{project.manager.name}
             </p>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <p
+                style={{
+                  color: "var(--middle-gray)",
+                  fontSize: "13px",
+                  marginTop: "5px",
+                }}
+              >
+                {project.expectedStartDate} 시작 예정
+              </p>
+            </div>
           </div>
-        </S.ProfileCardRightContentWrapper>
+        </div>
       </S.ProjectCardBox>
     </>
   );

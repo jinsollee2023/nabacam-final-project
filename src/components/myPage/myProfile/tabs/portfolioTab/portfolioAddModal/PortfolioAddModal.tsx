@@ -1,10 +1,10 @@
 import { Radio } from "antd";
 import { useState, useEffect } from "react";
-import { useUserStore } from "../../../../../store/useUserStore";
-import { usePortfolioStore } from "../../../../../store/usePortfolioStore";
+import { useUserStore } from "../../../../../../store/useUserStore";
+import { usePortfolioStore } from "../../../../../../store/usePortfolioStore";
 import { v4 as uuidv4 } from "uuid";
-import { Portfolio } from "../../../../../Types";
-import PreviewImage from "../../../../common/PreviewImage";
+import { Portfolio } from "../../../../../../Types";
+import PreviewImage from "../../../../../common/PreviewImage";
 import { FcOk } from "react-icons/fc";
 import { S } from "./portfolioAddModal.styles";
 import { Errors } from "../PortfolioTab";
@@ -106,7 +106,7 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
           placeholder="제목"
           title={newPortfolio.title}
         />
-        <p>{errors.title}</p>
+        <S.errorText>{errors.title}</S.errorText>
         <S.TextareaDesc
           rows={5}
           name="desc"
@@ -119,7 +119,7 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
           placeholder="내용"
           title={newPortfolio.desc}
         />
-        <p>{errors.desc}</p>
+        <S.errorText>{errors.desc}</S.errorText>
 
         <S.PdfInputWrapper>
           {/* attachmentType에 따라서 pdf파일이거나 링크이거나 */}
@@ -142,7 +142,9 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
                 }}
                 placeholder="링크"
               />
-              <p>{attachmentType !== "file" ? errors.link : null}</p>
+              <S.errorText>
+                {attachmentType !== "file" ? errors.link : null}
+              </S.errorText>
             </>
           )}
           <input

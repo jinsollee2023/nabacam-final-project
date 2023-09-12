@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import { S } from "./portfolioTab.styles";
 import PortfolioAddModal from "./portfolioAddModal/PortfolioAddModal";
-import usePortfolioInfoQueries from "../../../../hooks/usePortfolioInfoQueries";
-import { useUserStore } from "../../../../store/useUserStore";
-import { usePortfolioStore } from "../../../../store/usePortfolioStore";
+import usePortfolioInfoQueries from "../../../../../hooks/usePortfolioInfoQueries";
+import { useUserStore } from "../../../../../store/useUserStore";
+import { usePortfolioStore } from "../../../../../store/usePortfolioStore";
 import PortfolioDetailModal from "./portfolioDetailModal/PortfolioDetailModal";
-import Modal from "../../../modal/Modal";
-import { Portfolio } from "../../../../Types";
+import Modal from "../../../../modal/Modal";
+import { Portfolio } from "../../../../../Types";
 import {
   updatePortfolioFile,
   uploadPDF,
   uploadThumbnail,
-} from "../../../../api/Portfolio";
-import { getPortfolioFileURL } from "../../../../api/User";
+} from "../../../../../api/Portfolio";
+import { getPortfolioFileURL } from "../../../../../api/User";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
+import { CommonS } from "src/components/common/button/commonButton";
 
 export interface Errors {
   title: null | string;
@@ -119,7 +120,6 @@ const PortfolioTab = () => {
       ? setUpdatePortfolioButtonClicked(true)
       : setAddPortfolioButtonClicked(true);
   };
-  console.log("newPortfolio===>", newPortfolio);
 
   const addPortfolio = async () => {
     const pdfFilePath =
@@ -223,10 +223,6 @@ const PortfolioTab = () => {
     }
   };
 
-  // const addModalOpenHandler = () => {
-  //   setIsDetailModalOpen(false);
-  // };
-
   const addModalOpenHandler = () => {
     setIsAddModalOpen(true);
     setErrors({ title: null, desc: null, pdf: null, link: null });
@@ -268,11 +264,17 @@ const PortfolioTab = () => {
 
   const showDeleteConfirmation = () => {
     toast.info(
-      <div>
-        <p>해당 포트폴리오를 삭제하시겠습니까?</p>
-        <button onClick={handleDeleteConfirm}>확인</button>
-        <button onClick={handleDeleteCancel}>취소</button>
-      </div>,
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>
+          해당 포트폴리오를 삭제하시겠습니까?
+        </CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleDeleteConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleDeleteCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,
@@ -281,13 +283,25 @@ const PortfolioTab = () => {
       }
     );
   };
-  const availableClose =
+  const addAvailableClose =
     newPortfolio.desc === "" &&
     newPortfolio.title === "" &&
     newPortfolio.linkURL === "" &&
     newPortfolio.pdfFileURL === "" &&
     newPortfolio.thumbNailURL ===
       "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg";
+
+  const updateAvailableClose =
+    newPortfolio.desc === selectedPortfolio?.desc &&
+    newPortfolio.title === selectedPortfolio?.title &&
+    newPortfolio.linkURL === selectedPortfolio?.linkURL &&
+    newPortfolio.pdfFileURL === selectedPortfolio?.pdfFileURL &&
+    newPortfolio.thumbNailURL !==
+      "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg";
+
+  const availableClose = selectedPortfolio
+    ? updateAvailableClose
+    : addAvailableClose;
 
   return (
     <>

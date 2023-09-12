@@ -202,4 +202,12 @@ export const S = {
     z-index: 1;
     transform: translateX(-25%);
   `,
+  ErrorMessage: styled.div<{ hasError: boolean }>`
+    height: ${(props) => (props.hasError ? "20px" : "0")};
+    margin: 10px 0 20px 0;
+    color: #ef0000;
+    font-size: 14px;
+    overflow: hidden;
+    transition: height 0.3s;
+  `,
 };

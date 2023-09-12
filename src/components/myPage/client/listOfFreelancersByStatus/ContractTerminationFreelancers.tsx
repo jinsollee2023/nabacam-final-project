@@ -7,6 +7,7 @@ import ContractTerminationFreelancerList from "./contractTerminationFreelancerLi
 import { useUserStore } from "src/store/useUserStore";
 import { IProjectWithFreelancer } from "src/Types";
 import useTerminationedProjectsQueries from "src/hooks/queries/useTerminationedProjectsQueries";
+import { Spin } from "antd";
 
 const ContractTerminationFreelancers = () => {
   // 최신순/오래된 순 필터버튼 상태관리
@@ -14,16 +15,29 @@ const ContractTerminationFreelancers = () => {
   const [selectedWorkField, setSelectedWorkField] = useState("전체보기");
 
   const { userId } = useUserStore();
-  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries(
-    {
-      currentUserId: userId,
-    }
-  );
+  const {
+    freelancersWithTerminatedProjects,
+    freelancersWithTerminatedProjectsisLoading,
+  } = useTerminationedProjectsQueries({
+    currentUserId: userId,
+  });
 
   // 필터 버튼 토글
   const handleSortToggle = () => {
     setIsLastFirst(!isLastFirst);
   };
+
+  if (freelancersWithTerminatedProjectsisLoading)
+    return (
+      <Spin
+        size="large"
+        style={{
+          position: "absolute",
+          top: "65%",
+          left: "60%",
+        }}
+      />
+    );
 
   return (
     <>

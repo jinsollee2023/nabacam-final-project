@@ -1,11 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Member } from "src/Types";
 import { S } from "./addMemberModal.style";
 import { formatPhoneNumber } from "src/components/common/commonFunc";
 import { useUserStore } from "src/store/useUserStore";
 import useValidation from "src/hooks/useValidation";
 import { Errors } from "./MemberList";
-import useMemberValuesStore from "src/store/useMemberModal";
 
 interface AddMemberModalProps {
   currentMemberData?: Member;
@@ -27,13 +26,13 @@ const AddMemberModal = ({
     email: currentMemberData ? currentMemberData.contact.email : "",
     phone: currentMemberData ? currentMemberData.contact.phone : "",
   };
-  const { values, setMamber } = useMemberValuesStore();
+  const [values, setValues] = useState(initialValues);
 
   const { validateName, validateTeam, validateEmail, validatePhone } =
     useValidation();
 
   const handleChange = (key: string, value: string) => {
-    setMamber({ ...values, [key]: value });
+    setValues({ ...values, [key]: value });
   };
 
   useEffect(() => {

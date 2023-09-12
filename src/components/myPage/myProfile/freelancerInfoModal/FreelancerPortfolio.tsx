@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getPortfolio } from "../../../../api/Portfolio";
 import { S } from "./freelancerInfo.style";
 import { useUserStore } from "../../../../store/useUserStore";
-import PortfolioDetailModal from "../../tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
+import PortfolioDetailModal from "../tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
 import Modal from "../../../modal/Modal";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";

@@ -1,7 +1,7 @@
 import React from "react";
 import { S } from "../welcome.styles";
 
-const ExploreProjectInfomation = () => {
+const ExploreProjectInformation = () => {
   return (
     <>
       <S.MenuTitleBox>
@@ -18,7 +18,7 @@ const ExploreProjectInfomation = () => {
         <S.MenuContentsBox>
           <S.TabContentsBox>
             <S.TabTitle>프로젝트 탐색</S.TabTitle>
-            <S.TabDesc>
+            <S.TabDesc color="#2D2D2D">
               본인의 능력과 일치하는 최적의 프로젝트를 발견하여 성공적인
               프리랜서 경력을 쌓아보세요!
               <br />
@@ -28,7 +28,7 @@ const ExploreProjectInfomation = () => {
           </S.TabContentsBox>
           <S.TabContentsBox>
             <S.TabTitle>지원한 프로젝트</S.TabTitle>
-            <S.TabDesc>
+            <S.TabDesc color="#2D2D2D">
               지원한 프로젝트들을 확인할 수 있어요!
               <br />
               자세히 보기 버튼을 클릭하여 지원 취소도 언제든 가능해요.
@@ -36,7 +36,7 @@ const ExploreProjectInfomation = () => {
           </S.TabContentsBox>
           <S.TabContentsBox>
             <S.TabTitle>제안받은 프로젝트</S.TabTitle>
-            <S.TabDesc>
+            <S.TabDesc color="#2D2D2D">
               기업들로부터 직접 프로젝트 제안을 받았을 경우 이곳에서 확인할 수
               있어요.
               <br />
@@ -50,4 +50,4 @@ const ExploreProjectInfomation = () => {
   );
 };
 
-export default ExploreProjectInfomation;
+export default ExploreProjectInformation;

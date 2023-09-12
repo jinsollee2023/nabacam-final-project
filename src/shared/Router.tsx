@@ -25,11 +25,10 @@ const Router = () => {
           </Route>
           <Route element={<PrivateRouteLogin />}>
             <Route path="/" element={<Welcome />} />
-            <Route path="/login" element={<LoginComp />} />{" "}
-            <Route path="/register" element={<Register />} />
             <Route path="/login" element={<LoginComp />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/resetpassword" element={<ResetPassword />} />
-          </Route>{" "}
+          </Route>
         </Routes>
       </Layout>
     </BrowserRouter>

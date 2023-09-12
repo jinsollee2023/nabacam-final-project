@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Modal from "../../../../../components/modal/Modal";
-import useResumeExperienceQueries from "../../../../../hooks/useResumeExperienceQueries";
-import { useUserStore } from "../../../../../store/useUserStore";
-import type { ResumeExperience } from "../../../../../Types";
-import { useResumeExperienceStore } from "../../../../../store/useResumeExperienceStore";
+import Modal from "../../../../../modal/Modal";
+import useResumeExperienceQueries from "../../../../../../hooks/useResumeExperienceQueries";
+import { useUserStore } from "../../../../../../store/useUserStore";
+import type { ResumeExperience } from "../../../../../../Types";
+import { useResumeExperienceStore } from "../../../../../../store/useResumeExperienceStore";
 import AddResumeExperienceModal from "./AddResumeExperienceModal";
 import { S } from "../Resume.styles";
 import { CommonS } from "src/components/common/button/commonButton";
@@ -139,11 +139,15 @@ const ResumeExperienceCard = ({
 
   const showDeleteConfirmation = () => {
     toast.info(
-      <div>
-        <p>삭제하시겠습니까?</p>
-        <button onClick={handleDeleteConfirm}>확인</button>
-        <button onClick={handleDeleteCancel}>취소</button>
-      </div>,
+      <CommonS.toastintoText>
+        <CommonS.toastintoText>삭제하시겠습니까?</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleDeleteConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleDeleteCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastintoText>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,
@@ -152,6 +156,16 @@ const ResumeExperienceCard = ({
       }
     );
   };
+
+  const availableClose =
+    newExperience.pastWorkPlace === experience.pastWorkPlace &&
+    newExperience.pastWorkPosition === experience.pastWorkPosition &&
+    newExperience.pastWorkDuration.pastWorkEndDate ===
+      experience.pastWorkDuration.pastWorkEndDate &&
+    newExperience.pastWorkDuration.pastWorkStartDate ===
+      experience.pastWorkDuration.pastWorkStartDate &&
+    newExperience.pastWorkField === experience.pastWorkField &&
+    newExperience.pastEmploymentType === experience.pastEmploymentType;
 
   return (
     <>
@@ -203,6 +217,7 @@ const ResumeExperienceCard = ({
       {isUpdateModalOpen && (
         <Modal
           setIsModalOpen={setIsUpdateModalOpen}
+          availableClose={availableClose}
           buttons={
             <>
               <CommonS.RightEndBtnBox>

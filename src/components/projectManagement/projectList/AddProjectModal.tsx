@@ -222,9 +222,7 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
                 )
               }
               onBlur={(e) => {
-                const qualificationError = validateWorkExp(
-                  Number(e.target.value)
-                );
+                const qualificationError = validateWorkExp(e.target.value);
                 setErrors({ ...errors, qualification: qualificationError });
               }}
               borderColor="var(--lighter-gray)"

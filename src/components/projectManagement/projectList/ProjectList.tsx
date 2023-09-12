@@ -68,7 +68,9 @@ const ProjectList = () => {
       "프로젝트 설명",
       values.category as string
     );
-    const qualificationError = validateWorkExp(newProject.qualification);
+    const qualificationError = validateWorkExp(
+      String(newProject.qualification)
+    );
     const expectedStartDateError = validateDate(
       "시작예정일",
       newProject.expectedStartDate
