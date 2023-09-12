@@ -139,11 +139,15 @@ const ResumeExperienceCard = ({
 
   const showDeleteConfirmation = () => {
     toast.info(
-      <div>
-        <p>삭제하시겠습니까?</p>
-        <button onClick={handleDeleteConfirm}>확인</button>
-        <button onClick={handleDeleteCancel}>취소</button>
-      </div>,
+      <CommonS.toastintoText>
+        <CommonS.toastintoText>삭제하시겠습니까?</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleDeleteConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleDeleteCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastintoText>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,

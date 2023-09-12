@@ -58,20 +58,13 @@ const ResetPassword = () => {
         password: values.password as string,
       });
       if (!error) {
-        toast.success("비밀번호가 성공적으로 바뀌었습니다.", {
-          className: "Toastify__toast--success",
-          containerId: "Toastify__toast--success",
-        });
+        toast.success("비밀번호가 성공적으로 바뀌었습니다.", {});
         navigate("/");
       }
       if (error) {
         error.message ===
           "New password should be different from the old password." &&
-          toast.error("이전 비밀번호와 다른 비밀번호로 입력해주세요.", {
-            className: "Toastify__toast--error",
-
-            containerId: "Toastify__toast--success",
-          });
+          toast.error("이전 비밀번호와 다른 비밀번호로 입력해주세요.", {});
 
         setSubmitButtonClicked(false);
       }

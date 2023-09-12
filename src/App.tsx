@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === "production") {
   console.error = function no_console() {};
 }
 
-const App = ({ props: Approps }: any) => {
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
@@ -22,8 +22,7 @@ const App = ({ props: Approps }: any) => {
 
       <ToastContainer
         position="top-center"
-        className="test"
-        style={{ width: "350px", height: "100px" }}
+        style={{ width: "400px", height: "100px" }}
       />
     </QueryClientProvider>
   );
