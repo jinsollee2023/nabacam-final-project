@@ -11,7 +11,6 @@ const Navbar = () => {
   const { user } = useUserStore();
   const { setCurrentTab } = useTabStore();
   const token = localStorage.getItem("sb-iwbhucydhgtpozsnqeec-auth-token");
-
   if (!token) {
     return null;
   }
