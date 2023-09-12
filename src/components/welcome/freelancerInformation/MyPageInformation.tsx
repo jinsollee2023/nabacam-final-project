@@ -1,7 +1,7 @@
 import React from "react";
 import { S } from "../welcome.styles";
 
-const MyPageInfomation = () => {
+const MyPageInformation = () => {
   return (
     <S.MenuContainer>
       <S.MenuContentsBox>
@@ -92,4 +92,4 @@ const MyPageInfomation = () => {
   );
 };
 
-export default MyPageInfomation;
+export default MyPageInformation;
