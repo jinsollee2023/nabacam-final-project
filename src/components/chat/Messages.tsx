@@ -7,7 +7,6 @@ import { S } from "./chat.styles";
 interface MessagesProps {
   room_id: string;
 }
-//
 interface UsersProfile {
   userId: string;
   name: string;
@@ -120,7 +119,6 @@ const Messages = ({ room_id }: MessagesProps) => {
       }));
 
       setMessages(data);
-      // 스크롤 밑으로 오도록
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error("Error fetching data");
@@ -149,6 +147,7 @@ const Messages = ({ room_id }: MessagesProps) => {
           // getData();
           setMessages((current) => [...current, payload.new as Message]);
 
+          // 메시지가 추가될 때마다 스크롤 아래로 이동
           if (messagesRef.current) {
             messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
           }

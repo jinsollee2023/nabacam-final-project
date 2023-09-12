@@ -21,8 +21,6 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
   const clientId = client.userId; // sender
   const freelancerId = user?.userId; // receiver
   const navigate = useNavigate();
-  // const [createdRoomId, setCreatedRoomId] = useState("");
-  // const [selectedRoom, setSelectedRoom] = useState<TRoom | null>(null);
   const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
 
   // 클릭 시 텍스트 클립보드에 복사하기 위해 생성
@@ -54,14 +52,9 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
   };
 
   // 클릭 시 해당 프리랜서에게 DM 전송
-  const sendDM = async (freelancerId: string) => {
-    // 프리랜서id를 받아서
-
-    // dm방 생성
+  const sendDM = async () => {
+    // dm방 생성 -> sender, receiver 모두 자동으로 들어가도록 create_room2, is_room_participant2 설정함
     handleCreateRoom();
-
-    // receiver -> 방으로
-
     // 채팅방으로 이동
     navigate("/chat");
   };
@@ -84,7 +77,7 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
             {/* <S.Contacts
               onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
             > */}
-            <S.Contacts onClick={() => sendDM(freelancerId)}>
+            <S.Contacts onClick={() => sendDM()}>
               <HiOutlinePaperAirplane
                 size={17}
                 style={{ transform: "rotate(45deg)" }}
@@ -95,9 +88,9 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
             </S.Contacts>
           </S.ContactBox>
           <S.ContactBox>
-            <S.Contacts
+            {/* <S.Contacts
               onClick={() => handleCopyClipBoard(`${user.contact.email}`)}
-            ></S.Contacts>
+            ></S.Contacts> */}
           </S.ContactBox>
           {/* =============================================================== */}
         </S.UserBox>

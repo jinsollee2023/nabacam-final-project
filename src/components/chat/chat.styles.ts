@@ -65,11 +65,7 @@ export const S = {
   RightDMRoomContainer: styled.section`
     width: 70.87%;
     height: 86vh;
-    overflow-y: auto;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
+    /* MessageWrapper와 겹쳐서 뺌 */
     display: flex;
     flex: column;
     align-items: center;
@@ -88,7 +84,7 @@ export const S = {
     background-color: var(--chat-navy);
     display: flex;
     align-items: center;
-    padding: 4px 16px 0;
+    padding: 6px 16px;
 
     width: 100%;
     border-top-left-radius: 8px;
@@ -169,8 +165,24 @@ export const S = {
 
   //=====================================================//
   MessageWrapper: styled.div`
-    background: #002c5f;
-    overflow-y: scroll;
+    background: var(--chat-navy);
+    overflow-y: auto;
+    /* &::-webkit-scrollbar {
+      display: none;
+    } */
+
+    /* 스크롤바 배경 색상 변경 */
+    &::-webkit-scrollbar {
+      width: 12px; /* 스크롤바의 너비 설정 */
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--chat-navy);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #051930; /* 스크롤바의 색상 변경 */
+    }
 
     flex: 1;
     padding: 12px;
@@ -205,7 +217,6 @@ export const S = {
   ParticipantContentWrapper: styled.div<MessageContentProps>`
     align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
     text-align: ${(props) => (props.isMessageUser ? "start" : "end")};
-    /* background-color: antiquewhite; */
     margin: 5px;
   `,
   ParticipantProfileImg: styled.img<MessageContentProps>`
@@ -221,3 +232,5 @@ export const S = {
     margin-bottom: 3px;
   `,
 };
+
+// background-color: antiquewhite;
