@@ -20,7 +20,7 @@ const MyPageInformation = () => {
             있어요.
           </S.TabDesc>
           <img src="" alt="이력서 탭 스크린샷" />
-          <S.TabDesc>
+          <S.TabDesc color="#2D2D2D">
             사진, 이름, 직무, 기술 스택, 간단한 자기 소개 등을 통해
             <br />
             클라이언트에게 당신을 알릴 수 있어요.
@@ -40,7 +40,7 @@ const MyPageInformation = () => {
           <S.TabDesc $fontWeight="600" $marginBottom="10px">
             과거의 협업, 그 흔적들
           </S.TabDesc>
-          <S.TabDesc>
+          <S.TabDesc color="#2D2D2D">
             과거에 진행했던 프로젝트들의 계약 정보와 상세 내용을 확인할 수
             있어요.
             <br /> 프로젝트의 기간, 계약 조건 등 협업에 대한 모든 이야기를
@@ -69,7 +69,7 @@ const MyPageInformation = () => {
             탭이에요.
             <br />
           </S.TabDesc>
-          <S.TabDesc>
+          <S.TabDesc color="#2D2D2D">
             작업물의 배경, 진행 과정, 사용된 기술 및 도구 등의 상세 내용을
             기술해주세요.
             <br />

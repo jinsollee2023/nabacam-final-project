@@ -25,7 +25,7 @@ const CompanyPageInformation = () => {
             <S.TabDesc $fontWeight="600">
               기업 구성원을 한 눈에 확인할 수 있어요.
             </S.TabDesc>
-            <S.TabDesc>
+            <S.TabDesc color="#2D2D2D">
               등록한 기업 구성원은 이후 프로젝트를 모집글을 게시할 때,
               <br />
               담당자로 지정하여 프로젝트의 담당자를 한 번에 확인할 수 있어요.
@@ -43,12 +43,12 @@ const CompanyPageInformation = () => {
           $alignItems="null"
         >
           <S.TabTitle>진행 중인 프리랜서</S.TabTitle>
-          <S.TabDesc>
+          <S.TabDesc color="#2D2D2D">
             현재 우리 회사와 함께 작업 중인 프리랜서의 전반적인 정보를 확인할 수
             있어요.
           </S.TabDesc>
           <S.TabTitle>계약이 끝난 프리랜서</S.TabTitle>
-          <S.TabDesc>
+          <S.TabDesc color="#2D2D2D">
             함께 했던 프리랜서들의 전반적인 정보를 확인 할 수 있고,
             <br />
             프로젝트가 시작할 때 다시 제안할 수 있어요.
