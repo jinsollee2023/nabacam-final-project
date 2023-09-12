@@ -3,7 +3,7 @@ import S from "./ProjectListStyles";
 import { useEffect, useState } from "react";
 import { getFreelancer } from "src/api/User";
 import ProjectCommittedFreelancerProfile from "./ProjectCommittedFreelancerProfile";
-import { useUserStore } from "src/zustand/useUserStore";
+import { useUserStore } from "src/store/useUserStore";
 
 export interface ProjectDetailModalProps {
   project: Project;
@@ -28,7 +28,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
     useState<FreelancerInfo | null>(null);
 
   const { userRole } = useUserStore();
-
+  console.log("project==>", project);
   const fetchCommittedFreelancer = async () => {
     const userId = project.freelancerId!;
     const freelancer = await getFreelancer(userId);
@@ -74,7 +74,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
         <S.ModalInfoColumnBox>
           <S.ModalDetail>경력</S.ModalDetail>
           <S.ModalDetail color="var(--main-blue)">
-            {project.qualification}년차 이상부터
+            {project.qualification}년차 이상
           </S.ModalDetail>
         </S.ModalInfoColumnBox>
         <S.ModalInfoColumnBox marginLeft="30%">
@@ -90,14 +90,10 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
         <label htmlFor="projectInfo">프로젝트 설정</label>
       </S.ModalTitle>
       <S.ModalInfoColumnBox>
-        <S.ModalDetail>목표기간</S.ModalDetail>
+        <S.ModalDetail>시작 예정일</S.ModalDetail>
         <S.ModalInfoFlexBox style={{ alignItems: "center" }}>
           <S.ModalDetail color="var(--main-blue)">
-            {String(project.date?.startDate)}
-          </S.ModalDetail>
-          <p style={{ fontSize: "5px", color: "var(--darker-gray)" }}>부터</p>
-          <S.ModalDetail color="var(--main-blue)">
-            {String(project.date?.endDate)}
+            {String(project.expectedStartDate)}
           </S.ModalDetail>
         </S.ModalInfoFlexBox>
 
@@ -125,8 +121,9 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           </p>
           <S.ModalDetail
             color="var(--main-blue)"
-            marginRight="15px"
-            marginLeft="15px"
+            marginRight="60px"
+            marginLeft="20px"
+            marginTop="15px"
           >
             {payUnitConversion(project.pay.min as number)}
           </S.ModalDetail>
@@ -143,7 +140,8 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           <S.ModalDetail
             color="var(--main-blue)"
             marginRight="15px"
-            marginLeft="15px"
+            marginLeft="20px"
+            marginTop="15px"
           >
             {payUnitConversion(project.pay.max as number)}
           </S.ModalDetail>

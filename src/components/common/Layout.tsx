@@ -9,7 +9,11 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <S.LayoutContainer>
       <Navbar />
-      <S.LayoutChildren>{children}</S.LayoutChildren>
+      {window.location.pathname === "/" ? (
+        <S.WelcomeLayout>{children}</S.WelcomeLayout>
+      ) : (
+        <S.ChildrenLayout>{children}</S.ChildrenLayout>
+      )}
     </S.LayoutContainer>
   );
 };
@@ -24,7 +28,12 @@ const S = {
     display: flex;
   `,
 
-  LayoutChildren: styled.div`
+  ChildrenLayout: styled.div`
     width: 73vw;
+  `,
+
+  WelcomeLayout: styled.div`
+    width: 80vw;
+    margin: 0 auto;
   `,
 };

@@ -105,7 +105,7 @@ export const updateProject = async (
     qualification?: number;
   }
 ): Promise<void> => {
-  await supabase
+  const { data } = await supabase
     .from("projects")
     .update(column)
     .eq("projectId", projectId)
@@ -145,33 +145,13 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
         orderByField = "created_at";
         ascending = false;
         break;
-      case "오래된 등록 순":
-        orderByField = "created_at";
-        ascending = true;
-        break;
-      case "시작 예정일 빠른 순":
+      case "시작 예정일 순":
         orderByField = "expectedStartDate";
         ascending = true;
-        break;
-      case "시작 예정일 느린 순":
-        orderByField = "expectedStartDate";
-        ascending = false;
         break;
       case "지원자 많은 순":
         orderByField = "volunteer";
         ascending = false;
-        break;
-      case "지원자 적은 순":
-        orderByField = "volunteer";
-        ascending = true;
-        break;
-      case "자격 연차 높은 순":
-        orderByField = "qualification";
-        ascending = false;
-        break;
-      case "자격 연차 낮은 순":
-        orderByField = "qualification";
-        ascending = true;
         break;
       default:
         orderByField = "created_at";
@@ -212,13 +192,16 @@ export const getPendingFreelancers = async (
 
 export const getOngoingProjectsOfClient = async (
   clientId: string
+  // page: number
 ): Promise<Project[]> => {
+  // console.log(page);
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
     .eq("clientId", clientId)
     .eq("status", "진행 중")
     .order("created_at", { ascending: true });
+  // .range(page * 8 - 8, page * 8 - 1);
 
   return projects as Project[];
 };

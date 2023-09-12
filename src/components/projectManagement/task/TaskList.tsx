@@ -3,22 +3,28 @@ import S from "./TaskStyles";
 import useTasksQueries from "../../../hooks/useTasksQueries";
 import { useEffect, useState } from "react";
 import { Select } from "antd";
-import { MdAddCircle } from "react-icons/md";
-import { Task } from "../../../Types";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { CommonS } from "src/components/common/button/commonButton";
 import React from "react";
 import { RiAddBoxLine } from "react-icons/ri";
+import { toast } from "react-toastify";
+import useOngoingProjectOfClientQueries from "src/hooks/queries/useOngoingProjectOfClientQueries";
+import useOngoingProjectsOfFreelancerQueries from "src/hooks/queries/useOngoingProjectsOfFreelancerQueries";
+import { Task } from "src/Types";
 
 const TaskList = () => {
   const { userId, userRole } = useUserStore();
   const [projectId, setProjectId] = useState("");
-  const {
-    ongoingProjectsOfClient,
-    ongoingProjectsOfFreelancer,
-    updateProjectMutation,
-  } = useProjectsQueries({
+  const { updateProjectMutation } = useProjectsQueries({
+    currentUserId: userId,
+  });
+  const { ongoingProjectsOfFreelancer } = useOngoingProjectsOfFreelancerQueries(
+    {
+      currentUserId: userId,
+    }
+  );
+  const { ongoingProjectsOfClient } = useOngoingProjectOfClientQueries({
     currentUserId: userId,
   });
 
@@ -28,13 +34,13 @@ const TaskList = () => {
       ongoingProjectsOfClient &&
       ongoingProjectsOfClient.length > 0
     ) {
-      setProjectId(ongoingProjectsOfClient[0].projectId!);
+      setProjectId(ongoingProjectsOfClient[0].projectId as string);
     } else if (
       userRole === "freelancer" &&
       ongoingProjectsOfFreelancer &&
       ongoingProjectsOfFreelancer.length > 0
     ) {
-      setProjectId(ongoingProjectsOfFreelancer[0].projectId!);
+      setProjectId(ongoingProjectsOfFreelancer[0].projectId as string);
     }
   }, [ongoingProjectsOfClient, ongoingProjectsOfFreelancer]);
 
@@ -47,18 +53,27 @@ const TaskList = () => {
   const addTaskButtonHandler = () => {
     addTaskMutation.mutate();
   };
-
   const terminateProjectButtonHandler = () => {
-    const isConfirmed = window.confirm(
-      "프로젝트가 종료되면 진행 상태를 확인할 수 없습니다. \n프로젝트를 종료하시겠습니까?"
+    const projectList =
+      userRole === "freelancer"
+        ? ongoingProjectsOfFreelancer
+        : ongoingProjectsOfClient;
+
+    const selectedProject = projectList?.find(
+      (project) => project.projectId === projectId
     );
-    if (isConfirmed) {
-      updateProjectMutation.mutate({
-        projectId,
-        newProject: { status: "진행 완료" },
-      });
-      setProjectId("");
-    }
+
+    updateProjectMutation.mutate({
+      projectId,
+      newProject: {
+        status: "진행 완료",
+        date: {
+          startDate: selectedProject?.date?.startDate as string,
+          endDate: new Date().toISOString().slice(0, 10),
+        },
+      },
+    });
+    setProjectId("");
   };
 
   const monthlyTaskData: Map<string, Task[]> = new Map();
@@ -71,6 +86,37 @@ const TaskList = () => {
     monthlyTaskData.get(month)?.push(task);
   });
 
+  const handleTerminateConfirm = () => {
+    terminateProjectButtonHandler();
+    toast.dismiss();
+  };
+
+  const handleTerminateCancel = () => {
+    toast.dismiss();
+  };
+
+  const showTerminateConfirmation = () => {
+    toast.info(
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>
+          "프로젝트가 종료되면 진행 상태를 확인할 수 없습니다. 프로젝트를
+          종료하시겠습니까?"
+        </CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleTerminateConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleTerminateCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
   return (
     <>
       <S.SelectAddButtonContainer>
@@ -141,7 +187,7 @@ const TaskList = () => {
               </S.TaskAddButton>
             )
           : projectId && (
-              <S.TaskAddButton onClick={terminateProjectButtonHandler}>
+              <S.TaskAddButton onClick={showTerminateConfirmation}>
                 <S.TaskAddSpan>프로젝트 종료하기</S.TaskAddSpan>
               </S.TaskAddButton>
             )}

@@ -3,18 +3,29 @@ import ProjectCard from "./ProjectCard";
 import { RiAddBoxLine } from "react-icons/ri";
 import Modal from "../../modal/Modal";
 import AddProjectModal from "./AddProjectModal";
-import { useProjectStore } from "../../../zustand/useProjectStore";
+import { useProjectStore } from "../../../store/useProjectStore";
 import S from "./ProjectListStyles";
 import { useEffect, useState } from "react";
-import { useUserStore } from "../../../zustand/useUserStore";
+import { useUserStore } from "../../../store/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import SearchItemBar from "../../../components/common/searchItemBar/SearchItemBar";
 import SortProjects from "./SortProjects";
 import { queryClient } from "../../../App";
-import { useSearchKeywordStore } from "../../../zustand/useSearchKeywordStore";
+import { useSearchKeywordStore } from "../../../store/useSearchKeywordStore";
 import { Project } from "../../../Types";
-import { useProjectValuesStore } from "src/zustand/useProjectValuesStore";
-import useProjectValid from "src/hooks/useProjectValid";
+import { useProjectValuesStore } from "src/store/useProjectValuesStore";
+import { toast } from "react-toastify";
+import useValidation from "src/hooks/useValidation";
+
+export interface Errors {
+  title: null | string;
+  desc: null | string;
+  category: null | string;
+  qualification: null | string;
+  expectedStartDate: null | string;
+  manager: null | string;
+  pay: null | string;
+}
 
 const ProjectList = () => {
   const { userId } = useUserStore();
@@ -33,23 +44,72 @@ const ProjectList = () => {
   const [addSubmitButtonClicked, setAddSubmitButtonClicked] = useState(false);
   const { values, changeValues } = useProjectValuesStore();
   const {
-    checkValidation,
-    isTitleValid,
-    isDescValid,
-    isCategoryValid,
-    isQualificationValid,
-    isExpectedStartDateValid,
-    isManagerValid,
-    isMaxPayValid,
-    setIsTitleValid,
-    setIsDescValid,
-    setIsCategoryValid,
-    setIsQualificationValid,
-    setIsExpectedStartDateValid,
-    setIsManagerValid,
-    setIsMaxPayValid,
-    allValid,
-  } = useProjectValid();
+    validateDate,
+    validateSelect,
+    validatePay,
+    validateWorkExp,
+    validateInput,
+  } = useValidation();
+  const initialErrors: Errors = {
+    title: null,
+    desc: null,
+    category: null,
+    qualification: null,
+    expectedStartDate: null,
+    manager: null,
+    pay: null,
+  };
+  const [errors, setErrors] = useState(initialErrors);
+
+  const validateAddProject = () => {
+    const titleError = validateInput("프로젝트 제목", newProject.title);
+    const descError = validateInput("프로젝트 설명", newProject.desc);
+    const categoryError = validateSelect(
+      "프로젝트 설명",
+      values.category as string
+    );
+    const qualificationError = validateWorkExp(
+      String(newProject.qualification)
+    );
+    const expectedStartDateError = validateDate(
+      "시작예정일",
+      newProject.expectedStartDate
+    );
+    const managerError = validateSelect("담당자", newProject.manager.name);
+    const payError = validatePay(newProject.pay.min, newProject.pay.max);
+    setErrors({
+      title: titleError,
+      desc: descError,
+      category: categoryError,
+      qualification: qualificationError,
+      expectedStartDate: expectedStartDateError,
+      manager: managerError,
+      pay: payError,
+    });
+  };
+
+  const projectAllValid =
+    errors.title === "" &&
+    errors.desc === "" &&
+    errors.category === "" &&
+    errors.qualification === "" &&
+    errors.expectedStartDate === "" &&
+    errors.manager === "" &&
+    errors.pay === "";
+
+  useEffect(() => {
+    if (projectAllValid && addSubmitButtonClicked) {
+      addProjectMutation.mutate(newProject);
+      setIsAddModalOpen(false);
+      setAddSubmitButtonClicked(false);
+      toast.success("프로젝트가 게시되었습니다.");
+    } else setAddSubmitButtonClicked(false);
+  }, [errors, addSubmitButtonClicked]);
+
+  const addProjectButtonHandler = () => {
+    validateAddProject();
+    setAddSubmitButtonClicked(true);
+  };
 
   useEffect(() => {
     if (projectsOfClient) {
@@ -60,16 +120,6 @@ const ProjectList = () => {
       setFilteredProjects(filteredprojectList);
     }
   }, [projectsOfClient, searchKeyword]);
-
-  useEffect(() => {
-    if (allValid && addSubmitButtonClicked) {
-      addProjectMutation.mutate(newProject);
-      setAddSubmitButtonClicked(false);
-      setIsAddModalOpen(false);
-    } else if (!allValid) {
-      setAddSubmitButtonClicked(false);
-    }
-  }, [allValid, addSubmitButtonClicked]);
 
   useEffect(() => {
     queryClient.invalidateQueries(["projectList", selectedSortLabel]);
@@ -83,16 +133,18 @@ const ProjectList = () => {
     setSelectedselectOption(label);
   };
 
-  const addProjectButtonHandler = () => {
-    const shouldAddProject = window.confirm("프로젝트를 게시하시겟습니까?");
-    if (shouldAddProject) {
-      checkValidation(values);
-      setAddSubmitButtonClicked(true);
-      alert("프로젝트가 게시되었습니다.");
-    } else {
-      alert("필수사항을 입력해주세요");
-    }
-  };
+  const availableClose =
+    values.title === "" &&
+    values.desc === "" &&
+    values.category === "" &&
+    values.minPay === "" &&
+    values.maxPay === "" &&
+    values.expectedStartDate === "" &&
+    values.manager.name === "" &&
+    values.manager.contact.email === "" &&
+    values.manager.contact.phone === "" &&
+    values.manager.team === "" &&
+    values.qualification === null;
 
   const beforeProgressProjects = filteredProjects?.filter(
     (project) => project.status === "진행 전"
@@ -117,10 +169,16 @@ const ProjectList = () => {
     } else if (selectedselectOption === "진행 완료") {
       projectsToRender = DoneProjects;
     }
+
     return (
       <>
         {projectsToRender?.map((project) => (
-          <ProjectCard key={project.projectId} project={project} />
+          <ProjectCard
+            key={project.projectId}
+            project={project}
+            errors={errors}
+            setErrors={setErrors}
+          />
         ))}
       </>
     );
@@ -128,14 +186,6 @@ const ProjectList = () => {
 
   const addProjectModalOpenHandler = () => {
     setIsAddModalOpen(true);
-    setAddSubmitButtonClicked(false);
-    setIsTitleValid(null);
-    setIsDescValid(null);
-    setIsCategoryValid(null);
-    setIsQualificationValid(null);
-    setIsExpectedStartDateValid(null);
-    setIsManagerValid(null);
-    setIsMaxPayValid(null);
     changeValues({
       title: "",
       desc: "",
@@ -145,6 +195,15 @@ const ProjectList = () => {
       manager: { name: "", team: "", contact: { email: "", phone: "" } },
       minPay: "",
       maxPay: "",
+    });
+    setErrors({
+      title: null,
+      desc: null,
+      category: null,
+      qualification: null,
+      expectedStartDate: null,
+      manager: null,
+      pay: null,
     });
   };
 
@@ -190,16 +249,9 @@ const ProjectList = () => {
               </S.ModalPostBtn>
             </>
           }
+          availableClose={availableClose}
         >
-          <AddProjectModal
-            isTitleValid={isTitleValid}
-            isDescValid={isDescValid}
-            isCategoryValid={isCategoryValid}
-            isQualificationValid={isQualificationValid}
-            isDeadLineValid={isExpectedStartDateValid}
-            isManagerValid={isManagerValid}
-            isMaxPayValid={isMaxPayValid}
-          />
+          <AddProjectModal errors={errors} setErrors={setErrors} />
         </Modal>
       )}
     </>

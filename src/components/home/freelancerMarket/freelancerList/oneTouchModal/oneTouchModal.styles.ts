@@ -12,7 +12,7 @@ export const S = {
     font-size: 20px;
     font-weight: bold;
     line-height: 1.5;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   `,
 
   ProjectListWrapper: styled.div`
@@ -23,6 +23,12 @@ export const S = {
     flex-direction: column;
     align-items: center;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+    &::-webkit-scrollbar {
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   `,
 
   ProjectItem: styled.div<{ isselected?: boolean }>`
@@ -30,7 +36,7 @@ export const S = {
     width: 100%;
     height: 75px;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -44,7 +50,8 @@ export const S = {
     }
 
     border: ${({ isselected }) => (isselected ? "2px solid #58ACFA" : "none")};
-    background-color: ${({ isselected }) => (isselected ? "#a9e2f3" : "rgba(0, 0, 0, 0.1)")};
+    background-color: ${({ isselected }) =>
+      isselected ? "#a9e2f3" : "rgba(0, 0, 0, 0.1)"};
   `,
 
   ProjectItemTitle: styled.h4`

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useUserStore } from "../../../../../zustand/useUserStore";
+import { useUserStore } from "../../../../../store/useUserStore";
 import useResumeProfileIntroQueries from "../../../../../hooks/useResumeProfileIntroQueries";
 import { MdAddCircle } from "react-icons/md";
 import Modal from "../../../../../components/modal/Modal";
 import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
-import { useResumeProfileIntroStore } from "../../../../../zustand/useResumeProfileIntroStore";
+import { useResumeProfileIntroStore } from "../../../../../store/useResumeProfileIntroStore";
 import { S } from "../Resume.styles";
 import { IoMdSettings } from "react-icons/io";
 import { toast } from "react-toastify";
@@ -55,7 +55,7 @@ const ResumeProfileIntroComp = () => {
     });
     setIsAddModalOpen(false);
   };
-
+  const availableClose = newProfileIntroInput === "";
   return (
     <>
       <S.ProfileContainer>
@@ -99,6 +99,7 @@ const ResumeProfileIntroComp = () => {
               )}
             </>
           }
+          availableClose={availableClose}
         >
           <AddResumeProfileIntroModal profileIntro={intro} />
         </Modal>

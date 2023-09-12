@@ -1,7 +1,14 @@
+import { toast } from "react-toastify";
 import { Project } from "../../../Types";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { S } from "./appliedProjectList.styles";
+import Modal from "src/components/modal/Modal";
+import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
+import { useState } from "react";
+import { FiUsers } from "react-icons/fi";
+import { calculateDaysAgo } from "src/components/common/commonFunc";
+import { CommonS } from "src/components/common/button/commonButton";
 
 interface AppliedProjectCardProps {
   projectItem: Project;
@@ -12,6 +19,7 @@ const AppliedProjectCard = ({
   projectItem,
   userId,
 }: AppliedProjectCardProps) => {
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   // 프로젝트의 클라이언트 아이디 값을 보내서 클라이언트 name을 사용하기 위해 client를 불러온다.
   const { client } = useClientsQueries({ userId: projectItem.clientId });
 
@@ -21,29 +29,76 @@ const AppliedProjectCard = ({
   });
 
   const handleCancelApplyButtonClick = () => {
-    const isConfirmed = window.confirm(
-      `${projectItem.title}에 대한 지원을 취소하시겠습니까?`
-    );
-    if (isConfirmed) {
-      const updatedProject = {
-        ...projectItem,
-        volunteer: projectItem.volunteer?.filter((item) => item !== userId),
-      };
+    const updatedProject = {
+      ...projectItem,
+      volunteer: projectItem.volunteer?.filter((item) => item !== userId),
+    };
 
-      // 프리랜서가 지원을 취소하면 해당 프리랜서를 제외한 프로젝트 정보를 업데이트 해준다.
-      try {
-        updateProjectMutation.mutate({
-          projectId: projectItem.projectId as string,
-          newProject: updatedProject,
-        });
-      } catch (error) {
-        console.error("지원을 취소하던 중 오류가 발생하였습니다.\n", error);
-      }
+    // 프리랜서가 지원을 취소하면 해당 프리랜서를 제외한 프로젝트 정보를 업데이트 해준다.
+    try {
+      updateProjectMutation.mutate({
+        projectId: projectItem.projectId as string,
+        newProject: updatedProject,
+      });
+    } catch (error) {
+      toast.error("지원을 취소하던 중 오류가 발생하였습니다.");
     }
   };
 
+  const handleConfirm = () => {
+    handleCancelApplyButtonClick();
+    toast.dismiss();
+  };
+
+  const handleCancel = () => {
+    toast.dismiss();
+  };
+
+  const showConfirmation = () => {
+    toast.info(
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>{`${projectItem.title}에 대한 지원을 취소하시겠습니까?`}</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+
+  const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
+  const daysAgo = calculateDaysAgo(targetDate);
+
   return (
     <>
+      {isDetailModalOpen && (
+        <Modal
+          setIsModalOpen={setIsDetailModalOpen}
+          buttons={
+            <>
+              {projectItem.freelancerId ? (
+                <S.Button type="primary" block disabled>
+                  모집이 완료된 프로젝트입니다.
+                </S.Button>
+              ) : (
+                <S.Button type="primary" block onClick={showConfirmation}>
+                  프로젝트 지원 취소하기
+                </S.Button>
+              )}
+            </>
+          }
+        >
+          <ProjectDetailModal project={projectItem} />
+        </Modal>
+      )}
       <S.ProjectCardContainer>
         <S.ProejctContentLeftWrapper>
           <S.ProjectStatus
@@ -57,33 +112,33 @@ const AppliedProjectCard = ({
           <S.ClientName>
             <span>{client?.name}</span>
           </S.ClientName>
-          <S.ProjectName>
-            <span>
-              {projectItem.title} · {projectItem.category}
-            </span>
-          </S.ProjectName>
+          <div>
+            <S.ProjectName>
+              <span>
+                {projectItem.title} · {projectItem.category}
+              </span>
+            </S.ProjectName>
+            {projectItem.qualification > 0 ? (
+              <span>{projectItem.qualification}년차 이상</span>
+            ) : (
+              <span>신입 가능</span>
+            )}
+          </div>
+          <S.AppliedFreelancersCountBox>
+            <FiUsers />
+            <span>{projectItem.volunteer?.length}명 지원 중</span>
+          </S.AppliedFreelancersCountBox>
+          <S.ProjectRegistrationDate>{daysAgo} 등록</S.ProjectRegistrationDate>
         </S.ProejctContentLeftWrapper>
         <S.ProejctContentRightWrapper>
           <div>
-            {projectItem.volunteer?.includes(userId) ? (
-              <>
-                {projectItem.status === "진행 전" ? (
-                  <S.AppliedCancleButton onClick={handleCancelApplyButtonClick}>
-                    지원 취소
-                  </S.AppliedCancleButton>
-                ) : null}
-                <span>지원</span>
-              </>
-            ) : (
-              <>
-                {projectItem.status === "진행 전" ? (
-                  <S.AppliedCancleButton onClick={handleCancelApplyButtonClick}>
-                    지원 취소
-                  </S.AppliedCancleButton>
-                ) : null}
-                <span>보류</span>
-              </>
-            )}
+            <>
+              <S.DetailModalOpenButton
+                onClick={() => setIsDetailModalOpen(true)}
+              >
+                자세히 보기
+              </S.DetailModalOpenButton>
+            </>
           </div>
           <S.ProejctContentRightTextWrapper>
             <span>프로젝트 시작 예정일 </span>
