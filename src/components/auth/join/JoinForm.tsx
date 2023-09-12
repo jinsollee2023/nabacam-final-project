@@ -81,6 +81,19 @@ const JoinForm = ({ role }: JoinFormProps) => {
     validatePhone,
   } = useValidation();
 
+  useEffect(() => {
+    setErrors({
+      email: null,
+      password: null,
+      passwordConfirm: null,
+      name: null,
+      workField: null,
+      workSmallField: null,
+      workExp: null,
+      phone: null,
+    });
+  }, [role]);
+
   // 회원가입 api
   const signUp = async () => {
     try {
