@@ -127,19 +127,19 @@ export const S = {
   Input: styled.input`
     width: 100%;
     height: 32px;
-    padding: 10px;
+    padding: 0 10px;
     margin-top: 15px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
   `,
   Label: styled.label`
     font-size: 16px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    color: #595959;
   `,
   subText: styled.p`
-    font-size: 15px;
+    font-size: 14px;
     margin-top: 10px;
     margin-bottom: 10px;
   `,
@@ -153,6 +153,26 @@ export const S = {
     background-color: transparent;
     padding: ${(props) => props.padding || "7px"};
     margin-left: ${(props) => props.marginLeft};
+  `,
+  AcceptButton: styled.button`
+    width: 50%;
+    height: 30px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 8px;
+    cursor: pointer;
+    background-color: #0086d0;
+    color: white;
+  `,
+  DeclineButton: styled.button`
+    width: 50%;
+    height: 30px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 8px;
+    cursor: pointer;
   `,
 
   // 공통

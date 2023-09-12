@@ -220,12 +220,12 @@ const ResumeExperienceCard = ({
           availableClose={availableClose}
           buttons={
             <>
-              <CommonS.RightEndBtnBox>
-                <S.Btn onClick={updateExperienceHandler}>수정하기</S.Btn>
-                <S.Btn marginLeft="10px" onClick={showDeleteConfirmation}>
-                  삭제하기
-                </S.Btn>
-              </CommonS.RightEndBtnBox>
+              <S.AcceptButton onClick={showDeleteConfirmation}>
+                삭제하기
+              </S.AcceptButton>
+              <S.DeclineButton onClick={updateExperienceHandler}>
+                수정하기
+              </S.DeclineButton>
             </>
           }
         >
