@@ -5,8 +5,11 @@ import { useUserStore } from "../../store/useUserStore";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { S } from "./chat.styles";
 import { useRoomStore } from "../../store/useRoomStore";
+import { CommonS } from "../common/button/commonButton";
+import Modal from "../modal/Modal";
 
 export interface TRoom {
   room_id: string;
@@ -26,6 +29,7 @@ const Room = ({ room_id, setSelectedRoom }: RoomProps) => {
   // const [roomName, setRoomName] = useState("");
   const navigate = useNavigate();
   const { roomName, setRoomName } = useRoomStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const getRoomName = async () => {
@@ -102,12 +106,45 @@ const Room = ({ room_id, setSelectedRoom }: RoomProps) => {
       <S.DMWrapper>
         {/* 제목 */}
         <S.DMHeader>
-          <button onClick={() => setSelectedRoom(null)}>
+          <button
+            onClick={() => setSelectedRoom(null)}
+            style={{ color: "white" }}
+          >
             <IoIosArrowBack />
           </button>
           <S.DMRoomName onClick={handleRoomRename}>{roomName}</S.DMRoomName>
-          <S.DMRoomNameInput type="text" onKeyPress={handleInvite} />
+          {/* <S.DMRoomNameInput type="text" onKeyPress={handleInvite} /> */}
+          <CommonS.RightEndBtnBox>
+            <button
+              style={{ color: "white" }}
+              onClick={() => {
+                setIsModalOpen(true);
+              }}
+            >
+              <GiHamburgerMenu />
+            </button>
+          </CommonS.RightEndBtnBox>
         </S.DMHeader>
+
+        {/* 초대 모달 */}
+        {isModalOpen && (
+          <Modal
+            setIsModalOpen={setIsModalOpen}
+            buttons={
+              <>
+                <S.DMRoomInviteModalBtn style={{ width: "100%" }}>
+                  초대하기
+                </S.DMRoomInviteModalBtn>
+              </>
+            }
+          >
+            <S.DMRoomNameInput
+              type="text"
+              onKeyPress={handleInvite}
+              placeholder="초대할 멤버이름을 입력해주세요..."
+            />
+          </Modal>
+        )}
 
         {/* 본문 */}
         {room_id && <Messages room_id={room_id} />}

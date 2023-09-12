@@ -5,6 +5,16 @@ interface MessageContentProps {
   isMessageUser: boolean;
 }
 
+interface BtnProps {
+  marginTop?: string;
+  marginBottom?: string;
+  marginLeft?: string;
+  marginRight?: string;
+  width?: string;
+  height?: string;
+  padding?: string;
+}
+
 export const S = {
   Container: styled.section`
     width: 100%;
@@ -88,11 +98,32 @@ export const S = {
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
+    color: white;
   `,
   DMRoomNameInput: styled.input`
-    height: 70%;
+    width: 100%;
     border-radius: 3px;
   `,
+  DMRoomInviteModalBtn: styled.button<BtnProps>`
+    background-color: var(--main-blue);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: var(--hover-blue);
+    }
+    margin-top: ${(props) => props.marginTop};
+    margin-bottom: ${(props) => props.marginBottom};
+    margin-left: ${(props) => props.marginLeft};
+    margin-right: ${(props) => props.marginRight};
+    width: ${(props) => props.width};
+    height: ${(props) => props.height};
+    padding: ${(props) => props.padding || "7px"};
+  `,
+
   DMMain: styled.div`
     width: 100%;
 
