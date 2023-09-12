@@ -12,7 +12,7 @@ export const S = {
     font-size: 20px;
     font-weight: bold;
     line-height: 1.5;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   `,
 
   ProjectListWrapper: styled.div`

@@ -121,8 +121,9 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           </p>
           <S.ModalDetail
             color="var(--main-blue)"
-            marginRight="15px"
-            marginLeft="15px"
+            marginRight="60px"
+            marginLeft="20px"
+            marginTop="15px"
           >
             {payUnitConversion(project.pay.min as number)}
           </S.ModalDetail>
@@ -139,7 +140,8 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           <S.ModalDetail
             color="var(--main-blue)"
             marginRight="15px"
-            marginLeft="15px"
+            marginLeft="20px"
+            marginTop="15px"
           >
             {payUnitConversion(project.pay.max as number)}
           </S.ModalDetail>

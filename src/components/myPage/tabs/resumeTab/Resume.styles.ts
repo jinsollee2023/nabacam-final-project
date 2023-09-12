@@ -115,20 +115,23 @@ export const S = {
     width: 100%;
     height: 32px;
     padding: 10px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
   `,
   Label: styled.label`
     font-size: 16px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   `,
   subText: styled.p`
     font-size: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
+  `,
+  errorText: styled.p`
+    height: 17px;
   `,
 
   // 공통

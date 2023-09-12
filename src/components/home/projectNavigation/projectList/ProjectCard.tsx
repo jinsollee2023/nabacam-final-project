@@ -12,6 +12,7 @@ import { queryClient } from "src/App";
 import { FiUsers } from "react-icons/fi";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
 import { toast } from "react-toastify";
+import { CommonS } from "src/components/common/button/commonButton";
 
 interface ProjectCardProps {
   projectItem: Project;
@@ -67,11 +68,15 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
 
   const showConfirmation = () => {
     toast.info(
-      <div>
-        <p>{`${projectItem.title}에 지원하시겠습니까?`}</p>
-        <button onClick={handleConfirm}>확인</button>
-        <button onClick={handleCancel}>취소</button>
-      </div>,
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>{`${projectItem.title}에 지원하시겠습니까?`}</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,

@@ -365,7 +365,7 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
               }}
               borderColor="var(--main-blue)"
             />
-            <p>원</p>
+            <S.ModalContentsLabel>원</S.ModalContentsLabel>
           </S.ModalMinMaxPayBox>
           <S.ModalMinMaxPayBox>
             <S.ModalContentsLabel htmlFor="maxPay">최대</S.ModalContentsLabel>
@@ -391,7 +391,7 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
               }}
               borderColor="var(--main-blue)"
             />
-            <p>원</p>
+            <S.ModalContentsLabel>원</S.ModalContentsLabel>
           </S.ModalMinMaxPayBox>
         </S.ModalPayBox>
       </S.ModalPayInfoBox>

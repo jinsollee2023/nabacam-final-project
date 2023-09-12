@@ -8,6 +8,7 @@ import ProjectDetailModal from "src/components/projectManagement/projectList/Pro
 import { useState } from "react";
 import { FiUsers } from "react-icons/fi";
 import { calculateDaysAgo } from "src/components/common/commonFunc";
+import { CommonS } from "src/components/common/button/commonButton";
 
 interface AppliedProjectCardProps {
   projectItem: Project;
@@ -55,11 +56,15 @@ const AppliedProjectCard = ({
 
   const showConfirmation = () => {
     toast.info(
-      <div>
-        <p>{`${projectItem.title}에 대한 지원을 취소하시겠습니까?`}</p>
-        <button onClick={handleConfirm}>확인</button>
-        <button onClick={handleCancel}>취소</button>
-      </div>,
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>{`${projectItem.title}에 대한 지원을 취소하시겠습니까?`}</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,

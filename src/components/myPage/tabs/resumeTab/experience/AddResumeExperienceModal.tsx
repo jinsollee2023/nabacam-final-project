@@ -91,10 +91,9 @@ const AddResumeExperienceModal = ({
               { value: "기타", label: "기타" },
             ]}
           />
-          <p>{errors.pastWorkField}</p>
+          <S.errorText>{errors.pastWorkField}</S.errorText>
         </Space>
-        <br />
-        <br />
+
         <S.Label>근무형태 </S.Label>
         <Space wrap style={{ marginTop: "15px" }}>
           <Select
@@ -119,10 +118,9 @@ const AddResumeExperienceModal = ({
               { value: "프리랜서", label: "프리랜서" },
             ]}
           />
-          <p>{errors.pastEmploymentType}</p>
+          <S.errorText>{errors.pastEmploymentType}</S.errorText>
         </Space>
-        <br />
-        <br />
+
         <S.Label>근무지</S.Label>
         <S.Input
           name="pastWorkPlace"
@@ -135,10 +133,8 @@ const AddResumeExperienceModal = ({
           }}
           placeholder="입력해주세요."
         />
-        <p>{errors.pastWorkPlace}</p>
+        <S.errorText>{errors.pastWorkPlace}</S.errorText>
 
-        <br />
-        <br />
         <S.Label>직책 </S.Label>
         <S.Input
           name="pastWorkPosition"
@@ -151,10 +147,8 @@ const AddResumeExperienceModal = ({
           }}
           placeholder="입력해주세요."
         />
-        <p>{errors.pastWorkPosition}</p>
+        <S.errorText>{errors.pastWorkPosition}</S.errorText>
 
-        <br />
-        <br />
         <S.Label>근무 일자</S.Label>
         <S.subText>입사일</S.subText>
         <DatePicker
@@ -183,7 +177,6 @@ const AddResumeExperienceModal = ({
           style={{ width: 460 }}
         />
 
-        <br />
         <S.subText>퇴사일</S.subText>
         <DatePicker
           onChange={(datestring) =>
@@ -208,7 +201,7 @@ const AddResumeExperienceModal = ({
           style={{ width: 460 }}
         />
       </form>
-      <p>{errors.pastWorkDuration}</p>
+      <S.errorText>{errors.pastWorkDuration}</S.errorText>
     </>
   );
 };

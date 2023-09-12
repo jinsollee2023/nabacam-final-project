@@ -5,21 +5,13 @@ import { FiLogOut } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useTabStore } from "src/store/useTabStore";
 import { S } from "./navBar.styles";
+import { CommonS } from "../button/commonButton";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
   const { setCurrentTab } = useTabStore();
   const token = localStorage.getItem("sb-iwbhucydhgtpozsnqeec-auth-token");
-  if (window.location.pathname === "/register") {
-    return null;
-  }
-  if (window.location.pathname === "/login") {
-    return null;
-  }
-  if (window.location.pathname === "/resetpassword") {
-    return null;
-  }
   if (!token) {
     return null;
   }
@@ -46,11 +38,15 @@ const Navbar = () => {
 
   const showConfirmation = () => {
     toast.info(
-      <div>
-        <p>로그아웃 하시겟습니까??</p>
-        <button onClick={handleConfirm}>확인</button>
-        <button onClick={handleCancel}>취소</button>
-      </div>,
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>로그아웃 하시겟습니까?</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,
