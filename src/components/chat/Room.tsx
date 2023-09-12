@@ -3,7 +3,6 @@ import Messages from "../chat/Messages";
 import supabase from "../../config/supabaseClient";
 import { useUserStore } from "../../store/useUserStore";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { S } from "./chat.styles";
@@ -17,18 +16,13 @@ export interface TRoom {
   roomname: string | null;
 }
 
-interface RoomProps {
-  room_id: string;
-  // setSelectedRoom: React.Dispatch<React.SetStateAction<TRoom | null>>;
-}
-
-const Room = ({ room_id }: RoomProps) => {
+const Room = () => {
   const { user } = useUserStore();
   const userId = user.userId;
 
-  // const [roomName, setRoomName] = useState("");
-  const navigate = useNavigate();
-  const { roomName, setRoomName, setSelectedRoom } = useRoomStore();
+  const { roomName, selectedRoom, setRoomName, setSelectedRoom } =
+    useRoomStore();
+  const room_id = selectedRoom?.room_id;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -38,10 +32,10 @@ const Room = ({ room_id }: RoomProps) => {
         .select("roomname")
         .match({ room_id: room_id })
         .single();
-      setRoomName(data?.roomname ?? "Untitled");
+      setRoomName(data?.roomname ?? "Untitled"); // ChatComp에 띄우기 위함
     };
-    if (room_id) getRoomName();
-  }, [room_id]);
+    if (room_id) getRoomName(); // selectedRoom했을 때만 getRoomName()
+  }, [room_id, roomName]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -117,9 +111,9 @@ const Room = ({ room_id }: RoomProps) => {
           <CommonS.RightEndBtnBox>
             <button
               style={{ color: "white" }}
-              onClick={() => {
-                setIsModalOpen(true);
-              }}
+              // onClick={() => {
+              //   setIsModalOpen(true);
+              // }}
             >
               <GiHamburgerMenu />
             </button>

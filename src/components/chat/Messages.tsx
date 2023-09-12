@@ -121,9 +121,6 @@ const Messages = ({ room_id }: MessagesProps) => {
 
       setMessages(data);
       // 스크롤 밑으로 오도록
-      if (messagesRef.current) {
-        messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
-      }
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error("Error fetching data");
@@ -151,6 +148,10 @@ const Messages = ({ room_id }: MessagesProps) => {
           console.log("payload", payload);
           // getData();
           setMessages((current) => [...current, payload.new as Message]);
+
+          if (messagesRef.current) {
+            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+          }
         }
       )
       .subscribe();

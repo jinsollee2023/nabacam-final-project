@@ -16,8 +16,7 @@ const ChatComp = () => {
   const { user } = useUserStore();
   const userId = user.userId; // users테이블의 userId를 user_id컬럼에 삽입, rpc에도 삽입
   const [rooms, setRooms] = useState<TRoom[]>([]);
-  // const [selectedRoom, setSelectedRoom] = useState<TRoom | null>(null); // 채팅방 열기
-  // const [createdRoomId, setCreatedRoomId] = useState(""); // 채팅방 이름
+
   const {
     roomName,
     selectedRoom,
@@ -64,7 +63,7 @@ const ChatComp = () => {
     <MenuTabBarComp menu={communicationMenu}>
       <S.Container>
         <S.LeftRoomListContainer>
-          <CommonS.RightEndBox
+          {/* <CommonS.RightEndBox
             style={{
               marginRight: "5px",
               height: "16px",
@@ -72,7 +71,7 @@ const ChatComp = () => {
             }}
           >
             <S.CreateRoomBtn onClick={handleCreateRoom}>+</S.CreateRoomBtn>
-          </CommonS.RightEndBox>
+          </CommonS.RightEndBox> */}
           <S.RoomListWrapper>
             {rooms?.map((room) => (
               <S.RoomBox key={room.room_id}>
@@ -90,10 +89,7 @@ const ChatComp = () => {
         {/* ============================================================================== */}
         <>
           {selectedRoom ? (
-            <Room
-              room_id={selectedRoom.room_id}
-              // setSelectedRoom={setSelectedRoom}
-            />
+            <Room />
           ) : (
             <p>채팅 내역이 없습니다. 채팅을 보내보세요!</p>
           )}
