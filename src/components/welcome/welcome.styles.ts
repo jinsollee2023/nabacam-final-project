@@ -121,7 +121,11 @@ export const S = {
     align-items: ${(props) => (props.alignItems ? props.alignItems : "center")};
     justify-content: ${(props) =>
       props.justifyContent ? props.justifyContent : "center"};
-    background: linear-gradient(to right, #cbcbcb, #b5b5b5);
+    background: linear-gradient(
+      270deg,
+      rgba(203, 203, 203, 0.45) 0%,
+      rgba(181, 181, 181, 0.17) 103.03%
+    );
     border-radius: 10px;
   `,
   MenuContentsBox: styled.div`
