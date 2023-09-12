@@ -17,7 +17,7 @@ const ChatComp = () => {
   const userId = user.userId; // users테이블의 userId를 user_id컬럼에 삽입, rpc에도 삽입
   const navigate = useNavigate();
   const [rooms, setRooms] = useState<TRoom[]>([]);
-  const [selectedRoom, setSelectedRoom] = useState<TRoom>();
+  const [selectedRoom, setSelectedRoom] = useState<TRoom | null>(null);
   const [createdRoomId, setCreatedRoomId] = useState("");
   const { roomName } = useRoomStore();
 
@@ -83,7 +83,10 @@ const ChatComp = () => {
         {/* ============================================================================== */}
         <>
           {selectedRoom ? (
-            <Room room_id={selectedRoom.room_id} />
+            <Room
+              room_id={selectedRoom.room_id}
+              setSelectedRoom={setSelectedRoom}
+            />
           ) : (
             <p>채팅 내역이 없습니다. 채팅을 보내보세요!</p>
           )}

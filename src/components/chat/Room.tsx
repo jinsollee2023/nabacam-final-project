@@ -16,9 +16,10 @@ export interface TRoom {
 
 interface RoomProps {
   room_id: string;
+  setSelectedRoom: React.Dispatch<React.SetStateAction<TRoom | null>>;
 }
 
-const Room = ({ room_id }: RoomProps) => {
+const Room = ({ room_id, setSelectedRoom }: RoomProps) => {
   const { user } = useUserStore();
   const userId = user.userId;
 
@@ -101,7 +102,7 @@ const Room = ({ room_id }: RoomProps) => {
       <S.DMWrapper>
         {/* 제목 */}
         <S.DMHeader>
-          <button onClick={() => navigate("/chat")}>
+          <button onClick={() => setSelectedRoom(null)}>
             <IoIosArrowBack />
           </button>
           <S.DMRoomName onClick={handleRoomRename}>{roomName}</S.DMRoomName>
