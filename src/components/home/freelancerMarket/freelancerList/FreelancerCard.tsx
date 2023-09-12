@@ -13,7 +13,7 @@ import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
 import { toast } from "react-toastify";
 import useProjectByClientWithBeforeProgressQueries from "src/hooks/queries/useProjectByClientWithBeforeProgressQueries";
 import useSuggestedFreelancersQueries from "src/hooks/queries/useSuggestedFreelancersQueries";
-import PortfolioDetailModal from "src/components/myPage/tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
+import PortfolioDetailModal from "src/components/myPage/myProfile/tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
 import { usePortfolioStore } from "src/store/usePortfolioStore";
 
 interface FreelancerCardProps {

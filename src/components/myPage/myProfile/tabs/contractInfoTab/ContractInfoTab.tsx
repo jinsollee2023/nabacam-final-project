@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import useProjectsQueries from "../../../../hooks/useProjectsQueries";
-import { useUserStore } from "../../../../store/useUserStore";
+import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
+import { useUserStore } from "../../../../../store/useUserStore";
 import { Select } from "antd";
 import { S } from "./ContractInfoTab.styles";
 import { CommonS } from "src/components/common/button/commonButton";

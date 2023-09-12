@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { S } from "./portfolioTab.styles";
 import PortfolioAddModal from "./portfolioAddModal/PortfolioAddModal";
-import usePortfolioInfoQueries from "../../../../hooks/usePortfolioInfoQueries";
-import { useUserStore } from "../../../../store/useUserStore";
-import { usePortfolioStore } from "../../../../store/usePortfolioStore";
+import usePortfolioInfoQueries from "../../../../../hooks/usePortfolioInfoQueries";
+import { useUserStore } from "../../../../../store/useUserStore";
+import { usePortfolioStore } from "../../../../../store/usePortfolioStore";
 import PortfolioDetailModal from "./portfolioDetailModal/PortfolioDetailModal";
-import Modal from "../../../modal/Modal";
-import { Portfolio } from "../../../../Types";
+import Modal from "../../../../modal/Modal";
+import { Portfolio } from "../../../../../Types";
 import {
   updatePortfolioFile,
   uploadPDF,
   uploadThumbnail,
-} from "../../../../api/Portfolio";
-import { getPortfolioFileURL } from "../../../../api/User";
+} from "../../../../../api/Portfolio";
+import { getPortfolioFileURL } from "../../../../../api/User";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
@@ -120,7 +120,6 @@ const PortfolioTab = () => {
       ? setUpdatePortfolioButtonClicked(true)
       : setAddPortfolioButtonClicked(true);
   };
-  console.log("newPortfolio===>", newPortfolio);
 
   const addPortfolio = async () => {
     const pdfFilePath =
@@ -224,10 +223,6 @@ const PortfolioTab = () => {
     }
   };
 
-  // const addModalOpenHandler = () => {
-  //   setIsDetailModalOpen(false);
-  // };
-
   const addModalOpenHandler = () => {
     setIsAddModalOpen(true);
     setErrors({ title: null, desc: null, pdf: null, link: null });
@@ -288,13 +283,25 @@ const PortfolioTab = () => {
       }
     );
   };
-  const availableClose =
+  const addAvailableClose =
     newPortfolio.desc === "" &&
     newPortfolio.title === "" &&
     newPortfolio.linkURL === "" &&
     newPortfolio.pdfFileURL === "" &&
     newPortfolio.thumbNailURL ===
       "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg";
+
+  const updateAvailableClose =
+    newPortfolio.desc === selectedPortfolio?.desc &&
+    newPortfolio.title === selectedPortfolio?.title &&
+    newPortfolio.linkURL === selectedPortfolio?.linkURL &&
+    newPortfolio.pdfFileURL === selectedPortfolio?.pdfFileURL &&
+    newPortfolio.thumbNailURL !==
+      "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg";
+
+  const availableClose = selectedPortfolio
+    ? updateAvailableClose
+    : addAvailableClose;
 
   return (
     <>

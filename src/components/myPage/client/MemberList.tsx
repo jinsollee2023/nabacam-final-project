@@ -33,11 +33,20 @@ const MemberList = () => {
   const { validateName, validateTeam, validateEmail, validatePhone } =
     useValidation();
 
-  const availableClose =
+  const addAvailbleClose =
     updateMemberData?.contact.email === "" &&
     updateMemberData?.name === "" &&
     updateMemberData?.contact.phone === "" &&
     updateMemberData?.team === "";
+
+  const updateAvailableClose =
+    currentMemberData?.name === updateMemberData?.name &&
+    currentMemberData?.team === updateMemberData?.team &&
+    currentMemberData?.contact.phone === updateMemberData?.contact.phone &&
+    currentMemberData?.contact.email === updateMemberData?.contact.email;
+
+  const availableClose =
+    currentMemberData?.name === "" ? addAvailbleClose : updateAvailableClose;
 
   // 구성원 추가하기 버튼 클릭시 실행되는 함수
   const openModalButtonHandler = () => {
