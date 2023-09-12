@@ -1,28 +1,34 @@
 import React from "react";
 import { S } from "../welcome.styles";
-import ProjectManagementInfomation from "./ProjectManagementInfomation";
-import MyPageInfomation from "./MyPageInfomation";
-import ChatInfomation from "./ChatInfomation";
-import ExploreProjectInfomation from "./ExploreProjectInfomation";
+import ProjectManagementInformation from "./ProjectManagementInformation";
+import MyPageInformation from "./MyPageInformation";
+import ChatInformation from "../ChatInformation";
+import ExploreProjectInformation from "./ExploreProjectInformation";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "src/store/useUserStore";
 
 const FreelancerInfomation = () => {
   const navigate = useNavigate();
+  const { setUserRole } = useUserStore();
+  const GotoFreelancerRegisterButtonHandler = () => {
+    setUserRole("freelancer");
+    navigate("/register");
+  };
   return (
     <S.InfomationContainer>
-      <ExploreProjectInfomation />
+      <ExploreProjectInformation />
       <div style={{ margin: "100px 0" }}>
         <hr />
       </div>
-      <ProjectManagementInfomation />
+      <ProjectManagementInformation />
       <div style={{ margin: "100px 0" }}>
         <hr />
       </div>
-      <MyPageInfomation />
+      <MyPageInformation />
       <div style={{ margin: "100px 0" }}>
         <hr />
       </div>
-      <ChatInfomation />
+      <ChatInformation />
       <div style={{ margin: "100px 0" }}>
         <hr />
       </div>
@@ -31,7 +37,7 @@ const FreelancerInfomation = () => {
           다양한 프로젝트가 당신의 전문성을 기다립니다. 지금 가입하고 최상의
           기회를 잡아보세요.
         </S.TabTitle>
-        <S.OutroButton onClick={() => navigate("/register")}>
+        <S.OutroButton onClick={GotoFreelancerRegisterButtonHandler}>
           <S.TabTitle>프리랜서로 회원가입하기</S.TabTitle>
         </S.OutroButton>
       </S.OutroBox>

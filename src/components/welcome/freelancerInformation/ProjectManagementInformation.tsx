@@ -1,7 +1,7 @@
 import React from "react";
 import { S } from "../welcome.styles";
 
-const ProjectManagementInfomation = () => {
+const ProjectManagementInformation = () => {
   return (
     <>
       <S.MenuContainer>
@@ -71,4 +71,4 @@ const ProjectManagementInfomation = () => {
   );
 };
 
-export default ProjectManagementInfomation;
+export default ProjectManagementInformation;

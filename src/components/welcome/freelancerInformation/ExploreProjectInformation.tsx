@@ -1,7 +1,7 @@
 import React from "react";
 import { S } from "../welcome.styles";
 
-const ExploreProjectInfomation = () => {
+const ExploreProjectInformation = () => {
   return (
     <>
       <S.MenuTitleBox>
@@ -50,4 +50,4 @@ const ExploreProjectInfomation = () => {
   );
 };
 
-export default ExploreProjectInfomation;
+export default ExploreProjectInformation;

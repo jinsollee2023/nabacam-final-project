@@ -1,7 +1,7 @@
 import React from "react";
-import { S } from "../welcome.styles";
+import { S } from "./welcome.styles";
 
-const ChatInfomation = () => {
+const ChatInformation = () => {
   return (
     <div>
       <S.MenuTitleBox>
@@ -76,4 +76,4 @@ const ChatInfomation = () => {
   );
 };
 
-export default ChatInfomation;
+export default ChatInformation;
