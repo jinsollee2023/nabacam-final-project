@@ -62,21 +62,25 @@ const Message = ({
   // console.log("message", { message, usersProfile });
 
   return (
-    <S.MessageLi key={message.message_id}>
+    <S.MessageLi
+      key={message.message_id}
+      isMessageUser={message.user_id === userId}
+    >
+      {/* 이미지 */}
       <S.ParticipantProfileImg
         isMessageUser={message.user_id === userId}
         src={`${usersProfile?.photoURL}`}
         alt="messageUser"
       />
-
-      <S.ParticipantProfileWrapper isMessageUser={message.user_id === userId}>
+      {/* 이름+말풍선 */}
+      <S.ParticipantContentWrapper isMessageUser={message.user_id === userId}>
         <S.ParticipantProfileName>
           {usersProfile?.name ?? "Loading..."}
         </S.ParticipantProfileName>
         <S.MessageContent isMessageUser={message.user_id === userId}>
           {message.content}
         </S.MessageContent>
-      </S.ParticipantProfileWrapper>
+      </S.ParticipantContentWrapper>
     </S.MessageLi>
   );
 };

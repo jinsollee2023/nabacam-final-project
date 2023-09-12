@@ -169,16 +169,22 @@ export const S = {
 
   //=====================================================//
   MessageWrapper: styled.div`
-    background: var(--chat-navy);
+    background: #002c5f;
     overflow-y: scroll;
+
     flex: 1;
     padding: 12px;
   `,
   MessageUl: styled.ul``,
-  MessageLi: styled.li`
+  MessageLi: styled.li<MessageContentProps>`
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     padding-bottom: 8px;
+
+    align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
+    text-align: ${(props) => (props.isMessageUser ? "start" : "end")};
+    //
+    flex-direction: ${(props) => (props.isMessageUser ? "row" : "row-reverse")};
   `,
   MessageContent: styled.div<MessageContentProps>`
     border-radius: 6px;
@@ -196,13 +202,14 @@ export const S = {
     letter-spacing: -0.005em;
     color: #000000;
   `,
-  ParticipantProfileWrapper: styled.div<MessageContentProps>`
+  ParticipantContentWrapper: styled.div<MessageContentProps>`
     align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
     text-align: ${(props) => (props.isMessageUser ? "start" : "end")};
-    margin-bottom: 5px;
+    /* background-color: antiquewhite; */
+    margin: 5px;
   `,
   ParticipantProfileImg: styled.img<MessageContentProps>`
-    border-radius: 50%;
+    border-radius: 8px;
     width: 30px;
     height: 30px;
     align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
@@ -211,5 +218,6 @@ export const S = {
     color: #000000;
     font-size: 16px;
     display: block;
+    margin-bottom: 3px;
   `,
 };
