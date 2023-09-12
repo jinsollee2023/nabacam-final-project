@@ -24,9 +24,9 @@ const ChatInfomation = () => {
           <div style={{ marginLeft: "auto" }}>
             <S.BalloonContainer>
               <S.TabDesc $fontWeight="600" $marginBottom="10px">
-                ⚡️ 빠른 피드백{" "}
+                ⚡️ 빠른 피드백
               </S.TabDesc>
-              <S.TabDesc>
+              <S.TabDesc color="#2D2D2D">
                 직접적인 소통으로 인해 오해 없이 빠르게 피드백을 주고 받을 수
                 있어요.
               </S.TabDesc>
@@ -40,9 +40,9 @@ const ChatInfomation = () => {
           <div style={{ marginRight: "auto" }}>
             <S.BalloonContainer>
               <S.TabDesc $fontWeight="600" $marginBottom="10px">
-                📎 문서 공유{" "}
+                📎 문서 공유
               </S.TabDesc>
-              <S.TabDesc>
+              <S.TabDesc color="#2D2D2D">
                 채팅방에서는 파일이나 문서를 쉽게 공유할 수 있어, <br />
                 프로젝트 관련 자료를 실시간으로 전달할 수 있어요.
               </S.TabDesc>
@@ -58,7 +58,7 @@ const ChatInfomation = () => {
               <S.TabDesc $fontWeight="600" $marginBottom="10px">
                 🔔 알림 기능
               </S.TabDesc>
-              <S.TabDesc>
+              <S.TabDesc color="#2D2D2D">
                 새로운 메시지가 도착하면 알림을 통해 바로 확인할 수 있어요.
                 <br />
                 놓치는 정보 없이 프로젝트를 진행하세요!

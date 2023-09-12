@@ -3,8 +3,6 @@ import S from "./TaskStyles";
 import useTasksQueries from "../../../hooks/useTasksQueries";
 import { useEffect, useState } from "react";
 import { Select } from "antd";
-import { MdAddCircle } from "react-icons/md";
-import { Task } from "../../../Types";
 import { useUserStore } from "../../../store/useUserStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { CommonS } from "src/components/common/button/commonButton";
@@ -13,6 +11,7 @@ import { RiAddBoxLine } from "react-icons/ri";
 import { toast } from "react-toastify";
 import useOngoingProjectOfClientQueries from "src/hooks/queries/useOngoingProjectOfClientQueries";
 import useOngoingProjectsOfFreelancerQueries from "src/hooks/queries/useOngoingProjectsOfFreelancerQueries";
+import { Task } from "src/Types";
 
 const TaskList = () => {
   const { userId, userRole } = useUserStore();
@@ -25,7 +24,6 @@ const TaskList = () => {
       currentUserId: userId,
     }
   );
-
   const { ongoingProjectsOfClient } = useOngoingProjectOfClientQueries({
     currentUserId: userId,
   });
@@ -36,13 +34,13 @@ const TaskList = () => {
       ongoingProjectsOfClient &&
       ongoingProjectsOfClient.length > 0
     ) {
-      setProjectId(ongoingProjectsOfClient[0].projectId!);
+      setProjectId(ongoingProjectsOfClient[0].projectId as string);
     } else if (
       userRole === "freelancer" &&
       ongoingProjectsOfFreelancer &&
       ongoingProjectsOfFreelancer.length > 0
     ) {
-      setProjectId(ongoingProjectsOfFreelancer[0].projectId!);
+      setProjectId(ongoingProjectsOfFreelancer[0].projectId as string);
     }
   }, [ongoingProjectsOfClient, ongoingProjectsOfFreelancer]);
 
@@ -55,11 +53,25 @@ const TaskList = () => {
   const addTaskButtonHandler = () => {
     addTaskMutation.mutate();
   };
-
   const terminateProjectButtonHandler = () => {
+    const projectList =
+      userRole === "freelancer"
+        ? ongoingProjectsOfFreelancer
+        : ongoingProjectsOfClient;
+
+    const selectedProject = projectList?.find(
+      (project) => project.projectId === projectId
+    );
+
     updateProjectMutation.mutate({
       projectId,
-      newProject: { status: "진행 완료" },
+      newProject: {
+        status: "진행 완료",
+        date: {
+          startDate: selectedProject?.date?.startDate as string,
+          endDate: new Date().toISOString().slice(0, 10),
+        },
+      },
     });
     setProjectId("");
   };
@@ -75,18 +87,11 @@ const TaskList = () => {
   });
 
   const handleTerminateConfirm = () => {
-    console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
     terminateProjectButtonHandler();
-    // Toastify를 닫습니다.
     toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
   };
 
   const handleTerminateCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 
@@ -112,7 +117,6 @@ const TaskList = () => {
       }
     );
   };
-
   return (
     <>
       <S.SelectAddButtonContainer>

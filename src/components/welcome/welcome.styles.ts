@@ -15,6 +15,7 @@ interface PontProps {
   $textAlign?: string;
   $fontWeight?: string;
   $marginBottom?: string;
+  color?: string;
 }
 
 interface BallonProps {
@@ -95,6 +96,7 @@ export const S = {
   TabDesc: styled.p<PontProps>`
     font-size: 15px;
     font-weight: ${(props) => (props.$fontWeight ? props.$fontWeight : null)};
+    color: ${(props) => (props.color ? props.color : "black")};
     text-align: ${(props) => (props.$textAlign ? props.$textAlign : null)};
     margin-bottom: ${(props) =>
       props.$marginBottom ? props.$marginBottom : null};

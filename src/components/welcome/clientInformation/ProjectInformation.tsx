@@ -16,7 +16,7 @@ const ProjectInformation = () => {
           <S.TabDesc $fontWeight="600" $marginBottom="10px">
             프로젝트 목록은 여러분의 프로젝트 관리의 핵심이 될거에요.
           </S.TabDesc>
-          <S.TabDesc>
+          <S.TabDesc color="#2D2D2D">
             정확하고 세부적인 설정을 통해 원하는 프리랜서를 모집하고, <br />
             프로젝트의 성공적인 진행을 위한 첫 발걸음을 시작해보세요!
           </S.TabDesc>
@@ -43,7 +43,7 @@ const ProjectInformation = () => {
             탭이에요.
             <br />
           </S.TabDesc>
-          <S.TabDesc>
+          <S.TabDesc color="#2D2D2D">
             상단에 메뉴를 통해 확인을 원하시는 프로젝트를 손쉽게 선택하실 수
             있으며,
             <br />
