@@ -6,7 +6,7 @@ interface ColumnBoxProps {
 interface FlexBoxProps {
   marginLeft?: string;
 }
-interface BtnProps {
+interface ButtonProps {
   marginTop?: string;
   marginBottom?: string;
   marginLeft?: string;
@@ -46,7 +46,7 @@ export const S = {
     margin-left: ${(props) => props.marginLeft};
     color: ${(props) => props.color || "var(--middle-gray)"};
   `,
-  SettingBtn: styled.span`
+  SettingButton: styled.span`
     cursor: pointer;
     font-size: 20px;
     margin-left: 5px;
@@ -90,13 +90,13 @@ export const S = {
     display: flex;
     align-items: center;
   `,
-  RightEndBtnBox: styled.div`
+  RightEndButtonBox: styled.div`
     display: flex;
     margin-left: auto;
     /* margin-top: 25px;
     padding-right: 3%; */
   `,
-  Btn: styled.button<BtnProps>`
+  Button: styled.button<ButtonProps>`
     background-color: var(--main-blue);
     color: white;
     border: none;

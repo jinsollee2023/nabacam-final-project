@@ -42,17 +42,17 @@ const S = {
   SearchSortWrapper: styled.div`
     display: flex;
   `,
-  SearchSortBtnBox: styled.div`
+  SearchSortButtonBox: styled.div`
     margin-top: 30px;
     display: flex;
     justify-content: flex-end;
   `,
-  SearchSortBtn: styled.span`
+  SearchSortButton: styled.span`
     cursor: pointer;
     color: var(--lighter-gray);
     font-size: 14px;
   `,
-  SubmitBtn: styled.span``, // 상속
+  SubmitButton: styled.span``, // 상속
   ProjectContainer: styled.div`
     overflow: auto;
     width: 100%;
@@ -74,7 +74,7 @@ const S = {
     align-items: center;
     background-color: ${(props) => props.backgroundColor};
   `,
-  ProjectSpanBtn: styled.button`
+  ProjectSpanButton: styled.button`
     background-color: var(--main-blue);
     color: white;
     border: none;
@@ -187,7 +187,7 @@ const S = {
     display: flex;
     align-items: center;
   `,
-  ModalPostBtn: styled.button`
+  ModalPostButton: styled.button`
     width: 100%;
     height: 35px;
     border: none;
@@ -224,7 +224,7 @@ const S = {
   `,
 };
 
-S.SubmitBtn = styled(S.SearchSortBtn)`
+S.SubmitButton = styled(S.SearchSortButton)`
   border-bottom: solid var(--lighter-gray);
 `;
 

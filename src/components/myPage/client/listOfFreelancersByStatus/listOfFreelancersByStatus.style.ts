@@ -7,7 +7,7 @@ export const S = {
   SelectBox: styled.div`
     margin-bottom: 20px;
   `,
-  FilterBtn: styled.button`
+  FilterButton: styled.button`
     position: relative;
     margin: 15px;
     left: 10px;
@@ -113,7 +113,7 @@ export const S = {
     color: #595959;
     font-size: 12px;
   `,
-  DetailBtn: styled.button`
+  DetailButton: styled.button`
     position: relative;
     border: 1px solid #0086d0;
     border-radius: 6px;
@@ -125,7 +125,7 @@ export const S = {
     cursor: pointer;
     color: #0086d0;
   `,
-  ModalInnerBtn: styled.button`
+  ModalInnerButton: styled.button`
     position: relative;
     border: none;
     border-radius: 6px;

@@ -123,9 +123,9 @@ const ResetPassword = () => {
                     }}
                   />
                   <S.CenterizeBox>
-                    <S.EyeBtn type="button" onClick={showPasswordHandler}>
+                    <S.EyeButton type="button" onClick={showPasswordHandler}>
                       {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                    </S.EyeBtn>
+                    </S.EyeButton>
                   </S.CenterizeBox>
                 </S.PasswordInputWrapper>
                 <S.ErrorMessage hasError={!!errors.password}>
@@ -150,9 +150,9 @@ const ResetPassword = () => {
                     }}
                   />
                   <S.CenterizeBox>
-                    <S.EyeBtn type="button" onClick={showPasswordHandler}>
+                    <S.EyeButton type="button" onClick={showPasswordHandler}>
                       {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                    </S.EyeBtn>
+                    </S.EyeButton>
                   </S.CenterizeBox>
                 </S.PasswordInputWrapper>
                 <S.ErrorMessage hasError={!!errors.passwordConfirm}>

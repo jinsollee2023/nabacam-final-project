@@ -46,7 +46,7 @@ const S = {
     display: flex;
     justify-content: space-between;
   `,
-  TaskAddButton: styled(CommonS.CommonBtn)`
+  TaskAddButton: styled(CommonS.CommonButton)`
     width: 200px;
     height: 30px;
     margin-top: 0px;

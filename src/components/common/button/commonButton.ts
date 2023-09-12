@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-interface commonBtnProps {
+interface commonButtonProps {
   marginTop?: string;
   marginBottom?: string;
   marginLeft?: string;
@@ -24,7 +24,7 @@ interface CenterizeBoxProps {
 }
 
 export const CommonS = {
-  CommonBtn: styled.button<commonBtnProps>`
+  CommonButton: styled.button<commonButtonProps>`
     background-color: ${(props) => props.backgroundColor || "var(--main-blue)"};
     width: ${(props) => props.width || "100%"};
     height: ${(props) => props.height || "50px"};
@@ -70,7 +70,7 @@ export const CommonS = {
     display: flex;
     align-items: center;
   `,
-  RightEndBtnBox: styled.div`
+  RightEndButtonBox: styled.div`
     display: flex;
     margin-left: auto;
   `,

@@ -187,10 +187,10 @@ const ResumeExperienceCard = ({
           </CommonS.CenterizeBox>
         </S.TextArea>
         <CommonS.FlexBox marginTop="15px">
-          <S.Btn onClick={updateModalOpenButtonHandler}>수정</S.Btn>
-          <S.Btn marginLeft="5px" onClick={showDeleteConfirmation}>
+          <S.Button onClick={updateModalOpenButtonHandler}>수정</S.Button>
+          <S.Button marginLeft="5px" onClick={showDeleteConfirmation}>
             삭제
-          </S.Btn>
+          </S.Button>
         </CommonS.FlexBox>
       </S.WorkExperienceList>
       {/* --------------------------------------------------------------- */}
@@ -199,12 +199,12 @@ const ResumeExperienceCard = ({
           setIsModalOpen={setIsUpdateModalOpen}
           buttons={
             <>
-              <CommonS.RightEndBtnBox>
-                <S.Btn onClick={updateExperienceHandler}>수정하기</S.Btn>
-                <S.Btn marginLeft="10px" onClick={showDeleteConfirmation}>
+              <CommonS.RightEndButtonBox>
+                <S.Button onClick={updateExperienceHandler}>수정하기</S.Button>
+                <S.Button marginLeft="10px" onClick={showDeleteConfirmation}>
                   삭제하기
-                </S.Btn>
-              </CommonS.RightEndBtnBox>
+                </S.Button>
+              </CommonS.RightEndButtonBox>
             </>
           }
         >

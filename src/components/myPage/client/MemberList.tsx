@@ -156,9 +156,9 @@ const MemberList = () => {
         {client?.members && client.members.length > 0 ? null : (
           <p>등록된 구성원이 없습니다.</p>
         )}
-        <S.AddMemberBtn onClick={openModalButtonHandler}>
+        <S.AddMemberButton onClick={openModalButtonHandler}>
           + 구성원 추가하기
-        </S.AddMemberBtn>
+        </S.AddMemberButton>
       </div>
       {isAddModalOpen && (
         <Modal
@@ -166,13 +166,13 @@ const MemberList = () => {
           buttons={
             <>
               {currentMemberData?.name === "" ? (
-                <S.ModalInnerAddBtn onClick={submitButtonHandler}>
+                <S.ModalInnerAddButton onClick={submitButtonHandler}>
                   구성원 추가하기
-                </S.ModalInnerAddBtn>
+                </S.ModalInnerAddButton>
               ) : (
-                <S.ModalInnerAddBtn onClick={submitButtonHandler}>
+                <S.ModalInnerAddButton onClick={submitButtonHandler}>
                   구성원 수정하기
-                </S.ModalInnerAddBtn>
+                </S.ModalInnerAddButton>
               )}
             </>
           }
@@ -196,20 +196,20 @@ const MemberList = () => {
                   <S.MemberTeam>{member.team}</S.MemberTeam>
                 </S.MemberInfo>
                 <S.MemberContactBox>
-                  <S.BtnBox>
-                    <S.EditAndDelBtn
+                  <S.ButtonBox>
+                    <S.EditAndDelButton
                       onClick={() => updateButtonHandler(member)}
                     >
                       수정
-                    </S.EditAndDelBtn>
-                    <S.EditAndDelBtn
+                    </S.EditAndDelButton>
+                    <S.EditAndDelButton
                       onClick={() => {
                         deleteMemberButtonHandler(member);
                       }}
                     >
                       삭제
-                    </S.EditAndDelBtn>
-                  </S.BtnBox>
+                    </S.EditAndDelButton>
+                  </S.ButtonBox>
                   <S.ContactBox>
                     <S.ContactLabel>전화번호</S.ContactLabel>
                     <S.MemberContact>{member.contact.phone}</S.MemberContact>

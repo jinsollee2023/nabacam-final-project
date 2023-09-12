@@ -108,16 +108,16 @@ const Room = () => {
           </button>
           <S.DMRoomName onClick={handleRoomRename}>{roomName}</S.DMRoomName>
           {/* <S.DMRoomNameInput type="text" onKeyPress={handleInvite} /> */}
-          <CommonS.RightEndBtnBox>
+          <CommonS.RightEndButtonBox>
             <button
               style={{ color: "white" }}
               // onClick={() => {
               //   setIsModalOpen(true);
               // }}
             >
-              <GiHamburgerMenu />
+              <GiHamburgerMenu size={20} />
             </button>
-          </CommonS.RightEndBtnBox>
+          </CommonS.RightEndButtonBox>
         </S.DMHeader>
 
         {/* 초대 모달 */}
@@ -126,9 +126,9 @@ const Room = () => {
             setIsModalOpen={setIsModalOpen}
             buttons={
               <>
-                <S.DMRoomInviteModalBtn style={{ width: "100%" }}>
+                <S.DMRoomInviteModalButton style={{ width: "100%" }}>
                   초대하기
-                </S.DMRoomInviteModalBtn>
+                </S.DMRoomInviteModalButton>
               </>
             }
           >
@@ -145,7 +145,7 @@ const Room = () => {
         {/* 창 */}
         <S.DMForm onSubmit={handleSubmit}>
           <S.DMInput type="text" name="message" />
-          <S.DMSubmitBtn>전송</S.DMSubmitBtn>
+          <S.DMSubmitButton>전송</S.DMSubmitButton>
         </S.DMForm>
       </S.DMWrapper>
     </S.RightDMRoomContainer>

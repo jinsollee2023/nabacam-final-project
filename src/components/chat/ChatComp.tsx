@@ -25,36 +25,33 @@ const ChatComp = () => {
     setCreatedRoomId,
   } = useRoomStore();
 
-  console.log("second", { createdRoomId, selectedRoom });
-
   useEffect(() => {
     const getRooms = async () => {
       const { data } = await supabase
         .from("rooms")
         .select("*")
         .order("created_at", { ascending: false }); // 가장 최신순 맨 위에
-      console.log(data);
       if (data) setRooms(data);
     };
     getRooms();
   }, [createdRoomId, roomName]);
 
-  const handleCreateRoom = async () => {
-    const { data, error } = await supabase.rpc("create_room", {
-      roomname: "방이름",
-      user_id: userId,
-    });
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    if (data) {
-      // console.log("yo", data);
-      const room_id = data.room_id;
-      setCreatedRoomId(room_id);
-      setSelectedRoom(data);
-    }
-  };
+  // const handleCreateRoom = async () => {
+  //   const { data, error } = await supabase.rpc("create_room", {
+  //     roomname: "방이름",
+  //     user_id: userId,
+  //   });
+  //   if (error) {
+  //     toast.error(error.message);
+  //     return;
+  //   }
+  //   if (data) {
+  //     // console.log("yo", data);
+  //     const room_id = data.room_id;
+  //     setCreatedRoomId(room_id);
+  //     setSelectedRoom(data);
+  //   }
+  // };
 
   const handleRoomClick = (room: TRoom) => {
     setSelectedRoom(room);
@@ -70,7 +67,7 @@ const ChatComp = () => {
               padding: "3px",
             }}
           >
-            <S.CreateRoomBtn onClick={handleCreateRoom}>+</S.CreateRoomBtn>
+            <S.CreateRoomButton onClick={handleCreateRoom}>+</S.CreateRoomButton>
           </CommonS.RightEndBox> */}
           <S.RoomListWrapper>
             {rooms?.map((room) => (
@@ -87,13 +84,7 @@ const ChatComp = () => {
           </S.RoomListWrapper>
         </S.LeftRoomListContainer>
         {/* ============================================================================== */}
-        <>
-          {selectedRoom ? (
-            <Room />
-          ) : (
-            <p>채팅 내역이 없습니다. 채팅을 보내보세요!</p>
-          )}
-        </>
+        <>{selectedRoom ? <Room /> : null}</>
       </S.Container>
     </MenuTabBarComp>
   );

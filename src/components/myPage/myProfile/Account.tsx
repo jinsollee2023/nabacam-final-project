@@ -197,23 +197,23 @@ const Account = () => {
           <S.Detail>이메일: {user && user?.contact?.email}</S.Detail>
         </S.ColumnBox>
         {/*  */}
-        <S.RightEndBtnBox>
-          <S.SettingBtn onClick={() => setIsModalOpen(true)}>
+        <S.RightEndButtonBox>
+          <S.SettingButton onClick={() => setIsModalOpen(true)}>
             <IoMdSettings />
-          </S.SettingBtn>
-          <S.SettingBtn onClick={showConfirmation}>
+          </S.SettingButton>
+          <S.SettingButton onClick={showConfirmation}>
             <FaSignOutAlt />
             <S.SettingSpan>탈퇴하기</S.SettingSpan>
-          </S.SettingBtn>
-        </S.RightEndBtnBox>
+          </S.SettingButton>
+        </S.RightEndButtonBox>
 
         {isModlaopen ? (
           <Modal
             setIsModalOpen={setIsModalOpen}
             buttons={
-              <S.Btn width="100%" onClick={updateProfileInfoButtonHandler}>
+              <S.Button width="100%" onClick={updateProfileInfoButtonHandler}>
                 수정하기
-              </S.Btn>
+              </S.Button>
             }
           >
             <EditForm user={user} errors={errors} setErrors={setErrors} />

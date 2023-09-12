@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 export const S = {
-  AddMemberBtn: styled.button`
+  AddMemberButton: styled.button`
     cursor: pointer;
     width: 120px;
     height: 30px;
@@ -59,13 +59,13 @@ export const S = {
     margin-right: 15px;
     text-align: right;
   `,
-  BtnBox: styled.div`
+  ButtonBox: styled.div`
     gap: 10px;
     float: right;
     display: flex;
     flex-direction: row;
   `,
-  EditAndDelBtn: styled.button`
+  EditAndDelButton: styled.button`
     position: relative;
     left: 11rem;
     border: none;
@@ -74,7 +74,7 @@ export const S = {
     text-decoration: underline;
     background-color: transparent;
   `,
-  ModalInnerAddBtn: styled.button`
+  ModalInnerAddButton: styled.button`
     color: white;
     cursor: pointer;
     width: 100%;

@@ -57,12 +57,12 @@ const Modal = ({
       <S.ModalBox>
         <S.ModalContainer>
           <S.ModalTop>
-            <S.CloseBtn onClick={toggleModal}>
+            <S.CloseButton onClick={toggleModal}>
               <GrFormClose size={"25"} />
-            </S.CloseBtn>
+            </S.CloseButton>
           </S.ModalTop>
           <S.ModalContents>{children}</S.ModalContents>
-          {buttons && <S.ModalBtnBox>{buttons}</S.ModalBtnBox>}
+          {buttons && <S.ModalButtonBox>{buttons}</S.ModalButtonBox>}
         </S.ModalContainer>
       </S.ModalBox>
     </>

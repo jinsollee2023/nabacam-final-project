@@ -16,10 +16,18 @@ interface FreelancerProfileProps {
   user: IUser;
 }
 
-const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
+const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   const { user: client } = useUserStore();
-  const clientId = client.userId; // sender
-  const freelancerId = user?.userId; // receiver
+  console.log(client);
+
+  const {
+    userId: clientId,
+    name: clientName,
+    photoURL: clientPhotoURL,
+  } = client;
+
+  const freelancerId = freelancer?.userId; // receiver
+  const freelancerName = freelancer.name;
   const navigate = useNavigate();
   const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
 
@@ -33,9 +41,16 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
     }
   };
 
-  const handleCreateRoom = async () => {
+  const handleCreateRoom = async ({
+    clientName,
+    freelancerName,
+  }: {
+    clientName: string;
+    freelancerName: string;
+  }) => {
+    console.log("parameter2", { clientName, freelancerName });
     const { data, error } = await supabase.rpc("create_room2", {
-      roomname: "방이름을 변경해주세요",
+      roomname: `${clientName}, ${freelancerName}`,
       user_id: clientId,
       receiver_id: freelancerId,
     });
@@ -52,9 +67,16 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
   };
 
   // 클릭 시 해당 프리랜서에게 DM 전송
-  const sendDM = async () => {
+  const sendDM = async ({
+    clientName,
+    freelancerName,
+  }: {
+    clientName: string;
+    freelancerName: string;
+  }) => {
+    console.log("parameter", { clientName, freelancerName });
     // dm방 생성 -> sender, receiver 모두 자동으로 들어가도록 create_room2, is_room_participant2 설정함
-    handleCreateRoom();
+    handleCreateRoom({ clientName, freelancerName });
     // 채팅방으로 이동
     navigate("/chat");
   };
@@ -63,27 +85,30 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
     <>
       <S.UserInfoBox>
         <S.ProfileImgBox>
-          <S.ProfileImg alt="profileImg" src={user.photoURL}></S.ProfileImg>
+          <S.ProfileImg
+            alt="profileImg"
+            src={freelancer.photoURL}
+          ></S.ProfileImg>
         </S.ProfileImgBox>
         <S.UserBox>
-          <S.UserName>{user.name}</S.UserName>
-          <S.WorkField>{user.workField?.workField}</S.WorkField>
+          <S.UserName>{freelancer.name}</S.UserName>
+          <S.WorkField>{freelancer.workField?.workField}</S.WorkField>
           <S.WorkSmallFieldAndWorkExp>
-            <span>{user.workField?.workSmallField}</span>
-            <span>{user.workExp}년차</span>
+            <span>{freelancer.workField?.workSmallField}</span>
+            <span>{freelancer.workExp}년차</span>
           </S.WorkSmallFieldAndWorkExp>
           {/* =============================================================== */}
           <S.ContactBox>
             {/* <S.Contacts
               onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
             > */}
-            <S.Contacts onClick={() => sendDM()}>
+            <S.Contacts onClick={() => sendDM({ clientName, freelancerName })}>
               <HiOutlinePaperAirplane
                 size={17}
                 style={{ transform: "rotate(45deg)" }}
               />
               <CommonS.CenterizeBox style={{ paddingTop: "4px" }}>
-                DM
+                메세지 보내기
               </CommonS.CenterizeBox>
             </S.Contacts>
           </S.ContactBox>

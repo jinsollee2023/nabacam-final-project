@@ -49,10 +49,12 @@ const ContractTerminationFreelancerCards = ({
       freelancerId: project.freelancerId as string,
     });
 
-  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries({
-    currentUserId: userId,
-    freelancerId: project.freelancerId,
-  });
+  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries(
+    {
+      currentUserId: userId,
+      freelancerId: project.freelancerId,
+    }
+  );
 
   useEffect(() => {
     if (!isSuggestingAgainModalOpen) {
@@ -61,13 +63,13 @@ const ContractTerminationFreelancerCards = ({
   }, [isSuggestingAgainModalOpen, setSelectedProject]);
 
   // 계약이 끝난 프리랜서 -> 상세 모달 -> 프로젝트 다시 제안하기 모달 버튼
-  const handleSuggestingAgainBtnClick = () => {
+  const handleSuggestingAgainButtonClick = () => {
     setIsDetailModalOpen(false);
     setIsSuggestingAgainModalOpen(true);
   };
 
   // 계약이 끝난 프리랜서 -> 상세 모달 -> 프로젝트 다시 제안하기 -> 제안하기 모달 버튼
-  const handleProjectSuggestingBtnClick = () => {
+  const handleProjectSuggestingButtonClick = () => {
     const suggestedFreelancers =
       suggestedFreelancersData?.SuggestedFreelancers || [];
     const updatedSuggestedFreelancers = [
@@ -153,14 +155,14 @@ const ContractTerminationFreelancerCards = ({
                 {dayjs(project.date?.endDate as string).format("YYMMDD")}
               </S.ProjectDate>
 
-              <S.DetailBtn
+              <S.DetailButton
                 onClick={() => {
                   setSelectedFreelancer(user);
                   setIsDetailModalOpen(!isDetailModalOpen);
                 }}
               >
                 자세히 보기
-              </S.DetailBtn>
+              </S.DetailButton>
               {isDetailModalOpen &&
               selectedFreelancer &&
               selectedFreelancer.userId === user.userId ? (
@@ -168,9 +170,11 @@ const ContractTerminationFreelancerCards = ({
                   setIsModalOpen={setIsDetailModalOpen}
                   buttons={
                     <>
-                      <S.ModalInnerBtn onClick={handleSuggestingAgainBtnClick}>
+                      <S.ModalInnerButton
+                        onClick={handleSuggestingAgainButtonClick}
+                      >
                         프로젝트 다시 제안하기
-                      </S.ModalInnerBtn>
+                      </S.ModalInnerButton>
                     </>
                   }
                 >
@@ -184,8 +188,8 @@ const ContractTerminationFreelancerCards = ({
                   setIsModalOpen={setIsSuggestingAgainModalOpen}
                   buttons={
                     <>
-                      <S.ModalInnerBtn
-                        onClick={handleProjectSuggestingBtnClick}
+                      <S.ModalInnerButton
+                        onClick={handleProjectSuggestingButtonClick}
                         disabled={
                           !selectedProject?.title ||
                           !(
@@ -195,7 +199,7 @@ const ContractTerminationFreelancerCards = ({
                         }
                       >
                         {selectedProject?.title} 제안하기
-                      </S.ModalInnerBtn>
+                      </S.ModalInnerButton>
                     </>
                   }
                 >

@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-interface BtnProps {
+interface ButtonProps {
   marginTop?: string;
   marginBottom?: string;
   marginLeft?: string;
@@ -43,7 +43,7 @@ export const S = {
     border-radius: 8px;
     border: 1.2px solid var(--main-blue);
   `,
-  ProfileBtn: styled.button`
+  ProfileButton: styled.button`
     background-color: transparent;
     border: solid var(--hover-blue);
     padding: 5px 7px;
@@ -132,7 +132,7 @@ export const S = {
   `,
 
   // 공통
-  Btn: styled.button<BtnProps>`
+  Button: styled.button<ButtonProps>`
     background-color: var(--main-blue);
     color: white;
     border: none;
@@ -151,7 +151,7 @@ export const S = {
     height: ${(props) => props.height};
     padding: ${(props) => props.padding || "7px"};
   `,
-  PostBtn: styled.button`
+  PostButton: styled.button`
     margin-top: 30px;
     background-color: var(--main-blue);
     color: white;
@@ -164,7 +164,7 @@ export const S = {
     justify-content: center;
     align-items: center;
   `,
-  RightEndBtnBox: styled.div`
+  RightEndButtonBox: styled.div`
     display: flex;
     margin-left: auto;
   `,

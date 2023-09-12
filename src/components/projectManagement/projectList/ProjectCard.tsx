@@ -157,12 +157,12 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           setIsModalOpen={setIsDetailModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>
+              <S.ModalPostButton onClick={updateProjectModalOpenHandler}>
                 수정하기
-              </S.ModalPostBtn>
-              <S.ModalPostBtn onClick={showDeleteConfirmation}>
+              </S.ModalPostButton>
+              <S.ModalPostButton onClick={showDeleteConfirmation}>
                 삭제하기
-              </S.ModalPostBtn>
+              </S.ModalPostButton>
             </>
           }
         >
@@ -174,12 +174,12 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           setIsModalOpen={setIsUpadateModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={updateProjectButtonHandler}>
+              <S.ModalPostButton onClick={updateProjectButtonHandler}>
                 수정하기
-              </S.ModalPostBtn>
-              <S.ModalPostBtn onClick={showDeleteConfirmation}>
+              </S.ModalPostButton>
+              <S.ModalPostButton onClick={showDeleteConfirmation}>
                 삭제하기
-              </S.ModalPostBtn>
+              </S.ModalPostButton>
             </>
           }
         >
@@ -193,13 +193,15 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
         </S.ProjcetTitleBox>
         <div>
           <S.ProjectCardButtonBox>
-            <S.SubmitBtn
+            <S.SubmitButton
               style={{ marginRight: "5px" }}
               onClick={updateProjectModalOpenHandler}
             >
               수정
-            </S.SubmitBtn>
-            <S.SubmitBtn onClick={showDeleteConfirmation}>삭제</S.SubmitBtn>
+            </S.SubmitButton>
+            <S.SubmitButton onClick={showDeleteConfirmation}>
+              삭제
+            </S.SubmitButton>
           </S.ProjectCardButtonBox>
           <div>
             <p>

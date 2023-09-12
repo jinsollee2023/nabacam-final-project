@@ -13,11 +13,16 @@ interface ApplicantFreelancerCardProps {
   freelancer: IUser;
 }
 
-const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCardProps) => {
+const ApplicantFreelancerCard = ({
+  project,
+  freelancer,
+}: ApplicantFreelancerCardProps) => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
+    null
+  );
   const {
     updateFreelancerApprovalMutation,
     deleteVolunteerAndPendingFreelancerMutation,
@@ -61,7 +66,9 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
     freelancerId: string
   ) => {
     // 보류 시 지원한 프리랜서 목록에서 지워주기 위해 생성
-    const updateVolunteerData = volunteer.filter((user) => user !== freelancerId);
+    const updateVolunteerData = volunteer.filter(
+      (user) => user !== freelancerId
+    );
     // 보류한 목록 데이터 업데이트 위해 생성
     const updatePendingFreelancerData = pendingFreelancer.concat(freelancerId);
     updatePendingFreelancerMutation.mutate({
@@ -83,7 +90,9 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
         )}
         <S.FreelancerName>{freelancer.name}</S.FreelancerName>
         <span>{freelancer.workField?.workField}</span>
-        <S.WorkFieldAndWorkExp>{freelancer.workField?.workSmallField}</S.WorkFieldAndWorkExp>
+        <S.WorkFieldAndWorkExp>
+          {freelancer.workField?.workSmallField}
+        </S.WorkFieldAndWorkExp>
         <S.WorkFieldAndWorkExp>{freelancer.workExp}년차</S.WorkFieldAndWorkExp>
       </S.ListContents>
       <S.ProjectContents>
@@ -91,57 +100,64 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
           <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
         </div>
 
-        <S.CheckingBtn
+        <S.CheckingButton
           onClick={() => {
             setSelectedFreelancer(freelancer);
             setIsModalOpen(!isModalOpen);
           }}
         >
           확인하기
-        </S.CheckingBtn>
-        {isModalOpen && selectedFreelancer && selectedFreelancer.userId === freelancer.userId && (
-          <Modal
-            setIsModalOpen={setIsModalOpen}
-            buttons={
-              <>
-                {project.freelancerId ? (
-                  <S.DisabledBtn disabled>모집이 완료된 프로젝트입니다.</S.DisabledBtn>
-                ) : (
-                  <>
-                    <S.ContractBtn
-                      onClick={() =>
-                        updateApplicantFreelancers(
-                          freelancer.userId,
-                          project.projectId ?? "",
-                          project.date?.endDate as string,
-                          freelancer.projectId || [],
-                          project.volunteer || [],
-                          project.pendingFreelancer || []
-                        )
-                      }
-                    >
-                      계약하기
-                    </S.ContractBtn>
-                    <S.PendingBtn
-                      onClick={() =>
-                        updatePendingFreelancer(
-                          project.projectId || "",
-                          project.volunteer || [],
-                          project.pendingFreelancer || [],
-                          freelancer.userId
-                        )
-                      }
-                    >
-                      보류하기
-                    </S.PendingBtn>
-                  </>
-                )}
-              </>
-            }
-          >
-            <ApplicantFreelancerInfoModal user={freelancer} project={project} />
-          </Modal>
-        )}
+        </S.CheckingButton>
+        {isModalOpen &&
+          selectedFreelancer &&
+          selectedFreelancer.userId === freelancer.userId && (
+            <Modal
+              setIsModalOpen={setIsModalOpen}
+              buttons={
+                <>
+                  {project.freelancerId ? (
+                    <S.DisabledButton disabled>
+                      모집이 완료된 프로젝트입니다.
+                    </S.DisabledButton>
+                  ) : (
+                    <>
+                      <S.ContractButton
+                        onClick={() =>
+                          updateApplicantFreelancers(
+                            freelancer.userId,
+                            project.projectId ?? "",
+                            project.date?.endDate as string,
+                            freelancer.projectId || [],
+                            project.volunteer || [],
+                            project.pendingFreelancer || []
+                          )
+                        }
+                      >
+                        계약하기
+                      </S.ContractButton>
+                      <S.PendingButton
+                        onClick={() =>
+                          updatePendingFreelancer(
+                            project.projectId || "",
+                            project.volunteer || [],
+                            project.pendingFreelancer || [],
+                            freelancer.userId
+                          )
+                        }
+                      >
+                        보류하기
+                      </S.PendingButton>
+                    </>
+                  )}
+                </>
+              }
+            >
+              <ApplicantFreelancerInfoModal
+                user={freelancer}
+                project={project}
+              />
+            </Modal>
+          )}
       </S.ProjectContents>
     </S.List>
   );

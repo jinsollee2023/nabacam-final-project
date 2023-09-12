@@ -66,7 +66,7 @@ export const S = {
     white-space: nowrap;
     color: #595959;
   `,
-  CheckingBtn: styled.button`
+  CheckingButton: styled.button`
     width: 100px;
     height: 35px;
     border: none;
@@ -76,7 +76,7 @@ export const S = {
     color: white;
     cursor: pointer;
   `,
-  ContractBtn: styled.button`
+  ContractButton: styled.button`
     width: 50%;
     height: 30px;
     font-size: 14px;
@@ -87,7 +87,7 @@ export const S = {
     background-color: #0086d0;
     color: white;
   `,
-  PendingBtn: styled.button`
+  PendingButton: styled.button`
     width: 50%;
     height: 30px;
     font-size: 14px;
@@ -105,7 +105,7 @@ export const S = {
   DataStatus: styled.div`
     margin: 10px;
   `,
-  DisabledBtn: styled.button`
+  DisabledButton: styled.button`
     width: 100%;
     height: 35px;
   `,

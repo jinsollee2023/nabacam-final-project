@@ -17,9 +17,11 @@ const ContractTerminationFreelancers = () => {
 
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries({
-    currentUserId: userId,
-  });
+  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries(
+    {
+      currentUserId: userId,
+    }
+  );
   // console.log(freelancersWithTerminatedProjects);
 
   // 필터 버튼 토글
@@ -34,10 +36,10 @@ const ContractTerminationFreelancers = () => {
         <>
           <S.SearchBox>
             <SearchItemBar />
-            <S.FilterBtn onClick={handleSortToggle}>
+            <S.FilterButton onClick={handleSortToggle}>
               {isLastFirst ? "최신순" : "오래된 순"}
               <LuArrowUpDown />
-            </S.FilterBtn>
+            </S.FilterButton>
           </S.SearchBox>
           <S.SelectBox>
             <WorkFieldCategory onSelectWorkField={setSelectedWorkField} />

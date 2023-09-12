@@ -5,7 +5,7 @@ interface MessageContentProps {
   isMessageUser: boolean;
 }
 
-interface BtnProps {
+interface ButtonProps {
   marginTop?: string;
   marginBottom?: string;
   marginLeft?: string;
@@ -55,7 +55,7 @@ export const S = {
     border-radius: 8px;
     margin: 8px 8px 8px 0;
   `,
-  CreateRoomBtn: styled.button`
+  CreateRoomButton: styled.button`
     /* background-color: var(--main-blue);
 
     padding: 1px 2px;
@@ -84,23 +84,24 @@ export const S = {
     background-color: var(--chat-navy);
     display: flex;
     align-items: center;
-    padding: 6px 16px;
+    padding: 10px 16px;
 
     width: 100%;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
   `,
   DMRoomName: styled.span`
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     color: white;
+    margin-left: 5px;
   `,
   DMRoomNameInput: styled.input`
     width: 100%;
     border-radius: 3px;
   `,
-  DMRoomInviteModalBtn: styled.button<BtnProps>`
+  DMRoomInviteModalButton: styled.button<ButtonProps>`
     background-color: var(--main-blue);
     color: white;
     border: none;
@@ -144,7 +145,7 @@ export const S = {
     background: var(--chat-gray);
     border-radius: 8px;
   `,
-  DMSubmitBtn: styled.button`
+  DMSubmitButton: styled.button`
     width: 53px;
     height: 26px;
     font-size: normal;
@@ -162,7 +163,6 @@ export const S = {
     right: 1.5%;
     top: 25%;
   `,
-
   //=====================================================//
   MessageWrapper: styled.div`
     background: var(--chat-navy);
@@ -232,5 +232,3 @@ export const S = {
     margin-bottom: 3px;
   `,
 };
-
-// background-color: antiquewhite;
