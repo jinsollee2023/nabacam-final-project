@@ -105,7 +105,7 @@ export const updateProject = async (
     qualification?: number;
   }
 ): Promise<void> => {
-  await supabase
+  const { data } = await supabase
     .from("projects")
     .update(column)
     .eq("projectId", projectId)
