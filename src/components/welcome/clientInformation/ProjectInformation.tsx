@@ -8,12 +8,12 @@ const ProjectInformation = () => {
         <S.MenuContentsInnerBox
           margin="0 0 20px 0"
           height="630px"
-          flexDirection="column"
-          alignItems="left"
+          $flexDirection="column"
+          $alignItems="left"
           padding="5%"
         >
           <S.TabTitle>프로젝트 목록</S.TabTitle>
-          <S.TabDesc fontWeight="600" marginBottom="10px">
+          <S.TabDesc $fontWeight="600" $marginBottom="10px">
             프로젝트 목록은 여러분의 프로젝트 관리의 핵심이 될거에요.
           </S.TabDesc>
           <S.TabDesc>
@@ -26,19 +26,19 @@ const ProjectInformation = () => {
       <S.MenuContentsBox>
         <S.MenuTitleBox height="210px" margin="0 0 20px 0">
           <S.MenuTitle>프로젝트 관리 도구 📝</S.MenuTitle>
-          <S.MenuDesc textAlign="center">
+          <S.MenuDesc $textAlign="center">
             프로젝트 목록을 확인하고 진행중인 프로젝트의 <br />
             전반적인 흐름과 현 상태를 효과적으로 관리할 수 있어요.
           </S.MenuDesc>
         </S.MenuTitleBox>
         <S.MenuContentsInnerBox
           height="400px"
-          flexDirection="column"
-          alignItems="left"
+          $flexDirection="column"
+          $alignItems="left"
           padding="5%"
         >
           <S.TabTitle>프로젝트 관리</S.TabTitle>
-          <S.TabDesc fontWeight="600" marginBottom="10px">
+          <S.TabDesc $fontWeight="600" $marginBottom="10px">
             프리랜서의 능력을 가장 잘 보여줄 수 있는 곳, 바로 포트폴리오
             탭이에요.
             <br />

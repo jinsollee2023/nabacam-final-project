@@ -33,7 +33,7 @@ const FreelancerInfomation = () => {
         <hr />
       </div>
       <S.OutroBox>
-        <S.TabTitle textAlign="center">
+        <S.TabTitle $textAlign="center">
           다양한 프로젝트가 당신의 전문성을 기다립니다. 지금 가입하고 최상의
           기회를 잡아보세요.
         </S.TabTitle>
