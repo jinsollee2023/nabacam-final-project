@@ -7,6 +7,7 @@ import { Member } from "src/Types";
 import { S } from "./memberListStyle";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
+import { CommonS } from "src/components/common/button/commonButton";
 
 export interface Errors {
   name: string | null;
@@ -132,21 +133,47 @@ const MemberList = () => {
     });
   };
 
-  const deleteMemberButtonHandler = (deleteMember: Member) => {
+  const deleteMemberButtonHandler = (deleteMember: Member | undefined) => {
     const deletedMember = client?.members?.filter(
       (member) => member !== deleteMember
     );
     // 업데이트
-    const shouldDeleteMember = window.confirm("삭제하시겠습니까?");
 
-    if (shouldDeleteMember) {
-      clientMembersMutation.mutate({
-        updatedData: { members: deletedMember },
-        userId,
-        setUser,
-      });
-      toast.success("구성원이 삭제되었습니다.");
-    }
+    clientMembersMutation.mutate({
+      updatedData: { members: deletedMember },
+      userId,
+      setUser,
+    });
+    toast.success("구성원이 삭제되었습니다.");
+  };
+
+  const handleConfirm = (deleteMember: Member) => {
+    deleteMemberButtonHandler(deleteMember);
+    toast.dismiss();
+  };
+
+  const handleCancel = () => {
+    toast.dismiss();
+  };
+
+  const showConfirmation = (member: Member) => {
+    toast.info(
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>{`삭제하시겠습니까?`}</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={() => handleConfirm(member)}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
   };
 
   return (
@@ -203,7 +230,7 @@ const MemberList = () => {
                     </S.EditAndDelBtn>
                     <S.EditAndDelBtn
                       onClick={() => {
-                        deleteMemberButtonHandler(member);
+                        showConfirmation(member);
                       }}
                     >
                       삭제
