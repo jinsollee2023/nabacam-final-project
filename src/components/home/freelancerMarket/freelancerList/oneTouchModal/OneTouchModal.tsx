@@ -1,5 +1,5 @@
 import { Project, User } from "../../../../../Types";
-import FreelancerProfile from "../../../../../components/modal/freelancerInfo/FreelancerProfile";
+import FreelancerProfile from "../../../../myPage/myProfile/freelancerInfoModal/FreelancerProfile";
 import { S } from "./oneTouchModal.styles";
 import { useProjectStore } from "../../../../../store/useProjectStore";
 

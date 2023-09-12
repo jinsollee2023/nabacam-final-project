@@ -1,8 +1,8 @@
 import React from "react";
 import { Project, User } from "../../../../../Types";
-import FreelancerProfile from "../../../../../components/modal/freelancerInfo/FreelancerProfile";
-import FreelancerResume from "../../../../../components/modal/freelancerInfo/FreelancerResume";
-import FreelancerPortfolio from "../../../../../components/modal/freelancerInfo/FreelancerPortfolio";
+import FreelancerProfile from "../../../myProfile/freelancerInfoModal/FreelancerProfile";
+import FreelancerResume from "../../../myProfile/freelancerInfoModal/FreelancerResume";
+import FreelancerPortfolio from "../../../myProfile/freelancerInfoModal/FreelancerPortfolio";
 import { S } from "../freelancerInfoModalByStatus.style";
 import dayjs from "dayjs";
 import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
@@ -21,10 +21,11 @@ const ContractTerminationInfoModal = ({
 }: ContractTerminationInfoModalProps) => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { matchingCompletedProjectsData } = useTerminationedProjectsWithFreelancerQueries({
-    currentUserId: userId,
-    freelancerId: user.userId,
-  });
+  const { matchingCompletedProjectsData } =
+    useTerminationedProjectsWithFreelancerQueries({
+      currentUserId: userId,
+      freelancerId: user.userId,
+    });
 
   return (
     <>

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { IUser, Portfolio } from "../../../Types";
+import { IUser, Portfolio } from "../../../../Types";
 import { useQuery } from "@tanstack/react-query";
-import { getPortfolio } from "../../../api/Portfolio";
+import { getPortfolio } from "../../../../api/Portfolio";
 import { S } from "./freelancerInfo.style";
-import { useUserStore } from "../../../store/useUserStore";
-import PortfolioDetailModal from "../../myPage/tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
-import Modal from "../Modal";
+import { useUserStore } from "../../../../store/useUserStore";
+import PortfolioDetailModal from "../tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
+import Modal from "../../../modal/Modal";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { usePortfolioStore } from "src/store/usePortfolioStore";

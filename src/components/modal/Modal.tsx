@@ -25,14 +25,11 @@ const Modal = ({
     }
   };
   const handleConfirm = () => {
-    console.log("확인 버튼이 클릭되었습니다.");
     setIsModalOpen(false);
     toast.dismiss();
   };
 
   const handleCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 
@@ -40,7 +37,7 @@ const Modal = ({
     toast.info(
       <CommonS.toastinfo>
         <CommonS.toastintoText>
-          입력한 내용이 전부없어지게됩니다.
+          입력한 내용이 저장되지 않습니다.
         </CommonS.toastintoText>
         <CommonS.toastOkButton onClick={handleConfirm}>
           확인
