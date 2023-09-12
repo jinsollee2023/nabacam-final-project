@@ -8,10 +8,20 @@ interface useClientsQueriesProps {
 }
 
 const useClientsQueries = ({ userId }: useClientsQueriesProps) => {
-  const { data: client } = useQuery(["clients", userId], async () => {
-    const clientData = await getClientByProject(userId);
-    return clientData;
-  });
+  const {
+    data: client,
+    isError: clientDataError,
+    isLoading: clientDataLoading,
+  } = useQuery(
+    ["clients", userId],
+    async () => {
+      const clientData = await getClientByProject(userId);
+      return clientData;
+    },
+    {
+      enabled: !!userId,
+    }
+  );
 
   const clientMembersMutation = useMutation(
     ({
@@ -66,6 +76,8 @@ const useClientsQueries = ({ userId }: useClientsQueriesProps) => {
 
   return {
     client,
+    clientDataError,
+    clientDataLoading,
     clientMembersMutation,
     updateUserMutation,
   };

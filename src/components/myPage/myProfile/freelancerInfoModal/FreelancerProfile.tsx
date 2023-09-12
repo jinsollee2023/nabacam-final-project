@@ -2,7 +2,7 @@ import React from "react";
 import { FiPhoneCall } from "react-icons/fi";
 import { FiMail } from "react-icons/fi";
 import { S } from "./freelancerInfo.style";
-import { IUser } from "../../../Types";
+import { IUser } from "../../../../Types";
 import { toast } from "react-toastify";
 
 interface FreelancerProfileProps {

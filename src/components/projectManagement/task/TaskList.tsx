@@ -20,16 +20,22 @@ const TaskList = () => {
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
   });
-  const { ongoingProjectsOfFreelancer } = useOngoingProjectsOfFreelancerQueries({
-    currentUserId: userId,
-  });
+  const { ongoingProjectsOfFreelancer } = useOngoingProjectsOfFreelancerQueries(
+    {
+      currentUserId: userId,
+    }
+  );
 
   const { ongoingProjectsOfClient } = useOngoingProjectOfClientQueries({
     currentUserId: userId,
   });
 
   useEffect(() => {
-    if (userRole === "client" && ongoingProjectsOfClient && ongoingProjectsOfClient.length > 0) {
+    if (
+      userRole === "client" &&
+      ongoingProjectsOfClient &&
+      ongoingProjectsOfClient.length > 0
+    ) {
       setProjectId(ongoingProjectsOfClient[0].projectId!);
     } else if (
       userRole === "freelancer" &&
@@ -87,7 +93,10 @@ const TaskList = () => {
   const showTerminateConfirmation = () => {
     toast.info(
       <div>
-        <p>"프로젝트가 종료되면 진행 상태를 확인할 수 없습니다. 프로젝트를 종료하시겠습니까?"</p>
+        <p>
+          "프로젝트가 종료되면 진행 상태를 확인할 수 없습니다. 프로젝트를
+          종료하시겠습니까?"
+        </p>
         <button onClick={handleTerminateConfirm}>확인</button>
         <button onClick={handleTerminateCancel}>취소</button>
       </div>,
@@ -105,15 +114,18 @@ const TaskList = () => {
       <S.SelectAddButtonContainer>
         <div>
           {(ongoingProjectsOfClient && ongoingProjectsOfClient?.length > 0) ||
-          (ongoingProjectsOfFreelancer && ongoingProjectsOfFreelancer?.length > 0) ? (
+          (ongoingProjectsOfFreelancer &&
+            ongoingProjectsOfFreelancer?.length > 0) ? (
             <Select
               showSearch
               disabled={
                 userRole === "client"
-                  ? ongoingProjectsOfClient && ongoingProjectsOfClient?.length > 0
+                  ? ongoingProjectsOfClient &&
+                    ongoingProjectsOfClient?.length > 0
                     ? false
                     : true
-                  : ongoingProjectsOfFreelancer && ongoingProjectsOfFreelancer?.length > 0
+                  : ongoingProjectsOfFreelancer &&
+                    ongoingProjectsOfFreelancer?.length > 0
                   ? false
                   : true
               }
@@ -122,7 +134,9 @@ const TaskList = () => {
               onChange={onChange}
               value={projectId}
               filterOption={(input, option) =>
-                (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
               }
               options={
                 userRole === "client"
@@ -155,7 +169,11 @@ const TaskList = () => {
           ? projectId && (
               <S.TaskAddButton onClick={addTaskButtonHandler}>
                 <S.TaskAddSpan>
-                  <RiAddBoxLine size="17" color="white" style={{ marginRight: "5px" }} />
+                  <RiAddBoxLine
+                    size="17"
+                    color="white"
+                    style={{ marginRight: "5px" }}
+                  />
                   타임라인 추가하기
                 </S.TaskAddSpan>
               </S.TaskAddButton>
@@ -169,33 +187,41 @@ const TaskList = () => {
       <S.TimelineContainer>
         {tasks && tasks.length > 0 ? (
           <div>
-            {Array.from(monthlyTaskData.entries()).map(([month, tasks]: [string, Task[]]) => {
-              const sortByMonthTasks = tasks.sort((a, b) => {
-                const dateA = new Date(a.deadLine).getTime();
-                const dateB = new Date(b.deadLine).getTime();
-                return dateA - dateB; // 오름차순 정렬
-              });
+            {Array.from(monthlyTaskData.entries()).map(
+              ([month, tasks]: [string, Task[]]) => {
+                const sortByMonthTasks = tasks.sort((a, b) => {
+                  const dateA = new Date(a.deadLine).getTime();
+                  const dateB = new Date(b.deadLine).getTime();
+                  return dateA - dateB; // 오름차순 정렬
+                });
 
-              return (
-                <>
-                  <S.ColumnLabelWrapper key={month}>
-                    <S.ColumnLabel width="25%">{`${month}월`}</S.ColumnLabel>
-                    <S.ColumnLabel width="18%">진행 상황</S.ColumnLabel>
-                    <S.ColumnLabel width="29%">마감 기한</S.ColumnLabel>
-                    <S.ColumnLabel width="25%">중요도</S.ColumnLabel>
-                  </S.ColumnLabelWrapper>
-                  <div>
-                    {sortByMonthTasks.map((task: Task) => (
-                      <TaskCard key={task.taskId} task={task} userRole={userRole} month={month} />
-                    ))}
-                  </div>
-                </>
-              );
-            })}
+                return (
+                  <>
+                    <S.ColumnLabelWrapper key={month}>
+                      <S.ColumnLabel width="25%">{`${month}월`}</S.ColumnLabel>
+                      <S.ColumnLabel width="18%">진행 상황</S.ColumnLabel>
+                      <S.ColumnLabel width="29%">마감 기한</S.ColumnLabel>
+                      <S.ColumnLabel width="25%">중요도</S.ColumnLabel>
+                    </S.ColumnLabelWrapper>
+                    <div>
+                      {sortByMonthTasks.map((task: Task) => (
+                        <TaskCard
+                          key={task.taskId}
+                          task={task}
+                          userRole={userRole}
+                          month={month}
+                        />
+                      ))}
+                    </div>
+                  </>
+                );
+              }
+            )}
           </div>
         ) : (ongoingProjectsOfClient && ongoingProjectsOfClient.length > 0) ||
-          (ongoingProjectsOfFreelancer && ongoingProjectsOfFreelancer.length > 0) ? (
-          <div>진행중인 업무가 없습니다.</div>
+          (ongoingProjectsOfFreelancer &&
+            ongoingProjectsOfFreelancer.length > 0) ? (
+          <div>진행 중인 업무가 없습니다.</div>
         ) : null}
       </S.TimelineContainer>
     </>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { S } from "./sortFreelancers.styles";
-import { Select, Space } from "antd";
 
 interface SortFreelancersProps {
   onSort: (label: string) => void;
@@ -15,17 +14,14 @@ const SortFreelancers = ({ onSort }: SortFreelancersProps) => {
 
   return (
     <S.SortContainer>
-      <Space wrap>
-        <Select
-          value={selectedLabel}
-          style={{ width: 200 }}
-          onChange={handleChange}
-          options={[
-            { value: "경력 높은 순", label: "경력 높은 순" },
-            { value: "경력 낮은 순", label: "경력 낮은 순" },
-          ]}
-        />
-      </Space>
+      <S.Select
+        value={selectedLabel}
+        onChange={(value, _) => handleChange(value as string)}
+        options={[
+          { value: "경력 높은 순", label: "경력 높은 순" },
+          { value: "경력 낮은 순", label: "경력 낮은 순" },
+        ]}
+      />
     </S.SortContainer>
   );
 };

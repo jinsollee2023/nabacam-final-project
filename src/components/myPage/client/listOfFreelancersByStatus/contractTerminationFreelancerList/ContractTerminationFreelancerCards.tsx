@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { S } from "../listOfFreelancersByStatus.style";
 import { IUser, Project, User } from "../../../../../Types";
 import dayjs from "dayjs";
 import { FiPhoneCall } from "react-icons/fi";
 import { FiMail } from "react-icons/fi";
-
-import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { useUserStore } from "../../../../../store/useUserStore";
 import { useProjectStore } from "../../../../../store/useProjectStore";
 import Modal from "../../../../../components/modal/Modal";
@@ -15,7 +13,6 @@ import { toast } from "react-toastify";
 import useTerminationedProjectsQueries from "src/hooks/queries/useTerminationedProjectsQueries";
 import useProjectByClientWithBeforeProgressQueries from "src/hooks/queries/useProjectByClientWithBeforeProgressQueries";
 import useSuggestedFreelancersQueries from "src/hooks/queries/useSuggestedFreelancersQueries";
-import useClientsQueries from "src/hooks/useClientsQueries";
 
 interface ContractTerminationFreelancerCardsProps {
   user: User;
@@ -33,7 +30,6 @@ const ContractTerminationFreelancerCards = ({
     null
   );
   const { userId } = useUserStore();
-  const { client } = useClientsQueries({ userId });
   const { selectedProject, setSelectedProject } = useProjectStore();
   const { suggestedFreelancersData, updateSuggestedFreelancersDataMutation } =
     useSuggestedFreelancersQueries({
@@ -49,10 +45,12 @@ const ContractTerminationFreelancerCards = ({
       freelancerId: project.freelancerId as string,
     });
 
-  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries({
-    currentUserId: userId,
-    freelancerId: project.freelancerId,
-  });
+  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries(
+    {
+      currentUserId: userId,
+      freelancerId: project.freelancerId,
+    }
+  );
 
   useEffect(() => {
     if (!isSuggestingAgainModalOpen) {
@@ -115,9 +113,10 @@ const ContractTerminationFreelancerCards = ({
               <S.ContentContainer>
                 <div>
                   <S.ProfileContents>
-                    <S.Name>{user.name}</S.Name>
-                    <S.WorkField>{user.workField?.workField}</S.WorkField>
-
+                    <S.NameAndWorkFieldWrapper>
+                      <S.Name>{user.name}</S.Name>
+                      <S.WorkField>{user.workField?.workField}</S.WorkField>
+                    </S.NameAndWorkFieldWrapper>
                     <S.WorkSmallFieldAndWorkExp>
                       {user.workField?.workSmallField} {user.workExp}년차
                     </S.WorkSmallFieldAndWorkExp>

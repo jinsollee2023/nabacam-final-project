@@ -26,6 +26,7 @@ export const S = {
     display: flex;
     margin-top: 10px;
     padding: 10px;
+    width: 100%;
   `,
   Img: styled.img`
     margin-left: 5px;
@@ -40,41 +41,65 @@ export const S = {
     font-weight: bold;
   `,
   Detail: styled.p<DetailProps>`
-    font-size: 14px;
+    font-size: 16px;
     color: var(--middle-gray);
     margin-top: 15px;
     margin-left: ${(props) => props.marginLeft};
     color: ${(props) => props.color || "var(--middle-gray)"};
+    display: flex;
   `,
   SettingBtn: styled.span`
     cursor: pointer;
-    font-size: 20px;
     margin-left: 5px;
-  `,
-  SettingSpan: styled.span`
-    font-size: 5px;
+    height: 25px;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+      transform: rotate(60deg);
+    }
   `,
 
   // EditForm
   Label: styled.label`
-    font-size: 16px;
-    margin-bottom: 15px;
+    color: #595959;
   `,
   Input: styled.input`
     width: 100%;
     height: 32px;
     padding: 10px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+    outline: none;
+  `,
+  ErrorMessage: styled.div<{ hasError: boolean }>`
+    height: ${(props) => (props.hasError ? "20px" : "0")};
+    margin: 2px 0 5px 0;
+    color: #ef0000;
+    font-size: 14px;
+    overflow: hidden;
+    transition: height 0.3s;
+  `,
+  EditForm: styled.form`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `,
+  WriteBox: styled.div`
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
   `,
 
   // 공통
   ColumnBox: styled.div<ColumnBoxProps>`
     display: flex;
     flex-direction: column;
+    width: 280px;
+    min-width: 170px;
     margin-left: ${(props) => props.marginLeft};
   `,
   FlexBox: styled.div<FlexBoxProps>`
@@ -93,26 +118,25 @@ export const S = {
   RightEndBtnBox: styled.div`
     display: flex;
     margin-left: auto;
-    /* margin-top: 25px;
-    padding-right: 3%; */
   `,
   Btn: styled.button<BtnProps>`
-    background-color: var(--main-blue);
-    color: white;
+    width: ${(props) => props.width};
+    height: 30px;
+    font-size: 14px;
     border: none;
     border-radius: 5px;
+    margin-top: 8px;
     cursor: pointer;
-    font-size: 13px;
-    transition: background-color 0.3s ease;
-    &:hover {
-      background-color: var(--hover-blue);
-    }
-    margin-top: ${(props) => props.marginTop};
-    margin-bottom: ${(props) => props.marginBottom};
-    margin-left: ${(props) => props.marginLeft};
-    margin-right: ${(props) => props.marginRight};
+    background-color: #0086d0;
+    color: white;
+  `,
+  UnMemberBtn: styled.button<BtnProps>`
     width: ${(props) => props.width};
-    height: ${(props) => props.height || "40px"};
-    padding: ${(props) => props.padding};
+    height: 30px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 8px;
+    cursor: pointer;
   `,
 };

@@ -7,10 +7,10 @@ export const S = {
   PFThumbnailContainer: styled.div`
     margin: 20px 0;
     background-color: aliceblue;
-    width: 230px;
     height: 230px;
     border-radius: 10px;
     overflow: hidden;
+    width: 100%;
 
     img {
       width: 100%;

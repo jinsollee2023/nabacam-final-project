@@ -23,7 +23,6 @@ export const S = {
     margin-bottom: ${(props) => props.marginBottom};
   `,
   ContractListBox: styled.div`
-    /* background-color: aliceblue; */
     margin-top: 20px;
   `,
   ContractInfoBox: styled.div`

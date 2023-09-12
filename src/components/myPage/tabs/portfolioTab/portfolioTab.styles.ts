@@ -17,10 +17,8 @@ export const S = {
     padding-top: 5px;
     max-height: 63vh;
     overflow-y: auto;
-    display: grid;
-    grid-template-columns: 255px 255px 255px 255px 255px;
-    grid-template-rows: 275px;
-    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
 
     &::-webkit-scrollbar {
       width: 12px;
@@ -42,11 +40,12 @@ export const S = {
     justify-content: center;
   `,
   PortfolioList: styled.div`
-    width: 100%;
+    width: 250px;
     height: 275px;
     border-radius: 10px;
     cursor: pointer;
     overflow: hidden;
+    margin: 15px 15px 0 0;
 
     img {
       width: 100%;

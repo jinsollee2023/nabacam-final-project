@@ -6,7 +6,6 @@ import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
 import { useProjectStore } from "../../../store/useProjectStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
-import React from "react";
 import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
@@ -157,11 +156,11 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           setIsModalOpen={setIsDetailModalOpen}
           buttons={
             <>
+              <S.ModalDeleteBtn onClick={showDeleteConfirmation}>
+                삭제하기
+              </S.ModalDeleteBtn>
               <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>
                 수정하기
-              </S.ModalPostBtn>
-              <S.ModalPostBtn onClick={showDeleteConfirmation}>
-                삭제하기
               </S.ModalPostBtn>
             </>
           }
@@ -174,11 +173,11 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           setIsModalOpen={setIsUpadateModalOpen}
           buttons={
             <>
+              <S.ModalDeleteBtn onClick={showDeleteConfirmation}>
+                삭제하기
+              </S.ModalDeleteBtn>
               <S.ModalPostBtn onClick={updateProjectButtonHandler}>
                 수정하기
-              </S.ModalPostBtn>
-              <S.ModalPostBtn onClick={showDeleteConfirmation}>
-                삭제하기
               </S.ModalPostBtn>
             </>
           }
@@ -191,33 +190,28 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
         <S.ProjcetTitleBox onClick={() => setIsDetailModalOpen(true)}>
           {project.title}
         </S.ProjcetTitleBox>
-        <div>
+        <S.ProfileCardRightContentWrapper>
           <S.ProjectCardButtonBox>
-            <S.SubmitBtn
-              style={{ marginRight: "5px" }}
-              onClick={updateProjectModalOpenHandler}
-            >
+            <S.SubmitBtn onClick={updateProjectModalOpenHandler}>
               수정
             </S.SubmitBtn>
             <S.SubmitBtn onClick={showDeleteConfirmation}>삭제</S.SubmitBtn>
           </S.ProjectCardButtonBox>
-          <div>
-            <p>
-              {project.manager.team}팀&nbsp;{project.manager.name}
+          <S.ProjectManager>
+            {project.manager.team}팀&nbsp;{project.manager.name}
+          </S.ProjectManager>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <p
+              style={{
+                color: "var(--middle-gray)",
+                fontSize: "13px",
+                marginTop: "5px",
+              }}
+            >
+              {project.expectedStartDate} 시작 예정
             </p>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <p
-                style={{
-                  color: "var(--middle-gray)",
-                  fontSize: "13px",
-                  marginTop: "5px",
-                }}
-              >
-                {project.expectedStartDate} 시작 예정
-              </p>
-            </div>
           </div>
-        </div>
+        </S.ProfileCardRightContentWrapper>
       </S.ProjectCardBox>
     </>
   );

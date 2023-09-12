@@ -1,5 +1,5 @@
 import { Project, User } from "../../../../../Types";
-import FreelancerProfile from "../../../../../components/modal/freelancerInfo/FreelancerProfile";
+import FreelancerProfile from "../../../../myPage/myProfile/freelancerInfoModal/FreelancerProfile";
 import { S } from "./oneTouchModal.styles";
 import { useProjectStore } from "../../../../../store/useProjectStore";
 
@@ -39,7 +39,7 @@ const OneTouchModal = ({ user, projectLists }: OneTouchModalProps) => {
               >
                 <S.ProjectItemTitle>{projectItem.title}</S.ProjectItemTitle>
                 <S.ProjectItemDeadLine>
-                  시작 예정일 : {projectItem.expectedStartDate}
+                  프로젝트 시작 예정일 : {projectItem.expectedStartDate}
                 </S.ProjectItemDeadLine>
               </S.ProjectItem>
             );

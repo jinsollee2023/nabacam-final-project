@@ -368,6 +368,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       </S.ErrorMessage>
                     </S.WorkFieldInputWrapper>
                   </S.WorkFieldWrapper>
+
                   <S.JoinInput
                     id="workExpInput"
                     type="text"
@@ -408,7 +409,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
               <S.ErrorMessage hasError={!!errors.phone}>
                 {errors.phone && <p>{errors.phone}</p>}
               </S.ErrorMessage>
-              <br />
             </S.InputWrapper>
           </S.JoinFormContentsWrapper>
           <S.JoinButton>

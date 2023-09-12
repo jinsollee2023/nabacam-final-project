@@ -1,3 +1,4 @@
+import TextArea from "antd/es/input/TextArea";
 import { styled } from "styled-components";
 
 interface BtnProps {
@@ -13,16 +14,10 @@ interface BtnProps {
 export const S = {
   Container: styled.div`
     width: 100%;
-    /* height: 100vh; */
     margin-bottom: 0;
   `,
   ContainerInner: styled.div`
     height: 60vh;
-    overflow-y: auto;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
   `,
 
   // 프로필
@@ -37,30 +32,35 @@ export const S = {
     font-weight: bold;
   `,
   ProfileInputBox: styled.div`
-    font-size: 14px;
+    width: 97%;
+    height: 120px;
+    line-height: 1.2;
+    font-size: 16px;
     padding: 10px;
     margin-top: 10px;
     border-radius: 8px;
-    border: 1.2px solid var(--main-blue);
+    background-color: #f0f0f0;
   `,
   ProfileBtn: styled.button`
     background-color: transparent;
-    border: solid var(--hover-blue);
     padding: 5px 7px;
     border-radius: 5px;
-    margin-top: 6px;
+    border: none;
     margin-left: 8px;
     cursor: pointer;
-    font-size: 10px;
-    transition: background-color 0.3s ease;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    color: dimgray;
+
+    transition: font-weight 0.2s ease-in-out;
     &:hover {
-      background-color: var(--hover-blue);
+      font-weight: 800;
     }
   `,
 
   // 경력사항
-  WorkExperienceContainer: styled.section`
-    width: 93%;
+  WorkExperienceContainer: styled.div`
     padding-top: 10px;
     padding-bottom: 10px;
     margin-top: 10px;
@@ -68,20 +68,27 @@ export const S = {
   WorkExperienceTitle: styled.p`
     font-size: 18px;
     font-weight: bold;
+    margin-bottom: 20px;
   `,
   WorkExperienceListWrapper: styled.ul`
-    display: grid;
-    /* grid-template-columns: repeat(3, 1fr); */
-    grid-template-columns: repeat(3, 31%);
-    gap: 30px;
-    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 20px;
+    height: 34vh;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   `,
   WorkExperienceList: styled.li`
-    padding-top: 20px;
-    padding-bottom: 5px;
+    width: 230px;
+    padding: 20px 0 10px 0;
     list-style: none;
-    border-radius: 8px;
-    border: 1.2px solid var(--main-blue);
+    border-radius: 10px;
+    border: 1px solid var(--lighter-gray);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -102,12 +109,18 @@ export const S = {
   `,
 
   //------------모달-----------------------//
-  // 계정 모달
-
   // 프로필 모달
   AccountForm: styled.form`
     max-width: 400px;
     margin: 0 auto;
+  `,
+  AntdTextArea: styled(TextArea)`
+    height: 200px;
+    margin-top: 24px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--main-blue);
+    width: 100%;
   `,
 
   // 경력 모달
@@ -130,6 +143,17 @@ export const S = {
     margin-top: 10px;
     margin-bottom: 10px;
   `,
+  ResumButton: styled.button<BtnProps>`
+    width: ${(props) => props.width};
+    color: var(--main-blue);
+    border: 1px solid var(--main-blue);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    background-color: transparent;
+    padding: ${(props) => props.padding || "7px"};
+    margin-left: ${(props) => props.marginLeft};
+  `,
 
   // 공통
   Btn: styled.button<BtnProps>`
@@ -140,9 +164,6 @@ export const S = {
     cursor: pointer;
     font-size: 13px;
     transition: background-color 0.3s ease;
-    &:hover {
-      background-color: var(--hover-blue);
-    }
     margin-top: ${(props) => props.marginTop};
     margin-bottom: ${(props) => props.marginBottom};
     margin-left: ${(props) => props.marginLeft};
@@ -163,5 +184,22 @@ export const S = {
   JustifyBox: styled.div`
     display: flex;
     align-items: center;
+  `,
+  WorkExperienceAddButton: styled.button`
+    background-color: var(--main-blue);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    width: 500px;
+    font-size: 16px;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    z-index: 1;
+    transform: translateX(-25%);
   `,
 };

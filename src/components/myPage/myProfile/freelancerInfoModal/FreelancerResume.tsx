@@ -1,6 +1,6 @@
 import React from "react";
 import { S } from "./freelancerInfo.style";
-import { IUser } from "../../../Types";
+import { IUser } from "../../../../Types";
 
 interface FreelancerResumeProps {
   user: IUser;

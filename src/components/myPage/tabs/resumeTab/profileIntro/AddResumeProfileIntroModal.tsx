@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Input } from "antd";
 import { useResumeProfileIntroStore } from "../../../../../store/useResumeProfileIntroStore";
 import { S } from "../Resume.styles";
 
@@ -8,7 +7,6 @@ interface profileIntroProps {
 }
 
 const AddResumeProfileIntroModal = ({ profileIntro }: profileIntroProps) => {
-  const { TextArea } = Input;
   const [newProfileIntroInput, setNewProfileIntroInput] = useState(
     profileIntro && profileIntro !== "" ? profileIntro : ""
   );
@@ -24,22 +22,15 @@ const AddResumeProfileIntroModal = ({ profileIntro }: profileIntroProps) => {
   return (
     <S.AccountForm>
       <S.Label>
-        프리랜서마켓에 등록될 프로필을 100자 이내로 입력해주세요.
-        <TextArea
+        자신을 소개하는 글을 150자 이내로 입력해주세요.
+        <S.AntdTextArea
           showCount
-          maxLength={100}
-          style={{
-            height: "120px",
-            marginTop: "24px",
-            padding: "8px",
-            fontSize: "16px",
-            borderRadius: "4px",
-            border: "1px solid var(--main-blue)",
-            width: "100%",
-          }}
-          placeholder="예시)UI/UX디자인 3년차"
+          maxLength={150}
+          placeholder=" 이내로 자신에 대해 간략히 소개해주세요."
           value={newProfileIntroInput}
           onChange={(e) => onChangeNewprofileIntroInputHandler(e.target.value)}
+          style={{ resize: "none" }}
+          wrap="hard"
         />
       </S.Label>
     </S.AccountForm>

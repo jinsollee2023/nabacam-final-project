@@ -1,3 +1,4 @@
+import { Select } from "antd";
 import { styled } from "styled-components";
 
 interface ProjectCardBoxProps {
@@ -43,22 +44,54 @@ const S = {
     display: flex;
   `,
   SearchSortBtnBox: styled.div`
-    margin-top: 30px;
+    width: 100px;
+    margin: 20px 0;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
   `,
   SearchSortBtn: styled.span`
     cursor: pointer;
-    color: var(--lighter-gray);
+    color: var(--darker-gray);
     font-size: 14px;
+    transition: color 0.5s ease-in-out;
+
+    &.selected {
+      color: var(--main-blue);
+      font-weight: 700;
+    }
+
+    &:hover {
+      color: var(--main-blue);
+      font-weight: 700;
+    }
   `,
-  SubmitBtn: styled.span``, // 상속
+  SubmitBtn: styled.button`
+    color: var(--darker-gray);
+    font-size: 14px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+  `,
   ProjectContainer: styled.div`
     overflow: auto;
     width: 100%;
     height: 65vh;
-    margin-top: 20px;
     position: relative;
+    padding-right: 10px;
+
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #848484;
+      border-radius: 10px;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #f3f3f3;
+      border-radius: 10px;
+    }
   `,
   ProjectCardBox: styled.div<ProjectCardBoxProps>`
     border: 1.5px solid var(--lighter-gray);
@@ -95,10 +128,18 @@ const S = {
     margin: auto 0;
     cursor: pointer;
   `,
+  ProfileCardRightContentWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: end;
+  `,
   ProjectCardButtonBox: styled.div`
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 15px;
+    justify-content: space-between;
+  `,
+  ProjectManager: styled.div`
+    margin: 10px 0 3px 0;
   `,
 
   // -----------------------------------------------------------//
@@ -187,13 +228,22 @@ const S = {
     display: flex;
     align-items: center;
   `,
-  ModalPostBtn: styled.button`
-    width: 100%;
-    height: 35px;
+  ModalDeleteBtn: styled.button`
+    width: 50%;
+    height: 30px;
+    font-size: 14px;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     margin-top: 8px;
-    background-color: var(--main-blue);
+  `,
+  ModalPostBtn: styled.button`
+    width: 50%;
+    height: 30px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 8px;
+    background-color: #0086d0;
     color: white;
   `,
   ModalSubTitle: styled.p`
@@ -222,10 +272,39 @@ const S = {
       height: 100%;
     }
   `,
-};
+  SearchSortBtnWrapper: styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    padding-right: 25px;
+  `,
+  ProjectSelect: styled(Select)`
+    .ant-select-selector {
+      border: 1px solid var(--lighter-gray) !important;
+      box-shadow: none !important;
 
-S.SubmitBtn = styled(S.SearchSortBtn)`
-  border-bottom: solid var(--lighter-gray);
-`;
+      &.ant-select-focused {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+
+        &:focus {
+          border: none !important;
+          outline: 0 !important;
+          box-shadow: none !important;
+        }
+      }
+    }
+  `,
+  ErrorMessage: styled.div<{ hasError: boolean }>`
+    height: ${(props) => (props.hasError ? "20px" : "0")};
+    margin: 2px 0;
+    color: #ef0000;
+    font-size: 14px;
+    overflow: hidden;
+    transition: height 0.3s;
+    margin-bottom: 5px;
+  `,
+};
 
 export default S;

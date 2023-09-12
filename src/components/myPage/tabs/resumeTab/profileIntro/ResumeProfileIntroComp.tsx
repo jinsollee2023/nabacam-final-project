@@ -63,7 +63,7 @@ const ResumeProfileIntroComp = () => {
           <S.ProfileTitle>프로필</S.ProfileTitle>
           {intro?.length > 0 ? (
             <S.ProfileBtn onClick={() => setIsAddModalOpen(true)}>
-              <IoMdSettings style={{ marginRight: "2px" }} />
+              <IoMdSettings style={{ marginRight: "7px" }} size="20" />
               수정하기
             </S.ProfileBtn>
           ) : (
@@ -72,8 +72,8 @@ const ResumeProfileIntroComp = () => {
                 setIsAddModalOpen(true);
               }}
             >
-              <MdAddCircle size="10" />
-              추가
+              <MdAddCircle size="20" />
+              추가하기
             </S.ProfileBtn>
           )}
         </S.JustifyBox>

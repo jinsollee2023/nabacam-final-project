@@ -8,6 +8,10 @@ import { S } from "./memberListStyle";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
 import useMemberValuesStore from "src/store/useMemberModal";
+import { FiPhoneCall, FiMail } from "react-icons/fi";
+import SearchItemBar from "src/components/common/searchItemBar/SearchItemBar";
+import { useSearchKeywordStore } from "src/store/useSearchKeywordStore";
+import { Spin } from "antd";
 
 export interface Errors {
   name: string | null;
@@ -18,11 +22,17 @@ export interface Errors {
 
 const MemberList = () => {
   const { userId, setUser } = useUserStore();
-  const { values, setMamber } = useMemberValuesStore();
-  const { client, clientMembersMutation } = useClientsQueries({ userId });
+  const { values } = useMemberValuesStore();
+  const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
+  const { client, clientDataError, clientDataLoading, clientMembersMutation } =
+    useClientsQueries({ userId });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [updateMemberData, setUpdateMemberData] = useState<Member>();
-  const [currentMemberData, setCurrentMemberData] = useState<Member>();
+  const [selectedMemberData, setSelectedMemberData] = useState<Member>();
+  const [filteredMembers, setFilteredMembers] = useState<Member[]>(
+    client?.members!
+  );
+
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
   const initialErrors: Errors = {
     name: null,
@@ -42,7 +52,7 @@ const MemberList = () => {
 
   // 구성원 추가하기 버튼 클릭시 실행되는 함수
   const openModalButtonHandler = () => {
-    setCurrentMemberData({
+    setSelectedMemberData({
       name: "",
       team: "",
       contact: { email: "", phone: "" },
@@ -57,7 +67,7 @@ const MemberList = () => {
   };
 
   const updateButtonHandler = (updateMember: Member) => {
-    setCurrentMemberData(updateMember);
+    setSelectedMemberData(updateMember);
     setErrors({
       name: null,
       email: null,
@@ -75,18 +85,18 @@ const MemberList = () => {
       errors.name === "" &&
       errors.team === "";
 
-    if (currentMemberData?.name === "" && canSubmit) {
+    if (selectedMemberData?.name === "" && canSubmit) {
       addMember();
       toast.success("구성원이 추가되었습니다.");
       setIsAddModalOpen(false);
-    } else if (currentMemberData?.name !== "" && canSubmit) {
+    } else if (selectedMemberData?.name !== "" && canSubmit) {
       updateMember();
       toast.success("구성원이 수정되었습니다.");
       setIsAddModalOpen(false);
     } else if (!canSubmit) {
       setSubmitButtonClicked(false);
     }
-  }, [currentMemberData, submitButtonClicked, errors]);
+  }, [selectedMemberData, submitButtonClicked, errors]);
 
   const submitButtonHandler = () => {
     const nameError = validateName(updateMemberData?.name as string);
@@ -114,7 +124,7 @@ const MemberList = () => {
 
   const updateMember = () => {
     const updateMembers = client?.members?.map((member) => {
-      return member === currentMemberData
+      return member === selectedMemberData
         ? {
             name: updateMemberData?.name,
             team: updateMemberData?.team,
@@ -150,22 +160,55 @@ const MemberList = () => {
     }
   };
 
+  useEffect(() => {
+    changeSearchKeyword("");
+  }, []);
+
+  useEffect(() => {
+    if (client?.members) {
+      const filteredMemberList = client?.members?.filter((member) => {
+        const lowerCaseSearch = String(searchKeyword).toLowerCase();
+        return (
+          member?.name?.toLowerCase().includes(lowerCaseSearch) ||
+          member?.team?.toLowerCase().includes(lowerCaseSearch) ||
+          member?.contact.email?.toLowerCase().includes(lowerCaseSearch) ||
+          member?.contact.phone?.toLowerCase().includes(lowerCaseSearch)
+        );
+      });
+      setFilteredMembers(filteredMemberList);
+    }
+  }, [client, searchKeyword]);
+
+  if (clientDataLoading) {
+    return (
+      <Spin
+        size="large"
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+        }}
+      />
+    );
+  }
+  if (clientDataError) {
+    return <span>client data Error..</span>;
+  }
+  console.log(client);
   return (
     <>
-      <div>
-        {client?.members && client.members.length > 0 ? null : (
-          <p>등록된 구성원이 없습니다.</p>
-        )}
+      <S.SearchItemBarAndAddMemberBtnWrapper>
+        <SearchItemBar />
         <S.AddMemberBtn onClick={openModalButtonHandler}>
-          + 구성원 추가하기
+          구성원 추가하기
         </S.AddMemberBtn>
-      </div>
+      </S.SearchItemBarAndAddMemberBtnWrapper>
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              {currentMemberData?.name === "" ? (
+              {selectedMemberData?.name === "" ? (
                 <S.ModalInnerAddBtn onClick={submitButtonHandler}>
                   구성원 추가하기
                 </S.ModalInnerAddBtn>
@@ -179,7 +222,7 @@ const MemberList = () => {
           availableClose={availableClose}
         >
           <AddMemberModal
-            currentMemberData={currentMemberData as Member}
+            currentMemberData={selectedMemberData as Member}
             setUpdateMemberData={setUpdateMemberData}
             errors={errors}
             setErrors={setErrors}
@@ -187,8 +230,8 @@ const MemberList = () => {
         </Modal>
       )}
       <S.MemberListContainer>
-        {client &&
-          client.members?.map((member) => {
+        {client && filteredMembers?.length > 0 ? (
+          filteredMembers?.map((member) => {
             return (
               <S.MemberList>
                 <S.MemberInfo>
@@ -210,18 +253,23 @@ const MemberList = () => {
                       삭제
                     </S.EditAndDelBtn>
                   </S.BtnBox>
-                  <S.ContactBox>
-                    <S.ContactLabel>전화번호</S.ContactLabel>
-                    <S.MemberContact>{member.contact.phone}</S.MemberContact>
-                  </S.ContactBox>
-                  <S.ContactBox>
-                    <S.ContactLabel>이메일</S.ContactLabel>
-                    <S.MemberContact>{member.contact.email}</S.MemberContact>
-                  </S.ContactBox>
+                  <S.ContactBoxWrapper>
+                    <S.ContactBox>
+                      <FiPhoneCall size={16} />
+                      <S.MemberContact>{member.contact.phone}</S.MemberContact>
+                    </S.ContactBox>
+                    <S.ContactBox>
+                      <FiMail size={16} />
+                      <S.MemberContact>{member.contact.email}</S.MemberContact>
+                    </S.ContactBox>
+                  </S.ContactBoxWrapper>
                 </S.MemberContactBox>
               </S.MemberList>
             );
-          })}
+          })
+        ) : (
+          <p>등록된 구성원이 없습니다.</p>
+        )}
       </S.MemberListContainer>
     </>
   );
