@@ -8,7 +8,7 @@ const WelcomeIntro = () => {
     <>
       <S.SignButtonContainer>
         <S.SignButton
-          backGroundColor="white"
+          $backGroundColor="white"
           color="black"
           border="1px #0086D0 solid"
           onClick={() => navigate("/login")}
@@ -16,7 +16,7 @@ const WelcomeIntro = () => {
           로그인
         </S.SignButton>
         <S.SignButton
-          backGroundColor="#0086D0"
+          $backGroundColor="#0086D0"
           color="white"
           border="none"
           onClick={() => navigate("/register")}

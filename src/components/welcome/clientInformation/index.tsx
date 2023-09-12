@@ -34,7 +34,7 @@ const ClientInformation = () => {
         <hr />
       </div>
       <S.OutroBox>
-        <S.TabTitle textAlign="center">
+        <S.TabTitle $textAlign="center">
           이곳에서 최적의 프리랜서를 만나세요. 지금 회원가입하고 프로젝트를
           게시하여 전문 프리랜서의 지원을 받아보세요.
         </S.TabTitle>

@@ -8,7 +8,7 @@ const CompanyPageInformation = () => {
         <S.MenuContentsBox>
           <S.MenuTitleBox height="210px" margin="0 1% 20px 1%">
             <S.MenuTitle>기업페이지 🏢</S.MenuTitle>
-            <S.MenuDesc textAlign="center">
+            <S.MenuDesc $textAlign="center">
               회사의 모든 구성원 정보와 <br />
               프리랜서를 한 눈에 파악하고 관리할 수 있어요.
             </S.MenuDesc>
@@ -16,13 +16,13 @@ const CompanyPageInformation = () => {
           <S.MenuContentsInnerBox
             height="413px"
             margin="0 1% 20px 1%"
-            flexDirection="column"
-            justifyContent="null"
-            alignItems="null"
+            $flexDirection="column"
+            $justifyContent="null"
+            $alignItems="null"
             padding="5%"
           >
             <S.TabTitle>우리 기업 구성원</S.TabTitle>
-            <S.TabDesc fontWeight="600">
+            <S.TabDesc $fontWeight="600">
               기업 구성원을 한 눈에 확인할 수 있어요.
             </S.TabDesc>
             <S.TabDesc>
@@ -38,9 +38,9 @@ const CompanyPageInformation = () => {
           height="640px"
           margin="1% 1% 20px 1%"
           padding="3%"
-          flexDirection="column"
-          justifyContent="null"
-          alignItems="null"
+          $flexDirection="column"
+          $justifyContent="null"
+          $alignItems="null"
         >
           <S.TabTitle>진행 중인 프리랜서</S.TabTitle>
           <S.TabDesc>

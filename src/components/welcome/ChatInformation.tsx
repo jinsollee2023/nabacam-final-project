@@ -1,7 +1,7 @@
 import React from "react";
 import { S } from "./welcome.styles";
 
-const ChatInformation = () => {
+const ChatInfomation = () => {
   return (
     <div>
       <S.MenuTitleBox>
@@ -18,12 +18,12 @@ const ChatInformation = () => {
         <S.MenuContentsInnerBox
           width="48%"
           margin="1%"
-          flexDirection="column"
+          $flexDirection="column"
           height="450px"
         >
           <div style={{ marginLeft: "auto" }}>
             <S.BalloonContainer>
-              <S.TabDesc fontWeight="600" marginBottom="10px">
+              <S.TabDesc $fontWeight="600" $marginBottom="10px">
                 ⚡️ 빠른 피드백{" "}
               </S.TabDesc>
               <S.TabDesc>
@@ -32,14 +32,14 @@ const ChatInformation = () => {
               </S.TabDesc>
               <S.BalloonTail
                 right="30px"
-                borderLeft="40px"
-                borderRight="0px"
+                $borderLeft="40px"
+                $borderRight="0px"
               ></S.BalloonTail>
             </S.BalloonContainer>
           </div>
           <div style={{ marginRight: "auto" }}>
             <S.BalloonContainer>
-              <S.TabDesc fontWeight="600" marginBottom="10px">
+              <S.TabDesc $fontWeight="600" $marginBottom="10px">
                 📎 문서 공유{" "}
               </S.TabDesc>
               <S.TabDesc>
@@ -48,15 +48,15 @@ const ChatInformation = () => {
               </S.TabDesc>
               <S.BalloonTail
                 left="30px"
-                borderLeft="0px"
-                borderRight="40px"
+                $borderLeft="0px"
+                $borderRight="40px"
               ></S.BalloonTail>
             </S.BalloonContainer>
           </div>
           <div style={{ marginLeft: "auto" }}>
             <S.BalloonContainer>
-              <S.TabDesc fontWeight="600" marginBottom="10px">
-                🔔 알림 기능{" "}
+              <S.TabDesc $fontWeight="600" $marginBottom="10px">
+                🔔 알림 기능
               </S.TabDesc>
               <S.TabDesc>
                 새로운 메시지가 도착하면 알림을 통해 바로 확인할 수 있어요.
@@ -65,8 +65,8 @@ const ChatInformation = () => {
               </S.TabDesc>
               <S.BalloonTail
                 right="30px"
-                borderLeft="40px"
-                borderRight="0px"
+                $borderLeft="40px"
+                $borderRight="0px"
               ></S.BalloonTail>
             </S.BalloonContainer>
           </div>
@@ -76,4 +76,4 @@ const ChatInformation = () => {
   );
 };
 
-export default ChatInformation;
+export default ChatInfomation;

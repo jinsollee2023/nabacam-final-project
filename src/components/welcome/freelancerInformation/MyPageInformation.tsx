@@ -8,12 +8,12 @@ const MyPageInformation = () => {
         <S.MenuContentsInnerBox
           margin="0 0 20px 0"
           height="500px"
-          flexDirection="column"
-          alignItems="left"
+          $flexDirection="column"
+          $alignItems="left"
           padding="5%"
         >
           <S.TabTitle>이력서</S.TabTitle>
-          <S.TabDesc fontWeight="600" marginBottom="10px">
+          <S.TabDesc $fontWeight="600" $marginBottom="10px">
             당신의 이야기를 알려주세요.
             <br />
             프로필부터 경력 사항까지 자신을 소개할 수 있는 모든 정보를 기입할 수
@@ -32,12 +32,12 @@ const MyPageInformation = () => {
         </S.MenuContentsInnerBox>
         <S.MenuContentsInnerBox
           height="395px"
-          flexDirection="column"
-          alignItems="left"
+          $flexDirection="column"
+          $alignItems="left"
           padding="5%"
         >
           <S.TabTitle>계약 정보</S.TabTitle>
-          <S.TabDesc fontWeight="600" marginBottom="10px">
+          <S.TabDesc $fontWeight="600" $marginBottom="10px">
             과거의 협업, 그 흔적들
           </S.TabDesc>
           <S.TabDesc>
@@ -52,19 +52,19 @@ const MyPageInformation = () => {
       <S.MenuContentsBox>
         <S.MenuTitleBox height="210px" margin="0 0 20px 0">
           <S.MenuTitle>마이페이지 🙎🏻‍♂️ </S.MenuTitle>
-          <S.MenuDesc textAlign="center">
+          <S.MenuDesc $textAlign="center">
             프리랜서로서의 당신의 전체적인 모습과 능력,
             <br /> 그리고 경험을 집약적으로 소개하는 곳이에요.
           </S.MenuDesc>
         </S.MenuTitleBox>
         <S.MenuContentsInnerBox
           height="685px"
-          flexDirection="column"
-          alignItems="left"
+          $flexDirection="column"
+          $alignItems="left"
           padding="5%"
         >
           <S.TabTitle>포트폴리오</S.TabTitle>
-          <S.TabDesc fontWeight="600" marginBottom="10px">
+          <S.TabDesc $fontWeight="600" $marginBottom="10px">
             프리랜서의 능력을 가장 잘 보여줄 수 있는 곳, 바로 포트폴리오
             탭이에요.
             <br />

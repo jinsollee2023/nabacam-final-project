@@ -10,6 +10,7 @@ const useValidation = () => {
   //   앞자리 010 중간 자리 0~9 숫자로 3~4글자  0~9 4글자
   const phoneReg = /^(\d{3}-\d{4}-\d{4}|\d{3}-\d{3}-\d{4})$/;
   const nameReg = /^[가-힣]{2,8}$/;
+  const workExpReg = /^[0-9]{1,2}$/;
 
   const validateEmail = (email: string) => {
     if (email === "") {
@@ -57,9 +58,12 @@ const useValidation = () => {
     return "";
   };
 
-  const validateWorkExp = (workExp: number) => {
-    if (workExp === null) {
+  const validateWorkExp = (workExp: string) => {
+    console.log(workExp);
+    if (!workExp) {
       return "경력/연차를 입력해주세요.";
+    } else if (!workExpReg.test(workExp)) {
+      return "2자 이내의 숫자로 입력해주세요.";
     }
     return "";
   };
