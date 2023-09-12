@@ -16,6 +16,7 @@ import { getPortfolioFileURL } from "../../../../api/User";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
+import { CommonS } from "src/components/common/button/commonButton";
 
 export interface Errors {
   title: null | string;
@@ -268,11 +269,17 @@ const PortfolioTab = () => {
 
   const showDeleteConfirmation = () => {
     toast.info(
-      <div>
-        <p>해당 포트폴리오를 삭제하시겠습니까?</p>
-        <button onClick={handleDeleteConfirm}>확인</button>
-        <button onClick={handleDeleteCancel}>취소</button>
-      </div>,
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>
+          해당 포트폴리오를 삭제하시겠습니까?
+        </CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleDeleteConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleDeleteCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,

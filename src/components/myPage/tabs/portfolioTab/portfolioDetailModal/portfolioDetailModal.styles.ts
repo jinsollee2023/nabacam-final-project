@@ -29,6 +29,9 @@ export const S = {
   `,
   PFPDFContainer: styled.div`
     margin: 20px 0;
+    margin-top: 25%;
+
+    text-align: center;
     a {
       color: black;
       text-decoration: none;

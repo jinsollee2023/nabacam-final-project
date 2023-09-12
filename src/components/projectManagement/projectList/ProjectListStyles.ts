@@ -106,15 +106,17 @@ const S = {
     font-size: ${(props) => props.fontSize || "18px"};
     font-weight: ${(props) => props.fontWeight || "700"};
     margin-top: ${(props) => props.marginTop || "0px"};
-    margin-bottom: ${(props) => props.marginBottom || "0px"};
+    margin-bottom: ${(props) => props.marginBottom || "10px"};
   `,
   ModalDetail: styled.p<ModalDetailProps>`
-    font-size: ${(props) => props.fontSize || "14px"};
+    font-size: ${(props) => props.fontSize || "20px"};
     margin-top: ${(props) => props.marginTop || "0px"};
     margin-bottom: ${(props) => props.marginBottom || "0px"};
     margin-left: ${(props) => props.marginLeft || "0px"};
     margin-right: ${(props) => props.marginRight || "0px"};
     color: ${(props) => props.color};
+    height: 28px;
+
     line-height: 1.5;
     text-align: justify;
   `,
@@ -162,7 +164,7 @@ const S = {
     }
   `,
   ModalDescTextarea: styled.textarea<ModalDescTextareaProps>`
-    height: 100px;
+    height: 80px;
     resize: none;
     margin-bottom: 25px;
     border: 1px solid ${(props) => props.borderColor};

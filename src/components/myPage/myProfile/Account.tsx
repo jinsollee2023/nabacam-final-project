@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
 import WorkFieldCategory from "src/components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";
+import { CommonS } from "src/components/common/button/commonButton";
 
 export interface Errors {
   name: null | string;
@@ -149,15 +150,19 @@ const Account = () => {
 
   const showConfirmation = () => {
     toast.info(
-      <div>
-        <p>
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>
           {
             "회원 탈퇴시 모든 정보가 삭제되며, 삭제된 정보는 복구가 불가능합니다. \n회원 탈퇴하시겠습니까?"
           }
-        </p>
-        <button onClick={handleConfirm}>확인</button>
-        <button onClick={handleCancel}>취소</button>
-      </div>,
+        </CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,

@@ -11,6 +11,7 @@ import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
 import { Errors } from "./ProjectList";
+import { CommonS } from "src/components/common/button/commonButton";
 
 interface projectCardProps {
   project: Project;
@@ -135,11 +136,17 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
     const isToastVisible = toast.isActive("deleteConfirmation");
     if (!isToastVisible) {
       toast.info(
-        <div>
-          <p>프로젝트를 삭제하시겠습니까?</p>
-          <button onClick={handleDeleteConfirm}>확인</button>
-          <button onClick={handleDeleteCancel}>취소</button>
-        </div>,
+        <CommonS.toastinfo>
+          <CommonS.toastintoText>
+            프로젝트를 삭제하시겠습니까?
+          </CommonS.toastintoText>
+          <CommonS.toastOkButton onClick={handleDeleteConfirm}>
+            확인
+          </CommonS.toastOkButton>
+          <CommonS.toastNoButton onClick={handleDeleteCancel}>
+            취소
+          </CommonS.toastNoButton>
+        </CommonS.toastinfo>,
         {
           toastId: "deleteConfirmation", // 고유한 ID 부여
           position: toast.POSITION.TOP_CENTER,

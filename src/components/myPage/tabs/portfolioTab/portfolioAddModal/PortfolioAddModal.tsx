@@ -106,7 +106,7 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
           placeholder="제목"
           title={newPortfolio.title}
         />
-        <p>{errors.title}</p>
+        <S.errorText>{errors.title}</S.errorText>
         <S.TextareaDesc
           rows={5}
           name="desc"
@@ -119,7 +119,7 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
           placeholder="내용"
           title={newPortfolio.desc}
         />
-        <p>{errors.desc}</p>
+        <S.errorText>{errors.desc}</S.errorText>
 
         <S.PdfInputWrapper>
           {/* attachmentType에 따라서 pdf파일이거나 링크이거나 */}
@@ -142,7 +142,9 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
                 }}
                 placeholder="링크"
               />
-              <p>{attachmentType !== "file" ? errors.link : null}</p>
+              <S.errorText>
+                {attachmentType !== "file" ? errors.link : null}
+              </S.errorText>
             </>
           )}
           <input
