@@ -128,14 +128,13 @@ export const S = {
     width: 100%;
     height: 32px;
     padding: 0 10px;
-    margin-top: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--lighter-gray);
     border-radius: 5px;
     font-size: 14px;
   `,
   Label: styled.label`
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     color: #595959;
   `,
   subText: styled.p`
@@ -173,6 +172,12 @@ export const S = {
     border-radius: 5px;
     margin-top: 8px;
     cursor: pointer;
+  `,
+  WriteBox: styled.div`
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
   `,
 
   // 공통

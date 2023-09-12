@@ -24,19 +24,27 @@ export const S = {
   `,
   ContractListBox: styled.div`
     margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
   `,
   ContractInfoBox: styled.div`
-    border-radius: 4px;
+    border-radius: 10px;
     border: 1.2px solid var(--lighter-gray);
-    padding: 30px 0px 30px 10px;
-    margin-top: 5px;
+    padding: 10px 20px 10px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 670px;
+    height: 80px;
   `,
-  ContractInfoGrayBox: styled.div`
-    background-color: wheat;
-    padding: 10px;
-    margin-top: 5px;
-  `,
-  FilteredListsContainer: styled.div`
+  TitleAndSelectWrapper: styled.div`
     width: 100%;
+    display: flex;
+    justify-content: space-between;
   `,
 };
