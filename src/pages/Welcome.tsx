@@ -1,9 +1,9 @@
 import { Tabs } from "antd";
 import styled from "styled-components";
-import ClientInfomation from "src/components/welcome/ClientInfomation";
 import WelcomeIntro from "src/components/welcome/WelcomeIntro";
 import React from "react";
-import FreelancerInfomation from "src/components/welcome/freelancerInfomation";
+import FreelancerInformation from "src/components/welcome/freelancerInformation";
+import ClientInformation from "src/components/welcome/clientInformation";
 
 const Welcome = () => {
   const { TabPane } = Tabs;
@@ -17,10 +17,10 @@ const Welcome = () => {
         style={{ margin: "25px 0" }}
       >
         <TabPane tab="'프리랜서'이신가요?" key="1">
-          <FreelancerInfomation />
+          <FreelancerInformation />
         </TabPane>
         <TabPane tab="'클라이언트'이신가요?" key="2">
-          <ClientInfomation />
+          <ClientInformation />
         </TabPane>
       </CustomTabs>
     </>
