@@ -15,11 +15,18 @@ const ChatComp = () => {
 
   const { user } = useUserStore();
   const userId = user.userId; // users테이블의 userId를 user_id컬럼에 삽입, rpc에도 삽입
-  const navigate = useNavigate();
   const [rooms, setRooms] = useState<TRoom[]>([]);
-  const [selectedRoom, setSelectedRoom] = useState<TRoom | null>(null);
-  const [createdRoomId, setCreatedRoomId] = useState("");
-  const { roomName } = useRoomStore();
+  // const [selectedRoom, setSelectedRoom] = useState<TRoom | null>(null); // 채팅방 열기
+  // const [createdRoomId, setCreatedRoomId] = useState(""); // 채팅방 이름
+  const {
+    roomName,
+    selectedRoom,
+    createdRoomId,
+    setSelectedRoom,
+    setCreatedRoomId,
+  } = useRoomStore();
+
+  console.log("second", { createdRoomId, selectedRoom });
 
   useEffect(() => {
     const getRooms = async () => {
@@ -43,7 +50,7 @@ const ChatComp = () => {
       return;
     }
     if (data) {
-      console.log("yo", data);
+      // console.log("yo", data);
       const room_id = data.room_id;
       setCreatedRoomId(room_id);
       setSelectedRoom(data);
@@ -85,7 +92,7 @@ const ChatComp = () => {
           {selectedRoom ? (
             <Room
               room_id={selectedRoom.room_id}
-              setSelectedRoom={setSelectedRoom}
+              // setSelectedRoom={setSelectedRoom}
             />
           ) : (
             <p>채팅 내역이 없습니다. 채팅을 보내보세요!</p>

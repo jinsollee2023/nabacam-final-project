@@ -63,19 +63,20 @@ export const S = {
     font-size: 14px;
     word-break: break-all;
   `,
+  // -------------------------//
   ContactBox: styled.div`
     gap: 5px;
     display: flex;
     flex-direction: row;
   `,
   Contacts: styled.span`
-    gap: 5px;
+    /* gap: 5px; */
     display: flex;
     flex-direction: row;
-    font-size: 14px;
+    font-size: 13.5px;
     cursor: pointer;
   `,
-
+  //---------------------------------//
   PortfolioImgBox: styled.div`
     width: 100px;
     height: 100px;

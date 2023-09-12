@@ -19,16 +19,16 @@ export interface TRoom {
 
 interface RoomProps {
   room_id: string;
-  setSelectedRoom: React.Dispatch<React.SetStateAction<TRoom | null>>;
+  // setSelectedRoom: React.Dispatch<React.SetStateAction<TRoom | null>>;
 }
 
-const Room = ({ room_id, setSelectedRoom }: RoomProps) => {
+const Room = ({ room_id }: RoomProps) => {
   const { user } = useUserStore();
   const userId = user.userId;
 
   // const [roomName, setRoomName] = useState("");
   const navigate = useNavigate();
-  const { roomName, setRoomName } = useRoomStore();
+  const { roomName, setRoomName, setSelectedRoom } = useRoomStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
