@@ -4,9 +4,8 @@ import Account from "../myProfile/Account";
 import ResumeTab from "../tabs/resumeTab/ResumeTab";
 import PortfolioTab from "../tabs/portfolioTab/PortfolioTab";
 import ContractInfoTab from "../tabs/contractInfoTab/ContractInfoTab";
-import FeedbackTab from "../tabs/FeedbackTab";
+
 import MenuTabBarComp from "../../../components/common/MenuTabBarComp";
-import React from "react";
 
 const FreelancerMyPageComp = () => {
   const [activeTab, setActiveTab] = useState("이력서");

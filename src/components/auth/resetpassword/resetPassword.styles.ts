@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import styled from "styled-components";
 
 export const S = {
   LogoBox: styled.div`
@@ -9,28 +9,29 @@ export const S = {
   Logo: styled.img`
     width: 440px;
   `,
-  LoginInput: styled.input`
-    align-items: center;
-    width: 100%;
-    border-radius: 10px;
+  PasswordInput: styled.input`
+    border: none;
+    width: 93%;
+    border-radius: 10px 0 0 10px;
     background-color: #f0f0f0;
     padding: 17px 15px;
     outline: none;
-    border: none;
   `,
-  LoginBack: styled.div`
+  PasswordBack: styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
+    height: 120px;
+    margin-bottom: 20px;
   `,
-  Loginfont: styled.h1`
+  Passwordfont: styled.h1`
     width: 100%;
     margin: 5% 0;
     text-align: center;
     font-size: 20px;
     color: var(--middle-gray);
   `,
-  LoginButton: styled.button`
+  ChangePasswordButton: styled.button`
     width: 100%;
     border-radius: 10px;
     padding: 10px;
@@ -39,8 +40,9 @@ export const S = {
     border: none;
     color: white;
     cursor: pointer;
+    margin-top: 17px;
   `,
-  LoginBG: styled.div`
+  PasswordBG: styled.div`
     position: relative;
     top: 40%;
     left: 50%;
@@ -54,19 +56,10 @@ export const S = {
     display: flex;
     height: 40%;
   `,
-  PasswordInput: styled.input`
-    border: none;
-    width: 93%;
-    border-radius: 10px 0 0 10px;
-    background-color: #f0f0f0;
-    padding: 17px 15px;
-    outline: none;
-  `,
   CenterizeBox: styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 7%;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -85,14 +78,7 @@ export const S = {
     overflow: hidden;
     transition: height 0.3s;
   `,
-  passwordFindButton: styled.button`
-    width: 50%;
-    border: none;
-    cursor: pointer;
-    background-color: transparent;
-    margin-top: 15px;
-    padding-top: 10px;
-  `,
+
   RealBack: styled.div`
     position: fixed;
     top: 0;
@@ -100,7 +86,8 @@ export const S = {
     left: 0;
     right: 0;
   `,
-  LoginCard: styled.div`
+
+  ChangePasswordCard: styled.div`
     margin-top: 50px;
     width: 100%;
     padding: 30px 15px;

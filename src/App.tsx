@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Router from "./shared/Router";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import React from "react";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,12 +14,17 @@ if (process.env.NODE_ENV === "production") {
   console.error = function no_console() {};
 }
 
-const App = () => {
+const App = ({ props: Approps }: any) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <Router />
-      <ToastContainer />
+
+      <ToastContainer
+        position="top-center"
+        className="test"
+        style={{ width: "350px", height: "100px" }}
+      />
     </QueryClientProvider>
   );
 };
