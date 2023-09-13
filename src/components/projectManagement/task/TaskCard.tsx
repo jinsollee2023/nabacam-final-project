@@ -7,7 +7,6 @@ import useTasksQueries from "../../../hooks/useTasksQueries";
 import TaskDeadLine from "./TaskDeadLine";
 import { BsTrash3Fill } from "react-icons/bs";
 import TaskMonth from "./TaskMonth";
-import React from "react";
 
 interface TaskCardProps {
   task: Task;
@@ -29,13 +28,11 @@ const TaskCard = ({ task, userRole, month }: TaskCardProps) => {
       <TaskStatus task={task as Task} userRole={userRole} />
       <TaskDeadLine task={task as Task} userRole={userRole} />
       <TaskImportance task={task as Task} userRole={userRole} />
-      <div>
-        {userRole === "freelancer" ? (
-          <S.TaskDeleteButton onClick={deleteTaskButtonHandler}>
-            <BsTrash3Fill />
-          </S.TaskDeleteButton>
-        ) : null}
-      </div>
+      {userRole === "freelancer" ? (
+        <S.TaskDeleteButton onClick={deleteTaskButtonHandler}>
+          <BsTrash3Fill size="20" color="var(--middle-gray)" />
+        </S.TaskDeleteButton>
+      ) : null}
     </S.TaskCardBox>
   );
 };

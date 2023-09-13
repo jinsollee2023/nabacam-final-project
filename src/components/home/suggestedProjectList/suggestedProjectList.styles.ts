@@ -26,6 +26,7 @@ export const S = {
   CardContainer: styled.div`
     border: 1px solid #d6d6d6;
     border-radius: 10px;
+    min-width: 1020px;
     width: 100%;
     height: 70px;
     padding: 10px;
@@ -37,9 +38,10 @@ export const S = {
   ProejctContentLeftWrapper: styled.div`
     display: flex;
     align-items: center;
-    width: 80%;
+    min-width: 770px;
   `,
   ProejctContentRightWrapper: styled.div`
+    min-width: 200px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -60,9 +62,9 @@ export const S = {
       color: #0086d0;
       `
         : `
-    background-color: #f6f6f6;
-    color: #A1a1a1;
-    `}
+      background-color: #f6f6f6;
+      color: #A1a1a1;
+      `}
   `,
   AppliedFreelancersCountBox: styled.div`
     margin-left: 10px;
@@ -100,26 +102,27 @@ export const S = {
     margin-top: 3px;
   `,
   ProjectRegistrationDate: styled.span`
-    width: 75px;
-    text-align: right;
+    width: 80px;
+    text-align: center;
   `,
-  AcceptButton: styled(Button)`
-    background-color: var(--main-blue);
-
-    &:hover {
-      background-color: var(--hover-blue) !important;
-      color: var(--main-blue) !important;
-      border: 1px solid var(--main-blue) !important;
-    }
+  AcceptButton: styled.button`
+    width: 50%;
+    height: 30px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 8px;
+    cursor: pointer;
+    background-color: #0086d0;
+    color: white;
   `,
-  DeclineButton: styled(Button)`
-    background-color: white;
-    color: var(--main-blue);
-    border: 1px solid var(--main-blue);
-
-    &:hover {
-      background-color: var(--hover-blue) !important;
-      color: var(--main-blue) !important;
-    }
+  DeclineButton: styled.button`
+    width: 50%;
+    height: 30px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 8px;
+    cursor: pointer;
   `,
 };

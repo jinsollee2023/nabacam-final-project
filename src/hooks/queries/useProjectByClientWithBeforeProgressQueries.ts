@@ -29,7 +29,9 @@ const useProjectByClientWithBeforeProgressQueries = ({
       select: (projectLists) =>
         projectLists?.filter(
           (projectList: Project) =>
-            !projectList.SuggestedFreelancers?.includes(freelancerId as string)
+            !projectList.SuggestedFreelancers?.includes(freelancerId) &&
+            !projectList.volunteer?.includes(freelancerId) &&
+            !projectList.pendingFreelancer?.includes(freelancerId)
         ),
     }
   );

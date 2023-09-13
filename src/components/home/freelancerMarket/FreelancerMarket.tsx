@@ -19,6 +19,7 @@ const FreelancerMarket = () => {
         <SearchItemBar />
         <SortFreelancers onSort={handleSort} />
       </S.SearchItemBarAndSortFreelancersWrapper>
+
       <WorkFieldCategory onSelectWorkField={setSelectedWorkField} />
       <FreelancerList
         selectedSortLabel={selectedSortLabel}

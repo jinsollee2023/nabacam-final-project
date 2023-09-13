@@ -18,6 +18,7 @@ const GlobalStyles = createGlobalStyle`
 
   *{
     box-sizing: border-box;
+    user-select: none;
   }
 
   @font-face {
@@ -30,8 +31,15 @@ const GlobalStyles = createGlobalStyle`
   body {
     font-family: 'Pretendard-Regular', sans-serif;
   }
-  button, .button, textarea {
+  button, .button{
     cursor: pointer;
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  textarea {
     font-family: 'Pretendard-Regular';
     src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
     font-weight: 400;

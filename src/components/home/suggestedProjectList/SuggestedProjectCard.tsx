@@ -12,6 +12,7 @@ import {
 import { FiUsers } from "react-icons/fi";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
 import { toast } from "react-toastify";
+import { CommonS } from "src/components/common/button/commonButton";
 
 interface SuggestedProjectCardProps {
   projectItem: Project;
@@ -92,12 +93,9 @@ const SuggestedProjectCard = ({
   const handleAcceptConfirm = () => {
     handleButtonClick("accept");
     console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
 
     // Toastify를 닫습니다.
     toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
   };
 
   const handleAcceptCancel = () => {
@@ -108,11 +106,15 @@ const SuggestedProjectCard = ({
 
   const showAcceptConfirmation = () => {
     toast.info(
-      <div>
-        <p>{`${projectItem.title}에 대한 제안을 수락하시겠습니까?`}</p>
-        <button onClick={handleAcceptConfirm}>확인</button>
-        <button onClick={handleAcceptCancel}>취소</button>
-      </div>,
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>{`${projectItem.title}에 대한 제안을 수락하시겠습니까?`}</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleAcceptConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleAcceptCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,
@@ -125,12 +127,9 @@ const SuggestedProjectCard = ({
   const handleRejectConfirm = () => {
     handleButtonClick("reject");
     console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
 
     // Toastify를 닫습니다.
     toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
   };
 
   const handleRejectCancel = () => {
@@ -140,11 +139,15 @@ const SuggestedProjectCard = ({
   };
   const showRejectConfirmation = () => {
     toast.info(
-      <div>
-        <p>{`${projectItem.title}에 대한 제안을 거절하시겠습니까?`}</p>
-        <button onClick={handleRejectConfirm}>확인</button>
-        <button onClick={handleRejectCancel}>취소</button>
-      </div>,
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>{`${projectItem.title}에 대한 제안을 거절하시겠습니까?`}</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleRejectConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleRejectCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,
@@ -162,18 +165,10 @@ const SuggestedProjectCard = ({
           buttons={
             projectItem.status === "진행 전" ? (
               <>
-                <S.DeclineButton
-                  type="primary"
-                  block
-                  onClick={showRejectConfirmation}
-                >
+                <S.DeclineButton onClick={showRejectConfirmation}>
                   거절하기
                 </S.DeclineButton>
-                <S.AcceptButton
-                  type="primary"
-                  block
-                  onClick={showAcceptConfirmation}
-                >
+                <S.AcceptButton onClick={showAcceptConfirmation}>
                   수락하기
                 </S.AcceptButton>
               </>
@@ -221,6 +216,7 @@ const SuggestedProjectCard = ({
             <FiUsers />
             <span>{projectItem.volunteer?.length}명 지원 중</span>
           </S.AppliedFreelancersCountBox>
+          <S.ProjectRegistrationDate>{daysAgo} 등록</S.ProjectRegistrationDate>
         </S.ProejctContentLeftWrapper>
         <S.ProejctContentRightWrapper>
           <S.DetailModalOpenButton onClick={() => setIsDetailModalOpen(true)}>
@@ -228,13 +224,8 @@ const SuggestedProjectCard = ({
           </S.DetailModalOpenButton>
 
           <S.ProejctContentRightTextWrapper>
-            <span>
-              ~{projectItem.expectedStartDate.slice(5, 7)}/
-              {projectItem.expectedStartDate.slice(8, 10)} ({dayOfWeek})
-            </span>
-            <S.ProjectRegistrationDate>
-              {daysAgo} 등록
-            </S.ProjectRegistrationDate>
+            <span>프로젝트 시작 예정일 </span>
+            <span>{projectItem.expectedStartDate}</span>
           </S.ProejctContentRightTextWrapper>
         </S.ProejctContentRightWrapper>
       </S.CardContainer>

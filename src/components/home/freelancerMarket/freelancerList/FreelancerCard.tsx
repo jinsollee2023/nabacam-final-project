@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { S } from "./freelancerList.styles";
 import { FaHandshakeSimple } from "react-icons/fa6";
-import { User } from "../../../../Types";
+import { GrFormPrevious, GrFormNext } from "react-icons/gr";
+import { Portfolio, User } from "../../../../Types";
 import { PortfolioIndexMap } from "./FreelancerList";
 import { Button, Spin } from "antd";
 import Modal from "src/components/modal/Modal";
@@ -13,6 +14,8 @@ import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
 import { toast } from "react-toastify";
 import useProjectByClientWithBeforeProgressQueries from "src/hooks/queries/useProjectByClientWithBeforeProgressQueries";
 import useSuggestedFreelancersQueries from "src/hooks/queries/useSuggestedFreelancersQueries";
+import PortfolioDetailModal from "src/components/myPage/myProfile/tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
+import { usePortfolioStore } from "src/store/usePortfolioStore";
 
 interface FreelancerCardProps {
   freelancerItem: User;
@@ -25,9 +28,13 @@ const FreelancerCard = ({
   setSelectedPortfolioIndex,
 }: FreelancerCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isPortfolioDetailModalOpen, setIsPortfolioDetailModalOpen] = useState(false);
+  const { setSelectedPortfolio } = usePortfolioStore();
+
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const { userId } = useUserStore();
   const { selectedProject, setSelectedProject } = useProjectStore();
+  const [userSelectedPortfolioIndex, setUserSelectedPortfolioIndex] = useState(0);
   const {
     updateSuggestedFreelancersDataMutation,
     suggestedFreelancersData,
@@ -116,6 +123,23 @@ const FreelancerCard = ({
     setIsDetailModalOpen(true);
   };
 
+  const handleSuggestButtonClick = () => {
+    if (projectDataForSuggestions?.length! >= 1) {
+      setIsDetailModalOpen(true);
+    } else if (projectDataForSuggestions?.length! === 0) {
+      toast.error("해당 프리랜서에게 제안할 수 있는 프로젝트가 없습니다.");
+    }
+  };
+
+  const numberOfPortfolios = portfoliosData?.filter(
+    (portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId
+  ).length;
+
+  const handlePortfolioImageClick = (portfolio: Portfolio) => {
+    setSelectedPortfolio(portfolio);
+    setIsPortfolioDetailModalOpen(true);
+  };
+
   return (
     <>
       {isDetailModalOpen && (
@@ -140,6 +164,12 @@ const FreelancerCard = ({
           <OneTouchModal user={freelancerItem} projectLists={projectDataForSuggestions!} />
         </Modal>
       )}
+      {isPortfolioDetailModalOpen && (
+        <Modal setIsModalOpen={setIsPortfolioDetailModalOpen}>
+          <PortfolioDetailModal userId={freelancerItem.userId} />
+        </Modal>
+      )}
+
       <S.FreelancerList>
         {portfoliosData && (
           <>
@@ -150,7 +180,9 @@ const FreelancerCard = ({
                   key={filteredPortfolio.portfolioId}
                   isselected={selectedPortfolioIndex[freelancerItem.userId] === portfolioIndex}
                 >
-                  <S.PortfoliothumbNailImageBox>
+                  <S.PortfoliothumbNailImageBox
+                    onClick={() => handlePortfolioImageClick(filteredPortfolio)}
+                  >
                     <img src={filteredPortfolio.thumbNailURL} alt="thumbnailImage" />
                     <S.indicatorWrapper>
                       {portfoliosData
@@ -161,29 +193,64 @@ const FreelancerCard = ({
                           <S.Indicator
                             key={index}
                             selected={selectedPortfolioIndex[freelancerItem.userId] === index}
-                            onClick={() =>
-                              setSelectedPortfolioIndex((prevSelected) => ({
-                                ...prevSelected,
-                                [freelancerItem.userId]: index,
-                              }))
-                            }
                           />
                         ))}
                     </S.indicatorWrapper>
                   </S.PortfoliothumbNailImageBox>
                   <S.PortfolioTitleBox>
+                    <S.ArrowIconWrapper>
+                      {userSelectedPortfolioIndex !== 0 && (
+                        <S.ArrowIconPrevBox>
+                          <GrFormPrevious
+                            size="25"
+                            onClick={() => {
+                              setUserSelectedPortfolioIndex(userSelectedPortfolioIndex - 1);
+                              setSelectedPortfolioIndex((prevSelected) => {
+                                const userSelectedPortfolioIndex = {
+                                  ...prevSelected,
+                                };
+                                userSelectedPortfolioIndex[freelancerItem.userId] =
+                                  userSelectedPortfolioIndex[freelancerItem.userId] -= 1;
+                                return userSelectedPortfolioIndex;
+                              });
+                            }}
+                          />
+                        </S.ArrowIconPrevBox>
+                      )}
+                      {userSelectedPortfolioIndex !== numberOfPortfolios! - 1 && (
+                        <S.ArrowIconNextBox>
+                          <GrFormNext
+                            size="25"
+                            onClick={() => {
+                              setUserSelectedPortfolioIndex(userSelectedPortfolioIndex + 1);
+                              setSelectedPortfolioIndex((prevSelected) => {
+                                const userSelectedPortfolioIndex = {
+                                  ...prevSelected,
+                                };
+                                userSelectedPortfolioIndex[freelancerItem.userId] =
+                                  userSelectedPortfolioIndex[freelancerItem.userId] += 1;
+                                return userSelectedPortfolioIndex;
+                              });
+                            }}
+                          />
+                        </S.ArrowIconNextBox>
+                      )}
+                    </S.ArrowIconWrapper>
                     <S.PortfolioTitle>{filteredPortfolio.title}</S.PortfolioTitle>
                   </S.PortfolioTitleBox>
                 </S.PortfolioItem>
               ))}
             {/* 해당 조건을 만족하지 않는 경우에만 jsx 부분 표시 */}
-            {/* some → 주어진 판별 함수를 적오도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는
+            {/* some → 주어진 판별 함수를 적어도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는
                       포트폴리오들의 프리랜서 아이디 중에서 내가 지금 돌고있는 프리랜서의 아이디와 일치하는 것이 없다면 아래 jsx를 보여줌*/}
             {!portfoliosData.some(
               (portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId
             ) && (
               <li>
-                <S.PortfoliothumbNailImageBox>
+                <S.PortfoliothumbNailImageBox
+                  style={{ cursor: "default" }}
+                  onClick={() => toast.error("등록된 포트폴리오가 없습니다.")}
+                >
                   <img
                     src="https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-portfolio-thumbnail/default-portfolio-thumbnail.png"
                     alt="default-thumbnailImage"
@@ -216,7 +283,7 @@ const FreelancerCard = ({
               <FreelancerInfoModal user={freelancerItem} />
             </Modal>
           )}
-          <S.SuggestButton onClick={() => setIsDetailModalOpen(true)}>
+          <S.SuggestButton onClick={handleSuggestButtonClick}>
             <FaHandshakeSimple size="25" color="var(--main-blue)" />
           </S.SuggestButton>
         </S.MiniProfileBox>

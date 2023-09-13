@@ -1,13 +1,20 @@
 import { styled } from "styled-components";
 
 export const S = {
+  LogoBox: styled.div`
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10%;
+  `,
+  Logo: styled.img`
+    width: 440px;
+  `,
   LoginInput: styled.input`
     align-items: center;
     width: 100%;
-    height: 40%;
     border-radius: 10px;
     background-color: #f0f0f0;
-    padding: 0 10px;
+    padding: 17px 15px;
     outline: none;
     border: none;
   `,
@@ -15,22 +22,19 @@ export const S = {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 120px;
   `,
   Loginfont: styled.h1`
     width: 100%;
-    margin-bottom: 5%;
+    margin: 5% 0;
     text-align: center;
-    font-weight: 284px;
-    font-size: 40px;
+    font-size: 20px;
+    color: var(--middle-gray);
   `,
   LoginButton: styled.button`
     width: 100%;
-    height: 50px;
-    margin-top: 10%;
     border-radius: 10px;
-    font-weight: 62px;
-    font-size: 20px;
+    padding: 10px;
+    font-size: 18px;
     background-color: var(--main-blue);
     border: none;
     color: white;
@@ -38,11 +42,13 @@ export const S = {
   `,
   LoginBG: styled.div`
     position: relative;
-    top: 20%;
-    left: 45%;
-    width: 40%;
+    top: 40%;
+    left: 50%;
+    width: 550px;
+    min-width: 550px;
     height: 50%;
     border-radius: 10px;
+    transform: translate(-50%, -50%);
   `,
   PasswordInputWrapper: styled.div`
     display: flex;
@@ -51,10 +57,9 @@ export const S = {
   PasswordInput: styled.input`
     border: none;
     width: 93%;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-radius: 10px 0 0 10px;
     background-color: #f0f0f0;
-    padding: 0 10px;
+    padding: 17px 15px;
     outline: none;
   `,
   CenterizeBox: styled.div`
@@ -72,15 +77,35 @@ export const S = {
     background-color: transparent;
   `,
 
-  errordiv: styled.div`
-    height: 20px;
+  ErrorMessage: styled.div<{ hasError: boolean }>`
+    height: ${(props) => (props.hasError ? "20px" : "0")};
+    margin: 10px 0 20px 0;
+    color: #ef0000;
+    font-size: 14px;
+    overflow: hidden;
+    transition: height 0.3s;
   `,
   passwordFindButton: styled.button`
-    width: 100%;
-    height: 43px;
-    border-radius: 10px;
+    width: 50%;
     border: none;
     cursor: pointer;
+    background-color: transparent;
+    margin-top: 15px;
+    padding-top: 10px;
+  `,
+  RealBack: styled.div`
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  `,
+  LoginCard: styled.div`
+    margin-top: 50px;
+    width: 100%;
+    padding: 30px 15px;
+    border-radius: 15px;
     background-color: white;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
   `,
 };

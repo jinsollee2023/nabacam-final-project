@@ -3,9 +3,7 @@ import { S } from "../listOfFreelancersByStatus.style";
 import Modal from "../../../../../components/modal/Modal";
 import OngoingFreelancerInfoModal from "./OngoingFreelancerInfoModal";
 import dayjs from "dayjs";
-import { FiPhoneCall } from "react-icons/fi";
-import { FiMail } from "react-icons/fi";
-import { useUserStore } from "../../../../../store/useUserStore";
+import { FiPhoneCall, FiMail } from "react-icons/fi";
 import { IUser, Project, User } from "../../../../../Types";
 import { toast } from "react-toastify";
 
@@ -15,8 +13,6 @@ interface OngoingFreelancerCardsProps {
 }
 
 const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) => {
-  const { userId } = useUserStore();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
 
@@ -37,9 +33,11 @@ const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) 
           <S.ContentContainer>
             <div>
               <S.ProfileContents>
-                <S.Name>{user.name}</S.Name>
+                <S.NameAndWorkFieldWrapper>
+                  <S.Name>{user.name}</S.Name>
 
-                <S.WorkField>{user.workField?.workField}</S.WorkField>
+                  <S.WorkField>{user.workField?.workField}</S.WorkField>
+                </S.NameAndWorkFieldWrapper>
                 <S.WorkSmallFieldAndWorkExp>
                   {user.workField?.workSmallField} {user.workExp}
                   년차
@@ -60,12 +58,9 @@ const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) 
             </div>
           </S.ContentContainer>
           <S.Line />
-          <S.ProjectTitle>진행중인 프로젝트</S.ProjectTitle>
+          <S.ProjectTitle>진행 중인 프로젝트</S.ProjectTitle>
           <S.ProjectSubTitle>{project.title}</S.ProjectSubTitle>
-          <S.ProjectDate>
-            {dayjs(project.date?.startDate).format("YYMMDD")}{" "}
-            <S.DateInnerText>부터</S.DateInnerText> {dayjs(project.date?.endDate).format("YYMMDD")}
-          </S.ProjectDate>
+          <S.ProjectDate>{dayjs(project.date?.startDate).format("YYMMDD")} ~</S.ProjectDate>
           <S.DetailButton
             onClick={() => {
               setSelectedFreelancer(user);

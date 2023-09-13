@@ -5,8 +5,7 @@ import { IUser, Project } from "../../../Types";
 import ApplicantFreelancerInfoModal from "./ApplicantFreelancerInfoModal";
 import { useUserStore } from "src/store/useUserStore";
 import { toast } from "react-toastify";
-import useClientsQueries from "src/hooks/useClientsQueries";
-import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientQueries";
+import useProjectOfClientQueries from "src/hooks/queries/useProjectOfClientQueries";
 import usePengFreelancersToTheProjectsQueries from "src/hooks/queries/usePendingFreelancersToTheProjectsQueries";
 
 interface ApplicantFreelancerCardProps {
@@ -16,14 +15,13 @@ interface ApplicantFreelancerCardProps {
 
 const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCardProps) => {
   const { userId } = useUserStore();
-  const { client } = useClientsQueries({ userId });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
   const {
     updateFreelancerApprovalMutation,
     deleteVolunteerAndPendingFreelancerMutation,
     addProjectIdToUserMutation,
-  } = useProjectOfClientBySortQueries({
+  } = useProjectOfClientQueries({
     currentUserId: userId,
   });
 

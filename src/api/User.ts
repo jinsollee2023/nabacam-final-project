@@ -78,22 +78,6 @@ export const getFreelancersBySort = async (
         orderByField = "workExp";
         ascending = true;
         break;
-      case "최근 가입 순":
-        orderByField = "signUpDate";
-        ascending = false;
-        break;
-      case "오래된 가입 순":
-        orderByField = "signUpDate";
-        ascending = true;
-        break;
-      case "포트폴리오 많은 순":
-        orderByField = "portfolioCount";
-        ascending = false;
-        break;
-      case "포트폴리오 적은 순":
-        orderByField = "portfolioCount";
-        ascending = true;
-        break;
       default:
         orderByField = "workExp";
         ascending = false;
@@ -184,7 +168,12 @@ export const getPortfolioFileURL = async (filePath: { path: string }): Promise<s
   return data.publicUrl;
 };
 
-export const uploadUserImage = async (userId: string, file: File) => {
+export const uploadUserImage: (
+  userId: string | undefined,
+  file: File
+) => Promise<{
+  path: string;
+}> = async (userId: string | undefined, file: File) => {
   const { data, error } = await supabase.storage
     .from("users")
     .upload(`${userId}/profileImage`, file);

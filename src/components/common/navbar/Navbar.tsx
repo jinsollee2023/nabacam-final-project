@@ -1,52 +1,44 @@
-import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../store/useUserStore";
 import { logOut } from "src/api/auth";
 import { FiLogOut } from "react-icons/fi";
 import { toast } from "react-toastify";
+import { useTabStore } from "src/store/useTabStore";
+import { S } from "./navBar.styles";
+import { CommonS } from "../button/commonButton";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
-
+  const { setCurrentTab } = useTabStore();
+  const token = localStorage.getItem("sb-iwbhucydhgtpozsnqeec-auth-token");
+  if (!token) {
+    return null;
+  }
   const logOutButtonHandler = async () => {
     await logOut(navigate);
   };
 
-  if (window.location.pathname === `/register`) {
-    return null;
-  }
-  if (window.location.pathname === `/login`) {
-    return null;
-  }
-  if (window.location.pathname === `/resetpassword`) {
-    return null;
-  }
-
   const handleConfirm = () => {
     logOutButtonHandler();
-    console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
-
-    // Toastify를 닫습니다.
     toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
   };
 
   const handleCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 
   const showConfirmation = () => {
     toast.info(
-      <div>
-        <p>로그아웃 하시겟습니까??</p>
-        <button onClick={handleConfirm}>확인</button>
-        <button onClick={handleCancel}>취소</button>
-      </div>,
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>로그아웃 하시겟습니까?</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,
@@ -56,18 +48,32 @@ const Navbar = () => {
     );
   };
 
+  const handleLogoClick = () => {
+    if (user.role === "freelancer") {
+      navigate("/home");
+      setCurrentTab("프로젝트 탐색");
+    } else {
+      navigate("/home");
+      setCurrentTab("프리랜서 마켓");
+    }
+  };
+
   return (
     <S.SidebarWrapper>
       <S.LogoWrapper>
         <img
           src="https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/workwave/workwave.png"
           alt="logo"
-          onClick={() => navigate("/")}
+          onClick={handleLogoClick}
         />
       </S.LogoWrapper>
       <S.Divider />
       <S.ProfileWrapper>
-        <S.ProfileImage src={user.photoURL} alt="img" />
+        <S.ProfileImage
+          src={user.photoURL}
+          alt="img"
+          onClick={() => navigate("my-page")}
+        />
         <div>
           <S.Name>{user.name}</S.Name>
           <S.Role>{user.role}</S.Role>
@@ -100,76 +106,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-const S = {
-  SidebarWrapper: styled.div`
-    position: sticky;
-    display: flex;
-    flex-direction: column;
-    border-right: 2px solid var(--hover-blue);
-    width: 17vw;
-    max-width: 280px;
-    min-width: 210px;
-    padding: 20px 0 0 20px;
-    height: 100vh;
-  `,
-  LogoWrapper: styled.div`
-    width: 100%;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    img {
-      width: 90%;
-      cursor: pointer;
-    }
-  `,
-  ProfileWrapper: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: 70px;
-  `,
-  ProfileImage: styled.img`
-    width: 45px;
-    height: 45px;
-    border-radius: 10px;
-    margin-right: 10px;
-  `,
-  Name: styled.div`
-    font-size: 18px;
-    font-weight: bold;
-  `,
-  Role: styled.div`
-    margin-top: 7px;
-    font-size: 12px;
-  `,
-  UpperNavLinks: styled.ul`
-    list-style: none;
-    padding: 0;
-  `,
-  Divider: styled.hr`
-    margin: 20px 0;
-    border: none;
-    height: 2px;
-    box-shadow: 0px 2px 4px #f2f2f2;
-    background-color: var(--lighter-gray);
-  `,
-  LowerNavLinks: styled.ul`
-    list-style: none;
-    padding: 0;
-  `,
-  NavLinkItem: styled.li`
-    cursor: pointer;
-    padding: 15px 5px;
-    transition: 0.2s ease-in-out;
-
-    &:hover {
-      background-color: var(--hover-blue);
-    }
-  `,
-  LogOutButton: styled.button`
-    background-color: transparent;
-    border: none;
-  `,
-};

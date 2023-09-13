@@ -1,14 +1,11 @@
-import React from "react";
 import { Project, User } from "../../../../../Types";
-import FreelancerProfile from "../../../../../components/modal/freelancerInfo/FreelancerProfile";
-import FreelancerResume from "../../../../../components/modal/freelancerInfo/FreelancerResume";
-import FreelancerPortfolio from "../../../../../components/modal/freelancerInfo/FreelancerPortfolio";
+import FreelancerProfile from "../../../myProfile/freelancerInfoModal/FreelancerProfile";
+import FreelancerResume from "../../../myProfile/freelancerInfoModal/FreelancerResume";
+import FreelancerPortfolio from "../../../myProfile/freelancerInfoModal/FreelancerPortfolio";
 import { S } from "../freelancerInfoModalByStatus.style";
 import dayjs from "dayjs";
-import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { useUserStore } from "../../../../../store/useUserStore";
 import useTerminationedProjectsWithFreelancerQueries from "src/hooks/queries/useTerminationedProjectsWithFreelancerQueries";
-import useClientsQueries from "src/hooks/useClientsQueries";
 
 interface ContractTerminationInfoModalProps {
   user: User;
@@ -20,17 +17,15 @@ const ContractTerminationInfoModal = ({
   project,
 }: ContractTerminationInfoModalProps) => {
   const { userId } = useUserStore();
-  const { client } = useClientsQueries({ userId });
-  const { matchingCompletedProjectsData } = useTerminationedProjectsWithFreelancerQueries({
-    currentUserId: userId,
-    freelancerId: user.userId,
-  });
+  const { matchingCompletedProjectsData } =
+    useTerminationedProjectsWithFreelancerQueries({
+      currentUserId: userId,
+      freelancerId: user.userId,
+    });
 
   return (
     <>
-      <S.ModalTitle>
-        이전에 함께 작업했던 {user.name}님의 프로필이에요.
-      </S.ModalTitle>
+      <S.ModalTitle>함께 작업했던 {user.name}님의 프로필</S.ModalTitle>
       <FreelancerProfile user={user} />
       <S.ProjectTitleContents>진행했던 프로젝트</S.ProjectTitleContents>
       <S.ProjectWarp>

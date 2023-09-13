@@ -11,9 +11,14 @@ import { useInView } from "react-intersection-observer";
 interface ProjectListProps {
   selectedSortLabel: string;
   selectedWorkField: string;
+  currentToggleStatus: boolean;
 }
 
-const ProjectList = ({ selectedSortLabel, selectedWorkField }: ProjectListProps) => {
+const ProjectList = ({
+  selectedSortLabel,
+  selectedWorkField,
+  currentToggleStatus,
+}: ProjectListProps) => {
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const { userId } = useUserStore();
   const [ref, inView] = useInView();
@@ -36,22 +41,27 @@ const ProjectList = ({ selectedSortLabel, selectedWorkField }: ProjectListProps)
     if (projectsListBySort?.pages) {
       const filteredProjectLists = projectsListBySort?.pages.map((page) => {
         return page.projects.filter((project) => {
-          const lowerCaseSearch = String(searchKeyword).toLowerCase();
-          const numberOfApplicants = String(project.volunteer?.length);
-          const yearsOfEligibility = String(project.qualification);
-          return (
-            project?.title?.toLowerCase().includes(lowerCaseSearch) ||
-            project?.desc?.toLowerCase().includes(lowerCaseSearch) ||
-            project?.category?.toLowerCase().includes(lowerCaseSearch) ||
-            numberOfApplicants === searchKeyword ||
-            yearsOfEligibility === searchKeyword
-          );
-        });
+        const lowerCaseSearch = String(searchKeyword).toLowerCase();
+        const numberOfApplicants = String(project.volunteer?.length);
+        const yearsOfEligibility = String(project.qualification);
+        return (
+          project?.title?.toLowerCase().includes(lowerCaseSearch) ||
+          project?.desc?.toLowerCase().includes(lowerCaseSearch) ||
+          project?.category?.toLowerCase().includes(lowerCaseSearch) ||
+          numberOfApplicants === searchKeyword ||
+          yearsOfEligibility === searchKeyword
+        );
       });
-
-      setFilteredProjects(filteredProjectLists);
+      if (currentToggleStatus) {
+        const openProject = filteredProjectLists.filter((project) => {
+          return project.status === "진행 전";
+        });
+        setFilteredProjects(openProject);
+      } else {
+        setFilteredProjects(filteredProjectLists);
+      }
     }
-  }, [projectsListBySort, searchKeyword]);
+  }, [projectsListBySort, searchKeyword, currentToggleStatus]);
 
   useEffect(() => {
     if (inView && hasNextPage) {

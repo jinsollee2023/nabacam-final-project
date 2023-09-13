@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "./navbar/Navbar";
 import { styled } from "styled-components";
-import TutorialModal from "./TutorialModal";
-import { useTutorialStore } from "src/store/useTutorialStore";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 const Layout = ({ children }: LayoutProps) => {
-  const { tutorialModalOpen } = useTutorialStore();
   return (
     <S.LayoutContainer>
       <Navbar />
-      {/* {tutorialModalOpen && <TutorialModal />} */}
-      <S.LayoutChildren>{children}</S.LayoutChildren>
+      {window.location.pathname === "/" ? (
+        <S.WelcomeLayout>{children}</S.WelcomeLayout>
+      ) : (
+        <S.ChildrenLayout>{children}</S.ChildrenLayout>
+      )}
     </S.LayoutContainer>
   );
 };
@@ -28,7 +28,12 @@ const S = {
     display: flex;
   `,
 
-  LayoutChildren: styled.div`
+  ChildrenLayout: styled.div`
     width: 73vw;
+  `,
+
+  WelcomeLayout: styled.div`
+    width: 80vw;
+    margin: 0 auto;
   `,
 };

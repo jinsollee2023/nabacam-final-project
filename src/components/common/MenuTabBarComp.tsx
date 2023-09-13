@@ -13,6 +13,7 @@ import OngoingFreelancerList from "../myPage/client/listOfFreelancersByStatus/on
 import ContractTerminationFreelancerList from "../myPage/client/listOfFreelancersByStatus/contractTerminationFreelancerList/ContractTerminationFreelancerList";
 import React from "react";
 import { useTutorialStore } from "src/store/useTutorialStore";
+import { useTabStore } from "src/store/useTabStore";
 
 interface MenuTabBarCompProps {
   menu: string[];
@@ -20,7 +21,7 @@ interface MenuTabBarCompProps {
 }
 
 const MenuTabBarComp = ({ menu, children }: MenuTabBarCompProps) => {
-  const [currentTab, setCurrentTab] = useState(menu[0]);
+  const { currentTab, setCurrentTab } = useTabStore();
   // const { tutorialModalOpen, changeTutorialModalOpen, tab, changeTab } =
   //   useTutorialStore();
 
@@ -29,6 +30,10 @@ const MenuTabBarComp = ({ menu, children }: MenuTabBarCompProps) => {
   //     setCurrentTab(tab);
   //   }
   // }, [tutorialModalOpen, tab]);
+
+  useEffect(() => {
+    setCurrentTab(menu[0]);
+  }, []);
 
   return (
     <>

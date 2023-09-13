@@ -33,7 +33,7 @@ const ProjectList = () => {
   const { userId } = useUserStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedselectOption, setSelectedselectOption] = useState("전체보기");
-  const [selectedSortLabel, setSelectedSortLabel] = useState("전체보기");
+  const [selectedSortLabel, setSelectedSortLabel] = useState("최신순");
   const { projectsOfClient, addProjectMutation, fetchNextPage, hasNextPage } =
     useProjectOfClientBySortQueries({
       currentUserId: userId,
@@ -46,7 +46,6 @@ const ProjectList = () => {
   const { values, changeValues } = useProjectValuesStore();
   const { validateDate, validateSelect, validatePay, validateWorkExp, validateInput } =
     useValidation();
-
   const initialErrors: Errors = {
     title: null,
     desc: null,
@@ -62,7 +61,7 @@ const ProjectList = () => {
     const titleError = validateInput("프로젝트 제목", newProject.title);
     const descError = validateInput("프로젝트 설명", newProject.desc);
     const categoryError = validateSelect("프로젝트 설명", values.category as string);
-    const qualificationError = validateWorkExp(newProject.qualification);
+    const qualificationError = validateWorkExp(String(newProject.qualification));
     const expectedStartDateError = validateDate("시작예정일", newProject.expectedStartDate);
     const managerError = validateSelect("담당자", newProject.manager.name);
     const payError = validatePay(newProject.pay.min, newProject.pay.max);
@@ -129,6 +128,19 @@ const ProjectList = () => {
   const handleSort = (label: string) => {
     setSelectedselectOption(label);
   };
+
+  const availableClose =
+    values.title === "" &&
+    values.desc === "" &&
+    values.category === "" &&
+    values.minPay === "" &&
+    values.maxPay === "" &&
+    values.expectedStartDate === "" &&
+    values.manager.name === "" &&
+    values.manager.contact.email === "" &&
+    values.manager.contact.phone === "" &&
+    values.manager.team === "" &&
+    values.qualification === null;
 
   const beforeProgressProjects = filteredProjects?.map((page) =>
     page.filter((project) => project.status === "진행 전")
@@ -203,17 +215,22 @@ const ProjectList = () => {
             <SearchItemBar />
             <SortProjects handleSort={handleSort} />
           </S.SearchSortWrapper>
-          <S.SearchSortBtnBox>
-            <S.SearchSortBtn
-              onClick={() => setSelectedSortLabel("최신순")}
-              style={{ marginRight: "5px" }}
-            >
-              최신순
-            </S.SearchSortBtn>
-            <S.SearchSortBtn onClick={() => setSelectedSortLabel("오래된순")}>
-              오래된순
-            </S.SearchSortBtn>
-          </S.SearchSortBtnBox>
+          <S.SearchSortBtnWrapper>
+            <S.SearchSortBtnBox>
+              <S.SearchSortBtn
+                onClick={() => setSelectedSortLabel("최신순")}
+                className={selectedSortLabel === "최신순" ? "selected" : ""}
+              >
+                최신순
+              </S.SearchSortBtn>
+              <S.SearchSortBtn
+                onClick={() => setSelectedSortLabel("오래된순")}
+                className={selectedSortLabel === "오래된순" ? "selected" : ""}
+              >
+                오래된순
+              </S.SearchSortBtn>
+            </S.SearchSortBtnBox>
+          </S.SearchSortBtnWrapper>
         </>
       ) : (
         <p>등록된 프로젝트가 없습니다.</p>
@@ -236,6 +253,7 @@ const ProjectList = () => {
               <S.ModalPostBtn onClick={addProjectButtonHandler}>프로젝트 게시하기</S.ModalPostBtn>
             </>
           }
+          availableClose={availableClose}
         >
           <AddProjectModal errors={errors} setErrors={setErrors} />
         </Modal>

@@ -1,16 +1,19 @@
 import React from "react";
 import { Project, User } from "../../../Types";
 import { S } from "./freelancersByStatusInfoModal.style";
-import FreelancerProfile from "../../../components/modal/freelancerInfo/FreelancerProfile";
-import FreelancerResume from "../../../components/modal/freelancerInfo/FreelancerResume";
-import FreelancerPortfolio from "../../../components/modal/freelancerInfo/FreelancerPortfolio";
+import FreelancerProfile from "../../myPage/myProfile/freelancerInfoModal/FreelancerProfile";
+import FreelancerResume from "../../myPage/myProfile/freelancerInfoModal/FreelancerResume";
+import FreelancerPortfolio from "../../myPage/myProfile/freelancerInfoModal/FreelancerPortfolio";
 
 interface PendingFreelancerInfoModalProps {
   user: User;
   project: Project;
 }
 
-const PendingFreelancerInfoModal = ({ user, project }: PendingFreelancerInfoModalProps) => {
+const PendingFreelancerInfoModal = ({
+  user,
+  project,
+}: PendingFreelancerInfoModalProps) => {
   return (
     <>
       <S.ModalTitle>{user.name}님의 이력서와 포르폴리오</S.ModalTitle>

@@ -204,7 +204,11 @@ export const updateProject = async (
     qualification?: number;
   }
 ): Promise<void> => {
-  await supabase.from("projects").update(column).eq("projectId", projectId).select();
+  const { data } = await supabase
+    .from("projects")
+    .update(column)
+    .eq("projectId", projectId)
+    .select();
 };
 
 // 선택한 프로젝트에 제안했던 프리랜서 리스트 가져오기
@@ -241,33 +245,13 @@ export const getProjectOfFreelancerBySort = async (
         orderByField = "created_at";
         ascending = false;
         break;
-      case "오래된 등록 순":
-        orderByField = "created_at";
-        ascending = true;
-        break;
-      case "시작 예정일 빠른 순":
+      case "시작 예정일 순":
         orderByField = "expectedStartDate";
         ascending = true;
-        break;
-      case "시작 예정일 느린 순":
-        orderByField = "expectedStartDate";
-        ascending = false;
         break;
       case "지원자 많은 순":
         orderByField = "volunteer";
         ascending = false;
-        break;
-      case "지원자 적은 순":
-        orderByField = "volunteer";
-        ascending = true;
-        break;
-      case "자격 연차 높은 순":
-        orderByField = "qualification";
-        ascending = false;
-        break;
-      case "자격 연차 낮은 순":
-        orderByField = "qualification";
-        ascending = true;
         break;
       default:
         orderByField = "created_at";
@@ -285,7 +269,7 @@ export const getProjectOfFreelancerBySort = async (
       .order(orderByField, { ascending })
       .range(page * 15 - 15, page * 15 - 1);
     if (error) {
-      console.error(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      console.log(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
     return { projects: projects as Project[], total_count: count as number };
   } catch (error) {

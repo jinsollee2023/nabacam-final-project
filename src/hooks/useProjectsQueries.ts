@@ -60,6 +60,7 @@ const useProjectsQueries = ({ currentUserId, sortLabel }: useProjectsQueriesProp
           min: number | string;
           max: number | string;
         };
+        date?: { startDate: string; endDate: string };
         volunteer?: string[];
         status?: string;
         SuggestedFreelancers?: string[];
