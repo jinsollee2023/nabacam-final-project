@@ -39,7 +39,7 @@ const Room = () => {
         .select("roomname")
         .match({ room_id: room_id })
         .single();
-      setRoomName(data?.roomname ?? "Untitled"); // ChatComp에 띄우기 위함
+      setRoomName(data?.roomname ?? "Untitled");
     };
     if (room_id) getRoomName(); // selectedRoom했을 때만 getRoomName()
   }, [room_id, roomName]);

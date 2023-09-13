@@ -62,7 +62,7 @@ export const S = {
     align-items: center;
 
     background-color: ${(props) =>
-      props.isSelected ? "var(--main-blue)" : "transparent"};
+      props.isSelected ? "var(--hover-blue)" : "transparent"};
   `,
   RoomListRoomName: styled.p`
     font-size: 12px;

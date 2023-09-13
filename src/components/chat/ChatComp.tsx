@@ -9,8 +9,7 @@ import { CommonS } from "../common/button/commonButton";
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
   const [rooms, setRooms] = useState<TRoom[]>([]);
-  const { roomName, selectedRoom, createdRoomId, setSelectedRoom } =
-    useRoomStore();
+  const { selectedRoom, createdRoomId, setSelectedRoom } = useRoomStore();
 
   useEffect(() => {
     const getRooms = async () => {
@@ -18,7 +17,7 @@ const ChatComp = () => {
       if (data) setRooms(data);
     };
     getRooms();
-  }, [createdRoomId, roomName]);
+  }, [createdRoomId]);
 
   // const getLatestMessage = async () => {
 
@@ -48,6 +47,7 @@ const ChatComp = () => {
                     <S.RoomListSenderName>{room.name}</S.RoomListSenderName>
                     <CommonS.CenterizeBox>
                       <S.RoomListSenderWorkField>
+                        {room.workField.workField}&nbsp;
                         {room.workField.workSmallField}
                       </S.RoomListSenderWorkField>
                     </CommonS.CenterizeBox>

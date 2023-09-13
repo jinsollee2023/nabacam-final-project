@@ -18,12 +18,7 @@ interface FreelancerProfileProps {
 const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   // sender (client)
   const { user: client } = useUserStore();
-  const {
-    setFreelancerReceiver,
-    freelancerReceiver,
-    setSelectedRoom,
-    setCreatedRoomId,
-  } = useRoomStore();
+  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
   const clientId = client.userId;
   const clientName = client.name;
   const clientImg = client.photoURL;
@@ -57,12 +52,9 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
     }
     if (data) {
       const room_id = data.room_id;
+      // ChatComp dependency array
       setCreatedRoomId(room_id);
       setSelectedRoom(data);
-      // setFreelancerReceiver({
-      //   freelancerReceiverName: freelancerName,
-      //   freelancerReceiverPhotoURL: freelancerPhotoURL,
-      // });
     }
   };
 
