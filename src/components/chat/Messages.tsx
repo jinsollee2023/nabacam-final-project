@@ -165,7 +165,15 @@ const Messages = ({ room_id }: MessagesProps) => {
   return (
     /** 부모요소에 스크롤 있어야 */
     <S.MessageWrapper ref={messagesRef}>
-      <ul className="flex flex-1 flex-col justify-end space-y-1.5">
+      <ul
+        style={{
+          display: "flex",
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          gap: "1.5rem",
+        }}
+      >
         {messages?.map((message) => (
           <Message
             message={message}
