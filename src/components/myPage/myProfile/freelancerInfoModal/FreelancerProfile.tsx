@@ -31,7 +31,6 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   // receiver (freelancer)
   const freelancerId = freelancer?.userId;
   const freelancerName = freelancer.name;
-  const freelancerPhotoURL = freelancer.photoURL;
 
   const navigate = useNavigate();
 
@@ -60,10 +59,10 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
       const room_id = data.room_id;
       setCreatedRoomId(room_id);
       setSelectedRoom(data);
-      setFreelancerReceiver({
-        freelancerReceiverName: freelancerName,
-        freelancerReceiverPhotoURL: freelancerPhotoURL,
-      });
+      // setFreelancerReceiver({
+      //   freelancerReceiverName: freelancerName,
+      //   freelancerReceiverPhotoURL: freelancerPhotoURL,
+      // });
     }
   };
 

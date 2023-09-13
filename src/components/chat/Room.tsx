@@ -13,10 +13,13 @@ import Modal from "../modal/Modal";
 export interface TRoom {
   room_id: string;
   created_at: string;
-  roomname: string | null;
-  participantProfile?: {
-    user_id: string;
-    receiver_id: string;
+  roomname?: string | null;
+  receiver_id: string;
+  name: string;
+  photoURL: string;
+  workField: {
+    workField: string;
+    workSmallField: string;
   };
 }
 

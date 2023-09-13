@@ -31,11 +31,7 @@ export const S = {
     }
   `,
   LeftRoomListContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-
     width: 30%;
-
     padding: 0 0 37px 20px;
 
     height: 86vh;
@@ -47,7 +43,10 @@ export const S = {
     border-right: solid rgba(0, 0, 0, 0.25);
     padding: 20px;
   `,
-  RoomListWrapper: styled.div``,
+  RoomListWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
   RoomBox: styled.div<RoomBoxProps>`
     box-sizing: border-box;
     /* width: 360px; */
@@ -64,6 +63,10 @@ export const S = {
 
     background-color: ${(props) =>
       props.isSelected ? "var(--main-blue)" : "transparent"};
+  `,
+  RoomListRoomName: styled.p`
+    font-size: 12px;
+    color: var(--chat-navy);
   `,
   RoomListImg: styled.img`
     width: 60px;
@@ -197,13 +200,13 @@ export const S = {
     width: 7%;
     height: 45%;
     font-weight: 400;
-    font-size: 0.8rem;
+    font-size: 12px;
     line-height: 18px;
     letter-spacing: -0.005em;
     color: #ffffff;
     background: var(--main-blue);
     border-radius: 8px;
-    padding: 4px 16px;
+    padding: 4px 8px;
     border: none;
 
     z-index: 999;
