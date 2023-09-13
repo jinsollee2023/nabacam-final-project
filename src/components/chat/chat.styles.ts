@@ -63,7 +63,7 @@ export const S = {
     align-items: center;
 
     background-color: ${(props) =>
-      props.isSelected ? "var(--main-blue)" : "transparent"};
+      props.isSelected ? "#B0CDEB" : "transparent"};
   `,
   RoomListImg: styled.img`
     width: 60px;
@@ -183,7 +183,7 @@ export const S = {
     border-radius: 8px;
   `,
   DMSubmitButton: styled.button`
-    width: 53px;
+    width: 60px;
     height: 26px;
     font-size: normal;
     font-weight: 400;
@@ -193,6 +193,7 @@ export const S = {
     color: #ffffff;
     background: var(--main-blue);
     border-radius: 8px;
+    border: none;
     padding: 4px 16px;
 
     z-index: 999;
