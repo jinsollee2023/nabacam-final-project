@@ -5,6 +5,7 @@ import useClientsQueries from "../../../hooks/useClientsQueries";
 import ApplicantFreelancerCard from "./ApplicantFreelancerCard";
 import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientQueries";
 import { useInView } from "react-intersection-observer";
+import { Spin } from "antd";
 
 const ApplicantFreelancerList = () => {
   const { userId } = useUserStore();
@@ -36,7 +37,14 @@ const ApplicantFreelancerList = () => {
   }
 
   return status === "loading" ? (
-    <p>Loading...</p>
+    <Spin
+      size="large"
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+      }}
+    />
   ) : status === "error" ? (
     <p>Error: {error?.message}</p>
   ) : (

@@ -5,6 +5,7 @@ import { S } from "../listOfFreelancersByStatus.style";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
 import { useInView } from "react-intersection-observer";
 import useFreelancersWithOngoingProjectsQueries from "src/hooks/queries/useFreelancersWithOngoingProjectsQueries";
+import { Spin } from "antd";
 
 const OngoingFreelancerList = () => {
   const [ref, inView] = useInView();
@@ -27,7 +28,14 @@ const OngoingFreelancerList = () => {
     return <div>진행중인 프리랜서가 없습니다.</div>;
 
   return status === "loading" ? (
-    <p>Loading...</p>
+    <Spin
+      size="large"
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+      }}
+    />
   ) : status === "error" ? (
     <p>Error: {error?.message}</p>
   ) : (

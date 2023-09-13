@@ -9,6 +9,7 @@ import { useUserStore } from "../../../../../store/useUserStore";
 import useTerminationedProjectsQueries from "../../../../../hooks/queries/useTerminationedProjectsQueries";
 import { useInView } from "react-intersection-observer";
 import { IProjectWithFreelancer } from "src/Types";
+import { Spin } from "antd";
 
 const ContractTerminationFreelancerList = () => {
   const [ref, inView] = useInView();
@@ -68,7 +69,14 @@ const ContractTerminationFreelancerList = () => {
   };
 
   return status === "loading" ? (
-    <p>Loading...</p>
+    <Spin
+      size="large"
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+      }}
+    />
   ) : status === "error" ? (
     <p>Error: {error?.message}</p>
   ) : (

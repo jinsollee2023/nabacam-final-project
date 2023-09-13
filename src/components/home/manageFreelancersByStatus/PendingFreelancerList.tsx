@@ -4,6 +4,7 @@ import { useUserStore } from "../../../store/useUserStore";
 import PendingFreelancerCard from "./PendingFreelancerCard";
 import usePengFreelancersToTheProjectsQueries from "src/hooks/queries/usePendingFreelancersToTheProjectsQueries";
 import { useInView } from "react-intersection-observer";
+import { Spin } from "antd";
 
 const PendingFreelancerList = () => {
   const { userId } = useUserStore();
@@ -34,7 +35,14 @@ const PendingFreelancerList = () => {
   }
 
   return status === "loading" ? (
-    <p>Loading...</p>
+    <Spin
+      size="large"
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+      }}
+    />
   ) : status === "error" ? (
     <p>Error: {error?.message}</p>
   ) : (
