@@ -241,16 +241,16 @@ const MemberList = () => {
                 </S.MemberInfo>
                 <S.MemberContactBox>
                   <S.ButtonBox>
-                    <S.EditAndDeleteButton onClick={() => updateButtonHandler(member)}>
+                    <S.EditAndDelButton onClick={() => updateButtonHandler(member)}>
                       수정
-                    </S.EditAndDeleteButton>
-                    <S.EditAndDeleteButton
+                    </S.EditAndDelButton>
+                    <S.EditAndDelButton
                       onClick={() => {
                         deleteMemberButtonHandler(member);
                       }}
                     >
                       삭제
-                    </S.EditAndDeleteButton>
+                    </S.EditAndDelButton>
                   </S.ButtonBox>
                   <S.ContactBoxWrapper>
                     <S.ContactBox>

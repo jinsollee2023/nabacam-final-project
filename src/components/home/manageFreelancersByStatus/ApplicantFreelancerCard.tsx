@@ -110,6 +110,18 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
                   <S.DisabledButton disabled>모집이 완료된 프로젝트입니다.</S.DisabledButton>
                 ) : (
                   <>
+                    <S.PendingButton
+                      onClick={() =>
+                        updatePendingFreelancer(
+                          project.projectId || "",
+                          project.volunteer || [],
+                          project.pendingFreelancer || [],
+                          freelancer.userId
+                        )
+                      }
+                    >
+                      보류하기
+                    </S.PendingButton>
                     <S.ContractButton
                       onClick={() =>
                         updateApplicantFreelancers(
@@ -124,18 +136,6 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
                     >
                       계약하기
                     </S.ContractButton>
-                    <S.PendingButton
-                      onClick={() =>
-                        updatePendingFreelancer(
-                          project.projectId || "",
-                          project.volunteer || [],
-                          project.pendingFreelancer || [],
-                          freelancer.userId
-                        )
-                      }
-                    >
-                      보류하기
-                    </S.PendingButton>
                   </>
                 )}
               </>

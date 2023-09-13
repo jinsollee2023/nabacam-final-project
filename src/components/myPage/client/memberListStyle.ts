@@ -73,9 +73,7 @@ export const S = {
     flex-direction: row;
     margin-bottom: 5px;
   `,
-  EditAndDeleteButton: styled.button`
-    position: relative;
-    left: 11rem;
+  EditAndDelButton: styled.button`
     border: none;
     color: #595959;
     cursor: pointer;

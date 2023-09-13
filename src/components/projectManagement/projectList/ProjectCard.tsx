@@ -38,7 +38,7 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
   const validateUpdateProject = () => {
     const titleError = validateInput("프로젝트 제목", newProject.title);
     const descError = validateInput("프로젝트 설명", newProject.desc);
-    const categoryError = validateSelect("프로젝트 설명", values.category as string);
+    const categoryError = validateSelect("프로젝트 분야", values.category as string);
     const qualificationError = validateWorkExp(String(newProject.qualification));
     const expectedStartDateError = validateDate("시작예정일", newProject.expectedStartDate);
     const managerError = validateSelect("담당자", newProject.manager.name);

@@ -42,12 +42,10 @@ const ContractTerminationFreelancerCards = ({
       freelancerId: project.freelancerId as string,
     });
 
-  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries(
-    {
-      currentUserId: userId,
-      freelancerId: project.freelancerId,
-    }
-  );
+  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries({
+    currentUserId: userId,
+    freelancerId: project.freelancerId,
+  });
 
   useEffect(() => {
     if (!isSuggestingAgainModalOpen) {
