@@ -1,6 +1,6 @@
 import { Project } from "../../../Types";
-import S from "./ProjectListStyles";
-import React, { useEffect, useState } from "react";
+import S from "./ProjectList.styles";
+import { useEffect, useState } from "react";
 import Modal from "../../../components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
