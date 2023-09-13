@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 export const S = {
-  AddMemberBtn: styled.button`
+  AddMemberButton: styled.button`
     cursor: pointer;
     height: 47px;
     min-width: 120px;
@@ -68,18 +68,18 @@ export const S = {
   MemberContact: styled.span`
     text-align: right;
   `,
-  BtnBox: styled.div`
+  ButtonBox: styled.div`
     display: flex;
     flex-direction: row;
     margin-bottom: 5px;
   `,
-  EditAndDelBtn: styled.button`
+  EditAndDelButton: styled.button`
     border: none;
     color: #595959;
     cursor: pointer;
     background-color: transparent;
   `,
-  ModalInnerAddBtn: styled.button`
+  ModalInnerAddButton: styled.button`
     color: white;
     cursor: pointer;
     width: 100%;
@@ -89,7 +89,7 @@ export const S = {
     background-color: #0086d0;
     font-size: 16px;
   `,
-  SearchItemBarAndAddMemberBtnWrapper: styled.div`
+  SearchItemBarAndAddMemberButtonWrapper: styled.div`
     display: flex;
     width: 100%;
     min-width: 400px;

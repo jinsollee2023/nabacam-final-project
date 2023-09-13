@@ -72,14 +72,14 @@ const OngoingFreelancerCards = ({
           <S.ProjectDate>
             {dayjs(project.date?.startDate).format("YYMMDD")} ~
           </S.ProjectDate>
-          <S.DetailBtn
+          <S.DetailButton
             onClick={() => {
               setSelectedFreelancer(user);
               setIsModalOpen(!isModalOpen);
             }}
           >
             자세히 보기
-          </S.DetailBtn>
+          </S.DetailButton>
           {isModalOpen &&
           selectedFreelancer &&
           selectedFreelancer.userId === user.userId ? (

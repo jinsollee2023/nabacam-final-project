@@ -24,7 +24,7 @@ export const S = {
     position: relative;
     height: 30px;
   `,
-  CloseBtn: styled.button`
+  CloseButton: styled.button`
     position: absolute;
     right: -10px;
     top: -5px;
@@ -42,7 +42,7 @@ export const S = {
       scrollbar-width: none;
     }
   `,
-  ModalBtnBox: styled.div`
+  ModalButtonBox: styled.div`
     display: flex;
     gap: 5px;
     justify-content: center;

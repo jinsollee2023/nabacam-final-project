@@ -204,23 +204,23 @@ const Account = () => {
             {user && user?.contact?.email}
           </S.Detail>
         </S.ColumnBox>
-        <S.RightEndBtnBox>
-          <S.SettingBtn onClick={() => setIsModalOpen(true)}>
+        <S.RightEndButtonBox>
+          <S.SettingButton onClick={() => setIsModalOpen(true)}>
             <IoMdSettings size={25} color="dimgray" />
-          </S.SettingBtn>
-        </S.RightEndBtnBox>
+          </S.SettingButton>
+        </S.RightEndButtonBox>
 
         {isModlaopen ? (
           <Modal
             setIsModalOpen={setIsModalOpen}
             buttons={
               <>
-                <S.UnMemberBtn width="50%" onClick={showConfirmation}>
+                <S.UnMemberButton width="50%" onClick={showConfirmation}>
                   탈퇴하기
-                </S.UnMemberBtn>
-                <S.Btn width="50%" onClick={updateProfileInfoButtonHandler}>
+                </S.UnMemberButton>
+                <S.Button width="50%" onClick={updateProfileInfoButtonHandler}>
                   수정하기
-                </S.Btn>
+                </S.Button>
               </>
             }
           >

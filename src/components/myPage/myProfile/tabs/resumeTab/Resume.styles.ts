@@ -1,7 +1,7 @@
 import TextArea from "antd/es/input/TextArea";
 import { styled } from "styled-components";
 
-interface BtnProps {
+interface ButtonProps {
   marginTop?: string;
   marginBottom?: string;
   marginLeft?: string;
@@ -41,7 +41,7 @@ export const S = {
     border-radius: 8px;
     background-color: #f0f0f0;
   `,
-  ProfileBtn: styled.button`
+  ProfileButton: styled.button`
     background-color: transparent;
     padding: 5px 7px;
     border-radius: 5px;
@@ -142,7 +142,7 @@ export const S = {
     margin-top: 10px;
     margin-bottom: 10px;
   `,
-  ResumButton: styled.button<BtnProps>`
+  ResumButton: styled.button<ButtonProps>`
     width: ${(props) => props.width};
     color: var(--main-blue);
     border: 1px solid var(--main-blue);
@@ -181,7 +181,7 @@ export const S = {
   `,
 
   // 공통
-  Btn: styled.button<BtnProps>`
+  Button: styled.button<ButtonProps>`
     background-color: var(--main-blue);
     color: white;
     border: none;
@@ -197,7 +197,7 @@ export const S = {
     height: ${(props) => props.height};
     padding: ${(props) => props.padding || "7px"};
   `,
-  RightEndBtnBox: styled.div`
+  RightEndButtonBox: styled.div`
     display: flex;
     margin-left: auto;
   `,
