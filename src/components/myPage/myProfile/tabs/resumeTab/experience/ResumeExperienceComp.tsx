@@ -156,9 +156,9 @@ const ResumeExperienceComp = () => {
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <S.Btn width="100%" onClick={addExperienceHandler}>
+              <S.Button width="100%" onClick={addExperienceHandler}>
                 등록하기
-              </S.Btn>
+              </S.Button>
             </>
           }
           availableClose={availableClose}

@@ -7,7 +7,7 @@ export const S = {
   SelectBox: styled.div`
     margin-bottom: 20px;
   `,
-  FilterBtn: styled.button`
+  FilterButton: styled.button`
     margin: 0 15px;
     height: 47px;
     min-width: 120px;
@@ -133,7 +133,7 @@ export const S = {
     color: #595959;
     font-size: 13px;
   `,
-  DetailBtn: styled.button`
+  DetailButton: styled.button`
     position: relative;
     border: 1px solid #0086d0;
     border-radius: 6px;
@@ -145,7 +145,7 @@ export const S = {
     cursor: pointer;
     color: #0086d0;
   `,
-  ModalInnerBtn: styled.button`
+  ModalInnerButton: styled.button`
     position: relative;
     border: none;
     border-radius: 6px;
@@ -157,7 +157,7 @@ export const S = {
     color: white;
     background-color: #0086d0;
   `,
-  SearchItemBarAndFilterBtnWrapper: styled.div`
+  SearchItemBarAndFilterButtonWrapper: styled.div`
     display: flex;
     width: 98%;
     min-width: 400px;

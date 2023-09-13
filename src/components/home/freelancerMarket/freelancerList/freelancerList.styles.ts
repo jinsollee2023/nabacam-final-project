@@ -166,7 +166,7 @@ export const S = {
     height: 40px;
     cursor: pointer;
   `,
-  FreelancerInfoModalBtn: styled.button`
+  FreelancerInfoModalButton: styled.button`
     width: 100%;
     height: 35px;
     cursor: pointer;

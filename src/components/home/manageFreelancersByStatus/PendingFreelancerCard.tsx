@@ -102,14 +102,14 @@ const PendingFreelancerCard = ({
             <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
           </div>
 
-          <S.CheckingBtn
+          <S.CheckingButton
             onClick={() => {
               setSelectedFreelancer(freelancer);
               setIsModalOpen(!isModalOpen);
             }}
           >
             확인하기
-          </S.CheckingBtn>
+          </S.CheckingButton>
         </S.ProjectContents>
       </S.List>
       {isModalOpen &&
@@ -120,12 +120,12 @@ const PendingFreelancerCard = ({
             buttons={
               <>
                 {project.freelancerId ? (
-                  <S.DisabledBtn disabled>
+                  <S.DisabledButton disabled>
                     모집이 완료된 프로젝트입니다.
-                  </S.DisabledBtn>
+                  </S.DisabledButton>
                 ) : (
                   <>
-                    <S.ContractBtn
+                    <S.ContractButton
                       onClick={() =>
                         updatePendingFreelancers(
                           freelancer.userId,
@@ -138,8 +138,8 @@ const PendingFreelancerCard = ({
                       }
                     >
                       계약하기
-                    </S.ContractBtn>
-                    <S.PendingBtn
+                    </S.ContractButton>
+                    <S.PendingButton
                       onClick={() =>
                         deletePendingFreelancer(
                           project.projectId || "",
@@ -149,7 +149,7 @@ const PendingFreelancerCard = ({
                       }
                     >
                       삭제하기
-                    </S.PendingBtn>
+                    </S.PendingButton>
                   </>
                 )}
               </>

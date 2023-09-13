@@ -222,7 +222,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
               </S.ErrorMessage>
               <S.PasswordBox>
                 <S.PasswordInputWrapper>
-                  <S.PassswordInputAndEyeBtnWrapper>
+                  <S.PassswordInputAndEyeButtonWrapper>
                     <S.PasswordInput
                       id="passwordInput"
                       type={showPswd ? "text" : "password"}
@@ -235,17 +235,17 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       }}
                     />
                     <S.CenterizeBox>
-                      <S.EyeBtn onClick={showPasswordHandler} type="button">
+                      <S.EyeButton onClick={showPasswordHandler} type="button">
                         {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                      </S.EyeBtn>
+                      </S.EyeButton>
                     </S.CenterizeBox>
-                  </S.PassswordInputAndEyeBtnWrapper>
+                  </S.PassswordInputAndEyeButtonWrapper>
                   <S.ErrorMessage hasError={!!errors.password}>
                     {errors.password && <p>{errors.password}</p>}
                   </S.ErrorMessage>
                 </S.PasswordInputWrapper>
                 <S.PasswordInputWrapper>
-                  <S.PassswordInputAndEyeBtnWrapper>
+                  <S.PassswordInputAndEyeButtonWrapper>
                     <S.PasswordInput
                       id="checkPasswordInput"
                       type={showConfirmPswd ? "text" : "password"}
@@ -266,7 +266,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       }}
                     />
                     <S.CenterizeBox>
-                      <S.EyeBtn
+                      <S.EyeButton
                         onClick={showConfirmPasswordHandler}
                         type="button"
                       >
@@ -275,9 +275,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
                         ) : (
                           <EyeInvisibleOutlined />
                         )}
-                      </S.EyeBtn>
+                      </S.EyeButton>
                     </S.CenterizeBox>
-                  </S.PassswordInputAndEyeBtnWrapper>
+                  </S.PassswordInputAndEyeButtonWrapper>
                   <S.ErrorMessage hasError={!!errors.passwordConfirm}>
                     {errors.passwordConfirm && <p>{errors.passwordConfirm}</p>}
                   </S.ErrorMessage>
