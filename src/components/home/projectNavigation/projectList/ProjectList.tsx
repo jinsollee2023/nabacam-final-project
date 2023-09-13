@@ -41,21 +41,23 @@ const ProjectList = ({
     if (projectsListBySort?.pages) {
       const filteredProjectLists = projectsListBySort?.pages.map((page) => {
         return page.projects.filter((project) => {
-        const lowerCaseSearch = String(searchKeyword).toLowerCase();
-        const numberOfApplicants = String(project.volunteer?.length);
-        const yearsOfEligibility = String(project.qualification);
-        return (
-          project?.title?.toLowerCase().includes(lowerCaseSearch) ||
-          project?.desc?.toLowerCase().includes(lowerCaseSearch) ||
-          project?.category?.toLowerCase().includes(lowerCaseSearch) ||
-          numberOfApplicants === searchKeyword ||
-          yearsOfEligibility === searchKeyword
-        );
-      });
-      if (currentToggleStatus) {
-        const openProject = filteredProjectLists.filter((project) => {
-          return project.status === "진행 전";
+          const lowerCaseSearch = String(searchKeyword).toLowerCase();
+          const numberOfApplicants = String(project.volunteer?.length);
+          const yearsOfEligibility = String(project.qualification);
+          return (
+            project?.title?.toLowerCase().includes(lowerCaseSearch) ||
+            project?.desc?.toLowerCase().includes(lowerCaseSearch) ||
+            project?.category?.toLowerCase().includes(lowerCaseSearch) ||
+            numberOfApplicants === searchKeyword ||
+            yearsOfEligibility === searchKeyword
+          );
         });
+      });
+
+      if (currentToggleStatus) {
+        const openProject = filteredProjectLists.map((page) =>
+          page.filter((project) => project.status === "진행 전")
+        );
         setFilteredProjects(openProject);
       } else {
         setFilteredProjects(filteredProjectLists);

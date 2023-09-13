@@ -25,7 +25,17 @@ export const getFreelancerPortfolio = async (id: string) => {
 };
 
 // 8/26 수정
-export const getPortfolio = async (id: string, page: number): Promise<IPortfolio> => {
+export const getPortfolio = async (id: string) => {
+  try {
+    const { data } = await supabase.from("portfolios").select("*").eq("freelancerId", id);
+
+    return data;
+  } catch (error) {
+    throw new Error("포토폴리오 정보를 가져오지 못했습니다.");
+  }
+};
+
+export const getMyPortfolio = async (id: string, page: number): Promise<IPortfolio> => {
   try {
     const { data: portfolio, count } = await supabase
       .from("portfolios")

@@ -2,6 +2,7 @@ import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import {
   addPortfolio,
   deletePortfolio,
+  getMyPortfolio,
   getPortfolio,
   updatePortfolio,
   uploadPDF,
@@ -58,7 +59,7 @@ const usePortfolioInfoQueries = ({
   } = useInfiniteQuery<IPortfolio, Error, IPortfolio>(
     ["portfolios", userId],
     async ({ pageParam = 1 }) => {
-      const response = await getPortfolio(userId as string, pageParam);
+      const response = await getMyPortfolio(userId as string, pageParam);
 
       const portfolios = [];
 
@@ -78,6 +79,17 @@ const usePortfolioInfoQueries = ({
         const nextPage = allPages.length + 1;
         return nextPage <= maxPage ? nextPage : null;
       },
+    }
+  );
+
+  const { data: portfolios } = useQuery(
+    ["portfolios", userId],
+    async () => {
+      const response = await getPortfolio(userId);
+      return response;
+    },
+    {
+      enabled: !!userId,
     }
   );
 
@@ -123,6 +135,7 @@ const usePortfolioInfoQueries = ({
     updatePortfolioMutation,
     uploadThumbnailMutation,
     uploadPDFMutation,
+    portfolios,
     portfolio,
     error,
     fetchNextPage,
