@@ -91,7 +91,7 @@ export const S = {
     background-color: #0086d0;
     font-size: 16px;
   `,
-  SearchItemBarAndAddMemberBtnWrapper: styled.div`
+  SearchItemBarAndAddMemberButtonWrapper: styled.div`
     display: flex;
     width: 100%;
     min-width: 400px;
