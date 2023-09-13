@@ -7,17 +7,16 @@ export const S = {
   SelectBox: styled.div`
     margin-bottom: 20px;
   `,
-  FilterBtn: styled.button`
-    position: relative;
-    margin: 15px;
-    left: 10px;
-    width: 90px;
-    height: 30px;
+  FilterButton: styled.button`
+    margin: 0 15px;
+    height: 47px;
+    min-width: 120px;
+    width: 10%;
     background-color: transparent;
-    border: 1.5px solid #0086d0;
-    border-radius: 6px;
+    border: solid 1px var(--darker-gray);
+    border-radius: 5px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     cursor: pointer;
   `,
@@ -27,6 +26,20 @@ export const S = {
     gap: 30px;
     height: 48vh;
     overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #848484;
+      border-radius: 10px;
+      background-clip: padding-box;
+      border: 2px solid transparent;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: #f3f3f3;
+      border-radius: 10px;
+    }
   `,
   OngoingFreelancerlistContainer: styled.div`
     display: flex;
@@ -37,7 +50,7 @@ export const S = {
   `,
   ListsBox: styled.div`
     border: 1.5px solid #d6d6d6;
-    border-radius: 4px;
+    border-radius: 10px;
     width: 300px;
     height: 300px;
     margin-bottom: 20px;
@@ -64,9 +77,15 @@ export const S = {
     gap: 5px;
     align-items: center;
   `,
+  NameAndWorkFieldWrapper: styled.div`
+    display: flex;
+    align-items: end;
+    margin-bottom: 5px;
+  `,
   Name: styled.span`
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
+    margin-right: 10px;
   `,
   WorkField: styled.span`
     font-size: 14px;
@@ -76,13 +95,14 @@ export const S = {
   WorkSmallFieldAndWorkExp: styled.span`
     font-size: 14px;
     color: #595959;
+    margin-bottom: 10px;
   `,
   ContactBox: styled.div`
     gap: 10px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 5px;
+    margin-bottom: 5px;
   `,
   Contact: styled.span`
     gap: 5px;
@@ -107,13 +127,13 @@ export const S = {
     font-size: 14px;
   `,
   ProjectDate: styled.span`
-    font-size: 12px;
+    font-size: 14px;
   `,
   DateInnerText: styled.span`
     color: #595959;
-    font-size: 12px;
+    font-size: 13px;
   `,
-  DetailBtn: styled.button`
+  DetailButton: styled.button`
     position: relative;
     border: 1px solid #0086d0;
     border-radius: 6px;
@@ -125,7 +145,7 @@ export const S = {
     cursor: pointer;
     color: #0086d0;
   `,
-  ModalInnerBtn: styled.button`
+  ModalInnerButton: styled.button`
     position: relative;
     border: none;
     border-radius: 6px;
@@ -136,5 +156,10 @@ export const S = {
     cursor: pointer;
     color: white;
     background-color: #0086d0;
+  `,
+  SearchItemBarAndFilterButtonWrapper: styled.div`
+    display: flex;
+    width: 98%;
+    min-width: 400px;
   `,
 };

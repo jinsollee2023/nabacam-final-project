@@ -5,8 +5,8 @@ import { IUser, Project } from "../../../Types";
 import ApplicantFreelancerInfoModal from "./ApplicantFreelancerInfoModal";
 import { useUserStore } from "src/store/useUserStore";
 import { toast } from "react-toastify";
-import useClientsQueries from "src/hooks/useClientsQueries";
-import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
+import useProjectOfClientQueries from "src/hooks/queries/useProjectOfClientQueries";
+import usePengFreelancersToTheProjectsQueries from "src/hooks/queries/usePendingFreelancersToTheProjectsQueries";
 
 interface ApplicantFreelancerCardProps {
   project: Project;
@@ -15,15 +15,17 @@ interface ApplicantFreelancerCardProps {
 
 const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCardProps) => {
   const { userId } = useUserStore();
-  const { client } = useClientsQueries({ userId });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
   const {
     updateFreelancerApprovalMutation,
     deleteVolunteerAndPendingFreelancerMutation,
     addProjectIdToUserMutation,
-    updatePendingFreelancerMutation,
-  } = useProjectOfClientBySortQueries({
+  } = useProjectOfClientQueries({
+    currentUserId: userId,
+  });
+
+  const { updatePendingFreelancerMutation } = usePengFreelancersToTheProjectsQueries({
     currentUserId: userId,
   });
 
@@ -91,24 +93,36 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
           <S.ProjectTitle>{project.title} 프로젝트에 지원</S.ProjectTitle>
         </div>
 
-        <S.CheckingBtn
+        <S.CheckingButton
           onClick={() => {
             setSelectedFreelancer(freelancer);
             setIsModalOpen(!isModalOpen);
           }}
         >
           확인하기
-        </S.CheckingBtn>
+        </S.CheckingButton>
         {isModalOpen && selectedFreelancer && selectedFreelancer.userId === freelancer.userId && (
           <Modal
             setIsModalOpen={setIsModalOpen}
             buttons={
               <>
                 {project.freelancerId ? (
-                  <S.DisabledBtn disabled>모집이 완료된 프로젝트입니다.</S.DisabledBtn>
+                  <S.DisabledButton disabled>모집이 완료된 프로젝트입니다.</S.DisabledButton>
                 ) : (
                   <>
-                    <S.ContractBtn
+                    <S.PendingButton
+                      onClick={() =>
+                        updatePendingFreelancer(
+                          project.projectId || "",
+                          project.volunteer || [],
+                          project.pendingFreelancer || [],
+                          freelancer.userId
+                        )
+                      }
+                    >
+                      보류하기
+                    </S.PendingButton>
+                    <S.ContractButton
                       onClick={() =>
                         updateApplicantFreelancers(
                           freelancer.userId,
@@ -121,19 +135,7 @@ const ApplicantFreelancerCard = ({ project, freelancer }: ApplicantFreelancerCar
                       }
                     >
                       계약하기
-                    </S.ContractBtn>
-                    <S.PendingBtn
-                      onClick={() =>
-                        updatePendingFreelancer(
-                          project.projectId || "",
-                          project.volunteer || [],
-                          project.pendingFreelancer || [],
-                          freelancer.userId
-                        )
-                      }
-                    >
-                      보류하기
-                    </S.PendingBtn>
+                    </S.ContractButton>
                   </>
                 )}
               </>

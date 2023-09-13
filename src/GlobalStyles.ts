@@ -10,6 +10,9 @@ const GlobalStyles = createGlobalStyle`
     --darker-gray: #787878;
     --middle-gray: #595959;
     --lighter-gray: #D6D6D6;
+    
+    --chat-navy: #002c5f;
+    --chat-gray: #ebebeb;
   }
 
   html {
@@ -18,6 +21,7 @@ const GlobalStyles = createGlobalStyle`
 
   *{
     box-sizing: border-box;
+    user-select: none;
   }
 
   @font-face {

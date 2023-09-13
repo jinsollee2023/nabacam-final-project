@@ -165,18 +165,10 @@ const SuggestedProjectCard = ({
           buttons={
             projectItem.status === "진행 전" ? (
               <>
-                <S.DeclineButton
-                  type="primary"
-                  block
-                  onClick={showRejectConfirmation}
-                >
+                <S.DeclineButton onClick={showRejectConfirmation}>
                   거절하기
                 </S.DeclineButton>
-                <S.AcceptButton
-                  type="primary"
-                  block
-                  onClick={showAcceptConfirmation}
-                >
+                <S.AcceptButton onClick={showAcceptConfirmation}>
                   수락하기
                 </S.AcceptButton>
               </>

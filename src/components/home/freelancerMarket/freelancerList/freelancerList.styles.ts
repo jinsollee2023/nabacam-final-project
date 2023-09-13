@@ -59,7 +59,6 @@ export const S = {
 
   PortfolioItem: styled.div<PortfolioItemProps>`
     width: 100%;
-    position: relative;
     display: ${(props) => (props.isselected ? "block" : "none")};
   `,
 
@@ -71,6 +70,7 @@ export const S = {
     overflow: hidden;
     animation: ${fadeIn} 0.2s ease-in-out;
     cursor: pointer;
+    position: relative;
 
     img {
       width: 100%;
@@ -84,8 +84,11 @@ export const S = {
     min-width: 240px;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 20px 0;
     border-bottom: 1px solid #f0f0f0;
+    position: relative;
+    margin-top: 3px;
   `,
 
   PortfolioTitle: styled.h6`
@@ -105,21 +108,19 @@ export const S = {
 
   indicatorWrapper: styled.div`
     position: absolute;
-    bottom: 20%;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 7px;
     display: flex;
+    width: 100%;
+    justify-content: center;
   `,
 
   Indicator: styled.span<IndicatorProps>`
     width: 8px;
     height: 8px;
-    display: inline-block;
     border-radius: 50%;
     margin: 0 5px;
     transition: 0.5s;
-    background-color: ${(props) =>
-      props.selected ? "var(--main-blue)" : "var(--lighter-gray)"};
+    background-color: ${(props) => (props.selected ? "var(--main-blue)" : "var(--lighter-gray)")};
   `,
 
   SuggestButton: styled.button`
@@ -164,7 +165,7 @@ export const S = {
     height: 40px;
     cursor: pointer;
   `,
-  FreelancerInfoModalBtn: styled.button`
+  FreelancerInfoModalButton: styled.button`
     width: 100%;
     height: 35px;
     cursor: pointer;
@@ -172,5 +173,21 @@ export const S = {
     border-radius: 10px;
     background-color: #0086d0;
     color: white;
+  `,
+  ArrowIconWrapper: styled.div`
+    position: absolute;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: aliceblue;
+  `,
+  ArrowIconPrevBox: styled.div`
+    position: absolute;
+    left: 0;
+  `,
+  ArrowIconNextBox: styled.div`
+    position: absolute;
+    right: 0;
   `,
 };

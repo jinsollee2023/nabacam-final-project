@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 export const S = {
   searchContainer: styled.div`
     min-width: 40%;
-    width: 77%;
+    width: 85%;
     height: 5.5vh;
     display: flex;
     align-items: start;
@@ -17,7 +17,7 @@ export const S = {
   searchInput: styled.input`
     width: 100%;
     padding: 15px;
-    border: solid 1px;
+    border: solid 1px var(--darker-gray);
     border-radius: 5px;
 
     &:focus {

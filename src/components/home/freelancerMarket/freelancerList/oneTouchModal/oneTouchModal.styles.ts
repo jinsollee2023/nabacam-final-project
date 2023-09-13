@@ -17,12 +17,13 @@ export const S = {
 
   ProjectListWrapper: styled.div`
     overflow-y: auto;
-    padding: 20px 0;
+    padding: 20px 0 10px 0;
     height: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 
     &::-webkit-scrollbar {
       display: none;
@@ -32,7 +33,6 @@ export const S = {
   `,
 
   ProjectItem: styled.div<{ isselected?: boolean }>`
-    background-color: rgba(0, 0, 0, 0.1);
     width: 100%;
     height: 75px;
     padding: 10px;
@@ -46,12 +46,12 @@ export const S = {
     cursor: pointer;
 
     &:hover {
-      background-color: #a9e2f3;
+      background-color: var(--hover-blue);
     }
 
     border: ${({ isselected }) => (isselected ? "2px solid #58ACFA" : "none")};
     background-color: ${({ isselected }) =>
-      isselected ? "#a9e2f3" : "rgba(0, 0, 0, 0.1)"};
+      isselected ? "#a9e2f3" : "#f0f0f0"};
   `,
 
   ProjectItemTitle: styled.h4`

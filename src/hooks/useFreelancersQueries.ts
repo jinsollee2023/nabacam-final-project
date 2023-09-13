@@ -1,20 +1,45 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getFreelancersBySort } from "../api/User";
+import { IInpiniteUser } from "src/Types";
 
 const useFreelancersQueries = (selectedSortLabel: string) => {
-  // 선택한 SortLabel를 기준으로 정렬된 프리랜서 데이터 불러오기
   const {
     data: freelancersDataBySort,
-    isError: freelancersError,
-    isLoading: freelancersIsLoading,
-  } = useQuery(["freelancersData", selectedSortLabel], () =>
-    getFreelancersBySort(selectedSortLabel)
+    error,
+    fetchNextPage,
+    hasNextPage,
+    status,
+  } = useInfiniteQuery<IInpiniteUser, Error>(
+    ["freelancersData", selectedSortLabel],
+    async ({ pageParam = 1 }) => {
+      const freelancersBySortData = await getFreelancersBySort(selectedSortLabel, pageParam);
+
+      const users = [];
+
+      for (const user of freelancersBySortData.user) {
+        users.push({ ...user });
+      }
+
+      return {
+        user: users,
+        total_count: freelancersBySortData.total_count,
+      };
+    },
+    {
+      getNextPageParam: (lastPage, allPages) => {
+        const maxPage = Math.ceil(lastPage.total_count / 6);
+        const nextPage = allPages.length + 1;
+        return nextPage <= maxPage ? nextPage : null;
+      },
+    }
   );
 
   return {
     freelancersDataBySort,
-    freelancersError,
-    freelancersIsLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    status,
   };
 };
 

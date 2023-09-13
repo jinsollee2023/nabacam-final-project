@@ -144,10 +144,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
   const validateRegister = () => {
     const emailError = validateEmail(values.email);
     const passwordError = validatePassword(values.password);
-    const passwordConfirmError = validatePasswordConfirm(
-      values.password,
-      values.passwordConfirm
-    );
+    const passwordConfirmError = validatePasswordConfirm(values.password, values.passwordConfirm);
     const nameError = validateName(values.name);
     const workFieldError = validateSelect("작업 영역", values.workField);
     const workSmallFieldError = validateWorkSmallField(values.workSmallField);
@@ -222,7 +219,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
               </S.ErrorMessage>
               <S.PasswordBox>
                 <S.PasswordInputWrapper>
-                  <S.PassswordInputAndEyeBtnWrapper>
+                  <S.PassswordInputAndEyeButtonWrapper>
                     <S.PasswordInput
                       id="passwordInput"
                       type={showPswd ? "text" : "password"}
@@ -235,25 +232,23 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       }}
                     />
                     <S.CenterizeBox>
-                      <S.EyeBtn onClick={showPasswordHandler} type="button">
+                      <S.EyeButton onClick={showPasswordHandler} type="button">
                         {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                      </S.EyeBtn>
+                      </S.EyeButton>
                     </S.CenterizeBox>
-                  </S.PassswordInputAndEyeBtnWrapper>
+                  </S.PassswordInputAndEyeButtonWrapper>
                   <S.ErrorMessage hasError={!!errors.password}>
                     {errors.password && <p>{errors.password}</p>}
                   </S.ErrorMessage>
                 </S.PasswordInputWrapper>
                 <S.PasswordInputWrapper>
-                  <S.PassswordInputAndEyeBtnWrapper>
+                  <S.PassswordInputAndEyeButtonWrapper>
                     <S.PasswordInput
                       id="checkPasswordInput"
                       type={showConfirmPswd ? "text" : "password"}
                       placeholder="비밀번호를 한 번 더 입력해주세요."
                       value={values.passwordConfirm}
-                      onChange={(e) =>
-                        handleChange("passwordConfirm", e.target.value)
-                      }
+                      onChange={(e) => handleChange("passwordConfirm", e.target.value)}
                       onBlur={(e) => {
                         const passwordComfirmError = validatePasswordConfirm(
                           values.password,
@@ -266,18 +261,11 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       }}
                     />
                     <S.CenterizeBox>
-                      <S.EyeBtn
-                        onClick={showConfirmPasswordHandler}
-                        type="button"
-                      >
-                        {showConfirmPswd ? (
-                          <EyeOutlined />
-                        ) : (
-                          <EyeInvisibleOutlined />
-                        )}
-                      </S.EyeBtn>
+                      <S.EyeButton onClick={showConfirmPasswordHandler} type="button">
+                        {showConfirmPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+                      </S.EyeButton>
                     </S.CenterizeBox>
-                  </S.PassswordInputAndEyeBtnWrapper>
+                  </S.PassswordInputAndEyeButtonWrapper>
                   <S.ErrorMessage hasError={!!errors.passwordConfirm}>
                     {errors.passwordConfirm && <p>{errors.passwordConfirm}</p>}
                   </S.ErrorMessage>
@@ -306,14 +294,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
                         id="workFieldInput"
                         placeholder="작업 영역을 선택 해주세요."
                         optionFilterProp="children"
-                        onChange={(value, _) =>
-                          handleChange("workSmallField", value as string)
-                        }
+                        onChange={(value, _) => handleChange("workSmallField", value as string)}
                         onBlur={() => {
-                          const workFieldError = validateSelect(
-                            "작업 영역",
-                            values.workField
-                          );
+                          const workFieldError = validateSelect("작업 영역", values.workField);
                           setErrors({ ...errors, workField: workFieldError });
                         }}
                         options={[
@@ -353,13 +336,9 @@ const JoinForm = ({ role }: JoinFormProps) => {
                         type="text"
                         value={values.workField}
                         placeholder="상세한 작업 영역을 입력해주세요."
-                        onChange={(e) =>
-                          handleChange("workField", e.target.value)
-                        }
+                        onChange={(e) => handleChange("workField", e.target.value)}
                         onBlur={(e) => {
-                          const workSmallFieldError = validateWorkSmallField(
-                            e.target.value
-                          );
+                          const workSmallFieldError = validateWorkSmallField(e.target.value);
                           setErrors({
                             ...errors,
                             workSmallField: workSmallFieldError,
@@ -367,22 +346,18 @@ const JoinForm = ({ role }: JoinFormProps) => {
                         }}
                       />
                       <S.ErrorMessage hasError={!!errors.workSmallField}>
-                        {errors.workSmallField && (
-                          <p>{errors.workSmallField}</p>
-                        )}
+                        {errors.workSmallField && <p>{errors.workSmallField}</p>}
                       </S.ErrorMessage>
                     </S.WorkFieldInputWrapper>
                   </S.WorkFieldWrapper>
+
                   <S.JoinInput
                     id="workExpInput"
                     type="text"
                     placeholder="경력 / 연차를 입력해주세요."
                     value={values.workExp as number}
                     onChange={(e) =>
-                      handleChange(
-                        "workExp",
-                        e.target.value.replace(/\D/g, "").slice(0, 2)
-                      )
+                      handleChange("workExp", e.target.value.replace(/\D/g, "").slice(0, 2))
                     }
                     onBlur={(e) => {
                       const workExpError = validateWorkExp(e.target.value);
@@ -400,9 +375,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                 type="text"
                 placeholder="전화번호를 입력해주세요."
                 value={values.phone}
-                onChange={(e) =>
-                  handleChange("phone", formatPhoneNumber(e.target.value))
-                }
+                onChange={(e) => handleChange("phone", formatPhoneNumber(e.target.value))}
                 onBlur={(e) => {
                   const phoneError = validatePhone(e.target.value);
                   setErrors({ ...errors, phone: phoneError });
@@ -411,7 +384,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
               <S.ErrorMessage hasError={!!errors.phone}>
                 {errors.phone && <p>{errors.phone}</p>}
               </S.ErrorMessage>
-              <br />
             </S.InputWrapper>
           </S.JoinFormContentsWrapper>
           <S.JoinButton>

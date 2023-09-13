@@ -74,13 +74,15 @@ const TaskMonth = ({ task, userRole, month }: TaskMonthProps) => {
           style={{ marginRight: "5px", borderRadius: "3px" }}
         ></S.TaskDetailBox>
         {monthOptionOn && (
-          <DatePicker
-            selected={new Date(task.taskDate)}
-            showMonthYearPicker
-            dateFormat="yyyy-MM-dd HH:mm:ss"
-            onChange={handleChange}
-            inline
-          />
+          <div style={{ width: "300px" }}>
+            <DatePicker
+              selected={new Date(task.taskDate)}
+              showMonthYearPicker
+              dateFormat="yyyy-MM-dd HH:mm:ss"
+              onChange={handleChange}
+              inline
+            />
+          </div>
         )}
       </S.TaskDetailBoxWrapper>
       {/* <>

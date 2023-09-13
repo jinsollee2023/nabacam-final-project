@@ -1,56 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useClientsQueries from "../../../../../hooks/useClientsQueries";
 import { useUserStore } from "../../../../../store/useUserStore";
-import useProjectsQueries from "../../../../../hooks/useProjectsQueries";
 import { S } from "../listOfFreelancersByStatus.style";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
-import useOngoingProjectOfClientQueries from "src/hooks/queries/useOngoingProjectOfClientQueries";
+import { useInView } from "react-intersection-observer";
+import useFreelancersWithOngoingProjectsQueries from "src/hooks/queries/useFreelancersWithOngoingProjectsQueries";
+import { Spin } from "antd";
 
 const OngoingFreelancerList = () => {
-  // const [page, setPage] = useState(1);
+  const [ref, inView] = useInView();
 
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { freelancersWithOngoingProjects } = useOngoingProjectOfClientQueries({
-    currentUserId: userId,
-    // page,
-  });
-  // console.log(freelancersWithOngoingProjects);
+  const { freelancersWithOngoingProjects, error, fetchNextPage, hasNextPage, status } =
+    useFreelancersWithOngoingProjectsQueries({
+      currentUserId: userId,
+    });
 
-  // const target = React.useRef() as React.MutableRefObject<HTMLDivElement>;
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
-  // useEffect(() => {
-  //   if (!target.current) return;
-  //   observer.observe(target.current);
-  // }, []);
+  // 확인필요
+  if (!freelancersWithOngoingProjects?.pages || freelancersWithOngoingProjects?.pages.length === 0)
+    return <div>진행중인 프리랜서가 없습니다.</div>;
 
-  // const options = {
-  //   threshold: 1.0,
-  // };
-
-  // const callback = () => {
-  //   setPage(page + 1);
-  // };
-
-  // const observer = new IntersectionObserver(callback, options);
-
-  if (!freelancersWithOngoingProjects || freelancersWithOngoingProjects.length === 0) {
-    return <span>진행 중인 프리랜서가 없습니다.</span>;
-  }
-
-  return (
+  return status === "loading" ? (
+    <Spin
+      size="large"
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+      }}
+    />
+  ) : status === "error" ? (
+    <p>Error: {error?.message}</p>
+  ) : (
     <>
       <S.OngoingFreelancerlistContainer>
-        {freelancersWithOngoingProjects?.map((project) => (
-          <S.ListsBox key={`${project.projectId}-${project.freelancer.userId}`}>
-            <OngoingFreelancerCards
-              key={`${project.projectId}-${project.freelancer.userId}`}
-              user={project.freelancer}
-              project={project}
-            />
-          </S.ListsBox>
+        {freelancersWithOngoingProjects?.pages.map((page, i) => (
+          <React.Fragment key={i}>
+            {page.projects.map((project) => (
+              <S.ListsBox key={`${project.projectId}-${project.freelancer.userId}`}>
+                <OngoingFreelancerCards
+                  key={`${project.projectId}-${project.freelancer.userId}`}
+                  user={project.freelancer}
+                  project={project}
+                />
+              </S.ListsBox>
+            ))}
+          </React.Fragment>
         ))}
-        {/* <div ref={target}></div> */}
+        <div ref={ref}></div>
       </S.OngoingFreelancerlistContainer>
     </>
   );

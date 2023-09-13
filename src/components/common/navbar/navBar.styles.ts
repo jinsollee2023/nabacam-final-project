@@ -9,12 +9,13 @@ export const S = {
     width: 17vw;
     max-width: 280px;
     min-width: 210px;
-    padding: 20px;
+
     height: 100vh;
   `,
   LogoWrapper: styled.div`
     width: 100%;
-    height: 70px;
+    padding: 40px 20px 20px 20px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,6 +29,7 @@ export const S = {
     align-items: center;
     justify-content: space-around;
     height: 70px;
+    padding: 20px;
   `,
   ProfileImage: styled.img`
     width: 45px;
@@ -60,7 +62,7 @@ export const S = {
   `,
   NavLinkItem: styled.li`
     cursor: pointer;
-    padding: 15px 5px;
+    padding: 15px 20px;
     transition: 0.2s ease-in-out;
 
     &:hover {

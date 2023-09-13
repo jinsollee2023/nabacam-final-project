@@ -16,15 +16,17 @@ interface ColumnLabelProps {
 
 const S = {
   TaskCardBox: styled.div`
+    min-width: 520px;
     display: flex;
+    position: relative;
+    padding-right: 20px;
   `,
   TaskDetailBoxWrapper: styled.div<TaskDetailBoxWrapperProps>`
     width: ${(props) => props.width};
   `,
   TaskDetailBox: styled.div<TaskDetailBoxProps>`
     cursor: ${(props) => (props.cursor ? props.cursor : null)};
-    background-color: ${(props) =>
-      props.backgroundColor ? props.backgroundColor : "#ffffff"};
+    background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : "#ffffff")};
     height: 40px;
     margin: 5px 10px 5px 0;
     border: 1.2px solid var(--lighter-gray);
@@ -38,15 +40,17 @@ const S = {
   `,
   TaskDeleteButton: styled.button`
     background-color: transparent;
+    position: absolute;
+    top: 12px;
+    right: 0;
     border: none;
     cursor: pointer;
-    margin-top: 20px;
   `,
   SelectAddButtonContainer: styled.div`
     display: flex;
     justify-content: space-between;
   `,
-  TaskAddButton: styled(CommonS.CommonBtn)`
+  TaskAddButton: styled(CommonS.CommonButton)`
     width: 200px;
     height: 30px;
     margin-top: 0px;
