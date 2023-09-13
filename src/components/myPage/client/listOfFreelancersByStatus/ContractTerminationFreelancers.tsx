@@ -5,10 +5,9 @@ import { LuArrowUpDown } from "react-icons/lu";
 import WorkFieldCategory from "../../../../components/home/freelancerMarket/workFieldCategory/WorkFieldCategory";
 import ContractTerminationFreelancerList from "./contractTerminationFreelancerList/ContractTerminationFreelancerList";
 import { useUserStore } from "src/store/useUserStore";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { IProjectWithFreelancer } from "src/Types";
 import useTerminationedProjectsQueries from "src/hooks/queries/useTerminationedProjectsQueries";
-import useClientsQueries from "src/hooks/useClientsQueries";
+import { Spin } from "antd";
 
 const ContractTerminationFreelancers = () => {
   // 최신순/오래된 순 필터버튼 상태관리
@@ -16,31 +15,42 @@ const ContractTerminationFreelancers = () => {
   const [selectedWorkField, setSelectedWorkField] = useState("전체보기");
 
   const { userId } = useUserStore();
-  const { client } = useClientsQueries({ userId });
-  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries(
-    {
-      currentUserId: userId,
-    }
-  );
-  // console.log(freelancersWithTerminatedProjects);
+  const {
+    freelancersWithTerminatedProjects,
+    freelancersWithTerminatedProjectsisLoading,
+  } = useTerminationedProjectsQueries({
+    currentUserId: userId,
+  });
 
   // 필터 버튼 토글
   const handleSortToggle = () => {
     setIsLastFirst(!isLastFirst);
   };
 
+  if (freelancersWithTerminatedProjectsisLoading)
+    return (
+      <Spin
+        size="large"
+        style={{
+          position: "absolute",
+          top: "65%",
+          left: "60%",
+        }}
+      />
+    );
+
   return (
     <>
       {freelancersWithTerminatedProjects &&
       freelancersWithTerminatedProjects?.length > 0 ? (
         <>
-          <S.SearchBox>
+          <S.SearchItemBarAndFilterButtonWrapper>
             <SearchItemBar />
             <S.FilterButton onClick={handleSortToggle}>
               {isLastFirst ? "최신순" : "오래된 순"}
-              <LuArrowUpDown />
+              <LuArrowUpDown size="20" color="gray" />
             </S.FilterButton>
-          </S.SearchBox>
+          </S.SearchItemBarAndFilterButtonWrapper>
           <S.SelectBox>
             <WorkFieldCategory onSelectWorkField={setSelectedWorkField} />
           </S.SelectBox>

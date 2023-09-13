@@ -12,10 +12,15 @@ const useTerminationedProjectsQueries = ({
   freelancerId,
 }: useTerminationedProjectsQueriesProps) => {
   // 계약이 끝난 프리랜서 목록
-  const { data: freelancersWithTerminatedProjects } = useQuery(
+  const {
+    data: freelancersWithTerminatedProjects,
+    isLoading: freelancersWithTerminatedProjectsisLoading,
+  } = useQuery(
     ["freelancersWithTerminatedProjects"],
     async () => {
-      const terminationedProjectsData = await getTerminationedProjects(currentUserId as string);
+      const terminationedProjectsData = await getTerminationedProjects(
+        currentUserId as string
+      );
       const terminationedProjectsArray = [];
 
       for (const info of terminationedProjectsData) {
@@ -25,13 +30,18 @@ const useTerminationedProjectsQueries = ({
         });
       }
 
-      return terminationedProjectsArray.filter((info) => info.freelancer !== null);
+      return terminationedProjectsArray.filter(
+        (info) => info.freelancer !== null
+      );
     },
     {
       refetchOnWindowFocus: false,
     }
   );
-  return { freelancersWithTerminatedProjects };
+  return {
+    freelancersWithTerminatedProjects,
+    freelancersWithTerminatedProjectsisLoading,
+  };
 };
 
 export default useTerminationedProjectsQueries;

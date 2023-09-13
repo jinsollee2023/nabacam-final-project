@@ -5,7 +5,6 @@ import { IUser, Project } from "../../../Types";
 import ApplicantFreelancerInfoModal from "./ApplicantFreelancerInfoModal";
 import { useUserStore } from "src/store/useUserStore";
 import { toast } from "react-toastify";
-import useClientsQueries from "src/hooks/useClientsQueries";
 import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
 
 interface ApplicantFreelancerCardProps {
@@ -18,7 +17,6 @@ const ApplicantFreelancerCard = ({
   freelancer,
 }: ApplicantFreelancerCardProps) => {
   const { userId } = useUserStore();
-  const { client } = useClientsQueries({ userId });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
     null
@@ -121,6 +119,18 @@ const ApplicantFreelancerCard = ({
                     </S.DisabledButton>
                   ) : (
                     <>
+                      <S.PendingButton
+                        onClick={() =>
+                          updatePendingFreelancer(
+                            project.projectId || "",
+                            project.volunteer || [],
+                            project.pendingFreelancer || [],
+                            freelancer.userId
+                          )
+                        }
+                      >
+                        보류하기
+                      </S.PendingButton>
                       <S.ContractButton
                         onClick={() =>
                           updateApplicantFreelancers(
@@ -135,18 +145,6 @@ const ApplicantFreelancerCard = ({
                       >
                         계약하기
                       </S.ContractButton>
-                      <S.PendingButton
-                        onClick={() =>
-                          updatePendingFreelancer(
-                            project.projectId || "",
-                            project.volunteer || [],
-                            project.pendingFreelancer || [],
-                            freelancer.userId
-                          )
-                        }
-                      >
-                        보류하기
-                      </S.PendingButton>
                     </>
                   )}
                 </>

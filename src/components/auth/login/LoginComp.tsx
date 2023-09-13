@@ -6,7 +6,7 @@ import { getUser } from "src/api/User";
 import EmailCheck from "../resetpassword/EmailCheck";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { S } from "./LoginComp.styles";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import useValidation from "../../../hooks/useValidation";
 import WaveEffect from "src/components/common/waveEffect/WaveEffect";
 
@@ -58,9 +58,10 @@ const LoginComp = () => {
     });
     if (error) {
       console.error(error.message);
-      toast.error("로그인 정보가 일치하지 않습니다.");
+      toast.dismiss();
+      toast.error("로그인 정보가 일치하지 않습니다.", {});
     } else if (data) {
-      toast.success("로그인에 성공하였습니다.");
+      toast.success("로그인에 성공하였습니다.", {});
       const user = await getUser(data.user.id as string);
       setUserId(user.userId as string);
       setUserRole(user.role as string);

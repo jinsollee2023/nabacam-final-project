@@ -31,7 +31,7 @@ const ProjectList = () => {
   const { userId } = useUserStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedselectOption, setSelectedselectOption] = useState("전체보기");
-  const [selectedSortLabel, setSelectedSortLabel] = useState("전체보기");
+  const [selectedSortLabel, setSelectedSortLabel] = useState("최신순");
   const { projectsOfClient, addProjectMutation } = useProjectsQueries({
     currentUserId: userId,
     sortLabel: selectedSortLabel,
@@ -65,10 +65,12 @@ const ProjectList = () => {
     const titleError = validateInput("프로젝트 제목", newProject.title);
     const descError = validateInput("프로젝트 설명", newProject.desc);
     const categoryError = validateSelect(
-      "프로젝트 설명",
+      "프로젝트 분야",
       values.category as string
     );
-    const qualificationError = validateWorkExp(newProject.qualification);
+    const qualificationError = validateWorkExp(
+      String(newProject.qualification)
+    );
     const expectedStartDateError = validateDate(
       "시작예정일",
       newProject.expectedStartDate
@@ -213,19 +215,22 @@ const ProjectList = () => {
             <SearchItemBar />
             <SortProjects handleSort={handleSort} />
           </S.SearchSortWrapper>
-          <S.SearchSortButtonBox>
-            <S.SearchSortButton
-              onClick={() => setSelectedSortLabel("최신순")}
-              style={{ marginRight: "5px" }}
-            >
-              최신순
-            </S.SearchSortButton>
-            <S.SearchSortButton
-              onClick={() => setSelectedSortLabel("오래된순")}
-            >
-              오래된순
-            </S.SearchSortButton>
-          </S.SearchSortButtonBox>
+          <S.SearchSortButtonWrapper>
+            <S.SearchSortButtonBox>
+              <S.SearchSortButton
+                onClick={() => setSelectedSortLabel("최신순")}
+                className={selectedSortLabel === "최신순" ? "selected" : ""}
+              >
+                최신순
+              </S.SearchSortButton>
+              <S.SearchSortButton
+                onClick={() => setSelectedSortLabel("오래된순")}
+                className={selectedSortLabel === "오래된순" ? "selected" : ""}
+              >
+                오래된순
+              </S.SearchSortButton>
+            </S.SearchSortButtonBox>
+          </S.SearchSortButtonWrapper>
         </>
       ) : (
         <p>등록된 프로젝트가 없습니다.</p>

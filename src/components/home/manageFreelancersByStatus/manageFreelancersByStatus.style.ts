@@ -81,7 +81,7 @@ export const S = {
     height: 30px;
     font-size: 14px;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     margin-top: 8px;
     cursor: pointer;
     background-color: #0086d0;
@@ -92,7 +92,7 @@ export const S = {
     height: 30px;
     font-size: 14px;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     margin-top: 8px;
     cursor: pointer;
   `,

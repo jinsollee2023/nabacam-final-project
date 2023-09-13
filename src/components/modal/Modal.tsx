@@ -2,6 +2,7 @@ import React from "react";
 import { S } from "./modal.style";
 import { GrFormClose } from "react-icons/gr";
 import { toast } from "react-toastify";
+import { CommonS } from "../common/button/commonButton";
 
 interface ModalProps {
   setIsModalOpen: (isModalOpen: boolean) => void;
@@ -23,26 +24,28 @@ const Modal = ({
       showConfirmation();
     }
   };
-  console.log("availableClose==>", availableClose);
   const handleConfirm = () => {
-    console.log("확인 버튼이 클릭되었습니다.");
     setIsModalOpen(false);
     toast.dismiss();
   };
 
   const handleCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 
   const showConfirmation = () => {
     toast.info(
-      <div>
-        <p>입력한 내용이 전부없어지게됩니다.</p>
-        <button onClick={handleConfirm}>확인</button>
-        <button onClick={handleCancel}>취소</button>
-      </div>,
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>
+          입력한 내용이 저장되지 않습니다.
+        </CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,

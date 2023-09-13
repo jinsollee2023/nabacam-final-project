@@ -105,23 +105,24 @@ export const S = {
     width: 80px;
     text-align: center;
   `,
-  AcceptButton: styled(Button)`
-    background-color: var(--main-blue);
-
-    &:hover {
-      background-color: var(--hover-blue) !important;
-      color: var(--main-blue) !important;
-      border: 1px solid var(--main-blue) !important;
-    }
+  AcceptButton: styled.button`
+    width: 50%;
+    height: 30px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 8px;
+    cursor: pointer;
+    background-color: #0086d0;
+    color: white;
   `,
-  DeclineButton: styled(Button)`
-    background-color: white;
-    color: var(--main-blue);
-    border: 1px solid var(--main-blue);
-
-    &:hover {
-      background-color: var(--hover-blue) !important;
-      color: var(--main-blue) !important;
-    }
+  DeclineButton: styled.button`
+    width: 50%;
+    height: 30px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 8px;
+    cursor: pointer;
   `,
 };

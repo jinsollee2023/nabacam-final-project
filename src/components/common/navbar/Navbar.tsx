@@ -5,21 +5,13 @@ import { FiLogOut } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useTabStore } from "src/store/useTabStore";
 import { S } from "./navBar.styles";
+import { CommonS } from "../button/commonButton";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user } = useUserStore();
   const { setCurrentTab } = useTabStore();
   const token = localStorage.getItem("sb-iwbhucydhgtpozsnqeec-auth-token");
-  if (window.location.pathname === "/register") {
-    return null;
-  }
-  if (window.location.pathname === "/login") {
-    return null;
-  }
-  if (window.location.pathname === "/resetpassword") {
-    return null;
-  }
   if (!token) {
     return null;
   }
@@ -29,28 +21,24 @@ const Navbar = () => {
 
   const handleConfirm = () => {
     logOutButtonHandler();
-    console.log("확인 버튼이 클릭되었습니다.");
-    // 여기에서 실제로 할 일을 수행하세요.
-
-    // Toastify를 닫습니다.
     toast.dismiss();
-
-    // 추가로 다른 작업을 수행할 수 있습니다.
   };
 
   const handleCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 
   const showConfirmation = () => {
     toast.info(
-      <div>
-        <p>로그아웃 하시겟습니까??</p>
-        <button onClick={handleConfirm}>확인</button>
-        <button onClick={handleCancel}>취소</button>
-      </div>,
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>로그아웃 하시겟습니까?</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
         autoClose: false,

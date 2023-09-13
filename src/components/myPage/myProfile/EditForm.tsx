@@ -21,7 +21,6 @@ const EditForm = ({ user, errors, setErrors }: EditFormProps) => {
     phone: user.contact.phone,
     photo: user.photoURL,
   };
-  console.log(user.userId);
   const [values, setValues] = useState(initialValues);
   const [photoFile, setPhotoFile] = useState<File | null | string>();
   const { changeNewProfileInfo } = useProfileInfoStore();
@@ -48,109 +47,120 @@ const EditForm = ({ user, errors, setErrors }: EditFormProps) => {
 
   return (
     <>
-      <form>
+      <S.EditForm>
         <PreviewImage
           handlePhotoURLOnChange={setPhotoFile}
           defaultImage={JoinDefaultImage}
           previewImage={user.photoURL}
         />
-        <S.Label>이름 </S.Label>
-        <S.Input
-          id="name"
-          type="text"
-          value={values.name}
-          onChange={(e) => handleChange("name", e.target.value)}
-          onBlur={(e) => {
-            const nameError = validateName(e.target.value);
-            setErrors({ ...errors, name: nameError });
-          }}
-        />
-        <p>{errors.name}</p>
-
+        <S.WriteBox>
+          <S.Label>이름 </S.Label>
+          <S.Input
+            id="name"
+            type="text"
+            value={values.name}
+            onChange={(e) => handleChange("name", e.target.value)}
+            onBlur={(e) => {
+              const nameError = validateName(e.target.value);
+              setErrors({ ...errors, name: nameError });
+            }}
+          />
+          <S.ErrorMessage hasError={!!errors.name}>
+            {errors.name && <p>{errors.name}</p>}
+          </S.ErrorMessage>
+        </S.WriteBox>
         {user.role === "freelancer" && (
           <>
-            <S.Label>직무 분야</S.Label>
-            <br />
-            <Select
-              id="workField"
-              placeholder="Select a person"
-              optionFilterProp="children"
-              onChange={(selectedValue) =>
-                handleChange("workField", selectedValue)
-              }
-              onBlur={() => {
-                const workFieldError = validateSelect(
-                  "직무 분야",
-                  values.workField as string
-                );
-                setErrors({ ...errors, workField: workFieldError });
-              }}
-              value={values.workField}
-              options={[
-                {
-                  value: "개발",
-                  label: "개발",
-                },
-                {
-                  value: "디자인",
-                  label: "디자인",
-                },
-                {
-                  value: "운영",
-                  label: "운영",
-                },
-                {
-                  value: "마케팅",
-                  label: "마케팅",
-                },
-                {
-                  value: "기획",
-                  label: "기획",
-                },
-                {
-                  value: "기타",
-                  label: "기타",
-                },
-              ]}
-              style={{ marginTop: "15px", width: "100%" }}
-            />
-            <p>{errors.workField}</p>
-
-            <br />
-            <br />
-            <S.Label>세부 분야</S.Label>
-            <S.Input
-              id="workSmallField"
-              type="text"
-              value={values.workSmallField}
-              onChange={(e) => handleChange("workSmallField", e.target.value)}
-              onBlur={(e) => {
-                const workSmallFieldError = validateInput(
-                  "세부 분야",
-                  e.target.value
-                );
-                setErrors({ ...errors, workSmallField: workSmallFieldError });
-              }}
-            />
-            <p>{errors.workSmallField}</p>
+            <S.WriteBox>
+              <S.Label>직무 분야</S.Label>
+              <Select
+                id="workField"
+                placeholder="Select a person"
+                optionFilterProp="children"
+                onChange={(selectedValue) =>
+                  handleChange("workField", selectedValue)
+                }
+                onBlur={() => {
+                  const workFieldError = validateSelect(
+                    "직무 분야",
+                    values.workField as string
+                  );
+                  setErrors({ ...errors, workField: workFieldError });
+                }}
+                value={values.workField}
+                options={[
+                  {
+                    value: "개발",
+                    label: "개발",
+                  },
+                  {
+                    value: "디자인",
+                    label: "디자인",
+                  },
+                  {
+                    value: "운영",
+                    label: "운영",
+                  },
+                  {
+                    value: "마케팅",
+                    label: "마케팅",
+                  },
+                  {
+                    value: "기획",
+                    label: "기획",
+                  },
+                  {
+                    value: "기타",
+                    label: "기타",
+                  },
+                ]}
+                style={{ marginTop: "15px", width: "100%" }}
+              />
+              <S.ErrorMessage hasError={!!errors.workField}>
+                {errors.workField && <p>{errors.workField}</p>}
+              </S.ErrorMessage>
+            </S.WriteBox>
+            <S.WriteBox>
+              <S.Label>세부 분야</S.Label>
+              <S.Input
+                id="workSmallField"
+                type="text"
+                value={values.workSmallField}
+                onChange={(e) => handleChange("workSmallField", e.target.value)}
+                onBlur={(e) => {
+                  const workSmallFieldError = validateInput(
+                    "세부 분야",
+                    e.target.value
+                  );
+                  setErrors({ ...errors, workSmallField: workSmallFieldError });
+                }}
+              />
+              <S.ErrorMessage hasError={!!errors.workSmallField}>
+                {errors.workSmallField && <p>{errors.workSmallField}</p>}
+              </S.ErrorMessage>
+            </S.WriteBox>
           </>
         )}
 
-        <S.Label>전화번호</S.Label>
-        <S.Input
-          id="phone"
-          type="text"
-          value={values.phone}
-          onChange={(e) =>
-            handleChange("phone", formatPhoneNumber(e.target.value))
-          }
-          onBlur={(e) => {
-            const phoneError = validatePhone(e.target.value);
-            setErrors({ ...errors, phone: phoneError });
-          }}
-        />
-        <p>{errors.phone}</p>
-      </form>
+        <S.WriteBox>
+          <S.Label>전화번호</S.Label>
+          <S.Input
+            id="phone"
+            type="text"
+            value={values.phone}
+            onChange={(e) =>
+              handleChange("phone", formatPhoneNumber(e.target.value))
+            }
+            onBlur={(e) => {
+              const phoneError = validatePhone(e.target.value);
+              setErrors({ ...errors, phone: phoneError });
+            }}
+          />
+          <S.ErrorMessage hasError={!!errors.phone}>
+            {errors.phone && <p>{errors.phone}</p>}
+          </S.ErrorMessage>
+        </S.WriteBox>
+      </S.EditForm>
     </>
   );
 };

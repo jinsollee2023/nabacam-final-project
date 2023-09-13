@@ -57,7 +57,7 @@ const TaskStatus = ({ task, userRole }: TaskStatusProps) => {
   }, [task.status]);
 
   return (
-    <S.TaskDetailBoxWrapper width="19%">
+    <S.TaskDetailBoxWrapper width="23%">
       <S.TaskDetailBox
         onClick={statusDivOnClickHandler}
         backgroundColor={backgroundColor}

@@ -81,12 +81,18 @@ const JoinForm = ({ role }: JoinFormProps) => {
     validatePhone,
   } = useValidation();
 
-  const emailInput = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
-    if (emailInput.current) {
-      emailInput.current.focus();
-    }
-  }, []);
+    setErrors({
+      email: null,
+      password: null,
+      passwordConfirm: null,
+      name: null,
+      workField: null,
+      workSmallField: null,
+      workExp: null,
+      phone: null,
+    });
+  }, [role]);
 
   // 회원가입 api
   const signUp = async () => {
@@ -145,7 +151,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
     const nameError = validateName(values.name);
     const workFieldError = validateSelect("작업 영역", values.workField);
     const workSmallFieldError = validateWorkSmallField(values.workSmallField);
-    const workExpError = validateWorkExp(values.workExp as number);
+    const workExpError = validateWorkExp(String(values.workExp));
     const phoneError = validatePhone(values.phone);
 
     setErrors({
@@ -202,7 +208,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
             <S.InputWrapper>
               <S.JoinInput
                 id="emailInput"
-                ref={emailInput}
                 type="email"
                 placeholder="이메일을 입력해주세요."
                 value={values.email}
@@ -304,6 +309,13 @@ const JoinForm = ({ role }: JoinFormProps) => {
                         onChange={(value, _) =>
                           handleChange("workSmallField", value as string)
                         }
+                        onBlur={() => {
+                          const workFieldError = validateSelect(
+                            "작업 영역",
+                            values.workField
+                          );
+                          setErrors({ ...errors, workField: workFieldError });
+                        }}
                         options={[
                           {
                             value: "개발",
@@ -344,13 +356,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
                         onChange={(e) =>
                           handleChange("workField", e.target.value)
                         }
-                        onFocus={() => {
-                          const workFieldError = validateSelect(
-                            "작업 영역",
-                            values.workField
-                          );
-                          setErrors({ ...errors, workField: workFieldError });
-                        }}
                         onBlur={(e) => {
                           const workSmallFieldError = validateWorkSmallField(
                             e.target.value
@@ -368,6 +373,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       </S.ErrorMessage>
                     </S.WorkFieldInputWrapper>
                   </S.WorkFieldWrapper>
+
                   <S.JoinInput
                     id="workExpInput"
                     type="text"
@@ -380,9 +386,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       )
                     }
                     onBlur={(e) => {
-                      const workExpError = validateWorkExp(
-                        Number(e.target.value)
-                      );
+                      const workExpError = validateWorkExp(e.target.value);
                       setErrors({ ...errors, workExp: workExpError });
                     }}
                     onWheel={(e) => e.preventDefault()}
@@ -408,7 +412,6 @@ const JoinForm = ({ role }: JoinFormProps) => {
               <S.ErrorMessage hasError={!!errors.phone}>
                 {errors.phone && <p>{errors.phone}</p>}
               </S.ErrorMessage>
-              <br />
             </S.InputWrapper>
           </S.JoinFormContentsWrapper>
           <S.JoinButton>

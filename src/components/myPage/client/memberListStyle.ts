@@ -3,29 +3,32 @@ import { styled } from "styled-components";
 export const S = {
   AddMemberButton: styled.button`
     cursor: pointer;
-    width: 120px;
-    height: 30px;
-    float: right;
-    border-radius: 6px;
-    border: 1.5px solid #0086d0;
+    height: 47px;
+    min-width: 120px;
+    width: 15%;
+    border-radius: 5px;
+    border: solid 1px var(--main-blue);
     background-color: transparent;
-    margin-bottom: 10px;
+    margin-left: 15px;
   `,
   MemberListContainer: styled.div`
     width: 100%;
     height: 58vh;
     overflow: auto;
+    margin-top: -15px;
   `,
   MemberList: styled.div`
-    height: 70px;
-    padding: 10px;
-    border-radius: 4px;
+    height: 80px;
+    padding: 5px 10px;
+    border-radius: 10px;
     border: 1.5px solid #d6d6d6;
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   `,
   MemberInfo: styled.div`
+    min-width: 150px;
     gap: 10px;
     display: flex;
     flex-direction: row;
@@ -40,38 +43,40 @@ export const S = {
     font-size: 14px;
   `,
   MemberContactBox: styled.div`
-    gap: 2px;
+    width: 9%;
+    min-width: 150px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    align-items: end;
+    padding: 1px;
   `,
-  ContactLabel: styled.span`
-    width: 60px;
+  ContactBoxWrapper: styled.div`
+    width: 100%;
+    height: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   `,
   ContactBox: styled.div`
-    gap: 30px;
+    width: 100%;
     color: #595959;
-    font-size: 12px;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
   `,
   MemberContact: styled.span`
-    width: 10rem;
-    margin-right: 15px;
     text-align: right;
   `,
   ButtonBox: styled.div`
-    gap: 10px;
-    float: right;
     display: flex;
     flex-direction: row;
+    margin-bottom: 5px;
   `,
   EditAndDelButton: styled.button`
-    position: relative;
-    left: 11rem;
     border: none;
     color: #595959;
     cursor: pointer;
-    text-decoration: underline;
     background-color: transparent;
   `,
   ModalInnerAddButton: styled.button`
@@ -83,5 +88,11 @@ export const S = {
     border-radius: 10px;
     background-color: #0086d0;
     font-size: 16px;
+  `,
+  SearchItemBarAndAddMemberButtonWrapper: styled.div`
+    display: flex;
+    width: 100%;
+    min-width: 400px;
+    margin-bottom: 30px;
   `,
 };
