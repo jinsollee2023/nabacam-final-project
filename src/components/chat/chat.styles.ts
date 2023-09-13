@@ -63,6 +63,8 @@ export const S = {
 
     background-color: ${(props) =>
       props.isSelected ? "var(--hover-blue)" : "transparent"};
+
+    position: relative;
   `,
   RoomListRoomName: styled.p`
     font-size: 12px;
@@ -90,10 +92,18 @@ export const S = {
   `,
   RoomListSenderWorkField: styled.p`
     font-size: 12px;
-    color: #6f6f6f;
+    color: var(--chat-text-gray);
   `,
   RoomListSenderLatestTextContent: styled.p`
     font-size: 14px;
+  `,
+  RoomListExitButton: styled.span`
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--chat-text-gray);
+    position: absolute;
+    left: 92%;
+    top: 80%;
   `,
   CreateRoomButton: styled.button`
     /* background-color: var(--main-blue);
@@ -193,7 +203,7 @@ export const S = {
     width: 100%;
     height: 100%;
     border: none;
-    background: var(--chat-gray);
+    background: var(--chat-input-gray);
     border-radius: 8px;
   `,
   DMSubmitButton: styled.button`

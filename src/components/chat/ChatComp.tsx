@@ -5,6 +5,7 @@ import MenuTabBarComp from "../common/MenuTabBarComp";
 import { S } from "./chat.styles";
 import { useRoomStore } from "../../store/useRoomStore";
 import { CommonS } from "../common/button/commonButton";
+import { TbLogout } from "react-icons/tb";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
@@ -19,13 +20,11 @@ const ChatComp = () => {
     getRooms();
   }, [createdRoomId]);
 
-  // const getLatestMessage = async () => {
-
-  // }
-
   const handleRoomClick = (room: TRoom) => {
     setSelectedRoom(room);
   };
+
+  const exitChat = async () => {};
   return (
     <MenuTabBarComp menu={communicationMenu}>
       <S.Container>
@@ -56,6 +55,11 @@ const ChatComp = () => {
                     최근 메세지
                   </S.RoomListSenderLatestTextContent>
                 </S.RoomListTextColumnWrapper>
+                {/* ============================================================================== */}
+                <S.RoomListExitButton onClick={exitChat}>
+                  <TbLogout />
+                </S.RoomListExitButton>
+                {/* ============================================================================== */}
               </S.RoomBox>
             ))}
           </S.RoomListWrapper>
