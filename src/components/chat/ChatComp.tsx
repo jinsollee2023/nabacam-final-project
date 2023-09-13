@@ -90,6 +90,7 @@ const ChatComp = () => {
   return (
     <MenuTabBarComp menu={communicationMenu}>
       <S.Container>
+        {/* ============================================================================== */}
         <S.LeftRoomListContainer>
           <S.RoomListWrapper>
             {rooms?.map((room) => (

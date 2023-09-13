@@ -104,23 +104,20 @@ const Room = () => {
       <S.DMWrapper>
         {/* 제목 */}
         <S.DMHeader>
-          <button
-            onClick={() => setSelectedRoom(null)}
-            style={{ color: "white" }}
-          >
+          <S.DMHeaderBackButton onClick={() => setSelectedRoom(null)}>
             <IoIosArrowBack />
-          </button>
+          </S.DMHeaderBackButton>
           <S.DMRoomName onClick={handleRoomRename}>{roomName}</S.DMRoomName>
           {/* <S.DMRoomNameInput type="text" onKeyPress={handleInvite} /> */}
           <CommonS.RightEndButtonBox>
-            <button
-              style={{ color: "white" }}
+            <S.DMHamburgerMenuButton
+              style={{}}
               // onClick={() => {
               //   setIsModalOpen(true);
               // }}
             >
-              <GiHamburgerMenu size={20} />
-            </button>
+              <GiHamburgerMenu />
+            </S.DMHamburgerMenuButton>
           </CommonS.RightEndButtonBox>
         </S.DMHeader>
 

@@ -127,12 +127,23 @@ export const S = {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
   `,
+  DMHeaderBackButton: styled.span`
+    margin-right: 3px;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+  `,
   DMRoomName: styled.span`
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     color: white;
     margin-left: 5px;
+  `,
+  DMHamburgerMenuButton: styled.span`
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
   `,
   DMRoomNameInput: styled.input`
     width: 100%;
@@ -183,17 +194,17 @@ export const S = {
     border-radius: 8px;
   `,
   DMSubmitButton: styled.button`
-    width: 53px;
-    height: 26px;
-    font-size: normal;
+    width: 7%;
+    height: 45%;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 0.8rem;
     line-height: 18px;
     letter-spacing: -0.005em;
     color: #ffffff;
     background: var(--main-blue);
     border-radius: 8px;
     padding: 4px 16px;
+    border: none;
 
     z-index: 999;
     position: absolute;
@@ -204,13 +215,9 @@ export const S = {
   MessageWrapper: styled.div`
     background: var(--chat-navy);
     overflow-y: auto;
-    /* &::-webkit-scrollbar {
-      display: none;
-    } */
 
-    /* 스크롤바 배경 색상 변경 */
     &::-webkit-scrollbar {
-      width: 12px; /* 스크롤바의 너비 설정 */
+      width: 12px;
     }
 
     &::-webkit-scrollbar-track {
@@ -218,7 +225,7 @@ export const S = {
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #051930; /* 스크롤바의 색상 변경 */
+      background-color: #051930;
     }
 
     flex: 1;
