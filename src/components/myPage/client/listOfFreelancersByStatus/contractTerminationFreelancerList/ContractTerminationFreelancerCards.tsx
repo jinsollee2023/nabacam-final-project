@@ -24,11 +24,8 @@ const ContractTerminationFreelancerCards = ({
   project,
 }: ContractTerminationFreelancerCardsProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] =
-    useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
-    null
-  );
+  const [isSuggestingAgainModalOpen, setIsSuggestingAgainModalOpen] = useState(false);
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
   const { userId } = useUserStore();
   const { selectedProject, setSelectedProject } = useProjectStore();
   const { suggestedFreelancersData, updateSuggestedFreelancersDataMutation } =
@@ -45,12 +42,10 @@ const ContractTerminationFreelancerCards = ({
       freelancerId: project.freelancerId as string,
     });
 
-  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries(
-    {
-      currentUserId: userId,
-      freelancerId: project.freelancerId,
-    }
-  );
+  const { freelancersWithTerminatedProjects } = useTerminationedProjectsQueries({
+    currentUserId: userId,
+    freelancerId: project.freelancerId,
+  });
 
   useEffect(() => {
     if (!isSuggestingAgainModalOpen) {
@@ -66,12 +61,8 @@ const ContractTerminationFreelancerCards = ({
 
   // 계약이 끝난 프리랜서 -> 상세 모달 -> 프로젝트 다시 제안하기 -> 제안하기 모달 버튼
   const handleProjectSuggestingButtonClick = () => {
-    const suggestedFreelancers =
-      suggestedFreelancersData?.SuggestedFreelancers || [];
-    const updatedSuggestedFreelancers = [
-      ...(suggestedFreelancers as string[]),
-      user.userId,
-    ];
+    const suggestedFreelancers = suggestedFreelancersData?.SuggestedFreelancers || [];
+    const updatedSuggestedFreelancers = [...(suggestedFreelancers as string[]), user.userId];
     updateSuggestedFreelancersDataMutation.mutate({
       projectId: selectedProject?.projectId as string,
       updatedSuggestedFreelancers,
@@ -84,14 +75,16 @@ const ContractTerminationFreelancerCards = ({
   // 프리랜서 아이디별 진행 완료된 프로젝트 개수를 세기 위한 객체
   const freelancerCounts: Record<string, number> = {};
 
-  freelancersWithTerminatedProjects?.forEach((project) => {
-    const freelancerId = project.freelancerId as string;
+  freelancersWithTerminatedProjects?.pages.map((page) => {
+    return page.projects.forEach((project) => {
+      const freelancerId = project.freelancerId as string;
 
-    if (!freelancerCounts[freelancerId]) {
-      freelancerCounts[freelancerId] = 1;
-    } else {
-      freelancerCounts[freelancerId]++;
-    }
+      if (!freelancerCounts[freelancerId]) {
+        freelancerCounts[freelancerId] = 1;
+      } else {
+        freelancerCounts[freelancerId]++;
+      }
+    });
   });
 
   // 클릭 시 텍스트 클립보드에 복사하기 위해 생성
@@ -100,7 +93,7 @@ const ContractTerminationFreelancerCards = ({
       await navigator.clipboard.writeText(text);
       toast.success("클립보드에 복사되었습니다.");
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -122,20 +115,12 @@ const ContractTerminationFreelancerCards = ({
                     </S.WorkSmallFieldAndWorkExp>
                   </S.ProfileContents>
                   <S.ContactBox>
-                    <S.Contact
-                      onClick={() =>
-                        handleCopyClipBoard(`${user.contact.phone}`)
-                      }
-                    >
+                    <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
                       <FiPhoneCall size={18} /> {user.contact.phone}
                     </S.Contact>
                   </S.ContactBox>
                   <S.ContactBox>
-                    <S.Contact
-                      onClick={() =>
-                        handleCopyClipBoard(`${user.contact.email}`)
-                      }
-                    >
+                    <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
                       <FiMail size={18} /> {user.contact.email}
                     </S.Contact>
                   </S.ContactBox>
@@ -167,9 +152,7 @@ const ContractTerminationFreelancerCards = ({
                   setIsModalOpen={setIsDetailModalOpen}
                   buttons={
                     <>
-                      <S.ModalInnerButton
-                        onClick={handleSuggestingAgainButtonClick}
-                      >
+                      <S.ModalInnerButton onClick={handleSuggestingAgainButtonClick}>
                         프로젝트 다시 제안하기
                       </S.ModalInnerButton>
                     </>
@@ -189,10 +172,7 @@ const ContractTerminationFreelancerCards = ({
                         onClick={handleProjectSuggestingButtonClick}
                         disabled={
                           !selectedProject?.title ||
-                          !(
-                            projectDataForSuggestions &&
-                            projectDataForSuggestions.length > 0
-                          )
+                          !(projectDataForSuggestions && projectDataForSuggestions.length > 0)
                         }
                       >
                         {selectedProject?.title} 제안하기
@@ -200,10 +180,7 @@ const ContractTerminationFreelancerCards = ({
                     </>
                   }
                 >
-                  <OneTouchModal
-                    user={user}
-                    projectLists={projectDataForSuggestions!}
-                  />
+                  <OneTouchModal user={user} projectLists={projectDataForSuggestions!} />
                 </Modal>
               ) : null}
             </>

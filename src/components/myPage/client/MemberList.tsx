@@ -22,14 +22,13 @@ export interface Errors {
 const MemberList = () => {
   const { userId, setUser } = useUserStore();
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
-  const { client, clientDataError, clientDataLoading, clientMembersMutation } =
-    useClientsQueries({ userId });
+  const { client, clientDataError, clientDataLoading, clientMembersMutation } = useClientsQueries({
+    userId,
+  });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [updateMemberData, setUpdateMemberData] = useState<Member>();
   const [selectedMemberData, setSelectedMemberData] = useState<Member>();
-  const [filteredMembers, setFilteredMembers] = useState<Member[]>(
-    client?.members!
-  );
+  const [filteredMembers, setFilteredMembers] = useState<Member[]>(client?.members!);
 
   const [submitButtonClicked, setSubmitButtonClicked] = useState(false);
 
@@ -40,8 +39,7 @@ const MemberList = () => {
     phone: null,
   };
   const [errors, setErrors] = useState(initialErrors);
-  const { validateName, validateTeam, validateEmail, validatePhone } =
-    useValidation();
+  const { validateName, validateTeam, validateEmail, validatePhone } = useValidation();
 
   const addAvailbleClose =
     updateMemberData?.contact.email === "" &&
@@ -55,8 +53,7 @@ const MemberList = () => {
     selectedMemberData?.contact.phone === updateMemberData?.contact.phone &&
     selectedMemberData?.contact.email === updateMemberData?.contact.email;
 
-  const availableClose =
-    selectedMemberData?.name === "" ? addAvailbleClose : updateAvailableClose;
+  const availableClose = selectedMemberData?.name === "" ? addAvailbleClose : updateAvailableClose;
 
   // 구성원 추가하기 버튼 클릭시 실행되는 함수
   const openModalButtonHandler = () => {
@@ -152,9 +149,7 @@ const MemberList = () => {
   };
 
   const deleteMemberButtonHandler = (deleteMember: Member) => {
-    const deletedMember = client?.members?.filter(
-      (member) => member !== deleteMember
-    );
+    const deletedMember = client?.members?.filter((member) => member !== deleteMember);
     // 업데이트
     const shouldDeleteMember = window.confirm("삭제하시겠습니까?");
 
@@ -207,9 +202,7 @@ const MemberList = () => {
     <>
       <S.SearchItemBarAndAddMemberButtonWrapper>
         <SearchItemBar />
-        <S.AddMemberButton onClick={openModalButtonHandler}>
-          구성원 추가하기
-        </S.AddMemberButton>
+        <S.AddMemberButton onClick={openModalButtonHandler}>구성원 추가하기</S.AddMemberButton>
       </S.SearchItemBarAndAddMemberButtonWrapper>
       {isAddModalOpen && (
         <Modal
@@ -248,9 +241,7 @@ const MemberList = () => {
                 </S.MemberInfo>
                 <S.MemberContactBox>
                   <S.ButtonBox>
-                    <S.EditAndDelButton
-                      onClick={() => updateButtonHandler(member)}
-                    >
+                    <S.EditAndDelButton onClick={() => updateButtonHandler(member)}>
                       수정
                     </S.EditAndDelButton>
                     <S.EditAndDelButton
