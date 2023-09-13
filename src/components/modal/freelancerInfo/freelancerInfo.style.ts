@@ -105,12 +105,12 @@ export const S = {
     align-items: center;
     font-size: 14px;
   `,
-  BtnBox: styled.div`
+  ButtonBox: styled.div`
     display: flex;
     gap: 5px;
     justify-content: center;
   `,
-  Btn: styled.button`
+  Button: styled.button`
     width: 50%;
     height: 30px;
     border: none;

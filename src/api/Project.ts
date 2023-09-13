@@ -1,4 +1,9 @@
-import { Project } from "../Types";
+import {
+  IInpiniteProjectWithFreelancer,
+  IInpiniteProject,
+  IProjectWithFreelancer,
+  Project,
+} from "../Types";
 import supabase from "../config/supabaseClient";
 import dayjs from "dayjs";
 
@@ -10,6 +15,28 @@ export const getProjects = async (id: string): Promise<Project[]> => {
     .order("created_at", { ascending: true });
 
   return projects as Project[];
+};
+
+// 지원한 프로젝트
+export const getAppliedProjects = async (id: string, page: number): Promise<IInpiniteProject> => {
+  const { data: projects, count } = await supabase
+    .from("projects")
+    .select("*", { count: "exact" })
+    .range(page * 15 - 15, page * 15 - 1)
+    .or(`volunteer.cs.{${id}},pendingFreelancer.cs.{${id}}`)
+    .order("created_at", { ascending: true });
+  return { projects: (projects as Project[]) || [], total_count: count as number };
+};
+
+// 제안받은 프로젝트
+export const getSuggestedProjects = async (id: string, page: number): Promise<IInpiniteProject> => {
+  const { data: projects, count } = await supabase
+    .from("projects")
+    .select("*", { count: "exact" })
+    .contains("SuggestedFreelancers", [id])
+    .range(page * 15 - 15, page * 15 - 1)
+    .order("created_at", { ascending: true });
+  return { projects: projects as Project[], total_count: count as number };
 };
 
 export const getOngoingProjectsOfFreelancer = async (id: string): Promise<Project[]> => {
@@ -25,8 +52,30 @@ export const getOngoingProjectsOfFreelancer = async (id: string): Promise<Projec
 
 export const getProjectOfClientBySort = async (
   id: string,
-  sortLabel: string
-): Promise<Project[]> => {
+  sortLabel: string,
+  page: number
+): Promise<IInpiniteProject> => {
+  let ascending = false;
+
+  switch (sortLabel) {
+    case "최신순":
+      ascending = false;
+      break;
+    case "오래된순":
+      ascending = true;
+      break;
+  }
+
+  const { data: projects, count } = await supabase
+    .from("projects")
+    .select("*", { count: "exact" })
+    .eq("clientId", id)
+    .range(page * 15 - 15, page * 15 - 1)
+    .order("created_at", { ascending });
+  return { projects: projects as Project[], total_count: count as number };
+};
+
+export const getProjectOfClient = async (id: string, sortLabel: string): Promise<Project[]> => {
   let ascending = false;
 
   switch (sortLabel) {
@@ -44,6 +93,58 @@ export const getProjectOfClientBySort = async (
     .eq("clientId", id)
     .order("created_at", { ascending });
   return projects as Project[];
+};
+
+// 지원한 프리랜서 목록
+export const getApplicantFreelancersToTheProjects = async (
+  id: string,
+  sortLabel: string,
+  page: number
+): Promise<IInpiniteProject> => {
+  let ascending = false;
+
+  switch (sortLabel) {
+    case "최신순":
+      ascending = false;
+      break;
+    case "오래된순":
+      ascending = true;
+      break;
+  }
+
+  const { data: projects, count } = await supabase
+    .from("projects")
+    .select("*", { count: "exact" })
+    .eq("clientId", id)
+    .range(page * 15 - 15, page * 15 - 1)
+    .order("created_at", { ascending });
+  return { projects: projects as IProjectWithFreelancer[], total_count: count as number };
+};
+
+// 보류한 프리랜서 목록
+export const getPendingFreelancersToTheProjects = async (
+  id: string,
+  sortLabel: string,
+  page: number
+): Promise<IInpiniteProject> => {
+  let ascending = false;
+
+  switch (sortLabel) {
+    case "최신순":
+      ascending = false;
+      break;
+    case "오래된순":
+      ascending = true;
+      break;
+  }
+
+  const { data: projects, count } = await supabase
+    .from("projects")
+    .select("*", { count: "exact" })
+    .eq("clientId", id)
+    .range(page * 15 - 15, page * 15 - 1)
+    .order("created_at", { ascending });
+  return { projects: projects as Project[], total_count: count as number };
 };
 
 // 현재 로그인한 클라이언트의 프로젝트 중에서
@@ -127,7 +228,10 @@ export const getSuggestedFreelancers = async (
 };
 
 // 프리랜서로 로그인시 프로젝트 탐색에서 선택한 sortLabel을 기준으로 프로젝트 리스트를 불러온다..
-export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
+export const getProjectOfFreelancerBySort = async (
+  sortLabel: string,
+  page: number
+): Promise<IInpiniteProject> => {
   try {
     let orderByField = "";
     let ascending = true;
@@ -171,14 +275,19 @@ export const getProjectOfFreelancerBySort = async (sortLabel: string) => {
         break;
     }
 
-    const { data, error } = await supabase
+    const {
+      data: projects,
+      error,
+      count,
+    } = await supabase
       .from("projects")
-      .select("*")
-      .order(orderByField, { ascending });
+      .select("*", { count: "exact" })
+      .order(orderByField, { ascending })
+      .range(page * 15 - 15, page * 15 - 1);
     if (error) {
-      console.log(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      console.error(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
-    return data;
+    return { projects: projects as Project[], total_count: count as number };
   } catch (error) {
     throw new Error(`프로젝트 목록을 가져오는 중 오류가 발생했습니다.\n ${error}`);
   }
@@ -198,31 +307,45 @@ export const getPendingFreelancers = async (
   return projects as Project[];
 };
 
-export const getOngoingProjectsOfClient = async (
-  clientId: string
-  // page: number
-): Promise<Project[]> => {
-  // console.log(page);
+export const getOngoingProjectsOfClient = async (clientId: string): Promise<Project[]> => {
   const { data: projects } = await supabase
     .from("projects")
     .select("*")
     .eq("clientId", clientId)
     .eq("status", "진행 중")
     .order("created_at", { ascending: true });
-  // .range(page * 8 - 8, page * 8 - 1);
 
   return projects as Project[];
 };
 
-// 진행 완료된 프로젝트 가져오기
-export const getTerminationedProjects = async (clientId: string): Promise<Project[]> => {
-  const { data: projects } = await supabase
+export const getFreelancersWithOngoingProjects = async (
+  clientId: string,
+  page: number
+): Promise<IInpiniteProjectWithFreelancer> => {
+  const { data: projects, count } = await supabase
     .from("projects")
-    .select("*")
+    .select("*", { count: "exact" })
     .eq("clientId", clientId)
-    .eq("status", "진행 완료");
+    .eq("status", "진행 중")
+    .range(page * 15 - 15, page * 15 - 1)
+    .order("created_at", { ascending: true });
 
-  return projects as Project[];
+  return { projects: projects as IProjectWithFreelancer[], total_count: count as number };
+};
+
+// 진행 완료된 프로젝트 가져오기
+export const getTerminationedProjects = async (
+  clientId: string,
+  page: number
+): Promise<IInpiniteProjectWithFreelancer> => {
+  const { data: projects, count } = await supabase
+    .from("projects")
+    .select("*", { count: "exact" })
+    .eq("clientId", clientId)
+    .eq("status", "진행 완료")
+    .range(page * 15 - 15, page * 15 - 1);
+
+  return { projects: projects as IProjectWithFreelancer[], total_count: count as number };
 };
 
 // 종료된 프로젝트와 진행했던 프리랜서 가져오기

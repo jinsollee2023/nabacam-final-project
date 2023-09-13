@@ -16,7 +16,7 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
       await navigator.clipboard.writeText(text);
       toast.success("클립보드에 복사되었습니다.");
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -34,16 +34,12 @@ const FreelancerProfile = ({ user }: FreelancerProfileProps) => {
             <span>{user.workExp}년차</span>
           </S.WorkSmallFieldAndWorkExp>
           <S.ContactBox>
-            <S.Contacts
-              onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
-            >
+            <S.Contacts onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
               <FiPhoneCall size={18} /> {user.contact.phone}
             </S.Contacts>
           </S.ContactBox>
           <S.ContactBox>
-            <S.Contacts
-              onClick={() => handleCopyClipBoard(`${user.contact.email}`)}
-            >
+            <S.Contacts onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
               <FiMail size={18} /> {user.contact.email}
             </S.Contacts>
           </S.ContactBox>

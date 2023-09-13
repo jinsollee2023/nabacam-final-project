@@ -10,7 +10,6 @@ import { useUserStore } from "src/store/useUserStore";
 import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
 import { useProjectStore } from "src/store/useProjectStore";
 import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
 import { toast } from "react-toastify";
 import useProjectByClientWithBeforeProgressQueries from "src/hooks/queries/useProjectByClientWithBeforeProgressQueries";
 import useSuggestedFreelancersQueries from "src/hooks/queries/useSuggestedFreelancersQueries";
@@ -95,8 +94,7 @@ const FreelancerCard = ({
 
     toast.success("제안이 전달되었습니다.");
 
-    const suggestedFreelancers =
-      suggestedFreelancersData?.SuggestedFreelancers || [];
+    const suggestedFreelancers = suggestedFreelancersData?.SuggestedFreelancers || [];
 
     // 새롭게 제안한 프리랜서 추가
     const updatedSuggestedFreelancers = [
@@ -209,9 +207,9 @@ const FreelancerCard = ({
               setIsModalOpen={setIsInfoModalOpen}
               buttons={
                 <>
-                  <S.FreelancerInfoModalBtn onClick={handleInfoModalProposalBtnClick}>
+                  <S.FreelancerInfoModalButton onClick={handleInfoModalProposalBtnClick}>
                     제안하기
-                  </S.FreelancerInfoModalBtn>
+                  </S.FreelancerInfoModalButton>
                 </>
               }
             >

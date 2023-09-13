@@ -13,17 +13,14 @@ interface OngoingFreelancerInfoModalProps {
   project: Project;
 }
 
-const OngoingFreelancerInfoModal = ({
-  user,
-  project,
-}: OngoingFreelancerInfoModalProps) => {
+const OngoingFreelancerInfoModal = ({ user, project }: OngoingFreelancerInfoModalProps) => {
   // 클릭 시 텍스트 클립보드에 복사하기 위해 생성
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
       toast.success("클립보드에 복사되었습니다.");
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -42,16 +39,12 @@ const OngoingFreelancerInfoModal = ({
             {user.workField?.workSmallField} {user.workExp}년차
           </S.WorkExp>
           <S.Contact>
-            <S.Contacts
-              onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
-            >
+            <S.Contacts onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
               <FiPhoneCall size={18} /> {user.contact.phone}
             </S.Contacts>
           </S.Contact>
           <S.Contact>
-            <S.Contacts
-              onClick={() => handleCopyClipBoard(`${user.contact.email}`)}
-            >
+            <S.Contacts onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
               <FiMail size={18} /> {user.contact.email}
             </S.Contacts>
           </S.Contact>

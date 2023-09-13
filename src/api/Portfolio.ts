@@ -1,3 +1,4 @@
+import { IPortfolio, Portfolio } from "src/Types";
 import supabase, { supabaseService } from "../config/supabaseClient";
 
 export const getPortfolios = async () => {
@@ -5,7 +6,7 @@ export const getPortfolios = async () => {
   try {
     const { data, error } = await supabase.from("portfolios").select("*");
     if (error) {
-      console.log(`전체 포트폴리오를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      console.error(`전체 포트폴리오를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
     }
     return data;
   } catch (error) {
@@ -13,12 +14,26 @@ export const getPortfolios = async () => {
   }
 };
 
-// 8/26 수정
-export const getPortfolio = async (id: string) => {
+export const getFreelancerPortfolio = async (id: string) => {
   try {
     const { data } = await supabase.from("portfolios").select("*").eq("freelancerId", id);
 
     return data;
+  } catch (error) {
+    throw new Error("포토폴리오 정보를 가져오지 못했습니다.");
+  }
+};
+
+// 8/26 수정
+export const getPortfolio = async (id: string, page: number): Promise<IPortfolio> => {
+  try {
+    const { data: portfolio, count } = await supabase
+      .from("portfolios")
+      .select("*", { count: "exact" })
+      .eq("freelancerId", id)
+      .range(page * 8 - 8, page * 8 - 1);
+
+    return { portfolio: portfolio as Portfolio[], total_count: count as number };
   } catch (error) {
     throw new Error("포토폴리오 정보를 가져오지 못했습니다.");
   }

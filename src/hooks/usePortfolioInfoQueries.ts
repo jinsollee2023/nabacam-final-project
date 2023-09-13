@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import {
   addPortfolio,
   deletePortfolio,
@@ -9,15 +9,16 @@ import {
 } from "../api/Portfolio";
 
 import { queryClient } from "../App";
-import { Portfolio } from "src/Types";
+import { IPortfolio, Portfolio } from "src/Types";
 
 const usePortfolioInfoQueries = ({
   userId,
   pfId,
-}: // page,
-{
+  page,
+}: {
   userId: string;
   pfId?: string;
+  page?: number;
   // page?: number;
 }) => {
   // 썸네일 - 스토리지
@@ -48,14 +49,35 @@ const usePortfolioInfoQueries = ({
     }
   );
 
-  const { data: portfolios } = useQuery(
+  const {
+    data: portfolio,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    status,
+  } = useInfiniteQuery<IPortfolio, Error, IPortfolio>(
     ["portfolios", userId],
-    async () => {
-      const response = await getPortfolio(userId);
-      return response;
+    async ({ pageParam = 1 }) => {
+      const response = await getPortfolio(userId as string, pageParam);
+
+      const portfolios = [];
+
+      for (const portfolio of response.portfolio) {
+        portfolios.push({ ...portfolio });
+      }
+
+      return {
+        portfolio: portfolios,
+        total_count: response.total_count,
+      };
     },
     {
       enabled: !!userId,
+      getNextPageParam: (lastPage, allPages) => {
+        const maxPage = Math.ceil(lastPage.total_count / 8);
+        const nextPage = allPages.length + 1;
+        return nextPage <= maxPage ? nextPage : null;
+      },
     }
   );
 
@@ -101,7 +123,11 @@ const usePortfolioInfoQueries = ({
     updatePortfolioMutation,
     uploadThumbnailMutation,
     uploadPDFMutation,
-    portfolios,
+    portfolio,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    status,
   };
 };
 

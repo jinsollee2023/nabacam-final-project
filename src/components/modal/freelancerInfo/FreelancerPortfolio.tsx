@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IUser, Portfolio } from "../../../Types";
 import { useQuery } from "@tanstack/react-query";
-import { getPortfolio } from "../../../api/Portfolio";
+import { getFreelancerPortfolio } from "../../../api/Portfolio";
 import { S } from "./freelancerInfo.style";
 import { useUserStore } from "../../../store/useUserStore";
 import PortfolioDetailModal from "../../myPage/tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
@@ -24,7 +24,7 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
     data: portfolios,
     isLoading: portfoliosIsLoading,
     isError: portfoliosIsError,
-  } = useQuery(["portfolio"], (id) => getPortfolio(user.userId));
+  } = useQuery(["portfolio"], (id) => getFreelancerPortfolio(user.userId));
 
   // 포트폴리오 케러셀 설정
   const responsive = {
@@ -54,15 +54,9 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
       >
         {portfolios && portfolios.length > 0 ? (
           portfolios.map((portfolio) => (
-            <div
-              key={portfolio.portfolioId}
-              onClick={() => openModal(portfolio)}
-            >
+            <div key={portfolio.portfolioId} onClick={() => openModal(portfolio)}>
               <S.PortfolioImgBox>
-                <S.PortfolioImg
-                  alt="portfolioImage"
-                  src={portfolio.thumbNailURL}
-                />
+                <S.PortfolioImg alt="portfolioImage" src={portfolio.thumbNailURL} />
               </S.PortfolioImgBox>
               <S.PortfolioCmt>{portfolio.title}</S.PortfolioCmt>
             </div>
@@ -70,19 +64,14 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
         ) : portfoliosIsLoading ? (
           <S.DataNullBox>Loading Portfolio...</S.DataNullBox>
         ) : portfoliosIsError ? (
-          <S.DataNullBox>
-            포트폴리오 데이터를 불러오지 못했습니다.
-          </S.DataNullBox>
+          <S.DataNullBox>포트폴리오 데이터를 불러오지 못했습니다.</S.DataNullBox>
         ) : (
           <S.DataNullBox>등록된 포트폴리오가 없습니다.</S.DataNullBox>
         )}
       </AliceCarousel>
       {isDetailModalOpen && (
         <Modal setIsModalOpen={setIsDetailModalOpen}>
-          <PortfolioDetailModal
-            setIsDetailModalOpen={setIsDetailModalOpen}
-            userId={userId}
-          />
+          <PortfolioDetailModal setIsDetailModalOpen={setIsDetailModalOpen} userId={userId} />
         </Modal>
       )}
     </>

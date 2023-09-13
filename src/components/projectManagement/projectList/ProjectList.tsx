@@ -7,7 +7,6 @@ import { useProjectStore } from "../../../store/useProjectStore";
 import S from "./ProjectListStyles";
 import { useEffect, useState } from "react";
 import { useUserStore } from "../../../store/useUserStore";
-import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import SearchItemBar from "../../../components/common/searchItemBar/SearchItemBar";
 import SortProjects from "./SortProjects";
 import { queryClient } from "../../../App";
@@ -16,6 +15,8 @@ import { Project } from "../../../Types";
 import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
+import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
+import { useInView } from "react-intersection-observer";
 
 export interface Errors {
   title: null | string;
@@ -28,29 +29,24 @@ export interface Errors {
 }
 
 const ProjectList = () => {
+  const [ref, inView] = useInView();
   const { userId } = useUserStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedselectOption, setSelectedselectOption] = useState("전체보기");
   const [selectedSortLabel, setSelectedSortLabel] = useState("전체보기");
-  const { projectsOfClient, addProjectMutation } = useProjectsQueries({
-    currentUserId: userId,
-    sortLabel: selectedSortLabel,
-  });
+  const { projectsOfClient, addProjectMutation, fetchNextPage, hasNextPage } =
+    useProjectOfClientBySortQueries({
+      currentUserId: userId,
+      sortLabel: selectedSortLabel,
+    });
   const { newProject } = useProjectStore();
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(
-    projectsOfClient!
-  );
+  const [filteredProjects, setFilteredProjects] = useState<Project[][]>([]);
   const [addSubmitButtonClicked, setAddSubmitButtonClicked] = useState(false);
   const { values, changeValues } = useProjectValuesStore();
-  const {
-    validateDate,
-    validateSelect,
-    validatePay,
-    validateWorkExp,
-    validateInput,
-  } = useValidation();
-  console.log();
+  const { validateDate, validateSelect, validatePay, validateWorkExp, validateInput } =
+    useValidation();
+
   const initialErrors: Errors = {
     title: null,
     desc: null,
@@ -65,15 +61,9 @@ const ProjectList = () => {
   const validateAddProject = () => {
     const titleError = validateInput("프로젝트 제목", newProject.title);
     const descError = validateInput("프로젝트 설명", newProject.desc);
-    const categoryError = validateSelect(
-      "프로젝트 설명",
-      values.category as string
-    );
+    const categoryError = validateSelect("프로젝트 설명", values.category as string);
     const qualificationError = validateWorkExp(newProject.qualification);
-    const expectedStartDateError = validateDate(
-      "시작예정일",
-      newProject.expectedStartDate
-    );
+    const expectedStartDateError = validateDate("시작예정일", newProject.expectedStartDate);
     const managerError = validateSelect("담당자", newProject.manager.name);
     const payError = validatePay(newProject.pay.min, newProject.pay.max);
     setErrors({
@@ -111,12 +101,20 @@ const ProjectList = () => {
   };
 
   useEffect(() => {
-    if (projectsOfClient) {
-      const filteredprojectList = projectsOfClient?.filter((project) => {
-        const lowerCaseSearch = String(searchKeyword).toLowerCase();
-        return project?.title?.toLowerCase().includes(lowerCaseSearch);
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    if (projectsOfClient?.pages) {
+      const filteredprojectList = projectsOfClient?.pages.map((page) => {
+        return page.projects.filter((project) => {
+          const lowerCaseSearch = String(searchKeyword).toLowerCase();
+          return project?.title?.toLowerCase().includes(lowerCaseSearch);
+        });
       });
-      setFilteredProjects(filteredprojectList);
+      setFilteredProjects(filteredprojectList!);
     }
   }, [projectsOfClient, searchKeyword]);
 
@@ -132,20 +130,20 @@ const ProjectList = () => {
     setSelectedselectOption(label);
   };
 
-  const beforeProgressProjects = filteredProjects?.filter(
-    (project) => project.status === "진행 전"
+  const beforeProgressProjects = filteredProjects?.map((page) =>
+    page.filter((project) => project.status === "진행 전")
   );
 
-  const onProgressProjects = filteredProjects?.filter(
-    (project) => project.status === "진행 중"
+  const onProgressProjects = filteredProjects?.map((page) =>
+    page.filter((project) => project.status === "진행 중")
   );
 
-  const DoneProjects = filteredProjects?.filter(
-    (project) => project.status === "진행 완료"
+  const DoneProjects = filteredProjects?.map((page) =>
+    page.filter((project) => project.status === "진행 완료")
   );
 
   const renderProjects = () => {
-    let projectsToRender: Project[] = [];
+    let projectsToRender: Project[][] = [];
     if (selectedselectOption === "전체보기") {
       projectsToRender = filteredProjects;
     } else if (selectedselectOption === "진행 전") {
@@ -158,13 +156,17 @@ const ProjectList = () => {
 
     return (
       <>
-        {projectsToRender?.map((project) => (
-          <ProjectCard
-            key={project.projectId}
-            project={project}
-            errors={errors}
-            setErrors={setErrors}
-          />
+        {projectsToRender?.map((page, idx) => (
+          <React.Fragment key={idx}>
+            {page.map((project) => (
+              <ProjectCard
+                key={project.projectId}
+                project={project}
+                errors={errors}
+                setErrors={setErrors}
+              />
+            ))}
+          </React.Fragment>
         ))}
       </>
     );
@@ -195,7 +197,7 @@ const ProjectList = () => {
 
   return (
     <>
-      {projectsOfClient && projectsOfClient.length > 0 ? (
+      {projectsOfClient?.pages && projectsOfClient?.pages.length > 0 ? (
         <>
           <S.SearchSortWrapper>
             <SearchItemBar />
@@ -218,6 +220,7 @@ const ProjectList = () => {
       )}
       <S.ProjectContainer>
         {projectsOfClient && renderProjects()}
+        <div ref={ref}></div>
       </S.ProjectContainer>
 
       <S.ProjectSpanBtn onClick={addProjectModalOpenHandler}>
@@ -230,9 +233,7 @@ const ProjectList = () => {
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={addProjectButtonHandler}>
-                프로젝트 게시하기
-              </S.ModalPostBtn>
+              <S.ModalPostBtn onClick={addProjectButtonHandler}>프로젝트 게시하기</S.ModalPostBtn>
             </>
           }
         >

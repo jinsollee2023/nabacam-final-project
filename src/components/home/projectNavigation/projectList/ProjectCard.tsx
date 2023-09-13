@@ -4,10 +4,7 @@ import Modal from "src/components/modal/Modal";
 import { S } from "./projectList.styles";
 import useClientsQueries from "src/hooks/useClientsQueries";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
-import {
-  calculateDaysAgo,
-  getDayOfWeek,
-} from "src/components/common/commonFunc";
+import { calculateDaysAgo, getDayOfWeek } from "src/components/common/commonFunc";
 import { queryClient } from "src/App";
 import { FiUsers } from "react-icons/fi";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
@@ -125,11 +122,8 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
       )}
       <S.ProejctCardContainer>
         <S.ProejctContentLeftWrapper>
-          <S.ProjectStatus
-            recruitmentCompleted={projectItem.status === "진행 전"}
-          >
-            {projectItem.status === "진행 중" ||
-            projectItem.status === "진행 완료"
+          <S.ProjectStatus recruitmentCompleted={projectItem.status === "진행 전"}>
+            {projectItem.status === "진행 중" || projectItem.status === "진행 완료"
               ? "모집 완료"
               : "모집 중"}
           </S.ProjectStatus>
@@ -158,12 +152,10 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
 
             <S.ProejctContentRightTextWrapper>
               <span>
-                ~{projectItem.date?.endDate.slice(5, 7)}/
-                {projectItem.date?.endDate.slice(8, 10)} ({dayOfWeek})
+                ~{projectItem.date?.endDate?.slice(5, 7)}/{projectItem.date?.endDate?.slice(8, 10)}{" "}
+                ({dayOfWeek})
               </span>
-              <S.ProjectRegistrationDate>
-                {daysAgo} 등록
-              </S.ProjectRegistrationDate>
+              <S.ProjectRegistrationDate>{daysAgo} 등록</S.ProjectRegistrationDate>
             </S.ProejctContentRightTextWrapper>
           </S.ProejctContentRightWrapper>
         </div>

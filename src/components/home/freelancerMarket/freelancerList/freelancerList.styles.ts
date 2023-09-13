@@ -119,8 +119,7 @@ export const S = {
     margin: 0 5px;
     cursor: pointer;
     transition: 0.5s;
-    background-color: ${(props) =>
-      props.selected ? "var(--main-blue)" : "var(--lighter-gray)"};
+    background-color: ${(props) => (props.selected ? "var(--main-blue)" : "var(--lighter-gray)")};
   `,
 
   SuggestButton: styled.button`
@@ -165,7 +164,7 @@ export const S = {
     height: 40px;
     cursor: pointer;
   `,
-  FreelancerInfoModalBtn: styled.button`
+  FreelancerInfoModalButton: styled.button`
     width: 100%;
     height: 35px;
     cursor: pointer;

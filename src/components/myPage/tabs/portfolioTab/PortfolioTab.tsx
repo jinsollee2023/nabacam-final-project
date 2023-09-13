@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { S } from "./portfolioTab.styles";
 import PortfolioAddModal from "./portfolioAddModal/PortfolioAddModal";
 import usePortfolioInfoQueries from "../../../../hooks/usePortfolioInfoQueries";
@@ -7,31 +7,29 @@ import { usePortfolioStore } from "../../../../store/usePortfolioStore";
 import PortfolioDetailModal from "./portfolioDetailModal/PortfolioDetailModal";
 import Modal from "../../../modal/Modal";
 import { Portfolio } from "../../../../Types";
-import {
-  updatePortfolioFile,
-  uploadPDF,
-  uploadThumbnail,
-} from "../../../../api/Portfolio";
+import { updatePortfolioFile, uploadPDF, uploadThumbnail } from "../../../../api/Portfolio";
 import { getPortfolioFileURL } from "../../../../api/User";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { toast } from "react-toastify";
+import { useInView } from "react-intersection-observer";
 
 const PortfolioTab = () => {
+  const [ref, inView] = useInView();
   const { user } = useUserStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const {
-    selectedPortfolio,
-    setSelectedPortfolio,
-    newPortfolio,
-    changeNewPortfolio,
-  } = usePortfolioStore();
+  const { selectedPortfolio, setSelectedPortfolio, newPortfolio, changeNewPortfolio } =
+    usePortfolioStore();
 
   const {
     addPortfolioMutation,
     deletePortfolioMutation,
     updatePortfolioMutation,
-    portfolios,
+    portfolio,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    status,
   } = usePortfolioInfoQueries({
     userId: user.userId,
     pfId: newPortfolio.portfolioId,
@@ -137,9 +135,7 @@ const PortfolioTab = () => {
     );
     const pdfURL = await getPortfolioFileURL(pdfFilePath);
     if (newPortfolio.thumbNailURL instanceof File) {
-      const thumbnailFilePath = await (String(
-        selectedPortfolio?.thumbNailURL
-      ).includes("default")
+      const thumbnailFilePath = await (String(selectedPortfolio?.thumbNailURL).includes("default")
         ? uploadThumbnail({
             userId: user.userId,
             file: newPortfolio?.thumbNailURL as File,
@@ -151,9 +147,7 @@ const PortfolioTab = () => {
             "thumbnail",
             newPortfolio.thumbNailURL as File
           ));
-      const thumbNailURL = await getPortfolioFileURL(
-        thumbnailFilePath as { path: string }
-      );
+      const thumbNailURL = await getPortfolioFileURL(thumbnailFilePath as { path: string });
       updatePortfolioMutation.mutate({
         updatedData: {
           freelancerId: newPortfolio.freelancerId,
@@ -172,9 +166,7 @@ const PortfolioTab = () => {
           title: newPortfolio.title,
           desc: newPortfolio.desc,
           linkURL: newPortfolio.linkURL as string,
-          thumbNailURL: `${
-            newPortfolio.thumbNailURL
-          }?updated=${new Date().getTime()}`,
+          thumbNailURL: `${newPortfolio.thumbNailURL}?updated=${new Date().getTime()}`,
           pdfFileURL: `${pdfURL}?updated=${new Date().getTime()}`,
         },
         pfId: newPortfolio.portfolioId,
@@ -256,7 +248,20 @@ const PortfolioTab = () => {
     );
   };
 
-  return (
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  if (!portfolio?.pages || portfolio?.pages.length === 0)
+    return <div>등록된 포트폴리오가 없습니다.</div>;
+
+  return status === "loading" ? (
+    <p>Loading...</p>
+  ) : status === "error" ? (
+    <p>Error: {error?.message}</p>
+  ) : (
     <>
       {isDetailModalOpen && (
         <Modal
@@ -266,11 +271,7 @@ const PortfolioTab = () => {
               <S.Button type="primary" block onClick={showDeleteConfirmation}>
                 삭제하기
               </S.Button>
-              <S.Button
-                type="primary"
-                block
-                onClick={handleOpenAddModalButtonClick}
-              >
+              <S.Button type="primary" block onClick={handleOpenAddModalButtonClick}>
                 수정하기
               </S.Button>
             </>
@@ -310,11 +311,7 @@ const PortfolioTab = () => {
                   </S.Button>
                 </>
               ) : (
-                <S.Button
-                  type="primary"
-                  block
-                  onClick={handleAddPortfolioButtonClick}
-                >
+                <S.Button type="primary" block onClick={handleAddPortfolioButtonClick}>
                   추가하기
                 </S.Button>
               )}
@@ -327,30 +324,37 @@ const PortfolioTab = () => {
 
       <S.PortfolioListContainer>
         <S.PortfolioListWrapper>
-          {portfolios &&
-            portfolios.map((portfolio) => {
-              return (
-                <S.PortfolioList
-                  key={portfolio.portfolioId}
-                  onClick={() => {
-                    handleOpenDetailModalButtonClick(portfolio);
-                  }}
-                >
-                  <img
-                    style={{ borderRadius: "20px" }}
-                    src={portfolio.thumbNailURL}
-                    alt="썸네일 이미지"
-                  />
-
-                  <S.PortfolioTitle>{portfolio.title}</S.PortfolioTitle>
-                </S.PortfolioList>
-              );
-            })}
+          {portfolio.pages.map((page, idx) => (
+            <React.Fragment key={idx}>
+              {page.portfolio &&
+                page.portfolio.map((portfolio) => {
+                  return (
+                    <S.PortfolioList
+                      key={portfolio.portfolioId}
+                      onClick={() => {
+                        handleOpenDetailModalButtonClick(portfolio);
+                      }}
+                    >
+                      <img
+                        style={{ borderRadius: "20px" }}
+                        src={
+                          portfolio.thumbNailURL instanceof File
+                            ? "기본 이미지 URL"
+                            : portfolio.thumbNailURL
+                        }
+                        alt="썸네일 이미지"
+                      />
+                      <S.PortfolioTitle>{portfolio.title}</S.PortfolioTitle>
+                    </S.PortfolioList>
+                  );
+                })}
+            </React.Fragment>
+          ))}
+          <div ref={ref}></div>
         </S.PortfolioListWrapper>
       </S.PortfolioListContainer>
       <S.PortfolioAddButton onClick={modalOpenHandler}>
-        <BsPlusCircleDotted style={{ marginRight: "10px" }} /> 포트폴리오
-        첨부하기
+        <BsPlusCircleDotted style={{ marginRight: "10px" }} /> 포트폴리오 첨부하기
       </S.PortfolioAddButton>
     </>
   );

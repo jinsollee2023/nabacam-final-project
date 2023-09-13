@@ -1,12 +1,11 @@
 import { Project } from "../../../Types";
 import S from "./ProjectListStyles";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../../../components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
 import { useProjectStore } from "../../../store/useProjectStore";
 import useProjectsQueries from "../../../hooks/useProjectsQueries";
-import React from "react";
 import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
@@ -26,15 +25,9 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
   const [isUpadateModalOpen, setIsUpadateModalOpen] = useState(false);
   const { newProject } = useProjectStore();
   const { values, changeValues } = useProjectValuesStore();
-  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] =
-    useState(false);
-  const {
-    validateDate,
-    validateSelect,
-    validatePay,
-    validateWorkExp,
-    validateInput,
-  } = useValidation();
+  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] = useState(false);
+  const { validateDate, validateSelect, validatePay, validateWorkExp, validateInput } =
+    useValidation();
 
   const deleteProjectButtonHandler = () => {
     deleteProjectMutation.mutate(project.projectId!);
@@ -44,15 +37,9 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
   const validateUpdateProject = () => {
     const titleError = validateInput("프로젝트 제목", newProject.title);
     const descError = validateInput("프로젝트 설명", newProject.desc);
-    const categoryError = validateSelect(
-      "프로젝트 설명",
-      values.category as string
-    );
+    const categoryError = validateSelect("프로젝트 설명", values.category as string);
     const qualificationError = validateWorkExp(newProject.qualification);
-    const expectedStartDateError = validateDate(
-      "시작예정일",
-      newProject.expectedStartDate
-    );
+    const expectedStartDateError = validateDate("시작예정일", newProject.expectedStartDate);
     const managerError = validateSelect("담당자", newProject.manager.name);
     const payError = validatePay(newProject.pay.min, newProject.pay.max);
     setErrors({
@@ -157,12 +144,8 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           setIsModalOpen={setIsDetailModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>
-                수정하기
-              </S.ModalPostBtn>
-              <S.ModalPostBtn onClick={showDeleteConfirmation}>
-                삭제하기
-              </S.ModalPostBtn>
+              <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>수정하기</S.ModalPostBtn>
+              <S.ModalPostBtn onClick={showDeleteConfirmation}>삭제하기</S.ModalPostBtn>
             </>
           }
         >
@@ -174,12 +157,8 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           setIsModalOpen={setIsUpadateModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={updateProjectButtonHandler}>
-                수정하기
-              </S.ModalPostBtn>
-              <S.ModalPostBtn onClick={showDeleteConfirmation}>
-                삭제하기
-              </S.ModalPostBtn>
+              <S.ModalPostBtn onClick={updateProjectButtonHandler}>수정하기</S.ModalPostBtn>
+              <S.ModalPostBtn onClick={showDeleteConfirmation}>삭제하기</S.ModalPostBtn>
             </>
           }
         >
@@ -187,16 +166,13 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
         </Modal>
       )}
       {/* ---------------------------------------------------------------- */}
-      <S.ProjectCardBox justifyContent="space-between" marginBottom={20}>
+      <S.ProjectCardBox justifyContent="space-between" marginBottom={20} >
         <S.ProjcetTitleBox onClick={() => setIsDetailModalOpen(true)}>
           {project.title}
         </S.ProjcetTitleBox>
         <div>
           <S.ProjectCardButtonBox>
-            <S.SubmitBtn
-              style={{ marginRight: "5px" }}
-              onClick={updateProjectModalOpenHandler}
-            >
+            <S.SubmitBtn style={{ marginRight: "5px" }} onClick={updateProjectModalOpenHandler}>
               수정
             </S.SubmitBtn>
             <S.SubmitBtn onClick={showDeleteConfirmation}>삭제</S.SubmitBtn>

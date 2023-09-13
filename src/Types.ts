@@ -14,6 +14,11 @@ export interface User {
   members?: Member[];
 }
 
+export interface IInpiniteUser {
+  user: User[];
+  total_count: number;
+}
+
 export interface ResumeExperience {
   experienceId: string;
   pastWorkField: string;
@@ -61,6 +66,15 @@ export interface Project {
   qualification: number;
 }
 
+export interface IInpiniteProjectWithFreelancer {
+  projects: IProjectWithFreelancer[];
+  total_count: number;
+}
+export interface IInpiniteProject {
+  projects: Project[];
+  total_count: number;
+}
+
 export interface Task {
   taskId: string;
   projectId: string;
@@ -82,6 +96,11 @@ export interface Portfolio {
   linkURL?: string;
 }
 
+export interface IPortfolio {
+  portfolio: Portfolio[];
+  total_count: number;
+}
+
 export interface Review {
   reviewId: string;
   comment: string;
@@ -92,6 +111,6 @@ export interface Review {
 
 export interface IProjectWithFreelancer extends Project {
   freelancer: User;
-  volunteerUser?: Promise<User[]>;
-  pendingFreelancerUser?: Promise<User[]>;
+  volunteerUser?: User[];
+  pendingFreelancerUser?: User[];
 }

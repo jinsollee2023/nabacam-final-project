@@ -7,7 +7,7 @@ interface ProjectStatusProps {
 
 export const S = {
   ProjectListContainer: styled.div`
-    height: 86vh;
+    height: 82vh;
     overflow-y: auto;
     &::-webkit-scrollbar {
       width: 12px;

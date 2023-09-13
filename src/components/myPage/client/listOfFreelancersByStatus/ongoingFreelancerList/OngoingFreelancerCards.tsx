@@ -14,16 +14,11 @@ interface OngoingFreelancerCardsProps {
   project: Project;
 }
 
-const OngoingFreelancerCards = ({
-  user,
-  project,
-}: OngoingFreelancerCardsProps) => {
+const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) => {
   const { userId } = useUserStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
-    null
-  );
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
 
   // 클릭 시 텍스트 클립보드에 복사하기 위해 생성
   const handleCopyClipBoard = async (text: string) => {
@@ -52,17 +47,13 @@ const OngoingFreelancerCards = ({
               </S.ProfileContents>
               <S.ContactBox>
                 <FiPhoneCall size={18} />
-                <S.Contact
-                  onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
-                >
+                <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}>
                   {user.contact.phone}
                 </S.Contact>
               </S.ContactBox>
               <S.ContactBox>
                 <FiMail size={18} />
-                <S.Contact
-                  onClick={() => handleCopyClipBoard(`${user.contact.email}`)}
-                >
+                <S.Contact onClick={() => handleCopyClipBoard(`${user.contact.email}`)}>
                   {user.contact.email}
                 </S.Contact>
               </S.ContactBox>
@@ -73,20 +64,17 @@ const OngoingFreelancerCards = ({
           <S.ProjectSubTitle>{project.title}</S.ProjectSubTitle>
           <S.ProjectDate>
             {dayjs(project.date?.startDate).format("YYMMDD")}{" "}
-            <S.DateInnerText>부터</S.DateInnerText>{" "}
-            {dayjs(project.date?.endDate).format("YYMMDD")}
+            <S.DateInnerText>부터</S.DateInnerText> {dayjs(project.date?.endDate).format("YYMMDD")}
           </S.ProjectDate>
-          <S.DetailBtn
+          <S.DetailButton
             onClick={() => {
               setSelectedFreelancer(user);
               setIsModalOpen(!isModalOpen);
             }}
           >
             자세히 보기
-          </S.DetailBtn>
-          {isModalOpen &&
-          selectedFreelancer &&
-          selectedFreelancer.userId === user.userId ? (
+          </S.DetailButton>
+          {isModalOpen && selectedFreelancer && selectedFreelancer.userId === user.userId ? (
             <Modal setIsModalOpen={setIsModalOpen}>
               <OngoingFreelancerInfoModal user={user} project={project} />
             </Modal>

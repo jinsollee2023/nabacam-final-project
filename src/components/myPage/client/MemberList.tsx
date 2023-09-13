@@ -29,8 +29,7 @@ const MemberList = () => {
     phone: null,
   };
   const [errors, setErrors] = useState(initialErrors);
-  const { validateName, validateTeam, validateEmail, validatePhone } =
-    useValidation();
+  const { validateName, validateTeam, validateEmail, validatePhone } = useValidation();
 
   // 구성원 추가하기 버튼 클릭시 실행되는 함수
   const openModalButtonHandler = () => {
@@ -126,9 +125,7 @@ const MemberList = () => {
   };
 
   const deleteMemberButtonHandler = (deleteMember: Member) => {
-    const deletedMember = client?.members?.filter(
-      (member) => member !== deleteMember
-    );
+    const deletedMember = client?.members?.filter((member) => member !== deleteMember);
     // 업데이트
     const shouldDeleteMember = window.confirm("삭제하시겠습니까?");
 
@@ -145,12 +142,8 @@ const MemberList = () => {
   return (
     <>
       <div>
-        {client?.members && client.members.length > 0 ? null : (
-          <p>등록된 구성원이 없습니다.</p>
-        )}
-        <S.AddMemberBtn onClick={openModalButtonHandler}>
-          + 구성원 추가하기
-        </S.AddMemberBtn>
+        {client?.members && client.members.length > 0 ? null : <p>등록된 구성원이 없습니다.</p>}
+        <S.AddMemberButton onClick={openModalButtonHandler}>+ 구성원 추가하기</S.AddMemberButton>
       </div>
       {isAddModalOpen && (
         <Modal
@@ -158,13 +151,13 @@ const MemberList = () => {
           buttons={
             <>
               {currentMemberData?.name === "" ? (
-                <S.ModalInnerAddBtn onClick={submitButtonHandler}>
+                <S.ModalInnerAddButton onClick={submitButtonHandler}>
                   구성원 추가하기
-                </S.ModalInnerAddBtn>
+                </S.ModalInnerAddButton>
               ) : (
-                <S.ModalInnerAddBtn onClick={submitButtonHandler}>
+                <S.ModalInnerAddButton onClick={submitButtonHandler}>
                   구성원 수정하기
-                </S.ModalInnerAddBtn>
+                </S.ModalInnerAddButton>
               )}
             </>
           }
@@ -187,20 +180,18 @@ const MemberList = () => {
                   <S.MemberTeam>{member.team}</S.MemberTeam>
                 </S.MemberInfo>
                 <S.MemberContactBox>
-                  <S.BtnBox>
-                    <S.EditAndDelBtn
-                      onClick={() => updateButtonHandler(member)}
-                    >
+                  <S.ButtonBox>
+                    <S.EditAndDeleteButton onClick={() => updateButtonHandler(member)}>
                       수정
-                    </S.EditAndDelBtn>
-                    <S.EditAndDelBtn
+                    </S.EditAndDeleteButton>
+                    <S.EditAndDeleteButton
                       onClick={() => {
                         deleteMemberButtonHandler(member);
                       }}
                     >
                       삭제
-                    </S.EditAndDelBtn>
-                  </S.BtnBox>
+                    </S.EditAndDeleteButton>
+                  </S.ButtonBox>
                   <S.ContactBox>
                     <S.ContactLabel>전화번호</S.ContactLabel>
                     <S.MemberContact>{member.contact.phone}</S.MemberContact>
