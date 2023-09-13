@@ -118,7 +118,7 @@ const ChatComp = () => {
                     </CommonS.CenterizeBox>
                   </S.RoomListTextFlexWrapper>
                   <S.RoomListSenderLatestTextContent>
-                    확인 가능할까요?
+                    {/* 확인 가능할까요? */}
                   </S.RoomListSenderLatestTextContent>
                 </S.RoomListTextColumnWrapper>
               </S.RoomBox>
