@@ -1,40 +1,71 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Messages from "../../components/chat/Messages";
 import supabase from "../../config/supabaseClient";
-import { toast } from "react-toastify";
 import Room, { TRoom } from "src/components/chat/Room";
-import { useUserStore } from "../../store/useUserStore";
 import MenuTabBarComp from "../common/MenuTabBarComp";
-import { CommonS } from "../common/button/commonButton";
 import { S } from "./chat.styles";
 import { useRoomStore } from "../../store/useRoomStore";
+import { CommonS } from "../common/button/commonButton";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
-
-  const { user } = useUserStore();
-  const userId = user.userId; // users테이블의 userId를 user_id컬럼에 삽입, rpc에도 삽입
   const [rooms, setRooms] = useState<TRoom[]>([]);
-
+  console.log(rooms);
   const {
     roomName,
     selectedRoom,
     createdRoomId,
     setSelectedRoom,
-    setCreatedRoomId,
+    freelancerReceiver,
   } = useRoomStore();
 
   useEffect(() => {
     const getRooms = async () => {
       const { data } = await supabase
         .from("rooms")
-        .select("*")
+        .select("*, participantId: room_participants(user_id, receiver_id) ")
+        // .select("*, receiverProfile: users(photoURL, name)")
         .order("created_at", { ascending: false }); // 가장 최신순 맨 위에
+
+      //  if(data) {
+      //   const initialRooms: TRoom[] = data;
+      //   const  initialRooms.receiverProfile.
+      //   await supabase.from("users").select("photoURL, name").match({userId: })}
+
+      console.log("31", data);
+
       if (data) setRooms(data);
     };
     getRooms();
   }, [createdRoomId, roomName]);
+
+  // const getLatestMessage = async () => {
+
+  // }
+
+  // useEffect(() => {
+  //   const channel = supabase
+  //     .channel("schema-db-changes")
+  //     .on(
+  //       "postgres_changes",
+  //       {
+  //         event: "INSERT",
+  //         schema: "public",
+  //         table: "messages",
+  //         filter: `room_id=eq.${room_id}`, // 끄면 다른 방에도 메세지가 다 들어가게 됨
+  //       },
+  //       (payload) => {
+  //         // console.log("payload", payload);
+  //         getLatestMessage();
+  //         setLatestMessage((current) => [...current, payload.new as Message]);
+
+  //       }
+  //     )
+  //     .subscribe();
+
+  //   return () => {
+  //     supabase.removeChannel(channel);
+  //   };
+  // }, [room_id]);
 
   // const handleCreateRoom = async () => {
   //   const { data, error } = await supabase.rpc("create_room", {
@@ -60,31 +91,42 @@ const ChatComp = () => {
     <MenuTabBarComp menu={communicationMenu}>
       <S.Container>
         <S.LeftRoomListContainer>
-          {/* <CommonS.RightEndBox
-            style={{
-              marginRight: "5px",
-              height: "16px",
-              padding: "3px",
-            }}
-          >
-            <S.CreateRoomButton onClick={handleCreateRoom}>+</S.CreateRoomButton>
-          </CommonS.RightEndBox> */}
           <S.RoomListWrapper>
             {rooms?.map((room) => (
-              <S.RoomBox key={room.room_id}>
-                <p>
-                  <span
-                    onClick={() => handleRoomClick(room)} // 클릭 시 해당 채팅방 정보를 선택
-                  >
-                    {room.roomname ?? "Untitled"}
-                  </span>
-                </p>
+              <S.RoomBox
+                key={room.room_id}
+                isSelected={
+                  selectedRoom !== null && room.room_id === selectedRoom.room_id
+                }
+                onClick={() => handleRoomClick(room)}
+              >
+                {/* <span>{room.roomname ?? "Untitled"}</span> */}
+                <S.RoomListImg
+                  // src={room.participantProfile?.receiver_id}
+                  src="https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/users/defaultProfileImage/defaultProfileImage.jpeg"
+                  alt="Messagesender"
+                />
+                <S.RoomListTextColumnWrapper>
+                  <S.RoomListTextFlexWrapper>
+                    <S.RoomListSenderName>
+                      {freelancerReceiver.freelancerReceiverName}
+                    </S.RoomListSenderName>
+                    <CommonS.CenterizeBox>
+                      <S.RoomListSenderWorkField>
+                        디자인
+                      </S.RoomListSenderWorkField>
+                    </CommonS.CenterizeBox>
+                  </S.RoomListTextFlexWrapper>
+                  <S.RoomListSenderLatestTextContent>
+                    확인 가능할까요?
+                  </S.RoomListSenderLatestTextContent>
+                </S.RoomListTextColumnWrapper>
               </S.RoomBox>
             ))}
           </S.RoomListWrapper>
         </S.LeftRoomListContainer>
         {/* ============================================================================== */}
-        <>{selectedRoom ? <Room /> : null}</>
+        {selectedRoom ? <Room /> : null}
       </S.Container>
     </MenuTabBarComp>
   );

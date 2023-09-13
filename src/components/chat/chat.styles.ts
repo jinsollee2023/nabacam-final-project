@@ -5,6 +5,10 @@ interface MessageContentProps {
   isMessageUser: boolean;
 }
 
+interface RoomBoxProps {
+  isSelected: boolean;
+}
+
 interface ButtonProps {
   marginTop?: string;
   marginBottom?: string;
@@ -44,7 +48,7 @@ export const S = {
     padding: 20px;
   `,
   RoomListWrapper: styled.div``,
-  RoomBox: styled.div`
+  RoomBox: styled.div<RoomBoxProps>`
     box-sizing: border-box;
     /* width: 360px; */
     width: 100%;
@@ -54,6 +58,39 @@ export const S = {
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
     margin: 8px 8px 8px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    background-color: ${(props) =>
+      props.isSelected ? "var(--main-blue)" : "transparent"};
+  `,
+  RoomListImg: styled.img`
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    margin-left: 18px;
+    margin-right: 12px;
+  `,
+  RoomListTextColumnWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
+  RoomListTextFlexWrapper: styled.div`
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+  `,
+  RoomListSenderName: styled.p`
+    font-size: 16px;
+    font-weight: bold;
+  `,
+  RoomListSenderWorkField: styled.p`
+    font-size: 12px;
+    color: #6f6f6f;
+  `,
+  RoomListSenderLatestTextContent: styled.p`
+    font-size: 14px;
   `,
   CreateRoomButton: styled.button`
     /* background-color: var(--main-blue);

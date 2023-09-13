@@ -14,6 +14,10 @@ export interface TRoom {
   room_id: string;
   created_at: string;
   roomname: string | null;
+  participantProfile?: {
+    user_id: string;
+    receiver_id: string;
+  };
 }
 
 const Room = () => {

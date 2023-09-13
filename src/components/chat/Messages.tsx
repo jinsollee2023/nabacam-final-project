@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import supabase from "../../config/supabaseClient";
 import { useUserStore } from "../../store/useUserStore";
 import { S } from "./chat.styles";
+import { useRoomStore } from "../../store/useRoomStore";
 
 interface MessagesProps {
   room_id: string;
@@ -119,6 +120,7 @@ const Messages = ({ room_id }: MessagesProps) => {
       }));
 
       setMessages(data);
+      // setLatestMessageContent(data[data.length - 1]?.content);
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error("Error fetching data");
@@ -143,7 +145,7 @@ const Messages = ({ room_id }: MessagesProps) => {
           filter: `room_id=eq.${room_id}`, // 끄면 다른 방에도 메세지가 다 들어가게 됨
         },
         (payload) => {
-          console.log("payload", payload);
+          // console.log("payload", payload);
           // getData();
           setMessages((current) => [...current, payload.new as Message]);
 

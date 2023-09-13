@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FiPhoneCall } from "react-icons/fi";
 import { HiOutlinePaperAirplane } from "react-icons/hi";
 import { FiMail } from "react-icons/fi";
@@ -7,7 +7,6 @@ import { IUser } from "../../../Types";
 import { toast } from "react-toastify";
 import { CommonS } from "../../../components/common/button/commonButton";
 import { useNavigate } from "react-router-dom";
-import { TRoom } from "../../../components/chat/Room";
 import supabase from "../../../config/supabaseClient";
 import { useUserStore } from "../../../store/useUserStore";
 import { useRoomStore } from "../../../store/useRoomStore";
@@ -17,19 +16,24 @@ interface FreelancerProfileProps {
 }
 
 const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
+  // sender (client)
   const { user: client } = useUserStore();
-  console.log(client);
-
   const {
-    userId: clientId,
-    name: clientName,
-    photoURL: clientPhotoURL,
-  } = client;
+    setFreelancerReceiver,
+    freelancerReceiver,
+    setSelectedRoom,
+    setCreatedRoomId,
+  } = useRoomStore();
+  const clientId = client.userId;
+  const clientName = client.name;
+  const clientImg = client.photoURL;
 
-  const freelancerId = freelancer?.userId; // receiver
+  // receiver (freelancer)
+  const freelancerId = freelancer?.userId;
   const freelancerName = freelancer.name;
+  const freelancerPhotoURL = freelancer.photoURL;
+
   const navigate = useNavigate();
-  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
 
   // 클릭 시 텍스트 클립보드에 복사하기 위해 생성
   const handleCopyClipBoard = async (text: string) => {
@@ -41,14 +45,8 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
     }
   };
 
-  const handleCreateRoom = async ({
-    clientName,
-    freelancerName,
-  }: {
-    clientName: string;
-    freelancerName: string;
-  }) => {
-    console.log("parameter2", { clientName, freelancerName });
+  const handleCreateRoom = async () => {
+    // 방 생성 + 구성원 집어넣음
     const { data, error } = await supabase.rpc("create_room2", {
       roomname: `${clientName}, ${freelancerName}`,
       user_id: clientId,
@@ -59,28 +57,21 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
       return;
     }
     if (data) {
-      console.log("yo", data);
       const room_id = data.room_id;
       setCreatedRoomId(room_id);
       setSelectedRoom(data);
+      setFreelancerReceiver({
+        freelancerReceiverName: freelancerName,
+        freelancerReceiverPhotoURL: freelancerPhotoURL,
+      });
     }
   };
 
   // 클릭 시 해당 프리랜서에게 DM 전송
-  const sendDM = async ({
-    clientName,
-    freelancerName,
-  }: {
-    clientName: string;
-    freelancerName: string;
-  }) => {
-    console.log("parameter", { clientName, freelancerName });
-    // dm방 생성 -> sender, receiver 모두 자동으로 들어가도록 create_room2, is_room_participant2 설정함
-    handleCreateRoom({ clientName, freelancerName });
-    // 채팅방으로 이동
+  const sendDM = async () => {
+    handleCreateRoom();
     navigate("/chat");
   };
-
   return (
     <>
       <S.UserInfoBox>
@@ -102,7 +93,7 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
             {/* <S.Contacts
               onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
             > */}
-            <S.Contacts onClick={() => sendDM({ clientName, freelancerName })}>
+            <S.Contacts onClick={() => sendDM()}>
               <HiOutlinePaperAirplane
                 size={17}
                 style={{ transform: "rotate(45deg)" }}
