@@ -75,7 +75,7 @@ const usePortfolioInfoQueries = ({
     {
       enabled: !!userId,
       getNextPageParam: (lastPage, allPages) => {
-        const maxPage = Math.ceil(lastPage.total_count / 8);
+        const maxPage = Math.ceil(lastPage.total_count / 10);
         const nextPage = allPages.length + 1;
         return nextPage <= maxPage ? nextPage : null;
       },

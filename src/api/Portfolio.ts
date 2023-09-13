@@ -41,7 +41,7 @@ export const getMyPortfolio = async (id: string, page: number): Promise<IPortfol
       .from("portfolios")
       .select("*", { count: "exact" })
       .eq("freelancerId", id)
-      .range(page * 8 - 8, page * 8 - 1);
+      .range(page * 10 - 10, page * 10 - 1);
 
     return { portfolio: portfolio as Portfolio[], total_count: count as number };
   } catch (error) {
