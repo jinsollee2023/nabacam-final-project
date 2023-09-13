@@ -157,7 +157,7 @@ export const S = {
     color: white;
     background-color: #0086d0;
   `,
-  SearchItemBarAndFilterBtnWrapper: styled.div`
+  SearchItemBarAndFilterButtonWrapper: styled.div`
     display: flex;
     width: 98%;
     min-width: 400px;

@@ -43,13 +43,13 @@ const S = {
   SearchSortWrapper: styled.div`
     display: flex;
   `,
-  SearchSortBtnBox: styled.div`
+  SearchSortButtonBox: styled.div`
     width: 100px;
     margin: 20px 0;
     display: flex;
     justify-content: space-between;
   `,
-  SearchSortBtn: styled.span`
+  SearchSortButton: styled.span`
     cursor: pointer;
     color: var(--darker-gray);
     font-size: 14px;
@@ -65,7 +65,7 @@ const S = {
       font-weight: 700;
     }
   `,
-  SubmitBtn: styled.button`
+  SubmitButton: styled.button`
     color: var(--darker-gray);
     font-size: 14px;
     border: none;
@@ -108,7 +108,7 @@ const S = {
     align-items: center;
     background-color: ${(props) => props.backgroundColor};
   `,
-  ProjectSpanBtn: styled.button`
+  ProjectSpanButton: styled.button`
     background-color: var(--main-blue);
     color: white;
     border: none;
@@ -253,7 +253,7 @@ const S = {
     display: flex;
     align-items: center;
   `,
-  ModalDeleteBtn: styled.button`
+  ModalDeleteButton: styled.button`
     width: 50%;
     height: 30px;
     font-size: 14px;
@@ -261,7 +261,7 @@ const S = {
     border-radius: 5px;
     margin-top: 8px;
   `,
-  ModalPostBtn: styled.button`
+  ModalPostButton: styled.button`
     width: 50%;
     height: 30px;
     font-size: 14px;
@@ -295,7 +295,7 @@ const S = {
       height: 100%;
     }
   `,
-  SearchSortBtnWrapper: styled.div`
+  SearchSortButtonWrapper: styled.div`
     width: 100%;
     display: flex;
     justify-content: end;

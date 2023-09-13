@@ -215,22 +215,22 @@ const ProjectList = () => {
             <SearchItemBar />
             <SortProjects handleSort={handleSort} />
           </S.SearchSortWrapper>
-          <S.SearchSortBtnWrapper>
-            <S.SearchSortBtnBox>
-              <S.SearchSortBtn
+          <S.SearchSortButtonWrapper>
+            <S.SearchSortButtonBox>
+              <S.SearchSortButton
                 onClick={() => setSelectedSortLabel("최신순")}
                 className={selectedSortLabel === "최신순" ? "selected" : ""}
               >
                 최신순
-              </S.SearchSortBtn>
-              <S.SearchSortBtn
+              </S.SearchSortButton>
+              <S.SearchSortButton
                 onClick={() => setSelectedSortLabel("오래된순")}
                 className={selectedSortLabel === "오래된순" ? "selected" : ""}
               >
                 오래된순
-              </S.SearchSortBtn>
-            </S.SearchSortBtnBox>
-          </S.SearchSortBtnWrapper>
+              </S.SearchSortButton>
+            </S.SearchSortButtonBox>
+          </S.SearchSortButtonWrapper>
         </>
       ) : (
         <p>등록된 프로젝트가 없습니다.</p>
@@ -240,17 +240,19 @@ const ProjectList = () => {
         <div ref={ref}></div>
       </S.ProjectContainer>
 
-      <S.ProjectSpanBtn onClick={addProjectModalOpenHandler}>
+      <S.ProjectSpanButton onClick={addProjectModalOpenHandler}>
         <RiAddBoxLine size="23" color="white" style={{ marginRight: "10px" }} />
         프로젝트 게시하기
-      </S.ProjectSpanBtn>
+      </S.ProjectSpanButton>
 
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={addProjectButtonHandler}>프로젝트 게시하기</S.ModalPostBtn>
+              <S.ModalPostButton onClick={addProjectButtonHandler}>
+                프로젝트 게시하기
+              </S.ModalPostButton>
             </>
           }
           availableClose={availableClose}

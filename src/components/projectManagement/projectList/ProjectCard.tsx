@@ -155,8 +155,10 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           buttons={
             project.status === "진행 전" && (
               <>
-                <S.ModalPostBtn onClick={showDeleteConfirmation}>삭제하기</S.ModalPostBtn>
-                <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>수정하기</S.ModalPostBtn>
+                <S.ModalPostButton onClick={showDeleteConfirmation}>삭제하기</S.ModalPostButton>
+                <S.ModalPostButton onClick={updateProjectModalOpenHandler}>
+                  수정하기
+                </S.ModalPostButton>
               </>
             )
           }
@@ -170,8 +172,8 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           availableClose={availableClose}
           buttons={
             <>
-              <S.ModalDeleteBtn onClick={showDeleteConfirmation}>삭제하기</S.ModalDeleteBtn>
-              <S.ModalPostBtn onClick={updateProjectButtonHandler}>수정하기</S.ModalPostBtn>
+              <S.ModalDeleteButton onClick={showDeleteConfirmation}>삭제하기</S.ModalDeleteButton>
+              <S.ModalPostButton onClick={updateProjectButtonHandler}>수정하기</S.ModalPostButton>
             </>
           }
         >
@@ -187,10 +189,13 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           {project.status === "진행 전" && (
             <>
               <S.ProjectCardButtonBox>
-                <S.SubmitBtn style={{ marginRight: "5px" }} onClick={updateProjectModalOpenHandler}>
+                <S.SubmitButton
+                  style={{ marginRight: "5px" }}
+                  onClick={updateProjectModalOpenHandler}
+                >
                   수정
-                </S.SubmitBtn>
-                <S.SubmitBtn onClick={showDeleteConfirmation}>삭제</S.SubmitBtn>
+                </S.SubmitButton>
+                <S.SubmitButton onClick={showDeleteConfirmation}>삭제</S.SubmitButton>
               </S.ProjectCardButtonBox>
             </>
           )}

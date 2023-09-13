@@ -13,18 +13,13 @@ import "react-toastify/dist/ReactToastify.css";
 const ResumeProfileIntroComp = () => {
   const { user } = useUserStore();
   const userId = user.userId;
-  const {
-    addProfileIntroMutation,
-    resumeProfileIntroObject,
-    updateProfileIntroMutation,
-  } = useResumeProfileIntroQueries(userId);
+  const { addProfileIntroMutation, resumeProfileIntroObject, updateProfileIntroMutation } =
+    useResumeProfileIntroQueries(userId);
   const intro = resumeProfileIntroObject?.resumeProfileIntro;
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const { newProfileIntroInput } = useResumeProfileIntroStore();
 
-  const addProfileIntroHandler = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const addProfileIntroHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!newProfileIntroInput) {
@@ -45,9 +40,7 @@ const ResumeProfileIntroComp = () => {
     setIsAddModalOpen(false);
   };
 
-  const updateProfileIntroHandler = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const updateProfileIntroHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     updateProfileIntroMutation.mutate({
       newProfileIntroInput,
@@ -56,28 +49,26 @@ const ResumeProfileIntroComp = () => {
     setIsAddModalOpen(false);
   };
   const availableClose =
-    intro?.length === 0
-      ? newProfileIntroInput === ""
-      : newProfileIntroInput === intro;
+    intro?.length === 0 ? newProfileIntroInput === "" : newProfileIntroInput === intro;
   return (
     <>
       <S.ProfileContainer>
         <S.JustifyBox>
           <S.ProfileTitle>프로필</S.ProfileTitle>
           {intro?.length > 0 ? (
-            <S.ProfileBtn onClick={() => setIsAddModalOpen(true)}>
+            <S.ProfileButton onClick={() => setIsAddModalOpen(true)}>
               <IoMdSettings style={{ marginRight: "7px" }} size="20" />
               수정하기
-            </S.ProfileBtn>
+            </S.ProfileButton>
           ) : (
-            <S.ProfileBtn
+            <S.ProfileButton
               onClick={() => {
                 setIsAddModalOpen(true);
               }}
             >
               <MdAddCircle size="20" />
               추가하기
-            </S.ProfileBtn>
+            </S.ProfileButton>
           )}
         </S.JustifyBox>
 
@@ -92,13 +83,13 @@ const ResumeProfileIntroComp = () => {
           buttons={
             <>
               {intro?.length > 0 ? (
-                <S.Btn width="100%" onClick={updateProfileIntroHandler}>
+                <S.Button width="100%" onClick={updateProfileIntroHandler}>
                   수정하기
-                </S.Btn>
+                </S.Button>
               ) : (
-                <S.Btn width="100%" onClick={addProfileIntroHandler}>
+                <S.Button width="100%" onClick={addProfileIntroHandler}>
                   등록하기
-                </S.Btn>
+                </S.Button>
               )}
             </>
           }

@@ -65,7 +65,7 @@ export const S = {
     border-bottom-right-radius: 10px;
     background-color: #f0f0f0;
   `,
-  EyeBtn: styled.button`
+  EyeButton: styled.button`
     border: none;
     background-color: transparent;
   `,

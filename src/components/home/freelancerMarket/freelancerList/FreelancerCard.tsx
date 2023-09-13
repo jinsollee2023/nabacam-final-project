@@ -118,7 +118,7 @@ const FreelancerCard = ({
     setIsDetailModalOpen(false);
   };
 
-  const handleInfoModalProposalBtnClick = () => {
+  const handleInfoModalProposalButtonClick = () => {
     setIsInfoModalOpen(false);
     setIsDetailModalOpen(true);
   };
@@ -274,7 +274,7 @@ const FreelancerCard = ({
               setIsModalOpen={setIsInfoModalOpen}
               buttons={
                 <>
-                  <S.FreelancerInfoModalButton onClick={handleInfoModalProposalBtnClick}>
+                  <S.FreelancerInfoModalButton onClick={handleInfoModalProposalButtonClick}>
                     제안하기
                   </S.FreelancerInfoModalButton>
                 </>
