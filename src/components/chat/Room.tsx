@@ -14,6 +14,7 @@ export interface TRoom {
   room_id: string;
   created_at: string;
   roomname?: string | null;
+  user_id: string;
   receiver_id: string;
   name: string;
   photoURL: string;
