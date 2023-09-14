@@ -26,6 +26,7 @@ export const S = {
   `,
   PFDetail: styled.div`
     line-height: 1.4;
+    white-space: pre-line;
   `,
   PFPDFContainer: styled.div`
     margin: 20px 0;

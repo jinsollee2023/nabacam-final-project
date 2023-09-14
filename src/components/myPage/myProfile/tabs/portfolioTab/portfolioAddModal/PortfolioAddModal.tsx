@@ -58,7 +58,7 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
 
   useEffect(() => {
     changeNewPortfolio(newPortfolio);
-  }, [values]);
+  }, [values, thumbNailFile]);
 
   const { validateInput } = useValidation();
   return (
