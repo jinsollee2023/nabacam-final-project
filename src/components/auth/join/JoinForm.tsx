@@ -334,7 +334,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                       <S.JoinInput
                         id="workSmallFieldInput"
                         type="text"
-                        value={values.workField}
+                        value={values.workSmallField}
                         placeholder="상세한 작업 영역을 입력해주세요."
                         onChange={(e) => handleChange("workSmallField", e.target.value)}
                         onBlur={(e) => {
