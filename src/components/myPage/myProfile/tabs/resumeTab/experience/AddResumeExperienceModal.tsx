@@ -66,7 +66,7 @@ const AddResumeExperienceModal = ({
   ]);
   return (
     <>
-      <form>
+      <S.ResumeExpreienceModalForm>
         <S.WriteBox>
           <S.Label>근무 분야</S.Label>
           <Select
@@ -221,7 +221,7 @@ const AddResumeExperienceModal = ({
             {errors.pastWorkDuration && <p>{errors.pastWorkDuration}</p>}
           </S.ErrorMessage>
         </S.WriteBox>
-      </form>
+      </S.ResumeExpreienceModalForm>
     </>
   );
 };

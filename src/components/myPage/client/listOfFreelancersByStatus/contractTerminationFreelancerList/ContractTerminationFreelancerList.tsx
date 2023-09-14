@@ -17,15 +17,22 @@ const ContractTerminationFreelancerList = () => {
   const { userId } = useUserStore();
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
 
-  const { freelancersWithTerminatedProjects, error, fetchNextPage, hasNextPage, status } =
-    useTerminationedProjectsQueries({
-      currentUserId: userId,
-    });
+  const {
+    freelancersWithTerminatedProjects,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    status,
+  } = useTerminationedProjectsQueries({
+    currentUserId: userId,
+  });
 
   // 최신순/오래된 순 필터버튼 상태관리
   const [isLastFirst, setIsLastFirst] = useState(true);
   const [selectedWorkField, setSelectedWorkField] = useState("전체보기");
-  const [filteredFreelancers, setFilteredFreelancers] = useState<IProjectWithFreelancer[][]>([]);
+  const [filteredFreelancers, setFilteredFreelancers] = useState<
+    IProjectWithFreelancer[][]
+  >([]);
 
   // 검색 키워드 초기화
   useEffect(() => {
@@ -37,21 +44,26 @@ const ContractTerminationFreelancerList = () => {
   /* Effect */
   useEffect(() => {
     if (freelancersWithTerminatedProjects?.pages.length !== 0) {
-      const filteredfreelancerLists = freelancersWithTerminatedProjects?.pages.map((page) => {
-        return page.projects.filter((project) => {
-          const lowerCaseSearch = String(searchKeyword).toLowerCase();
-          const workExp = String(project.freelancer.workExp);
-          return (
-            project.freelancer?.name?.toLowerCase().includes(lowerCaseSearch) ||
-            project.freelancer?.workField?.workField?.toLowerCase().includes(lowerCaseSearch) ||
-            project.freelancer?.workField?.workSmallField
-              ?.toLowerCase()
-              .includes(lowerCaseSearch) ||
-            project.title.toLowerCase().includes(lowerCaseSearch) ||
-            workExp === searchKeyword
-          );
+      const filteredfreelancerLists =
+        freelancersWithTerminatedProjects?.pages.map((page) => {
+          return page.projects.filter((project) => {
+            const lowerCaseSearch = String(searchKeyword).toLowerCase();
+            const workExp = String(project.freelancer.workExp);
+            return (
+              project.freelancer?.name
+                ?.toLowerCase()
+                .includes(lowerCaseSearch) ||
+              project.freelancer?.workField?.workField
+                ?.toLowerCase()
+                .includes(lowerCaseSearch) ||
+              project.freelancer?.workField?.workSmallField
+                ?.toLowerCase()
+                .includes(lowerCaseSearch) ||
+              project.title.toLowerCase().includes(lowerCaseSearch) ||
+              workExp === searchKeyword
+            );
+          });
         });
-      });
       setFilteredFreelancers(filteredfreelancerLists!);
     }
   }, [freelancersWithTerminatedProjects, searchKeyword]);
@@ -82,7 +94,7 @@ const ContractTerminationFreelancerList = () => {
   ) : (
     <>
       {freelancersWithTerminatedProjects?.pages &&
-      freelancersWithTerminatedProjects?.pages.length > 0 ? (
+      freelancersWithTerminatedProjects?.pages[0].total_count > 0 ? (
         <>
           <S.SearchBox>
             <SearchItemBar />
@@ -109,10 +121,13 @@ const ContractTerminationFreelancerList = () => {
                   .filter(
                     (project) =>
                       selectedWorkField === "전체보기" ||
-                      project.freelancer.workField?.workField === selectedWorkField
+                      project.freelancer.workField?.workField ===
+                        selectedWorkField
                   )
                   .map((project) => (
-                    <S.ListsBox key={`${project.freelancer?.userId}-${project.projectId}`}>
+                    <S.ListsBox
+                      key={`${project.freelancer?.userId}-${project.projectId}`}
+                    >
                       <ContractTerminationFreelancerCards
                         key={`${project.freelancer?.userId}-${project.projectId}`}
                         user={project.freelancer}

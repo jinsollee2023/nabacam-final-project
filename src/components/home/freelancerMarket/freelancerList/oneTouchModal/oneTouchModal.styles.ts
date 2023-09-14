@@ -49,9 +49,9 @@ export const S = {
       background-color: var(--hover-blue);
     }
 
-    border: ${({ isselected }) => (isselected ? "2px solid #58ACFA" : "none")};
+    border: ${({ isselected }) => (isselected ? "1px solid #58ACFA" : "none")};
     background-color: ${({ isselected }) =>
-      isselected ? "#a9e2f3" : "#f0f0f0"};
+      isselected ? "var(--hover-blue)" : "#f0f0f0"};
   `,
 
   ProjectItemTitle: styled.h4`

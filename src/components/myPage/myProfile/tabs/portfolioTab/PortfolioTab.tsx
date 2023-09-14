@@ -393,7 +393,7 @@ const PortfolioTab = () => {
                   block
                   onClick={handlePortfolioSubmitButtonHandler}
                 >
-                  추가하기
+                  첨부하기
                 </S.Button>
               )}
             </>
@@ -435,11 +435,11 @@ const PortfolioTab = () => {
             ))}
           <div ref={ref}></div>
         </S.PortfolioListWrapper>
+        <S.PortfolioAddButton onClick={addModalOpenHandler}>
+          <BsPlusCircleDotted style={{ marginRight: "10px" }} />
+          포트폴리오 첨부하기
+        </S.PortfolioAddButton>
       </S.PortfolioListContainer>
-      <S.PortfolioAddButton onClick={addModalOpenHandler}>
-        <BsPlusCircleDotted style={{ marginRight: "10px" }} />
-        포트폴리오 첨부하기
-      </S.PortfolioAddButton>
     </>
   );
 };

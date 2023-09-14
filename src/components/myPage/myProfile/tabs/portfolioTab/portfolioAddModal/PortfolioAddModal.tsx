@@ -106,7 +106,9 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
           placeholder="제목"
           title={newPortfolio.title}
         />
-        <S.errorText>{errors.title}</S.errorText>
+        <S.ErrorMessage hasError={!!errors.title}>
+          {errors.title && <p>{errors.title}</p>}
+        </S.ErrorMessage>
         <S.TextareaDesc
           rows={5}
           name="desc"
@@ -119,7 +121,9 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
           placeholder="내용"
           title={newPortfolio.desc}
         />
-        <S.errorText>{errors.desc}</S.errorText>
+        <S.ErrorMessage hasError={!!errors.desc}>
+          {errors.desc && <p>{errors.desc}</p>}
+        </S.ErrorMessage>
 
         <S.PdfInputWrapper>
           {/* attachmentType에 따라서 pdf파일이거나 링크이거나 */}
@@ -130,7 +134,7 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
               </S.PdfInputLabel>
             </>
           ) : (
-            <>
+            <S.LinkInputAndErrorMessageWrapper>
               <S.InputText
                 type="text"
                 name="link"
@@ -142,10 +146,12 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
                 }}
                 placeholder="링크"
               />
-              <S.errorText>
-                {attachmentType !== "file" ? errors.link : null}
-              </S.errorText>
-            </>
+              {errors.link && (
+                <S.ErrorMessage hasError={!!errors.link}>
+                  {attachmentType !== "file" ? errors.link : null}
+                </S.ErrorMessage>
+              )}
+            </S.LinkInputAndErrorMessageWrapper>
           )}
           <input
             type="file"
@@ -169,7 +175,11 @@ const PortfolioAddModal = ({ errors, setErrors }: PortfolioAddModalProps) => {
           />
           <span>{values.pdfFile && <FcOk />}</span>
         </S.PdfInputWrapper>
-        <p>{attachmentType === "file" ? errors.pdf : null}</p>
+        {errors.pdf && (
+          <S.ErrorMessage hasError={!!errors.pdf}>
+            {attachmentType === "file" ? errors.pdf : null}
+          </S.ErrorMessage>
+        )}
       </S.ModalForm>
     </>
   );

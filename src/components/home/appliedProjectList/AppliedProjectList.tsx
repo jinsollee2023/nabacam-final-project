@@ -14,6 +14,8 @@ const AppliedProjectList = () => {
   const { appliedProjectList, error, fetchNextPage, hasNextPage, status } =
     useAppliedProjectQueries({ currentUserId: userId });
 
+  console.log(appliedProjectList);
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -33,13 +35,17 @@ const AppliedProjectList = () => {
     <p>Error: {error?.message}</p>
   ) : (
     <S.ProjectListContainer>
-      {appliedProjectList?.pages && appliedProjectList.pages.length > 0 ? (
+      {appliedProjectList?.pages &&
+      appliedProjectList.pages[0].total_count > 0 ? (
         appliedProjectList.pages.map((page, idx) => (
           <React.Fragment key={idx}>
             {page.projects.map((projectItem) => {
               return (
                 <div key={projectItem.projectId}>
-                  <AppliedProjectCard projectItem={projectItem} userId={userId} />
+                  <AppliedProjectCard
+                    projectItem={projectItem}
+                    userId={userId}
+                  />
                 </div>
               );
             })}

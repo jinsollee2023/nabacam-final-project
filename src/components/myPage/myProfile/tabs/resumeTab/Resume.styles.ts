@@ -61,10 +61,13 @@ export const S = {
   `,
 
   // 경력사항
+  ResumeExpreienceModalForm: styled.form`
+    width: 100%;
+  `,
   WorkExperienceContainer: styled.div`
     padding-top: 10px;
-    padding-bottom: 10px;
     margin-top: 10px;
+    position: relative;
   `,
   WorkExperienceTitle: styled.p`
     font-size: 18px;
@@ -76,8 +79,9 @@ export const S = {
     flex-wrap: wrap;
     flex-direction: row;
     gap: 20px;
-    height: 34vh;
+    height: 40vh;
     overflow-y: auto;
+
     &::-webkit-scrollbar {
       display: none;
       -ms-overflow-style: none;
@@ -132,6 +136,7 @@ export const S = {
     border: 1px solid var(--lighter-gray);
     border-radius: 5px;
     font-size: 14px;
+    outline: none;
   `,
   Label: styled.label`
     font-size: 16px;
@@ -175,7 +180,7 @@ export const S = {
     cursor: pointer;
   `,
   WriteBox: styled.div`
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -223,10 +228,10 @@ export const S = {
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 35px;
+    z-index: 10;
+    bottom: -15px;
     left: 50%;
-    z-index: 1;
-    transform: translateX(-25%);
+    transform: translateX(-50%);
   `,
   ErrorMessage: styled.div<{ hasError: boolean }>`
     height: ${(props) => (props.hasError ? "20px" : "0")};

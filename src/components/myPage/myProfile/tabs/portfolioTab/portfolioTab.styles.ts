@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 export const S = {
   PortfolioListContainer: styled.section`
     width: 100%;
+    height: 66vh;
     padding: 10px;
     position: relative;
   `,
@@ -12,7 +13,6 @@ export const S = {
     width: 100%;
     border-radius: 20px;
   `,
-
   PortfolioListWrapper: styled.div`
     padding-top: 5px;
     max-height: 63vh;
@@ -21,17 +21,9 @@ export const S = {
     flex-wrap: wrap;
 
     &::-webkit-scrollbar {
-      width: 12px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: #848484;
-      border-radius: 10px;
-      background-clip: padding-box;
-      border: 2px solid transparent;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #f3f3f3;
-      border-radius: 10px;
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   `,
   PortfolioTitle: styled.p`
@@ -68,9 +60,9 @@ export const S = {
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 35px;
+    bottom: -20px;
     left: 50%;
     z-index: 1;
-    transform: translateX(-25%);
+    transform: translateX(-50%);
   `,
 };

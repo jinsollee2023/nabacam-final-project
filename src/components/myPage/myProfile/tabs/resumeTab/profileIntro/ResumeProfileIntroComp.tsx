@@ -76,7 +76,7 @@ const ResumeProfileIntroComp = () => {
                 setIsAddModalOpen(true);
               }}
             >
-              <MdAddCircle size="20" />
+              <MdAddCircle size="20" style={{ marginRight: "7px" }} />
               추가하기
             </S.ProfileButton>
           )}
