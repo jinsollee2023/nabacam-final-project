@@ -23,13 +23,10 @@ export interface Errors {
 const ResumeExperienceComp = () => {
   const { user } = useUserStore();
   const userId = user.userId;
-  const { addExperienceMutation, resumeExperienceArray } =
-    useResumeExperienceQueries({ userId });
+  const { addExperienceMutation, resumeExperienceArray } = useResumeExperienceQueries({ userId });
   const { newExperience } = useResumeExperienceStore();
 
-  const [resumeExperienceArr, setResumeExperienceArr] = useState<
-    ResumeExperience[]
-  >([]);
+  const [resumeExperienceArr, setResumeExperienceArr] = useState<ResumeExperience[]>([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const initialErrors: Errors = {
     pastWorkPlace: null,
@@ -39,12 +36,8 @@ const ResumeExperienceComp = () => {
     pastEmploymentType: null,
   };
   const [errors, setErrors] = useState(initialErrors);
-  const { validateWorkDuration, validateInput, validateSelect } =
-    useValidation();
-  const [
-    addExperienceSubmitButtonClicked,
-    setAddExperienceSubmitButtonClicked,
-  ] = useState(false);
+  const { validateWorkDuration, validateInput, validateSelect } = useValidation();
+  const [addExperienceSubmitButtonClicked, setAddExperienceSubmitButtonClicked] = useState(false);
 
   useEffect(() => {
     if (
@@ -61,27 +54,15 @@ const ResumeExperienceComp = () => {
   }, [errors, addExperienceSubmitButtonClicked]);
 
   const validateAddExperience = () => {
-    const pastWorkPlaceError = validateInput(
-      "근무지",
-      newExperience.pastWorkPlace
-    );
-    const pastWorkPositionError = validateInput(
-      "직책",
-      newExperience.pastWorkPosition
-    );
+    const pastWorkPlaceError = validateInput("근무지", newExperience.pastWorkPlace);
+    const pastWorkPositionError = validateInput("직책", newExperience.pastWorkPosition);
 
     const pastWorkDurationError = validateWorkDuration(
       newExperience.pastWorkDuration.pastWorkStartDate,
       newExperience.pastWorkDuration.pastWorkEndDate
     );
-    const pastWorkFieldError = validateSelect(
-      "근무 분야",
-      newExperience.pastWorkField
-    );
-    const pastEmploymentTypeError = validateSelect(
-      "근무 형태",
-      newExperience.pastEmploymentType
-    );
+    const pastWorkFieldError = validateSelect("근무 분야", newExperience.pastWorkField);
+    const pastEmploymentTypeError = validateSelect("근무 형태", newExperience.pastEmploymentType);
     setErrors({
       pastWorkPlace: pastWorkPlaceError,
       pastWorkPosition: pastWorkPositionError,

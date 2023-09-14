@@ -20,9 +20,7 @@ import { usePortfolioStore } from "src/store/usePortfolioStore";
 interface FreelancerCardProps {
   freelancerItem: User;
   selectedPortfolioIndex: PortfolioIndexMap;
-  setSelectedPortfolioIndex: React.Dispatch<
-    React.SetStateAction<PortfolioIndexMap>
-  >;
+  setSelectedPortfolioIndex: React.Dispatch<React.SetStateAction<PortfolioIndexMap>>;
 }
 const FreelancerCard = ({
   freelancerItem,
@@ -30,15 +28,13 @@ const FreelancerCard = ({
   setSelectedPortfolioIndex,
 }: FreelancerCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [isPortfolioDetailModalOpen, setIsPortfolioDetailModalOpen] =
-    useState(false);
+  const [isPortfolioDetailModalOpen, setIsPortfolioDetailModalOpen] = useState(false);
   const { setSelectedPortfolio } = usePortfolioStore();
 
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const { userId } = useUserStore();
   const { selectedProject, setSelectedProject } = useProjectStore();
-  const [userSelectedPortfolioIndex, setUserSelectedPortfolioIndex] =
-    useState(0);
+  const [userSelectedPortfolioIndex, setUserSelectedPortfolioIndex] = useState(0);
   const {
     updateSuggestedFreelancersDataMutation,
     suggestedFreelancersData,
@@ -89,35 +85,23 @@ const FreelancerCard = ({
     return <span>project loading Error..</span>;
   }
   if (portfoliosIsLoading) {
-    return (
-      <Spin
-        size="large"
-        style={{ position: "absolute", top: "50%", left: "50%" }}
-      />
-    );
+    return <Spin size="large" style={{ position: "absolute", top: "50%", left: "50%" }} />;
   }
   if (portfoliosError) {
     return <span>portfolios Error..</span>;
   }
   const HandleProjectSuggestionButtonClick = async () => {
     if (suggestedFreelancersDataIsLoading) {
-      <Spin
-        size="large"
-        style={{ position: "absolute", top: "50%", left: "50%" }}
-      />;
+      <Spin size="large" style={{ position: "absolute", top: "50%", left: "50%" }} />;
     }
     if (suggestedFreelancersDataIsError) {
-      console.error(
-        "프로젝트 정보 가져오기 오류:",
-        suggestedFreelancersDataIsError
-      );
+      console.error("프로젝트 정보 가져오기 오류:", suggestedFreelancersDataIsError);
       return;
     }
 
     toast.success("제안이 전달되었습니다.");
 
-    const suggestedFreelancers =
-      suggestedFreelancersData?.SuggestedFreelancers || [];
+    const suggestedFreelancers = suggestedFreelancersData?.SuggestedFreelancers || [];
 
     // 새롭게 제안한 프리랜서 추가
     const updatedSuggestedFreelancers = [
@@ -169,10 +153,7 @@ const FreelancerCard = ({
                 onClick={HandleProjectSuggestionButtonClick}
                 disabled={
                   !selectedProject?.title ||
-                  !(
-                    projectDataForSuggestions &&
-                    projectDataForSuggestions.length > 0
-                  )
+                  !(projectDataForSuggestions && projectDataForSuggestions.length > 0)
                 }
               >
                 {selectedProject?.title} 제안하기
@@ -180,10 +161,7 @@ const FreelancerCard = ({
             </>
           }
         >
-          <OneTouchModal
-            user={freelancerItem}
-            projectLists={projectDataForSuggestions!}
-          />
+          <OneTouchModal user={freelancerItem} projectLists={projectDataForSuggestions!} />
         </Modal>
       )}
       {isPortfolioDetailModalOpen && (
@@ -196,38 +174,25 @@ const FreelancerCard = ({
         {portfoliosData && (
           <>
             {portfoliosData
-              .filter(
-                (portfolioItem) =>
-                  portfolioItem.freelancerId === freelancerItem.userId
-              )
+              .filter((portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId)
               .map((filteredPortfolio, portfolioIndex) => (
                 <S.PortfolioItem
                   key={filteredPortfolio.portfolioId}
-                  isselected={
-                    selectedPortfolioIndex[freelancerItem.userId] ===
-                    portfolioIndex
-                  }
+                  isselected={selectedPortfolioIndex[freelancerItem.userId] === portfolioIndex}
                 >
                   <S.PortfoliothumbNailImageBox
                     onClick={() => handlePortfolioImageClick(filteredPortfolio)}
                   >
-                    <img
-                      src={filteredPortfolio.thumbNailURL}
-                      alt="thumbnailImage"
-                    />
+                    <img src={filteredPortfolio.thumbNailURL} alt="thumbnailImage" />
                     <S.indicatorWrapper>
                       {portfoliosData
                         .filter(
-                          (portfolioItem) =>
-                            portfolioItem.freelancerId === freelancerItem.userId
+                          (portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId
                         )
                         .map((_, index) => (
                           <S.Indicator
                             key={index}
-                            selected={
-                              selectedPortfolioIndex[freelancerItem.userId] ===
-                              index
-                            }
+                            selected={selectedPortfolioIndex[freelancerItem.userId] === index}
                           />
                         ))}
                     </S.indicatorWrapper>
@@ -239,42 +204,31 @@ const FreelancerCard = ({
                           <GrFormPrevious
                             size="25"
                             onClick={() => {
-                              setUserSelectedPortfolioIndex(
-                                userSelectedPortfolioIndex - 1
-                              );
+                              setUserSelectedPortfolioIndex(userSelectedPortfolioIndex - 1);
                               setSelectedPortfolioIndex((prevSelected) => {
                                 const userSelectedPortfolioIndex = {
                                   ...prevSelected,
                                 };
-                                userSelectedPortfolioIndex[
-                                  freelancerItem.userId
-                                ] = userSelectedPortfolioIndex[
-                                  freelancerItem.userId
-                                ] -= 1;
+                                userSelectedPortfolioIndex[freelancerItem.userId] =
+                                  userSelectedPortfolioIndex[freelancerItem.userId] -= 1;
                                 return userSelectedPortfolioIndex;
                               });
                             }}
                           />
                         </S.ArrowIconPrevBox>
                       )}
-                      {userSelectedPortfolioIndex !==
-                        numberOfPortfolios! - 1 && (
+                      {userSelectedPortfolioIndex !== numberOfPortfolios! - 1 && (
                         <S.ArrowIconNextBox>
                           <GrFormNext
                             size="25"
                             onClick={() => {
-                              setUserSelectedPortfolioIndex(
-                                userSelectedPortfolioIndex + 1
-                              );
+                              setUserSelectedPortfolioIndex(userSelectedPortfolioIndex + 1);
                               setSelectedPortfolioIndex((prevSelected) => {
                                 const userSelectedPortfolioIndex = {
                                   ...prevSelected,
                                 };
-                                userSelectedPortfolioIndex[
-                                  freelancerItem.userId
-                                ] = userSelectedPortfolioIndex[
-                                  freelancerItem.userId
-                                ] += 1;
+                                userSelectedPortfolioIndex[freelancerItem.userId] =
+                                  userSelectedPortfolioIndex[freelancerItem.userId] += 1;
                                 return userSelectedPortfolioIndex;
                               });
                             }}
@@ -282,9 +236,7 @@ const FreelancerCard = ({
                         </S.ArrowIconNextBox>
                       )}
                     </S.ArrowIconWrapper>
-                    <S.PortfolioTitle>
-                      {filteredPortfolio.title}
-                    </S.PortfolioTitle>
+                    <S.PortfolioTitle>{filteredPortfolio.title}</S.PortfolioTitle>
                   </S.PortfolioTitleBox>
                 </S.PortfolioItem>
               ))}
@@ -292,8 +244,7 @@ const FreelancerCard = ({
             {/* some → 주어진 판별 함수를 적어도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는
                       포트폴리오들의 프리랜서 아이디 중에서 내가 지금 돌고있는 프리랜서의 아이디와 일치하는 것이 없다면 아래 jsx를 보여줌*/}
             {!portfoliosData.some(
-              (portfolioItem) =>
-                portfolioItem.freelancerId === freelancerItem.userId
+              (portfolioItem) => portfolioItem.freelancerId === freelancerItem.userId
             ) && (
               <li>
                 <S.PortfoliothumbNailImageBox
@@ -306,34 +257,24 @@ const FreelancerCard = ({
                   />
                 </S.PortfoliothumbNailImageBox>
                 <S.PortfolioTitleBox>
-                  <S.PortfolioTitle>
-                    등록된 포트폴리오가 없습니다.
-                  </S.PortfolioTitle>
+                  <S.PortfolioTitle>등록된 포트폴리오가 없습니다.</S.PortfolioTitle>
                 </S.PortfolioTitleBox>
               </li>
             )}
           </>
         )}
         <S.MiniProfileBox>
-          <S.FreelancerContentBox
-            onClick={() => setIsInfoModalOpen(!isInfoModalOpen)}
-          >
+          <S.FreelancerContentBox onClick={() => setIsInfoModalOpen(!isInfoModalOpen)}>
             <S.FreelancerName>{freelancerItem.name}</S.FreelancerName>
-            <S.FreelancerContent>
-              {freelancerItem.workField?.workSmallField}
-            </S.FreelancerContent>
-            <S.FreelancerContent>
-              {String(freelancerItem.workExp)}년차
-            </S.FreelancerContent>
+            <S.FreelancerContent>{freelancerItem.workField?.workSmallField}</S.FreelancerContent>
+            <S.FreelancerContent>{String(freelancerItem.workExp)}년차</S.FreelancerContent>
           </S.FreelancerContentBox>
           {isInfoModalOpen && (
             <Modal
               setIsModalOpen={setIsInfoModalOpen}
               buttons={
                 <>
-                  <S.FreelancerInfoModalButton
-                    onClick={handleInfoModalProposalButtonClick}
-                  >
+                  <S.FreelancerInfoModalButton onClick={handleInfoModalProposalButtonClick}>
                     제안하기
                   </S.FreelancerInfoModalButton>
                 </>

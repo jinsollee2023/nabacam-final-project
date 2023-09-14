@@ -7,6 +7,7 @@ import { Member } from "src/Types";
 import { S } from "./memberListStyle";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
+import { CommonS } from "src/components/common/button/commonButton";
 import { FiPhoneCall, FiMail } from "react-icons/fi";
 import SearchItemBar from "src/components/common/searchItemBar/SearchItemBar";
 import { useSearchKeywordStore } from "src/store/useSearchKeywordStore";
@@ -23,7 +24,9 @@ const MemberList = () => {
   const { userId, setUser } = useUserStore();
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const { client, clientDataError, clientDataLoading, clientMembersMutation } =
-    useClientsQueries({ userId });
+    useClientsQueries({
+      userId,
+    });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [updateMemberData, setUpdateMemberData] = useState<Member>();
   const [selectedMemberData, setSelectedMemberData] = useState<Member>();
@@ -151,21 +154,47 @@ const MemberList = () => {
     });
   };
 
-  const deleteMemberButtonHandler = (deleteMember: Member) => {
+  const deleteMemberButtonHandler = (deleteMember: Member | undefined) => {
     const deletedMember = client?.members?.filter(
       (member) => member !== deleteMember
     );
     // 업데이트
-    const shouldDeleteMember = window.confirm("삭제하시겠습니까?");
 
-    if (shouldDeleteMember) {
-      clientMembersMutation.mutate({
-        updatedData: { members: deletedMember },
-        userId,
-        setUser,
-      });
-      toast.success("구성원이 삭제되었습니다.");
-    }
+    clientMembersMutation.mutate({
+      updatedData: { members: deletedMember },
+      userId,
+      setUser,
+    });
+    toast.success("구성원이 삭제되었습니다.");
+  };
+
+  const handleConfirm = (deleteMember: Member) => {
+    deleteMemberButtonHandler(deleteMember);
+    toast.dismiss();
+  };
+
+  const handleCancel = () => {
+    toast.dismiss();
+  };
+
+  const showConfirmation = (member: Member) => {
+    toast.info(
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>{`삭제하시겠습니까?`}</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={() => handleConfirm(member)}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
   };
 
   useEffect(() => {
@@ -255,7 +284,7 @@ const MemberList = () => {
                     </S.EditAndDelButton>
                     <S.EditAndDelButton
                       onClick={() => {
-                        deleteMemberButtonHandler(member);
+                        showConfirmation(member);
                       }}
                     >
                       삭제

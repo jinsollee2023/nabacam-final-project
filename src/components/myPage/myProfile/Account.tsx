@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUserStore } from "../../../store/useUserStore";
-import {
-  getPhotoURL,
-  updateUserImage,
-  uploadUserImage,
-} from "../../../api/User";
+import { getPhotoURL, updateUserImage, uploadUserImage } from "../../../api/User";
 import useClientsQueries from "../../../hooks/useClientsQueries";
 import { queryClient } from "../../../App";
 import EditForm from "./EditForm";
@@ -39,10 +35,8 @@ const Account = () => {
     phone: null,
   };
   const [errors, setErrors] = useState(initialErrors);
-  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] =
-    useState(false);
-  const { validateName, validateSelect, validateInput, validatePhone } =
-    useValidation();
+  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] = useState(false);
+  const { validateName, validateSelect, validateInput, validatePhone } = useValidation();
 
   const navigate = useNavigate();
 
@@ -117,14 +111,8 @@ const Account = () => {
   const updateProfileInfoButtonHandler = async () => {
     setUpdateSubmitButtonClicked(true);
     const nameError = validateName(newProfileInfo.name);
-    const workFieldError = validateSelect(
-      "직무 분야",
-      newProfileInfo.workField
-    );
-    const workSmallFieldError = validateInput(
-      "세부 분야",
-      newProfileInfo.workSmallField
-    );
+    const workFieldError = validateSelect("직무 분야", newProfileInfo.workField);
+    const workSmallFieldError = validateInput("세부 분야", newProfileInfo.workSmallField);
     const phoneError = validatePhone(newProfileInfo.phone);
     setErrors({
       name: nameError,
@@ -155,12 +143,8 @@ const Account = () => {
             "회원 탈퇴시 모든 정보가 삭제되며, 삭제된 정보는 복구가 불가능합니다. \n회원 탈퇴하시겠습니까?"
           }
         </CommonS.toastintoText>
-        <CommonS.toastOkButton onClick={handleConfirm}>
-          확인
-        </CommonS.toastOkButton>
-        <CommonS.toastNoButton onClick={handleCancel}>
-          취소
-        </CommonS.toastNoButton>
+        <CommonS.toastOkButton onClick={handleConfirm}>확인</CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>취소</CommonS.toastNoButton>
       </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,

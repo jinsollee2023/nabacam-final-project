@@ -4,10 +4,7 @@ import Modal from "src/components/modal/Modal";
 import { S } from "./projectList.styles";
 import useClientsQueries from "src/hooks/useClientsQueries";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
-import {
-  calculateDaysAgo,
-  getDayOfWeek,
-} from "src/components/common/commonFunc";
+import { calculateDaysAgo, getDayOfWeek } from "src/components/common/commonFunc";
 import { queryClient } from "src/App";
 import { FiUsers } from "react-icons/fi";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
@@ -70,12 +67,8 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
     toast.info(
       <CommonS.toastinfo>
         <CommonS.toastintoText>{`${projectItem.title}에 지원하시겠습니까?`}</CommonS.toastintoText>
-        <CommonS.toastOkButton onClick={handleConfirm}>
-          확인
-        </CommonS.toastOkButton>
-        <CommonS.toastNoButton onClick={handleCancel}>
-          취소
-        </CommonS.toastNoButton>
+        <CommonS.toastOkButton onClick={handleConfirm}>확인</CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>취소</CommonS.toastNoButton>
       </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
@@ -119,11 +112,8 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
       )}
       <S.ProejctCardContainer>
         <S.ProejctContentLeftWrapper>
-          <S.ProjectStatus
-            recruitmentCompleted={projectItem.status === "진행 전"}
-          >
-            {projectItem.status === "진행 중" ||
-            projectItem.status === "진행 완료"
+          <S.ProjectStatus recruitmentCompleted={projectItem.status === "진행 전"}>
+            {projectItem.status === "진행 중" || projectItem.status === "진행 완료"
               ? "모집 완료"
               : "모집 중"}
           </S.ProjectStatus>
