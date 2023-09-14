@@ -231,7 +231,7 @@ const MemberList = () => {
   if (clientDataError) {
     return <span>client data Error..</span>;
   }
-  console.log(client);
+  // console.log(client);
   return (
     <>
       <S.SearchItemBarAndAddMemberButtonWrapper>

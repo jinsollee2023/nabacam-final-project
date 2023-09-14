@@ -7,22 +7,51 @@ import { useRoomStore } from "../../store/useRoomStore";
 import { CommonS } from "../common/button/commonButton";
 import { TbLogout } from "react-icons/tb";
 import { toast } from "react-toastify";
+import { useUserStore } from "../../store/useUserStore";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
-  const [rooms, setRooms] = useState<TRoom[]>([]);
+  const [roomsWithReceiverData, setRoomsWithReceiverData] = useState<TRoom[]>(
+    []
+  );
+  const [roomsWithUserData, setRoomsWithUserData] = useState<TRoom[]>([]);
   const { selectedRoom, createdRoomId, setSelectedRoom } = useRoomStore();
 
+  const { userRole, user } = useUserStore();
+  const [isClient, setIsClient] = useState(false);
+  const [isFreelancer, setIsFreelancer] = useState(false);
+
+  // 분기
   useEffect(() => {
-    const getRooms = async () => {
-      const { data: roomsData, error } = await supabase.rpc(
-        "get_user_data_for_rooms"
-      );
-      console.log("21", roomsData);
-      if (roomsData) setRooms(roomsData);
-    };
-    getRooms();
-  }, [createdRoomId]);
+    if (userRole === "client") {
+      const clientId = user.userId;
+      setIsClient(true);
+    } else if (userRole === "freelancer") {
+      const freelancerId = user.userId;
+      setIsFreelancer(true);
+    }
+  }, [userRole, user.userId]);
+
+  useEffect(() => {
+    if (isClient) {
+      const getRoomsWithReceiverData = async () => {
+        const { data, error } = await supabase.rpc(
+          "get_receiver_data_for_rooms"
+        );
+        console.log("41", data);
+        if (data) setRoomsWithReceiverData(data);
+      };
+      getRoomsWithReceiverData();
+    } else if (isFreelancer) {
+      const getRoomsWithUserData = async () => {
+        const { data, error } = await supabase.rpc("get_user_data_for_rooms");
+        console.log("48", data);
+
+        if (data) setRoomsWithUserData(data);
+      };
+      getRoomsWithUserData();
+    }
+  }, [createdRoomId, isClient, isFreelancer]);
 
   const handleRoomClick = (room: TRoom) => {
     setSelectedRoom(room);
@@ -36,7 +65,7 @@ const ChatComp = () => {
     room_id: string;
   }) => {
     const exitConfirmed = window.confirm(
-      "채팅방에서 나가시겠습니까? 나가기를 하면 대화내용이 모두 삭제됩니다. 진행중인 파일 전송이나 통화가 있는 경우 종료됩니다."
+      "채팅방에서 나가시겠습니까? 나가기를 하면 대화내용이 모두 삭제됩니다."
     );
 
     if (exitConfirmed) {
@@ -54,16 +83,22 @@ const ChatComp = () => {
         return;
       }
     }
-
-    console.log({ room_id, user_id });
   };
+
+  if (isClient) console.log("90", roomsWithReceiverData);
+  if (isFreelancer) console.log("91", roomsWithUserData);
   return (
     <MenuTabBarComp menu={communicationMenu}>
       <S.Container>
         {/* ============================================================================== */}
         <S.LeftRoomListContainer>
           <S.RoomListWrapper>
-            {rooms?.map((room) => (
+            {(isClient
+              ? roomsWithReceiverData
+              : isFreelancer
+              ? roomsWithUserData
+              : []
+            ).map((room) => (
               <S.RoomBox
                 key={room.room_id}
                 isSelected={
