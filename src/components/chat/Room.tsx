@@ -40,6 +40,7 @@ const Room = () => {
         .select("roomname")
         .match({ room_id: room_id })
         .single();
+      console.log("43", data);
       setRoomName(data?.roomname ?? "Untitled");
     };
     if (room_id) getRoomName(); // selectedRoom했을 때만 getRoomName()

@@ -18,6 +18,7 @@ const ChatComp = () => {
       const { data: roomsData, error } = await supabase.rpc(
         "get_user_data_for_rooms"
       );
+      console.log("21", roomsData);
       if (roomsData) setRooms(roomsData);
     };
     getRooms();
