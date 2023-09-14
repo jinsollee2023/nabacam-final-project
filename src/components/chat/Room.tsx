@@ -13,10 +13,13 @@ import Modal from "../modal/Modal";
 export interface TRoom {
   room_id: string;
   created_at: string;
-  roomname: string | null;
-  participantProfile?: {
-    user_id: string;
-    receiver_id: string;
+  roomname?: string | null;
+  receiver_id: string;
+  name: string;
+  photoURL: string;
+  workField: {
+    workField: string;
+    workSmallField: string;
   };
 }
 
@@ -36,7 +39,7 @@ const Room = () => {
         .select("roomname")
         .match({ room_id: room_id })
         .single();
-      setRoomName(data?.roomname ?? "Untitled"); // ChatComp에 띄우기 위함
+      setRoomName(data?.roomname ?? "Untitled");
     };
     if (room_id) getRoomName(); // selectedRoom했을 때만 getRoomName()
   }, [room_id, roomName]);
@@ -104,23 +107,20 @@ const Room = () => {
       <S.DMWrapper>
         {/* 제목 */}
         <S.DMHeader>
-          <button
-            onClick={() => setSelectedRoom(null)}
-            style={{ color: "white" }}
-          >
+          <S.DMHeaderBackButton onClick={() => setSelectedRoom(null)}>
             <IoIosArrowBack />
-          </button>
+          </S.DMHeaderBackButton>
           <S.DMRoomName onClick={handleRoomRename}>{roomName}</S.DMRoomName>
           {/* <S.DMRoomNameInput type="text" onKeyPress={handleInvite} /> */}
           <CommonS.RightEndButtonBox>
-            <button
-              style={{ color: "white" }}
+            <S.DMHamburgerMenuButton
+              style={{}}
               // onClick={() => {
               //   setIsModalOpen(true);
               // }}
             >
-              <GiHamburgerMenu size={20} />
-            </button>
+              <GiHamburgerMenu />
+            </S.DMHamburgerMenuButton>
           </CommonS.RightEndButtonBox>
         </S.DMHeader>
 

@@ -12,7 +12,8 @@ const GlobalStyles = createGlobalStyle`
     --lighter-gray: #D6D6D6;
     
     --chat-navy: #002c5f;
-    --chat-gray: #ebebeb;
+    --chat-input-gray: #ebebeb;
+    --chat-text-gray: #6f6f6f
   }
 
   html {
