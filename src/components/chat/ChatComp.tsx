@@ -6,6 +6,7 @@ import { S } from "./chat.styles";
 import { useRoomStore } from "../../store/useRoomStore";
 import { CommonS } from "../common/button/commonButton";
 import { TbLogout } from "react-icons/tb";
+import { toast } from "react-toastify";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
@@ -14,8 +15,10 @@ const ChatComp = () => {
 
   useEffect(() => {
     const getRooms = async () => {
-      const { data, error } = await supabase.rpc("get_user_data_for_rooms");
-      if (data) setRooms(data);
+      const { data: roomsData, error } = await supabase.rpc(
+        "get_user_data_for_rooms"
+      );
+      if (roomsData) setRooms(roomsData);
     };
     getRooms();
   }, [createdRoomId]);
@@ -24,7 +27,35 @@ const ChatComp = () => {
     setSelectedRoom(room);
   };
 
-  const exitChat = async () => {};
+  const exitChat = async ({
+    user_id,
+    room_id,
+  }: {
+    user_id: string;
+    room_id: string;
+  }) => {
+    const exitConfirmed = window.confirm(
+      "채팅방에서 나가시겠습니까? 나가기를 하면 대화내용이 모두 삭제됩니다. 진행중인 파일 전송이나 통화가 있는 경우 종료됩니다."
+    );
+
+    if (exitConfirmed) {
+      // room_participants 테이블에서 제거
+      const { error } = await supabase
+        .from("room_participants")
+        // .eq("user_id", user_id)
+        // .or([{ "user_id": user_id }, { "receiver_id": receiver_id }]) // user_id 또는 receiver_id 중 하나와 일치하는 경우 삭제
+        .update({ user_id: "exited" })
+        // update (false -> true)
+        .eq("room_id", room_id);
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+    }
+
+    console.log({ room_id, user_id });
+  };
   return (
     <MenuTabBarComp menu={communicationMenu}>
       <S.Container>
@@ -56,7 +87,11 @@ const ChatComp = () => {
                   </S.RoomListSenderLatestTextContent>
                 </S.RoomListTextColumnWrapper>
                 {/* ============================================================================== */}
-                <S.RoomListExitButton onClick={exitChat}>
+                <S.RoomListExitButton
+                  onClick={() =>
+                    exitChat({ user_id: room.user_id, room_id: room.room_id })
+                  }
+                >
                   <TbLogout />
                 </S.RoomListExitButton>
                 {/* ============================================================================== */}
