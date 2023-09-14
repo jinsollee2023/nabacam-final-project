@@ -17,7 +17,7 @@ interface FreelancerProfileProps {
 const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   // sender (client)
   const { user: client } = useUserStore();
-  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
+  const { setSelectedRoom, setCreatedRoomId, createdRoomId } = useRoomStore();
   const clientId = client.userId;
   const clientName = client.name;
 
@@ -56,8 +56,33 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
     }
   };
 
+  const checkDuplicateRoomId = async () => {
+    const { data, error } = await supabase
+      .from("room_participants")
+      .select("room_id")
+      .match({ receiver_id: freelancerId })
+      .single();
+    console.log("67", data);
+    return data ? data.room_id : null;
+  };
+
   // 클릭 시 해당 프리랜서에게 DM 전송
   const sendDM = async () => {
+    // 중복 방 여부 확인
+    const result = await checkDuplicateRoomId();
+    // console.log("75", result);
+
+    if (result !== null) {
+      console.log(
+        "이미 생성된 방이 있습니다. 해당 채팅방으로 이동은 구현중입니다."
+      );
+
+      navigate("/chat");
+      return;
+    }
+
+    // 중복 없을 경우 새로운 방 생성
+    console.log("채팅 내역이 없습니다.");
     handleCreateRoom();
     navigate("/chat");
   };
