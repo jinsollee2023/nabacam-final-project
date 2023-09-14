@@ -31,11 +31,7 @@ export const S = {
     }
   `,
   LeftRoomListContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-
     width: 30%;
-
     padding: 0 0 37px 20px;
 
     height: 86vh;
@@ -47,7 +43,10 @@ export const S = {
     border-right: solid rgba(0, 0, 0, 0.25);
     padding: 20px;
   `,
-  RoomListWrapper: styled.div``,
+  RoomListWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
   RoomBox: styled.div<RoomBoxProps>`
     box-sizing: border-box;
     /* width: 360px; */
@@ -63,7 +62,15 @@ export const S = {
     align-items: center;
 
     background-color: ${(props) =>
-      props.isSelected ? "#B0CDEB" : "transparent"};
+
+      props.isSelected ? "var(--hover-blue)" : "transparent"};
+
+    position: relative;
+  `,
+  RoomListRoomName: styled.p`
+    font-size: 12px;
+    color: var(--chat-navy);
+
   `,
   RoomListImg: styled.img`
     width: 60px;
@@ -87,10 +94,18 @@ export const S = {
   `,
   RoomListSenderWorkField: styled.p`
     font-size: 12px;
-    color: #6f6f6f;
+    color: var(--chat-text-gray);
   `,
   RoomListSenderLatestTextContent: styled.p`
     font-size: 14px;
+  `,
+  RoomListExitButton: styled.span`
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--chat-text-gray);
+    position: absolute;
+    left: 92%;
+    top: 80%;
   `,
   CreateRoomButton: styled.button`
     /* background-color: var(--main-blue);
@@ -127,12 +142,23 @@ export const S = {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
   `,
+  DMHeaderBackButton: styled.span`
+    margin-right: 3px;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+  `,
   DMRoomName: styled.span`
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     color: white;
     margin-left: 5px;
+  `,
+  DMHamburgerMenuButton: styled.span`
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
   `,
   DMRoomNameInput: styled.input`
     width: 100%;
@@ -179,13 +205,12 @@ export const S = {
     width: 100%;
     height: 100%;
     border: none;
-    background: var(--chat-gray);
+    background: var(--chat-input-gray);
     border-radius: 8px;
   `,
   DMSubmitButton: styled.button`
-    width: 60px;
-    height: 26px;
-    font-size: normal;
+    width: 7%;
+    height: 45%;
     font-weight: 400;
     font-size: 12px;
     line-height: 18px;
@@ -193,9 +218,8 @@ export const S = {
     color: #ffffff;
     background: var(--main-blue);
     border-radius: 8px;
+    padding: 4px 8px;
     border: none;
-    padding: 4px 16px;
-
     z-index: 999;
     position: absolute;
     right: 1.5%;
@@ -205,13 +229,9 @@ export const S = {
   MessageWrapper: styled.div`
     background: var(--chat-navy);
     overflow-y: auto;
-    /* &::-webkit-scrollbar {
-      display: none;
-    } */
 
-    /* 스크롤바 배경 색상 변경 */
     &::-webkit-scrollbar {
-      width: 12px; /* 스크롤바의 너비 설정 */
+      width: 12px;
     }
 
     &::-webkit-scrollbar-track {
@@ -219,7 +239,7 @@ export const S = {
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #051930; /* 스크롤바의 색상 변경 */
+      background-color: #051930;
     }
 
     flex: 1;

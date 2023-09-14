@@ -7,17 +7,9 @@ type RoomStore = {
 
   selectedRoom: TRoom | null;
   setSelectedRoom: (room: TRoom | null) => void;
+
   createdRoomId: string;
   setCreatedRoomId: (roomId: string) => void;
-
-  freelancerReceiver: {
-    freelancerReceiverPhotoURL: string;
-    freelancerReceiverName: string;
-  };
-  setFreelancerReceiver: (freelancerReceiver: {
-    freelancerReceiverPhotoURL: string;
-    freelancerReceiverName: string;
-  }) => void;
 };
 
 export const useRoomStore = create<RoomStore>((set) => ({
@@ -26,12 +18,7 @@ export const useRoomStore = create<RoomStore>((set) => ({
 
   selectedRoom: null,
   setSelectedRoom: (room: TRoom | null) => set({ selectedRoom: room }),
+
   createdRoomId: "",
   setCreatedRoomId: (roomId: string) => set({ createdRoomId: roomId }),
-
-  freelancerReceiver: {
-    freelancerReceiverPhotoURL: "",
-    freelancerReceiverName: "",
-  },
-  setFreelancerReceiver: (freelancerReceiver) => set({ freelancerReceiver }),
 }));
