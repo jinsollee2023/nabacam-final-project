@@ -27,7 +27,7 @@ export const S = {
     }
   `,
   ProejctCardContainer: styled.div`
-    min-width: 1020px;
+    min-width: 950px;
     width: 100%;
     height: 70px;
     border: 1px solid #d6d6d6;
@@ -40,13 +40,13 @@ export const S = {
   ProejctContentLeftWrapper: styled.div`
     display: flex;
     align-items: center;
-    min-width: 770px;
+    min-width: 700px;
   `,
   ProejctContentRightWrapper: styled.div`
-    min-width: 200px;
+    min-width: 215px;
     display: flex;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
   `,
   ProjectStatus: styled.span<ProjectStatusProps>`
     width: 62px;
@@ -69,7 +69,7 @@ export const S = {
     `}
   `,
   AppliedFreelancersCountBox: styled.div`
-    margin-left: 10px;
+    margin-right: 30px;
     width: 100px;
     display: flex;
     justify-content: space-between;
@@ -95,11 +95,22 @@ export const S = {
   ProjectName: styled.span`
     font-weight: bold;
     font-size: 17px;
-    margin: 0px 10px;
+  `,
+
+  ProjectTagBox: styled.div`
+    margin-top: 10px;
+  `,
+  ProjectTag: styled.span`
+    border-radius: 5px;
+    margin: 0 7px 0 0;
+    font-size: 12px;
+    padding: 4px 7px;
+    background-color: var(--lighter-gray);
+    color: #2d2d2d;
   `,
   ProejctContentRightTextWrapper: styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     font-size: 14px;
     color: gray;
     margin-top: 3px;
