@@ -294,7 +294,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                         id="workFieldInput"
                         placeholder="작업 영역을 선택 해주세요."
                         optionFilterProp="children"
-                        onChange={(value, _) => handleChange("workSmallField", value as string)}
+                        onChange={(value, _) => handleChange("workField", value as string)}
                         onBlur={() => {
                           const workFieldError = validateSelect("작업 영역", values.workField);
                           setErrors({ ...errors, workField: workFieldError });
@@ -336,7 +336,7 @@ const JoinForm = ({ role }: JoinFormProps) => {
                         type="text"
                         value={values.workField}
                         placeholder="상세한 작업 영역을 입력해주세요."
-                        onChange={(e) => handleChange("workField", e.target.value)}
+                        onChange={(e) => handleChange("workSmallField", e.target.value)}
                         onBlur={(e) => {
                           const workSmallFieldError = validateWorkSmallField(e.target.value);
                           setErrors({
