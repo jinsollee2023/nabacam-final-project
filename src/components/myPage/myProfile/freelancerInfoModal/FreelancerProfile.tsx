@@ -17,7 +17,7 @@ interface FreelancerProfileProps {
 const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   // sender (client)
   const { user: client } = useUserStore();
-  const { setSelectedRoom, setCreatedRoomId, createdRoomId } = useRoomStore();
+  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
   const clientId = client.userId;
   const clientName = client.name;
 
