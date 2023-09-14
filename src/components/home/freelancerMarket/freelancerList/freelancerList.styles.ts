@@ -22,7 +22,7 @@ export const S = {
     max-width: 100%;
     min-width: 740px;
     height: 72.5vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin-top: 20px;
     padding: 5px 0 5px 5px;
 
@@ -33,17 +33,9 @@ export const S = {
     grid-row-gap: 7%;
 
     &::-webkit-scrollbar {
-      width: 12px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: #848484;
-      border-radius: 10px;
-      background-clip: padding-box;
-      border: 2px solid transparent;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #f3f3f3;
-      border-radius: 10px;
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   `,
 
@@ -129,6 +121,7 @@ export const S = {
     background-color: transparent;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
+    margin: 0 5px -5px 0;
 
     &:hover {
       transform: scale(1.2);
@@ -137,7 +130,24 @@ export const S = {
       transform: scale(1);
     }
   `,
+  SendDMButton: styled.button`
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease-in-out;
 
+    &:hover {
+      transform: scale(1.2) rotate(45deg);
+    }
+    &:hover:not(:hover) {
+      transform: scale(1);
+    }
+  `,
+  CardButtonWrapper: styled.div`
+    display: flex;
+    align-items: center;
+  `,
   FreelancerContentBox: styled.div`
     display: flex;
     align-items: end;
@@ -166,14 +176,16 @@ export const S = {
     height: 40px;
     cursor: pointer;
   `,
-  FreelancerInfoModalBtn: styled.button`
-    width: 100%;
-    height: 35px;
-    cursor: pointer;
-    border: none;
-    border-radius: 10px;
-    background-color: #0086d0;
+  FreelancerInfoModalButton: styled.button`
     color: white;
+    cursor: pointer;
+    height: 30px;
+    margin-top: 8px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #0086d0;
+    font-size: 14px;
   `,
   ArrowIconWrapper: styled.div`
     position: absolute;
@@ -190,5 +202,16 @@ export const S = {
   ArrowIconNextBox: styled.div`
     position: absolute;
     right: 0;
+  `,
+  ProjectSuggestButton: styled.button`
+    position: relative;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    height: 35px;
+    font-size: 14px;
+    cursor: pointer;
+    color: white;
+    background-color: #0086d0;
   `,
 };

@@ -43,13 +43,13 @@ const S = {
   SearchSortWrapper: styled.div`
     display: flex;
   `,
-  SearchSortBtnBox: styled.div`
+  SearchSortButtonBox: styled.div`
     width: 100px;
     margin: 20px 0;
     display: flex;
     justify-content: space-between;
   `,
-  SearchSortBtn: styled.span`
+  SearchSortButton: styled.span`
     cursor: pointer;
     color: var(--darker-gray);
     font-size: 14px;
@@ -65,7 +65,7 @@ const S = {
       font-weight: 700;
     }
   `,
-  SubmitBtn: styled.button`
+  SubmitButton: styled.button`
     color: var(--darker-gray);
     font-size: 14px;
     border: none;
@@ -73,25 +73,17 @@ const S = {
     background-color: transparent;
   `,
   ProjectContainer: styled.div`
-    overflow: auto;
+    overflow-y: auto;
 
     width: 100%;
-    height: 65vh;
+    height: 64vh;
     position: relative;
     padding-right: 10px;
 
     &::-webkit-scrollbar {
-      width: 12px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: #848484;
-      border-radius: 10px;
-      background-clip: padding-box;
-      border: 2px solid transparent;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #f3f3f3;
-      border-radius: 10px;
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   `,
   ProjectCardBox: styled.div<ProjectCardBoxProps>`
@@ -108,7 +100,7 @@ const S = {
     align-items: center;
     background-color: ${(props) => props.backgroundColor};
   `,
-  ProjectSpanBtn: styled.button`
+  ProjectSpanButton: styled.button`
     background-color: var(--main-blue);
     color: white;
     border: none;
@@ -136,6 +128,7 @@ const S = {
     align-items: end;
   `,
   ProjectCardButtonBox: styled.div`
+    width: 70%;
     display: flex;
     justify-content: space-between;
   `,
@@ -220,6 +213,7 @@ const S = {
     border: 1px solid ${(props) => props.borderColor};
     border-radius: 4px;
     width: 100%;
+    padding: 10px;
 
     &:focus {
       outline: none;
@@ -227,6 +221,7 @@ const S = {
   `,
   ModalDescTextarea: styled.textarea<ModalDescTextareaProps>`
     height: 80px;
+    padding: 10px;
     resize: none;
     margin: 5px 0;
     border: 1px solid ${(props) => props.borderColor};
@@ -253,7 +248,7 @@ const S = {
     display: flex;
     align-items: center;
   `,
-  ModalDeleteBtn: styled.button`
+  ModalDeleteButton: styled.button`
     width: 50%;
     height: 30px;
     font-size: 14px;
@@ -261,8 +256,8 @@ const S = {
     border-radius: 5px;
     margin-top: 8px;
   `,
-  ModalPostBtn: styled.button`
-    width: 50%;
+  ModalPostButton: styled.button`
+    width: 100%;
     height: 30px;
     font-size: 14px;
     border: none;
@@ -295,7 +290,7 @@ const S = {
       height: 100%;
     }
   `,
-  SearchSortBtnWrapper: styled.div`
+  SearchSortButtonWrapper: styled.div`
     width: 100%;
     display: flex;
     justify-content: end;
@@ -337,6 +332,9 @@ const S = {
   PayLabelAndCheckBoxWrapper: styled.div`
     display: flex;
     align-items: center;
+  `,
+  MemberTeamAndName: styled.p`
+    margin: 5px 0;
   `,
 };
 

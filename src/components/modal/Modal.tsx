@@ -11,12 +11,7 @@ interface ModalProps {
   availableClose?: boolean;
 }
 
-const Modal = ({
-  setIsModalOpen,
-  children,
-  buttons,
-  availableClose,
-}: ModalProps) => {
+const Modal = ({ setIsModalOpen, children, buttons, availableClose }: ModalProps) => {
   const toggleModal = () => {
     if (availableClose === undefined || availableClose) {
       setIsModalOpen(false);
@@ -36,15 +31,9 @@ const Modal = ({
   const showConfirmation = () => {
     toast.info(
       <CommonS.toastinfo>
-        <CommonS.toastintoText>
-          입력한 내용이 저장되지 않습니다.
-        </CommonS.toastintoText>
-        <CommonS.toastOkButton onClick={handleConfirm}>
-          확인
-        </CommonS.toastOkButton>
-        <CommonS.toastNoButton onClick={handleCancel}>
-          취소
-        </CommonS.toastNoButton>
+        <CommonS.toastintoText>입력한 내용이 저장되지 않습니다.</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>확인</CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>취소</CommonS.toastNoButton>
       </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
@@ -60,12 +49,12 @@ const Modal = ({
       <S.ModalBox>
         <S.ModalContainer>
           <S.ModalTop>
-            <S.CloseBtn onClick={toggleModal}>
+            <S.CloseButton onClick={toggleModal}>
               <GrFormClose size={"25"} />
-            </S.CloseBtn>
+            </S.CloseButton>
           </S.ModalTop>
           <S.ModalContents>{children}</S.ModalContents>
-          {buttons && <S.ModalBtnBox>{buttons}</S.ModalBtnBox>}
+          {buttons && <S.ModalButtonBox>{buttons}</S.ModalButtonBox>}
         </S.ModalContainer>
       </S.ModalBox>
     </>

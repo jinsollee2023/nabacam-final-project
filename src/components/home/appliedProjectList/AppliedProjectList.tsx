@@ -1,48 +1,60 @@
+import React, { useEffect } from "react";
 import { Spin } from "antd";
-import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import { useUserStore } from "../../../store/useUserStore";
 import AppliedProjectCard from "./AppliedProjectCard";
 import { S } from "./appliedProjectList.styles";
+import useAppliedProjectQueries from "src/hooks/queries/useAppliedProjectQueries";
+import { useInView } from "react-intersection-observer";
 
 const AppliedProjectList = () => {
   const { userId } = useUserStore();
+  const [ref, inView] = useInView();
 
   // 현재 로그인한 유저가 지원한 프로젝트만 불러오기
-  const {
-    appliedProjectList,
-    appliedProjectListIsError,
-    appliedProjectListIsLoading,
-  } = useProjectsQueries({ currentUserId: userId });
+  const { appliedProjectList, error, fetchNextPage, hasNextPage, status } =
+    useAppliedProjectQueries({ currentUserId: userId });
 
-  if (appliedProjectListIsLoading) {
-    return (
-      <Spin
-        size="large"
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-        }}
-      />
-    );
-  }
-  if (appliedProjectListIsError) {
-    return <span>fetch project list Error..</span>;
-  }
+  console.log(appliedProjectList);
 
-  return (
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  return status === "loading" ? (
+    <Spin
+      size="large"
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+      }}
+    />
+  ) : status === "error" ? (
+    <p>Error: {error?.message}</p>
+  ) : (
     <S.ProjectListContainer>
-      {appliedProjectList && appliedProjectList.length > 0 ? (
-        appliedProjectList.map((projectItem) => {
-          return (
-            <div key={projectItem.projectId}>
-              <AppliedProjectCard projectItem={projectItem} userId={userId} />
-            </div>
-          );
-        })
+      {appliedProjectList?.pages &&
+      appliedProjectList.pages[0].total_count > 0 ? (
+        appliedProjectList.pages.map((page, idx) => (
+          <React.Fragment key={idx}>
+            {page.projects.map((projectItem) => {
+              return (
+                <div key={projectItem.projectId}>
+                  <AppliedProjectCard
+                    projectItem={projectItem}
+                    userId={userId}
+                  />
+                </div>
+              );
+            })}
+          </React.Fragment>
+        ))
       ) : (
         <div>지원한 프로젝트가 없습니다.</div>
       )}
+      <div ref={ref}></div>
     </S.ProjectListContainer>
   );
 };

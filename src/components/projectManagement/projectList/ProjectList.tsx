@@ -4,10 +4,9 @@ import { RiAddBoxLine } from "react-icons/ri";
 import Modal from "../../modal/Modal";
 import AddProjectModal from "./AddProjectModal";
 import { useProjectStore } from "../../../store/useProjectStore";
-import S from "./ProjectListStyles";
+import S from "./ProjectList.styles";
 import { useEffect, useState } from "react";
 import { useUserStore } from "../../../store/useUserStore";
-import useProjectsQueries from "../../../hooks/useProjectsQueries";
 import SearchItemBar from "../../../components/common/searchItemBar/SearchItemBar";
 import SortProjects from "./SortProjects";
 import { queryClient } from "../../../App";
@@ -16,6 +15,8 @@ import { Project } from "../../../Types";
 import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
+import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientBySortQueries";
+import { useInView } from "react-intersection-observer";
 
 export interface Errors {
   title: null | string;
@@ -28,28 +29,23 @@ export interface Errors {
 }
 
 const ProjectList = () => {
+  const [ref, inView] = useInView();
   const { userId } = useUserStore();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedselectOption, setSelectedselectOption] = useState("전체보기");
   const [selectedSortLabel, setSelectedSortLabel] = useState("최신순");
-  const { projectsOfClient, addProjectMutation } = useProjectsQueries({
-    currentUserId: userId,
-    sortLabel: selectedSortLabel,
-  });
+  const { projectsOfClient, addProjectMutation, fetchNextPage, hasNextPage } =
+    useProjectOfClientBySortQueries({
+      currentUserId: userId,
+      sortLabel: selectedSortLabel,
+    });
   const { newProject } = useProjectStore();
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(
-    projectsOfClient!
-  );
+  const [filteredProjects, setFilteredProjects] = useState<Project[][]>([]);
   const [addSubmitButtonClicked, setAddSubmitButtonClicked] = useState(false);
   const { values, changeValues } = useProjectValuesStore();
-  const {
-    validateDate,
-    validateSelect,
-    validatePay,
-    validateWorkExp,
-    validateInput,
-  } = useValidation();
+  const { validateDate, validateSelect, validatePay, validateWorkExp, validateInput } =
+    useValidation();
   const initialErrors: Errors = {
     title: null,
     desc: null,
@@ -64,17 +60,9 @@ const ProjectList = () => {
   const validateAddProject = () => {
     const titleError = validateInput("프로젝트 제목", newProject.title);
     const descError = validateInput("프로젝트 설명", newProject.desc);
-    const categoryError = validateSelect(
-      "프로젝트 설명",
-      values.category as string
-    );
-    const qualificationError = validateWorkExp(
-      String(newProject.qualification)
-    );
-    const expectedStartDateError = validateDate(
-      "시작예정일",
-      newProject.expectedStartDate
-    );
+    const categoryError = validateSelect("프로젝트 분야", values.category as string);
+    const qualificationError = validateWorkExp(String(newProject.qualification));
+    const expectedStartDateError = validateDate("시작예정일", newProject.expectedStartDate);
     const managerError = validateSelect("담당자", newProject.manager.name);
     const payError = validatePay(newProject.pay.min, newProject.pay.max);
     setErrors({
@@ -112,12 +100,20 @@ const ProjectList = () => {
   };
 
   useEffect(() => {
-    if (projectsOfClient) {
-      const filteredprojectList = projectsOfClient?.filter((project) => {
-        const lowerCaseSearch = String(searchKeyword).toLowerCase();
-        return project?.title?.toLowerCase().includes(lowerCaseSearch);
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    if (projectsOfClient?.pages) {
+      const filteredprojectList = projectsOfClient?.pages.map((page) => {
+        return page.projects.filter((project) => {
+          const lowerCaseSearch = String(searchKeyword).toLowerCase();
+          return project?.title?.toLowerCase().includes(lowerCaseSearch);
+        });
       });
-      setFilteredProjects(filteredprojectList);
+      setFilteredProjects(filteredprojectList!);
     }
   }, [projectsOfClient, searchKeyword]);
 
@@ -146,20 +142,20 @@ const ProjectList = () => {
     values.manager.team === "" &&
     values.qualification === null;
 
-  const beforeProgressProjects = filteredProjects?.filter(
-    (project) => project.status === "진행 전"
+  const beforeProgressProjects = filteredProjects?.map((page) =>
+    page.filter((project) => project.status === "진행 전")
   );
 
-  const onProgressProjects = filteredProjects?.filter(
-    (project) => project.status === "진행 중"
+  const onProgressProjects = filteredProjects?.map((page) =>
+    page.filter((project) => project.status === "진행 중")
   );
 
-  const DoneProjects = filteredProjects?.filter(
-    (project) => project.status === "진행 완료"
+  const DoneProjects = filteredProjects?.map((page) =>
+    page.filter((project) => project.status === "진행 완료")
   );
 
   const renderProjects = () => {
-    let projectsToRender: Project[] = [];
+    let projectsToRender: Project[][] = [];
     if (selectedselectOption === "전체보기") {
       projectsToRender = filteredProjects;
     } else if (selectedselectOption === "진행 전") {
@@ -172,13 +168,17 @@ const ProjectList = () => {
 
     return (
       <>
-        {projectsToRender?.map((project) => (
-          <ProjectCard
-            key={project.projectId}
-            project={project}
-            errors={errors}
-            setErrors={setErrors}
-          />
+        {projectsToRender?.map((page, idx) => (
+          <React.Fragment key={idx}>
+            {page.map((project) => (
+              <ProjectCard
+                key={project.projectId}
+                project={project}
+                errors={errors}
+                setErrors={setErrors}
+              />
+            ))}
+          </React.Fragment>
         ))}
       </>
     );
@@ -209,49 +209,50 @@ const ProjectList = () => {
 
   return (
     <>
-      {projectsOfClient && projectsOfClient.length > 0 ? (
+      {projectsOfClient?.pages && projectsOfClient?.pages.length > 0 ? (
         <>
           <S.SearchSortWrapper>
             <SearchItemBar />
             <SortProjects handleSort={handleSort} />
           </S.SearchSortWrapper>
-          <S.SearchSortBtnWrapper>
-            <S.SearchSortBtnBox>
-              <S.SearchSortBtn
+          <S.SearchSortButtonWrapper>
+            <S.SearchSortButtonBox>
+              <S.SearchSortButton
                 onClick={() => setSelectedSortLabel("최신순")}
                 className={selectedSortLabel === "최신순" ? "selected" : ""}
               >
                 최신순
-              </S.SearchSortBtn>
-              <S.SearchSortBtn
+              </S.SearchSortButton>
+              <S.SearchSortButton
                 onClick={() => setSelectedSortLabel("오래된순")}
                 className={selectedSortLabel === "오래된순" ? "selected" : ""}
               >
                 오래된순
-              </S.SearchSortBtn>
-            </S.SearchSortBtnBox>
-          </S.SearchSortBtnWrapper>
+              </S.SearchSortButton>
+            </S.SearchSortButtonBox>
+          </S.SearchSortButtonWrapper>
         </>
       ) : (
         <p>등록된 프로젝트가 없습니다.</p>
       )}
       <S.ProjectContainer>
         {projectsOfClient && renderProjects()}
+        <div ref={ref}></div>
       </S.ProjectContainer>
 
-      <S.ProjectSpanBtn onClick={addProjectModalOpenHandler}>
+      <S.ProjectSpanButton onClick={addProjectModalOpenHandler}>
         <RiAddBoxLine size="23" color="white" style={{ marginRight: "10px" }} />
         프로젝트 게시하기
-      </S.ProjectSpanBtn>
+      </S.ProjectSpanButton>
 
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <S.ModalPostBtn onClick={addProjectButtonHandler}>
+              <S.ModalPostButton onClick={addProjectButtonHandler}>
                 프로젝트 게시하기
-              </S.ModalPostBtn>
+              </S.ModalPostButton>
             </>
           }
           availableClose={availableClose}

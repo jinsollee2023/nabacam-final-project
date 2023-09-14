@@ -1,7 +1,7 @@
 import { Checkbox, DatePicker } from "antd";
 import { useEffect, useState } from "react";
 import { useProjectStore } from "../../../store/useProjectStore";
-import S from "./ProjectListStyles";
+import S from "./ProjectList.styles";
 import dayjs from "dayjs";
 import { useUserStore } from "../../../store/useUserStore";
 import useClientsQueries from "../../../hooks/useClientsQueries";
@@ -10,6 +10,8 @@ import React from "react";
 import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import useValidation from "src/hooks/useValidation";
 import { Errors } from "./ProjectList";
+import { toast } from "react-toastify";
+import { CommonS } from "src/components/common/button/commonButton";
 
 interface AddProjectModal {
   errors: Errors;
@@ -61,11 +63,7 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
         },
       });
     } else if (value === "goToAddMember") {
-      const isConfirmed = window.confirm(
-        "페이지를 이동하시면 이전에 작성된 정보는 저장되지 않습니다. \n멤버 등록 페이지로 이동하시겠습니까?"
-      );
-
-      isConfirmed && navigate("/my-page");
+      showConfirmation();
     } else {
       const selectedMember = client?.members?.find(
         (member) => member.name === value
@@ -129,6 +127,39 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
     });
   }, [values, payInputOff]);
 
+  const handleConfirm = () => {
+    navigate("/my-page");
+    toast.dismiss();
+  };
+
+  const handleCancel = () => {
+    toast.dismiss();
+  };
+
+  const showConfirmation = () => {
+    toast.info(
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>
+          {
+            "페이지를 이동하시면 이전에 작성된 정보는 저장되지 않습니다. \n멤버 등록 페이지로 이동하시겠습니까?"
+          }
+        </CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
+  };
+
   return (
     <div>
       {values.title === "" ? (
@@ -184,12 +215,10 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
               <S.ProjectSelect
                 id="category"
                 value={values.category}
-                onChange={(value, _) =>
-                  handleChange("category", value as string)
-                }
+                onChange={(value) => handleChange("category", value as string)}
                 onBlur={() => {
                   const categoryError = validateSelect(
-                    "프로젝트 설명",
+                    "프로젝트 분야",
                     values.category as string
                   );
                   setErrors({ ...errors, category: categoryError });

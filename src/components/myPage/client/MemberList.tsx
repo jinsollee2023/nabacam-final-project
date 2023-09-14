@@ -7,6 +7,7 @@ import { Member } from "src/Types";
 import { S } from "./memberListStyle";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
+import { CommonS } from "src/components/common/button/commonButton";
 import { FiPhoneCall, FiMail } from "react-icons/fi";
 import SearchItemBar from "src/components/common/searchItemBar/SearchItemBar";
 import { useSearchKeywordStore } from "src/store/useSearchKeywordStore";
@@ -23,7 +24,9 @@ const MemberList = () => {
   const { userId, setUser } = useUserStore();
   const { searchKeyword, changeSearchKeyword } = useSearchKeywordStore();
   const { client, clientDataError, clientDataLoading, clientMembersMutation } =
-    useClientsQueries({ userId });
+    useClientsQueries({
+      userId,
+    });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [updateMemberData, setUpdateMemberData] = useState<Member>();
   const [selectedMemberData, setSelectedMemberData] = useState<Member>();
@@ -151,21 +154,47 @@ const MemberList = () => {
     });
   };
 
-  const deleteMemberButtonHandler = (deleteMember: Member) => {
+  const deleteMemberButtonHandler = (deleteMember: Member | undefined) => {
     const deletedMember = client?.members?.filter(
       (member) => member !== deleteMember
     );
     // 업데이트
-    const shouldDeleteMember = window.confirm("삭제하시겠습니까?");
 
-    if (shouldDeleteMember) {
-      clientMembersMutation.mutate({
-        updatedData: { members: deletedMember },
-        userId,
-        setUser,
-      });
-      toast.success("구성원이 삭제되었습니다.");
-    }
+    clientMembersMutation.mutate({
+      updatedData: { members: deletedMember },
+      userId,
+      setUser,
+    });
+    toast.success("구성원이 삭제되었습니다.");
+  };
+
+  const handleConfirm = (deleteMember: Member) => {
+    deleteMemberButtonHandler(deleteMember);
+    toast.dismiss();
+  };
+
+  const handleCancel = () => {
+    toast.dismiss();
+  };
+
+  const showConfirmation = (member: Member) => {
+    toast.info(
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>{`삭제하시겠습니까?`}</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={() => handleConfirm(member)}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
+      }
+    );
   };
 
   useEffect(() => {
@@ -205,25 +234,25 @@ const MemberList = () => {
   console.log(client);
   return (
     <>
-      <S.SearchItemBarAndAddMemberBtnWrapper>
+      <S.SearchItemBarAndAddMemberButtonWrapper>
         <SearchItemBar />
-        <S.AddMemberBtn onClick={openModalButtonHandler}>
+        <S.AddMemberButton onClick={openModalButtonHandler}>
           구성원 추가하기
-        </S.AddMemberBtn>
-      </S.SearchItemBarAndAddMemberBtnWrapper>
+        </S.AddMemberButton>
+      </S.SearchItemBarAndAddMemberButtonWrapper>
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
               {selectedMemberData?.name === "" ? (
-                <S.ModalInnerAddBtn onClick={submitButtonHandler}>
+                <S.ModalInnerAddButton onClick={submitButtonHandler}>
                   구성원 추가하기
-                </S.ModalInnerAddBtn>
+                </S.ModalInnerAddButton>
               ) : (
-                <S.ModalInnerAddBtn onClick={submitButtonHandler}>
+                <S.ModalInnerAddButton onClick={submitButtonHandler}>
                   구성원 수정하기
-                </S.ModalInnerAddBtn>
+                </S.ModalInnerAddButton>
               )}
             </>
           }
@@ -247,20 +276,20 @@ const MemberList = () => {
                   <S.MemberTeam>{member.team}</S.MemberTeam>
                 </S.MemberInfo>
                 <S.MemberContactBox>
-                  <S.BtnBox>
-                    <S.EditAndDelBtn
+                  <S.ButtonBox>
+                    <S.EditAndDelButton
                       onClick={() => updateButtonHandler(member)}
                     >
                       수정
-                    </S.EditAndDelBtn>
-                    <S.EditAndDelBtn
+                    </S.EditAndDelButton>
+                    <S.EditAndDelButton
                       onClick={() => {
-                        deleteMemberButtonHandler(member);
+                        showConfirmation(member);
                       }}
                     >
                       삭제
-                    </S.EditAndDelBtn>
-                  </S.BtnBox>
+                    </S.EditAndDelButton>
+                  </S.ButtonBox>
                   <S.ContactBoxWrapper>
                     <S.ContactBox>
                       <FiPhoneCall size={16} />

@@ -7,20 +7,12 @@ interface ProjectStatusProps {
 
 export const S = {
   ProjectListContainer: styled.div`
-    height: 86vh;
+    height: 82vh;
     overflow-y: auto;
     &::-webkit-scrollbar {
-      width: 12px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: #848484;
-      border-radius: 10px;
-      background-clip: padding-box;
-      border: 2px solid transparent;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #f3f3f3;
-      border-radius: 10px;
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   `,
   CardContainer: styled.div`

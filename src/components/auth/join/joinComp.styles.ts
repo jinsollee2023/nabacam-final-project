@@ -103,7 +103,7 @@ export const S = {
     display: flex;
     justify-content: space-between;
   `,
-  PassswordInputAndEyeBtnWrapper: styled.div`
+  PassswordInputAndEyeButtonWrapper: styled.div`
     margin-bottom: 5px;
     display: flex;
   `,
@@ -133,7 +133,7 @@ export const S = {
     border-bottom-right-radius: 10px;
     background-color: #f0f0f0;
   `,
-  EyeBtn: styled.button`
+  EyeButton: styled.button`
     border: none;
     background-color: transparent;
   `,

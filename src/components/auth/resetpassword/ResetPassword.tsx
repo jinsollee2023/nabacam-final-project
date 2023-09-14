@@ -42,11 +42,7 @@ const ResetPassword = () => {
 
   // errors 바로확인하고 validation 체크 후 진행하게해주기위해 useEffect 사용
   useEffect(() => {
-    if (
-      submitButtonClicked &&
-      errors.password === "" &&
-      errors.passwordConfirm === ""
-    ) {
+    if (submitButtonClicked && errors.password === "" && errors.passwordConfirm === "") {
       updatePassword();
     } else setSubmitButtonClicked(false);
   }, [errors, submitButtonClicked]);
@@ -62,8 +58,7 @@ const ResetPassword = () => {
         navigate("/");
       }
       if (error) {
-        error.message ===
-          "New password should be different from the old password." &&
+        error.message === "New password should be different from the old password." &&
           toast.error("이전 비밀번호와 다른 비밀번호로 입력해주세요.", {});
 
         setSubmitButtonClicked(false);
@@ -74,15 +69,10 @@ const ResetPassword = () => {
   };
 
   //  password 업데이트 버튼 클릭시 실행되는 로직
-  const updatePasswordButtonHandler = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  const updatePasswordButtonHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const passwordError = validatePassword(values.password);
-    const passwordConfirmError = validatePasswordConfirm(
-      values.password,
-      values.passwordConfirm
-    );
+    const passwordConfirmError = validatePasswordConfirm(values.password, values.passwordConfirm);
     setErrors({
       password: passwordError,
       passwordConfirm: passwordConfirmError,
@@ -105,9 +95,7 @@ const ResetPassword = () => {
           <S.LogoBox>
             <S.Logo src={logoURL} alt="logo" />
           </S.LogoBox>
-          <S.Passwordfont>
-            새롭게 설정 할 비밀번호를 입력해주세요.
-          </S.Passwordfont>
+          <S.Passwordfont>새롭게 설정 할 비밀번호를 입력해주세요.</S.Passwordfont>
           <S.ChangePasswordCard>
             <form onSubmit={(e) => updatePasswordButtonHandler(e)}>
               <S.PasswordBack>
@@ -124,9 +112,9 @@ const ResetPassword = () => {
                     }}
                   />
                   <S.CenterizeBox>
-                    <S.EyeBtn type="button" onClick={showPasswordHandler}>
+                    <S.EyeButton type="button" onClick={showPasswordHandler}>
                       {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                    </S.EyeBtn>
+                    </S.EyeButton>
                   </S.CenterizeBox>
                 </S.PasswordInputWrapper>
                 <S.ErrorMessage hasError={!!errors.password}>
@@ -151,9 +139,9 @@ const ResetPassword = () => {
                     }}
                   />
                   <S.CenterizeBox>
-                    <S.EyeBtn type="button" onClick={showPasswordHandler}>
+                    <S.EyeButton type="button" onClick={showPasswordHandler}>
                       {showPswd ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-                    </S.EyeBtn>
+                    </S.EyeButton>
                   </S.CenterizeBox>
                 </S.PasswordInputWrapper>
                 <S.ErrorMessage hasError={!!errors.passwordConfirm}>

@@ -1,11 +1,12 @@
 import { useUserStore } from "src/store/useUserStore";
 import MenuTabBarComp from "../../../../components/common/MenuTabBarComp";
 import Account from "../../myProfile/Account";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { styled } from "styled-components";
 import MemberList from "../MemberList";
 import OngoingFreelancerList from "../listOfFreelancersByStatus/ongoingFreelancerList/OngoingFreelancerList";
-import ContractTerminationFreelancers from "../listOfFreelancersByStatus/ContractTerminationFreelancers";
+import ContractTerminationFreelancerList
+  from "../listOfFreelancersByStatus/contractTerminationFreelancerList/ContractTerminationFreelancerList";
 
 const ClientMyPageComp = () => {
   const [activeTab, setActiveTab] = useState("우리 기업 구성원");
@@ -61,7 +62,7 @@ const ClientMyPageComp = () => {
             {activeTab === "우리 기업 구성원" && <MemberList />}
             {activeTab === "진행 중인 프리랜서" && <OngoingFreelancerList />}
             {activeTab === "계약이 끝난 프리랜서" && (
-              <ContractTerminationFreelancers />
+              <ContractTerminationFreelancerList />
             )}
           </S.TabsContainerInner>
         </S.TabsContainer>

@@ -10,7 +10,7 @@ import MemberList from "../myPage/client/MemberList";
 import AppliedProjectList from "../home/appliedProjectList/AppliedProjectList";
 import SuggestedProjectList from "../home/suggestedProjectList/SuggestedProjectList";
 import OngoingFreelancerList from "../myPage/client/listOfFreelancersByStatus/ongoingFreelancerList/OngoingFreelancerList";
-import ContractTerminationFreelancers from "../myPage/client/listOfFreelancersByStatus/ContractTerminationFreelancers";
+import ContractTerminationFreelancerList from "../myPage/client/listOfFreelancersByStatus/contractTerminationFreelancerList/ContractTerminationFreelancerList";
 import React from "react";
 import { useTutorialStore } from "src/store/useTutorialStore";
 import { useTabStore } from "src/store/useTabStore";
@@ -60,9 +60,7 @@ const MenuTabBarComp = ({ menu, children }: MenuTabBarCompProps) => {
         {currentTab === "보류한 프리랜서" && <PendingFreelancerList />}
         {currentTab === "우리 기업 구성원" && <MemberList />}
         {currentTab === "진행 중인 프리랜서" && <OngoingFreelancerList />}
-        {currentTab === "계약이 끝난 프리랜서" && (
-          <ContractTerminationFreelancers />
-        )}
+        {currentTab === "계약이 끝난 프리랜서" && <ContractTerminationFreelancerList />}
       </S.CompContainer>
     </>
   );

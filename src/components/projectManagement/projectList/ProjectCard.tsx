@@ -1,5 +1,5 @@
 import { Project } from "../../../Types";
-import S from "./ProjectListStyles";
+import S from "./ProjectList.styles";
 import { useEffect, useState } from "react";
 import Modal from "../../../components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
@@ -45,7 +45,7 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
     const titleError = validateInput("프로젝트 제목", newProject.title);
     const descError = validateInput("프로젝트 설명", newProject.desc);
     const categoryError = validateSelect(
-      "프로젝트 설명",
+      "프로젝트 분야",
       values.category as string
     );
     const qualificationError = validateWorkExp(
@@ -175,12 +175,12 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           buttons={
             project.status === "진행 전" && (
               <>
-                <S.ModalPostBtn onClick={showDeleteConfirmation}>
+                <S.ModalPostButton onClick={showDeleteConfirmation}>
                   삭제하기
-                </S.ModalPostBtn>
-                <S.ModalPostBtn onClick={updateProjectModalOpenHandler}>
+                </S.ModalPostButton>
+                <S.ModalPostButton onClick={updateProjectModalOpenHandler}>
                   수정하기
-                </S.ModalPostBtn>
+                </S.ModalPostButton>
               </>
             )
           }
@@ -194,12 +194,12 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           availableClose={availableClose}
           buttons={
             <>
-              <S.ModalDeleteBtn onClick={showDeleteConfirmation}>
+              <S.ModalDeleteButton onClick={showDeleteConfirmation}>
                 삭제하기
-              </S.ModalDeleteBtn>
-              <S.ModalPostBtn onClick={updateProjectButtonHandler}>
+              </S.ModalDeleteButton>
+              <S.ModalPostButton onClick={updateProjectButtonHandler}>
                 수정하기
-              </S.ModalPostBtn>
+              </S.ModalPostButton>
             </>
           }
         >
@@ -211,37 +211,37 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
         <S.ProjcetTitleBox onClick={() => setIsDetailModalOpen(true)}>
           {project.title}
         </S.ProjcetTitleBox>
-        <div>
+        <S.ProfileCardRightContentWrapper>
           {project.status === "진행 전" && (
             <>
               <S.ProjectCardButtonBox>
-                <S.SubmitBtn
+                <S.SubmitButton
                   style={{ marginRight: "5px" }}
                   onClick={updateProjectModalOpenHandler}
                 >
                   수정
-                </S.SubmitBtn>
-                <S.SubmitBtn onClick={showDeleteConfirmation}>삭제</S.SubmitBtn>
+                </S.SubmitButton>
+                <S.SubmitButton onClick={showDeleteConfirmation}>
+                  삭제
+                </S.SubmitButton>
               </S.ProjectCardButtonBox>
             </>
           )}
-          <div>
-            <p>
-              {project.manager.team}팀&nbsp;{project.manager.name}
+          <S.MemberTeamAndName>
+            {project.manager.team}팀&nbsp;{project.manager.name}
+          </S.MemberTeamAndName>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <p
+              style={{
+                color: "var(--middle-gray)",
+                fontSize: "13px",
+                marginTop: "5px",
+              }}
+            >
+              {project.expectedStartDate} 시작 예정
             </p>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <p
-                style={{
-                  color: "var(--middle-gray)",
-                  fontSize: "13px",
-                  marginTop: "5px",
-                }}
-              >
-                {project.expectedStartDate} 시작 예정
-              </p>
-            </div>
           </div>
-        </div>
+        </S.ProfileCardRightContentWrapper>
       </S.ProjectCardBox>
     </>
   );

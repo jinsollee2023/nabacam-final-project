@@ -13,17 +13,9 @@ export const S = {
     padding: 0 10px 0 0;
 
     &::-webkit-scrollbar {
-      width: 12px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: #848484;
-      border-radius: 10px;
-      background-clip: padding-box;
-      border: 2px solid transparent;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #f3f3f3;
-      border-radius: 10px;
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   `,
   ProejctCardContainer: styled.div`

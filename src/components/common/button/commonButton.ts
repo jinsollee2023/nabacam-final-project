@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-interface commonBtnProps {
+interface commonButtonProps {
   marginTop?: string;
   marginBottom?: string;
   marginLeft?: string;
@@ -24,7 +24,7 @@ interface CenterizeBoxProps {
 }
 
 export const CommonS = {
-  CommonBtn: styled.button<commonBtnProps>`
+  CommonButton: styled.button<commonButtonProps>`
     background-color: ${(props) => props.backgroundColor || "var(--main-blue)"};
     width: ${(props) => props.width || "100%"};
     height: ${(props) => props.height || "50px"};
@@ -70,7 +70,7 @@ export const CommonS = {
     display: flex;
     align-items: center;
   `,
-  RightEndBtnBox: styled.div`
+  RightEndButtonBox: styled.div`
     display: flex;
     margin-left: auto;
   `,
@@ -80,16 +80,16 @@ export const CommonS = {
   `,
   toastinfo: styled.div`
     text-align: center;
-    height: 65px;
+    height: 80px;
   `,
   toastintoText: styled.p`
     text-align: center;
     margin-right: 25px;
-    font-size: 17px;
+    font-size: 15px;
   `,
   toastOkButton: styled.button`
-    height: 30px;
-    width: 100px;
+    height: 35px;
+    width: 150px;
     border-radius: 15px;
     border-style: none;
     margin-right: 5%;
@@ -101,8 +101,8 @@ export const CommonS = {
   toastNoButton: styled.button`
     margin-top: 6.5%;
     margin-right: 8%;
-    height: 30px;
-    width: 100px;
+    height: 35px;
+    width: 150px;
     display: inline-block;
     border-radius: 15px;
     border: none;

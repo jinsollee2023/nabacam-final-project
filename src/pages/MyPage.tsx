@@ -4,11 +4,11 @@ import { useUserStore } from "../store/useUserStore";
 import React from "react";
 
 const MyPage = () => {
-  const { userRole } = useUserStore();
+  const { user } = useUserStore();
   return (
     <>
-      {userRole === "freelancer" && <FreelancerMyPageComp />}
-      {userRole === "client" && <ClientMyPageComp />}
+      {user.role === "freelancer" && <FreelancerMyPageComp />}
+      {user.role === "client" && <ClientMyPageComp />}
     </>
   );
 };

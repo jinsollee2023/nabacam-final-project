@@ -6,7 +6,7 @@ interface ColumnBoxProps {
 interface FlexBoxProps {
   marginLeft?: string;
 }
-interface BtnProps {
+interface ButtonProps {
   marginTop?: string;
   marginBottom?: string;
   marginLeft?: string;
@@ -28,11 +28,19 @@ export const S = {
     padding: 10px;
     width: 100%;
   `,
-  Img: styled.img`
-    margin-left: 5px;
+  ProfileImageBox: styled.div`
+    min-width: 120px;
     width: 120px;
     height: 120px;
-    border-radius: 5px;
+    margin-left: 5px;
+    border-radius: 7px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   `,
   Title: styled.p`
     font-size: 16px;
@@ -48,7 +56,7 @@ export const S = {
     color: ${(props) => props.color || "var(--middle-gray)"};
     display: flex;
   `,
-  SettingBtn: styled.span`
+  SettingButton: styled.span`
     cursor: pointer;
     margin-left: 5px;
     height: 25px;
@@ -115,11 +123,11 @@ export const S = {
     display: flex;
     align-items: center;
   `,
-  RightEndBtnBox: styled.div`
+  RightEndButtonBox: styled.div`
     display: flex;
     margin-left: auto;
   `,
-  Btn: styled.button<BtnProps>`
+  Button: styled.button<ButtonProps>`
     width: ${(props) => props.width};
     height: 30px;
     font-size: 14px;
@@ -130,7 +138,7 @@ export const S = {
     background-color: #0086d0;
     color: white;
   `,
-  UnMemberBtn: styled.button<BtnProps>`
+  UnMemberButton: styled.button<ButtonProps>`
     width: ${(props) => props.width};
     height: 30px;
     font-size: 14px;

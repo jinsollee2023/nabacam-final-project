@@ -16,6 +16,10 @@ import useProjectByClientWithBeforeProgressQueries from "src/hooks/queries/usePr
 import useSuggestedFreelancersQueries from "src/hooks/queries/useSuggestedFreelancersQueries";
 import PortfolioDetailModal from "src/components/myPage/myProfile/tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
 import { usePortfolioStore } from "src/store/usePortfolioStore";
+import { HiOutlinePaperAirplane } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
+import supabase from "src/config/supabaseClient";
+import { useRoomStore } from "src/store/useRoomStore";
 
 interface FreelancerCardProps {
   freelancerItem: User;
@@ -33,6 +37,14 @@ const FreelancerCard = ({
   const [isPortfolioDetailModalOpen, setIsPortfolioDetailModalOpen] =
     useState(false);
   const { setSelectedPortfolio } = usePortfolioStore();
+
+  const navigate = useNavigate();
+  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
+  const { user: client } = useUserStore();
+  const clientId = client.userId;
+  const clientName = client.name;
+  const freelancerId = freelancerItem?.userId;
+  const freelancerName = freelancerItem.name;
 
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const { userId } = useUserStore();
@@ -134,7 +146,7 @@ const FreelancerCard = ({
     setIsDetailModalOpen(false);
   };
 
-  const handleInfoModalProposalBtnClick = () => {
+  const handleInfoModalProposalButtonClick = () => {
     setIsInfoModalOpen(false);
     setIsDetailModalOpen(true);
   };
@@ -156,6 +168,32 @@ const FreelancerCard = ({
     setIsPortfolioDetailModalOpen(true);
   };
 
+  // 채팅
+  const handleCreateRoom = async () => {
+    // 방 생성 + 구성원 집어넣음
+    const { data, error } = await supabase.rpc("create_room2", {
+      roomname: `${clientName}, ${freelancerName}`,
+      user_id: clientId,
+      receiver_id: freelancerId,
+    });
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    if (data) {
+      const room_id = data.room_id;
+      // ChatComp dependency array
+      setCreatedRoomId(room_id);
+      setSelectedRoom(data);
+    }
+  };
+
+  // 클릭 시 해당 프리랜서에게 DM 전송
+  const sendDM = async () => {
+    handleCreateRoom();
+    navigate("/chat");
+  };
+
   return (
     <>
       {isDetailModalOpen && (
@@ -167,6 +205,16 @@ const FreelancerCard = ({
                 type="primary"
                 block
                 onClick={HandleProjectSuggestionButtonClick}
+                style={{
+                  backgroundColor:
+                    !selectedProject?.title ||
+                    !(
+                      projectDataForSuggestions &&
+                      projectDataForSuggestions.length > 0
+                    )
+                      ? "#f5f5f5"
+                      : "var(--main-blue)",
+                }}
                 disabled={
                   !selectedProject?.title ||
                   !(
@@ -331,20 +379,25 @@ const FreelancerCard = ({
               setIsModalOpen={setIsInfoModalOpen}
               buttons={
                 <>
-                  <S.FreelancerInfoModalBtn
-                    onClick={handleInfoModalProposalBtnClick}
+                  <S.FreelancerInfoModalButton
+                    onClick={handleInfoModalProposalButtonClick}
                   >
                     제안하기
-                  </S.FreelancerInfoModalBtn>
+                  </S.FreelancerInfoModalButton>
                 </>
               }
             >
               <FreelancerInfoModal user={freelancerItem} />
             </Modal>
           )}
-          <S.SuggestButton onClick={handleSuggestButtonClick}>
-            <FaHandshakeSimple size="25" color="var(--main-blue)" />
-          </S.SuggestButton>
+          <S.CardButtonWrapper>
+            <S.SendDMButton onClick={sendDM}>
+              <HiOutlinePaperAirplane size="22" color="var(--main-blue)" />
+            </S.SendDMButton>
+            <S.SuggestButton onClick={handleSuggestButtonClick}>
+              <FaHandshakeSimple size="25" color="var(--main-blue)" />
+            </S.SuggestButton>
+          </S.CardButtonWrapper>
         </S.MiniProfileBox>
       </S.FreelancerList>
     </>

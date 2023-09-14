@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { S } from "./portfolioTab.styles";
 import PortfolioAddModal from "./portfolioAddModal/PortfolioAddModal";
 import usePortfolioInfoQueries from "../../../../../hooks/usePortfolioInfoQueries";
@@ -17,6 +17,8 @@ import { BsPlusCircleDotted } from "react-icons/bs";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
 import { CommonS } from "src/components/common/button/commonButton";
+import { Spin } from "antd";
+import { useInView } from "react-intersection-observer";
 
 export interface Errors {
   title: null | string;
@@ -27,6 +29,7 @@ export interface Errors {
 
 const PortfolioTab = () => {
   const { user } = useUserStore();
+  const [ref, inView] = useInView();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const {
@@ -40,7 +43,11 @@ const PortfolioTab = () => {
     addPortfolioMutation,
     deletePortfolioMutation,
     updatePortfolioMutation,
-    portfolios,
+    portfolio,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    status,
   } = usePortfolioInfoQueries({
     userId: user.userId,
     pfId: newPortfolio.portfolioId,
@@ -74,6 +81,13 @@ const PortfolioTab = () => {
     setIsAddModalOpen(false);
     setSelectedPortfolio(null);
   };
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      console.log(1);
+      fetchNextPage();
+    }
+  }, [inView]);
 
   useEffect(() => {
     const validatePdfPortfolio =
@@ -303,7 +317,18 @@ const PortfolioTab = () => {
     ? updateAvailableClose
     : addAvailableClose;
 
-  return (
+  return status === "loading" ? (
+    <Spin
+      size="large"
+      style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+      }}
+    />
+  ) : status === "error" ? (
+    <p>Error: {error?.message}</p>
+  ) : (
     <>
       {isDetailModalOpen && (
         <Modal
@@ -362,7 +387,7 @@ const PortfolioTab = () => {
                   block
                   onClick={handlePortfolioSubmitButtonHandler}
                 >
-                  추가하기
+                  첨부하기
                 </S.Button>
               )}
             </>
@@ -375,31 +400,40 @@ const PortfolioTab = () => {
 
       <S.PortfolioListContainer>
         <S.PortfolioListWrapper>
-          {portfolios &&
-            portfolios.map((portfolio) => {
-              return (
-                <S.PortfolioList
-                  key={portfolio.portfolioId}
-                  onClick={() => {
-                    handleOpenDetailModalButtonClick(portfolio);
-                  }}
-                >
-                  <img
-                    style={{ borderRadius: "20px" }}
-                    src={portfolio.thumbNailURL}
-                    alt="썸네일 이미지"
-                  />
+          {portfolio &&
+            portfolio?.pages.map((page, idx) => (
+              <React.Fragment key={idx}>
+                {page.portfolio.map((portfolio) => {
+                  return (
+                    <S.PortfolioList
+                      key={portfolio.portfolioId}
+                      onClick={() => {
+                        handleOpenDetailModalButtonClick(portfolio);
+                      }}
+                    >
+                      <img
+                        style={{ borderRadius: "20px" }}
+                        src={
+                          typeof portfolio.thumbNailURL === "string"
+                            ? portfolio.thumbNailURL
+                            : ""
+                        }
+                        alt="썸네일 이미지"
+                      />
 
-                  <S.PortfolioTitle>{portfolio.title}</S.PortfolioTitle>
-                </S.PortfolioList>
-              );
-            })}
+                      <S.PortfolioTitle>{portfolio.title}</S.PortfolioTitle>
+                    </S.PortfolioList>
+                  );
+                })}
+              </React.Fragment>
+            ))}
+          <div ref={ref}></div>
         </S.PortfolioListWrapper>
+        <S.PortfolioAddButton onClick={addModalOpenHandler}>
+          <BsPlusCircleDotted style={{ marginRight: "10px" }} />
+          포트폴리오 첨부하기
+        </S.PortfolioAddButton>
       </S.PortfolioListContainer>
-      <S.PortfolioAddButton onClick={addModalOpenHandler}>
-        <BsPlusCircleDotted style={{ marginRight: "10px" }} />
-        포트폴리오 첨부하기
-      </S.PortfolioAddButton>
     </>
   );
 };

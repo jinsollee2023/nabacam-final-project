@@ -146,19 +146,19 @@ const ResumeExperienceComp = () => {
             />
           ))}
         </S.WorkExperienceListWrapper>
+        <S.WorkExperienceAddButton onClick={addModalOpenButtonHandler}>
+          <BsPlusCircleDotted size="15" style={{ marginRight: "5px" }} />
+          경력 추가하기
+        </S.WorkExperienceAddButton>
       </S.WorkExperienceContainer>
-      <S.WorkExperienceAddButton onClick={addModalOpenButtonHandler}>
-        <BsPlusCircleDotted size="15" style={{ marginRight: "5px" }} />
-        경력 추가하기
-      </S.WorkExperienceAddButton>
       {isAddModalOpen && (
         <Modal
           setIsModalOpen={setIsAddModalOpen}
           buttons={
             <>
-              <S.Btn width="100%" onClick={addExperienceHandler}>
-                등록하기
-              </S.Btn>
+              <S.Button width="100%" onClick={addExperienceHandler}>
+                추가하기
+              </S.Button>
             </>
           }
           availableClose={availableClose}

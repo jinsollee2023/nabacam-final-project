@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 export const S = {
-  AddMemberBtn: styled.button`
+  AddMemberButton: styled.button`
     cursor: pointer;
     height: 47px;
     min-width: 120px;
@@ -13,7 +13,7 @@ export const S = {
   `,
   MemberListContainer: styled.div`
     width: 100%;
-    height: 58vh;
+    height: 56vh;
     overflow: auto;
     margin-top: -15px;
   `,
@@ -68,28 +68,29 @@ export const S = {
   MemberContact: styled.span`
     text-align: right;
   `,
-  BtnBox: styled.div`
+  ButtonBox: styled.div`
     display: flex;
     flex-direction: row;
     margin-bottom: 5px;
   `,
-  EditAndDelBtn: styled.button`
+  EditAndDelButton: styled.button`
     border: none;
     color: #595959;
     cursor: pointer;
     background-color: transparent;
   `,
-  ModalInnerAddBtn: styled.button`
+  ModalInnerAddButton: styled.button`
     color: white;
     cursor: pointer;
+    height: 30px;
+    margin-top: 8px;
     width: 100%;
-    height: 40px;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #0086d0;
-    font-size: 16px;
+    font-size: 14px;
   `,
-  SearchItemBarAndAddMemberBtnWrapper: styled.div`
+  SearchItemBarAndAddMemberButtonWrapper: styled.div`
     display: flex;
     width: 100%;
     min-width: 400px;

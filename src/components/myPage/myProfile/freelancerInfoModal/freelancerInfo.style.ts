@@ -7,7 +7,6 @@ export const S = {
     background-color: #bfbfbf;
   `,
   UserName: styled.span`
-    display: flex;
     font-size: 16px;
     font-weight: bold;
   `,
@@ -23,8 +22,8 @@ export const S = {
     align-items: center;
   `,
   ProfileImgBox: styled.div`
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     border-radius: 10%;
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.1);
@@ -39,7 +38,6 @@ export const S = {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    justify-content: center;
   `,
   WorkField: styled.span`
     display: flex;
@@ -63,19 +61,25 @@ export const S = {
     font-size: 14px;
     word-break: break-all;
   `,
+  // -------------------------//
   ContactBox: styled.div`
     gap: 5px;
     display: flex;
     flex-direction: row;
   `,
   Contacts: styled.span`
-    gap: 5px;
-    display: flex;
-    flex-direction: row;
-    font-size: 14px;
     cursor: pointer;
-  `,
+    margin-left: 10px;
+    transform: rotate(45deg);
+    color: dimgray;
+    z-index: 1;
 
+    &:hover {
+      color: var(--main-blue);
+      transition: color 0.2s ease-in-out;
+    }
+  `,
+  //---------------------------------//
   PortfolioImgBox: styled.div`
     width: 100px;
     height: 100px;
@@ -105,12 +109,12 @@ export const S = {
     align-items: center;
     font-size: 14px;
   `,
-  BtnBox: styled.div`
+  ButtonBox: styled.div`
     display: flex;
     gap: 5px;
     justify-content: center;
   `,
-  Btn: styled.button`
+  Button: styled.button`
     width: 50%;
     height: 30px;
     border: none;
