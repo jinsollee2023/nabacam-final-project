@@ -26,8 +26,7 @@ const S = {
   `,
   TaskDetailBox: styled.div<TaskDetailBoxProps>`
     cursor: ${(props) => (props.cursor ? props.cursor : null)};
-    background-color: ${(props) =>
-      props.backgroundColor ? props.backgroundColor : "#ffffff"};
+    background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : "#ffffff")};
     height: 40px;
     margin: 5px 10px 5px 0;
     border: 1.2px solid var(--lighter-gray);

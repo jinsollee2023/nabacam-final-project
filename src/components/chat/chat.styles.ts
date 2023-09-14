@@ -62,6 +62,7 @@ export const S = {
     align-items: center;
 
     background-color: ${(props) =>
+
       props.isSelected ? "var(--hover-blue)" : "transparent"};
 
     position: relative;
@@ -69,6 +70,7 @@ export const S = {
   RoomListRoomName: styled.p`
     font-size: 12px;
     color: var(--chat-navy);
+
   `,
   RoomListImg: styled.img`
     width: 60px;
@@ -218,7 +220,6 @@ export const S = {
     border-radius: 8px;
     padding: 4px 8px;
     border: none;
-
     z-index: 999;
     position: absolute;
     right: 1.5%;

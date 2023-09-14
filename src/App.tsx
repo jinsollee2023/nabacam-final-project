@@ -22,7 +22,7 @@ const App = () => {
 
       <ToastContainer
         position="top-center"
-        style={{ width: "400px", height: "100px" }}
+        style={{ width: "500px", height: "100px" }}
       />
     </QueryClientProvider>
   );

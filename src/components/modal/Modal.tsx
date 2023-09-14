@@ -11,12 +11,7 @@ interface ModalProps {
   availableClose?: boolean;
 }
 
-const Modal = ({
-  setIsModalOpen,
-  children,
-  buttons,
-  availableClose,
-}: ModalProps) => {
+const Modal = ({ setIsModalOpen, children, buttons, availableClose }: ModalProps) => {
   const toggleModal = () => {
     if (availableClose === undefined || availableClose) {
       setIsModalOpen(false);
@@ -36,15 +31,9 @@ const Modal = ({
   const showConfirmation = () => {
     toast.info(
       <CommonS.toastinfo>
-        <CommonS.toastintoText>
-          입력한 내용이 저장되지 않습니다.
-        </CommonS.toastintoText>
-        <CommonS.toastOkButton onClick={handleConfirm}>
-          확인
-        </CommonS.toastOkButton>
-        <CommonS.toastNoButton onClick={handleCancel}>
-          취소
-        </CommonS.toastNoButton>
+        <CommonS.toastintoText>입력한 내용이 저장되지 않습니다.</CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleConfirm}>확인</CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>취소</CommonS.toastNoButton>
       </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,

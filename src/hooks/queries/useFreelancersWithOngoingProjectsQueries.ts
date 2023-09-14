@@ -1,44 +1,44 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { IInpiniteProjectWithFreelancer, IProjectWithFreelancer } from "src/Types";
-import { getTerminationedProjects } from "src/api/Project";
-import { getUser } from "src/api/User";
+import { IInpiniteProjectWithFreelancer } from "../../Types";
+import { getFreelancersWithOngoingProjects } from "../../api/Project";
+import { getUser } from "../../api/User";
 
-interface useTerminationedProjectsQueriesProps {
+interface freelancersWithOngoingProjectsProps {
   currentUserId: string;
   freelancerId?: string;
   page?: number;
 }
 
-const useTerminationedProjectsQueries = ({
+const useFreelancersWithOngoingProjectsQueries = ({
   currentUserId,
   freelancerId,
-  page,
-}: useTerminationedProjectsQueriesProps) => {
-  // 계약이 끝난 프리랜서 목록
+}: freelancersWithOngoingProjectsProps) => {
+  // 진행중인 프리랜서 목록
   const {
-    data: freelancersWithTerminatedProjects,
+    data: freelancersWithOngoingProjects,
     error,
     fetchNextPage,
     hasNextPage,
     status,
   } = useInfiniteQuery<IInpiniteProjectWithFreelancer, Error, IInpiniteProjectWithFreelancer>(
-    ["freelancersWithTerminatedProjects"],
+    ["freelancersWithOngoingProjects"],
     async ({ pageParam = 1 }) => {
-      const terminationedProjectsData = await getTerminationedProjects(
+      const ongoingProjectsData = await getFreelancersWithOngoingProjects(
         currentUserId as string,
         pageParam
       );
 
-      const projects: IProjectWithFreelancer[] = [];
+      const projects = [];
 
-      for (const project of terminationedProjectsData.projects) {
+      for (const project of ongoingProjectsData.projects) {
         projects.push({ ...project, freelancer: await getUser(project.freelancerId as string) });
       }
 
       const resultProjects = {
         projects,
-        total_count: terminationedProjectsData.total_count,
+        total_count: ongoingProjectsData.total_count,
       };
+
       return resultProjects;
     },
     {
@@ -46,12 +46,14 @@ const useTerminationedProjectsQueries = ({
       getNextPageParam: (lastPage, allPages) => {
         const maxPage = Math.ceil(lastPage.total_count / 15);
         const nextPage = allPages.length + 1;
+        console.log("maxPage", maxPage);
+        console.log("nextPage", nextPage);
         return nextPage <= maxPage ? nextPage : null;
       },
     }
   );
   return {
-    freelancersWithTerminatedProjects,
+    freelancersWithOngoingProjects,
     error,
     fetchNextPage,
     hasNextPage,
@@ -59,4 +61,4 @@ const useTerminationedProjectsQueries = ({
   };
 };
 
-export default useTerminationedProjectsQueries;
+export default useFreelancersWithOngoingProjectsQueries;

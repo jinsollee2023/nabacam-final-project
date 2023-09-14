@@ -35,7 +35,7 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
       await navigator.clipboard.writeText(text);
       toast.success("클립보드에 복사되었습니다.");
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -92,10 +92,7 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
     <>
       <S.UserInfoBox>
         <S.ProfileImgBox>
-          <S.ProfileImg
-            alt="profileImg"
-            src={freelancer.photoURL}
-          ></S.ProfileImg>
+          <S.ProfileImg alt="profileImg" src={freelancer.photoURL}></S.ProfileImg>
         </S.ProfileImgBox>
         <S.UserBox>
           <S.UserName>{freelancer.name}</S.UserName>
@@ -110,10 +107,7 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
               onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
             > */}
             <S.Contacts onClick={() => sendDM()}>
-              <HiOutlinePaperAirplane
-                size={17}
-                style={{ transform: "rotate(45deg)" }}
-              />
+              <HiOutlinePaperAirplane size={17} style={{ transform: "rotate(45deg)" }} />
               <CommonS.CenterizeBox style={{ paddingTop: "4px" }}>
                 메세지 보내기
               </CommonS.CenterizeBox>

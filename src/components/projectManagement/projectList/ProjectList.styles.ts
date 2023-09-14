@@ -76,7 +76,7 @@ const S = {
     overflow: auto;
 
     width: 100%;
-    height: 65vh;
+    height: 64vh;
     position: relative;
     padding-right: 10px;
 

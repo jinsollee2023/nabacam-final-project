@@ -164,9 +164,7 @@ const LoginComp = () => {
           </S.LoginCard>
         </S.LoginBG>
         <WaveEffect />
-        {findPasswordModalOpen && (
-          <EmailCheck openModal={findPasswordModalHandler} />
-        )}
+        {findPasswordModalOpen && <EmailCheck openModal={findPasswordModalHandler} />}
       </S.RealBack>
     </>
   );

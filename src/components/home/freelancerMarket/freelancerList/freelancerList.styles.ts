@@ -120,8 +120,7 @@ export const S = {
     border-radius: 50%;
     margin: 0 5px;
     transition: 0.5s;
-    background-color: ${(props) =>
-      props.selected ? "var(--main-blue)" : "var(--lighter-gray)"};
+    background-color: ${(props) => (props.selected ? "var(--main-blue)" : "var(--lighter-gray)")};
   `,
 
   SuggestButton: styled.button`
