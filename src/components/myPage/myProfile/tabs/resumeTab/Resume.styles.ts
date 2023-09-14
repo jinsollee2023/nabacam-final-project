@@ -40,6 +40,7 @@ export const S = {
     margin-top: 10px;
     border-radius: 8px;
     background-color: #f0f0f0;
+    white-space: pre-line;
   `,
   ProfileButton: styled.button`
     background-color: transparent;

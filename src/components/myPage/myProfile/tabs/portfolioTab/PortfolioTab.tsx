@@ -157,12 +157,15 @@ const PortfolioTab = () => {
     };
 
     if (newPortfolio.thumbNailURL instanceof File) {
-      const thumbnailFilePath = await uploadThumbnail({
-        userId: user.userId,
-        file: newPortfolio.thumbNailURL as File,
-        pfId: newPortfolio.portfolioId,
-      });
-      const thumbNailURL = await getPortfolioFileURL(thumbnailFilePath);
+      const thumbnailFilePath =
+        newPortfolio.thumbNailURL &&
+        (await uploadThumbnail({
+          userId: user.userId,
+          file: newPortfolio.thumbNailURL as File,
+          pfId: newPortfolio.portfolioId,
+        }));
+      const thumbNailURL =
+        thumbnailFilePath && (await getPortfolioFileURL(thumbnailFilePath));
 
       addPortfolioMutation.mutate({
         newPortfolio: {
@@ -184,13 +187,16 @@ const PortfolioTab = () => {
     }
   };
   const updatePortfolio = async () => {
-    const pdfFilePath = await updatePortfolioFile(
-      user.userId,
-      newPortfolio.portfolioId,
-      "pdf",
-      newPortfolio.pdfFileURL as File
-    );
-    const pdfURL = await getPortfolioFileURL(pdfFilePath);
+    const pdfFilePath =
+      newPortfolio.pdfFileURL instanceof File &&
+      (await updatePortfolioFile(
+        user.userId,
+        newPortfolio.portfolioId,
+        "pdf",
+        newPortfolio.pdfFileURL as File
+      ));
+    const pdfURL = pdfFilePath && (await getPortfolioFileURL(pdfFilePath));
+
     if (newPortfolio.thumbNailURL instanceof File) {
       const thumbnailFilePath = await (String(
         selectedPortfolio?.thumbNailURL
@@ -206,9 +212,9 @@ const PortfolioTab = () => {
             "thumbnail",
             newPortfolio.thumbNailURL as File
           ));
-      const thumbNailURL = await getPortfolioFileURL(
-        thumbnailFilePath as { path: string }
-      );
+      const thumbNailURL =
+        thumbnailFilePath &&
+        (await getPortfolioFileURL(thumbnailFilePath as { path: string }));
       updatePortfolioMutation.mutate({
         updatedData: {
           freelancerId: newPortfolio.freelancerId,

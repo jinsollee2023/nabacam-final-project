@@ -55,6 +55,7 @@ const ResumeProfileIntroComp = () => {
     });
     setIsAddModalOpen(false);
   };
+
   const availableClose =
     intro?.length === 0
       ? newProfileIntroInput === ""

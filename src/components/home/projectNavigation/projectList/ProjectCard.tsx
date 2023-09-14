@@ -4,7 +4,10 @@ import Modal from "src/components/modal/Modal";
 import { S } from "./projectList.styles";
 import useClientsQueries from "src/hooks/useClientsQueries";
 import useProjectsQueries from "src/hooks/useProjectsQueries";
-import { calculateDaysAgo, getDayOfWeek } from "src/components/common/commonFunc";
+import {
+  calculateDaysAgo,
+  getDayOfWeek,
+} from "src/components/common/commonFunc";
 import { queryClient } from "src/App";
 import { FiUsers } from "react-icons/fi";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
@@ -67,8 +70,12 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
     toast.info(
       <CommonS.toastinfo>
         <CommonS.toastintoText>{`${projectItem.title}에 지원하시겠습니까?`}</CommonS.toastintoText>
-        <CommonS.toastOkButton onClick={handleConfirm}>확인</CommonS.toastOkButton>
-        <CommonS.toastNoButton onClick={handleCancel}>취소</CommonS.toastNoButton>
+        <CommonS.toastOkButton onClick={handleConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
       </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
@@ -112,39 +119,52 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
       )}
       <S.ProejctCardContainer>
         <S.ProejctContentLeftWrapper>
-          <S.ProjectStatus recruitmentCompleted={projectItem.status === "진행 전"}>
-            {projectItem.status === "진행 중" || projectItem.status === "진행 완료"
+          <S.ProjectStatus
+            recruitmentCompleted={projectItem.status === "진행 전"}
+          >
+            {projectItem.status === "진행 중" ||
+            projectItem.status === "진행 완료"
               ? "모집 완료"
               : "모집 중"}
           </S.ProjectStatus>
           <S.ClientName>{client?.name}</S.ClientName>
           <div>
-            <S.ProjectName>
-              {projectItem.title} · {projectItem.category}
-            </S.ProjectName>
-            {projectItem.qualification > 0 ? (
-              <span>{projectItem.qualification}년차 이상</span>
-            ) : (
-              <span>신입 가능</span>
-            )}
+            <div>
+              <S.ProjectName>{projectItem.title}</S.ProjectName>
+            </div>
+            <S.ProjectTagBox>
+              <S.ProjectTag>{projectItem.category}</S.ProjectTag>
+              <S.ProjectTag>
+                {projectItem.qualification > 0
+                  ? `${projectItem.qualification}년차 이상`
+                  : "신입 가능"}
+              </S.ProjectTag>
+              <S.ProjectTag>
+                {projectItem.expectedStartDate} 시작 예정
+              </S.ProjectTag>
+            </S.ProjectTagBox>
           </div>
-          <S.AppliedFreelancersCountBox>
-            <FiUsers />
-            <span>{projectItem.volunteer?.length}명 지원 중</span>
-          </S.AppliedFreelancersCountBox>
-          <S.ProjectRegistrationDate>{daysAgo} 등록</S.ProjectRegistrationDate>
         </S.ProejctContentLeftWrapper>
 
         <div>
           <S.ProejctContentRightWrapper>
-            <S.DetailModalOpenButton onClick={() => setIsDetailModalOpen(true)}>
-              자세히 보기
-            </S.DetailModalOpenButton>
+            <S.AppliedFreelancersCountBox>
+              <FiUsers />
+              <span>{projectItem.volunteer?.length}명 지원 중</span>
+            </S.AppliedFreelancersCountBox>
+            <div>
+              <S.DetailModalOpenButton
+                onClick={() => setIsDetailModalOpen(true)}
+              >
+                자세히 보기
+              </S.DetailModalOpenButton>
 
-            <S.ProejctContentRightTextWrapper>
-              <span>프로젝트 시작 예정일 </span>
-              <span>{projectItem.expectedStartDate}</span>
-            </S.ProejctContentRightTextWrapper>
+              <S.ProejctContentRightTextWrapper>
+                <S.ProjectRegistrationDate>
+                  {daysAgo} 등록
+                </S.ProjectRegistrationDate>
+              </S.ProejctContentRightTextWrapper>
+            </div>
           </S.ProejctContentRightWrapper>
         </div>
       </S.ProejctCardContainer>
