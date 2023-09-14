@@ -105,8 +105,8 @@ export const S = {
     margin: 0 7px 0 0;
     font-size: 12px;
     padding: 4px 7px;
-    background-color: var(--lighter-gray);
-    color: #2d2d2d;
+    background-color: #f0f0f0;
+    color: gray;
   `,
   ProejctContentRightTextWrapper: styled.div`
     display: flex;
