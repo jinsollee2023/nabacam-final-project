@@ -184,7 +184,9 @@ const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
               <S.ProjectSelect
                 id="category"
                 value={values.category}
-                onChange={(value, _) => managerOnChange(value as string)}
+                onChange={(value, _) =>
+                  handleChange("category", value as string)
+                }
                 onBlur={() => {
                   const categoryError = validateSelect(
                     "프로젝트 설명",
