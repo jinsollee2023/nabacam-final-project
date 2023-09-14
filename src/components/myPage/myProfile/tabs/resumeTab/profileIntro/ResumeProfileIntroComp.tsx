@@ -13,13 +13,18 @@ import "react-toastify/dist/ReactToastify.css";
 const ResumeProfileIntroComp = () => {
   const { user } = useUserStore();
   const userId = user.userId;
-  const { addProfileIntroMutation, resumeProfileIntroObject, updateProfileIntroMutation } =
-    useResumeProfileIntroQueries(userId);
+  const {
+    addProfileIntroMutation,
+    resumeProfileIntroObject,
+    updateProfileIntroMutation,
+  } = useResumeProfileIntroQueries(userId);
   const intro = resumeProfileIntroObject?.resumeProfileIntro;
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const { newProfileIntroInput } = useResumeProfileIntroStore();
 
-  const addProfileIntroHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const addProfileIntroHandler = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     e.preventDefault();
 
     if (!newProfileIntroInput) {
@@ -40,7 +45,9 @@ const ResumeProfileIntroComp = () => {
     setIsAddModalOpen(false);
   };
 
-  const updateProfileIntroHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const updateProfileIntroHandler = async (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
     e.preventDefault();
     updateProfileIntroMutation.mutate({
       newProfileIntroInput,
@@ -48,8 +55,11 @@ const ResumeProfileIntroComp = () => {
     });
     setIsAddModalOpen(false);
   };
+
   const availableClose =
-    intro?.length === 0 ? newProfileIntroInput === "" : newProfileIntroInput === intro;
+    intro?.length === 0
+      ? newProfileIntroInput === ""
+      : newProfileIntroInput === intro;
   return (
     <>
       <S.ProfileContainer>
@@ -66,7 +76,7 @@ const ResumeProfileIntroComp = () => {
                 setIsAddModalOpen(true);
               }}
             >
-              <MdAddCircle size="20" />
+              <MdAddCircle size="20" style={{ marginRight: "7px" }} />
               추가하기
             </S.ProfileButton>
           )}

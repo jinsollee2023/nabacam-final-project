@@ -26,10 +26,11 @@ export const S = {
   `,
   PFDetail: styled.div`
     line-height: 1.4;
+    white-space: pre-line;
   `,
   PFPDFContainer: styled.div`
     margin: 20px 0;
-    margin-top: 25%;
+    margin-top: 20px;
 
     text-align: center;
     a {
@@ -44,6 +45,7 @@ export const S = {
   `,
 
   PFLinkContainer: styled.div`
+    text-align: center;
     a {
       color: black;
       text-decoration: none;

@@ -28,17 +28,9 @@ export const S = {
     overflow: auto;
 
     &::-webkit-scrollbar {
-      width: 12px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: #848484;
-      border-radius: 10px;
-      background-clip: padding-box;
-      border: 2px solid transparent;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #f3f3f3;
-      border-radius: 10px;
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   `,
   OngoingFreelancerlistContainer: styled.div`
@@ -151,7 +143,7 @@ export const S = {
     border-radius: 6px;
     width: 100%;
     height: 35px;
-    margin-top: 5px;
+    margin-top: 8px;
     font-size: 14px;
     cursor: pointer;
     color: white;

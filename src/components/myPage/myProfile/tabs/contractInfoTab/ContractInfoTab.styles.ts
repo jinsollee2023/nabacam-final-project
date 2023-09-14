@@ -8,10 +8,10 @@ interface TitleProps {
 export const S = {
   ContractInfoContainer: styled.section`
     width: 100%;
-    padding: 20px 10px 10px 10px;
+    padding: 20px 10px 10px 0px;
   `,
   Title: styled.span<TitleProps>`
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     margin-top: ${(props) => props.marginTop || "10px"};
     margin-bottom: ${(props) => props.marginBottom};

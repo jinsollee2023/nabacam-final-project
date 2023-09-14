@@ -9,7 +9,7 @@ export const S = {
     width: 17vw;
     max-width: 280px;
     min-width: 210px;
-
+    position: relative;
     height: 100vh;
   `,
   LogoWrapper: styled.div`
@@ -26,25 +26,38 @@ export const S = {
   `,
   ProfileWrapper: styled.div`
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-around;
-    height: 70px;
-    padding: 20px;
+    margin: 40px 0;
   `,
-  ProfileImage: styled.img`
-    width: 45px;
-    height: 45px;
+  ProfileImageWrapper: styled.div`
     border-radius: 10px;
-    margin-right: 10px;
+    overflow: hidden;
+    width: 150px;
+    height: 150px;
     cursor: pointer;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  `,
+  ProfileContentsWrapper: styled.div`
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   `,
   Name: styled.div`
     font-size: 18px;
     font-weight: bold;
+    color: var(--middle-gray);
   `,
   Role: styled.div`
-    margin-top: 7px;
+    margin: 10px 0;
     font-size: 12px;
+    color: var(--main-blue);
   `,
   UpperNavLinks: styled.ul`
     list-style: none;
@@ -72,5 +85,12 @@ export const S = {
   LogOutButton: styled.button`
     background-color: transparent;
     border: none;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    color: dimgray;
   `,
 };

@@ -1,7 +1,6 @@
 import React from "react";
-import { FiPhoneCall } from "react-icons/fi";
+
 import { HiOutlinePaperAirplane } from "react-icons/hi";
-import { FiMail } from "react-icons/fi";
 import { S } from "./freelancerInfo.style";
 import { IUser } from "../../../../Types";
 import { toast } from "react-toastify";
@@ -21,7 +20,6 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   const { setSelectedRoom, setCreatedRoomId, createdRoomId } = useRoomStore();
   const clientId = client.userId;
   const clientName = client.name;
-  const clientImg = client.photoURL;
 
   // receiver (freelancer)
   const freelancerId = freelancer?.userId;
@@ -92,10 +90,21 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
     <>
       <S.UserInfoBox>
         <S.ProfileImgBox>
-          <S.ProfileImg alt="profileImg" src={freelancer.photoURL}></S.ProfileImg>
+          <S.ProfileImg
+            alt="profileImg"
+            src={freelancer.photoURL}
+          ></S.ProfileImg>
         </S.ProfileImgBox>
         <S.UserBox>
-          <S.UserName>{freelancer.name}</S.UserName>
+          <div>
+            <S.UserName>{freelancer.name}</S.UserName>
+            <S.Contacts onClick={() => sendDM()}>
+              <HiOutlinePaperAirplane
+                size={17}
+                style={{ transform: "rotate(45deg)" }}
+              />
+            </S.Contacts>
+          </div>
           <S.WorkField>{freelancer.workField?.workField}</S.WorkField>
           <S.WorkSmallFieldAndWorkExp>
             <span>{freelancer.workField?.workSmallField}</span>
@@ -106,12 +115,6 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
             {/* <S.Contacts
               onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
             > */}
-            <S.Contacts onClick={() => sendDM()}>
-              <HiOutlinePaperAirplane size={17} style={{ transform: "rotate(45deg)" }} />
-              <CommonS.CenterizeBox style={{ paddingTop: "4px" }}>
-                메세지 보내기
-              </CommonS.CenterizeBox>
-            </S.Contacts>
           </S.ContactBox>
           <S.ContactBox>
             {/* <S.Contacts

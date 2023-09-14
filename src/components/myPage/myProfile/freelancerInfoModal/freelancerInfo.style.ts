@@ -7,7 +7,6 @@ export const S = {
     background-color: #bfbfbf;
   `,
   UserName: styled.span`
-    display: flex;
     font-size: 16px;
     font-weight: bold;
   `,
@@ -23,8 +22,8 @@ export const S = {
     align-items: center;
   `,
   ProfileImgBox: styled.div`
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     border-radius: 10%;
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.1);
@@ -39,7 +38,6 @@ export const S = {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    justify-content: center;
   `,
   WorkField: styled.span`
     display: flex;
@@ -70,11 +68,16 @@ export const S = {
     flex-direction: row;
   `,
   Contacts: styled.span`
-    /* gap: 5px; */
-    display: flex;
-    flex-direction: row;
-    font-size: 13.5px;
     cursor: pointer;
+    margin-left: 10px;
+    transform: rotate(45deg);
+    color: dimgray;
+    z-index: 1;
+
+    &:hover {
+      color: var(--main-blue);
+      transition: color 0.2s ease-in-out;
+    }
   `,
   //---------------------------------//
   PortfolioImgBox: styled.div`

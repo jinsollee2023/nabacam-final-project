@@ -26,9 +26,15 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
   const [isUpadateModalOpen, setIsUpadateModalOpen] = useState(false);
   const { newProject } = useProjectStore();
   const { values, changeValues } = useProjectValuesStore();
-  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] = useState(false);
-  const { validateDate, validateSelect, validatePay, validateWorkExp, validateInput } =
-    useValidation();
+  const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] =
+    useState(false);
+  const {
+    validateDate,
+    validateSelect,
+    validatePay,
+    validateWorkExp,
+    validateInput,
+  } = useValidation();
 
   const deleteProjectButtonHandler = () => {
     deleteProjectMutation.mutate(project.projectId!);
@@ -38,9 +44,17 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
   const validateUpdateProject = () => {
     const titleError = validateInput("프로젝트 제목", newProject.title);
     const descError = validateInput("프로젝트 설명", newProject.desc);
-    const categoryError = validateSelect("프로젝트 분야", values.category as string);
-    const qualificationError = validateWorkExp(String(newProject.qualification));
-    const expectedStartDateError = validateDate("시작예정일", newProject.expectedStartDate);
+    const categoryError = validateSelect(
+      "프로젝트 분야",
+      values.category as string
+    );
+    const qualificationError = validateWorkExp(
+      String(newProject.qualification)
+    );
+    const expectedStartDateError = validateDate(
+      "시작예정일",
+      newProject.expectedStartDate
+    );
     const managerError = validateSelect("담당자", newProject.manager.name);
     const payError = validatePay(newProject.pay.min, newProject.pay.max);
     setErrors({
@@ -122,9 +136,15 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
     if (!isToastVisible) {
       toast.info(
         <CommonS.toastinfo>
-          <CommonS.toastintoText>프로젝트를 삭제하시겠습니까?</CommonS.toastintoText>
-          <CommonS.toastOkButton onClick={handleDeleteConfirm}>확인</CommonS.toastOkButton>
-          <CommonS.toastNoButton onClick={handleDeleteCancel}>취소</CommonS.toastNoButton>
+          <CommonS.toastintoText>
+            프로젝트를 삭제하시겠습니까?
+          </CommonS.toastintoText>
+          <CommonS.toastOkButton onClick={handleDeleteConfirm}>
+            확인
+          </CommonS.toastOkButton>
+          <CommonS.toastNoButton onClick={handleDeleteCancel}>
+            취소
+          </CommonS.toastNoButton>
         </CommonS.toastinfo>,
         {
           toastId: "deleteConfirmation", // 고유한 ID 부여
@@ -155,7 +175,9 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           buttons={
             project.status === "진행 전" && (
               <>
-                <S.ModalPostButton onClick={showDeleteConfirmation}>삭제하기</S.ModalPostButton>
+                <S.ModalPostButton onClick={showDeleteConfirmation}>
+                  삭제하기
+                </S.ModalPostButton>
                 <S.ModalPostButton onClick={updateProjectModalOpenHandler}>
                   수정하기
                 </S.ModalPostButton>
@@ -172,8 +194,12 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           availableClose={availableClose}
           buttons={
             <>
-              <S.ModalDeleteButton onClick={showDeleteConfirmation}>삭제하기</S.ModalDeleteButton>
-              <S.ModalPostButton onClick={updateProjectButtonHandler}>수정하기</S.ModalPostButton>
+              <S.ModalDeleteButton onClick={showDeleteConfirmation}>
+                삭제하기
+              </S.ModalDeleteButton>
+              <S.ModalPostButton onClick={updateProjectButtonHandler}>
+                수정하기
+              </S.ModalPostButton>
             </>
           }
         >
@@ -185,7 +211,7 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
         <S.ProjcetTitleBox onClick={() => setIsDetailModalOpen(true)}>
           {project.title}
         </S.ProjcetTitleBox>
-        <div>
+        <S.ProfileCardRightContentWrapper>
           {project.status === "진행 전" && (
             <>
               <S.ProjectCardButtonBox>
@@ -195,27 +221,27 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
                 >
                   수정
                 </S.SubmitButton>
-                <S.SubmitButton onClick={showDeleteConfirmation}>삭제</S.SubmitButton>
+                <S.SubmitButton onClick={showDeleteConfirmation}>
+                  삭제
+                </S.SubmitButton>
               </S.ProjectCardButtonBox>
             </>
           )}
-          <div>
-            <p>
-              {project.manager.team}팀&nbsp;{project.manager.name}
+          <S.MemberTeamAndName>
+            {project.manager.team}팀&nbsp;{project.manager.name}
+          </S.MemberTeamAndName>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <p
+              style={{
+                color: "var(--middle-gray)",
+                fontSize: "13px",
+                marginTop: "5px",
+              }}
+            >
+              {project.expectedStartDate} 시작 예정
             </p>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <p
-                style={{
-                  color: "var(--middle-gray)",
-                  fontSize: "13px",
-                  marginTop: "5px",
-                }}
-              >
-                {project.expectedStartDate} 시작 예정
-              </p>
-            </div>
           </div>
-        </div>
+        </S.ProfileCardRightContentWrapper>
       </S.ProjectCardBox>
     </>
   );

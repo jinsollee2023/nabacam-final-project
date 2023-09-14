@@ -67,22 +67,21 @@ const Navbar = () => {
           onClick={handleLogoClick}
         />
       </S.LogoWrapper>
-      <S.Divider />
+      {/* <S.Divider /> */}
       <S.ProfileWrapper>
-        <S.ProfileImage
-          src={user.photoURL}
-          alt="img"
-          onClick={() => navigate("my-page")}
-        />
-        <div>
-          <S.Name>{user.name}</S.Name>
+        <S.ProfileImageWrapper>
+          <img
+            src={user.photoURL}
+            alt="profile-img"
+            onClick={() => navigate("my-page")}
+          />
+        </S.ProfileImageWrapper>
+        <S.ProfileContentsWrapper>
           <S.Role>{user.role}</S.Role>
-        </div>
-        <S.LogOutButton onClick={showConfirmation}>
-          <FiLogOut size="20" />
-        </S.LogOutButton>
+          <S.Name>{user.name}</S.Name>
+        </S.ProfileContentsWrapper>
       </S.ProfileWrapper>
-      <S.Divider />
+      {/* <S.Divider /> */}
       <S.UpperNavLinks>
         <S.NavLinkItem onClick={() => navigate("/home")}>
           {user.role === "client" ? "프리랜서 구인" : "프로젝트 탐색"}
@@ -101,6 +100,11 @@ const Navbar = () => {
           커뮤니케이션
         </S.NavLinkItem>
       </S.LowerNavLinks>
+
+      <S.LogOutButton onClick={showConfirmation}>
+        로그아웃&nbsp;&nbsp;
+        <FiLogOut size="15" />
+      </S.LogOutButton>
     </S.SidebarWrapper>
   );
 };
