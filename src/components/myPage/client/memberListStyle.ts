@@ -13,7 +13,7 @@ export const S = {
   `,
   MemberListContainer: styled.div`
     width: 100%;
-    height: 58vh;
+    height: 56vh;
     overflow: auto;
     margin-top: -15px;
   `,
@@ -82,12 +82,13 @@ export const S = {
   ModalInnerAddButton: styled.button`
     color: white;
     cursor: pointer;
+    height: 30px;
+    margin-top: 8px;
     width: 100%;
-    height: 40px;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #0086d0;
-    font-size: 16px;
+    font-size: 14px;
   `,
   SearchItemBarAndAddMemberButtonWrapper: styled.div`
     display: flex;

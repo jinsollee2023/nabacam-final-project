@@ -34,7 +34,8 @@ const SuggestedProjectList = () => {
     <p>Error:{error?.message}</p>
   ) : (
     <S.ProjectListContainer>
-      {suggestedProjectList?.pages && suggestedProjectList.pages.length > 0 ? (
+      {suggestedProjectList?.pages &&
+      suggestedProjectList.pages[0].total_count > 0 ? (
         suggestedProjectList.pages.map((page, idx) => (
           <React.Fragment key={idx}>
             {page.projects?.map((projectItem) => {

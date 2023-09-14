@@ -5,15 +5,19 @@ export const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 0 10px 0;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
   `,
   InputText: styled.input`
-    margin: 0px 0;
     padding: 10px 15px;
     width: 370px;
     outline: none;
     border: 1px solid var(--lighter-gray);
     border-radius: 5px;
+    margin-top: 10px;
+  `,
+  LinkInputAndErrorMessageWrapper: styled.div`
+    text-align: center;
   `,
   TextareaDesc: styled.textarea`
     width: 370px;
@@ -22,6 +26,13 @@ export const S = {
     resize: none;
     border: 1px solid var(--lighter-gray);
     outline: none;
+    line-height: 1.5;
+
+    &::-webkit-scrollbar {
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   `,
   ModalForm: styled.form`
     display: flex;
@@ -30,14 +41,17 @@ export const S = {
   `,
   PdfInputWrapper: styled.div`
     display: flex;
-    margin-top: 20px;
   `,
   PdfInputLabel: styled.label`
     margin-right: 5px;
     color: var(--darker-gray);
   `,
-  errorText: styled.p`
-    height: 20px;
-    margin-top: 5px;
+  ErrorMessage: styled.div<{ hasError: boolean }>`
+    height: ${(props) => (props.hasError ? "20px" : "0")};
+    margin: 10px 0 20px 0;
+    color: #ef0000;
+    font-size: 14px;
+    overflow: hidden;
+    transition: height 0.3s;
   `,
 };

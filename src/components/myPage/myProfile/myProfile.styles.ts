@@ -28,11 +28,19 @@ export const S = {
     padding: 10px;
     width: 100%;
   `,
-  Img: styled.img`
-    margin-left: 5px;
+  ProfileImageBox: styled.div`
+    min-width: 120px;
     width: 120px;
     height: 120px;
-    border-radius: 5px;
+    margin-left: 5px;
+    border-radius: 7px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   `,
   Title: styled.p`
     font-size: 16px;

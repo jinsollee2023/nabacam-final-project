@@ -26,7 +26,8 @@ const S = {
   `,
   TaskDetailBox: styled.div<TaskDetailBoxProps>`
     cursor: ${(props) => (props.cursor ? props.cursor : null)};
-    background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : "#ffffff")};
+    background-color: ${(props) =>
+      props.backgroundColor ? props.backgroundColor : "#ffffff"};
     height: 40px;
     margin: 5px 10px 5px 0;
     border: 1.2px solid var(--lighter-gray);
@@ -66,17 +67,9 @@ const S = {
     padding-right: 10px;
 
     &::-webkit-scrollbar {
-      width: 12px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background-color: #848484;
-      border-radius: 10px;
-      background-clip: padding-box;
-      border: 2px solid transparent;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #f3f3f3;
-      border-radius: 10px;
+      display: none;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   `,
   ColumnLabelWrapper: styled.div`

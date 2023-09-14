@@ -12,10 +12,15 @@ const OngoingFreelancerList = () => {
 
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { freelancersWithOngoingProjects, error, fetchNextPage, hasNextPage, status } =
-    useFreelancersWithOngoingProjectsQueries({
-      currentUserId: userId,
-    });
+  const {
+    freelancersWithOngoingProjects,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    status,
+  } = useFreelancersWithOngoingProjectsQueries({
+    currentUserId: userId,
+  });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -24,7 +29,10 @@ const OngoingFreelancerList = () => {
   }, [inView]);
 
   // 확인필요
-  if (!freelancersWithOngoingProjects?.pages || freelancersWithOngoingProjects?.pages.length === 0)
+  if (
+    !freelancersWithOngoingProjects ||
+    freelancersWithOngoingProjects.pages[0].total_count === 0
+  )
     return <div>진행중인 프리랜서가 없습니다.</div>;
 
   return status === "loading" ? (
@@ -44,7 +52,9 @@ const OngoingFreelancerList = () => {
         {freelancersWithOngoingProjects?.pages.map((page, i) => (
           <React.Fragment key={i}>
             {page.projects.map((project) => (
-              <S.ListsBox key={`${project.projectId}-${project.freelancer.userId}`}>
+              <S.ListsBox
+                key={`${project.projectId}-${project.freelancer.userId}`}
+              >
                 <OngoingFreelancerCards
                   key={`${project.projectId}-${project.freelancer.userId}`}
                   user={project.freelancer}
