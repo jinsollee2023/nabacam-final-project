@@ -6,17 +6,24 @@ export const getPortfolios = async () => {
   try {
     const { data, error } = await supabase.from("portfolios").select("*");
     if (error) {
-      console.error(`전체 포트폴리오를 가져오는 중 오류가 발생했습니다.\n ${error.message}`);
+      console.error(
+        `전체 포트폴리오를 가져오는 중 오류가 발생했습니다.\n ${error.message}`
+      );
     }
     return data;
   } catch (error) {
-    throw new Error(`전체 포트폴리오를 가져오는 중 오류가 발생했습니다.\n ${error}`);
+    throw new Error(
+      `전체 포트폴리오를 가져오는 중 오류가 발생했습니다.\n ${error}`
+    );
   }
 };
 
 export const getFreelancerPortfolio = async (id: string) => {
   try {
-    const { data } = await supabase.from("portfolios").select("*").eq("freelancerId", id);
+    const { data } = await supabase
+      .from("portfolios")
+      .select("*")
+      .eq("freelancerId", id);
 
     return data;
   } catch (error) {
@@ -27,7 +34,10 @@ export const getFreelancerPortfolio = async (id: string) => {
 // 8/26 수정
 export const getPortfolio = async (id: string) => {
   try {
-    const { data } = await supabase.from("portfolios").select("*").eq("freelancerId", id);
+    const { data } = await supabase
+      .from("portfolios")
+      .select("*")
+      .eq("freelancerId", id);
 
     return data;
   } catch (error) {
@@ -35,7 +45,10 @@ export const getPortfolio = async (id: string) => {
   }
 };
 
-export const getMyPortfolio = async (id: string, page: number): Promise<IPortfolio> => {
+export const getMyPortfolio = async (
+  id: string,
+  page: number
+): Promise<IPortfolio> => {
   try {
     const { data: portfolio, count } = await supabase
       .from("portfolios")
@@ -43,7 +56,10 @@ export const getMyPortfolio = async (id: string, page: number): Promise<IPortfol
       .eq("freelancerId", id)
       .range(page * 10 - 10, page * 10 - 1);
 
-    return { portfolio: portfolio as Portfolio[], total_count: count as number };
+    return {
+      portfolio: portfolio as Portfolio[],
+      total_count: count as number,
+    };
   } catch (error) {
     throw new Error("포토폴리오 정보를 가져오지 못했습니다.");
   }
@@ -123,11 +139,17 @@ export const addPortfolio = async ({
     .select();
 };
 
-export const deletePortfolio = async (portfolioId: string, freelancerId: string): Promise<void> => {
+export const deletePortfolio = async (
+  portfolioId: string,
+  freelancerId: string
+): Promise<void> => {
   await supabase.from("portfolios").delete().eq("portfolioId", portfolioId);
   await supabase.storage
     .from("portfolios")
-    .remove([`${freelancerId}/${portfolioId}/pdf`, `${freelancerId}/${portfolioId}/thumbnail`]);
+    .remove([
+      `${freelancerId}/${portfolioId}/pdf`,
+      `${freelancerId}/${portfolioId}/thumbnail`,
+    ]);
 };
 
 export const updatePortfolioFile = async (
@@ -163,7 +185,11 @@ export const updatePortfolio = async ({
   pfId: string;
 }) => {
   try {
-    await supabase.from("portfolios").update(updatedData).eq("portfolioId", pfId).select();
+    await supabase
+      .from("portfolios")
+      .update(updatedData)
+      .eq("portfolioId", pfId)
+      .select();
   } catch (error) {
     console.error("Error updating portfolio:", error);
   }

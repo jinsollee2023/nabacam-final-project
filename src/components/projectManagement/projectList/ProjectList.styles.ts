@@ -171,6 +171,7 @@ const S = {
     color: ${(props) => props.color};
     line-height: 1.5;
     text-align: justify;
+    white-space: pre-line;
   `,
   ModalMainInfoBox: styled.div`
     display: flex;

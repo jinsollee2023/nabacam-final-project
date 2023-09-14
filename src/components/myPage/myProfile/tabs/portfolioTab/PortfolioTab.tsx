@@ -7,7 +7,11 @@ import { usePortfolioStore } from "../../../../../store/usePortfolioStore";
 import PortfolioDetailModal from "./portfolioDetailModal/PortfolioDetailModal";
 import Modal from "../../../../modal/Modal";
 import { Portfolio } from "../../../../../Types";
-import { updatePortfolioFile, uploadPDF, uploadThumbnail } from "../../../../../api/Portfolio";
+import {
+  updatePortfolioFile,
+  uploadPDF,
+  uploadThumbnail,
+} from "../../../../../api/Portfolio";
 import { getPortfolioFileURL } from "../../../../../api/User";
 import { BsPlusCircleDotted } from "react-icons/bs";
 import { toast } from "react-toastify";
@@ -28,8 +32,12 @@ const PortfolioTab = () => {
   const [ref, inView] = useInView();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const { selectedPortfolio, setSelectedPortfolio, newPortfolio, changeNewPortfolio } =
-    usePortfolioStore();
+  const {
+    selectedPortfolio,
+    setSelectedPortfolio,
+    newPortfolio,
+    changeNewPortfolio,
+  } = usePortfolioStore();
 
   const {
     addPortfolioMutation,
@@ -53,8 +61,10 @@ const PortfolioTab = () => {
   };
   const [errors, setErrors] = useState(initialErrors);
   const { validateInput } = useValidation();
-  const [addPortfolioButtonClicked, setAddPortfolioButtonClicked] = useState(false);
-  const [updateProtfolioButtonClicked, setUpdatePortfolioButtonClicked] = useState(false);
+  const [addPortfolioButtonClicked, setAddPortfolioButtonClicked] =
+    useState(false);
+  const [updateProtfolioButtonClicked, setUpdatePortfolioButtonClicked] =
+    useState(false);
 
   const handleOpenDetailModalButtonClick = (portfolio: Portfolio) => {
     setSelectedPortfolio(portfolio);
@@ -85,18 +95,29 @@ const PortfolioTab = () => {
     const validateLinkPortfolio =
       newPortfolio.linkURL && !errors.title && !errors.desc && !errors.link;
 
-    if (updateProtfolioButtonClicked && (validatePdfPortfolio || validateLinkPortfolio)) {
+    if (
+      updateProtfolioButtonClicked &&
+      (validatePdfPortfolio || validateLinkPortfolio)
+    ) {
       updatePortfolio();
       handleAddModalClose();
       setUpdatePortfolioButtonClicked(false);
-    } else if (addPortfolioButtonClicked && (validatePdfPortfolio || validateLinkPortfolio)) {
+    } else if (
+      addPortfolioButtonClicked &&
+      (validatePdfPortfolio || validateLinkPortfolio)
+    ) {
       addPortfolio();
       handleAddModalClose();
       setAddPortfolioButtonClicked(false);
     }
     setUpdatePortfolioButtonClicked(false);
     setAddPortfolioButtonClicked(false);
-  }, [addPortfolioButtonClicked, updateProtfolioButtonClicked, errors, selectedPortfolio]);
+  }, [
+    addPortfolioButtonClicked,
+    updateProtfolioButtonClicked,
+    errors,
+    selectedPortfolio,
+  ]);
 
   const handlePortfolioSubmitButtonHandler = () => {
     const titleError = validateInput("제목", newPortfolio.title);
@@ -109,7 +130,9 @@ const PortfolioTab = () => {
       link: linkError,
       pdf: pdfError,
     });
-    selectedPortfolio ? setUpdatePortfolioButtonClicked(true) : setAddPortfolioButtonClicked(true);
+    selectedPortfolio
+      ? setUpdatePortfolioButtonClicked(true)
+      : setAddPortfolioButtonClicked(true);
   };
 
   const addPortfolio = async () => {
@@ -128,16 +151,21 @@ const PortfolioTab = () => {
       desc: newPortfolio.desc,
       freelancerId: user.userId,
       linkURL: newPortfolio.linkURL,
-      pdfFileURL: pdfURL ? `${pdfURL}?updated=${new Date().getTime()}` : undefined,
+      pdfFileURL: pdfURL
+        ? `${pdfURL}?updated=${new Date().getTime()}`
+        : undefined,
     };
 
     if (newPortfolio.thumbNailURL instanceof File) {
-      const thumbnailFilePath = await uploadThumbnail({
-        userId: user.userId,
-        file: newPortfolio.thumbNailURL as File,
-        pfId: newPortfolio.portfolioId,
-      });
-      const thumbNailURL = await getPortfolioFileURL(thumbnailFilePath);
+      const thumbnailFilePath =
+        newPortfolio.thumbNailURL &&
+        (await uploadThumbnail({
+          userId: user.userId,
+          file: newPortfolio.thumbNailURL as File,
+          pfId: newPortfolio.portfolioId,
+        }));
+      const thumbNailURL =
+        thumbnailFilePath && (await getPortfolioFileURL(thumbnailFilePath));
 
       addPortfolioMutation.mutate({
         newPortfolio: {
@@ -159,15 +187,20 @@ const PortfolioTab = () => {
     }
   };
   const updatePortfolio = async () => {
-    const pdfFilePath = await updatePortfolioFile(
-      user.userId,
-      newPortfolio.portfolioId,
-      "pdf",
-      newPortfolio.pdfFileURL as File
-    );
-    const pdfURL = await getPortfolioFileURL(pdfFilePath);
+    const pdfFilePath =
+      newPortfolio.pdfFileURL instanceof File &&
+      (await updatePortfolioFile(
+        user.userId,
+        newPortfolio.portfolioId,
+        "pdf",
+        newPortfolio.pdfFileURL as File
+      ));
+    const pdfURL = pdfFilePath && (await getPortfolioFileURL(pdfFilePath));
+
     if (newPortfolio.thumbNailURL instanceof File) {
-      const thumbnailFilePath = await (String(selectedPortfolio?.thumbNailURL).includes("default")
+      const thumbnailFilePath = await (String(
+        selectedPortfolio?.thumbNailURL
+      ).includes("default")
         ? uploadThumbnail({
             userId: user.userId,
             file: newPortfolio?.thumbNailURL as File,
@@ -179,7 +212,9 @@ const PortfolioTab = () => {
             "thumbnail",
             newPortfolio.thumbNailURL as File
           ));
-      const thumbNailURL = await getPortfolioFileURL(thumbnailFilePath as { path: string });
+      const thumbNailURL =
+        thumbnailFilePath &&
+        (await getPortfolioFileURL(thumbnailFilePath as { path: string }));
       updatePortfolioMutation.mutate({
         updatedData: {
           freelancerId: newPortfolio.freelancerId,
@@ -198,7 +233,9 @@ const PortfolioTab = () => {
           title: newPortfolio.title,
           desc: newPortfolio.desc,
           linkURL: newPortfolio.linkURL as string,
-          thumbNailURL: `${newPortfolio.thumbNailURL}?updated=${new Date().getTime()}`,
+          thumbNailURL: `${
+            newPortfolio.thumbNailURL
+          }?updated=${new Date().getTime()}`,
           pdfFileURL: `${pdfURL}?updated=${new Date().getTime()}`,
         },
         pfId: newPortfolio.portfolioId,
@@ -248,9 +285,15 @@ const PortfolioTab = () => {
   const showDeleteConfirmation = () => {
     toast.info(
       <CommonS.toastinfo>
-        <CommonS.toastintoText>해당 포트폴리오를 삭제하시겠습니까?</CommonS.toastintoText>
-        <CommonS.toastOkButton onClick={handleDeleteConfirm}>확인</CommonS.toastOkButton>
-        <CommonS.toastNoButton onClick={handleDeleteCancel}>취소</CommonS.toastNoButton>
+        <CommonS.toastintoText>
+          해당 포트폴리오를 삭제하시겠습니까?
+        </CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={handleDeleteConfirm}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleDeleteCancel}>
+          취소
+        </CommonS.toastNoButton>
       </CommonS.toastinfo>,
       {
         position: toast.POSITION.TOP_CENTER,
@@ -276,7 +319,9 @@ const PortfolioTab = () => {
     newPortfolio.thumbNailURL !==
       "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/portfolios/default-porfolio-image.jpg";
 
-  const availableClose = selectedPortfolio ? updateAvailableClose : addAvailableClose;
+  const availableClose = selectedPortfolio
+    ? updateAvailableClose
+    : addAvailableClose;
 
   return status === "loading" ? (
     <Spin
@@ -334,12 +379,20 @@ const PortfolioTab = () => {
                   >
                     취소하기
                   </S.Button>
-                  <S.Button type="primary" block onClick={handlePortfolioSubmitButtonHandler}>
+                  <S.Button
+                    type="primary"
+                    block
+                    onClick={handlePortfolioSubmitButtonHandler}
+                  >
                     수정하기
                   </S.Button>
                 </>
               ) : (
-                <S.Button type="primary" block onClick={handlePortfolioSubmitButtonHandler}>
+                <S.Button
+                  type="primary"
+                  block
+                  onClick={handlePortfolioSubmitButtonHandler}
+                >
                   추가하기
                 </S.Button>
               )}
@@ -367,7 +420,9 @@ const PortfolioTab = () => {
                       <img
                         style={{ borderRadius: "20px" }}
                         src={
-                          typeof portfolio.thumbNailURL === "string" ? portfolio.thumbNailURL : ""
+                          typeof portfolio.thumbNailURL === "string"
+                            ? portfolio.thumbNailURL
+                            : ""
                         }
                         alt="썸네일 이미지"
                       />
