@@ -281,14 +281,15 @@ const S = {
     margin-right: 10px;
   `,
   ImageBox: styled.div`
-    width: 130px;
+    min-width: 130px;
     height: 130px;
     border-radius: 5px;
-    object-fit: cover;
+    overflow: hidden;
 
     img {
       width: 100%;
       height: 100%;
+      object-fit: cover;
     }
   `,
   SearchSortButtonWrapper: styled.div`

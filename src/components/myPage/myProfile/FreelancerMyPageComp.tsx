@@ -12,9 +12,7 @@ const FreelancerMyPageComp = () => {
   const myPageMenu = ["마이페이지"];
 
   // Event Handler
-  const handleTabClick = (
-    tab: "이력서" | "포트폴리오" | "계약정보" | "피드백 관리"
-  ) => {
+  const handleTabClick = (tab: "이력서" | "포트폴리오" | "계약 정보") => {
     setActiveTab(tab);
   };
 
@@ -50,34 +48,21 @@ const FreelancerMyPageComp = () => {
               </S.Tab>
 
               <S.Tab
-                onClick={() => handleTabClick("계약정보")}
+                onClick={() => handleTabClick("계약 정보")}
                 style={{
                   borderBottom:
-                    activeTab === "계약정보"
+                    activeTab === "계약 정보"
                       ? "4px solid var(--main-blue)"
                       : "transparent",
                 }}
               >
-                계약정보
+                계약 정보
               </S.Tab>
-
-              {/* <S.Tab
-                onClick={() => handleTabClick("피드백 관리")}
-                style={{
-                  borderBottom:
-                    activeTab === "피드백 관리"
-                      ? "4px solid var(--main-blue)"
-                      : "transparent",
-                }}
-              >
-                피드백 관리
-              </S.Tab> */}
             </S.TabBarContainer>
             {/* ----- */}
             {activeTab === "이력서" && <ResumeTab />}
             {activeTab === "포트폴리오" && <PortfolioTab />}
-            {activeTab === "계약정보" && <ContractInfoTab />}
-            {/* {activeTab === "피드백 관리" && <FeedbackTab />} */}
+            {activeTab === "계약 정보" && <ContractInfoTab />}
           </S.TabsContainerInner>
         </S.TabsContainer>
       </S.Container>

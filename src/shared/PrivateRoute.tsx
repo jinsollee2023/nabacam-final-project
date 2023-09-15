@@ -19,7 +19,6 @@ export const PrivateRoute = (): React.ReactElement => {
 };
 
 export const PrivateRouteLogin = (): React.ReactElement => {
-  console.log("test");
   const token = localStorage.getItem("sb-iwbhucydhgtpozsnqeec-auth-token");
 
   const tokenCheck = (token: string | null): boolean => {

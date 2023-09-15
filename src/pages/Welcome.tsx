@@ -14,10 +14,8 @@ const Welcome = () => {
   const scrollToTab = (tabId: string) => {
     if (tabId === "1") {
       freelancerTab.current?.scrollIntoView({ behavior: "smooth" });
-      console.log(tabId);
     } else {
       clientTab.current?.scrollIntoView({ behavior: "smooth" });
-      console.log(tabId);
     }
   };
 

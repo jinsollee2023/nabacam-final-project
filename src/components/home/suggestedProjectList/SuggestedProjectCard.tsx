@@ -92,15 +92,14 @@ const SuggestedProjectCard = ({
 
   const handleAcceptConfirm = () => {
     handleButtonClick("accept");
-    console.log("확인 버튼이 클릭되었습니다.");
+    setIsDetailModalOpen(false);
 
     // Toastify를 닫습니다.
     toast.dismiss();
   };
 
   const handleAcceptCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
+    setIsDetailModalOpen(false);
     toast.dismiss();
   };
 
