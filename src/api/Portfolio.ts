@@ -1,8 +1,17 @@
 import { IPortfolio, Portfolio } from "src/Types";
 import supabase, { supabaseService } from "../config/supabaseClient";
 
+interface NewPortfolio {
+  portfolioId: string;
+  freelancerId: string;
+  title: string;
+  desc: string;
+  linkURL?: string;
+  thumbNailURL: string | File | null;
+  pdfFileURL?: string | File | null;
+}
+
 export const getPortfolios = async () => {
-  // 프리랜서 마켓에서 뿌려주기 위해 전체 포트폴리오 가져오기
   try {
     const { data, error } = await supabase.from("portfolios").select("*");
     if (error) {
@@ -31,7 +40,6 @@ export const getFreelancerPortfolio = async (id: string) => {
   }
 };
 
-// 8/26 수정
 export const getPortfolio = async (id: string) => {
   try {
     const { data } = await supabase
@@ -65,8 +73,6 @@ export const getMyPortfolio = async (
   }
 };
 
-//-------------------------------------------------------------------------------------------
-// 썸네일
 export const uploadThumbnail = async ({
   userId,
   file,
@@ -86,7 +92,6 @@ export const uploadThumbnail = async ({
   return data;
 };
 
-// pdf
 export const uploadPDF = async ({
   userId,
   file,
@@ -106,16 +111,6 @@ export const uploadPDF = async ({
   return data;
 };
 
-//------------------------------------------------------
-interface NewPortfolio {
-  portfolioId: string;
-  freelancerId: string;
-  title: string;
-  desc: string;
-  linkURL?: string;
-  thumbNailURL: string | File | null;
-  pdfFileURL?: string | File | null;
-}
 export const addPortfolio = async ({
   newPortfolio,
   userId,
@@ -125,7 +120,7 @@ export const addPortfolio = async ({
   userId: string;
   pfId: string;
 }) => {
-  const { data: portfolioData, error: portfolioError } = await supabase
+  await supabase
     .from("portfolios")
     .upsert({
       portfolioId: pfId,

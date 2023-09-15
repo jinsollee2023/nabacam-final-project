@@ -6,7 +6,6 @@ import { User } from "src/Types";
 import { NavigateFunction } from "react-router-dom";
 
 // 회원탈퇴
-
 export const resign = async (
   userId: string,
   navigate: (path: string) => void
@@ -30,7 +29,6 @@ export const resign = async (
 };
 
 // 유저 데이터 테이블 추가
-
 export const userJoinData = async (
   newUserData: User,
   setUser: (user: User) => void,
@@ -54,7 +52,6 @@ export const userJoinData = async (
 };
 
 //  회원가입
-
 export const clientSignupHandler = async (
   values: {
     email: string;
@@ -89,7 +86,6 @@ export const clientSignupHandler = async (
       data: { user },
     } = await supabase.auth.getUser();
 
-    // 사진을 스토리지에 업로드
     const filePath =
       values.photoFile &&
       (await uploadUserImage(user?.id, values.photoFile as File));

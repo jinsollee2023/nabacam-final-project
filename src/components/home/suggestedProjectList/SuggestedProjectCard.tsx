@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Project } from "../../../Types";
-import useClientsQueries from "../../../hooks/useClientsQueries";
-import useProjectsQueries from "../../../hooks/useProjectsQueries";
+import useClientsQueries from "../../../hooks/queries/useClientsQueries";
+import useProjectsQueries from "../../../hooks/queries/useProjectsQueries";
 import { S } from "./suggestedProjectList.styles";
 import Modal from "../../../components/modal/Modal";
 import { Button } from "antd";
@@ -29,15 +29,11 @@ const SuggestedProjectCard = ({
 
   const { client } = useClientsQueries({ userId: projectItem.clientId });
 
-  // 프리랜서가 제안받은 프로젝트를 수락하거나 거절할 시 해당 프로젝트를 업데이트 해주기 위해..
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
   });
 
-  // 마감 날짜 구하기.. (이거는 진행 완료인 애들만 띄워주던가 없애던가 해야할듯 합니다요!)
-  const dayOfWeek = getDayOfWeek(new Date(projectItem.expectedStartDate));
-
-  // 프로젝트 등록일이 오늘로부터 몇 일 전인지..
+  // 프로젝트 등록일이 오늘로부터 몇 일 전인지 확인
   const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
   const daysAgo = calculateDaysAgo(targetDate);
 
@@ -50,7 +46,6 @@ const SuggestedProjectCard = ({
         ),
       };
 
-      // 프로젝트 제안 거절시 현재 로그인한 프리랜서의 아이디를 해당 프로젝트의 제안한 프리랜서 배열에서 제거
       try {
         updateProjectMutation.mutate({
           projectId: projectItem.projectId as string,
@@ -63,7 +58,6 @@ const SuggestedProjectCard = ({
         );
       }
     } else if (action === "accept") {
-      // 프로젝트 제안 수락 시 현재 로그인한 프리랜서 아이디를 프로젝트의 freelancerId값으로 추가
       const updatedProject = {
         ...projectItem,
         freelancerId: userId,
@@ -75,7 +69,6 @@ const SuggestedProjectCard = ({
         },
       };
 
-      // 프로젝트 수락 후 바뀐 프로젝트 값(updatedProject)을 업데이트..
       try {
         updateProjectMutation.mutate({
           projectId: projectItem.projectId as string,
@@ -92,15 +85,10 @@ const SuggestedProjectCard = ({
 
   const handleAcceptConfirm = () => {
     handleButtonClick("accept");
-    console.log("확인 버튼이 클릭되었습니다.");
-
-    // Toastify를 닫습니다.
     toast.dismiss();
   };
 
   const handleAcceptCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
 
@@ -126,15 +114,10 @@ const SuggestedProjectCard = ({
 
   const handleRejectConfirm = () => {
     handleButtonClick("reject");
-    console.log("확인 버튼이 클릭되었습니다.");
-
-    // Toastify를 닫습니다.
     toast.dismiss();
   };
 
   const handleRejectCancel = () => {
-    console.log("취소 버튼이 클릭되었습니다.");
-
     toast.dismiss();
   };
   const showRejectConfirmation = () => {

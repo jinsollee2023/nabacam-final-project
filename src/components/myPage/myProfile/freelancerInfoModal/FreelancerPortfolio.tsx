@@ -4,11 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getPortfolio } from "../../../../api/Portfolio";
 import { S } from "./freelancerInfo.style";
 import { useUserStore } from "../../../../store/useUserStore";
-import PortfolioDetailModal from "../tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
 import Modal from "../../../modal/Modal";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import { usePortfolioStore } from "src/store/usePortfolioStore";
+import PortfolioDetailModal from "../portfolioTab/PortfolioDetailModal";
 
 interface FreelancerPortfolioProps {
   user: IUser;
@@ -58,9 +58,15 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
           onSlideChanged={handleSlideChanged}
         >
           {portfolios.map((portfolio) => (
-            <div key={portfolio.portfolioId} onClick={() => openModal(portfolio)}>
+            <div
+              key={portfolio.portfolioId}
+              onClick={() => openModal(portfolio)}
+            >
               <S.PortfolioImgBox>
-                <S.PortfolioImg alt="portfolioImage" src={portfolio.thumbNailURL} />
+                <S.PortfolioImg
+                  alt="portfolioImage"
+                  src={portfolio.thumbNailURL}
+                />
               </S.PortfolioImgBox>
               <S.PortfolioCmt>{portfolio.title}</S.PortfolioCmt>
             </div>
@@ -69,9 +75,15 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
       ) : portfolios!.length > 0 ? (
         <S.PortfolioWrapper>
           {portfolios!.map((portfolio) => (
-            <div key={portfolio.portfolioId} onClick={() => openModal(portfolio)}>
+            <div
+              key={portfolio.portfolioId}
+              onClick={() => openModal(portfolio)}
+            >
               <S.PortfolioImgBox>
-                <S.PortfolioImg alt="portfolioImage" src={portfolio.thumbNailURL} />
+                <S.PortfolioImg
+                  alt="portfolioImage"
+                  src={portfolio.thumbNailURL}
+                />
               </S.PortfolioImgBox>
               <S.PortfolioCmt>{portfolio.title}</S.PortfolioCmt>
             </div>
@@ -82,7 +94,10 @@ const FreelancerPortfolio = ({ user }: FreelancerPortfolioProps) => {
       )}
       {isDetailModalOpen && (
         <Modal setIsModalOpen={setIsDetailModalOpen}>
-          <PortfolioDetailModal setIsDetailModalOpen={setIsDetailModalOpen} userId={userId} />
+          <PortfolioDetailModal
+            setIsDetailModalOpen={setIsDetailModalOpen}
+            userId={userId}
+          />
         </Modal>
       )}
     </>

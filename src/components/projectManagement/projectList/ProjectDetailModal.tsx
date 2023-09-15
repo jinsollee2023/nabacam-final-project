@@ -28,7 +28,6 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
     useState<FreelancerInfo | null>(null);
 
   const { userRole } = useUserStore();
-  console.log("project==>", project);
   const fetchCommittedFreelancer = async () => {
     const userId = project.freelancerId!;
     const freelancer = await getFreelancer(userId);
@@ -84,7 +83,6 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           </S.ModalDetail>
         </S.ModalInfoColumnBox>
       </S.ModalInfoFlexBox>
-      {/* --------------------------------------------------------- */}
       <S.ModalLine />
       <S.ModalTitle marginBottom="10px">
         <label htmlFor="projectInfo">프로젝트 설정</label>
@@ -138,7 +136,6 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
           </S.ModalDetail>
         </S.ModalInfoFlexBox>
       </S.ModalInfoColumnBox>
-      {/* --------------------------------------------------------- */}
 
       {committedFreelancer && userRole === "client" && (
         <>

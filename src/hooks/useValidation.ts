@@ -1,5 +1,3 @@
-import React from "react";
-
 const useValidation = () => {
   //   첫글자 영어 소대문자 숫자 두번째부터 -_. 들어갈수있고 @ 있어야하고 앞이랑 똑같이 @ 뒤에 붙게되며  .이 한개는 들어가게되면서 .com 같이 2~3글자 자리가있다
   const emailRegEx =
@@ -59,7 +57,6 @@ const useValidation = () => {
   };
 
   const validateWorkExp = (workExp: string) => {
-    console.log(workExp);
     if (!workExp) {
       return "경력/연차를 입력해주세요.";
     } else if (!workExpReg.test(workExp)) {

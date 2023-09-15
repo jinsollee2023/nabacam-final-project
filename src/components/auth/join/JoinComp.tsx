@@ -9,7 +9,6 @@ const JoinComp = () => {
     "https://iwbhucydhgtpozsnqeec.supabase.co/storage/v1/object/public/workwave/workwave.png";
   window.history.forward();
   return (
-    // ant design 사용 삼항연산자로 탭 클릭시 변경
     <>
       <S.RealBack>
         <S.JoinBG>

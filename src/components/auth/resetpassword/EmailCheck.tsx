@@ -15,7 +15,7 @@ const EmailCheck = ({ openModal }: openModal) => {
   const EmailCheck = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: "http://localhost:3000/resetPassword",
       });
       if (!error) {

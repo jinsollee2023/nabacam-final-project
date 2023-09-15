@@ -1,7 +1,13 @@
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "src/App";
-import { IInpiniteProjectWithFreelancer, IProjectWithFreelancer } from "src/Types";
-import { getPendingFreelancersToTheProjects, updatePendingFreelancer } from "src/api/Project";
+import {
+  IInpiniteProjectWithFreelancer,
+  IProjectWithFreelancer,
+} from "src/Types";
+import {
+  getPendingFreelancersToTheProjects,
+  updatePendingFreelancer,
+} from "src/api/Project";
 import { getUser } from "src/api/User";
 
 interface usePengFreelancersToTheProjectsQueriesProps {
@@ -18,14 +24,19 @@ const usePengFreelancersToTheProjectsQueries = ({
     fetchNextPage,
     hasNextPage,
     status,
-  } = useInfiniteQuery<IInpiniteProjectWithFreelancer, Error, IInpiniteProjectWithFreelancer>(
+  } = useInfiniteQuery<
+    IInpiniteProjectWithFreelancer,
+    Error,
+    IInpiniteProjectWithFreelancer
+  >(
     ["pendingFreelancersToTheProjects"],
     async ({ pageParam = 1 }) => {
-      const freelancersPendingToTheProjectsData = await getPendingFreelancersToTheProjects(
-        currentUserId as string,
-        "최신순",
-        pageParam
-      );
+      const freelancersPendingToTheProjectsData =
+        await getPendingFreelancersToTheProjects(
+          currentUserId as string,
+          "최신순",
+          pageParam
+        );
 
       const resultData = [];
 
@@ -50,8 +61,6 @@ const usePengFreelancersToTheProjectsQueries = ({
       getNextPageParam: (lastPage, allPages) => {
         const maxPage = Math.ceil(lastPage.total_count / 15);
         const nextPage = allPages.length + 1;
-        console.log("maxPage", maxPage);
-        console.log("nextPage", nextPage);
         return nextPage <= maxPage ? nextPage : null;
       },
     }
@@ -67,7 +76,8 @@ const usePengFreelancersToTheProjectsQueries = ({
       projectId: string;
       updateVolunteer: string[];
       pendingFreelancer: string[];
-    }) => updatePendingFreelancer(projectId, updateVolunteer, pendingFreelancer),
+    }) =>
+      updatePendingFreelancer(projectId, updateVolunteer, pendingFreelancer),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["freelancersAppliedToTheProjects"]);

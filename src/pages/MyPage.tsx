@@ -1,5 +1,5 @@
-import ClientMyPageComp from "../components/myPage/client/common/ClientMyPageComp";
-import FreelancerMyPageComp from "../components/myPage/myProfile/FreelancerMyPageComp";
+import ClientMyPageComp from "../components/myPage/client";
+import FreelancerMyPageComp from "../components/myPage/myProfile";
 import { useUserStore } from "../store/useUserStore";
 import React from "react";
 
