@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import type { ResumeExperience } from "../../../../Types";
 import { useResumeStore } from "../../../../store/useResumeStore";
 import dayjs from "dayjs";
-import { S } from "./Resume.styles";
+import { S } from "./resume.styles";
 import { Errors } from "./ResumeExperienceComp";
 import useValidation from "src/hooks/useValidation";
 

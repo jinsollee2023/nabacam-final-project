@@ -5,7 +5,7 @@ import { useUserStore } from "../../../../store/useUserStore";
 import type { ResumeExperience } from "../../../../Types";
 import { useResumeStore } from "../../../../store/useResumeStore";
 import AddResumeExperienceModal from "./AddResumeExperienceModal";
-import { S } from "./Resume.styles";
+import { S } from "./resume.styles";
 import { CommonS } from "src/components/common/button/commonButton";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -72,8 +72,8 @@ const ResumeExperienceCard = ({
       newExperience.pastWorkPosition
     );
     const pastWorkDurationError = validateWorkDuration(
-      newExperience.pastWorkDuration.pastWorkEndDate,
-      newExperience.pastWorkDuration.pastWorkStartDate
+      newExperience.pastWorkDuration.pastWorkStartDate,
+      newExperience.pastWorkDuration.pastWorkEndDate
     );
     const pastWorkFieldError = validateSelect(
       "근무 분야",

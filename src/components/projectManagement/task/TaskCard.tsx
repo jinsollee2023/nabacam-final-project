@@ -1,5 +1,5 @@
 import { Task } from "../../../Types";
-import S from "./TaskStyles";
+import S from "./task.styles";
 import TaskTitle from "./TaskTitle";
 import TaskStatus from "./TaskStatus";
 import TaskImportance from "./TaskImportance";

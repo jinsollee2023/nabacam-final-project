@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useUserStore } from "../../../../store/useUserStore";
-import { S } from "./listOfFreelancersByStatus.style";
+import { S } from "./listOfFreelancersByStatus.styles";
 import OngoingFreelancerCards from "./OngoingFreelancerCards";
 import { useInView } from "react-intersection-observer";
 import useFreelancersWithOngoingProjectsQueries from "src/hooks/queries/useFreelancersWithOngoingProjectsQueries";

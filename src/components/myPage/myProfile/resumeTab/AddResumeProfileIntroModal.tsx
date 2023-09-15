@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "antd";
-import { S } from "./Resume.styles";
+import { S } from "./resume.styles";
 import { useResumeStore } from "src/store/useResumeStore";
 
 interface profileIntroProps {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Space } from "antd";
-import { S } from "../../freelancerMarket/sortFreelancers/sortFreelancers.styles";
+import { S } from "../freelancerMarket/sortFreelancers/sortFreelancers.styles";
 
 interface SortProjectsProps {
   onSort: (label: string) => void;

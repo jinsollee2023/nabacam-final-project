@@ -4,7 +4,7 @@ import { RiAddBoxLine } from "react-icons/ri";
 import Modal from "../../modal/Modal";
 import AddProjectModal from "./AddProjectModal";
 import { useProjectStore } from "../../../store/useProjectStore";
-import S from "./ProjectList.styles";
+import S from "./projectList.styles";
 import { useEffect, useState } from "react";
 import { useUserStore } from "../../../store/useUserStore";
 import SearchItemBar from "../../common/searchItemBar/SearchItemBar";

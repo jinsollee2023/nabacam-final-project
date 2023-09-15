@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Member } from "src/Types";
-import { S } from "./addMemberModal.style";
+import { S } from "./addMemberModal.styles";
 import { formatPhoneNumber } from "src/components/common/commonFunc";
 import { useUserStore } from "src/store/useUserStore";
 import useValidation from "src/hooks/useValidation";

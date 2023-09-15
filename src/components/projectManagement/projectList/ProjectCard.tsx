@@ -1,5 +1,5 @@
 import { Project } from "../../../Types";
-import S from "./ProjectList.styles";
+import S from "./projectList.styles";
 import { useEffect, useState } from "react";
 import Modal from "../../../components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";

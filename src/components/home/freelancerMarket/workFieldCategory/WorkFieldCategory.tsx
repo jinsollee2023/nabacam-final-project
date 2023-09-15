@@ -1,5 +1,5 @@
 import { Tabs, TabsProps } from "antd";
-import { S } from "./WorkFiledCategory.style";
+import { S } from "./workFiledCategory.styles";
 interface WorkFieldCategoryProps {
   onSelectWorkField: (selectedLabel: string) => void;
 }

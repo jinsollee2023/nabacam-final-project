@@ -1,5 +1,5 @@
 import React from "react";
-import { S } from "./Resume.styles";
+import { S } from "./resume.styles";
 import ResumeProfileIntroComp from "./ResumeProfileIntroComp";
 import ResumeExperienceComp from "./ResumeExperienceComp";
 
