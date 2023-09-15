@@ -7,7 +7,7 @@ const MyPageInformation = () => {
       <S.MenuContentsBox>
         <S.MenuContentsInnerBox
           margin="0 0 20px 0"
-          height="500px"
+          height="550px"
           $flexDirection="column"
           $alignItems="left"
           padding="5%"
@@ -19,7 +19,11 @@ const MyPageInformation = () => {
             프로필부터 경력 사항까지 자신을 소개할 수 있는 모든 정보를 기입할 수
             있어요.
           </S.TabDesc>
-          <img src="" alt="이력서 탭 스크린샷" />
+
+          <S.ResumeImage
+            src="assets/img/welcomePageImg/이력서.JPG"
+            alt="이력서 탭 스크린샷"
+          />
           <S.TabDesc color="#2D2D2D">
             사진, 이름, 직무, 기술 스택, 간단한 자기 소개 등을 통해
             <br />
@@ -31,7 +35,7 @@ const MyPageInformation = () => {
           </S.TabDesc>
         </S.MenuContentsInnerBox>
         <S.MenuContentsInnerBox
-          height="395px"
+          height="345px"
           $flexDirection="column"
           $alignItems="left"
           padding="5%"
@@ -46,7 +50,10 @@ const MyPageInformation = () => {
             <br /> 프로젝트의 기간, 계약 조건 등 협업에 대한 모든 이야기를
             한눈에 파악할 수 있어요
           </S.TabDesc>
-          <img src="" alt="계약정보 탭 스크린샷" />
+          <S.ContractTerminationAndProjectListAndMemberImage
+            src="assets/img/welcomePageImg/계약 정보.JPG"
+            alt="계약 정보 탭 스크린샷"
+          />
         </S.MenuContentsInnerBox>
       </S.MenuContentsBox>
       <S.MenuContentsBox>
@@ -61,31 +68,36 @@ const MyPageInformation = () => {
           height="685px"
           $flexDirection="column"
           $alignItems="left"
-          padding="5%"
         >
-          <S.TabTitle>포트폴리오</S.TabTitle>
-          <S.TabDesc $fontWeight="600" $marginBottom="10px">
-            프리랜서의 능력을 가장 잘 보여줄 수 있는 곳, 바로 포트폴리오
-            탭이에요.
-            <br />
-          </S.TabDesc>
-          <S.TabDesc color="#2D2D2D">
-            작업물의 배경, 진행 과정, 사용된 기술 및 도구 등의 상세 내용을
-            기술해주세요.
-            <br />
-            당신의 작업에 담긴 이야기와 노력을 충분히 전달하는 글로 표현하세요.
-            <br />
-            <br />
-            포트폴리오 리스트에서 가장 먼저 눈에 들어오는 썸네일!
-            <br />
-            강력하고, 효과적인 이미지로 클라이언트의 관심을 한 번에
-            집중시켜보세요.
-            <br />
-            <br />
-            작업물을 직접 파일로 업로드하거나 외부 링크로 연결하여 제공하실 수
-            있습니다.
-          </S.TabDesc>
-          <img src="" alt="포트폴리오 탭 스크린샷" />
+          <S.PortfolioBox>
+            <S.TabTitle>포트폴리오</S.TabTitle>
+            <S.TabDesc $fontWeight="600" $marginBottom="10px">
+              프리랜서의 능력을 가장 잘 보여줄 수 있는 곳, 바로 포트폴리오
+              탭이에요.
+              <br />
+            </S.TabDesc>
+            <S.TabDesc color="#2D2D2D">
+              작업물의 배경, 진행 과정, 사용된 기술 및 도구 등의 상세 내용을
+              기술해주세요.
+              <br />
+              당신의 작업에 담긴 이야기와 노력을 충분히 전달하는 글로
+              표현하세요.
+              <br />
+              <br />
+              포트폴리오 리스트에서 가장 먼저 눈에 들어오는 썸네일!
+              <br />
+              강력하고, 효과적인 이미지로 클라이언트의 관심을 한 번에
+              집중시켜보세요.
+              <br />
+              <br />
+              작업물을 직접 파일로 업로드하거나 외부 링크로 연결하여 제공하실 수
+              있습니다.
+            </S.TabDesc>
+            <S.PortfolioImage
+              src="assets/img/welcomePageImg/포트폴리오.JPG"
+              alt="포트폴리오 탭 스크린샷"
+            />
+          </S.PortfolioBox>
         </S.MenuContentsInnerBox>
       </S.MenuContentsBox>
     </S.MenuContainer>

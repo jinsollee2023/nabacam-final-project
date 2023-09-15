@@ -8,10 +8,15 @@ import { Spin } from "antd";
 
 const PendingFreelancerList = () => {
   const { userId } = useUserStore();
-  const { pendingFreelancersToTheProjects, error, fetchNextPage, hasNextPage, status } =
-    usePengFreelancersToTheProjectsQueries({
-      currentUserId: userId,
-    });
+  const {
+    pendingFreelancersToTheProjects,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    status,
+  } = usePengFreelancersToTheProjectsQueries({
+    currentUserId: userId,
+  });
   const [ref, inView] = useInView();
 
   useEffect(() => {
@@ -21,7 +26,6 @@ const PendingFreelancerList = () => {
   }, [inView]);
 
   // reduce 초기값 설정
-  // 보류한 프리랜서가 없을 시 문구 노출 위해 생성
   const totalPendingFreelancers = pendingFreelancersToTheProjects
     ? pendingFreelancersToTheProjects?.pages
         .map((page) => {

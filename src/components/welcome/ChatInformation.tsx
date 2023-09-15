@@ -13,7 +13,12 @@ const ChatInfomation = () => {
       </S.MenuTitleBox>
       <S.MenuContainer>
         <S.MenuContentsInnerBox width="48%" margin="1%" height="450px">
-          <img src="" alt="채팅 스크린샷" />
+          <S.ChatImageWrapper>
+            <img
+              src="assets/img/welcomePageImg/프리랜서 - 채팅.JPG"
+              alt="채팅 스크린샷"
+            />
+          </S.ChatImageWrapper>
         </S.MenuContentsInnerBox>
         <S.MenuContentsInnerBox
           width="48%"
@@ -54,7 +59,7 @@ const ChatInfomation = () => {
             </S.BalloonContainer>
           </div>
           <div style={{ marginLeft: "auto" }}>
-            <S.BalloonContainer>
+            <S.AlarmBallonContainer>
               <S.TabDesc $fontWeight="600" $marginBottom="10px">
                 🔔 알림 기능
               </S.TabDesc>
@@ -68,7 +73,7 @@ const ChatInfomation = () => {
                 $borderLeft="40px"
                 $borderRight="0px"
               ></S.BalloonTail>
-            </S.BalloonContainer>
+            </S.AlarmBallonContainer>
           </div>
         </S.MenuContentsInnerBox>
       </S.MenuContainer>

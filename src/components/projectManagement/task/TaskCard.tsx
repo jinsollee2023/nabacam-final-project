@@ -1,9 +1,9 @@
 import { Task } from "../../../Types";
-import S from "./TaskStyles";
+import S from "./task.styles";
 import TaskTitle from "./TaskTitle";
 import TaskStatus from "./TaskStatus";
 import TaskImportance from "./TaskImportance";
-import useTasksQueries from "../../../hooks/useTasksQueries";
+import useTasksQueries from "../../../hooks/queries/useTasksQueries";
 import TaskDeadLine from "./TaskDeadLine";
 import { BsTrash3Fill } from "react-icons/bs";
 import TaskMonth from "./TaskMonth";

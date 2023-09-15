@@ -1,6 +1,6 @@
 import { BiPhoneCall } from "react-icons/bi";
 import { AiOutlineMail } from "react-icons/ai";
-import S from "./ProjectList.styles";
+import S from "./projectList.styles";
 import { FreelancerInfo } from "./ProjectDetailModal";
 import { Project } from "src/Types";
 
@@ -20,28 +20,20 @@ const ProjectCommittedFreelancerProfile = ({
             alt="프리랜서 프로필 이미지"
           />
         </S.ImageBox>
-        <S.ModalInfoColumnBox marginLeft="15px">
-          <S.ModalDetail marginBottom="3px">
-            {committedFreelancer?.name}
-          </S.ModalDetail>
-          <S.ModalDetail marginBottom="3px">
+        <S.ModalInfoColumnBox
+          marginLeft="15px"
+          style={{ justifyContent: "center" }}
+        >
+          <S.ModalDetail>{committedFreelancer?.name}</S.ModalDetail>
+          <S.ModalDetail>
             {committedFreelancer?.workField.workSmallField}
           </S.ModalDetail>
-          <S.ModalDetail marginBottom="3px">
-            {committedFreelancer?.resumeProfileIntro}
-          </S.ModalDetail>
-          <S.ModalDetail
-            marginBottom="3px"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <BiPhoneCall />
+          <S.ModalDetail style={{ display: "flex", alignItems: "center" }}>
+            <BiPhoneCall style={{ marginRight: "5px" }} />
             {committedFreelancer?.contact.phone}
           </S.ModalDetail>
-          <S.ModalDetail
-            marginBottom="3px"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <AiOutlineMail />
+          <S.ModalDetail style={{ display: "flex", alignItems: "center" }}>
+            <AiOutlineMail style={{ marginRight: "5px" }} />
             {committedFreelancer?.contact.email}
           </S.ModalDetail>
         </S.ModalInfoColumnBox>

@@ -17,28 +17,20 @@ const FreelancerInfomation = () => {
   return (
     <S.InfomationContainer>
       <ExploreProjectInformation />
-      <div style={{ margin: "100px 0" }}>
-        <hr />
-      </div>
+      <hr style={{ margin: "100px 0" }} />
       <ProjectManagementInformation />
-      <div style={{ margin: "100px 0" }}>
-        <hr />
-      </div>
+      <hr style={{ margin: "100px 0" }} />
       <MyPageInformation />
-      <div style={{ margin: "100px 0" }}>
-        <hr />
-      </div>
+      <hr style={{ margin: "100px 0" }} />
       <ChatInformation />
-      <div style={{ margin: "100px 0" }}>
-        <hr />
-      </div>
+      <hr style={{ margin: "100px 0" }} />
       <S.OutroBox>
         <S.TabTitle $textAlign="center">
           다양한 프로젝트가 당신의 전문성을 기다립니다. 지금 가입하고 최상의
           기회를 잡아보세요.
         </S.TabTitle>
         <S.OutroButton onClick={GotoFreelancerRegisterButtonHandler}>
-          <S.TabTitle>프리랜서로 회원가입하기</S.TabTitle>
+          프리랜서로 회원가입하기
         </S.OutroButton>
       </S.OutroBox>
     </S.InfomationContainer>

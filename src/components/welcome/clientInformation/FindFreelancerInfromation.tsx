@@ -13,7 +13,12 @@ const FindFreelancerInfromation = () => {
       </S.MenuTitleBox>
       <S.MenuContentsInnerBox>
         <S.MenuContentsBox>
-          <img src="" alt="프리랜서 구인 스크린샷" />
+          <S.ProjectNavigationAndFreelancerMarketImageWrapper>
+            <img
+              src="/assets/img/welcomePageImg/프리랜서 구인.JPG"
+              alt="프리랜서 구인 스크린샷"
+            />
+          </S.ProjectNavigationAndFreelancerMarketImageWrapper>
         </S.MenuContentsBox>
         <S.MenuContentsBox>
           <S.TabContentsBox height="95px">

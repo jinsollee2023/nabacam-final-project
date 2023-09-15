@@ -13,7 +13,12 @@ const ExploreProjectInformation = () => {
       </S.MenuTitleBox>
       <S.MenuContentsInnerBox>
         <S.MenuContentsBox>
-          <img src="" alt="프로젝트 탐색 스크린샷" />
+          <S.ProjectNavigationAndFreelancerMarketImageWrapper>
+            <img
+              src="/assets/img/welcomePageImg/프로젝트 탐색2.JPG"
+              alt="프로젝트 탐색 스크린샷"
+            />
+          </S.ProjectNavigationAndFreelancerMarketImageWrapper>
         </S.MenuContentsBox>
         <S.MenuContentsBox>
           <S.TabContentsBox>

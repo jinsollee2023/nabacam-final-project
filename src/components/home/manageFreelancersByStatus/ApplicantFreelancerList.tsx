@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { S } from "./manageFreelancersByStatus.style";
 import { useUserStore } from "../../../store/useUserStore";
-import useClientsQueries from "../../../hooks/useClientsQueries";
 import ApplicantFreelancerCard from "./ApplicantFreelancerCard";
 import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientQueries";
 import { useInView } from "react-intersection-observer";
@@ -9,11 +8,15 @@ import { Spin } from "antd";
 
 const ApplicantFreelancerList = () => {
   const { userId } = useUserStore();
-  const { client } = useClientsQueries({ userId });
-  const { freelancersAppliedToTheProjects, error, fetchNextPage, hasNextPage, status } =
-    useProjectOfClientBySortQueries({
-      currentUserId: userId,
-    });
+  const {
+    freelancersAppliedToTheProjects,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    status,
+  } = useProjectOfClientBySortQueries({
+    currentUserId: userId,
+  });
   const [ref, inView] = useInView();
 
   useEffect(() => {
@@ -22,7 +25,6 @@ const ApplicantFreelancerList = () => {
     }
   }, [inView]);
 
-  // reduce 초기값 설정
   // 지원한 프리랜서가 없을 시 문구 노출 위해 생성
   const totalVolunteers = freelancersAppliedToTheProjects
     ? freelancersAppliedToTheProjects?.pages

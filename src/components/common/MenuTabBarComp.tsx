@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import TaskList from "../projectManagement/task/TaskList";
-import FreelancerMarket from "../home/freelancerMarket/FreelancerMarket";
+import TaskList from "../projectManagement/task";
+import FreelancerMarket from "../home/freelancerMarket";
 import ApplicantFreelancerList from "../home/manageFreelancersByStatus/ApplicantFreelancerList";
 import PendingFreelancerList from "../home/manageFreelancersByStatus/PendingFreelancerList";
-import ProjectList from "../projectManagement/projectList/ProjectList";
-import ProjectNavigation from "../home/projectNavigation/ProjectNavigation";
-import MemberList from "../myPage/client/MemberList";
+import ProjectList from "../projectManagement/projectList";
+import ProjectNavigation from "../home/projectNavigation";
+import MemberList from "../myPage/client/memberList/MemberList";
 import AppliedProjectList from "../home/appliedProjectList/AppliedProjectList";
 import SuggestedProjectList from "../home/suggestedProjectList/SuggestedProjectList";
-import OngoingFreelancerList from "../myPage/client/listOfFreelancersByStatus/ongoingFreelancerList/OngoingFreelancerList";
-import ContractTerminationFreelancerList from "../myPage/client/listOfFreelancersByStatus/contractTerminationFreelancerList/ContractTerminationFreelancerList";
+import OngoingFreelancerList from "../myPage/client/listOfFreelancersByStatus/OngoingFreelancerList";
+import ContractTerminationFreelancerList from "../myPage/client/listOfFreelancersByStatus/ContractTerminationFreelancerList";
 import React from "react";
-import { useTutorialStore } from "src/store/useTutorialStore";
 import { useTabStore } from "src/store/useTabStore";
 
 interface MenuTabBarCompProps {
@@ -22,14 +21,6 @@ interface MenuTabBarCompProps {
 
 const MenuTabBarComp = ({ menu, children }: MenuTabBarCompProps) => {
   const { currentTab, setCurrentTab } = useTabStore();
-  // const { tutorialModalOpen, changeTutorialModalOpen, tab, changeTab } =
-  //   useTutorialStore();
-
-  // useEffect(() => {
-  //   if (tutorialModalOpen) {
-  //     setCurrentTab(tab);
-  //   }
-  // }, [tutorialModalOpen, tab]);
 
   useEffect(() => {
     setCurrentTab(menu[0]);
@@ -60,7 +51,9 @@ const MenuTabBarComp = ({ menu, children }: MenuTabBarCompProps) => {
         {currentTab === "보류한 프리랜서" && <PendingFreelancerList />}
         {currentTab === "우리 기업 구성원" && <MemberList />}
         {currentTab === "진행 중인 프리랜서" && <OngoingFreelancerList />}
-        {currentTab === "계약이 끝난 프리랜서" && <ContractTerminationFreelancerList />}
+        {currentTab === "계약이 끝난 프리랜서" && (
+          <ContractTerminationFreelancerList />
+        )}
       </S.CompContainer>
     </>
   );

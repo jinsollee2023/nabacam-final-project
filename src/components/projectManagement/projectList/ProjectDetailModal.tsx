@@ -1,5 +1,5 @@
 import { Project } from "../../../Types";
-import S from "./ProjectList.styles";
+import S from "./projectList.styles";
 import { useEffect, useState } from "react";
 import { getFreelancer } from "src/api/User";
 import ProjectCommittedFreelancerProfile from "./ProjectCommittedFreelancerProfile";
@@ -155,7 +155,6 @@ const ProjectDetailModal = ({
           </S.ModalDetail>
         </S.ModalInfoColumnBox>
       </S.ModalInfoFlexBox>
-      {/* --------------------------------------------------------- */}
       <S.ModalLine />
       <S.ModalTitle marginBottom="10px">
         <label htmlFor="projectInfo">프로젝트 설정</label>
@@ -217,7 +216,6 @@ const ProjectDetailModal = ({
           </S.ModalDetail>
         </S.ModalInfoFlexBox>
       </S.ModalInfoColumnBox>
-      {/* --------------------------------------------------------- */}
 
       {committedFreelancer && userRole === "client" && (
         <>

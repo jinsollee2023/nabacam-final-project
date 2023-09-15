@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { Project } from "../../../Types";
-import useClientsQueries from "../../../hooks/useClientsQueries";
-import useProjectsQueries from "../../../hooks/useProjectsQueries";
+import useClientsQueries from "../../../hooks/queries/useClientsQueries";
+import useProjectsQueries from "../../../hooks/queries/useProjectsQueries";
 import { S } from "./appliedProjectList.styles";
 import Modal from "src/components/modal/Modal";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
@@ -20,10 +20,7 @@ const AppliedProjectCard = ({
   userId,
 }: AppliedProjectCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  // 프로젝트의 클라이언트 아이디 값을 보내서 클라이언트 name을 사용하기 위해 client를 불러온다.
   const { client } = useClientsQueries({ userId: projectItem.clientId });
-
-  // 아래서 적어놓은 것과 같이.. 지원 취소 시 업데이트를 위해 미리 불러온다..
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
   });
