@@ -1,5 +1,5 @@
 import TaskCard from "./TaskCard";
-import S from "./TaskStyles";
+import S from "./task.styles";
 import useTasksQueries from "../../../hooks/queries/useTasksQueries";
 import { useEffect, useState } from "react";
 import { Select } from "antd";

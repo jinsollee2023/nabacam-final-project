@@ -1,5 +1,5 @@
 import { Project } from "../../../Types";
-import S from "./ProjectList.styles";
+import S from "./projectList.styles";
 import { useEffect, useState } from "react";
 import { getFreelancer } from "src/api/User";
 import ProjectCommittedFreelancerProfile from "./ProjectCommittedFreelancerProfile";

@@ -1,6 +1,6 @@
 import { Task } from "../../../Types";
 import { AiFillStar } from "react-icons/ai";
-import S from "./TaskStyles";
+import S from "./task.styles";
 import useTasksQueries from "../../../hooks/queries/useTasksQueries";
 import React from "react";
 

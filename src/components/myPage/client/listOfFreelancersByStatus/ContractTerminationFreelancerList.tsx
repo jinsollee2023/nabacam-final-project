@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { S } from "./listOfFreelancersByStatus.style";
+import { S } from "./listOfFreelancersByStatus.styles";
 import { useSearchKeywordStore } from "../../../../store/useSearchKeywordStore";
 import ContractTerminationFreelancerCards from "./ContractTerminationFreelancerCards";
 import SearchItemBar from "../../../common/searchItemBar/SearchItemBar";

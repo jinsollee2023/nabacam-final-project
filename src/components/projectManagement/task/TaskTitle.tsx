@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import S from "./TaskStyles";
+import S from "./task.styles";
 import { Task } from "../../../Types";
 import useTasksQueries from "../../../hooks/queries/useTasksQueries";
 

@@ -6,7 +6,7 @@ import type { ResumeExperience } from "../../../../Types";
 import { useResumeStore } from "../../../../store/useResumeStore";
 import ResumeExperienceCard from "./ResumeExperienceCard";
 import { BsPlusCircleDotted } from "react-icons/bs";
-import { S } from "./Resume.styles";
+import { S } from "./resume.styles";
 import AddResumeExperienceModal from "./AddResumeExperienceModal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

@@ -91,7 +91,8 @@ const ProjectList = ({
               {page
                 .filter(
                   (project) =>
-                    selectedWorkField === "전체보기" || project.category === selectedWorkField
+                    selectedWorkField === "전체보기" ||
+                    project.category === selectedWorkField
                 )
                 .map((projectItem) => {
                   return (
