@@ -33,7 +33,7 @@ export const S = {
   `,
   ProfileInputBox: styled.div`
     width: 90%;
-    height: 120px;
+    height: 15vh;
     line-height: 1.2;
     font-size: 16px;
     padding: 10px;
