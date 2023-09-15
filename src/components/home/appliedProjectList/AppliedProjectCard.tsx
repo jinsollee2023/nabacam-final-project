@@ -93,7 +93,10 @@ const AppliedProjectCard = ({
             </>
           }
         >
-          <ProjectDetailModal project={projectItem} />
+          <ProjectDetailModal
+            project={projectItem}
+            companyName={client?.name}
+          />
         </Modal>
       )}
       <S.ProjectCardContainer>

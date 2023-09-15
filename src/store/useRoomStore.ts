@@ -10,6 +10,11 @@ type RoomStore = {
 
   createdRoomId: string;
   setCreatedRoomId: (roomId: string) => void;
+
+  isFreelancerSender: boolean;
+  setIsFreelancerSender: (value: boolean) => void;
+  isClientSender: boolean;
+  setIsClientSender: (value: boolean) => void;
 };
 
 export const useRoomStore = create<RoomStore>((set) => ({
@@ -21,4 +26,9 @@ export const useRoomStore = create<RoomStore>((set) => ({
 
   createdRoomId: "",
   setCreatedRoomId: (roomId: string) => set({ createdRoomId: roomId }),
+
+  isFreelancerSender: false,
+  setIsFreelancerSender: (value: boolean) => set({ isFreelancerSender: value }),
+  isClientSender: false,
+  setIsClientSender: (value: boolean) => set({ isClientSender: value }),
 }));
