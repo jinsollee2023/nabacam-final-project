@@ -398,6 +398,13 @@ const PortfolioTab = () => {
       )}
 
       <S.PortfolioListContainer>
+        <S.PortfolioTitleAndButtonWrapper>
+          <S.PortfolioTabTitle>포트폴리오</S.PortfolioTabTitle>
+          <S.PortfolioAddButton onClick={addModalOpenHandler}>
+            <BsPlusCircleDotted style={{ marginRight: "10px" }} />
+            포트폴리오 첨부하기
+          </S.PortfolioAddButton>
+        </S.PortfolioTitleAndButtonWrapper>
         <S.PortfolioListWrapper>
           {portfolio &&
             portfolio?.pages.map((page, idx) => (
@@ -411,10 +418,6 @@ const PortfolioTab = () => {
             ))}
           <div ref={ref}></div>
         </S.PortfolioListWrapper>
-        <S.PortfolioAddButton onClick={addModalOpenHandler}>
-          <BsPlusCircleDotted style={{ marginRight: "10px" }} />
-          포트폴리오 첨부하기
-        </S.PortfolioAddButton>
       </S.PortfolioListContainer>
     </>
   );

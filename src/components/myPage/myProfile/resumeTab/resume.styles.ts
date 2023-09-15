@@ -17,12 +17,13 @@ export const S = {
     margin-bottom: 0;
   `,
   ContainerInner: styled.div`
-    height: 60vh;
+    height: 65vh;
+    display: flex;
   `,
 
   // 프로필
   ProfileContainer: styled.section`
-    width: 92%;
+    width: 37%;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-top: 10px;
@@ -33,8 +34,8 @@ export const S = {
   `,
   ProfileInputBox: styled.div`
     width: 90%;
-    height: 120px;
-    line-height: 1.2;
+    height: 55vh;
+    line-height: 1.5;
     font-size: 16px;
     padding: 10px;
     margin-top: 10px;
@@ -70,16 +71,19 @@ export const S = {
     position: relative;
   `,
   WorkExperienceTitle: styled.p`
+    padding-top: 5px;
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 20px;
   `,
   WorkExperienceListWrapper: styled.ul`
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-auto-rows: 190px;
     gap: 20px;
-    height: 40vh;
+    width: 960px;
+    min-width: 960px;
+    height: 55vh;
+    min-height: 55vh;
     overflow-y: auto;
 
     &::-webkit-scrollbar {
@@ -89,6 +93,7 @@ export const S = {
     }
   `,
   WorkExperienceList: styled.li`
+    min-width: 220px;
     width: 220px;
     height: 190px;
     padding: 20px 0 10px 0;
@@ -100,7 +105,6 @@ export const S = {
     justify-content: center;
     align-items: center;
   `,
-  TextArea: styled.div``,
   PastWorkField: styled.p`
     font-size: 16px;
     font-weight: bolder;
@@ -112,6 +116,13 @@ export const S = {
   PastWorkDuration: styled.p`
     font-size: 14px;
     margin-top: 5px;
+  `,
+  WorkExperienceTitleAndButtonWrapper: styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
   `,
 
   //------------모달-----------------------//
@@ -219,21 +230,14 @@ export const S = {
     align-items: center;
   `,
   WorkExperienceAddButton: styled.button`
-    background-color: var(--main-blue);
-    color: white;
-    border: none;
-    border-radius: 15px;
-    width: 500px;
-    font-size: 16px;
-    padding: 10px 0;
+    background-color: transparent;
+    color: var(--main-blue);
+    border: 1px solid var(--main-blue);
+    border-radius: 5px;
+    padding: 5px 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    z-index: 10;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
   `,
   ErrorMessage: styled.div<{ hasError: boolean }>`
     height: ${(props) => (props.hasError ? "20px" : "0")};
