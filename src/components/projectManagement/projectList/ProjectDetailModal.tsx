@@ -45,6 +45,7 @@ const ProjectDetailModal = ({
   // receiver (client)
   const DMclientId = project.clientId;
   const DMclientName = `${companyName} ${project.manager.team}팀 ${project.manager.name}님`;
+  const projectId = project.projectId;
 
   console.log("project==>", project);
   const fetchCommittedFreelancer = async () => {
@@ -71,11 +72,9 @@ const ProjectDetailModal = ({
       roomname: `${DMfreelancerName}, ${DMclientName}`,
       user_id: DMfreelancerId,
       receiver_id: DMclientId,
+      receiver_id_projectid: projectId,
     });
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
+
     if (data) {
       const room_id = data.room_id;
 
@@ -88,28 +87,29 @@ const ProjectDetailModal = ({
     const { data, error } = await supabase
       .from("room_participants")
       .select("room_id")
-      .match({ receiver_id: DMclientId, user_id: DMfreelancerId })
+      .match({
+        receiver_id: DMclientId,
+        receiver_id_projectid: projectId,
+        user_id: DMfreelancerId,
+      })
       .single();
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
+
     return data ? data.room_id : null;
   };
 
   const sendDM = async () => {
     // 중복 방 여부 확인
-    // const result = await checkDuplicateRoomId();
-    // console.log("75", result);
+    const result = await checkDuplicateRoomId();
+    console.log("75", result);
 
-    // if (result !== null) {
-    //   console.log(
-    //     "이미 생성된 방이 있습니다. 해당 채팅방으로 이동은 구현중입니다."
-    //   );
+    if (result !== null) {
+      console.log(
+        "이미 생성된 방이 있습니다. 해당 채팅방으로 이동은 구현중입니다."
+      );
 
-    //   navigate("/chat");
-    //   return;
-    // }
+      navigate("/chat");
+      return;
+    }
 
     // 중복 없을 경우 새로운 방 생성
     console.log("채팅 내역이 없습니다.");

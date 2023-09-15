@@ -56,6 +56,7 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   };
 
   const checkDuplicateRoomId = async () => {
+    // 수신자 f, 발신자 c id인 room_id 찾기
     const { data, error } = await supabase
       .from("room_participants")
       .select("room_id")
