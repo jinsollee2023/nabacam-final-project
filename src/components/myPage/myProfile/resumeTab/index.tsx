@@ -1,7 +1,7 @@
 import React from "react";
-import { S } from "./resume.styles";
 import ResumeProfileIntroComp from "./ResumeProfileIntroComp";
 import ResumeExperienceComp from "./ResumeExperienceComp";
+import { S } from "./resume.styles";
 
 const ResumeTab = () => {
   return (
