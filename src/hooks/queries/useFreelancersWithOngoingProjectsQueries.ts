@@ -20,7 +20,11 @@ const useFreelancersWithOngoingProjectsQueries = ({
     fetchNextPage,
     hasNextPage,
     status,
-  } = useInfiniteQuery<IInpiniteProjectWithFreelancer, Error, IInpiniteProjectWithFreelancer>(
+  } = useInfiniteQuery<
+    IInpiniteProjectWithFreelancer,
+    Error,
+    IInpiniteProjectWithFreelancer
+  >(
     ["freelancersWithOngoingProjects"],
     async ({ pageParam = 1 }) => {
       const ongoingProjectsData = await getFreelancersWithOngoingProjects(
@@ -31,7 +35,10 @@ const useFreelancersWithOngoingProjectsQueries = ({
       const projects = [];
 
       for (const project of ongoingProjectsData.projects) {
-        projects.push({ ...project, freelancer: await getUser(project.freelancerId as string) });
+        projects.push({
+          ...project,
+          freelancer: await getUser(project.freelancerId as string),
+        });
       }
 
       const resultProjects = {
@@ -46,8 +53,6 @@ const useFreelancersWithOngoingProjectsQueries = ({
       getNextPageParam: (lastPage, allPages) => {
         const maxPage = Math.ceil(lastPage.total_count / 15);
         const nextPage = allPages.length + 1;
-        console.log("maxPage", maxPage);
-        console.log("nextPage", nextPage);
         return nextPage <= maxPage ? nextPage : null;
       },
     }

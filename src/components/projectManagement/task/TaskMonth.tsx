@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Task } from "../../../Types";
-import S from "./TaskStyles";
+import S from "./task.styles";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import useTasksQueries from "../../../hooks/useTasksQueries";
+import useTasksQueries from "../../../hooks/queries/useTasksQueries";
 
 interface TaskMonthProps {
   task: Task;
@@ -85,29 +85,6 @@ const TaskMonth = ({ task, userRole, month }: TaskMonthProps) => {
           </div>
         )}
       </S.TaskDetailBoxWrapper>
-      {/* <>
-        {monthOptionOn && (
-          <>
-            <S.CustomDatePicker>
-              <S.CustomDatePickerBox onClick={() => alert("1click!")}>
-                <span>o</span> 1월
-              </S.CustomDatePickerBox>
-              <S.CustomDatePickerBox onClick={() => alert("2click!")}>
-                <span>o</span> 2월
-              </S.CustomDatePickerBox>
-              <S.CustomDatePickerBox onClick={() => alert("3click!")}>
-                <span>o</span> 3월
-              </S.CustomDatePickerBox>
-              <S.CustomDatePickerBox>
-                <span>o</span> 4월
-              </S.CustomDatePickerBox>
-              <S.CustomDatePickerBox>
-                <span>o</span> 5월
-              </S.CustomDatePickerBox>
-            </S.CustomDatePicker>
-          </>
-        )}
-      </> */}
     </>
   );
 };

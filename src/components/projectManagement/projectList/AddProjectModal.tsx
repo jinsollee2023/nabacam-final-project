@@ -1,15 +1,13 @@
 import { Checkbox, DatePicker } from "antd";
 import { useEffect, useState } from "react";
 import { useProjectStore } from "../../../store/useProjectStore";
-import S from "./ProjectList.styles";
+import S from "./projectList.styles";
 import dayjs from "dayjs";
 import { useUserStore } from "../../../store/useUserStore";
-import useClientsQueries from "../../../hooks/useClientsQueries";
+import useClientsQueries from "../../../hooks/queries/useClientsQueries";
 import { useNavigate } from "react-router-dom";
-import React from "react";
-import { useProjectValuesStore } from "src/store/useProjectValuesStore";
 import useValidation from "src/hooks/useValidation";
-import { Errors } from "./ProjectList";
+import { Errors } from ".";
 import { toast } from "react-toastify";
 import { CommonS } from "src/components/common/button/commonButton";
 
@@ -21,7 +19,7 @@ interface AddProjectModal {
 const AddProjectModal = ({ errors, setErrors }: AddProjectModal) => {
   const { userId } = useUserStore();
   const { client } = useClientsQueries({ userId });
-  const { values, changeValues } = useProjectValuesStore();
+  const { values, changeValues } = useProjectStore();
   const [payInputOff, setPayInputOff] = useState(
     values.maxPay === "상의 후 결정" ? true : false
   );

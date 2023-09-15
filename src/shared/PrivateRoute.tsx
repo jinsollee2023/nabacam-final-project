@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // 프라이빗라우터 토큰을 로컬스토리지로 가져와서 있는 사람만 이용가능 하게 걸러주는 역활
