@@ -8,50 +8,26 @@ import { CommonS } from "../common/button/commonButton";
 import { TbLogout } from "react-icons/tb";
 import { toast } from "react-toastify";
 import { useUserStore } from "../../store/useUserStore";
+import _ from "lodash";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
-  const [roomsWithReceiverData, setRoomsWithReceiverData] = useState<TRoom[]>(
-    []
-  );
-  const [roomsWithUserData, setRoomsWithUserData] = useState<TRoom[]>([]);
+  const [wholeData, setWholeData] = useState<TRoom[]>([]);
   const { selectedRoom, createdRoomId, setSelectedRoom } = useRoomStore();
-
-  const { userRole, user } = useUserStore();
-  const [isClient, setIsClient] = useState(false);
-  const [isFreelancer, setIsFreelancer] = useState(false);
-
-  // 분기
-  useEffect(() => {
-    if (userRole === "client") {
-      const clientId = user.userId;
-      setIsClient(true);
-    } else if (userRole === "freelancer") {
-      const freelancerId = user.userId;
-      setIsFreelancer(true);
-    }
-  }, [userRole, user.userId]);
+  const { user } = useUserStore();
+  const currentUserId = user.userId;
+  console.log("currentUserId", currentUserId);
 
   useEffect(() => {
-    if (isClient) {
-      const getRoomsWithReceiverData = async () => {
-        const { data, error } = await supabase.rpc(
-          "get_receiver_data_for_rooms"
-        );
-        console.log("41", data);
-        if (data) setRoomsWithReceiverData(data);
-      };
-      getRoomsWithReceiverData();
-    } else if (isFreelancer) {
-      const getRoomsWithUserData = async () => {
-        const { data, error } = await supabase.rpc("get_user_data_for_rooms");
-        console.log("48", data);
+    const getWholeData = async () => {
+      const { data, error } = await supabase.rpc("get_whole");
+      if (error) toast.error(error.message);
 
-        if (data) setRoomsWithUserData(data);
-      };
-      getRoomsWithUserData();
-    }
-  }, [createdRoomId, isClient, isFreelancer]);
+      console.log("53", data);
+      if (data) setWholeData(data);
+    };
+    getWholeData();
+  }, [createdRoomId]);
 
   const handleRoomClick = (room: TRoom) => {
     setSelectedRoom(room);
@@ -85,54 +61,54 @@ const ChatComp = () => {
     }
   };
 
-  if (isClient) console.log("90", roomsWithReceiverData);
-  if (isFreelancer) console.log("91", roomsWithUserData);
+  console.log("97", wholeData);
+
   return (
     <MenuTabBarComp menu={communicationMenu}>
       <S.Container>
         {/* ============================================================================== */}
         <S.LeftRoomListContainer>
           <S.RoomListWrapper>
-            {(isClient
-              ? roomsWithReceiverData
-              : isFreelancer
-              ? roomsWithUserData
-              : []
-            ).map((room) => (
-              <S.RoomBox
-                key={room.room_id}
-                isSelected={
-                  selectedRoom !== null && room.room_id === selectedRoom.room_id
-                }
-                onClick={() => handleRoomClick(room)}
-              >
-                <S.RoomListImg src={room.photoURL} alt="Messagesender" />
-
-                <S.RoomListTextColumnWrapper>
-                  <S.RoomListTextFlexWrapper>
-                    <S.RoomListSenderName>{room.name}</S.RoomListSenderName>
-                    <CommonS.CenterizeBox>
-                      <S.RoomListSenderWorkField>
-                        {room.workField.workField}&nbsp;
-                        {room.workField.workSmallField}
-                      </S.RoomListSenderWorkField>
-                    </CommonS.CenterizeBox>
-                  </S.RoomListTextFlexWrapper>
-                  <S.RoomListSenderLatestTextContent>
-                    최근 메세지
-                  </S.RoomListSenderLatestTextContent>
-                </S.RoomListTextColumnWrapper>
-                {/* ============================================================================== */}
-                <S.RoomListExitButton
-                  onClick={() =>
-                    exitChat({ user_id: room.user_id, room_id: room.room_id })
+            {_.chain(wholeData)
+              .flatten()
+              .filter((room) => room.userId !== currentUserId)
+              .map((room) => (
+                <S.RoomBox
+                  key={room.room_id}
+                  isSelected={
+                    selectedRoom !== null &&
+                    room.room_id === selectedRoom.room_id
                   }
+                  onClick={() => handleRoomClick(room)}
                 >
-                  <TbLogout />
-                </S.RoomListExitButton>
-                {/* ============================================================================== */}
-              </S.RoomBox>
-            ))}
+                  <S.RoomListImg src={room.photoURL} alt="Messagesender" />
+
+                  <S.RoomListTextColumnWrapper>
+                    <S.RoomListTextFlexWrapper>
+                      <S.RoomListSenderName>{room.name}</S.RoomListSenderName>
+                      <CommonS.CenterizeBox>
+                        <S.RoomListSenderWorkField>
+                          {room.workField.workField}&nbsp;
+                          {room.workField.workSmallField}
+                        </S.RoomListSenderWorkField>
+                      </CommonS.CenterizeBox>
+                    </S.RoomListTextFlexWrapper>
+                    <S.RoomListSenderLatestTextContent>
+                      최근 메세지
+                    </S.RoomListSenderLatestTextContent>
+                  </S.RoomListTextColumnWrapper>
+                  {/* ============================================================================== */}
+                  <S.RoomListExitButton
+                    onClick={() =>
+                      exitChat({ user_id: room.user_id, room_id: room.room_id })
+                    }
+                  >
+                    <TbLogout />
+                  </S.RoomListExitButton>
+                  {/* ============================================================================== */}
+                </S.RoomBox>
+              ))
+              .value()}
           </S.RoomListWrapper>
         </S.LeftRoomListContainer>
         {/* ============================================================================== */}

@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export interface ProjectDetailModalProps {
   project: Project;
+  companyName?: string;
 }
 export interface FreelancerInfo {
   name: string;
@@ -28,7 +29,10 @@ export interface FreelancerInfo {
   photoURL: string;
 }
 
-const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
+const ProjectDetailModal = ({
+  project,
+  companyName,
+}: ProjectDetailModalProps) => {
   const [committedFreelancer, setCommittedFreelancer] =
     useState<FreelancerInfo | null>(null);
 
@@ -40,7 +44,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
   const DMfreelancerName = DMfreelancer.name;
   // receiver (client)
   const DMclientId = project.clientId;
-  const DMclientName = project.manager.team;
+  const DMclientName = `${companyName} ${project.manager.team}팀 ${project.manager.name}님`;
 
   console.log("project==>", project);
   const fetchCommittedFreelancer = async () => {
@@ -74,7 +78,7 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
     }
     if (data) {
       const room_id = data.room_id;
-      // ChatComp dependency array
+
       setCreatedRoomId(room_id);
       setSelectedRoom(data);
     }
@@ -84,25 +88,28 @@ const ProjectDetailModal = ({ project }: ProjectDetailModalProps) => {
     const { data, error } = await supabase
       .from("room_participants")
       .select("room_id")
-      .match({ receiver_id: DMclientId })
+      .match({ receiver_id: DMclientId, user_id: DMfreelancerId })
       .single();
-    console.log("67", data);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     return data ? data.room_id : null;
   };
 
   const sendDM = async () => {
     // 중복 방 여부 확인
-    const result = await checkDuplicateRoomId();
+    // const result = await checkDuplicateRoomId();
     // console.log("75", result);
 
-    if (result !== null) {
-      console.log(
-        "이미 생성된 방이 있습니다. 해당 채팅방으로 이동은 구현중입니다."
-      );
+    // if (result !== null) {
+    //   console.log(
+    //     "이미 생성된 방이 있습니다. 해당 채팅방으로 이동은 구현중입니다."
+    //   );
 
-      navigate("/chat");
-      return;
-    }
+    //   navigate("/chat");
+    //   return;
+    // }
 
     // 중복 없을 경우 새로운 방 생성
     console.log("채팅 내역이 없습니다.");

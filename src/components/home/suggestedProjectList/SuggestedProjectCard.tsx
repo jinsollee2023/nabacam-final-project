@@ -187,7 +187,10 @@ const SuggestedProjectCard = ({
             )
           }
         >
-          <ProjectDetailModal project={projectItem} />
+          <ProjectDetailModal
+            project={projectItem}
+            companyName={client?.name}
+          />
         </Modal>
       )}
 

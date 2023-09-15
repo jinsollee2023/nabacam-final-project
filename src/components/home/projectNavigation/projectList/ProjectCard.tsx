@@ -114,7 +114,10 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
             </>
           }
         >
-          <ProjectDetailModal project={projectItem} />
+          <ProjectDetailModal
+            project={projectItem}
+            companyName={client?.name}
+          />
         </Modal>
       )}
       <S.ProejctCardContainer>
