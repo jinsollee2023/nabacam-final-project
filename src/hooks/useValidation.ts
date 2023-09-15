@@ -107,6 +107,8 @@ const useValidation = () => {
   const validateWorkDuration = (startDate: string, endDate: string) => {
     const hireDate = new Date(startDate);
     const quitDate = new Date(endDate);
+    console.log("hireDate", hireDate);
+    console.log("quitDate", quitDate);
     if (!startDate || !endDate) {
       return "근무 기간을 입력해주세요.";
     } else if (quitDate < hireDate) {

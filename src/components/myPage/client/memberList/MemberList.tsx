@@ -4,7 +4,7 @@ import useClientsQueries from "src/hooks/queries/useClientsQueries";
 import { useUserStore } from "src/store/useUserStore";
 import AddMemberModal from "./AddMemberModal";
 import { Member } from "src/Types";
-import { S } from "./memberListStyle";
+import { S } from "./memberList.styles";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
 import { CommonS } from "src/components/common/button/commonButton";

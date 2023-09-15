@@ -4,7 +4,7 @@ import useResumeProfileIntroQueries from "../../../../hooks/queries/useResumePro
 import { MdAddCircle } from "react-icons/md";
 import Modal from "../../../modal/Modal";
 import AddResumeProfileIntroModal from "./AddResumeProfileIntroModal";
-import { S } from "./Resume.styles";
+import { S } from "./resume.styles";
 import { IoMdSettings } from "react-icons/io";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

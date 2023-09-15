@@ -1,9 +1,9 @@
 import { useState } from "react";
 import SearchItemBar from "../../common/searchItemBar/SearchItemBar";
 import { styled } from "styled-components";
-import SortProjects from "./projectList/SortProjects";
+import SortProjects from "./SortProjects";
 import WorkFieldCategory from "../freelancerMarket/workFieldCategory/WorkFieldCategory";
-import ProjectList from "./projectList";
+import ProjectList from "./ProjectList";
 import ToggleButton from "src/components/common/toggleButton/ToggleButton";
 
 const ProjectNavigation = () => {

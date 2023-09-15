@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import useProjectsQueries from "../../../../hooks/queries/useProjectsQueries";
 import { useUserStore } from "../../../../store/useUserStore";
 import { Select } from "antd";
-import { S } from "./ContractInfoTab.styles";
 import { CommonS } from "src/components/common/button/commonButton";
+import { S } from "./contractInfoTab.styles";
 
 const ContractInfoTab = () => {
   const [selectedSortLabel, setSelectedSortLabel] = useState("전체보기");
