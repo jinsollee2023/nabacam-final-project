@@ -23,14 +23,14 @@
 
 ## 🧑‍🤝‍🧑 맴버 구성 및 역할 분담
 
-| 이름   |          | 역할   |
-| ------ | -------- | ------ |
-| 이진솔 | 리더     | update |
-| 이한별 | 부리더   | update |
-| 박제이 | 팀원     | update |
-| 이안진 | 팀원     | update |
-| 정승하 | 팀원     | update |
-| 임지훈 | 디자이너 | update |
+| 이름   |          | GitHub                                                                                                                                 | Blog                                                                                                                                                          | 역할   |
+| ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 이진솔 | 리더     | <a href="https://github.com/jinsollee2023"><img src="https://cdn-icons-png.flaticon.com/512/25/25471.png" width="20" height="20"/></a> | <a href="https://velog.io/@jins2ol"><img src="https://i.pinimg.com/originals/f8/0b/dd/f80bdd79a51358da6ee41a0fda520394.png" width="20" height="20"/></a>      | update |
+| 이한별 | 부리더   | <a href="https://github.com/hanbyeol1219"><img src="https://cdn-icons-png.flaticon.com/512/25/25471.png" width="20" height="20"/></a>  | <a href="https://velog.io/@lhb971219"><img src="https://i.pinimg.com/originals/f8/0b/dd/f80bdd79a51358da6ee41a0fda520394.png" width="20" height="20"/></a>    | update |
+| 박제이 | 팀원     | <a href="https://github.com/ParkJe2"><img src="https://cdn-icons-png.flaticon.com/512/25/25471.png" width="20" height="20"/></a>       | <a href="https://parkje2.github.io/"><img src="https://i.pinimg.com/originals/f8/0b/dd/f80bdd79a51358da6ee41a0fda520394.png" width="20" height="20"/></a>     | update |
+| 이안진 | 팀원     | <a href="https://github.com/AJ3504"><img src="https://cdn-icons-png.flaticon.com/512/25/25471.png" width="20" height="20"/></a>        | <a href="https://lethargin.tistory.com"><img src="https://i.pinimg.com/originals/f8/0b/dd/f80bdd79a51358da6ee41a0fda520394.png" width="20" height="20"/></a>  | update |
+| 정승하 | 팀원     | <a href="https://github.com/projectaub"><img src="https://cdn-icons-png.flaticon.com/512/25/25471.png" width="20" height="20"/></a>    | <a href="https://blog.naver.com/tmdgk10"><img src="https://i.pinimg.com/originals/f8/0b/dd/f80bdd79a51358da6ee41a0fda520394.png" width="20" height="20"/></a> | update |
+| 임지훈 | 디자이너 | ------                                                                                                                                 | ------                                                                                                                                                        | update |
 
 ## 🖨️ 개발 프로세스 가이드
 
