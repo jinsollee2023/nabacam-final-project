@@ -23,14 +23,14 @@
 
 ## 🧑‍🤝‍🧑 맴버 구성 및 역할 분담
 
-| 이름   |          | 역할   |
-| ------ | -------- | ------ |
-| 이진솔 | 리더     | update |
-| 이한별 | 부리더   | update |
-| 박제이 | 팀원     | update |
-| 이안진 | 팀원     | update |
-| 정승하 | 팀원     | update |
-| 임지훈 | 디자이너 | update |
+| 이름   |          | GitHub                                                                                                                                 | Blog                                                                                                                                                          | 역할   |
+| ------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| 이진솔 | 리더     | <a href="https://github.com/jinsollee2023"><img src="https://cdn-icons-png.flaticon.com/512/25/25471.png" width="20" height="20"/></a> | <a href="https://velog.io/@jins2ol"><img src="https://i.pinimg.com/originals/f8/0b/dd/f80bdd79a51358da6ee41a0fda520394.png" width="20" height="20"/></a>      | update |
+| 이한별 | 부리더   | <a href="https://github.com/hanbyeol1219"><img src="https://cdn-icons-png.flaticon.com/512/25/25471.png" width="20" height="20"/></a>  | <a href="https://velog.io/@lhb971219"><img src="https://i.pinimg.com/originals/f8/0b/dd/f80bdd79a51358da6ee41a0fda520394.png" width="20" height="20"/></a>    | update |
+| 박제이 | 팀원     | <a href="https://github.com/ParkJe2"><img src="https://cdn-icons-png.flaticon.com/512/25/25471.png" width="20" height="20"/></a>       | <a href="https://parkje2.github.io/"><img src="https://i.pinimg.com/originals/f8/0b/dd/f80bdd79a51358da6ee41a0fda520394.png" width="20" height="20"/></a>     | update |
+| 이안진 | 팀원     | <a href="https://github.com/AJ3504"><img src="https://cdn-icons-png.flaticon.com/512/25/25471.png" width="20" height="20"/></a>        | <a href="https://lethargin.tistory.com"><img src="https://i.pinimg.com/originals/f8/0b/dd/f80bdd79a51358da6ee41a0fda520394.png" width="20" height="20"/></a>  | update |
+| 정승하 | 팀원     | <a href="https://github.com/projectaub"><img src="https://cdn-icons-png.flaticon.com/512/25/25471.png" width="20" height="20"/></a>    | <a href="https://blog.naver.com/tmdgk10"><img src="https://i.pinimg.com/originals/f8/0b/dd/f80bdd79a51358da6ee41a0fda520394.png" width="20" height="20"/></a> | update |
+| 임지훈 | 디자이너 | ------                                                                                                                                 | ------                                                                                                                                                        | update |
 
 ## 🖨️ 개발 프로세스 가이드
 
@@ -136,3 +136,8 @@ Work Wave 사이트 소개 및 이용 방법을 확인할 수 있으며, 프리�
     - 💡 상황 : 많은 데이터들을 특정 갯수로 끊어서 데이터를 불러오기 위해 무한 스크롤 기능을 구현하는 과정에서 필요한 데이터가 아니라 다른 여러 데이터도 같이 불러와짐
     - ❓ 문제 : 여러 개의 쿼리 함수들을 hook 폴더 안에 하나의 queries 파일에 묶어져 있어 해당 파일 내의 모든 get 함수들이 같이 호출되고 있었음
     - ✅ 해결 방법 : 각 용도별로 queries 파일을 생성하고 필요한 쿼리를 해당 파일로 이동하여 useQueries를 import 하는 곳에서 필요한 쿼리 파일만 불러오도록 수정함
+
+> 유저 테스트 반영
+
+    - ❓ 문제 : 로그인, 회원가입을 진행해야 이용할 수 있는 폐쇄형 서비스이며, 서비스 이용 방법을 잘 모르겠다는 유저의 피드백이 다수 발생
+    - ✅ 해결 방법 : 사이트에 진입하면 바로 보일 수 있는 랜딩페이지를 제작하여 주요 기능들을 소개함
