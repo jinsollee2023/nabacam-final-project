@@ -175,12 +175,12 @@ const ResumeExperienceCard = ({
             <S.PastWorkField>{experience.pastWorkField}</S.PastWorkField>
           </CommonS.CenterizeBox>
 
-          <CommonS.CenterizeBox marginTop="2px">
+          <CommonS.CenterizeBox marginTop="5px">
             <S.PastWorkDetail>
               <CommonS.CenterizeBox marginBottom="5px">
                 {experience.pastWorkPlace}
               </CommonS.CenterizeBox>
-              <CommonS.CenterizeBox>
+              <CommonS.CenterizeBox marginBottom="5px">
                 {experience.pastEmploymentType}/{experience.pastWorkPosition}
               </CommonS.CenterizeBox>
             </S.PastWorkDetail>
@@ -200,7 +200,7 @@ const ResumeExperienceCard = ({
             </S.PastWorkDuration>
           </CommonS.CenterizeBox>
         </S.TextArea>
-        <CommonS.FlexBox marginTop="15px" style={{ width: "90%" }}>
+        <CommonS.FlexBox marginTop="20px" style={{ width: "90%" }}>
           <S.ResumButton onClick={showDeleteConfirmation} width="50%">
             삭제
           </S.ResumButton>

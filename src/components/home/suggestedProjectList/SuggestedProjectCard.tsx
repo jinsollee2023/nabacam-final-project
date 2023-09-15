@@ -85,10 +85,12 @@ const SuggestedProjectCard = ({
 
   const handleAcceptConfirm = () => {
     handleButtonClick("accept");
+    setIsDetailModalOpen(false);
     toast.dismiss();
   };
 
   const handleAcceptCancel = () => {
+    setIsDetailModalOpen(false);
     toast.dismiss();
   };
 

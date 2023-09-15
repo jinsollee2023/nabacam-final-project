@@ -15,6 +15,7 @@ interface PontProps {
   $textAlign?: string;
   $fontWeight?: string;
   $marginBottom?: string;
+  $marginTop?: string;
   color?: string;
 }
 
@@ -48,9 +49,9 @@ export const S = {
     align-items: center;
   `,
   SignButton: styled.button<SignButtonProps>`
-    width: 7%;
+    width: 60px;
     height: 35px;
-    margin-left: 1%;
+    margin-left: 10px;
     border: ${(props) => props.border};
     border-radius: 10px;
     background-color: ${(props) => props.$backGroundColor};
@@ -77,11 +78,13 @@ export const S = {
   `,
   InfomationContainer: styled.div`
     padding: 7% 0 10% 0;
+    min-width: 980px;
   `,
 
   MenuTitle: styled.p`
     font-size: 27px;
     font-weight: 600;
+    margin-bottom: 20px;
   `,
   MenuDesc: styled.p<PontProps>`
     font-size: 18px;
@@ -92,14 +95,16 @@ export const S = {
     font-size: 20px;
     font-weight: 600;
     text-align: ${(props) => (props.$textAlign ? props.$textAlign : null)};
+    margin-bottom: 10px;
   `,
   TabDesc: styled.p<PontProps>`
     font-size: 15px;
-    font-weight: ${(props) => (props.$fontWeight ? props.$fontWeight : null)};
+    font-weight: ${(props) => (props.$fontWeight ? props.$fontWeight : 500)};
     color: ${(props) => (props.color ? props.color : "black")};
     text-align: ${(props) => (props.$textAlign ? props.$textAlign : null)};
     margin-bottom: ${(props) =>
       props.$marginBottom ? props.$marginBottom : null};
+    margin-top: ${(props) => (props.$marginTop ? props.$marginTop : null)};
   `,
   MenuTitleBox: styled.div<BoxProps>`
     width: ${(props) => (props.width ? props.width : "100%")};
@@ -130,6 +135,7 @@ export const S = {
       rgba(181, 181, 181, 0.17) 103.03%
     );
     border-radius: 10px;
+    overflow: hidden;
   `,
   MenuContentsBox: styled.div`
     width: 48%;
@@ -160,7 +166,19 @@ export const S = {
   BalloonContainer: styled.div`
     position: relative;
     width: 400px;
+    min-width: 400px;
     height: 100px;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    margin: 20px;
+  `,
+
+  AlarmBallonContainer: styled.div`
+    position: relative;
+    width: 440px;
+    height: 110px;
     padding: 10px;
     background-color: white;
     color: black;
@@ -185,8 +203,8 @@ export const S = {
     align-items: center;
     justify-content: center;
   `,
-  OutroButton: styled.div`
-    width: 20%;
+  OutroButton: styled.button`
+    min-width: 300px;
     height: 60px;
     margin-top: 30px;
     background-color: #0086d0;
@@ -197,5 +215,92 @@ export const S = {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    font-size: 18px;
+  `,
+
+  ProjectNavigationAndFreelancerMarketImageWrapper: styled.div`
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  `,
+
+  ProjectManagementImageWrapper: styled.div`
+    height: 247px;
+    width: 95%;
+    overflow: hidden;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  `,
+
+  ResumeImage: styled.img`
+    border-radius: 5px;
+    margin: 10px 0 20px 0;
+  `,
+
+  ContractTerminationAndProjectListAndMemberImage: styled.img`
+    border-radius: 5px;
+    margin-top: 20px;
+  `,
+
+  PortfolioBox: styled.div`
+    width: 100%;
+    height: 100%;
+    padding: 5% 0 0 5%;
+    position: relative;
+    overflow: hidden;
+  `,
+
+  PortfolioImage: styled.img`
+    border-radius: 5px;
+    position: absolute;
+    height: 200px;
+    top: 60%;
+    left: 100px;
+  `,
+
+  ChatImageWrapper: styled.div`
+    border-radius: 5px;
+    height: 407px;
+    width: 95%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  `,
+
+  ClientMyPageRightBoxTextWrapper: styled.div`
+    padding: 3% 0 0 3%;
+  `,
+  FreelancerCardImageWrapper: styled.div`
+    width: 120%;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+
+    img {
+      margin-left: -120px;
+      width: 100%;
+      object-fit: cover;
+    }
   `,
 };

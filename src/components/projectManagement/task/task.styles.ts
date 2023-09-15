@@ -89,6 +89,9 @@ const S = {
     height: 40px;
     width: 100%;
     text-align: center;
+    outline: none;
+    border: none;
+    background-color: transparent;
   `,
   CustomDatePicker: styled.div`
     background-color: aliceblue;

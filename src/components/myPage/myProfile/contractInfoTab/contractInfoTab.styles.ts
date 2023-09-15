@@ -26,7 +26,6 @@ export const S = {
     margin-top: 20px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 10px;
@@ -39,7 +38,8 @@ export const S = {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    width: 670px;
+    width: 49.5%;
+    min-width: 430px;
     height: 80px;
   `,
   TitleAndSelectWrapper: styled.div`

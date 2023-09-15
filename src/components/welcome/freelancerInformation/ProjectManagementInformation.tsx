@@ -14,18 +14,23 @@ const ProjectManagementInformation = () => {
               실현하세요!
             </S.MenuDesc>
           </S.MenuTitleBox>
-          <S.MenuContentsInnerBox height="413px" margin="0 1% 20px 1%">
-            <img src="" alt="프로젝트 탐색 스크린샷" />
+          <S.MenuContentsInnerBox height="330px" margin="0 1% 20px 1%">
+            <S.ProjectManagementImageWrapper>
+              <img
+                src="/assets/img/welcomePageImg/프리랜서 - 프로젝트 관리.JPG"
+                alt="프로젝트 관리 도구 스크린샷"
+              />
+            </S.ProjectManagementImageWrapper>
           </S.MenuContentsInnerBox>
         </S.MenuContentsBox>
         <S.MenuContentsInnerBox
           width="48%"
-          height="640px"
+          height="560px"
           margin="1% 1% 20px 1%"
           padding="15px 0"
           $flexDirection="column"
         >
-          <S.ProjectTabContentsBox width="93%" height="150px">
+          <S.ProjectTabContentsBox width="93%" height="120px">
             <S.TabDesc $fontWeight="600" $marginBottom="10px">
               📅 색상으로 된 월별 타임라인
             </S.TabDesc>
@@ -34,7 +39,7 @@ const ProjectManagementInformation = () => {
               이를 통해 작업 스케줄을 한눈에 파악하고 효율적으로 관리하세요!
             </S.TabDesc>
           </S.ProjectTabContentsBox>
-          <S.ProjectTabContentsBox width="93%" height="150px">
+          <S.ProjectTabContentsBox width="93%" height="120px">
             <S.TabDesc $fontWeight="600" $marginBottom="10px">
               🚀 타임라인 상태 표시기
             </S.TabDesc>
@@ -43,7 +48,7 @@ const ProjectManagementInformation = () => {
               공유하세요.
             </S.TabDesc>
           </S.ProjectTabContentsBox>
-          <S.ProjectTabContentsBox width="93%" height="150px">
+          <S.ProjectTabContentsBox width="93%" height="120px">
             <S.TabDesc $fontWeight="600" $marginBottom="10px">
               🗓️ 마감 기한 캘린더
             </S.TabDesc>
@@ -55,7 +60,7 @@ const ProjectManagementInformation = () => {
               됩니다.
             </S.TabDesc>
           </S.ProjectTabContentsBox>
-          <S.ProjectTabContentsBox width="93%" height="150px">
+          <S.ProjectTabContentsBox width="93%" height="120px">
             <S.TabDesc $fontWeight="600" $marginBottom="10px">
               ⭐ 중요도 설정
             </S.TabDesc>

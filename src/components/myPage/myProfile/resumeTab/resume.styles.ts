@@ -32,7 +32,7 @@ export const S = {
     font-weight: bold;
   `,
   ProfileInputBox: styled.div`
-    width: 97%;
+    width: 90%;
     height: 120px;
     line-height: 1.2;
     font-size: 16px;
@@ -89,7 +89,8 @@ export const S = {
     }
   `,
   WorkExperienceList: styled.li`
-    width: 230px;
+    width: 220px;
+    height: 190px;
     padding: 20px 0 10px 0;
     list-style: none;
     border-radius: 10px;
@@ -157,6 +158,7 @@ export const S = {
     font-size: 13px;
     background-color: transparent;
     padding: ${(props) => props.padding || "7px"};
+    margin-top: ${(props) => props.marginTop};
     margin-left: ${(props) => props.marginLeft};
   `,
   AcceptButton: styled.button`
