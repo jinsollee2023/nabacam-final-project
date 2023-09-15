@@ -21,13 +21,21 @@ const ContractInfoTab = () => {
   return (
     <S.ContractInfoContainer>
       <S.TitleAndSelectWrapper>
-        <S.Title>계약 이력</S.Title>
+        {freelancerProjects && freelancerProjects?.length > 0 ? (
+          <S.Title>계약 이력</S.Title>
+        ) : (
+          <p>계약 이력이 없습니다.</p>
+        )}
         <CommonS.RightEndBox>
           <Select
             value={selectedLabel}
             style={{
               width: 200,
               borderRadius: "8px",
+              marginTop:
+                freelancerProjects && freelancerProjects?.length > 0
+                  ? "8px"
+                  : "-5px",
             }}
             onChange={setSelectedLabel}
             options={[

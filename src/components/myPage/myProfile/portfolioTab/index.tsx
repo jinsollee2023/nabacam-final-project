@@ -263,12 +263,14 @@ const PortfolioTab = () => {
       portfolioId: selectedPortfolio?.portfolioId!,
       freelancerId: selectedPortfolio?.freelancerId!,
     });
+    setSelectedPortfolio(null);
     setIsDetailModalOpen(!isDetailModalOpen);
   };
 
   const handleDeleteConfirm = () => {
     handleDeleteButtonClick();
     toast.dismiss();
+    toast.success("포트폴리오가 삭제되었습니다.");
   };
 
   const handleDeleteCancel = () => {
