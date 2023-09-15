@@ -135,7 +135,13 @@ const ResumeExperienceComp = () => {
   return (
     <>
       <S.WorkExperienceContainer>
-        <S.WorkExperienceTitle>경력사항</S.WorkExperienceTitle>
+        <S.WorkExperienceTitleAndButtonWrapper>
+          <S.WorkExperienceTitle>경력사항</S.WorkExperienceTitle>
+          <S.WorkExperienceAddButton onClick={addModalOpenButtonHandler}>
+            <BsPlusCircleDotted size="15" style={{ marginRight: "5px" }} />
+            경력 추가하기
+          </S.WorkExperienceAddButton>
+        </S.WorkExperienceTitleAndButtonWrapper>
         <S.WorkExperienceListWrapper>
           {resumeExperienceArr?.map((item: ResumeExperience) => (
             <ResumeExperienceCard
@@ -146,10 +152,6 @@ const ResumeExperienceComp = () => {
             />
           ))}
         </S.WorkExperienceListWrapper>
-        <S.WorkExperienceAddButton onClick={addModalOpenButtonHandler}>
-          <BsPlusCircleDotted size="15" style={{ marginRight: "5px" }} />
-          경력 추가하기
-        </S.WorkExperienceAddButton>
       </S.WorkExperienceContainer>
       {isAddModalOpen && (
         <Modal

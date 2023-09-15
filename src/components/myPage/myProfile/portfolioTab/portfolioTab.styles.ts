@@ -4,8 +4,8 @@ import { styled } from "styled-components";
 export const S = {
   PortfolioListContainer: styled.section`
     width: 100%;
-    height: 66vh;
-    padding: 10px;
+    height: 90%;
+    padding: 0px 10px 10px 0;
     position: relative;
   `,
   PortfolioListImg: styled.div`
@@ -15,7 +15,7 @@ export const S = {
   `,
   PortfolioListWrapper: styled.div`
     padding-top: 5px;
-    max-height: 63vh;
+    max-height: 60vh;
     overflow-y: auto;
     display: flex;
     flex-wrap: wrap;
@@ -25,11 +25,6 @@ export const S = {
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
-  `,
-  PortfolioTitle: styled.p`
-    align-items: center;
-    display: flex;
-    justify-content: center;
   `,
   PortfolioList: styled.div`
     width: 250px;
@@ -49,20 +44,34 @@ export const S = {
     background-color: var(--main-blue);
   `,
   PortfolioAddButton: styled.button`
-    background-color: var(--main-blue);
-    color: white;
-    border: none;
-    border-radius: 15px;
-    width: 500px;
-    font-size: 16px;
-    padding: 10px 0;
+    background-color: transparent;
+    color: var(--main-blue);
+    border: 1px solid var(--main-blue);
+    border-radius: 5px;
+    padding: 5px 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    z-index: 1;
-    transform: translateX(-50%);
+  `,
+
+  PortfolioTitleAndButtonWrapper: styled.div`
+    display: flex;
+    width: 100%;
+    padding-top: 10px;
+    margin-top: 10px;
+    justify-content: space-between;
+    align-items: center;
+  `,
+
+  PortfolioTabTitle: styled.h3`
+    font-size: 18px;
+    font-weight: bold;
+  `,
+
+  PortfolioTitle: styled.h4`
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
   `,
 };

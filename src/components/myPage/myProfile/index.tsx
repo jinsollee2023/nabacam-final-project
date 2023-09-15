@@ -75,11 +75,13 @@ const S = {
   Container: styled.div`
     padding-left: 30px;
     width: 100%;
+    height: 88%;
   `,
   TabsContainer: styled.section`
     display: flex;
     margin: 20px 10px 10px 10px;
     width: 100%;
+    height: 75%;
   `,
   TabsContainerInner: styled.div`
     width: 100%;
