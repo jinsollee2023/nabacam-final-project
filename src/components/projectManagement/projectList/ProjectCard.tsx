@@ -5,11 +5,10 @@ import Modal from "../../../components/modal/Modal";
 import ProjectDetailModal from "./ProjectDetailModal";
 import AddProjectModal from "./AddProjectModal";
 import { useProjectStore } from "../../../store/useProjectStore";
-import useProjectsQueries from "../../../hooks/useProjectsQueries";
-import { useProjectValuesStore } from "src/store/useProjectValuesStore";
+import useProjectsQueries from "../../../hooks/queries/useProjectsQueries";
 import { toast } from "react-toastify";
 import useValidation from "src/hooks/useValidation";
-import { Errors } from "./ProjectList";
+import { Errors } from ".";
 import { CommonS } from "src/components/common/button/commonButton";
 
 interface projectCardProps {
@@ -25,7 +24,7 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isUpadateModalOpen, setIsUpadateModalOpen] = useState(false);
   const { newProject } = useProjectStore();
-  const { values, changeValues } = useProjectValuesStore();
+  const { values, changeValues } = useProjectStore();
   const [updateSubmitButtonClicked, setUpdateSubmitButtonClicked] =
     useState(false);
   const {
@@ -206,7 +205,6 @@ const ProjectCard = ({ project, errors, setErrors }: projectCardProps) => {
           <AddProjectModal errors={errors} setErrors={setErrors} />
         </Modal>
       )}
-      {/* ---------------------------------------------------------------- */}
       <S.ProjectCardBox justifyContent="space-between" marginBottom={20}>
         <S.ProjcetTitleBox onClick={() => setIsDetailModalOpen(true)}>
           {project.title}

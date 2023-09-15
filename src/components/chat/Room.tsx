@@ -71,7 +71,6 @@ const Room = () => {
         .select("userId")
         .match({ name: target.value })
         .single();
-      console.log(data);
       if (!data) return toast.error("No User found");
 
       // matching user -> room_participants

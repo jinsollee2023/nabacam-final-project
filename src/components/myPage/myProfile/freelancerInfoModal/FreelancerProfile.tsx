@@ -4,7 +4,6 @@ import { HiOutlinePaperAirplane } from "react-icons/hi";
 import { S } from "./freelancerInfo.style";
 import { IUser } from "../../../../Types";
 import { toast } from "react-toastify";
-import { CommonS } from "../../../../components/common/button/commonButton";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../../config/supabaseClient";
 import { useUserStore } from "../../../../store/useUserStore";
@@ -57,7 +56,7 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   };
 
   const checkDuplicateRoomId = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("room_participants")
       .select("room_id")
       .match({ receiver_id: freelancerId })
@@ -110,7 +109,6 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
             <span>{freelancer.workField?.workSmallField}</span>
             <span>{freelancer.workExp}년차</span>
           </S.WorkSmallFieldAndWorkExp>
-          {/* =============================================================== */}
           <S.ContactBox>
             {/* <S.Contacts
               onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}

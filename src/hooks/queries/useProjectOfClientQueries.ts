@@ -1,6 +1,9 @@
 import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { queryClient } from "src/App";
-import { IInpiniteProjectWithFreelancer, IProjectWithFreelancer } from "src/Types";
+import {
+  IInpiniteProjectWithFreelancer,
+  IProjectWithFreelancer,
+} from "src/Types";
 import {
   deletePendingFreelancer,
   deleteVolunteerAndPendingFreelancer,
@@ -13,7 +16,9 @@ interface useProjectOfClientQueriesProps {
   currentUserId: string;
 }
 
-const useProjectOfClientQueries = ({ currentUserId }: useProjectOfClientQueriesProps) => {
+const useProjectOfClientQueries = ({
+  currentUserId,
+}: useProjectOfClientQueriesProps) => {
   // 현재 로그인한 클라이언트의 프로젝트에 지원한 프리랜서 목록
   const {
     data: freelancersAppliedToTheProjects,
@@ -21,14 +26,19 @@ const useProjectOfClientQueries = ({ currentUserId }: useProjectOfClientQueriesP
     fetchNextPage,
     hasNextPage,
     status,
-  } = useInfiniteQuery<IInpiniteProjectWithFreelancer, Error, IInpiniteProjectWithFreelancer>(
+  } = useInfiniteQuery<
+    IInpiniteProjectWithFreelancer,
+    Error,
+    IInpiniteProjectWithFreelancer
+  >(
     ["freelancersAppliedToTheProjects"],
     async ({ pageParam = 1 }) => {
-      const freelancersAppliedToTheProjectsData = await getApplicantFreelancersToTheProjects(
-        currentUserId as string,
-        "최신순",
-        pageParam
-      );
+      const freelancersAppliedToTheProjectsData =
+        await getApplicantFreelancersToTheProjects(
+          currentUserId as string,
+          "최신순",
+          pageParam
+        );
 
       const resultData = [];
 
@@ -53,8 +63,6 @@ const useProjectOfClientQueries = ({ currentUserId }: useProjectOfClientQueriesP
       getNextPageParam: (lastPage, allPages) => {
         const maxPage = Math.ceil(lastPage.total_count / 15);
         const nextPage = allPages.length + 1;
-        console.log("maxPage", maxPage);
-        console.log("nextPage", nextPage);
         return nextPage <= maxPage ? nextPage : null;
       },
     }
@@ -62,8 +70,15 @@ const useProjectOfClientQueries = ({ currentUserId }: useProjectOfClientQueriesP
 
   // 프리랜서 계약 시 업데이트
   const updateFreelancerApprovalMutation = useMutation(
-    ({ userId, projectId, endDate }: { userId: string; projectId: string; endDate: string }) =>
-      updateApprovalFreelancer(userId, projectId, endDate),
+    ({
+      userId,
+      projectId,
+      endDate,
+    }: {
+      userId: string;
+      projectId: string;
+      endDate: string;
+    }) => updateApprovalFreelancer(userId, projectId, endDate),
     {
       onSuccess: () => {
         return Promise.all([
@@ -119,7 +134,12 @@ const useProjectOfClientQueries = ({ currentUserId }: useProjectOfClientQueriesP
       projectId: string;
       updateVolunteer: string[];
       updatePendingFreelancer: string[];
-    }) => deleteVolunteerAndPendingFreelancer(projectId, updateVolunteer, updatePendingFreelancer),
+    }) =>
+      deleteVolunteerAndPendingFreelancer(
+        projectId,
+        updateVolunteer,
+        updatePendingFreelancer
+      ),
     {
       onSuccess: () => {
         return Promise.all([

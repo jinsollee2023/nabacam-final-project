@@ -21,7 +21,6 @@ interface LoginErrorForm {
 }
 
 const LoginComp = () => {
-  // values와 erros 초기값 설정
   const initialValues: LoginForm = {
     email: "",
     password: "",
@@ -164,7 +163,9 @@ const LoginComp = () => {
           </S.LoginCard>
         </S.LoginBG>
         <WaveEffect />
-        {findPasswordModalOpen && <EmailCheck openModal={findPasswordModalHandler} />}
+        {findPasswordModalOpen && (
+          <EmailCheck openModal={findPasswordModalHandler} />
+        )}
       </S.RealBack>
     </>
   );

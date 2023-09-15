@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import S from "./TaskStyles";
 import { Task } from "../../../Types";
-import useTasksQueries from "../../../hooks/useTasksQueries";
+import useTasksQueries from "../../../hooks/queries/useTasksQueries";
 
 interface TaskStatusProps {
   task: Task;

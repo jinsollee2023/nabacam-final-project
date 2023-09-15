@@ -2,12 +2,9 @@ import { useEffect, useState } from "react";
 import { Project } from "src/Types";
 import Modal from "src/components/modal/Modal";
 import { S } from "./projectList.styles";
-import useClientsQueries from "src/hooks/useClientsQueries";
-import useProjectsQueries from "src/hooks/useProjectsQueries";
-import {
-  calculateDaysAgo,
-  getDayOfWeek,
-} from "src/components/common/commonFunc";
+import useClientsQueries from "src/hooks/queries/useClientsQueries";
+import useProjectsQueries from "src/hooks/queries/useProjectsQueries";
+import { calculateDaysAgo } from "src/components/common/commonFunc";
 import { queryClient } from "src/App";
 import { FiUsers } from "react-icons/fi";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
@@ -23,10 +20,8 @@ interface ProjectCardProps {
 const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
-  // 해당 프로젝트의 clientId를 통해 client name를 가져왔다
   const { client } = useClientsQueries({ userId: projectItem.clientId });
 
-  // 프리랜서가 프로젝트에 지원했을 경우 해당 프로젝트에 업데이트하기 위해..
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
   });
@@ -35,7 +30,7 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
     queryClient.invalidateQueries([client]);
   }, [projectItem]);
 
-  // 프로젝트 등록일이 오늘로부터 몇 일 전인지..
+  // 프로젝트 등록일이 오늘로부터 몇 일 전인지 확인
   const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
   const daysAgo = calculateDaysAgo(targetDate);
 
@@ -45,7 +40,7 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
       volunteer: [...(projectItem.volunteer || []), userId],
     };
 
-    // 프리랜서가 프로젝트에 지원했을 경우 updatedProject 값을 반영해주기 위해 업데이트..
+    // 프리랜서가 프로젝트에 지원했을 경우 updatedProject 값을 반영해주기 위해 업데이트
     try {
       updateProjectMutation.mutate({
         projectId: projectItem.projectId as string,

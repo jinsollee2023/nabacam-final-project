@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import S from "./TaskStyles";
 import { Task } from "../../../Types";
-import useTasksQueries from "../../../hooks/useTasksQueries";
+import useTasksQueries from "../../../hooks/queries/useTasksQueries";
 import React from "react";
 
 interface TaskTitleProps {

@@ -3,23 +3,23 @@ import { S } from "./freelancerList.styles";
 import { FaHandshakeSimple } from "react-icons/fa6";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { Portfolio, User } from "../../../../Types";
-import { PortfolioIndexMap } from "./FreelancerList";
+import { PortfolioIndexMap } from ".";
 import { Button, Spin } from "antd";
 import Modal from "src/components/modal/Modal";
-import OneTouchModal from "./oneTouchModal/OneTouchModal";
+import OneTouchModal from "./OneTouchModal";
 import { useUserStore } from "src/store/useUserStore";
-import FreelancerInfoModal from "./freelancerInfoModal/FreelancerInfoModal";
+import FreelancerInfoModal from "./FreelancerInfoModal";
 import { useProjectStore } from "src/store/useProjectStore";
-import usePortfoliosQueries from "src/hooks/usePortfoliosQueries";
+import usePortfoliosQueries from "src/hooks/queries/usePortfoliosQueries";
 import { toast } from "react-toastify";
 import useProjectByClientWithBeforeProgressQueries from "src/hooks/queries/useProjectByClientWithBeforeProgressQueries";
 import useSuggestedFreelancersQueries from "src/hooks/queries/useSuggestedFreelancersQueries";
-import PortfolioDetailModal from "src/components/myPage/myProfile/tabs/portfolioTab/portfolioDetailModal/PortfolioDetailModal";
 import { usePortfolioStore } from "src/store/usePortfolioStore";
 import { HiOutlinePaperAirplane } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import supabase from "src/config/supabaseClient";
 import { useRoomStore } from "src/store/useRoomStore";
+import PortfolioDetailModal from "src/components/myPage/myProfile/portfolioTab/PortfolioDetailModal";
 
 interface FreelancerCardProps {
   freelancerItem: User;
@@ -131,13 +131,11 @@ const FreelancerCard = ({
     const suggestedFreelancers =
       suggestedFreelancersData?.SuggestedFreelancers || [];
 
-    // 새롭게 제안한 프리랜서 추가
     const updatedSuggestedFreelancers = [
       ...(suggestedFreelancers as string[]),
       freelancerItem.userId,
     ];
 
-    // 새롭게 제안한 프리랜서 추가 후 업데이트를 위한 코드
     updateSuggestedFreelancersDataMutation.mutate({
       projectId: selectedProject?.projectId as string,
       updatedSuggestedFreelancers,
@@ -336,9 +334,7 @@ const FreelancerCard = ({
                   </S.PortfolioTitleBox>
                 </S.PortfolioItem>
               ))}
-            {/* 해당 조건을 만족하지 않는 경우에만 jsx 부분 표시 */}
-            {/* some → 주어진 판별 함수를 적어도 하나라도 통과하는지 테스트 결국 조건문과 같다면 결국 여기서는
-                      포트폴리오들의 프리랜서 아이디 중에서 내가 지금 돌고있는 프리랜서의 아이디와 일치하는 것이 없다면 아래 jsx를 보여줌*/}
+
             {!portfoliosData.some(
               (portfolioItem) =>
                 portfolioItem.freelancerId === freelancerItem.userId

@@ -14,8 +14,6 @@ const AppliedProjectList = () => {
   const { appliedProjectList, error, fetchNextPage, hasNextPage, status } =
     useAppliedProjectQueries({ currentUserId: userId });
 
-  console.log(appliedProjectList);
-
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
