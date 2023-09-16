@@ -130,7 +130,6 @@ const ResumeExperienceCard = ({
 
   const handleDeleteConfirm = () => {
     deleteExperienceHandler();
-    toast.dismiss();
   };
 
   const handleDeleteCancel = () => {

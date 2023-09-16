@@ -23,7 +23,8 @@ export const S = {
 
   // 프로필
   ProfileContainer: styled.section`
-    width: 37%;
+    min-width: 240px;
+    width: 30%;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-top: 10px;
@@ -69,7 +70,7 @@ export const S = {
     padding-top: 10px;
     margin-top: 10px;
     position: relative;
-    width: 63%;
+    width: 70%;
   `,
   WorkExperienceTitle: styled.p`
     padding-top: 5px;
@@ -77,12 +78,11 @@ export const S = {
     font-weight: bold;
   `,
   WorkExperienceListWrapper: styled.ul`
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    grid-auto-rows: 190px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 20px;
-    width: 960px;
-    min-width: 960px;
+    width: 100%;
     height: 55vh;
     min-height: 55vh;
     overflow-y: auto;
@@ -120,7 +120,7 @@ export const S = {
   `,
   WorkExperienceTitleAndButtonWrapper: styled.div`
     display: flex;
-    width: 100%;
+    width: 98%;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
