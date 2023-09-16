@@ -16,7 +16,7 @@ interface FreelancerProfileProps {
 const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   // sender (client)
   const { user: client } = useUserStore();
-  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
+  const { setSelectedRoom, setCreatedRoomId, createdRoomId } = useRoomStore();
   const clientId = client.userId;
   const clientName = client.name;
 
@@ -25,16 +25,6 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   const freelancerName = freelancer.name;
 
   const navigate = useNavigate();
-
-  // 클릭 시 텍스트 클립보드에 복사하기 위해 생성
-  const handleCopyClipBoard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success("클립보드에 복사되었습니다.");
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const handleCreateRoom = async () => {
     // 방 생성 + 구성원 집어넣음
@@ -85,6 +75,8 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
     handleCreateRoom();
     navigate("/chat");
   };
+
+  console.log(`${createdRoomId}방이 생성되었습니다.`);
   return (
     <>
       <S.UserInfoBox>
@@ -109,16 +101,6 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
             <span>{freelancer.workField?.workSmallField}</span>
             <span>{freelancer.workExp}년차</span>
           </S.WorkSmallFieldAndWorkExp>
-          <S.ContactBox>
-            {/* <S.Contacts
-              onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
-            > */}
-          </S.ContactBox>
-          <S.ContactBox>
-            {/* <S.Contacts
-              onClick={() => handleCopyClipBoard(`${user.contact.email}`)}
-            ></S.Contacts> */}
-          </S.ContactBox>
           {/* =============================================================== */}
         </S.UserBox>
       </S.UserInfoBox>

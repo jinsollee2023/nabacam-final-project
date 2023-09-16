@@ -9,10 +9,16 @@ import { TbLogout } from "react-icons/tb";
 import { toast } from "react-toastify";
 import { useUserStore } from "../../store/useUserStore";
 import _ from "lodash";
-import useChatQueries from "../../hooks/queries/useChatQueries";
+import useChatCompQueries from "../../hooks/queries/useChatCompQueries";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
+
+  // const [exitResult, setExitResult] = useState(null)
+  const { user } = useUserStore();
+  const currentuserid = user.userId;
+  console.log(`📍${user.role}로 ${currentuserid}님이 로그인하셨습니다.`);
+
   const {
     selectedRoom,
     createdRoomId,
@@ -20,15 +26,16 @@ const ChatComp = () => {
     setExitResult,
     exitResult,
   } = useRoomStore();
-  const [] = useState();
-  // const [exitResult, setExitResult] = useState(null)
-  const { user } = useUserStore();
-  const currentUserId = user.userId;
-  const { existData } = useChatQueries({ createdRoomId, exitResult });
+  const { existData } = useChatCompQueries({
+    createdRoomId,
+    exitResult,
+    currentuserid,
+  }); // 2. exit_id가 null인 data만 리턴
+  console.log(existData);
 
   // useEffect(() => {
   //   const getWholeData = async () => {
-  //     // 2 existentRoomsData 업데이트 (exit_id에 null값 들어오면 filtering)
+  //     // 2 existentRoomsData 업데이트 (exit_id가 null인 data만 리턴)
   //     const { data: existentRoomsData, error } = await supabase.rpc(
   //       "get_whole"
   //     );
@@ -43,13 +50,7 @@ const ChatComp = () => {
     setSelectedRoom(room);
   };
 
-  const exitChat = async ({
-    user_id,
-    room_id,
-  }: {
-    user_id: string;
-    room_id: string;
-  }) => {
+  const exitChat = async ({ room_id }: { room_id: string }) => {
     const exitConfirmed = window.confirm(
       "채팅방에서 나가시겠습니까? 나가기를 하면 대화내용이 모두 삭제됩니다."
     );
@@ -61,27 +62,46 @@ const ChatComp = () => {
         .select("exit_id")
         .eq("room_id", room_id)
         .single();
-      //
-      if (typeof result === "string" || result === null) setExitResult(result);
+      console.log(result);
 
+      // dB
       // 값이 없으면 user_id 집어넣음  // 1
-      if (exitResult === null) {
+      if (result?.exit_id === null) {
+        // dB
         const { error } = await supabase
           .from("room_participants")
-          .update({ exit_id: [user_id] })
+          .update({ exit_id: [currentuserid] })
           .eq("room_id", room_id);
         if (error) {
           toast.error(error.message);
           return;
         }
+
+        // 상태관리
+        setExitResult("no exit result");
+      } else if (result?.exit_id) {
+        console.log(room_id);
+        console.log(result.exit_id);
+
+        const { error: rpdeleteError } = await supabase
+          .from("room_participants")
+          .delete()
+          .match({ room_id: room_id });
+        if (rpdeleteError) console.log(rpdeleteError);
+
+        console.log("방", room_id);
+        const { error: rdeleteError } = await supabase
+          .from("rooms")
+          .delete()
+          .match({ room_id: room_id });
+
+        if (rdeleteError) console.log(rdeleteError);
+        console.log("here");
+
+        // 상태관리
+        setExitResult("deleted row");
+        console.log("here4");
       }
-      // else if (exitResult === result.exit_id) {
-      //   // 값이 있으면 그냥 해당 row 삭제
-      //   await supabase
-      //     .from("room_participants")
-      //     .delete()
-      //     .eq("room_id", room_id);
-      // }
     }
   };
 
@@ -93,14 +113,11 @@ const ChatComp = () => {
           <S.RoomListWrapper>
             {_.chain(existData)
               .flatten()
-              .filter((room) => room.userId !== currentUserId)
+              .filter((room) => room.userId !== currentuserid)
               .map((room) => (
                 <S.RoomBox
                   key={room.room_id}
-                  isSelected={
-                    selectedRoom !== null &&
-                    room.room_id === selectedRoom.room_id
-                  }
+                  isSelected={room.room_id === selectedRoom?.room_id}
                   onClick={() => handleRoomClick(room)}
                 >
                   <S.RoomListImg src={room.photoURL} alt="Messagesender" />
@@ -127,9 +144,7 @@ const ChatComp = () => {
                   </S.RoomListTextColumnWrapper>
                   {/* ============================================================================== */}
                   <S.RoomListExitButton
-                    onClick={() =>
-                      exitChat({ user_id: room.user_id, room_id: room.room_id })
-                    }
+                    onClick={() => exitChat({ room_id: room.room_id })}
                   >
                     <TbLogout />
                   </S.RoomListExitButton>

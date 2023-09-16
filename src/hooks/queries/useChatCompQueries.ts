@@ -1,17 +1,16 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { addTasks, deleteTask, getTasks, updateTask } from "../../api/Task";
-import { queryClient } from "../../App";
-import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 import { getWhole } from "src/api/Chat";
-import { useRoomStore } from "../../store/useRoomStore";
 
-const useChatQueries = ({
+const useChatCompQueries = ({
   createdRoomId,
   exitResult,
+  currentuserid,
 }: {
   createdRoomId: string;
   exitResult: null | string;
+  currentuserid?: string;
 }) => {
+  console.log({ createdRoomId, exitResult, currentuserid });
   // const { exitResult, createdRoomId } = useRoomStore();
 
   // const { data: tasks } = useQuery(
@@ -25,8 +24,8 @@ const useChatQueries = ({
 
   const { data: existData, error } = useQuery(
     ["existData", exitResult, createdRoomId],
-    async () => getWhole(),
-    { enabled: !!exitResult || !!createdRoomId }
+    async () => getWhole(currentuserid as string),
+    { enabled: true || !!exitResult || !!createdRoomId }
   );
 
   // const addTaskMutation = useMutation(() => addTasks(projectId), {
@@ -63,4 +62,4 @@ const useChatQueries = ({
   };
 };
 
-export default useChatQueries;
+export default useChatCompQueries;
