@@ -1,15 +1,11 @@
 import React from "react";
-import { useUserStore } from "../store/useUserStore";
 import { styled } from "styled-components";
-import ChatComp from "../components/chat/ChatComp";
+import ChatComp from "src/components/chat/ChatComp";
 
 const Chat = () => {
-  const { user } = useUserStore();
-
   return (
     <>
-      {user.role === "freelancer" && <ChatComp />}
-      {user.role === "client" && <ChatComp />}
+      <ChatComp />
     </>
   );
 };

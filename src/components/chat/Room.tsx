@@ -16,6 +16,7 @@ export interface TRoom {
   roomname?: string | null;
   user_id: string;
   receiver_id: string;
+  userId: string; // 판별용
   name: string;
   photoURL: string;
   workField: {

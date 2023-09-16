@@ -16,7 +16,7 @@ interface FreelancerProfileProps {
 const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   // sender (client)
   const { user: client } = useUserStore();
-  const { setSelectedRoom, setCreatedRoomId, createdRoomId } = useRoomStore();
+  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
   const clientId = client.userId;
   const clientName = client.name;
 
@@ -49,17 +49,17 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
     }
     if (data) {
       const room_id = data.room_id;
-      // ChatComp dependency array
       setCreatedRoomId(room_id);
       setSelectedRoom(data);
     }
   };
 
   const checkDuplicateRoomId = async () => {
-    const { data } = await supabase
+    // 수신자 f, 발신자 c id인 room_id 찾기
+    const { data, error } = await supabase
       .from("room_participants")
       .select("room_id")
-      .match({ receiver_id: freelancerId })
+      .match({ receiver_id: freelancerId, user_id: clientId })
       .single();
     console.log("67", data);
     return data ? data.room_id : null;
@@ -69,7 +69,7 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   const sendDM = async () => {
     // 중복 방 여부 확인
     const result = await checkDuplicateRoomId();
-    // console.log("75", result);
+    console.log("75", result);
 
     if (result !== null) {
       console.log(
