@@ -79,6 +79,7 @@ const ChatComp = () => {
 
         // 상태관리
         setExitResult("no exit result");
+        setSelectedRoom(null);
       } else if (result?.exit_id) {
         console.log(room_id);
         console.log(result.exit_id);
@@ -100,7 +101,7 @@ const ChatComp = () => {
 
         // 상태관리
         setExitResult("deleted row");
-        console.log("here4");
+        setSelectedRoom(null);
       }
     }
   };

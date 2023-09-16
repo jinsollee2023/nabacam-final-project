@@ -32,7 +32,7 @@ const Room = () => {
   const { selectedRoom, setSelectedRoom } = useRoomStore();
 
   // 선택한 방의 room_id만
-  const selectedRoomId = selectedRoom!.room_id;
+  const selectedRoomId = selectedRoom?.room_id;
   // console.log("roomname", roomNameData);
 
   // const [isModalOpen, setIsModalOpen] = useState(false);
