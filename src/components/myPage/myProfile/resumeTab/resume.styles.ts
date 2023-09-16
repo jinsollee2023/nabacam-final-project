@@ -24,6 +24,7 @@ export const S = {
   // 프로필
   ProfileContainer: styled.section`
     width: 37%;
+    min-width: 240px;
     padding-top: 10px;
     padding-bottom: 10px;
     margin-top: 10px;
@@ -122,7 +123,7 @@ export const S = {
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 1y0px;
   `,
 
   //------------모달-----------------------//
