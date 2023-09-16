@@ -9,10 +9,10 @@ import { TbLogout } from "react-icons/tb";
 import { toast } from "react-toastify";
 import { useUserStore } from "../../store/useUserStore";
 import _ from "lodash";
+import useChatQueries from "../../hooks/queries/useChatQueries";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
-  const [wholeData, setWholeData] = useState<TRoom[]>([]);
   const {
     selectedRoom,
     createdRoomId,
@@ -20,20 +20,24 @@ const ChatComp = () => {
     setExitResult,
     exitResult,
   } = useRoomStore();
+  const [] = useState();
+  // const [exitResult, setExitResult] = useState(null)
   const { user } = useUserStore();
   const currentUserId = user.userId;
+  const { existData } = useChatQueries({ createdRoomId, exitResult });
 
-  useEffect(() => {
-    const getWholeData = async () => {
-      const { data: existentRoomsData, error } = await supabase.rpc(
-        "get_whole"
-      );
-      if (error) toast.error(error.message);
+  // useEffect(() => {
+  //   const getWholeData = async () => {
+  //     // 2 existentRoomsData 업데이트 (exit_id에 null값 들어오면 filtering)
+  //     const { data: existentRoomsData, error } = await supabase.rpc(
+  //       "get_whole"
+  //     );
+  //     if (error) toast.error(error.message);
 
-      if (existentRoomsData) setWholeData(existentRoomsData);
-    };
-    getWholeData();
-  }, [createdRoomId, exitResult]);
+  //     if (existentRoomsData) setWholeData(existentRoomsData);
+  //   };
+  //   getWholeData();
+  // }, [createdRoomId, exitResult]);
 
   const handleRoomClick = (room: TRoom) => {
     setSelectedRoom(room);
@@ -57,11 +61,10 @@ const ChatComp = () => {
         .select("exit_id")
         .eq("room_id", room_id)
         .single();
-      console.log(result);
       //
       if (typeof result === "string" || result === null) setExitResult(result);
 
-      // 값이 없으면 user_id 집어넣음
+      // 값이 없으면 user_id 집어넣음  // 1
       if (exitResult === null) {
         const { error } = await supabase
           .from("room_participants")
@@ -88,7 +91,7 @@ const ChatComp = () => {
         {/* ============================================================================== */}
         <S.LeftRoomListContainer>
           <S.RoomListWrapper>
-            {_.chain(wholeData)
+            {_.chain(existData)
               .flatten()
               .filter((room) => room.userId !== currentUserId)
               .map((room) => (
