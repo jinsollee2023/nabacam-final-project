@@ -13,21 +13,27 @@ import _ from "lodash";
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
   const [wholeData, setWholeData] = useState<TRoom[]>([]);
-  const { selectedRoom, createdRoomId, setSelectedRoom } = useRoomStore();
+  const {
+    selectedRoom,
+    createdRoomId,
+    setSelectedRoom,
+    setExitResult,
+    exitResult,
+  } = useRoomStore();
   const { user } = useUserStore();
   const currentUserId = user.userId;
-  console.log("currentUserId", currentUserId);
 
   useEffect(() => {
     const getWholeData = async () => {
-      const { data, error } = await supabase.rpc("get_whole");
+      const { data: existentRoomsData, error } = await supabase.rpc(
+        "get_whole"
+      );
       if (error) toast.error(error.message);
 
-      console.log("53", data);
-      if (data) setWholeData(data);
+      if (existentRoomsData) setWholeData(existentRoomsData);
     };
     getWholeData();
-  }, [createdRoomId]);
+  }, [createdRoomId, exitResult]);
 
   const handleRoomClick = (room: TRoom) => {
     setSelectedRoom(room);
@@ -45,23 +51,36 @@ const ChatComp = () => {
     );
 
     if (exitConfirmed) {
-      // room_participants 테이블에서 제거
-      const { error } = await supabase
+      // 테이블의 exit_id 컬럼에 값이 있는지 확인
+      const { data: result } = await supabase
         .from("room_participants")
-        // .eq("user_id", user_id)
-        // .or([{ "user_id": user_id }, { "receiver_id": receiver_id }]) // user_id 또는 receiver_id 중 하나와 일치하는 경우 삭제
-        .update({ user_id: "exited" })
-        // update (false -> true)
-        .eq("room_id", room_id);
+        .select("exit_id")
+        .eq("room_id", room_id)
+        .single();
+      console.log(result);
+      //
+      if (typeof result === "string" || result === null) setExitResult(result);
 
-      if (error) {
-        toast.error(error.message);
-        return;
+      // 값이 없으면 user_id 집어넣음
+      if (exitResult === null) {
+        const { error } = await supabase
+          .from("room_participants")
+          .update({ exit_id: [user_id] })
+          .eq("room_id", room_id);
+        if (error) {
+          toast.error(error.message);
+          return;
+        }
       }
+      // else if (exitResult === result.exit_id) {
+      //   // 값이 있으면 그냥 해당 row 삭제
+      //   await supabase
+      //     .from("room_participants")
+      //     .delete()
+      //     .eq("room_id", room_id);
+      // }
     }
   };
-
-  console.log("97", wholeData);
 
   return (
     <MenuTabBarComp menu={communicationMenu}>
@@ -87,10 +106,16 @@ const ChatComp = () => {
                     <S.RoomListTextFlexWrapper>
                       <S.RoomListSenderName>{room.name}</S.RoomListSenderName>
                       <CommonS.CenterizeBox>
-                        <S.RoomListSenderWorkField>
-                          {room.workField.workField}&nbsp;
-                          {room.workField.workSmallField}
-                        </S.RoomListSenderWorkField>
+                        {user.role === "client" ? (
+                          <S.RoomListSenderWorkField>
+                            {room.workField.workField}&nbsp;
+                            {room.workField.workSmallField}
+                          </S.RoomListSenderWorkField>
+                        ) : (
+                          <S.RoomListSenderWorkField>
+                            {}
+                          </S.RoomListSenderWorkField>
+                        )}
                       </CommonS.CenterizeBox>
                     </S.RoomListTextFlexWrapper>
                     <S.RoomListSenderLatestTextContent>

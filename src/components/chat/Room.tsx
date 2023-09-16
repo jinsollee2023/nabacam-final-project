@@ -17,6 +17,7 @@ export interface TRoom {
   user_id: string;
   receiver_id: string;
   userId: string; // 판별용
+  exit_id: string; // 나가기 버튼
   name: string;
   photoURL: string;
   workField: {
@@ -41,7 +42,6 @@ const Room = () => {
         .select("roomname")
         .match({ room_id: room_id })
         .single();
-      console.log("43", data);
       setRoomName(data?.roomname ?? "Untitled");
     };
     if (room_id) getRoomName(); // selectedRoom했을 때만 getRoomName()
