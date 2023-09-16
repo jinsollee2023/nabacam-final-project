@@ -39,6 +39,7 @@ const Account = () => {
   const { validateName, validateSelect, validateInput, validatePhone } =
     useValidation();
 
+  const [newPhotoURL, setNewPhotoURL] = useState(user.photoURL);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,9 +69,24 @@ const Account = () => {
     } else setUpdateSubmitButtonClicked(false);
   }, [errors, updateSubmitButtonClicked]);
 
-  const updateProfileInfo = async () => {
-    const file = newProfileInfo.photo;
+  useEffect(() => {
+    updateProfilePhotoURL();
+  }, [newProfileInfo.photo]);
 
+  const updateProfilePhotoURL = async () => {
+    const file = newProfileInfo.photo;
+    if (newProfileInfo.photo instanceof File) {
+      const filePath = user.photoURL.includes("defaultProfileImage")
+        ? await uploadUserImage(userId, file as File)
+        : await updateUserImage(userId, file as File);
+      const photoURL = await getPhotoURL(filePath);
+      setNewPhotoURL(`${photoURL}?updated=${new Date().getTime()}`);
+    } else {
+      setNewPhotoURL(newProfileInfo.photo);
+    }
+  };
+
+  const updateProfileInfo = async () => {
     const updatedDataExceptPhotoURL = {
       name: newProfileInfo.name,
       workField: {
@@ -82,16 +98,11 @@ const Account = () => {
         phone: newProfileInfo.phone,
       },
     };
-    if (newProfileInfo.photo instanceof File) {
-      const filePath = user.photoURL.includes("defaultProfileImage")
-        ? await uploadUserImage(userId, file as File)
-        : await updateUserImage(userId, file as File);
-      const photoURL = await getPhotoURL(filePath);
-
+    if (user.photoURL !== newPhotoURL) {
       updateUserMutation.mutate({
         updatedData: {
           ...updatedDataExceptPhotoURL,
-          photoURL: `${photoURL}?updated=${new Date().getTime()}`,
+          photoURL: newPhotoURL,
         },
         setUser,
         userId,
@@ -100,7 +111,7 @@ const Account = () => {
       updateUserMutation.mutate({
         updatedData: {
           ...updatedDataExceptPhotoURL,
-          photoURL: newProfileInfo.photo,
+          photoURL: user.photoURL,
         },
         setUser,
         userId,
@@ -166,6 +177,13 @@ const Account = () => {
     );
   };
 
+  const availableClose =
+    user.name === newProfileInfo.name &&
+    user.workField?.workField === newProfileInfo.workField &&
+    user.workField.workSmallField === newProfileInfo.workSmallField &&
+    user.contact.phone === newProfileInfo.phone &&
+    user.photoURL === newPhotoURL;
+
   return (
     <>
       <S.AccountContainer>
@@ -209,6 +227,7 @@ const Account = () => {
         {isModlaopen ? (
           <Modal
             setIsModalOpen={setIsModalOpen}
+            availableClose={availableClose}
             buttons={
               <>
                 <S.UnMemberButton width="50%" onClick={showConfirmation}>
