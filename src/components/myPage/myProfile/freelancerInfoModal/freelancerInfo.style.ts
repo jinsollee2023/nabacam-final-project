@@ -9,6 +9,7 @@ export const S = {
   UserName: styled.span`
     font-size: 16px;
     font-weight: bold;
+    text-align: left;
   `,
   ModalTitle: styled.p`
     font-size: 20px;
