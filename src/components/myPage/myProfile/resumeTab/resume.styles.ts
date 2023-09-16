@@ -69,6 +69,7 @@ export const S = {
     padding-top: 10px;
     margin-top: 10px;
     position: relative;
+    width: 63%;
   `,
   WorkExperienceTitle: styled.p`
     padding-top: 5px;
