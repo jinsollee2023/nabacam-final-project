@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { S } from "./listOfFreelancersByStatus.styles";
 import Modal from "../../../modal/Modal";
 import OngoingFreelancerInfoModal from "./OngoingFreelancerInfoModal";
@@ -12,14 +12,21 @@ interface OngoingFreelancerCardsProps {
   project: Project;
 }
 
-const OngoingFreelancerCards = ({
-  user,
-  project,
-}: OngoingFreelancerCardsProps) => {
+const OngoingFreelancerCards = ({ user, project }: OngoingFreelancerCardsProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
-    null
-  );
+  const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(null);
+
+  // useRef를 이용하여 span 태그에 접근
+  const copyPhone = useRef<HTMLSpanElement>(null);
+  const copyEmail = useRef<HTMLSpanElement>(null);
+
+  const onClickCopyPhone = () => {
+    copyPhone.current?.click();
+  };
+
+  const onClickCopyEmail = () => {
+    copyEmail.current?.click();
+  };
 
   // 클릭 시 텍스트 클립보드에 복사하기 위해 생성
   const handleCopyClipBoard = async (text: string) => {
@@ -49,17 +56,19 @@ const OngoingFreelancerCards = ({
                 </S.WorkSmallFieldAndWorkExp>
               </S.ProfileContents>
               <S.ContactBox>
-                <FiPhoneCall size={18} />
+                <FiPhoneCall size={18} onClick={onClickCopyPhone} cursor="pointer" />
                 <S.Contact
                   onClick={() => handleCopyClipBoard(`${user.contact.phone}`)}
+                  ref={copyPhone}
                 >
                   {user.contact.phone}
                 </S.Contact>
               </S.ContactBox>
               <S.ContactBox>
-                <FiMail size={18} />
+                <FiMail size={18} onClick={onClickCopyEmail} cursor="pointer" />
                 <S.Contact
                   onClick={() => handleCopyClipBoard(`${user.contact.email}`)}
+                  ref={copyEmail}
                 >
                   {user.contact.email}
                 </S.Contact>
@@ -69,9 +78,7 @@ const OngoingFreelancerCards = ({
           <S.Line />
           <S.ProjectTitle>진행 중인 프로젝트</S.ProjectTitle>
           <S.ProjectSubTitle>{project.title}</S.ProjectSubTitle>
-          <S.ProjectDate>
-            {dayjs(project.date?.startDate).format("YYMMDD")} ~
-          </S.ProjectDate>
+          <S.ProjectDate>{dayjs(project.date?.startDate).format("YYMMDD")} ~</S.ProjectDate>
           <S.DetailButton
             onClick={() => {
               setSelectedFreelancer(user);
@@ -80,9 +87,7 @@ const OngoingFreelancerCards = ({
           >
             자세히 보기
           </S.DetailButton>
-          {isModalOpen &&
-          selectedFreelancer &&
-          selectedFreelancer.userId === user.userId ? (
+          {isModalOpen && selectedFreelancer && selectedFreelancer.userId === user.userId ? (
             <Modal setIsModalOpen={setIsModalOpen}>
               <OngoingFreelancerInfoModal user={user} project={project} />
             </Modal>
