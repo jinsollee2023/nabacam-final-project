@@ -9,59 +9,114 @@ import { TbLogout } from "react-icons/tb";
 import { toast } from "react-toastify";
 import { useUserStore } from "../../store/useUserStore";
 import _ from "lodash";
+import useChatCompQueries from "../../hooks/queries/useChatCompQueries";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
-  const [wholeData, setWholeData] = useState<TRoom[]>([]);
-  const { selectedRoom, createdRoomId, setSelectedRoom } = useRoomStore();
+
   const { user } = useUserStore();
-  const currentUserId = user.userId;
-  console.log("currentUserId", currentUserId);
+  const currentuserid = user.userId;
+  console.log(`📍${user.role}로 ${currentuserid}님이 로그인하셨습니다.`);
 
-  useEffect(() => {
-    const getWholeData = async () => {
-      const { data, error } = await supabase.rpc("get_whole");
-      if (error) toast.error(error.message);
+  const {
+    selectedRoom,
+    createdRoomId,
+    setSelectedRoom,
+    setExitResult,
+    exitResult,
+  } = useRoomStore();
+  const { existData, existDataWhenProject } = useChatCompQueries({
+    createdRoomId,
+    exitResult,
+    currentuserid,
+  });
 
-      console.log("53", data);
-      if (data) setWholeData(data);
-    };
-    getWholeData();
-  }, [createdRoomId]);
+  // useEffect(() => {
+  //   const getWholeData = async () => {
+  //     // 2 existentRoomsData 업데이트 (exit_id가 null인 data만 리턴)
+  //     const { data: existentRoomsData, error } = await supabase.rpc(
+  //       "get_whole"
+  //     );
+  //     if (error) toast.error(error.message);
+
+  //     if (existentRoomsData) setWholeData(existentRoomsData);
+  //   };
+  //   getWholeData();
+  // }, [createdRoomId, exitResult]);
 
   const handleRoomClick = (room: TRoom) => {
     setSelectedRoom(room);
   };
 
-  const exitChat = async ({
-    user_id,
-    room_id,
-  }: {
-    user_id: string;
-    room_id: string;
-  }) => {
+  const exitChat = async ({ room_id }: { room_id: string }) => {
     const exitConfirmed = window.confirm(
       "채팅방에서 나가시겠습니까? 나가기를 하면 대화내용이 모두 삭제됩니다."
     );
 
     if (exitConfirmed) {
-      // room_participants 테이블에서 제거
-      const { error } = await supabase
+      // 테이블의 exit_id 컬럼에 값이 있는지 확인
+      const { data: result } = await supabase
         .from("room_participants")
-        // .eq("user_id", user_id)
-        // .or([{ "user_id": user_id }, { "receiver_id": receiver_id }]) // user_id 또는 receiver_id 중 하나와 일치하는 경우 삭제
-        .update({ user_id: "exited" })
-        // update (false -> true)
-        .eq("room_id", room_id);
+        .select("exit_id, receiver_id_projectid")
+        .eq("room_id", room_id)
+        .single();
+      console.log("여기", result);
 
-      if (error) {
-        toast.error(error.message);
-        return;
+      //===============================================================//
+      // dB
+      // 값이 없으면 currentuserid 집어넣음  // 1
+      if (result?.exit_id === null) {
+        // 1. project 없음 (c -> f인 경우)
+        if (result.receiver_id_projectid === null) {
+          const { error } = await supabase
+            .from("room_participants")
+            .update({ exit_id: [currentuserid] })
+            .eq("room_id", room_id);
+          if (error) {
+            toast.error(error.message);
+            return;
+          }
+        }
+
+        // 2. project 있음 (f -> c인 경우)
+        else if (result.receiver_id_projectid) {
+          const receiveridprojectid = result.receiver_id_projectid;
+          const { error } = await supabase
+            .from("room_participants")
+            .update({ exit_id: [currentuserid, receiveridprojectid] })
+            .eq("room_id", room_id);
+          if (error) {
+            toast.error(error.message);
+            return;
+          }
+        }
+
+        //===============================================================//
+
+        // 상태관리
+        setExitResult("no exit result");
+        setSelectedRoom(null);
+      } else if (result?.exit_id) {
+        const { error: rpdeleteError } = await supabase
+          .from("room_participants")
+          .delete()
+          .match({ room_id: room_id });
+        if (rpdeleteError) console.log(rpdeleteError);
+
+        const { error: rdeleteError } = await supabase
+          .from("rooms")
+          .delete()
+          .match({ room_id: room_id });
+
+        if (rdeleteError) console.log(rdeleteError);
+        console.log("here");
+
+        // 상태관리
+        setExitResult("deleted row");
+        setSelectedRoom(null);
       }
     }
   };
-
-  console.log("97", wholeData);
 
   return (
     <MenuTabBarComp menu={communicationMenu}>
@@ -69,16 +124,13 @@ const ChatComp = () => {
         {/* ============================================================================== */}
         <S.LeftRoomListContainer>
           <S.RoomListWrapper>
-            {_.chain(wholeData)
+            {_.chain(existDataWhenProject)
               .flatten()
-              .filter((room) => room.userId !== currentUserId)
+              .filter((room) => room.userId !== currentuserid)
               .map((room) => (
                 <S.RoomBox
                   key={room.room_id}
-                  isSelected={
-                    selectedRoom !== null &&
-                    room.room_id === selectedRoom.room_id
-                  }
+                  isSelected={room.room_id === selectedRoom?.room_id}
                   onClick={() => handleRoomClick(room)}
                 >
                   <S.RoomListImg src={room.photoURL} alt="Messagesender" />
@@ -87,10 +139,16 @@ const ChatComp = () => {
                     <S.RoomListTextFlexWrapper>
                       <S.RoomListSenderName>{room.name}</S.RoomListSenderName>
                       <CommonS.CenterizeBox>
-                        <S.RoomListSenderWorkField>
-                          {room.workField.workField}&nbsp;
-                          {room.workField.workSmallField}
-                        </S.RoomListSenderWorkField>
+                        {user.role === "client" ? (
+                          <S.RoomListSenderWorkField>
+                            {room.workField.workField}&nbsp;
+                            {room.workField.workSmallField}
+                          </S.RoomListSenderWorkField>
+                        ) : (
+                          <S.RoomListSenderWorkField>
+                            {}
+                          </S.RoomListSenderWorkField>
+                        )}
                       </CommonS.CenterizeBox>
                     </S.RoomListTextFlexWrapper>
                     <S.RoomListSenderLatestTextContent>
@@ -99,9 +157,7 @@ const ChatComp = () => {
                   </S.RoomListTextColumnWrapper>
                   {/* ============================================================================== */}
                   <S.RoomListExitButton
-                    onClick={() =>
-                      exitChat({ user_id: room.user_id, room_id: room.room_id })
-                    }
+                    onClick={() => exitChat({ room_id: room.room_id })}
                   >
                     <TbLogout />
                   </S.RoomListExitButton>

@@ -46,8 +46,8 @@ const ProjectDetailModal = ({
   const DMclientId = project.clientId;
   const DMclientName = `${companyName} ${project.manager.team}팀 ${project.manager.name}님`;
   const projectId = project.projectId;
+  const projectName = project.title;
 
-  console.log("project==>", project);
   const fetchCommittedFreelancer = async () => {
     const userId = project.freelancerId!;
     const freelancer = await getFreelancer(userId);
@@ -69,7 +69,7 @@ const ProjectDetailModal = ({
   const handleCreateRoom = async () => {
     // 방 생성 + 구성원 집어넣음
     const { data, error } = await supabase.rpc("create_room2", {
-      roomname: `${DMfreelancerName}, ${DMclientName}`,
+      roomname: `[${projectName}] ${DMfreelancerName}, ${DMclientName}`,
       user_id: DMfreelancerId,
       receiver_id: DMclientId,
       receiver_id_projectid: projectId,
@@ -77,7 +77,6 @@ const ProjectDetailModal = ({
 
     if (data) {
       const room_id = data.room_id;
-
       setCreatedRoomId(room_id);
       setSelectedRoom(data);
     }
@@ -89,7 +88,7 @@ const ProjectDetailModal = ({
       .select("room_id")
       .match({
         receiver_id: DMclientId,
-        receiver_id_projectid: projectId,
+        receiver_id_projectid: projectId /** 조건 추가 */,
         user_id: DMfreelancerId,
       })
       .single();
@@ -100,7 +99,7 @@ const ProjectDetailModal = ({
   const sendDM = async () => {
     // 중복 방 여부 확인
     const result = await checkDuplicateRoomId();
-    console.log("75", result);
+    // console.log("103", result);
 
     if (result !== null) {
       console.log(
@@ -116,6 +115,7 @@ const ProjectDetailModal = ({
     handleCreateRoom();
     navigate("/chat");
   };
+
   //=======================================================================//
 
   return (

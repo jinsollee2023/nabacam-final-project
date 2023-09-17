@@ -7,10 +7,6 @@ import {
   updateExperience,
 } from "../../api/Resume";
 
-/**
- * 마이페이지 경력사항 : C, R, U, D
- * 쿼리키에는 userId (o), experienceId (x) - R에만 넣었습니다 수정해주셔도 됩니다
- */
 const useResumeExperienceQueries = ({
   userId,
   experienceId,
