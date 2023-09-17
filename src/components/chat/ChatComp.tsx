@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import supabase from "../../config/supabaseClient";
 import Room, { TRoom } from "src/components/chat/Room";
 import MenuTabBarComp from "../common/MenuTabBarComp";
@@ -38,19 +38,6 @@ const ChatComp = () => {
     .value();
 
   console.log("filteredData", filteredData);
-
-  // useEffect(() => {
-  //   const getWholeData = async () => {
-  //     // 2 existentRoomsData 업데이트 (exit_id가 null인 data만 리턴)
-  //     const { data: existentRoomsData, error } = await supabase.rpc(
-  //       "get_whole"
-  //     );
-  //     if (error) toast.error(error.message);
-
-  //     if (existentRoomsData) setWholeData(existentRoomsData);
-  //   };
-  //   getWholeData();
-  // }, [createdRoomId, exitResult]);
 
   const handleRoomClick = (room: TRoom) => {
     setSelectedRoom(room);
@@ -120,7 +107,9 @@ const ChatComp = () => {
                 isSelected={room.room_id === selectedRoom?.room_id}
                 onClick={() => handleRoomClick(room)}
               >
-                <S.RoomListImg src={room.photoURL} alt="Messagesender" />
+                <S.RoomListImageBox>
+                  <img src={room.photoURL} alt="Messagesender" />
+                </S.RoomListImageBox>
 
                 <S.RoomListTextColumnWrapper>
                   <S.RoomListTextFlexWrapper>

@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import { CommonS } from "../common/button/commonButton";
 
 interface MessageContentProps {
   isMessageUser: boolean;
@@ -40,7 +39,7 @@ export const S = {
       display: none;
     }
 
-    border-right: solid rgba(0, 0, 0, 0.25);
+    border-right: 1px solid rgba(0, 0, 0, 0.25);
     padding: 20px;
   `,
   RoomListWrapper: styled.div`
@@ -49,35 +48,41 @@ export const S = {
   `,
   RoomBox: styled.div<RoomBoxProps>`
     box-sizing: border-box;
-    /* width: 360px; */
     width: 100%;
     height: 153px;
     background: #ffffff;
     border: 1px solid #cacaca;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 8px;
+    border-radius: 5px;
     margin: 8px 8px 8px 0;
     cursor: pointer;
     display: flex;
     align-items: center;
 
-    background-color: ${(props) =>
-
-      props.isSelected ? "var(--hover-blue)" : "transparent"};
+    border: ${(props) =>
+      props.isSelected ? "3px solid var(--hover-blue);" : "1px solid #cacaca;"};
+    background-color: ${(props) => (props.isSelected ? "#EEF9FF" : "#ffffff")};
 
     position: relative;
   `,
   RoomListRoomName: styled.p`
     font-size: 12px;
     color: var(--chat-navy);
-
   `,
-  RoomListImg: styled.img`
+
+  RoomListImageBox: styled.div`
     width: 60px;
     height: 60px;
     border-radius: 5px;
     margin-left: 18px;
     margin-right: 12px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   `,
   RoomListTextColumnWrapper: styled.div`
     display: flex;
@@ -107,17 +112,10 @@ export const S = {
     left: 92%;
     top: 80%;
   `,
-  CreateRoomButton: styled.button`
-    /* background-color: var(--main-blue);
-
-    padding: 1px 2px;
-    border-radius: 5px; */
-  `,
   //=====================================================//
   RightDMRoomContainer: styled.section`
     width: 70.87%;
     height: 86vh;
-    /* MessageWrapper와 겹쳐서 뺌 */
     display: flex;
     flex: column;
     align-items: center;
@@ -137,10 +135,9 @@ export const S = {
     display: flex;
     align-items: center;
     padding: 10px 16px;
-
     width: 100%;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
   `,
   DMHeaderBackButton: styled.span`
     margin-right: 3px;
@@ -206,13 +203,14 @@ export const S = {
     height: 100%;
     border: none;
     background: var(--chat-input-gray);
-    border-radius: 8px;
+    border-radius: 0 0 5px 5px;
   `,
   DMSubmitButton: styled.button`
     width: 7%;
+    min-width: 45px;
     height: 45%;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 18px;
     letter-spacing: -0.005em;
     color: #ffffff;
@@ -248,7 +246,6 @@ export const S = {
   MessageUl: styled.ul``,
   MessageLi: styled.li<MessageContentProps>`
     display: flex;
-    /* flex-direction: column; */
     padding-bottom: 8px;
 
     align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
@@ -261,7 +258,7 @@ export const S = {
     padding: 4px 8px;
 
     background-color: ${(props) =>
-      props.isMessageUser ? "#FFFFFF" : "var(--main-blue)"};
+      props.isMessageUser ? "#FFFFFF" : "var(--hover-blue)"};
     align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
     text-align: ${(props) => (props.isMessageUser ? "start" : "end")};
 
@@ -277,16 +274,24 @@ export const S = {
     text-align: ${(props) => (props.isMessageUser ? "start" : "end")};
     margin: 5px;
   `,
-  ParticipantProfileImg: styled.img<MessageContentProps>`
-    border-radius: 8px;
+  ParticipantProfileImageBox: styled.div<MessageContentProps>`
+    border-radius: 5px;
     width: 30px;
     height: 30px;
+    overflow: hidden;
+
     align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   `,
   ParticipantProfileName: styled.span`
     color: #000000;
     font-size: 16px;
     display: block;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
   `,
 };
