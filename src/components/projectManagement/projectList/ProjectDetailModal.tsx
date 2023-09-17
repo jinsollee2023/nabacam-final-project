@@ -45,8 +45,6 @@ const ProjectDetailModal = ({
   // receiver (client)
   const DMclientId = project.clientId;
   const DMclientName = `${companyName} ${project.manager.team}팀 ${project.manager.name}님`;
-  const projectId = project.projectId;
-  const projectName = project.title;
 
   const fetchCommittedFreelancer = async () => {
     const userId = project.freelancerId!;
@@ -69,10 +67,9 @@ const ProjectDetailModal = ({
   const handleCreateRoom = async () => {
     // 방 생성 + 구성원 집어넣음
     const { data, error } = await supabase.rpc("create_room2", {
-      roomname: `[${projectName}] ${DMfreelancerName}, ${DMclientName}`,
+      roomname: `${DMfreelancerName}, ${DMclientName}`,
       user_id: DMfreelancerId,
       receiver_id: DMclientId,
-      receiver_id_projectid: projectId,
     });
 
     if (data) {
@@ -88,7 +85,6 @@ const ProjectDetailModal = ({
       .select("room_id")
       .match({
         receiver_id: DMclientId,
-        receiver_id_projectid: projectId /** 조건 추가 */,
         user_id: DMfreelancerId,
       })
       .single();

@@ -16,7 +16,7 @@ const ChatComp = () => {
 
   const { user } = useUserStore();
   const currentuserid = user.userId;
-  console.log(`📍${user.role}로 ${currentuserid}님이 로그인하셨습니다.`);
+  // console.log(`📍${user.role}로 ${currentuserid}님이 로그인하셨습니다.`);
 
   const {
     selectedRoom,
@@ -25,11 +25,19 @@ const ChatComp = () => {
     setExitResult,
     exitResult,
   } = useRoomStore();
-  const { existData, existDataWhenProject } = useChatCompQueries({
+  const { existData } = useChatCompQueries({
     createdRoomId,
     exitResult,
     currentuserid,
   });
+
+  const filteredData = _.chain(existData)
+    .flatten()
+    .filter((room) => room.userId !== currentuserid)
+    .filter((room) => room.exit_id !== currentuserid)
+    .value();
+
+  console.log("filteredData", filteredData);
 
   // useEffect(() => {
   //   const getWholeData = async () => {
@@ -57,41 +65,23 @@ const ChatComp = () => {
       // 테이블의 exit_id 컬럼에 값이 있는지 확인
       const { data: result } = await supabase
         .from("room_participants")
-        .select("exit_id, receiver_id_projectid")
+        .select("exit_id")
         .eq("room_id", room_id)
         .single();
       console.log("여기", result);
 
       //===============================================================//
       // dB
-      // 값이 없으면 currentuserid 집어넣음  // 1
+      // 값이 없으면 currentuserid 집어넣음
       if (result?.exit_id === null) {
-        // 1. project 없음 (c -> f인 경우)
-        if (result.receiver_id_projectid === null) {
-          const { error } = await supabase
-            .from("room_participants")
-            .update({ exit_id: [currentuserid] })
-            .eq("room_id", room_id);
-          if (error) {
-            toast.error(error.message);
-            return;
-          }
+        const { error } = await supabase
+          .from("room_participants")
+          .update({ exit_id: currentuserid })
+          .eq("room_id", room_id);
+        if (error) {
+          toast.error(error.message);
+          return;
         }
-
-        // 2. project 있음 (f -> c인 경우)
-        else if (result.receiver_id_projectid) {
-          const receiveridprojectid = result.receiver_id_projectid;
-          const { error } = await supabase
-            .from("room_participants")
-            .update({ exit_id: [currentuserid, receiveridprojectid] })
-            .eq("room_id", room_id);
-          if (error) {
-            toast.error(error.message);
-            return;
-          }
-        }
-
-        //===============================================================//
 
         // 상태관리
         setExitResult("no exit result");
@@ -124,47 +114,43 @@ const ChatComp = () => {
         {/* ============================================================================== */}
         <S.LeftRoomListContainer>
           <S.RoomListWrapper>
-            {_.chain(existDataWhenProject)
-              .flatten()
-              .filter((room) => room.userId !== currentuserid)
-              .map((room) => (
-                <S.RoomBox
-                  key={room.room_id}
-                  isSelected={room.room_id === selectedRoom?.room_id}
-                  onClick={() => handleRoomClick(room)}
-                >
-                  <S.RoomListImg src={room.photoURL} alt="Messagesender" />
+            {filteredData.map((room) => (
+              <S.RoomBox
+                key={room.room_id}
+                isSelected={room.room_id === selectedRoom?.room_id}
+                onClick={() => handleRoomClick(room)}
+              >
+                <S.RoomListImg src={room.photoURL} alt="Messagesender" />
 
-                  <S.RoomListTextColumnWrapper>
-                    <S.RoomListTextFlexWrapper>
-                      <S.RoomListSenderName>{room.name}</S.RoomListSenderName>
-                      <CommonS.CenterizeBox>
-                        {user.role === "client" ? (
-                          <S.RoomListSenderWorkField>
-                            {room.workField.workField}&nbsp;
-                            {room.workField.workSmallField}
-                          </S.RoomListSenderWorkField>
-                        ) : (
-                          <S.RoomListSenderWorkField>
-                            {}
-                          </S.RoomListSenderWorkField>
-                        )}
-                      </CommonS.CenterizeBox>
-                    </S.RoomListTextFlexWrapper>
-                    <S.RoomListSenderLatestTextContent>
-                      최근 메세지
-                    </S.RoomListSenderLatestTextContent>
-                  </S.RoomListTextColumnWrapper>
-                  {/* ============================================================================== */}
-                  <S.RoomListExitButton
-                    onClick={() => exitChat({ room_id: room.room_id })}
-                  >
-                    <TbLogout />
-                  </S.RoomListExitButton>
-                  {/* ============================================================================== */}
-                </S.RoomBox>
-              ))
-              .value()}
+                <S.RoomListTextColumnWrapper>
+                  <S.RoomListTextFlexWrapper>
+                    <S.RoomListSenderName>{room.name}</S.RoomListSenderName>
+                    <CommonS.CenterizeBox>
+                      {user.role === "client" ? (
+                        <S.RoomListSenderWorkField>
+                          {room.workField.workField}&nbsp;
+                          {room.workField.workSmallField}
+                        </S.RoomListSenderWorkField>
+                      ) : (
+                        <S.RoomListSenderWorkField>
+                          {}
+                        </S.RoomListSenderWorkField>
+                      )}
+                    </CommonS.CenterizeBox>
+                  </S.RoomListTextFlexWrapper>
+                  <S.RoomListSenderLatestTextContent>
+                    최근 메세지
+                  </S.RoomListSenderLatestTextContent>
+                </S.RoomListTextColumnWrapper>
+                {/* ============================================================================== */}
+                <S.RoomListExitButton
+                  onClick={() => exitChat({ room_id: room.room_id })}
+                >
+                  <TbLogout />
+                </S.RoomListExitButton>
+                {/* ============================================================================== */}
+              </S.RoomBox>
+            ))}
           </S.RoomListWrapper>
         </S.LeftRoomListContainer>
         {/* ============================================================================== */}
@@ -175,3 +161,5 @@ const ChatComp = () => {
 };
 
 export default ChatComp;
+
+// 커밋
