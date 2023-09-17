@@ -119,6 +119,17 @@ const PendingFreelancerCard = ({
                   </S.DisabledButton>
                 ) : (
                   <>
+                    <S.PendingButton
+                      onClick={() =>
+                        deletePendingFreelancer(
+                          project.projectId || "",
+                          freelancer.userId,
+                          project.pendingFreelancer || []
+                        )
+                      }
+                    >
+                      삭제하기
+                    </S.PendingButton>
                     <S.ContractButton
                       onClick={() =>
                         updatePendingFreelancers(
@@ -133,17 +144,7 @@ const PendingFreelancerCard = ({
                     >
                       계약하기
                     </S.ContractButton>
-                    <S.PendingButton
-                      onClick={() =>
-                        deletePendingFreelancer(
-                          project.projectId || "",
-                          freelancer.userId,
-                          project.pendingFreelancer || []
-                        )
-                      }
-                    >
-                      삭제하기
-                    </S.PendingButton>
+                    <S.ContractButton>문의하기</S.ContractButton>
                   </>
                 )}
               </>

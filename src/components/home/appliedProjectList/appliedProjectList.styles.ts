@@ -89,10 +89,6 @@ export const S = {
 
   Button: styled(Button)`
     background-color: var(--main-blue);
-
-    &:hover {
-      background-color: var(--hover-blue);
-    }
   `,
 
   DetailModalOpenButton: styled.button`

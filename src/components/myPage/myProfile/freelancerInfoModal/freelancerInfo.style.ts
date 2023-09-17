@@ -38,6 +38,7 @@ export const S = {
   UserBox: styled.div`
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
   `,
   WorkField: styled.span`
