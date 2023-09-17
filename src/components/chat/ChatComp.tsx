@@ -14,7 +14,6 @@ import useChatCompQueries from "../../hooks/queries/useChatCompQueries";
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
 
-  // const [exitResult, setExitResult] = useState(null)
   const { user } = useUserStore();
   const currentuserid = user.userId;
   console.log(`📍${user.role}로 ${currentuserid}님이 로그인하셨습니다.`);
@@ -26,12 +25,11 @@ const ChatComp = () => {
     setExitResult,
     exitResult,
   } = useRoomStore();
-  const { existData } = useChatCompQueries({
+  const { existData, existDataWhenProject } = useChatCompQueries({
     createdRoomId,
     exitResult,
     currentuserid,
-  }); // 2. exit_id가 null인 data만 리턴
-  console.log(existData);
+  });
 
   // useEffect(() => {
   //   const getWholeData = async () => {
@@ -59,38 +57,52 @@ const ChatComp = () => {
       // 테이블의 exit_id 컬럼에 값이 있는지 확인
       const { data: result } = await supabase
         .from("room_participants")
-        .select("exit_id")
+        .select("exit_id, receiver_id_projectid")
         .eq("room_id", room_id)
         .single();
-      console.log(result);
+      console.log("여기", result);
 
+      //===============================================================//
       // dB
-      // 값이 없으면 user_id 집어넣음  // 1
+      // 값이 없으면 currentuserid 집어넣음  // 1
       if (result?.exit_id === null) {
-        // dB
-        const { error } = await supabase
-          .from("room_participants")
-          .update({ exit_id: [currentuserid] })
-          .eq("room_id", room_id);
-        if (error) {
-          toast.error(error.message);
-          return;
+        // 1. project 없음 (c -> f인 경우)
+        if (result.receiver_id_projectid === null) {
+          const { error } = await supabase
+            .from("room_participants")
+            .update({ exit_id: [currentuserid] })
+            .eq("room_id", room_id);
+          if (error) {
+            toast.error(error.message);
+            return;
+          }
         }
+
+        // 2. project 있음 (f -> c인 경우)
+        else if (result.receiver_id_projectid) {
+          const receiveridprojectid = result.receiver_id_projectid;
+          const { error } = await supabase
+            .from("room_participants")
+            .update({ exit_id: [currentuserid, receiveridprojectid] })
+            .eq("room_id", room_id);
+          if (error) {
+            toast.error(error.message);
+            return;
+          }
+        }
+
+        //===============================================================//
 
         // 상태관리
         setExitResult("no exit result");
         setSelectedRoom(null);
       } else if (result?.exit_id) {
-        console.log(room_id);
-        console.log(result.exit_id);
-
         const { error: rpdeleteError } = await supabase
           .from("room_participants")
           .delete()
           .match({ room_id: room_id });
         if (rpdeleteError) console.log(rpdeleteError);
 
-        console.log("방", room_id);
         const { error: rdeleteError } = await supabase
           .from("rooms")
           .delete()
@@ -112,7 +124,7 @@ const ChatComp = () => {
         {/* ============================================================================== */}
         <S.LeftRoomListContainer>
           <S.RoomListWrapper>
-            {_.chain(existData)
+            {_.chain(existDataWhenProject)
               .flatten()
               .filter((room) => room.userId !== currentuserid)
               .map((room) => (

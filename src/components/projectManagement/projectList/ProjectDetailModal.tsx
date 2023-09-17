@@ -77,7 +77,6 @@ const ProjectDetailModal = ({
 
     if (data) {
       const room_id = data.room_id;
-
       setCreatedRoomId(room_id);
       setSelectedRoom(data);
     }
@@ -89,7 +88,7 @@ const ProjectDetailModal = ({
       .select("room_id")
       .match({
         receiver_id: DMclientId,
-        receiver_id_projectid: projectId,
+        receiver_id_projectid: projectId /** 조건 추가 */,
         user_id: DMfreelancerId,
       })
       .single();
@@ -100,7 +99,7 @@ const ProjectDetailModal = ({
   const sendDM = async () => {
     // 중복 방 여부 확인
     const result = await checkDuplicateRoomId();
-    console.log("75", result);
+    // console.log("103", result);
 
     if (result !== null) {
       console.log(

@@ -51,7 +51,7 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
       .select("room_id")
       .match({ receiver_id: freelancerId, user_id: clientId })
       .single();
-    console.log("67", data);
+    // console.log("67", data);
     return data ? data.room_id : null;
   };
 
@@ -59,19 +59,19 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
   const sendDM = async () => {
     // 중복 방 여부 확인
     const result = await checkDuplicateRoomId();
-    console.log("result", result);
+    // console.log("result", result);
 
     if (result !== null) {
-      console.log(
-        "이미 생성된 방이 있습니다. 해당 채팅방으로 이동은 구현중입니다."
-      );
+      // console.log(
+      //   "이미 생성된 방이 있습니다. 해당 채팅방으로 이동은 구현중입니다."
+      // );
 
       navigate("/chat");
       return;
     }
 
     // 중복 없을 경우 새로운 방 생성
-    console.log("채팅 내역이 없습니다.");
+    // console.log("채팅 내역이 없습니다.");
     handleCreateRoom();
     navigate("/chat");
   };

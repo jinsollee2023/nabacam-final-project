@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getWhole } from "src/api/Chat";
+import { getWhole, getWholeWhenProject } from "src/api/Chat";
 
 const useChatCompQueries = ({
   createdRoomId,
@@ -22,9 +22,15 @@ const useChatCompQueries = ({
   //   { enabled: !!projectId }
   // );
 
-  const { data: existData, error } = useQuery(
+  const { data: existData } = useQuery(
     ["existData", exitResult, createdRoomId],
     async () => getWhole(currentuserid as string),
+    { enabled: true || !!exitResult || !!createdRoomId }
+  );
+
+  const { data: existDataWhenProject } = useQuery(
+    ["existDataWhenProject", exitResult, createdRoomId],
+    async () => getWholeWhenProject(currentuserid as string),
     { enabled: true || !!exitResult || !!createdRoomId }
   );
 
@@ -59,6 +65,7 @@ const useChatCompQueries = ({
     // deleteTaskMutation,
     // updateTaskTitleMutation,
     existData,
+    existDataWhenProject,
   };
 };
 
