@@ -94,17 +94,32 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
                 </S.Button>
               ) : projectItem.volunteer?.includes(userId) ||
                 projectItem.pendingFreelancer?.includes(userId) ? (
-                <S.Button type="primary" block disabled>
-                  이미 지원한 프로젝트입니다.
-                </S.Button>
+                <>
+                  <S.Button type="primary" block>
+                    문의하기
+                  </S.Button>
+                  <S.Button type="primary" block disabled>
+                    이미 지원한 프로젝트입니다.
+                  </S.Button>
+                </>
               ) : projectItem.SuggestedFreelancers!.includes(userId) ? (
-                <S.Button type="primary" block disabled>
-                  이미 제안 받은 프로젝트입니다.
-                </S.Button>
+                <>
+                  <S.Button type="primary" block>
+                    문의하기
+                  </S.Button>
+                  <S.Button type="primary" block disabled>
+                    이미 제안 받은 프로젝트입니다.
+                  </S.Button>
+                </>
               ) : (
-                <S.Button type="primary" block onClick={showConfirmation}>
-                  프로젝트 지원하기
-                </S.Button>
+                <>
+                  <S.Button type="primary" block>
+                    문의하기
+                  </S.Button>
+                  <S.Button type="primary" block onClick={showConfirmation}>
+                    지원하기
+                  </S.Button>
+                </>
               )}
             </>
           }
