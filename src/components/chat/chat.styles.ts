@@ -204,6 +204,8 @@ export const S = {
     border: none;
     background: var(--chat-input-gray);
     border-radius: 0 0 5px 5px;
+    outline: none;
+    padding: 10px;
   `,
   DMSubmitButton: styled.button`
     width: 7%;

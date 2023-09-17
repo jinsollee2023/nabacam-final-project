@@ -60,7 +60,7 @@ const Room = () => {
         {selectedRoomId && <Messages room_id={selectedRoomId} />}
         {/* 창 */}
         <S.DMForm onSubmit={handleSubmit}>
-          <S.DMInput type="text" name="message" />
+          <S.DMInput type="text" name="message" autoComplete="off" />
           <S.DMSubmitButton>전송</S.DMSubmitButton>
         </S.DMForm>
       </S.DMWrapper>
