@@ -7,6 +7,9 @@ import { useUserStore } from "src/store/useUserStore";
 import { toast } from "react-toastify";
 import useProjectOfClientQueries from "src/hooks/queries/useProjectOfClientQueries";
 import usePengFreelancersToTheProjectsQueries from "src/hooks/queries/usePendingFreelancersToTheProjectsQueries";
+import { useNavigate } from "react-router-dom";
+import { sendDM } from "src/components/common/commonFunc";
+import { useRoomStore } from "src/store/useRoomStore";
 
 interface ApplicantFreelancerCardProps {
   project: Project;
@@ -17,7 +20,7 @@ const ApplicantFreelancerCard = ({
   project,
   freelancer,
 }: ApplicantFreelancerCardProps) => {
-  const { userId } = useUserStore();
+  const { userId, user } = useUserStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFreelancer, setSelectedFreelancer] = useState<IUser | null>(
     null
@@ -75,6 +78,22 @@ const ApplicantFreelancerCard = ({
     });
     toast.success("보류 처리가 완료되었습니다.");
     setIsModalOpen(false);
+  };
+
+  //
+  const navigate = useNavigate();
+  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
+
+  const sendDMHandler = () => {
+    sendDM({
+      DMfreelancerName: freelancer.name,
+      DMclientName: user.name,
+      DMfreelancerId: freelancer.userId,
+      DMclientId: userId,
+      navigate,
+      setCreatedRoomId,
+      setSelectedRoom,
+    });
   };
 
   return (
@@ -144,7 +163,9 @@ const ApplicantFreelancerCard = ({
                       >
                         계약하기
                       </S.ContractButton>
-                      <S.ContractButton>문의하기</S.ContractButton>
+                      <S.ContractButton onClick={sendDMHandler}>
+                        문의하기
+                      </S.ContractButton>
                     </>
                   )}
                 </>

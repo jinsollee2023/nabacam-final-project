@@ -8,11 +8,14 @@ import { Button } from "antd";
 import {
   calculateDaysAgo,
   getDayOfWeek,
+  sendDM,
 } from "../../../components/common/commonFunc";
 import { FiUsers } from "react-icons/fi";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
 import { toast } from "react-toastify";
 import { CommonS } from "src/components/common/button/commonButton";
+import { useNavigate } from "react-router-dom";
+import { useRoomStore } from "src/store/useRoomStore";
 
 interface SuggestedProjectCardProps {
   projectItem: Project;
@@ -141,6 +144,20 @@ const SuggestedProjectCard = ({
       }
     );
   };
+  const navigate = useNavigate();
+  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
+
+  const sendDMHandler = () => {
+    sendDM({
+      DMfreelancerName: userName,
+      DMclientName: client?.name as string,
+      DMfreelancerId: userId,
+      DMclientId: client?.userId as string,
+      navigate,
+      setCreatedRoomId,
+      setSelectedRoom,
+    });
+  };
 
   return (
     <>
@@ -156,7 +173,9 @@ const SuggestedProjectCard = ({
                 <S.AcceptButton onClick={showAcceptConfirmation}>
                   수락하기
                 </S.AcceptButton>
-                <S.AcceptButton>문의하기</S.AcceptButton>
+                <S.AcceptButton onClick={sendDMHandler}>
+                  문의하기
+                </S.AcceptButton>
               </>
             ) : (
               <>
