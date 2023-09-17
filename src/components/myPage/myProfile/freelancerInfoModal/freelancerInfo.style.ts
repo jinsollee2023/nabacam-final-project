@@ -37,6 +37,7 @@ export const S = {
   `,
   UserBox: styled.div`
     display: flex;
+    align-items: flex-start;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
@@ -71,10 +72,13 @@ export const S = {
   `,
   Contacts: styled.span`
     cursor: pointer;
-    margin-left: 10px;
-    transform: rotate(45deg);
+    /* margin-left: 10px; */
+    /* transform: rotate(45deg); */
     color: dimgray;
     z-index: 1;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
 
     &:hover {
       color: var(--main-blue);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import supabase from "../../config/supabaseClient";
 import Room, { TRoom } from "src/components/chat/Room";
 import MenuTabBarComp from "../common/MenuTabBarComp";
@@ -38,6 +38,10 @@ const ChatComp = () => {
     .value();
 
   console.log("filteredData", filteredData);
+
+  useEffect(() => {
+    setSelectedRoom(filteredData[0]);
+  }, []);
 
   const handleRoomClick = (room: TRoom) => {
     setSelectedRoom(room);
@@ -101,45 +105,49 @@ const ChatComp = () => {
         {/* ============================================================================== */}
         <S.LeftRoomListContainer>
           <S.RoomListWrapper>
-            {filteredData.map((room) => (
-              <S.RoomBox
-                key={room.room_id}
-                isSelected={room.room_id === selectedRoom?.room_id}
-                onClick={() => handleRoomClick(room)}
-              >
-                <S.RoomListImageBox>
-                  <img src={room.photoURL} alt="Messagesender" />
-                </S.RoomListImageBox>
-
-                <S.RoomListTextColumnWrapper>
-                  <S.RoomListTextFlexWrapper>
-                    <S.RoomListSenderName>{room.name}</S.RoomListSenderName>
-                    <CommonS.CenterizeBox>
-                      {user.role === "client" ? (
-                        <S.RoomListSenderWorkField>
-                          {room.workField.workField}&nbsp;
-                          {room.workField.workSmallField}
-                        </S.RoomListSenderWorkField>
-                      ) : (
-                        <S.RoomListSenderWorkField>
-                          {}
-                        </S.RoomListSenderWorkField>
-                      )}
-                    </CommonS.CenterizeBox>
-                  </S.RoomListTextFlexWrapper>
-                  <S.RoomListSenderLatestTextContent>
-                    최근 메세지
-                  </S.RoomListSenderLatestTextContent>
-                </S.RoomListTextColumnWrapper>
-                {/* ============================================================================== */}
-                <S.RoomListExitButton
-                  onClick={() => exitChat({ room_id: room.room_id })}
+            {filteredData.length === 0 ? (
+              <p>채팅내역이 없습니다.</p>
+            ) : (
+              filteredData.map((room) => (
+                <S.RoomBox
+                  key={room.room_id}
+                  isSelected={room.room_id === selectedRoom?.room_id}
+                  onClick={() => handleRoomClick(room)}
                 >
-                  <TbLogout />
-                </S.RoomListExitButton>
-                {/* ============================================================================== */}
-              </S.RoomBox>
-            ))}
+                  <S.RoomListImageBox>
+                    <img src={room.photoURL} alt="Messagesender" />
+                  </S.RoomListImageBox>
+
+                  <S.RoomListTextColumnWrapper>
+                    <S.RoomListTextFlexWrapper>
+                      <S.RoomListSenderName>{room.name}</S.RoomListSenderName>
+                      <CommonS.CenterizeBox>
+                        {user.role === "client" ? (
+                          <S.RoomListSenderWorkField>
+                            {room.workField.workField}&nbsp;
+                            {room.workField.workSmallField}
+                          </S.RoomListSenderWorkField>
+                        ) : (
+                          <S.RoomListSenderWorkField>
+                            {}
+                          </S.RoomListSenderWorkField>
+                        )}
+                      </CommonS.CenterizeBox>
+                    </S.RoomListTextFlexWrapper>
+                    <S.RoomListSenderLatestTextContent>
+                      최근 메세지
+                    </S.RoomListSenderLatestTextContent>
+                  </S.RoomListTextColumnWrapper>
+                  {/* ============================================================================== */}
+                  <S.RoomListExitButton
+                    onClick={() => exitChat({ room_id: room.room_id })}
+                  >
+                    <TbLogout />
+                  </S.RoomListExitButton>
+                  {/* ============================================================================== */}
+                </S.RoomBox>
+              ))
+            )}
           </S.RoomListWrapper>
         </S.LeftRoomListContainer>
         {/* ============================================================================== */}

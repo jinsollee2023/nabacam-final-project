@@ -4,12 +4,15 @@ import Modal from "src/components/modal/Modal";
 import { S } from "./projectList.styles";
 import useClientsQueries from "src/hooks/queries/useClientsQueries";
 import useProjectsQueries from "src/hooks/queries/useProjectsQueries";
-import { calculateDaysAgo } from "src/components/common/commonFunc";
+import { calculateDaysAgo, sendDM } from "src/components/common/commonFunc";
 import { queryClient } from "src/App";
 import { FiUsers } from "react-icons/fi";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
 import { toast } from "react-toastify";
 import { CommonS } from "src/components/common/button/commonButton";
+import { useUserStore } from "src/store/useUserStore";
+import { useNavigate } from "react-router-dom";
+import { useRoomStore } from "src/store/useRoomStore";
 
 interface ProjectCardProps {
   projectItem: Project;
@@ -21,6 +24,7 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
   const { client } = useClientsQueries({ userId: projectItem.clientId });
+  const { user } = useUserStore();
 
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
@@ -80,6 +84,20 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
       }
     );
   };
+  const navigate = useNavigate();
+  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
+
+  const sendDMHandler = () => {
+    sendDM({
+      DMfreelancerName: user.name,
+      DMclientName: client?.name as string,
+      DMfreelancerId: user.userId,
+      DMclientId: client?.userId as string,
+      navigate,
+      setCreatedRoomId,
+      setSelectedRoom,
+    });
+  };
 
   return (
     <>
@@ -98,7 +116,7 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
                   <S.Button type="primary" block disabled>
                     이미 지원한 프로젝트입니다.
                   </S.Button>
-                  <S.Button type="primary" block>
+                  <S.Button type="primary" block onClick={sendDMHandler}>
                     문의하기
                   </S.Button>
                 </>
@@ -107,7 +125,7 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
                   <S.Button type="primary" block disabled>
                     이미 제안 받은 프로젝트입니다.
                   </S.Button>
-                  <S.Button type="primary" block>
+                  <S.Button type="primary" block onClick={sendDMHandler}>
                     문의하기
                   </S.Button>
                 </>
@@ -116,7 +134,7 @@ const ProjectCard = ({ projectItem, userId }: ProjectCardProps) => {
                   <S.Button type="primary" block onClick={showConfirmation}>
                     지원하기
                   </S.Button>
-                  <S.Button type="primary" block>
+                  <S.Button type="primary" block onClick={sendDMHandler}>
                     문의하기
                   </S.Button>
                 </>

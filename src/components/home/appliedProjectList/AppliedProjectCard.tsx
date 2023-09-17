@@ -7,8 +7,11 @@ import Modal from "src/components/modal/Modal";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
 import { useState } from "react";
 import { FiUsers } from "react-icons/fi";
-import { calculateDaysAgo } from "src/components/common/commonFunc";
+import { calculateDaysAgo, sendDM } from "src/components/common/commonFunc";
 import { CommonS } from "src/components/common/button/commonButton";
+import { useUserStore } from "src/store/useUserStore";
+import { useNavigate } from "react-router-dom";
+import { useRoomStore } from "src/store/useRoomStore";
 
 interface AppliedProjectCardProps {
   projectItem: Project;
@@ -21,6 +24,7 @@ const AppliedProjectCard = ({
 }: AppliedProjectCardProps) => {
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const { client } = useClientsQueries({ userId: projectItem.clientId });
+  const { user } = useUserStore();
   const { updateProjectMutation } = useProjectsQueries({
     currentUserId: userId,
   });
@@ -74,6 +78,21 @@ const AppliedProjectCard = ({
   const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
   const daysAgo = calculateDaysAgo(targetDate);
 
+  const navigate = useNavigate();
+  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
+
+  const sendDMHandler = () => {
+    sendDM({
+      DMfreelancerName: user.name,
+      DMclientName: client?.name as string,
+      DMfreelancerId: userId,
+      DMclientId: client?.userId as string,
+      navigate,
+      setCreatedRoomId,
+      setSelectedRoom,
+    });
+  };
+
   return (
     <>
       {isDetailModalOpen && (
@@ -90,7 +109,7 @@ const AppliedProjectCard = ({
                   <S.Button type="primary" block onClick={showConfirmation}>
                     지원 취소하기
                   </S.Button>
-                  <S.Button type="primary" block>
+                  <S.Button type="primary" block onClick={sendDMHandler}>
                     문의하기
                   </S.Button>
                 </>

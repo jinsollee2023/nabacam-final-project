@@ -6,6 +6,10 @@ import { IUser } from "../../../Types";
 import PendingFreelancerInfoModal from "./PendingFreelancerInfoModal";
 import { toast } from "react-toastify";
 import useProjectOfClientBySortQueries from "src/hooks/queries/useProjectOfClientQueries";
+import { sendDM } from "src/components/common/commonFunc";
+import { useNavigate } from "react-router-dom";
+import { useRoomStore } from "src/store/useRoomStore";
+import { useUserStore } from "src/store/useUserStore";
 
 interface PendingFreelancerCardProps {
   project: Project;
@@ -31,6 +35,10 @@ const PendingFreelancerCard = ({
   } = useProjectOfClientBySortQueries({
     currentUserId: userId,
   });
+
+  const navigate = useNavigate();
+  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
+  const { user } = useUserStore();
 
   // 보류한 프리랜서 목록 업데이트
   const updatePendingFreelancers = (
@@ -71,6 +79,19 @@ const PendingFreelancerCard = ({
     });
     toast.success("프리랜서 거절이 완료되었습니다.");
     setIsModalOpen(false);
+  };
+
+  //
+  const sendDMHandler = () => {
+    sendDM({
+      DMfreelancerName: freelancer.name,
+      DMclientName: user?.name as string,
+      DMfreelancerId: freelancer.userId,
+      DMclientId: user?.userId as string,
+      navigate,
+      setCreatedRoomId,
+      setSelectedRoom,
+    });
   };
 
   return (
@@ -144,7 +165,9 @@ const PendingFreelancerCard = ({
                     >
                       계약하기
                     </S.ContractButton>
-                    <S.ContractButton>문의하기</S.ContractButton>
+                    <S.ContractButton onClick={sendDMHandler}>
+                      문의하기
+                    </S.ContractButton>
                   </>
                 )}
               </>

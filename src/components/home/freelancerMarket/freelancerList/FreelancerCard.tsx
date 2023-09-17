@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import supabase from "src/config/supabaseClient";
 import { useRoomStore } from "src/store/useRoomStore";
 import PortfolioDetailModal from "src/components/myPage/myProfile/portfolioTab/PortfolioDetailModal";
+import { sendDM } from "src/components/common/commonFunc";
 
 interface FreelancerCardProps {
   freelancerItem: User;
@@ -39,15 +40,10 @@ const FreelancerCard = ({
   const { setSelectedPortfolio } = usePortfolioStore();
 
   const navigate = useNavigate();
-  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
-  const { user: client } = useUserStore();
-  const clientId = client.userId;
-  const clientName = client.name;
-  const freelancerId = freelancerItem?.userId;
-  const freelancerName = freelancerItem.name;
+  const { setSelectedRoom, setCreatedRoomId, createdRoomId } = useRoomStore();
+  const { user: client, userId } = useUserStore();
 
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
-  const { userId } = useUserStore();
   const { selectedProject, setSelectedProject } = useProjectStore();
   const [userSelectedPortfolioIndex, setUserSelectedPortfolioIndex] =
     useState(0);
@@ -166,30 +162,17 @@ const FreelancerCard = ({
     setIsPortfolioDetailModalOpen(true);
   };
 
-  // 채팅
-  const handleCreateRoom = async () => {
-    // 방 생성 + 구성원 집어넣음
-    const { data, error } = await supabase.rpc("create_room2", {
-      roomname: `${clientName}, ${freelancerName}`,
-      user_id: clientId,
-      receiver_id: freelancerId,
+  //==========================================================//
+  const sendDMHandler = () => {
+    sendDM({
+      DMfreelancerName: freelancerItem.name,
+      DMclientName: client.name,
+      DMfreelancerId: freelancerItem.userId,
+      DMclientId: client.userId,
+      navigate,
+      setCreatedRoomId,
+      setSelectedRoom,
     });
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    if (data) {
-      const room_id = data.room_id;
-      // ChatComp dependency array
-      setCreatedRoomId(room_id);
-      setSelectedRoom(data);
-    }
-  };
-
-  // 클릭 시 해당 프리랜서에게 DM 전송
-  const sendDM = async () => {
-    handleCreateRoom();
-    navigate("/chat");
   };
 
   return (
@@ -380,7 +363,7 @@ const FreelancerCard = ({
                   >
                     제안하기
                   </S.FreelancerInfoModalButton>
-                  <S.FreelancerInfoModalButton onClick={sendDM}>
+                  <S.FreelancerInfoModalButton onClick={sendDMHandler}>
                     문의하기
                   </S.FreelancerInfoModalButton>
                 </>
@@ -390,7 +373,7 @@ const FreelancerCard = ({
             </Modal>
           )}
           <S.CardButtonWrapper>
-            <S.SendDMButton onClick={sendDM}>
+            <S.SendDMButton onClick={sendDMHandler}>
               <HiOutlinePaperAirplane size="22" color="var(--main-blue)" />
             </S.SendDMButton>
             <S.SuggestButton onClick={handleSuggestButtonClick}>

@@ -39,7 +39,6 @@ export const S = {
       display: none;
     }
 
-    border-right: 1px solid rgba(0, 0, 0, 0.25);
     padding: 20px;
   `,
   RoomListWrapper: styled.div`

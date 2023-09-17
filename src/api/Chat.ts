@@ -1,4 +1,4 @@
-import { TRoom } from "src/components/chat/Room";
+import { TRoom } from "../components/chat/Room";
 import supabase from "../config/supabaseClient";
 
 export const getWhole = async (currentuserid: string): Promise<TRoom[]> => {
@@ -9,19 +9,6 @@ export const getWhole = async (currentuserid: string): Promise<TRoom[]> => {
   console.log(existData);
   return existData as TRoom[];
 };
-
-// export const getWholeWhenProject = async (
-//   currentuserid: string
-// ): Promise<TRoom[]> => {
-//   const { data: existDataWhenProject, error } = await supabase.rpc(
-//     "get_whole_when_project",
-//     {
-//       currentuserid: currentuserid,
-//     }
-//   );
-
-//   return existDataWhenProject as TRoom[];
-// };
 
 export const getRoomName = async (selectedRoomId: string) => {
   const { data: roomNameData } = await supabase
