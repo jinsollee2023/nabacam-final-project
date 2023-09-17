@@ -59,19 +59,15 @@ const Message = ({
     if (!usersProfile) fetchUsersProfile();
   }, [usersProfile, message.user_id]);
 
-  // console.log("message", { message, usersProfile });
-
   return (
     <S.MessageLi
       key={message.message_id}
       isMessageUser={message.user_id === userId}
     >
       {/* 이미지 */}
-      <S.ParticipantProfileImg
-        isMessageUser={message.user_id === userId}
-        src={`${usersProfile?.photoURL}`}
-        alt="messageUser"
-      />
+      <S.ParticipantProfileImageBox isMessageUser={message.user_id === userId}>
+        <img src={`${usersProfile?.photoURL}`} alt="messageUser" />
+      </S.ParticipantProfileImageBox>
       {/* 이름+말풍선 */}
       <S.ParticipantContentWrapper isMessageUser={message.user_id === userId}>
         <S.ParticipantProfileName>
@@ -120,7 +116,6 @@ const Messages = ({ room_id }: MessagesProps) => {
       }));
 
       setMessages(data);
-      // setLatestMessageContent(data[data.length - 1]?.content);
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error("Error fetching data");
@@ -145,8 +140,6 @@ const Messages = ({ room_id }: MessagesProps) => {
           filter: `room_id=eq.${room_id}`, // 끄면 다른 방에도 메세지가 다 들어가게 됨
         },
         (payload) => {
-          // console.log("payload", payload);
-          // getData();
           setMessages((current) => [...current, payload.new as Message]);
 
           // 메시지가 추가될 때마다 스크롤 아래로 이동
