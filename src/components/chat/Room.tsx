@@ -16,9 +16,8 @@ export interface TRoom {
   roomname: string | null;
   user_id: string;
   receiver_id: string;
-  receiver_id_projectid?: null | string;
   userId: string; // 판별용
-  exit_id: null | string[]; // 나가기 버튼
+  exit_id: null | string; // 나가기 버튼
   name: string;
   photoURL: string;
   workField: {
