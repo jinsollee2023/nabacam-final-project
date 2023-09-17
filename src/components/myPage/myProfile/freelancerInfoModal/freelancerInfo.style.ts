@@ -39,6 +39,7 @@ export const S = {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
   `,
   WorkField: styled.span`

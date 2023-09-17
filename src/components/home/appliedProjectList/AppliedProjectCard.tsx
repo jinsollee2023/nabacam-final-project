@@ -86,9 +86,14 @@ const AppliedProjectCard = ({
                   모집이 완료된 프로젝트입니다.
                 </S.Button>
               ) : (
-                <S.Button type="primary" block onClick={showConfirmation}>
-                  프로젝트 지원 취소하기
-                </S.Button>
+                <>
+                  <S.Button type="primary" block onClick={showConfirmation}>
+                    지원 취소하기
+                  </S.Button>
+                  <S.Button type="primary" block>
+                    문의하기
+                  </S.Button>
+                </>
               )}
             </>
           }

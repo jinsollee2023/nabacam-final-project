@@ -156,6 +156,7 @@ const SuggestedProjectCard = ({
                 <S.AcceptButton onClick={showAcceptConfirmation}>
                   수락하기
                 </S.AcceptButton>
+                <S.AcceptButton>문의하기</S.AcceptButton>
               </>
             ) : (
               <>

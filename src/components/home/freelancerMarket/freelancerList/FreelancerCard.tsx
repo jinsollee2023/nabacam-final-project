@@ -358,13 +358,13 @@ const FreelancerCard = ({
               setIsModalOpen={setIsInfoModalOpen}
               buttons={
                 <>
-                  <S.FreelancerInfoModalButton onClick={sendDMHandler}>
-                    문의하기
-                  </S.FreelancerInfoModalButton>
                   <S.FreelancerInfoModalButton
                     onClick={handleInfoModalProposalButtonClick}
                   >
                     제안하기
+                  </S.FreelancerInfoModalButton>
+                  <S.FreelancerInfoModalButton onClick={sendDMHandler}>
+                    문의하기
                   </S.FreelancerInfoModalButton>
                 </>
               }

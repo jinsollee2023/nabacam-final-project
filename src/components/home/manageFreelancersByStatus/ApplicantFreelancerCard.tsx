@@ -144,6 +144,7 @@ const ApplicantFreelancerCard = ({
                       >
                         계약하기
                       </S.ContractButton>
+                      <S.ContractButton>문의하기</S.ContractButton>
                     </>
                   )}
                 </>
