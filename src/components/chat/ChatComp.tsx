@@ -154,7 +154,7 @@ const ChatComp = () => {
           </S.RoomListWrapper>
         </S.LeftRoomListContainer>
         {/* ============================================================================== */}
-        {selectedRoom ? <Room /> : null}
+        {selectedRoom ? <Room /> : <p>채팅내역이 없습니다.</p>}
       </S.Container>
     </MenuTabBarComp>
   );

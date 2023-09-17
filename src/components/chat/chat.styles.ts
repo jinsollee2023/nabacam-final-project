@@ -40,7 +40,6 @@ export const S = {
       display: none;
     }
 
-    border-right: solid rgba(0, 0, 0, 0.25);
     padding: 20px;
   `,
   RoomListWrapper: styled.div`
@@ -62,7 +61,6 @@ export const S = {
     align-items: center;
 
     background-color: ${(props) =>
-
       props.isSelected ? "var(--hover-blue)" : "transparent"};
 
     position: relative;
@@ -70,7 +68,6 @@ export const S = {
   RoomListRoomName: styled.p`
     font-size: 12px;
     color: var(--chat-navy);
-
   `,
   RoomListImg: styled.img`
     width: 60px;
