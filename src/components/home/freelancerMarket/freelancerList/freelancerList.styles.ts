@@ -20,12 +20,11 @@ interface PortfolioItemProps {
 export const S = {
   FreelancerListContainer: styled.div`
     max-width: 100%;
-    min-width: 740px;
+    min-width: 1030px;
     height: 72.5vh;
     overflow-y: auto;
     margin-top: 20px;
     padding: 5px 0 5px 5px;
-
     display: grid;
     grid-template-columns: 31% 31% 31%;
     grid-template-rows: 350px 350px 350px;
@@ -41,6 +40,7 @@ export const S = {
 
   FreelancerList: styled.ul`
     width: 100%;
+    min-width: 330px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
