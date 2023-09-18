@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import supabase from "../../config/supabaseClient";
 import { useUserStore } from "../../store/useUserStore";
 import { S } from "./chat.styles";
-import { useRoomStore } from "../../store/useRoomStore";
 
 interface MessagesProps {
   room_id: string;

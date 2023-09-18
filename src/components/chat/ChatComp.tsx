@@ -44,53 +44,76 @@ const ChatComp = () => {
     setSelectedRoom(room);
   };
 
-  const exitChat = async ({ room_id }: { room_id: string }) => {
-    const exitConfirmed = window.confirm(
-      "채팅방에서 나가시겠습니까? 나가기를 하면 대화내용이 모두 삭제됩니다."
-    );
+  const handleConfirm = (room_id: string) => {
+    exitChat(room_id);
+    toast.dismiss();
+  };
 
-    if (exitConfirmed) {
-      const { data: result } = await supabase
-        .from("room_participants")
-        .select("exit_id")
-        .eq("room_id", room_id)
-        .single();
+  const handleCancel = () => {
+    toast.dismiss();
+  };
 
-      if (result?.exit_id === null) {
-        const { error } = await supabase
-          .from("room_participants")
-          .update({ exit_id: currentuserid })
-          .eq("room_id", room_id);
-        if (error) {
-          toast.error(error.message);
-          return;
-        }
-
-        setExitResult("no exit result");
-        setSelectedRoom(null);
-      } else if (result?.exit_id) {
-        const { error: rpdeleteError } = await supabase
-          .from("room_participants")
-          .delete()
-          .match({ room_id: room_id });
-        if (rpdeleteError) {
-          toast.error(rpdeleteError.message);
-          return;
-        }
-
-        const { error: rdeleteError } = await supabase
-          .from("rooms")
-          .delete()
-          .match({ room_id: room_id });
-
-        if (rdeleteError) {
-          toast.error(rdeleteError.message);
-          return;
-        }
-
-        setExitResult("deleted row");
-        setSelectedRoom(null);
+  const showConfirmation = (room_id: string) => {
+    toast.info(
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>
+          {
+            "채팅방에서 나가시겠습니까? 나가기를 하면 대화내용이 모두 삭제됩니다."
+          }
+        </CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={() => handleConfirm(room_id)}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
       }
+    );
+  };
+
+  const exitChat = async (room_id: string) => {
+    const { data: result } = await supabase
+      .from("room_participants")
+      .select("exit_id")
+      .eq("room_id", room_id)
+      .single();
+
+    if (result?.exit_id === null) {
+      const { error } = await supabase
+        .from("room_participants")
+        .update({ exit_id: currentuserid })
+        .eq("room_id", room_id);
+      if (error) {
+        toast.error("에러가 발생했습니다.");
+        return;
+      }
+      setExitResult("no exit result");
+      setSelectedRoom(null);
+    } else if (result?.exit_id) {
+      const { error: rpdeleteError } = await supabase
+        .from("room_participants")
+        .delete()
+        .match({ room_id: room_id });
+      if (rpdeleteError) {
+        toast.error("에러가 발생했습니다.");
+        return;
+      }
+      const { error: rdeleteError } = await supabase
+        .from("rooms")
+        .delete()
+        .match({ room_id: room_id });
+      if (rdeleteError) {
+        toast.error("에러가 발생했습니다.");
+        return;
+      }
+      setExitResult("deleted row");
+      setSelectedRoom(null);
     }
   };
 
@@ -131,7 +154,7 @@ const ChatComp = () => {
                     <S.RoomListSenderLatestTextContent></S.RoomListSenderLatestTextContent>
                   </S.RoomListTextColumnWrapper>
                   <S.RoomListExitButton
-                    onClick={() => exitChat({ room_id: room.room_id })}
+                    onClick={() => showConfirmation(room.room_id)}
                   >
                     <TbLogout />
                   </S.RoomListExitButton>
