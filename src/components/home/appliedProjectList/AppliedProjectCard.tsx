@@ -33,6 +33,9 @@ const AppliedProjectCard = ({
     const updatedProject = {
       ...projectItem,
       volunteer: projectItem.volunteer?.filter((item) => item !== userId),
+      pendingFreelancer: projectItem.pendingFreelancer?.filter(
+        (item) => item !== userId
+      ),
     };
 
     // 프리랜서가 지원을 취소하면 해당 프리랜서를 제외한 프로젝트 정보를 업데이트 해준다.
