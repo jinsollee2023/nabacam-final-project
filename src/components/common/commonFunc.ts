@@ -1,5 +1,5 @@
 import supabase from "src/config/supabaseClient";
-import { TRoom } from "../chat/Room";
+import { TRoom } from "src/Types";
 
 // 마감 날짜 요일 구하기
 export const getDayOfWeek = (date: Date) => {

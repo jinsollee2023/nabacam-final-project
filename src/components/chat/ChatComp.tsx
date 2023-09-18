@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import supabase from "../../config/supabaseClient";
-import Room, { TRoom } from "src/components/chat/Room";
+import Room from "src/components/chat/Room";
 import MenuTabBarComp from "../common/MenuTabBarComp";
 import { S } from "./chat.styles";
 import { useRoomStore } from "../../store/useRoomStore";
@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useUserStore } from "../../store/useUserStore";
 import _ from "lodash";
 import useChatCompQueries from "../../hooks/queries/useChatCompQueries";
+import { TRoom } from "../../Types";
 
 const ChatComp = () => {
   const communicationMenu = ["커뮤니케이션"];
