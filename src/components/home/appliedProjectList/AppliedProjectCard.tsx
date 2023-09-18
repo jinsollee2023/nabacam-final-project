@@ -1,17 +1,17 @@
 import { toast } from "react-toastify";
-import { Project } from "../../../Types";
+import { Project, User } from "../../../Types";
 import useClientsQueries from "../../../hooks/queries/useClientsQueries";
 import useProjectsQueries from "../../../hooks/queries/useProjectsQueries";
 import { S } from "./appliedProjectList.styles";
 import Modal from "src/components/modal/Modal";
 import ProjectDetailModal from "src/components/projectManagement/projectList/ProjectDetailModal";
 import { useState } from "react";
-import { FiUsers } from "react-icons/fi";
-import { calculateDaysAgo, sendDM } from "src/components/common/commonFunc";
+import { sendDM } from "src/components/common/commonFunc";
 import { CommonS } from "src/components/common/button/commonButton";
 import { useUserStore } from "src/store/useUserStore";
 import { useNavigate } from "react-router-dom";
 import { useRoomStore } from "src/store/useRoomStore";
+import ProjectCardContents from "../ProjectCardContents";
 
 interface AppliedProjectCardProps {
   projectItem: Project;
@@ -75,9 +75,6 @@ const AppliedProjectCard = ({
     );
   };
 
-  const targetDate = new Date(String(projectItem.created_at).slice(0, 10));
-  const daysAgo = calculateDaysAgo(targetDate);
-
   const navigate = useNavigate();
   const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
 
@@ -123,53 +120,11 @@ const AppliedProjectCard = ({
           />
         </Modal>
       )}
-      <S.ProjectCardContainer>
-        <S.ProejctContentLeftWrapper>
-          <S.ProjectStatus
-            recruitmentCompleted={projectItem.status === "진행 전"}
-          >
-            {projectItem.status === "진행 중" ||
-            projectItem.status === "진행 완료"
-              ? "모집 완료"
-              : "모집 중"}
-          </S.ProjectStatus>
-          <S.ClientName>
-            <span>{client?.name}</span>
-          </S.ClientName>
-          <div>
-            <S.ProjectName>
-              <span>
-                {projectItem.title} · {projectItem.category}
-              </span>
-            </S.ProjectName>
-            {projectItem.qualification > 0 ? (
-              <span>{projectItem.qualification}년차 이상</span>
-            ) : (
-              <span>신입 가능</span>
-            )}
-          </div>
-          <S.AppliedFreelancersCountBox>
-            <FiUsers />
-            <span>{projectItem.volunteer?.length}명 지원 중</span>
-          </S.AppliedFreelancersCountBox>
-          <S.ProjectRegistrationDate>{daysAgo} 등록</S.ProjectRegistrationDate>
-        </S.ProejctContentLeftWrapper>
-        <S.ProejctContentRightWrapper>
-          <div>
-            <>
-              <S.DetailModalOpenButton
-                onClick={() => setIsDetailModalOpen(true)}
-              >
-                자세히 보기
-              </S.DetailModalOpenButton>
-            </>
-          </div>
-          <S.ProejctContentRightTextWrapper>
-            <span>프로젝트 시작 예정일 </span>
-            <span>{projectItem.expectedStartDate}</span>
-          </S.ProejctContentRightTextWrapper>
-        </S.ProejctContentRightWrapper>
-      </S.ProjectCardContainer>
+      <ProjectCardContents
+        projectItem={projectItem}
+        client={client as User}
+        setIsDetailModalOpen={setIsDetailModalOpen}
+      />
     </>
   );
 };
