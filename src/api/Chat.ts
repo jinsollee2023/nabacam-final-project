@@ -6,7 +6,6 @@ export const getWhole = async (currentuserid: string): Promise<TRoom[]> => {
     currentuserid: currentuserid,
   });
 
-  console.log(existData);
   return existData as TRoom[];
 };
 
@@ -16,6 +15,5 @@ export const getRoomName = async (selectedRoomId: string) => {
     .select("roomname")
     .match({ room_id: selectedRoomId })
     .single();
-  // console.log(roomNameData);
   return roomNameData;
 };

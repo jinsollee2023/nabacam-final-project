@@ -111,7 +111,6 @@ export const S = {
     left: 92%;
     top: 80%;
   `,
-  //=====================================================//
   RightDMRoomContainer: styled.section`
     width: 70.87%;
     height: 86vh;
@@ -224,7 +223,6 @@ export const S = {
     right: 1.5%;
     top: 25%;
   `,
-  //=====================================================//
   MessageWrapper: styled.div`
     background: var(--chat-navy);
     overflow-y: auto;
@@ -244,44 +242,49 @@ export const S = {
     flex: 1;
     padding: 12px;
   `,
-  MessageUl: styled.ul``,
+  MessageUl: styled.ul`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1.5rem;
+  `,
   MessageLi: styled.li<MessageContentProps>`
     display: flex;
     padding-bottom: 8px;
 
-    align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
-    text-align: ${(props) => (props.isMessageUser ? "start" : "end")};
-    //
     flex-direction: ${(props) => (props.isMessageUser ? "row" : "row-reverse")};
+    align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
+  `,
+  MessageContentWrapper: styled.div`
+    display: flex;
+    flex-direction: row;
   `,
   MessageContent: styled.div<MessageContentProps>`
-    border-radius: 6px;
-    padding: 4px 8px;
-
     background-color: ${(props) =>
       props.isMessageUser ? "#FFFFFF" : "var(--hover-blue)"};
-    align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
-    text-align: ${(props) => (props.isMessageUser ? "start" : "end")};
 
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
     line-height: 22px;
     letter-spacing: -0.005em;
-    color: #000000;
+    color: #292929;
+
+    border-radius: 6px;
+    padding: 4px 8px;
   `,
   ParticipantContentWrapper: styled.div<MessageContentProps>`
     align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
     text-align: ${(props) => (props.isMessageUser ? "start" : "end")};
     margin: 5px;
+    padding-top: 5px;
   `,
   ParticipantProfileImageBox: styled.div<MessageContentProps>`
     border-radius: 5px;
     width: 30px;
     height: 30px;
     overflow: hidden;
-
-    align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
 
     img {
       width: 100%;
@@ -290,9 +293,9 @@ export const S = {
     }
   `,
   ParticipantProfileName: styled.span`
-    color: #000000;
     font-size: 16px;
     display: block;
     margin-bottom: 5px;
+    color: #292929;
   `,
 };

@@ -16,7 +16,6 @@ const ChatComp = () => {
 
   const { user } = useUserStore();
   const currentuserid = user.userId;
-  // console.log(`📍${user.role}로 ${currentuserid}님이 로그인하셨습니다.`);
 
   const {
     selectedRoom,
@@ -38,7 +37,6 @@ const ChatComp = () => {
     .value();
 
   useEffect(() => {
-    console.log(selectedRoom);
     setSelectedRoom(selectedRoom ? selectedRoom : filteredData[0]);
   }, []);
 
@@ -46,62 +44,82 @@ const ChatComp = () => {
     setSelectedRoom(room);
   };
 
-  const exitChat = async ({ room_id }: { room_id: string }) => {
-    const exitConfirmed = window.confirm(
-      "채팅방에서 나가시겠습니까? 나가기를 하면 대화내용이 모두 삭제됩니다."
-    );
+  const handleConfirm = (room_id: string) => {
+    exitChat(room_id);
+    toast.dismiss();
+  };
 
-    if (exitConfirmed) {
-      // 테이블의 exit_id 컬럼에 값이 있는지 확인
-      const { data: result } = await supabase
-        .from("room_participants")
-        .select("exit_id")
-        .eq("room_id", room_id)
-        .single();
-      console.log("여기", result);
+  const handleCancel = () => {
+    toast.dismiss();
+  };
 
-      //===============================================================//
-      // dB
-      // 값이 없으면 currentuserid 집어넣음
-      if (result?.exit_id === null) {
-        const { error } = await supabase
-          .from("room_participants")
-          .update({ exit_id: currentuserid })
-          .eq("room_id", room_id);
-        if (error) {
-          toast.error(error.message);
-          return;
-        }
-
-        // 상태관리
-        setExitResult("no exit result");
-        setSelectedRoom(null);
-      } else if (result?.exit_id) {
-        const { error: rpdeleteError } = await supabase
-          .from("room_participants")
-          .delete()
-          .match({ room_id: room_id });
-        if (rpdeleteError) console.log(rpdeleteError);
-
-        const { error: rdeleteError } = await supabase
-          .from("rooms")
-          .delete()
-          .match({ room_id: room_id });
-
-        if (rdeleteError) console.log(rdeleteError);
-        console.log("here");
-
-        // 상태관리
-        setExitResult("deleted row");
-        setSelectedRoom(null);
+  const showConfirmation = (room_id: string) => {
+    toast.info(
+      <CommonS.toastinfo>
+        <CommonS.toastintoText>
+          {
+            "채팅방에서 나가시겠습니까? 나가기를 하면 대화내용이 모두 삭제됩니다."
+          }
+        </CommonS.toastintoText>
+        <CommonS.toastOkButton onClick={() => handleConfirm(room_id)}>
+          확인
+        </CommonS.toastOkButton>
+        <CommonS.toastNoButton onClick={handleCancel}>
+          취소
+        </CommonS.toastNoButton>
+      </CommonS.toastinfo>,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: false,
+        closeButton: false,
+        draggable: false,
       }
+    );
+  };
+
+  const exitChat = async (room_id: string) => {
+    const { data: result } = await supabase
+      .from("room_participants")
+      .select("exit_id")
+      .eq("room_id", room_id)
+      .single();
+
+    if (result?.exit_id === null) {
+      const { error } = await supabase
+        .from("room_participants")
+        .update({ exit_id: currentuserid })
+        .eq("room_id", room_id);
+      if (error) {
+        toast.error("에러가 발생했습니다.");
+        return;
+      }
+      setExitResult("no exit result");
+      setSelectedRoom(null);
+    } else if (result?.exit_id) {
+      const { error: rpdeleteError } = await supabase
+        .from("room_participants")
+        .delete()
+        .match({ room_id: room_id });
+      if (rpdeleteError) {
+        toast.error("에러가 발생했습니다.");
+        return;
+      }
+      const { error: rdeleteError } = await supabase
+        .from("rooms")
+        .delete()
+        .match({ room_id: room_id });
+      if (rdeleteError) {
+        toast.error("에러가 발생했습니다.");
+        return;
+      }
+      setExitResult("deleted row");
+      setSelectedRoom(null);
     }
   };
 
   return (
     <MenuTabBarComp menu={communicationMenu}>
       <S.Container>
-        {/* ============================================================================== */}
         <S.LeftRoomListContainer>
           <S.RoomListWrapper>
             {filteredData.length === 0 ? (
@@ -120,36 +138,31 @@ const ChatComp = () => {
                   <S.RoomListTextColumnWrapper>
                     <S.RoomListTextFlexWrapper>
                       <S.RoomListSenderName>{room.name}</S.RoomListSenderName>
-                      <CommonS.CenterizeBox>
-                        {user.role === "client" ? (
-                          <S.RoomListSenderWorkField>
-                            {room.workField.workField}&nbsp;
-                            {room.workField.workSmallField}
-                          </S.RoomListSenderWorkField>
-                        ) : (
-                          <S.RoomListSenderWorkField>
-                            {}
-                          </S.RoomListSenderWorkField>
-                        )}
-                      </CommonS.CenterizeBox>
                     </S.RoomListTextFlexWrapper>
-                    <S.RoomListSenderLatestTextContent>
-                      최근 메세지
-                    </S.RoomListSenderLatestTextContent>
+                    <CommonS.CenterizeBox>
+                      {user.role === "client" ? (
+                        <S.RoomListSenderWorkField>
+                          {room.workField.workField}&nbsp;
+                          {room.workField.workSmallField}
+                        </S.RoomListSenderWorkField>
+                      ) : (
+                        <S.RoomListSenderWorkField>
+                          {}
+                        </S.RoomListSenderWorkField>
+                      )}
+                    </CommonS.CenterizeBox>
+                    <S.RoomListSenderLatestTextContent></S.RoomListSenderLatestTextContent>
                   </S.RoomListTextColumnWrapper>
-                  {/* ============================================================================== */}
                   <S.RoomListExitButton
-                    onClick={() => exitChat({ room_id: room.room_id })}
+                    onClick={() => showConfirmation(room.room_id)}
                   >
                     <TbLogout />
                   </S.RoomListExitButton>
-                  {/* ============================================================================== */}
                 </S.RoomBox>
               ))
             )}
           </S.RoomListWrapper>
         </S.LeftRoomListContainer>
-        {/* ============================================================================== */}
         {selectedRoom ? <Room /> : null}
       </S.Container>
     </MenuTabBarComp>
@@ -157,5 +170,3 @@ const ChatComp = () => {
 };
 
 export default ChatComp;
-
-// 커밋

@@ -1,13 +1,8 @@
 import React from "react";
-
-import { HiOutlinePaperAirplane } from "react-icons/hi";
 import { S } from "./freelancerInfo.style";
 import { IUser } from "../../../../Types";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import supabase from "../../../../config/supabaseClient";
 import { useUserStore } from "../../../../store/useUserStore";
-import { useRoomStore } from "../../../../store/useRoomStore";
 import { FiMail } from "react-icons/fi";
 import { FiPhoneCall } from "react-icons/fi";
 import useProjectsQueries from "src/hooks/queries/useProjectsQueries";
@@ -78,7 +73,6 @@ const FreelancerProfile = ({ user: freelancer }: FreelancerProfileProps) => {
               </S.ContactBox>
             </>
           )}
-          {/* =============================================================== */}
         </S.UserBox>
       </S.UserInfoBox>
       <S.UnderLine />

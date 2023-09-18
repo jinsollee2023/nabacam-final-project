@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import supabase from "../../config/supabaseClient";
 import { useUserStore } from "../../store/useUserStore";
 import { S } from "./chat.styles";
-import { useRoomStore } from "../../store/useRoomStore";
 
 interface MessagesProps {
   room_id: string;
@@ -18,8 +17,6 @@ export interface Message {
   content: string;
   user_id: string;
   room_id: string;
-  // other table
-  // usersProfileCache for user +) new user
   usersProfile: UsersProfile;
 }
 
@@ -27,7 +24,6 @@ interface UsersProfileCache {
   [userId: string]: UsersProfile;
 }
 
-//===============================================================================================//
 const Message = ({
   message,
   usersProfile,
@@ -40,7 +36,6 @@ const Message = ({
   const { user } = useUserStore();
   const userId = user.userId;
 
-  // usersProfile 없을시 확인후 fetch
   useEffect(() => {
     const fetchUsersProfile = async () => {
       const { data } = await supabase
@@ -64,23 +59,23 @@ const Message = ({
       key={message.message_id}
       isMessageUser={message.user_id === userId}
     >
-      {/* 이미지 */}
       <S.ParticipantProfileImageBox isMessageUser={message.user_id === userId}>
         <img src={`${usersProfile?.photoURL}`} alt="messageUser" />
       </S.ParticipantProfileImageBox>
-      {/* 이름+말풍선 */}
+
       <S.ParticipantContentWrapper isMessageUser={message.user_id === userId}>
         <S.ParticipantProfileName>
           {usersProfile?.name ?? "Loading..."}
         </S.ParticipantProfileName>
-        <S.MessageContent isMessageUser={message.user_id === userId}>
-          {message.content}
-        </S.MessageContent>
+        <S.MessageContentWrapper>
+          <S.MessageContent isMessageUser={message.user_id === userId}>
+            {message.content}
+          </S.MessageContent>
+        </S.MessageContentWrapper>
       </S.ParticipantContentWrapper>
     </S.MessageLi>
   );
 };
-//===============================================================================================//
 
 const Messages = ({ room_id }: MessagesProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -93,16 +88,15 @@ const Messages = ({ room_id }: MessagesProps) => {
     try {
       const { data } = await supabase
         .from("messages")
-        .select("*, usersProfile: users(userId, name, photoURL)") // 이제부터 data(messages)에 users테이블의 usersProfile 끼어서 들어오게 됨
+        .select("*, usersProfile: users(userId, name, photoURL)")
         .match({ room_id: room_id })
         .order("created_at");
 
       if (!data) {
-        toast.error("no data");
+        toast.error("에러가 발생했습니다");
         return;
       }
 
-      // 복수
       const newUsersProfiles = Object.fromEntries(
         data
           .map((message) => message.usersProfile)
@@ -117,17 +111,14 @@ const Messages = ({ room_id }: MessagesProps) => {
 
       setMessages(data);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      toast.error("Error fetching data");
+      toast.error("에러가 발생했습니다");
     }
   };
 
-  // 1.initial fetch
   useEffect(() => {
     getData();
   }, [room_id]);
 
-  // 2.realtime initial stream
   useEffect(() => {
     const channel = supabase
       .channel("schema-db-changes")
@@ -137,12 +128,11 @@ const Messages = ({ room_id }: MessagesProps) => {
           event: "INSERT",
           schema: "public",
           table: "messages",
-          filter: `room_id=eq.${room_id}`, // 끄면 다른 방에도 메세지가 다 들어가게 됨
+          filter: `room_id=eq.${room_id}`,
         },
         (payload) => {
           setMessages((current) => [...current, payload.new as Message]);
 
-          // 메시지가 추가될 때마다 스크롤 아래로 이동
           if (messagesRef.current) {
             messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
           }
@@ -153,20 +143,11 @@ const Messages = ({ room_id }: MessagesProps) => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [room_id]); // 수신자 발신자 sync
+  }, [room_id]);
 
   return (
-    /** 부모요소에 스크롤 있어야 */
     <S.MessageWrapper ref={messagesRef}>
-      <ul
-        style={{
-          display: "flex",
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          gap: "1.5rem",
-        }}
-      >
+      <S.MessageUl>
         {messages?.map((message) => (
           <Message
             message={message}
@@ -174,7 +155,7 @@ const Messages = ({ room_id }: MessagesProps) => {
             setUsersProfileCache={setUsersProfileCache}
           />
         ))}
-      </ul>
+      </S.MessageUl>
     </S.MessageWrapper>
   );
 };

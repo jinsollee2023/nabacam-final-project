@@ -13,8 +13,8 @@ export interface TRoom {
   roomname: string | null;
   user_id: string;
   receiver_id: string;
-  userId: string; // 판별용
-  exit_id: null | string; // 나가기 버튼
+  userId: string;
+  exit_id: null | string;
   name: string;
   photoURL: string;
   workField: {
@@ -27,7 +27,7 @@ const Room = () => {
   const { user } = useUserStore();
   const userId = user.userId;
   const { selectedRoom, setSelectedRoom } = useRoomStore();
-  // 선택한 방의 room_id만
+
   const selectedRoomId = selectedRoom?.room_id;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,14 +41,13 @@ const Room = () => {
         .from("messages")
         .insert({ content: message, room_id: selectedRoomId, user_id: userId });
 
-      if (error) toast.error(error.message);
+      if (error) toast.error("에러가 발생했습니다");
     }
   };
 
   return (
     <S.RightDMRoomContainer>
       <S.DMWrapper>
-        {/* 제목 */}
         <S.DMHeader>
           <S.DMHeaderBackButton onClick={() => setSelectedRoom(null)}>
             <IoIosArrowBack />
@@ -56,9 +55,8 @@ const Room = () => {
           <S.DMRoomName>{selectedRoom?.roomname}</S.DMRoomName>
         </S.DMHeader>
 
-        {/* 본문 */}
         {selectedRoomId && <Messages room_id={selectedRoomId} />}
-        {/* 창 */}
+
         <S.DMForm onSubmit={handleSubmit}>
           <S.DMInput type="text" name="message" autoComplete="off" />
           <S.DMSubmitButton>전송</S.DMSubmitButton>
