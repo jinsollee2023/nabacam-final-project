@@ -15,7 +15,7 @@ const ExploreProjectInformation = () => {
         <S.MenuContentsBox>
           <S.ProjectNavigationAndFreelancerMarketImageWrapper>
             <img
-              src="/assets/img/welcomePageImg/프로젝트 탐색2.JPG"
+              src="/assets/img/welcomePageImg/프로젝트 탐색2.jpg"
               alt="프로젝트 탐색 스크린샷"
             />
           </S.ProjectNavigationAndFreelancerMarketImageWrapper>
