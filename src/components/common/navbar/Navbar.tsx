@@ -83,11 +83,27 @@ const Navbar = () => {
       </S.ProfileWrapper>
       {/* <S.Divider /> */}
       <S.UpperNavLinks>
-        <S.NavLinkItem onClick={() => navigate("/home")}>
+        <S.NavLinkItem
+          onClick={() => {
+            navigate("/home");
+            {
+              user.role === "client"
+                ? setCurrentTab("프리랜서 마켓")
+                : setCurrentTab("프로젝트 탐색");
+            }
+          }}
+        >
           {user.role === "client" ? "프리랜서 구인" : "프로젝트 탐색"}
         </S.NavLinkItem>
 
-        <S.NavLinkItem onClick={() => navigate("/project-management")}>
+        <S.NavLinkItem
+          onClick={() => {
+            navigate("/project-management");
+            {
+              user.role === "client" && setCurrentTab("프로젝트 목록");
+            }
+          }}
+        >
           프로젝트 관리 도구
         </S.NavLinkItem>
       </S.UpperNavLinks>
