@@ -4,11 +4,6 @@ import { useEffect, useState } from "react";
 import { getFreelancer } from "src/api/User";
 import ProjectCommittedFreelancerProfile from "./ProjectCommittedFreelancerProfile";
 import { useUserStore } from "src/store/useUserStore";
-import { HiOutlinePaperAirplane } from "react-icons/hi";
-import { useRoomStore } from "src/store/useRoomStore";
-import supabase from "src/config/supabaseClient";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 
 export interface ProjectDetailModalProps {
   project: Project;
@@ -36,15 +31,7 @@ const ProjectDetailModal = ({
   const [committedFreelancer, setCommittedFreelancer] =
     useState<FreelancerInfo | null>(null);
 
-  const navigate = useNavigate();
   const { userRole, user: DMfreelancer } = useUserStore();
-  const { setSelectedRoom, setCreatedRoomId } = useRoomStore();
-  // sender (freelancer)
-  const DMfreelancerId = DMfreelancer.userId;
-  const DMfreelancerName = DMfreelancer.name;
-  // receiver (client)
-  const DMclientId = project.clientId;
-  const DMclientName = `${companyName} ${project.manager.team}팀 ${project.manager.name}님`;
 
   const fetchCommittedFreelancer = async () => {
     const userId = project.freelancerId!;
@@ -63,9 +50,6 @@ const ProjectDetailModal = ({
       return convertedPay.toLocaleString("ko-KR") + "₩";
     }
   };
-  //=======================================================================//
-
-  //=======================================================================//
 
   return (
     <S.DetailModalContainer>
@@ -86,7 +70,6 @@ const ProjectDetailModal = ({
         <S.ModalDetailDesc id="projectDesc">{project.desc}</S.ModalDetailDesc>
       </S.ModalInfoColumnBox>
       <S.ModalLine />
-      {/* --------------------------------------------------------- */}
       <S.ModalTitle marginBottom="10px">
         <label htmlFor="projectQualification">모집 조건</label>
       </S.ModalTitle>
