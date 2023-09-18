@@ -41,7 +41,7 @@ const Room = () => {
         .from("messages")
         .insert({ content: message, room_id: selectedRoomId, user_id: userId });
 
-      if (error) toast.error(error.message);
+      if (error) toast.error("에러가 발생했습니다");
     }
   };
 

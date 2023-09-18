@@ -62,13 +62,16 @@ const Message = ({
       <S.ParticipantProfileImageBox isMessageUser={message.user_id === userId}>
         <img src={`${usersProfile?.photoURL}`} alt="messageUser" />
       </S.ParticipantProfileImageBox>
+
       <S.ParticipantContentWrapper isMessageUser={message.user_id === userId}>
         <S.ParticipantProfileName>
           {usersProfile?.name ?? "Loading..."}
         </S.ParticipantProfileName>
-        <S.MessageContent isMessageUser={message.user_id === userId}>
-          {message.content}
-        </S.MessageContent>
+        <S.MessageContentWrapper>
+          <S.MessageContent isMessageUser={message.user_id === userId}>
+            {message.content}
+          </S.MessageContent>
+        </S.MessageContentWrapper>
       </S.ParticipantContentWrapper>
     </S.MessageLi>
   );
@@ -90,7 +93,7 @@ const Messages = ({ room_id }: MessagesProps) => {
         .order("created_at");
 
       if (!data) {
-        toast.error("no data");
+        toast.error("에러가 발생했습니다");
         return;
       }
 
@@ -108,8 +111,7 @@ const Messages = ({ room_id }: MessagesProps) => {
 
       setMessages(data);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      toast.error("Error fetching data");
+      toast.error("에러가 발생했습니다");
     }
   };
 
@@ -145,15 +147,7 @@ const Messages = ({ room_id }: MessagesProps) => {
 
   return (
     <S.MessageWrapper ref={messagesRef}>
-      <ul
-        style={{
-          display: "flex",
-          flex: 1,
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          gap: "1.5rem",
-        }}
-      >
+      <S.MessageUl>
         {messages?.map((message) => (
           <Message
             message={message}
@@ -161,7 +155,7 @@ const Messages = ({ room_id }: MessagesProps) => {
             setUsersProfileCache={setUsersProfileCache}
           />
         ))}
-      </ul>
+      </S.MessageUl>
     </S.MessageWrapper>
   );
 };
