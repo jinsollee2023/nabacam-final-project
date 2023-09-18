@@ -36,7 +36,7 @@
 
 1.  CRA 프로젝트 셋업
 2.  .prettierrc 파일 만들기
-3.  Firebase 셋업 (서버 및 DB 셋업)
+3.  supabase 셋업 (서버 및 DB 셋업)
 4.  환경변수(.env) 셋업
 5.  git 브렌치 관리 권장사항
 
