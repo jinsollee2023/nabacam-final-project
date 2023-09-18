@@ -37,10 +37,9 @@ const ChatComp = () => {
     .filter((room) => room.exit_id !== currentuserid)
     .value();
 
-  console.log("filteredData", filteredData);
-
   useEffect(() => {
-    setSelectedRoom(filteredData[0]);
+    console.log(selectedRoom);
+    setSelectedRoom(selectedRoom ? selectedRoom : filteredData[0]);
   }, []);
 
   const handleRoomClick = (room: TRoom) => {
