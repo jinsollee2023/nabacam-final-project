@@ -46,14 +46,14 @@ const ProjectInformation = () => {
             탭이에요.
             <br />
           </S.TabDesc>
-          <S.TabDesc color="#2D2D2D" $marginBottom="30px">
+          <S.TabDesc color="#2D2D2D" $marginBottom="10px">
             상단에 메뉴를 통해 확인을 원하시는 프로젝트를 손쉽게 선택하실 수
             있으며,
             <br />
             프리랜서가 작성한 업무 목록을 확인하여 프로젝트에 대한 진행 상황을
             확인할 수 있습니다.
           </S.TabDesc>
-          <img
+          <S.ContractTerminationAndProjectListAndMemberImage
             src="/assets/img/welcomePageImg/클라이언트 - 프로젝트 관리.JPG"
             alt="프로젝트 관리 도구 스크린샷"
           />
