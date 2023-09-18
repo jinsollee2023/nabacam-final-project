@@ -111,7 +111,6 @@ export const S = {
     left: 92%;
     top: 80%;
   `,
-  //=====================================================//
   RightDMRoomContainer: styled.section`
     width: 70.87%;
     height: 86vh;
@@ -224,7 +223,6 @@ export const S = {
     right: 1.5%;
     top: 25%;
   `,
-  //=====================================================//
   MessageWrapper: styled.div`
     background: var(--chat-navy);
     overflow-y: auto;
@@ -251,7 +249,6 @@ export const S = {
 
     align-self: ${(props) => (props.isMessageUser ? "flex-start" : "flex-end")};
     text-align: ${(props) => (props.isMessageUser ? "start" : "end")};
-    //
     flex-direction: ${(props) => (props.isMessageUser ? "row" : "row-reverse")};
   `,
   MessageContent: styled.div<MessageContentProps>`
