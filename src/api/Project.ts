@@ -26,7 +26,7 @@ export const getAppliedProjects = async (
     .from("projects")
     .select("*", { count: "exact" })
     .range(page * 15 - 15, page * 15 - 1)
-    .or(`volunteer.cs.{${id}},pendingFreelancer.cs.{${id}}`)
+    .or(`volunteer.cs.{${id}}`)
     .order("created_at", { ascending: true });
   return {
     projects: (projects as Project[]) || [],
