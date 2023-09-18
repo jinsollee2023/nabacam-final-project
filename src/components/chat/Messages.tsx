@@ -3,25 +3,10 @@ import { toast } from "react-toastify";
 import supabase from "../../config/supabaseClient";
 import { useUserStore } from "../../store/useUserStore";
 import { S } from "./chat.styles";
+import { TMessage, UsersProfile, UsersProfileCache } from "src/Types";
 
 interface MessagesProps {
   room_id: string;
-}
-interface UsersProfile {
-  userId: string;
-  name: string;
-  photoURL: string;
-}
-export interface Message {
-  message_id: string;
-  content: string;
-  user_id: string;
-  room_id: string;
-  usersProfile: UsersProfile;
-}
-
-interface UsersProfileCache {
-  [userId: string]: UsersProfile;
 }
 
 const Message = ({
@@ -29,7 +14,7 @@ const Message = ({
   usersProfile,
   setUsersProfileCache,
 }: {
-  message: Message;
+  message: TMessage;
   usersProfile?: UsersProfile;
   setUsersProfileCache: React.Dispatch<React.SetStateAction<UsersProfileCache>>;
 }) => {
@@ -78,7 +63,7 @@ const Message = ({
 };
 
 const Messages = ({ room_id }: MessagesProps) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<TMessage[]>([]);
   const messagesRef = useRef<HTMLDivElement>(null);
   const [usersProfileCache, setUsersProfileCache] = useState<UsersProfileCache>(
     {}
@@ -131,7 +116,7 @@ const Messages = ({ room_id }: MessagesProps) => {
           filter: `room_id=eq.${room_id}`,
         },
         (payload) => {
-          setMessages((current) => [...current, payload.new as Message]);
+          setMessages((current) => [...current, payload.new as TMessage]);
 
           if (messagesRef.current) {
             messagesRef.current.scrollTop = messagesRef.current.scrollHeight;

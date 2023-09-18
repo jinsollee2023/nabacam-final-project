@@ -7,22 +7,6 @@ import { IoIosArrowBack } from "react-icons/io";
 import { S } from "./chat.styles";
 import { useRoomStore } from "../../store/useRoomStore";
 
-export interface TRoom {
-  room_id: string;
-  created_at: string;
-  roomname: string | null;
-  user_id: string;
-  receiver_id: string;
-  userId: string;
-  exit_id: null | string;
-  name: string;
-  photoURL: string;
-  workField: {
-    workField: string;
-    workSmallField: string;
-  };
-}
-
 const Room = () => {
   const { user } = useUserStore();
   const userId = user.userId;

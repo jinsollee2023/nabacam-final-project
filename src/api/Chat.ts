@@ -1,4 +1,4 @@
-import { TRoom } from "../components/chat/Room";
+import { TRoom } from "../Types";
 import supabase from "../config/supabaseClient";
 
 export const getWhole = async (currentuserid: string): Promise<TRoom[]> => {

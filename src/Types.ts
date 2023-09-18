@@ -114,3 +114,36 @@ export interface IProjectWithFreelancer extends Project {
   volunteerUser?: User[];
   pendingFreelancerUser?: User[];
 }
+
+export interface TRoom {
+  room_id: string;
+  created_at: string;
+  roomname: string | null;
+  user_id: string;
+  receiver_id: string;
+  userId: string;
+  exit_id: null | string;
+  name: string;
+  photoURL: string;
+  workField: {
+    workField: string;
+    workSmallField: string;
+  };
+}
+
+export interface UsersProfile {
+  userId: string;
+  name: string;
+  photoURL: string;
+}
+export interface TMessage {
+  message_id: string;
+  content: string;
+  user_id: string;
+  room_id: string;
+  usersProfile: UsersProfile;
+}
+
+export interface UsersProfileCache {
+  [userId: string]: UsersProfile;
+}

@@ -1,4 +1,4 @@
-import { TRoom } from "src/components/chat/Room";
+import { TRoom } from "src/Types";
 import { create } from "zustand";
 
 type RoomStore = {

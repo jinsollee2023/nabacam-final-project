@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getRoomName } from "src/api/Chat";
-import { TRoom } from "src/components/chat/Room";
+import { TRoom } from "src/Types";
 
 const useRoomQueries = ({
   selectedRoomId,
