@@ -25,12 +25,12 @@ const CompanyPageInformation = () => {
             <S.TabDesc $fontWeight="600" $marginBottom="10px">
               기업 구성원을 한 눈에 확인할 수 있어요.
             </S.TabDesc>
-            <S.TabDesc color="#2D2D2D" $marginBottom="40px">
+            <S.TabDesc color="#2D2D2D" $marginBottom="20px">
               등록한 기업 구성원은 이후 프로젝트를 모집글을 게시할 때,
               <br />
               담당자로 지정하여 프로젝트의 담당자를 한 번에 확인할 수 있어요.
             </S.TabDesc>
-            <img
+            <S.ContractTerminationAndProjectListAndMemberImage
               src="/assets/img/welcomePageImg/우리 기업 구성원.JPG"
               alt="우리 기업 구성원 스크린샷"
             />
